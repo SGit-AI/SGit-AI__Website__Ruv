@@ -1,6 +1,6 @@
 # Set it up: a brief any agent can follow to run a Ruflo hive with sgit vaults as its bus and its evidence
 
-*Source: <https://ruv.sgit.ai/articles/studio-setup-brief.html> · article v1.0.0 · generated from the same source as the page, so the two cannot drift.*
+*Source: <https://ruv.sgit.ai/articles/studio-setup-brief.html> · article v1.1.0 · generated from the same source as the page, so the two cannot drift.*
 
 By Dinis Cruz · 2026-10-15
 
@@ -93,6 +93,8 @@ For each task, the conductor assigns a worker; the worker reads only the brief a
 ```
 lanes/<from-role>/<seq>-to-<to-role>.json    # one writer per lane: append, never edit
 ```
+
+Better, where your sgit server offers it: give each role a write-only **append lane** (sgit's append mode: one account-less POST, no commit, no lock, never conflicts with a push; see "Performance" on sgit.ai) as its outbox, and let the conductor, who holds the read key, drain the lanes into the run vault. Check the current sgit documentation for how to open one; the 0.21.0 CLI has no `append` command.
 
 Write a message with `bash poc/poc7-studio/lane.sh <from> <to> msg.json trace.jsonl` (it calls `sgit write <path> --file msg.json --push --json` and times it). Each role works on its own branch (`sgit branch new <role>`); the conductor merges into `current` at milestones (`sgit branch switch current && sgit branch merge <role>`).
 

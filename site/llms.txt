@@ -15,6 +15,9 @@
 - [Articles](https://ruv.sgit.ai/articles/index.html): [The studio: plan and architecture](https://ruv.sgit.ai/articles/the-studio.md) · [Set it up: a brief any agent can follow](https://ruv.sgit.ai/articles/studio-setup-brief.md) (every article has a .md twin)
 - [Live app](https://ruv.sgit.ai/app/index.html): ask the ABP in the browser (RuVector WASM)
 
+## Releases
+- [Release history](https://ruv.sgit.ai/admin/versions.md): every release, version, date, commit and changes; the version is in the nav of every page and increments on every push ([versions.json](https://ruv.sgit.ai/admin/versions.json))
+
 ## Data
 - [POC1 report](https://ruv.sgit.ai/data/report.json), [rules](https://ruv.sgit.ai/data/rules.json), [receipts](https://ruv.sgit.ai/data/state-abp.json)
 - [The ABP](https://ruv.sgit.ai/data/abp.json) · [RVM rights](https://ruv.sgit.ai/data/rvm-caps.md) · [MetaHarness diff](https://ruv.sgit.ai/data/poc5-diff.md) · [build notes](https://ruv.sgit.ai/data/notes.md)

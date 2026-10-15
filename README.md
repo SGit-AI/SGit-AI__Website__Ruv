@@ -18,6 +18,9 @@ rUv's stack (Ruflo, RuVector, RVM, MetaHarness) lets agents go to town. Ours add
 | `evidence/` | Recorded outputs of every run (no invented numbers) |
 | `.github/workflows/pocs.yml` | CI: build → ABP gate → POC1 → POC3 → POC4 → POC5 → human-approved publish to the public vault; POC2 write ×2 then read on a fresh runner |
 
+## Releases
+The site version (in the nav of every page) increments on every push, as on sgit.ai: add a release at the top of `site/admin/versions.json`, then `python3 site/build/versions.py` writes it into `site/assets/site.js` and regenerates `site/admin/versions.html` + `.md`. `validate.py` fails if the two disagree.
+
 ## Run it
 
 ```bash

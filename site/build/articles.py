@@ -20,7 +20,7 @@ HEAD = '''<!doctype html>
 <style>.article{{max-width:780px}}.article p,.article li{{max-width:none}}.article h2{{margin-top:1.6em}}.abstract{{font-size:18px;border-left:4px solid var(--t);padding:4px 0 4px 16px;margin:18px 0}}.byline{{color:var(--m);font-size:14px}}.article figure{{margin:24px 0}}.article figure img,.article figure svg{{width:100%;height:auto;border-radius:12px;border:1px solid var(--line);background:var(--card)}}.article figcaption{{color:var(--m);font-size:13px;margin-top:6px}}.article blockquote{{margin:16px 0;padding:8px 16px;border-left:4px solid var(--a);background:var(--a2);border-radius:0 10px 10px 0}}.tags span{{display:inline-block;margin-bottom:4px;font-size:12px;padding:2px 8px;border:1px solid var(--line);border-radius:999px;margin-right:6px;color:var(--m)}}</style>
 </head>
 <body data-root="../">
-<header class="top"><div class="wrap"><a class="brand" href="../index.html">ruv.sgit.ai<small>rUv x sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html">ruv.sgit.ai<small>rUv + sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
 '''
 FOOT = '''<footer><div class="wrap"><span>ruv.sgit.ai · articles</span><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">source on GitHub</a><a href="https://newsroom.sgit.ai">newsroom.sgit.ai</a><a href="https://github.com/ruvnet">github.com/ruvnet</a><span>code Apache-2.0 · rUv's projects MIT · "per its README" means we read, not ran, unless a POC says so</span><a href="../llms.txt">llms.txt</a></div></footer>
 <script src="../assets/site.js"></script>

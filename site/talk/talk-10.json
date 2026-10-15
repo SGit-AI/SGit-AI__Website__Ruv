@@ -15,7 +15,7 @@
   },
   {
    "id": "claim", "at": 20, "dur": 40, "title": "The claim",
-   "slide": { "layout": "statement", "kicker": "rUv x sgit.ai", "text": "Autonomy needs two more things to be trusted.",
+   "slide": { "layout": "statement", "kicker": "rUv + sgit.ai", "text": "Autonomy needs two more things to be trusted.",
      "builds": [ { "at": 10, "text": "A written mandate per agent." }, { "at": 20, "text": "Memory with history the host can't read." } ] },
    "say": "rUv's stack lets agents go to town: swarms, consensus, self-learning. Autonomy needs two more things to be trusted: a written mandate per agent, and memory with history the host can't read. Tonight both run inside his tools."
   },

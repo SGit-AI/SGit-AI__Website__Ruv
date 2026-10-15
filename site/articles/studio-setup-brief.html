@@ -12,11 +12,11 @@
 <style>.article{max-width:780px}.article p,.article li{max-width:none}.article h2{margin-top:1.6em}.abstract{font-size:18px;border-left:4px solid var(--t);padding:4px 0 4px 16px;margin:18px 0}.byline{color:var(--m);font-size:14px}.article figure{margin:24px 0}.article figure img,.article figure svg{width:100%;height:auto;border-radius:12px;border:1px solid var(--line);background:var(--card)}.article figcaption{color:var(--m);font-size:13px;margin-top:6px}.article blockquote{margin:16px 0;padding:8px 16px;border-left:4px solid var(--a);background:var(--a2);border-radius:0 10px 10px 0}.tags span{display:inline-block;margin-bottom:4px;font-size:12px;padding:2px 8px;border:1px solid var(--line);border-radius:999px;margin-right:6px;color:var(--m)}</style>
 </head>
 <body data-root="../">
-<header class="top"><div class="wrap"><a class="brand" href="../index.html">ruv.sgit.ai<small>rUv x sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html">ruv.sgit.ai<small>rUv + sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
 <section class="hero"><div class="wrap article">
 <p class="k"><a href="index.html">Articles</a> · No. 2</p>
 <h1>Set it up: a brief any agent can follow to run a Ruflo hive with sgit vaults as its bus and its evidence</h1>
-<p class="byline">By Dinis Cruz · 2026-10-15 · article v1.0.0 · <a href="studio-setup-brief.md">.md twin</a></p>
+<p class="byline">By Dinis Cruz · 2026-10-15 · article v1.1.0 · <a href="studio-setup-brief.md">.md twin</a></p>
 <p class="tags"><span>brief</span> <span>setup</span> <span>ruflo</span> <span>hive-mind</span> <span>sgit</span> <span>abp</span> <span>agents</span> <span>observability</span></p>
 <p class="abstract"><b>Abstract.</b> Point an agent at this page and say: set this up. It is written for any host that can run a shell: Claude Code, Claude on the web, ChatGPT, Lovable, a CI runner. It installs pinned versions of Ruflo and sgit, creates two vaults (a message bus with a lane per role, and one vault per run that keeps everything), starts a Ruflo hive with a queen and eight roles, runs the work under a written mandate, times every call and commit, and ends with one vault that is the evidence of the whole run. Each step has a check, and the rules about keys are not optional.</p>
 </div></section>
@@ -59,6 +59,7 @@ npx ruflo hive-mind status</code></pre>
 <h2 id="5-the-run-loop">5. The run loop</h2>
 <p>For each task, the conductor assigns a worker; the worker reads only the brief and its inbox, does the work, and answers on its own lane.</p>
 <pre><code>lanes/&lt;from-role&gt;/&lt;seq&gt;-to-&lt;to-role&gt;.json    # one writer per lane: append, never edit</code></pre>
+<p>Better, where your sgit server offers it: give each role a write-only <b>append lane</b> (sgit's append mode: one account-less POST, no commit, no lock, never conflicts with a push; see "Performance" on sgit.ai) as its outbox, and let the conductor, who holds the read key, drain the lanes into the run vault. Check the current sgit documentation for how to open one; the 0.21.0 CLI has no <code>append</code> command.</p>
 <p>Write a message with <code>bash poc/poc7-studio/lane.sh &lt;from&gt; &lt;to&gt; msg.json trace.jsonl</code> (it calls <code>sgit write &lt;path&gt; --file msg.json --push --json</code> and times it). Each role works on its own branch (<code>sgit branch new &lt;role&gt;</code>); the conductor merges into <code>current</code> at milestones (<code>sgit branch switch current &amp;&amp; sgit branch merge &lt;role&gt;</code>).</p>
 <p>Who does the work depends on the host. In Claude Code, a subagent per task (run 1). Ruflo can also launch Claude Code itself (<code>npx ruflo hive-mind work</code>, <code>spawn --claude</code>); both skip permission prompts by default, so only use them in a sandbox you are allowed to run unattended. In ChatGPT, Claude on the web or Lovable, the host is the worker: do the tasks in turn and write each answer to its lane.</p>
 <p>The editor checks every number in every artefact against the data before the task is closed. The librarian keeps <code>brief/spec.json</code> current and labels anything proposed as proposed.</p>

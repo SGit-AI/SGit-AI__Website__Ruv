@@ -1,6 +1,6 @@
 # The studio: a Ruflo hive that animates its own explanation, with sgit vaults as its bus and its evidence
 
-*Source: <https://ruv.sgit.ai/articles/the-studio.html> · article v1.0.0 · generated from the same source as the page, so the two cannot drift.*
+*Source: <https://ruv.sgit.ai/articles/the-studio.html> · article v1.1.0 · generated from the same source as the page, so the two cannot drift.*
 
 By Dinis Cruz · 2026-10-15
 
@@ -66,7 +66,7 @@ review/<id>.md                                the editor's
 trace/trace.jsonl                             the observer's
 ```
 
-Each role writes only its own lane, so writers never collide: the lanes are append-only by convention, and the vault history is the transcript. Each role works on its own vault branch and the conductor merges at milestones, which is how POC2 already handled memory per role. Everything is encrypted on the client (AES-256-GCM); the server holds ciphertext and the vault id.
+Each role writes only its own lane, so writers never collide: in run 1 the lanes are append-only by convention, and the vault history is the transcript; sgit's append mode (below) makes that a guarantee. Each role works on its own vault branch and the conductor merges at milestones, which is how POC2 already handled memory per role. Everything is encrypted on the client (AES-256-GCM); the server holds ciphertext and the vault id.
 
 The ABP rows for the studio are short. Every role: `write.file.project` yes (its own lane and folder only), `send.endpoint.world` no (barrier: default-deny egress; libraries come from a pinned CDN). The developer: `execute.process.self` yes (a headless browser to check its work). Publishing the run vault (`create.record.world`) is approval: a named human publishes the read key.
 
@@ -96,7 +96,7 @@ The observer's job is to make the run measurable, because a hive that cannot be 
 | Each version | Wall clock from task to checked file, and the size of the file | 4 min 44 s to 9 min 20 s per version, all seven in parallel; 19 to 31 KB per file |
 | Tokens | Per worker, from the host (subagent usage in Claude Code) | 629,857 for all seven builders, 80,674 to 102,599 each; 11 to 19 tool calls each |
 
-On "append lanes": the lane convention above is append-only by agreement, one writer per lane. sgit-ai 0.21.0's command list (checked with `sgit help all`) has no command named append; if a newer sgit adds append-only lanes as a server feature, the protocol does not change, only the guarantee gets stronger.
+On append lanes: sgit already has them. Its performance page describes an append mode where "lanes live at `bare/append/{token}/pending/` outside the commit tree, so a write is one account-less POST with no read-modify-write, no commit, no tree rebuild and no lock, it never conflicts with a push and never contends with a read, and the response is deliberately blind". One published vault already uses one: [Two games about agent permissions](https://sgit.ai/demos/vaults/agent-permission-games/index.html) sends anonymous usage events over a write-only append lane to a separate private vault. That is the right primitive for the studio bus and for the observer: each role gets a write-only append lane as its outbox (it can add, never read or rewrite), and the conductor, holding the read key, drains the lanes into the run vault at milestones. Run 1 used the convention (one writer per lane, in the commit tree) because no server was used; the 0.21.0 CLI lists no `append` command, so the next run starts from sgit's append documentation rather than from the CLI.
 
 ## Run 1, 15 October 2026: what happened
 

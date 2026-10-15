@@ -1,11 +1,30 @@
 // ruv.sgit.ai: nav, theme, Mermaid, markdown includes, POC data tables. No build step needed for these.
 (() => {
-  const PAGES = [['index.html','Home'],['ruv-stack.html',"rUv's stack"],['use-cases.html','Use cases'],['architecture.html','Architecture'],['pocs.html','The POCs'],['replicate.html','Replicate'],['demo.html','Demo'],['talk/index.html','Tonight\'s talk'],['studio/index.html','Studio'],['articles/index.html','Articles'],['app/index.html','Live app']];
+  const VERSION = 'v0.1.5';   // written by site/build/versions.py from admin/versions.json
+  // four groups instead of eleven links (the same shape as sgit.ai: brand, version, grouped menus, a Menu button on phones)
+  const NAV = [
+    ['Tonight', [['talk/index.html', "Tonight's talk"], ['talk/player.html?talk=talk-10.json', 'Present (10 min)'], ['demo.html', 'The five-minute demo script']]],
+    ['The idea', [['index.html', 'Overview'], ['ruv-stack.html', "rUv's stack"], ['use-cases.html', 'Use cases'], ['architecture.html', 'Architecture']]],
+    ['Proofs', [['pocs.html', 'The six POCs'], ['app/index.html', 'Live app'], ['studio/index.html', 'The studio'], ['replicate.html', 'Replicate']]],
+    ['Articles', [['articles/index.html', 'All articles'], ['articles/the-studio.html', 'The studio: plan'], ['articles/studio-setup-brief.html', 'Set it up: the brief']]],
+  ];
   const root = document.body.dataset.root ?? '';
   const segs = location.pathname.split('/'), file = segs.pop() || 'index.html';
   const here = root ? `${segs.pop()}/${file}` : file;   // pages in a subfolder (talk/) set data-root="../"
-  const nav = document.querySelector('nav.main');
-  if (nav) nav.innerHTML = PAGES.map(([h, t]) => `<a href="${root}${h}"${h === here ? ' aria-current="page"' : ''}>${t}</a>`).join('');
+  const nav = document.querySelector('nav.main'), brand = document.querySelector('header.top .brand');
+  if (brand && !document.querySelector('header.top .ver')) brand.insertAdjacentHTML('afterend', `<a class="ver" href="${root}admin/versions.html" title="Site release history">${VERSION}</a><button class="menu-btn" type="button" aria-expanded="false">Menu</button>`);
+  if (nav) {
+    nav.innerHTML = NAV.map(([label, items]) => {
+      const cur = items.some(([h]) => h.split('?')[0] === here);
+      return `<div class="ni${cur ? ' cur' : ''}"><button class="nl" type="button" aria-expanded="false">${label}<span class="caret">▾</span></button><div class="sub">${items.map(([h, t]) => `<a href="${root}${h}"${h.split('?')[0] === here ? ' aria-current="page"' : ''}>${t}</a>`).join('')}</div></div>`;
+    }).join('');
+    const close = except => nav.querySelectorAll('.ni.open').forEach(n => { if (n !== except) { n.classList.remove('open'); n.querySelector('.nl').setAttribute('aria-expanded', 'false'); } });
+    nav.querySelectorAll('.nl').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); const ni = b.parentElement; close(ni); const o = ni.classList.toggle('open'); b.setAttribute('aria-expanded', o); }));
+    document.addEventListener('click', () => close());
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+    const mb = document.querySelector('.menu-btn');
+    if (mb) mb.addEventListener('click', () => { const o = document.body.classList.toggle('nav-open'); mb.setAttribute('aria-expanded', o); mb.textContent = o ? 'Close' : 'Menu'; });
+  }
   // theme
   const saved = (() => { try { return localStorage.getItem('theme'); } catch { return null; } })();
   if (saved) document.documentElement.dataset.theme = saved;
