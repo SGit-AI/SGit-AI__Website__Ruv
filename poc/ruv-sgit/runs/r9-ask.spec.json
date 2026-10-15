@@ -1,0 +1,7 @@
+{
+ "purpose": "r9-ask: the ask, rewritten: the business plan, open source, build companies on it",
+ "feedback": "Dinis: the ask (pick one of three POCs) doesn't make sense. Mention the detailed business plan documentation, explained visually (pictures of the pages), say that all of this is open source, and that the people in the room should build new companies around it or add it to their own services.",
+ "workers": [
+  {"id": "ask", "role": "animator", "task": "slide: the ask: the business plan pages shown, open source, build your company on it", "out": "site/talk/slides/ask/"}
+ ]
+}

@@ -263,31 +263,31 @@
    "id": "ask",
    "at": 512,
    "dur": 40,
-   "title": "The ask",
+   "title": "The ask: build on it",
    "slide": {
     "layout": "statement",
-    "text": "Pick one, and we build it together.",
+    "sub": "The business plan is written down, to copy · all open source",
+    "text": "Build a company on this, or add it to your services.",
     "builds": [
      {
-      "at": 6,
-      "text": "Vault-backed memory for RuVector"
+      "at": 3,
+      "text": "The business plan, in detail: four services, prices, costs, Wardley maps · ruv.sgit.ai/business"
      },
      {
-      "at": 14,
-      "text": "ruv.sgit in Ruflo: a vault per hive run, the ledger built in"
+      "at": 10,
+      "text": "Pages for consultants (white label), companies, internal teams, and a shop"
      },
      {
-      "at": 22,
-      "text": "Ruflo policy profiles generated from ABPs"
+      "at": 17,
+      "text": "All open source: our code Apache-2.0, rUv's projects MIT"
      },
      {
-      "at": 32,
-      "text": "…and show it back here, at a future Agentics London."
+      "at": 24,
+      "text": "Anybody who implements this implements sgit vaults and Agent Behaviour Policies · agent@riskmandate.ai"
      }
-    ],
-    "sub": "Three POCs to build together"
+    ]
    },
-   "say": "So, the ask. Pick one, and we build it together. Vault-backed memory for RuVector: encrypted, versioned, a branch per agent. Or ruv.sgit inside Ruflo: a vault per hive run, with the ledger built in. Or Ruflo policy profiles generated from mandates, so a swarm ships with its rules. Whichever you pick, we build it in the open, and we show it back here, at a future Agentics London. rUv, the stack is yours; we would like to bring the memory, and the receipts."
+   "say": "So, the ask. The whole business plan is written down, in detail, to be copied: four services with their prices and costs, a Wardley map for each, pages for consultants, for companies and for internal teams, and a shop. And all of it is open source: our code is Apache, rUv's projects are MIT. So build a company on this, or add it to the services you already sell. Anybody who implements this implements sgit vaults and Agent Behaviour Policies, and we'd love to help: agent@riskmandate.ai."
   },
   {
    "id": "visit",
