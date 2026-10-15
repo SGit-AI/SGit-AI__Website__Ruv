@@ -1,0 +1,7 @@
+{
+ "purpose": "r11-position: reposition 'autonomy you can trust' as additive: Ruflo's hive is not untrustworthy without us; sgit vaults and ABPs add a memory with history and a written mandate",
+ "feedback": "Dinis: change the references to 'autonomy you can trust', because that implies that without sgit and ABPs you can't trust it. It's a strong statement, and it's very important that we don't throw Ruflo's hive under the bus; it has a negative connotation. Find a different way to position this. It's fine to change the presentation and the articles.",
+ "workers": [
+  {"id": "editor", "role": "editor", "task": "find every 'trust' framing that implies rUv's stack is untrustworthy without us, rephrase it as additive across the talk, slides, site, articles and README, and recapture the screenshots that show the old words", "out": "site/, README.md, docs/"}
+ ]
+}
