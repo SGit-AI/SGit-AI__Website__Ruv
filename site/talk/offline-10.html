@@ -208,7 +208,8 @@ html,body { margin:0; height:100%; background:var(--bg); color:var(--fg); font:1
 .sbrand .logo { display:inline-flex; align-items:center; gap:.8em; color:var(--head); font-weight:700; letter-spacing:.06em }
 .sbrand .logo i { font:700 1.8vh/1 Georgia,serif; font-style:normal; width:2.8vh; height:2.8vh; border-radius:.6vh; background:var(--accent); color:var(--on-accent); display:inline-flex; align-items:center; justify-content:center; letter-spacing:0; text-transform:none }
 .sbrand .logo b { color:var(--accent); font-weight:700 }
-.sbrand .gh { text-transform:none; letter-spacing:.02em; font-family:ui-monospace,monospace } @media (max-width:1000px) { .sbrand .gh { display:none } }
+.sbrand > span { min-width:0; overflow:hidden; text-overflow:ellipsis } .sbrand > span:first-child, .sbrand > span:last-child { flex:none }
+.sbrand .gh { text-transform:none; letter-spacing:.02em; font-family:ui-monospace,monospace } @media (max-width:1150px) { .sbrand .ev { display:none } } @media (max-width:760px) { .sbrand .gh { display:none } }
 .shead { flex:none; padding:2.6vh 4vw 0 }
 .shead h2 { margin:0; font:600 4.4vh/1.15 Georgia,serif; color:var(--head) } .shead h2.big { font-size:7.2vh }
 .shead h2::after { content:""; display:block; width:7vh; height:.55vh; border-radius:.3vh; background:var(--accent); margin-top:1.6vh }
@@ -418,7 +419,7 @@ function render(b) {
   const head = s.layout === 'title' ? s.text : (s.heading || b.title)
   const sub = s.layout === 'title' ? (s.kicker || '') : (s.sub || s.caption || s.kicker || '')
   const no = b.extra ? `extra ${n - talk.beats.length} / ${B.length - talk.beats.length}` : `${n} / ${talk.beats.length}`
-  st.innerHTML = `<div class="sbrand"><span class="logo"><i>r</i>ruv.sgit.ai <b>·</b> rUv + sgit</span><span>${esc(talk.event || '')}</span><span class="gh">github.com/SGit-AI/SGit-AI__Website__Ruv</span><span>${no}</span></div>` +
+  st.innerHTML = `<div class="sbrand"><span class="logo"><i>r</i>ruv.sgit.ai <b>·</b> rUv + sgit</span><span class="ev">${esc(talk.event || '')}</span><span class="gh">github.com/SGit-AI/SGit-AI__Website__Ruv</span><span>${no}</span></div>` +
     `<div class="shead"><h2${s.layout === 'title' ? ' class="big"' : ''}>${head}</h2><div class="sub">${sub}</div></div><div class="sbody"></div>`
   const el = document.createElement('div'); el.className = 'slide ' + s.layout; st.querySelector('.sbody').appendChild(el)
   const builds = (s.builds || []).map(x => `<div class="b" data-at="${x.at}">${x.text}</div>`).join('')

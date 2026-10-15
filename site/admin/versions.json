@@ -5,9 +5,20 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.14",
+   "version": "v0.1.15",
    "date": "2026-10-15",
    "commit": null,
+   "title": "Home page alignment; no overflow in the header or the slide strip",
+   "changes": "Home: the equation animation sits at the top of the hero beside the headline (it floated in the middle), at its own 1280x600 shape (no empty band), and plays once and holds. Header: the Menu button takes over below 960 px so the nav, GitHub and theme picker never push the page sideways (it overflowed at 828 px). Slides: the brand strip drops the event name below 1150 px and the GitHub address below 760 px instead of cutting it off.",
+   "pages": [
+    "index.html",
+    "talk/player.html"
+   ]
+  },
+  {
+   "version": "v0.1.14",
+   "date": "2026-10-15",
+   "commit": "4d2a12e",
    "title": "run-website-locally.sh at the root of the repository",
    "changes": "./run-website-locally.sh [port] serves the site on http://localhost:8080 with Python 3 only (no setup, no network) and opens tonight's talk; linked from the README, Replicate and llms.txt.",
    "pages": [
