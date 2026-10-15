@@ -1,27 +1,66 @@
 # ruv.sgit.ai
 
-> sgit vaults and Agent Behaviour Policies (ABPs) running inside rUv's agentic stack (Ruflo, RuVector, RVM, MetaHarness): six proofs of concept in CI, in a browser and in a Claude Code session, plus a use-case driven guide to the stack. Built 14 Oct 2026 for Agentic Engineering Live: rUv in London.
+> Memory with history for rUv's agentic stack. **ruv.sgit** is a Ruflo hive (a queen and workers running in parallel; Ruflo is MIT, by rUv / ruvnet) whose shared memory and output is one **ephemeral sgit vault per run**: created when the work starts, a branch per worker, every delivery committed and merged, measured when the run closes (commits, files, bytes, what the server stored: ciphertext only, a plaintext probe, a fresh clone compared file by file), then deleted. The ledger of every run is public. Around it: six proofs of concept of sgit vaults and Agent Behaviour Policies (ABPs) inside Ruflo, RuVector, RVM and MetaHarness; a studio of seven animations; and a ten-minute scripted talk for Agentic Engineering Live (Agentics Foundation London, 15 Oct 2026, 7:00 pm slot). Built 14 to 15 Oct 2026 by Claude Code sessions for Dinis Cruz.
 
-## Pages
-- [Home](https://ruv.sgit.ai/index.html): the story in one table, where sgit.ai plugs in, six use cases, what was proven
-- [rUv's stack](https://ruv.sgit.ai/ruv-stack.html): Ruflo, RuVector, RVM, MetaHarness and the rest, by use, with the one command to start and what to ignore
-- [Use cases](https://ruv.sgit.ai/use-cases.html): govern a swarm, remember across runs, prove what happened, publish only on approval, learn with rollback, run anywhere
-- [Architecture](https://ruv.sgit.ai/architecture.html): layers, the ABP format and grammar, compile targets, the two vaults, data flow
-- [The POCs](https://ruv.sgit.ai/pocs.html): flows, commands, acceptance criteria and real outputs for all six
-- [Replicate](https://ruv.sgit.ai/replicate.html): install, run, vaults, CI secrets, this site, the infographics, build notes
-- [Demo](https://ruv.sgit.ai/demo.html): the five-minute script
-- [Tonight's talk](https://ruv.sgit.ai/talk/index.html): the scripted talk (10 and 5 minutes) as a timeline that plays on a clock, the run of show, sources for every number, questions to expect, rehearsals; [player](https://ruv.sgit.ai/talk/player.html), [timeline](https://ruv.sgit.ai/talk/talk-10.json)
-- [The studio](https://ruv.sgit.ai/studio/index.html): seven animations of Ruflo + sgit + ABPs (diagram to 3D city) made by a Ruflo hive run, with MP4s, the timed trace and the builders' token use; [run record](https://ruv.sgit.ai/studio/run.json)
-- [Articles](https://ruv.sgit.ai/articles/index.html): [The studio: plan and architecture](https://ruv.sgit.ai/articles/the-studio.md) · [Set it up: a brief any agent can follow](https://ruv.sgit.ai/articles/studio-setup-brief.md) (every article has a .md twin)
-- [Live app](https://ruv.sgit.ai/app/index.html): ask the ABP in the browser (RuVector WASM)
+This file is the briefing for agents working on this site. Every page has the site version in its nav (see Releases). Every number on the site comes from a recorded run (`evidence/` in the repository); "per its README" means read, not run.
 
-## Releases
-- [Release history](https://ruv.sgit.ai/admin/versions.md): every release, version, date, commit and changes; the version is in the nav of every page and increments on every push ([versions.json](https://ruv.sgit.ai/admin/versions.json))
+## Start here
+- **The story now**: memory and storage first (ruv.sgit, ephemeral vaults, the ledger); behaviour policies second (Ruflo's default allows everything; an ABP compiled into Ruflo's own engine stops 6 of 11 actions, 4 denied and 2 sent to a human, with hash-chained receipts).
+- **How materials are made**: each piece of feedback starts a ruv.sgit run. The run's spec (`poc/ruv-sgit/runs/<run>.spec.json`) holds the feedback and one task per worker; workers build in parallel; the host delivers each worker's output onto its own vault branch; the run closes into the ledger and the vault is deleted. To make a change, write a spec and run it (commands below), do not hand-edit the generated pages.
+- **What is not claimed**: the vault server for ruv.sgit runs is a local SG/Send server (one process, disk storage) on the machine that ran the hive, so the timings are local; the workers are Claude Code subagents of the session that runs the hive (Ruflo holds the queen, roles, tasks and broadcasts; its `hive-mind work` was not used); POC2's memory roundtrip ran locally and its CI jobs need secrets; Ruflo's policy admin needs an interactive terminal and was not worked around.
+
+## ruv.sgit (the runs, the ledger, the vaults)
+- [ruv.sgit](https://ruv.sgit.ai/ruv-sgit/index.html): what it is, one run in six steps, every run from the ledger, how to run it
+- [ruv.sgit in motion](https://ruv.sgit.ai/ruv-sgit/motion/index.html): a real run animated from its ledger entry (`?run=<id>`; `?review` for the final frame)
+- [The vault ledger](https://ruv.sgit.ai/ruv-sgit/ledger/index.html): stats of every vault: lifecycles, commits, bytes, server-held bytes, plaintext found, clone checks, sgit operation timings
+- [One ephemeral vault, a case study](https://ruv.sgit.ai/ruv-sgit/case/index.html): one vault start to finish, beside the newsroom's append-lane measurements
+- Data: [data/vaults.json](https://ruv.sgit.ai/data/vaults.json) (the ledger; schema in `poc/ruv-sgit/ledger.schema.md`); per-run records in `evidence/ruv-sgit/<run>.json` (every sgit op and Ruflo call with its milliseconds); run specs in `poc/ruv-sgit/runs/`
+- Runner: `poc/ruv-sgit/ruvsgit.py` — `server-start`, `open <run> <spec>`, `deliver <run> <worker> <role> <folder>`, `close <run> <workers.json>`, `delete <run>`, `server-stop`. Needs `npm ci` (ruflo 3.56.10), `pip install sgit-ai==0.21.0 sgraph-ai-app-send "mcp<2"`. Keys and the server token live only in `~/.ruv-sgit` (mode 0600).
+- Background: [Agent workflows on ephemeral vaults](https://newsroom.sgit.ai/articles/agent-workflows-on-ephemeral-vaults.md) (newsroom.sgit.ai, the pattern and its swarm measurements); [Self-hosting a vault server for agents](https://sgit.ai/docs/self-host-for-agents.md) (sgit.ai, how the local server is run)
+
+## Tonight's talk
+- [Tonight's talk](https://ruv.sgit.ai/talk/index.html): the player embedded in the page, the script as swipeable cards, the evening (agenda, the 7:00 pm slot, who is in the room), the run of show, sources for every number, questions to expect, rehearsals
+- [Player](https://ruv.sgit.ai/talk/player.html?talk=talk-10.json): plays a timeline on a clock. Keys: Space play/pause, arrows or PageUp/PageDown or a swipe between beats, P speaker notes, A audience window (synced), V review (every slide finished, no animation; also `?review`), T next theme, B black, R rehearsal log, X leave, F fullscreen, ? help. Embedded (`&embed`), ⤢ opens it in its own window.
+- Timelines: [talk-10.json](https://ruv.sgit.ai/talk/talk-10.json) (600 s), [talk-5.json](https://ruv.sgit.ai/talk/talk-5.json) (300 s). A beat: `id, at, dur, title, say, cue?, slide{layout, ...}`; layouts `title, statement, terminal, table (rows_from: report | abp:<role>), bullets, quote, image, iframe (src, fallback image, type), video`. Beats must tile the talk (each `at` = previous `at` + `dur`); `site/build/validate.py` fails otherwise. Every slide shares one frame: brand strip, title top left, a source line.
+- Offline single files: [offline-10.html](https://ruv.sgit.ai/talk/offline-10.html), [offline-5.html](https://ruv.sgit.ai/talk/offline-5.html) (built by `site/build/talk_offline.py`; live pages fall back to screenshots)
+
+## The studio (animations)
+- [The studio](https://ruv.sgit.ai/studio/index.html): seven animations of the same story, v1 a diagram that builds to v7 a three.js city of vaults, each one HTML file at `studio/vN/index.html` reading its numbers from `data/`, with an MP4 in `studio/video/` and a poster in `studio/posters/`; the run record [studio/run.json](https://ruv.sgit.ai/studio/run.json) (Ruflo calls timed, builders' tokens, deliveries as the hive recorded them)
+
+## The proofs of concept and the stack
+- [Home](https://ruv.sgit.ai/index.html): the story in one table, where sgit plugs in, the use cases, what was proven
+- [rUv's stack](https://ruv.sgit.ai/ruv-stack.html): Ruflo, RuVector, RVM, MetaHarness and the rest, by use, with the one command to start
+- [Use cases](https://ruv.sgit.ai/use-cases.html) · [Architecture](https://ruv.sgit.ai/architecture.html)
+- [The POCs](https://ruv.sgit.ai/pocs.html): POC1 ABP → Ruflo policy engine with receipts · POC2 agent memory in a vault across runners · POC3 ABP → RVM rights · POC4 browser app (RuVector WASM) · POC5 MetaHarness ↔ ABP · POC6 Claude Code session runbook · POC7 the studio hive
+- [Live app](https://ruv.sgit.ai/app/index.html): ask the ABP in the browser (`?q=` pre-asks; takes the site's theme)
+- [Replicate](https://ruv.sgit.ai/replicate.html) · [Five-minute demo script](https://ruv.sgit.ai/demo.html)
+
+## Articles (each has a .md twin)
+- [The studio: a Ruflo hive that animates its own explanation](https://ruv.sgit.ai/articles/the-studio.md): plan, architecture, run 1
+- [Set it up: a brief any agent can follow](https://ruv.sgit.ai/articles/studio-setup-brief.md): install, vaults, hive, lanes (append mode), observe, close the run into one evidence vault, a prompt to paste into any agent
+- Source: `site/articles/src/*.md` → `site/build/articles.py`
 
 ## Data
-- [POC1 report](https://ruv.sgit.ai/data/report.json), [rules](https://ruv.sgit.ai/data/rules.json), [receipts](https://ruv.sgit.ai/data/state-abp.json)
-- [The ABP](https://ruv.sgit.ai/data/abp.json) · [RVM rights](https://ruv.sgit.ai/data/rvm-caps.md) · [MetaHarness diff](https://ruv.sgit.ai/data/poc5-diff.md) · [build notes](https://ruv.sgit.ai/data/notes.md)
+- [data/vaults.json](https://ruv.sgit.ai/data/vaults.json) the ruv.sgit ledger · [report.json](https://ruv.sgit.ai/data/report.json) POC1, 11 actions twice · [abp.json](https://ruv.sgit.ai/data/abp.json) the swarm's ABP, 6 roles, 36 rows · [state-abp.json](https://ruv.sgit.ai/data/state-abp.json) receipts · [rules.json](https://ruv.sgit.ai/data/rules.json) · [rvm-caps.md](https://ruv.sgit.ai/data/rvm-caps.md) · [poc5-diff.md](https://ruv.sgit.ai/data/poc5-diff.md) · [poc2-run.txt](https://ruv.sgit.ai/data/poc2-run.txt) · [notes.md](https://ruv.sgit.ai/data/notes.md) build notes (what differed from the docs, and why)
+- The public POC vault: id `okbiml09`, read key in [data/vault-public.json](https://ruv.sgit.ai/data/vault-public.json) (published on purpose; read-only)
+
+## Look and feel
+- Five themes from newsroom.sgit.ai (Newsprint, Night, Paper, Blueprint, Ember) in `assets/themes.css` (token blocks copied unchanged), applied before paint by `assets/theme.js` (localStorage `ruv.theme`, or `?theme=` for one page). Every colour on the site is a token; terminal blocks stay dark in every theme. The player, the live app and the ruv.sgit pages read the same tokens.
+- Navigation: four groups (Tonight, The idea, Proofs, Articles) built by `assets/site.js`; the collaboration is written "rUv + sgit".
+
+## Releases
+- [Release history](https://ruv.sgit.ai/admin/versions.md) ([versions.json](https://ruv.sgit.ai/admin/versions.json)): the site version is in the nav of every page and increments on every push to `dev`; add a release at the top of `site/admin/versions.json` and run `site/build/versions.py`
+
+## Build and checks
+- `bash site/build/sync.sh` (POC outputs into the site; then talk_offline.py, articles.py, studio_run.py, versions.py) · `python3 site/build/validate.py` (links, chrome, canonical URLs, secret-shaped strings, the version, timelines that tile) · `npm run site:serve` (http://localhost:8080)
+- CI: `.github/workflows/deploy-pages.yml` (GitHub Pages) and `pocs.yml` (POCs; vault jobs need `SGIT_TOKEN`, `SGIT_VAULT_KEY_*`)
+
+## Rules for agents working here
+- Never print, log or commit a vault key or token; `git diff` before every commit. Only the public POC vault's read key is published, on purpose.
+- Every number on a page comes from a run recorded in `evidence/`; if a tool differs from its docs, trust its `--help` and write it in `evidence/notes.md`.
+- Do not weaken a security control to make a demo work (Ruflo's interactive policy admin, its policy-anchor tamper check).
+- Attribute rUv's projects correctly (MIT, by rUv / ruvnet). This site's code: Apache-2.0.
 
 ## Source
-- https://github.com/SGit-AI/SGit-AI__Website__Ruv (code Apache-2.0; rUv's projects MIT, by ruvnet)
-- Pinned: ruflo 3.56.10 · @ruvector/wasm 0.2.1 · ruvector 0.3.3 · metaharness 0.4.17 · sgit-ai 0.21.0
+- https://github.com/SGit-AI/SGit-AI__Website__Ruv (branch `dev`)
+- Pinned: ruflo 3.56.10 · @ruvector/wasm 0.2.1 · ruvector 0.3.3 · metaharness 0.4.17 · sgit-ai 0.21.0 · sgraph-ai-app-send 0.34.0 (local vault server)

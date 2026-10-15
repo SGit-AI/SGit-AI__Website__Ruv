@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ruv.sgit in motion</title>
+<link rel="stylesheet" href="../../assets/themes.css">
+<script src="../../assets/theme.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#app{display:grid;grid-template-columns:minmax(0,1fr) 400px;grid-template-rows:auto auto minmax(0,1fr) auto;height:100vh;height:100dvh;overflow:hidden}
+header{grid-column:1/3;padding:10px 20px 6px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;border-bottom:1px solid var(--line)}
+h1{margin:0;font-size:26px;font-weight:700;color:var(--head);letter-spacing:-.01em}
+.chip{font:600 15px ui-monospace,SFMono-Regular,Menlo,monospace;padding:2px 10px;border-radius:999px;background:var(--tint-solid);color:var(--accent-dk, var(--accent));border:1px solid var(--line)}
+#scale{margin-left:auto;font-size:14px;color:var(--dim)}
+#cap{flex-basis:100%;font-size:21px;color:var(--text);min-height:1.4em;font-weight:500}
+#cap b{color:var(--accent);font-weight:700}
+#bar{grid-column:1/3;height:3px;background:var(--line);position:relative;margin-top:-3px}
+#bar i{position:absolute;left:0;top:0;bottom:0;background:var(--accent);width:0}
+#stage{position:relative;min-height:0;min-width:0}
+#stage svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+#tiles{padding:10px 16px 8px 4px;display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:8px;min-height:0}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:7px 12px;display:flex;flex-direction:column;justify-content:center;min-width:0;transition:border-color .4s,background .4s}
+.tile .l{font-size:14px;line-height:1.15;color:var(--dim)}
+.tile .v{font:700 32px/1.1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--head);white-space:nowrap}
+.tile .v small{font-size:18px;font-weight:600;color:var(--dim)}
+.tile .s{font-size:12.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile.off .v{color:var(--line2, var(--line))}
+.tile.key{border-color:var(--accent);background:var(--tint-solid)}
+.tile.key .v{color:var(--accent)}
+.tile.bad{border-color:var(--red)}
+.tile.bad .v{color:var(--red)}
+footer{grid-column:1/3;padding:5px 20px 7px;font-size:13px;color:var(--dim);border-top:1px solid var(--line);display:flex;gap:4px 16px;flex-wrap:wrap}
+footer b{color:var(--text);font-weight:600}
+#msg{position:absolute;inset:0;display:none;align-items:center;justify-content:center;font-size:20px;color:var(--red);padding:20px;text-align:center}
+svg text{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+svg .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.f-head{fill:var(--head)}.f-fg{fill:var(--fg)}.f-text{fill:var(--text)}.f-dim{fill:var(--dim)}.f-acc{fill:var(--accent)}.f-warm{fill:var(--warm)}.f-red{fill:var(--red)}
+.f-bg{fill:var(--bg)}.f-panel{fill:var(--panel)}.f-panel2{fill:var(--panel2)}.f-tint{fill:var(--tint-solid)}.f-on{fill:var(--on-accent)}
+.s-head{stroke:var(--head)}.s-acc{stroke:var(--accent)}.s-line{stroke:var(--line)}.s-dim{stroke:var(--dim)}.s-warm{stroke:var(--warm)}.s-red{stroke:var(--red)}.s-bg{stroke:var(--bg)}
+.halo{paint-order:stroke;stroke:var(--bg);stroke-width:5px;stroke-linejoin:round}
+@media (max-width:900px){
+  html,body{height:auto}
+  #app{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto 420px auto auto;height:auto;overflow:visible}
+  header,#bar,footer{grid-column:1}
+  header{padding:10px 16px 6px}
+  h1{font-size:21px}#cap{font-size:17px}#scale{margin-left:0;flex-basis:100%;font-size:13px}
+  #tiles{padding:10px 16px;grid-auto-rows:auto}
+  .tile .v{font-size:27px}
+  footer{padding:8px 16px 12px}
+}
+@media (prefers-reduced-motion:reduce){#bar i{transition:none}}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1>ruv.sgit in motion</h1>
+    <span class="chip" id="run">…</span>
+    <span id="scale"></span>
+    <div id="cap">loading the ledger…</div>
+  </header>
+  <div id="bar"><i></i></div>
+  <div id="stage"><svg id="svg" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Animated ruv.sgit run: a Ruflo queen spawns workers, each delivers on its own branch of one ephemeral sgit vault, merged into current, then measured and deleted"></svg><div id="msg"></div></div>
+  <div id="tiles"></div>
+  <footer><span>source: <b>data/vaults.json</b> (the ruv.sgit ledger, written by poc/ruv-sgit/ruvsgit.py)</span><span id="src"></span></footer>
+</div>
+<script>
+(function () {
+'use strict';
+var Q = new URLSearchParams(location.search), REVIEW = Q.has('review');
+var svg = document.getElementById('svg'), stage = document.getElementById('stage');
+var capEl = document.getElementById('cap'), runEl = document.getElementById('run'), scaleEl = document.getElementById('scale');
+var tilesEl = document.getElementById('tiles'), srcEl = document.getElementById('src'), barEl = document.querySelector('#bar i');
+var tNow = 0, L = null, E = null, ALL = [], TL = null, W = 0, H = 0, lastCap = '';
+window.__t = function () { return tNow; };
+
+/* ---------- helpers ---------- */
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+function prog(t, a, b) { return b <= a ? (t >= a ? 1 : 0) : clamp((t - a) / (b - a), 0, 1); }
+function ease(p) { return p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2; }
+function n(v) { return Number(v || 0).toLocaleString('en-US'); }
+function bytes(v) { v = Number(v || 0); return v < 1000 ? [n(v), 'B'] : v < 1e6 ? [(v / 1024).toFixed(1), 'KB'] : [(v / 1048576).toFixed(2), 'MB']; }
+function secs(ms) { return ms < 10000 ? (ms / 1000).toFixed(1) + ' s' : Math.round(ms / 1000) + ' s'; }
+function when(iso) { if (!iso) return null; var d = new Date(iso); return isNaN(d) ? null : d; }
+function hhmm(iso) { var d = when(iso); return d ? d.toISOString().slice(11, 19) + ' UTC' : '—'; }
+
+/* ---------- pick the run ---------- */
+function pick(vs) {
+  var want = Q.get('run'), sorted = vs.slice().sort(function (a, b) { return String(a.created_at).localeCompare(String(b.created_at)); });
+  if (want) { for (var i = 0; i < vs.length; i++) if (vs[i].run === want) return { e: vs[i], note: '' }; }
+  var real = sorted.filter(function (v) { return !/smoke/i.test(v.run + ' ' + (v.purpose || '')); });
+  var e = (real.length ? real : sorted)[(real.length ? real : sorted).length - 1];
+  return { e: e, note: want ? 'run "' + want + '" is not in the ledger; showing ' + e.run : '' };
+}
+
+/* ---------- the timeline, from the entry's own ms ---------- */
+function build(e) {
+  var ops = e.ops || [], i = 0, open = [], segs = [], tail = [], cur = null;
+  while (i < ops.length && ops[i].op !== 'branch-new' && ops[i].op !== 'history' && ops[i].op !== 'clone') open.push(ops[i++]);
+  for (; i < ops.length; i++) {
+    var o = ops[i];
+    if (o.op === 'history' || o.op === 'clone') { cur = null; tail.push(o); continue; }
+    if (o.op === 'branch-new') { cur = { ops: [] }; segs.push(cur); }
+    if (cur) cur.ops.push(o); else tail.push(o);
+  }
+  var sum = function (a) { return a.reduce(function (s, o) { return s + (o.ms || 0); }, 0); };
+  var openMs = sum(open) || 1500, r = openMs;
+  var openDots = [], acc = 0;
+  open.forEach(function (o) { acc += o.ms || 0; if (o.op === 'init' || o.op === 'commit') openDots.push({ r: acc, label: o.op === 'init' ? 'init' : 'brief' }); if (o.op === 'push') openDots.push({ r: acc, push: true }); });
+  var cd = openDots.filter(function (d) { return !d.push; }); if (cd.length > 1) { var lab = cd.map(function (d) { return d.label; }).join(' · '); cd.forEach(function (d) { d.label = ''; }); cd[cd.length - 1].label = lab; }
+  if (!open.length) openDots = [{ r: openMs * .4, label: 'init' }];
+  var wk = {}; (e.workers || []).forEach(function (w) { wk['w-' + w.id] = w; });
+  var br = (e.branches || []).map(function (b, j) {
+    var s = segs[j] || { ops: [] }, wOps = [], mOps = [], inMerge = false;
+    s.ops.forEach(function (o) { if (o.op === 'branch-switch') inMerge = true; (inMerge ? mOps : wOps).push(o); });
+    var wr = b.write_ms != null ? b.write_ms : sum(wOps) || 2000, mg = b.merge_ms != null ? b.merge_ms : sum(mOps) || 1500;
+    var cf = .55, a2 = 0, tot = sum(wOps);
+    if (tot) { wOps.forEach(function (o) { a2 += o.ms || 0; if (o.op === 'commit') cf = a2 / tot; }); }
+    var x = { b: b, w: wk[b.name] || null, r0: r, wr: wr, mg: mg, cf: clamp(cf, .25, .85) };
+    r += wr + mg; return x;
+  });
+  var tailMs = 0, histMs = 0;
+  tail.forEach(function (o) { if (o.op === 'history') histMs += o.ms || 0; });
+  var cloneMs = (e.clone && e.clone.ms) || 0;
+  tailMs = histMs + cloneMs || 1000;
+  var tailR0 = r; r += tailMs;
+  var R = r, k = clamp(12 / (R / 1000), .15, 1.4);   // seconds on screen per real second of sgit time
+  var T = {}, t = 0;
+  T.intro = [t, t += 0.9];
+  T.spawn = [t, t += 2.6];
+  T.open = [t, t += Math.max(1.4, openMs / 1000 * k)];
+  T.work = [t, t += 4.2];
+  var d0 = t; br.forEach(function (x) { x.t0 = d0 + (x.r0 - openMs) / 1000 * k; x.tw = x.t0 + x.wr / 1000 * k; x.t1 = x.tw + x.mg / 1000 * k; });
+  t = d0 + (tailR0 - openMs) / 1000 * k; T.deliver = [d0, t];
+  T.tail = [t, t += Math.max(1.6, tailMs / 1000 * k)];
+  T.count = [T.tail[0], T.tail[0] + 2.2];
+  T.hold = [t, t += 3.2];
+  T.del = [t, t += 2.8];
+  T.ledger = [t, t += 4.0];
+  T.fade = [t, t += 0.6];
+  return { T: T, LOOP: t, k: k, R: R, openMs: openMs, openDots: openDots, br: br, tailR0: tailR0, histMs: histMs, cloneMs: cloneMs };
+}
+
+/* ---------- tiles ---------- */
+function probeShort(p) { var m = /^(\d+)\s/.exec(p || ''); return m ? m[1] + ' text fragments probed' : (p || ''); }
+var TILES = [];
+function makeTiles(e) {
+  var ss = e.server_store || {}, cl = e.clone || {}, hv = e.hive || {};
+  var pb = bytes(e.bytes_plain), sb = bytes(ss.bytes), hits = ss.plaintext_hits;
+  TILES = [
+    { l: 'commits', v: e.commits, s: (e.branches || []).length + ((e.branches || []).length === 1 ? ' branch' : ' branches') + ' → current' },
+    { l: 'files delivered', v: e.files, s: 'in the vault at close' },
+    { l: 'plaintext bytes', v: Number(pb[0]), dec: pb[0].indexOf('.') >= 0 ? 1 : 0, u: pb[1], s: n(e.bytes_plain) + ' bytes delivered' },
+    { l: 'what the server stored', v: Number(sb[0]), dec: sb[0].indexOf('.') >= 0 ? 1 : 0, u: sb[1], s: n(ss.files) + ' files, ciphertext' },
+    { l: 'plaintext found on the server', v: hits, s: probeShort(ss.probe), cls: hits === 0 ? 'key' : (hits > 0 ? 'bad' : '') },
+    { l: 'fresh clone identical', txt: cl.identical === true ? 'yes' : cl.identical === false ? 'no' : '—', s: n(cl.files) + ' files, byte for byte', cls: cl.identical === true ? 'key' : cl.identical === false ? 'bad' : '' },
+    { l: 'clone', v: cl.ms, u: 'ms', s: 'fresh clone, with the key' },
+    { l: 'hive', v: hv.workers, u: 'workers', s: n(hv.ruflo_calls) + ' ruflo calls · ' + secs(hv.ruflo_ms || 0) }
+  ];
+  tilesEl.innerHTML = TILES.map(function (x, i) { return '<div class="tile off" id="tile' + i + '"><div class="l">' + esc(x.l) + '</div><div class="v">—</div><div class="s">' + esc(x.s) + '</div></div>'; }).join('');
+  TILES.forEach(function (x, i) { x.el = document.getElementById('tile' + i); x.vEl = x.el.querySelector('.v'); x.last = null; });
+}
+function drawTiles(t) {
+  var T = TL.T;
+  TILES.forEach(function (x, i) {
+    var a = T.count[0] + i * 0.18, p = ease(prog(t, a, a + 1.0)), html, on = t >= a && t < T.fade[1] - 0.05 || REVIEW;
+    if (REVIEW) p = 1;
+    if (!on) html = '—';
+    else if (x.txt != null) html = esc(x.txt);
+    else if (x.v == null) html = '—';
+    else { var v = x.v * p; html = (x.dec ? v.toFixed(x.dec) : n(Math.round(v))) + (x.u ? ' <small>' + esc(x.u) + '</small>' : ''); }
+    var cls = 'tile' + (on ? '' : ' off') + (on && x.cls && p >= 1 ? ' ' + x.cls : '');
+    if (x.last !== html + cls) { x.vEl.innerHTML = html; x.el.className = cls; x.last = html + cls; }
+  });
+}
+
+/* ---------- geometry ---------- */
+var G = null;
+function layout() {
+  var r = stage.getBoundingClientRect(); W = Math.max(300, Math.round(r.width)); H = Math.max(260, Math.round(r.height));
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  var narrow = W < 600, N = Math.max(1, TL.br.length);
+  var fs = narrow ? 12.5 : clamp(W / 52, 13, 17);
+  var qx = narrow ? 20 : 44, wx = narrow ? 58 : 118, wr = narrow ? 13 : 19;
+  var vx0 = wx + wr + (narrow ? 8 : 16), vx1 = W - (narrow ? 6 : 14);
+  var strip = narrow ? 34 : 40, sy1 = H - 8, sy0 = sy1 - strip;
+  var cy = sy0 - (narrow ? 48 : 58), vy0 = narrow ? 6 : 8, top = vy0 + (narrow ? 56 : 66), bot = cy - (narrow ? 40 : 52);
+  var ys = []; for (var i = 0; i < N; i++) ys.push(N === 1 ? (top + bot) / 2 : top + i * (bot - top) / (N - 1));
+  var xc0 = vx0 + (narrow ? 10 : 16), xc1 = vx1 - (narrow ? 34 : 64);
+  var avail = xc1 - xc0, gapW = avail * .2, openW = Math.max(narrow ? 34 : 60, avail * .8 * TL.openMs / TL.R);
+  var xg0 = xc0 + openW, xg1 = xg0 + gapW;
+  G = { narrow: narrow, fs: fs, qx: qx, qy: (ys[0] + ys[N - 1]) / 2, wx: wx, wr: wr, vx0: vx0, vx1: vx1, vy0: vy0, vy1: cy + (narrow ? 26 : 32), cy: cy, ys: ys, sy0: sy0, sy1: sy1, xc0: xc0, xc1: xc1, xg0: xg0, xg1: xg1 };
+  G.x = function (r) { return r <= TL.openMs ? xc0 + r / TL.openMs * openW : xg1 + (r - TL.openMs) / (TL.R - TL.openMs) * (xc1 - xg1); };
+}
+
+/* ---------- drawing ---------- */
+function P(d, cls, w, extra) { return '<path d="' + d + '" fill="none" class="' + cls + '" stroke-width="' + w + '" stroke-linecap="round" stroke-linejoin="round"' + (extra || '') + '/>'; }
+function partial(p) { return ' pathLength="1" stroke-dasharray="' + Math.max(0.0001, p).toFixed(4) + ' 2"'; }
+function T(x, y, s, cls, size, anchor, extra) { return '<text x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" class="' + cls + '" font-size="' + size + '"' + (anchor ? ' text-anchor="' + anchor + '"' : '') + (extra || '') + '>' + esc(s) + '</text>'; }
+function C(x, y, r, cls, extra) { return '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + r + '" class="' + cls + '"' + (extra || '') + '/>'; }
+function curve(x0, y0, x1, y1) { var m = (x0 + x1) / 2; return 'M' + x0.toFixed(1) + ' ' + y0.toFixed(1) + ' C' + m.toFixed(1) + ' ' + y0.toFixed(1) + ' ' + m.toFixed(1) + ' ' + y1.toFixed(1) + ' ' + x1.toFixed(1) + ' ' + y1.toFixed(1); }
+
+function render(t) {
+  var e = E, Tm = TL.T, g = G, fs = g.fs, s = '', N = TL.br.length;
+  var fadeAll = 1 - prog(t, Tm.fade[0], Tm.fade[1]) * (REVIEW ? 0 : 1);
+  var delP = prog(t, Tm.del[0], Tm.del[0] + 1.2), inVault = 1 - .72 * delP;
+  s += '<g opacity="' + fadeAll.toFixed(3) + '">';
+
+  /* queen + spawn */
+  var spawnP = prog(t, Tm.spawn[0], Tm.spawn[1] - .4);
+  var qOn = prog(t, Tm.intro[0], Tm.spawn[0] + .3);
+  s += '<g opacity="' + qOn.toFixed(2) + '">';
+  TL.br.forEach(function (x, j) {
+    var p = ease(prog(spawnP, .5 * j / N, .5 * j / N + .4));
+    if (p > 0) s += P(curve(g.qx + 10, g.qy, g.wx - g.wr, g.ys[j]), 's-dim', 1.6, partial(p) + ' opacity=".7"');
+  });
+  s += C(g.qx, g.qy, g.narrow ? 15 : 22, 'f-acc') + T(g.qx, g.qy + (g.narrow ? 4.5 : 6), 'Q', 'f-on', g.narrow ? 13 : 18, 'middle', ' font-weight="800"');
+  s += T(g.qx, g.qy + (g.narrow ? 30 : 42), 'queen', 'f-dim halo', fs * .9, 'middle');
+  s += '</g>';
+
+  /* the vault box */
+  var vOn = ease(prog(t, Tm.open[0], Tm.open[0] + .7));
+  if (vOn > 0) {
+    var dash = delP > 0 ? ' stroke-dasharray="8 6"' : '';
+    s += '<rect x="' + g.vx0 + '" y="' + g.vy0 + '" width="' + (g.vx1 - g.vx0) + '" height="' + (g.vy1 - g.vy0) + '" rx="14" class="f-panel ' + (delP > 0 ? 's-red' : 's-line') + '" stroke-width="2"' + dash + ' opacity="' + vOn.toFixed(2) + '"/>';
+    s += T(g.vx0 + 14, g.vy0 + (g.narrow ? 21 : 27), 'vault ' + (e.vault_id || '?') + (g.narrow ? '' : ' · one per run · ephemeral'), (delP > 0 ? 'f-red' : 'f-head') + ' mono', fs * (g.narrow ? .95 : 1.05), '', ' font-weight="700" opacity="' + vOn.toFixed(2) + '"');
+    if (!g.narrow) s += T(g.vx1 - 14, g.vy0 + 27, 'created ' + hhmm(e.created_at), 'f-dim mono', fs * .82, 'end', ' opacity="' + vOn.toFixed(2) + '"');
+  }
+  s += '<g opacity="' + inVault.toFixed(3) + '">';
+
+  /* lanes: worker nodes, guide tracks, labels */
+  TL.br.forEach(function (x, j) {
+    var y = g.ys[j], p = ease(prog(spawnP, .2 + .5 * j / N, .5 + .5 * j / N));
+    if (p <= 0) return;
+    var nm = x.b.name.replace(/^w-/, '');
+    s += '<g opacity="' + p.toFixed(2) + '">';
+    if (vOn > 0) s += P('M' + g.xc0 + ' ' + y + ' H' + g.xc1, 's-line', 2, ' stroke-dasharray="2 6" opacity="' + vOn.toFixed(2) + '"');
+    s += C(g.wx, y, g.wr, 'f-tint s-acc', ' stroke-width="2"') + T(g.wx, y + g.wr * .36, nm.charAt(0).toUpperCase(), 'f-acc', g.wr * 1.05, 'middle', ' font-weight="800"');
+    if (vOn > 0) s += T(g.xc0, y - (g.narrow ? 7 : 10), x.b.name + (g.narrow ? '' : ' · ' + (x.b.role || '')), 'f-text halo mono', fs * .92, '', ' font-weight="600"');
+    s += '</g>';
+  });
+
+  /* current line */
+  var openP = prog(t, Tm.open[0] + .3, Tm.open[1]), workP = prog(t, Tm.work[0], Tm.work[1]);
+  if (vOn > 0) {
+    s += T(g.xc0 - (g.narrow ? 2 : 4), g.cy + (g.narrow ? 22 : 27), 'current', 'f-head mono', fs * .95, '', ' font-weight="700"');
+    if (openP > 0) s += P('M' + g.xc0 + ' ' + g.cy + ' H' + (g.xc0 + (g.xg0 - g.xc0) * openP).toFixed(1), 's-head', g.narrow ? 4 : 5);
+    if (workP > 0) s += P('M' + g.xg0 + ' ' + g.cy + ' H' + (g.xg0 + (g.xg1 - g.xg0) * workP).toFixed(1), 's-head', 3, ' stroke-dasharray="1 7" opacity=".7"');
+    if (workP > 0 && !g.narrow) s += T((g.xg0 + g.xg1) / 2, g.cy + 27, 'hive works', 'f-dim', fs * .78, 'middle', ' opacity="' + workP.toFixed(2) + '"');
+    var dr = t >= Tm.deliver[0] ? TL.openMs + (Math.min(t, Tm.tail[1]) - Tm.deliver[0]) / TL.k * 1000 : 0;
+    if (dr > TL.openMs) s += P('M' + g.xg1 + ' ' + g.cy + ' H' + g.x(Math.min(dr, TL.R)).toFixed(1), 's-head', g.narrow ? 4 : 5);
+    TL.openDots.forEach(function (d) {
+      var dt = Tm.open[0] + .3 + (Tm.open[1] - Tm.open[0] - .3) * d.r / TL.openMs;
+      if (t < dt || d.push) return;
+      var xx = g.x(d.r);
+      s += C(xx, g.cy, g.narrow ? 5 : 7, 'f-bg s-head', ' stroke-width="3"');
+      if (!g.narrow && d.label) s += T(xx, g.cy - 14, d.label, 'f-dim halo', fs * .78, 'middle');
+    });
+  }
+
+  /* parallel work: every lane at once */
+  if (workP > 0) {
+    TL.br.forEach(function (x, j) {
+      var y = g.ys[j], wall = x.w && x.w.wall_s, maxWall = Math.max.apply(null, TL.br.map(function (z) { return (z.w && z.w.wall_s) || 0; }));
+      var fin = maxWall > 0 && wall > 0 ? .55 + .45 * wall / maxWall : 1;
+      var p = clamp(workP / fin, 0, 1), xe = g.xc0 + (g.xg1 - 6 - g.xc0) * ease(p);
+      var done = t >= x.t0;
+      s += P('M' + g.xc0 + ' ' + y + ' H' + xe.toFixed(1), 's-acc', 3, ' stroke-dasharray="6 6" opacity="' + (done ? .35 : .85) + '"');
+      if (p < 1 && !done) { var wob = Math.sin(t * 9 + j * 1.7) * 3; s += C(xe, y + wob, 5, 'f-acc'); }
+      if (!g.narrow && x.w && (x.w.tokens || x.w.tool_uses || x.w.wall_s) && !done) {
+        var bits = []; if (x.w.tokens) bits.push(n(x.w.tokens) + ' tokens'); if (x.w.tool_uses) bits.push(x.w.tool_uses + ' tools'); if (x.w.wall_s) bits.push(Math.round(x.w.wall_s / 60) + ' min');
+        if (g.ys.length < 2 || g.ys[1] - g.ys[0] > fs * 2.9) s += T(g.xc0 + 4, y + fs * 1.3, bits.join(' · '), 'f-dim halo', fs * .78, '', ' opacity="' + p.toFixed(2) + '"');
+      }
+    });
+  }
+
+  /* deliveries: branch, commit, push, merge */
+  var pulses = [], pushes = 0;
+  TL.openDots.forEach(function (d) { if (d.push) { var dt = Tm.open[0] + .3 + (Tm.open[1] - Tm.open[0] - .3) * d.r / TL.openMs; if (t >= dt) { pushes++; if (t < dt + .9) pulses.push([g.x(d.r), g.cy, t - dt]); } } });
+  TL.br.forEach(function (x, j) {
+    if (t < x.t0) return;
+    var y = g.ys[j], xa = g.x(x.r0), xb = g.x(x.r0 + x.wr), xm = g.x(x.r0 + x.wr + x.mg);
+    var xcm = g.x(x.r0 + x.wr * x.cf), rise = Math.min(26, (xb - xa) * .45), drop = Math.min(26, (xm - xb) * .9);
+    var pw = prog(t, x.t0, x.tw), pm = prog(t, x.tw, x.t1);
+    var d1 = curve(xa, g.cy, xa + rise, y) + ' H' + xb.toFixed(1);
+    s += P(d1, 's-acc', g.narrow ? 3 : 4, partial(pw));
+    var tc = x.t0 + (x.tw - x.t0) * x.cf;
+    if (t >= tc) {
+      var pop = 1 + .6 * (1 - prog(t, tc, tc + .35));
+      s += C(xcm, y, (g.narrow ? 5 : 7) * pop, 'f-acc s-bg', ' stroke-width="2"');
+      if (!g.narrow) { var bb = bytes(x.b.bytes); s += T(xcm + 10, y + 5.5, '+' + n(x.b.files) + ' file' + (x.b.files === 1 ? '' : 's') + ' · ' + bb[0] + ' ' + bb[1], 'f-acc halo', fs * .82, '', ' font-weight="600" opacity="' + prog(t, tc, tc + .3).toFixed(2) + '"'); }
+    }
+    if (t >= x.tw) { pushes++; if (t < x.tw + .9) pulses.push([xb, y, t - x.tw]); }
+    if (pm > 0) s += P(curve(xb, y, Math.max(xb + drop, xm), g.cy), 's-acc', g.narrow ? 3 : 4, partial(pm));
+    if (t >= x.t1) { s += C(Math.max(xb + drop, xm), g.cy, g.narrow ? 4 : 5, 'f-acc'); pushes++; if (t < x.t1 + .9) pulses.push([Math.max(xb + drop, xm), g.cy, t - x.t1]); }
+  });
+
+  /* close: history + clone */
+  var tailP = prog(t, Tm.tail[0], Tm.tail[1]);
+  if (tailP > 0) {
+    var xe2 = g.x(TL.R);
+    s += '<g opacity="' + ease(tailP).toFixed(2) + '">';
+    s += P('M' + xe2.toFixed(1) + ' ' + (g.cy - 16) + ' V' + (g.cy + 16), 's-head', 4);
+    s += T(xe2 + 8, g.cy - (g.narrow ? 10 : 22), 'closed', 'f-head halo', fs * .85, g.narrow ? 'end' : '', ' font-weight="700"' + (g.narrow ? ' dx="-12"' : ''));
+    var ok = e.clone && e.clone.identical;
+    s += T(xe2 + (g.narrow ? -6 : 8), g.cy + (g.narrow ? 22 : 30), 'clone ' + (ok ? '✓' : ok === false ? '✗' : '?'), (ok ? 'f-acc' : 'f-red') + ' halo', fs * .85, g.narrow ? 'end' : '', ' font-weight="700"');
+    s += '</g>';
+  }
+  s += '</g>';  // in-vault fade
+
+  /* the server: ciphertext only */
+  var sOn = prog(t, Tm.open[0], Tm.open[0] + .6);
+  if (sOn > 0) {
+    var bw = g.narrow ? 5 : 8, gap = g.narrow ? 2 : 3, lx = g.narrow ? g.vx0 + 116 : g.vx0 + 252;
+    s += '<g opacity="' + sOn.toFixed(2) + '">';
+    s += '<rect x="' + g.vx0 + '" y="' + g.sy0 + '" width="' + (g.vx1 - g.vx0) + '" height="' + (g.sy1 - g.sy0) + '" rx="8" class="f-panel2 ' + (delP > 0 ? 's-red' : 's-line') + '" stroke-width="1.5"' + (delP > 0 ? ' stroke-dasharray="6 5"' : '') + '/>';
+    s += T(g.vx0 + 12, (g.sy0 + g.sy1) / 2 + fs * .34, g.narrow ? 'server: ciphertext' : 'vault server: ciphertext only', 'f-text', fs * .88, '', ' font-weight="600"');
+    var shown = Math.min(pushes, Math.floor((g.vx1 - lx - (g.narrow ? 10 : 230)) / (bw + gap)));
+    for (var i = 0; i < shown; i++) s += '<rect x="' + (lx + i * (bw + gap)) + '" y="' + (g.sy0 + 9) + '" width="' + bw + '" height="' + (g.sy1 - g.sy0 - 18) + '" rx="1.5" class="f-dim" opacity="' + (.45 + .4 * ((i * 7) % 5) / 5).toFixed(2) + '"/>';
+    if (!g.narrow && tailP > 0) { var sb = bytes((e.server_store || {}).bytes); s += T(g.vx1 - 12, (g.sy0 + g.sy1) / 2 + fs * .34, n((e.server_store || {}).files) + ' files · ' + sb[0] + ' ' + sb[1] + ' stored', 'f-dim mono', fs * .82, 'end', ' opacity="' + tailP.toFixed(2) + '"'); }
+    s += '</g>';
+  }
+  pulses.forEach(function (q) {
+    var p = ease(clamp(q[2] / .9, 0, 1)), yy = q[1] + (g.sy0 + 6 - q[1]) * p;
+    s += C(q[0], yy, 4.5, 'f-warm', ' opacity="' + (1 - p * .6).toFixed(2) + '"');
+  });
+
+  /* deletion */
+  if (delP > 0) {
+    var cx = (g.vx0 + g.vx1) / 2, cyy = g.vy0 + (g.narrow ? 70 : 92), bw2 = Math.min(g.vx1 - g.vx0 - 30, g.narrow ? 300 : 520), bh = g.narrow ? 74 : 92;
+    var dP = ease(delP), deleted = !!e.deleted_at;
+    s += '<g opacity="' + dP.toFixed(2) + '">';
+    s += '<rect x="' + (cx - bw2 / 2) + '" y="' + (cyy - bh / 2) + '" width="' + bw2 + '" height="' + bh + '" rx="12" class="f-bg s-red" stroke-width="2.5"/>';
+    s += T(cx, cyy - (g.narrow ? 6 : 8), deleted ? 'vault deleted' : 'not deleted (deleted_at: null)', 'f-red', g.narrow ? 21 : 30, 'middle', ' font-weight="800"');
+    if (deleted) s += T(cx, cyy + (g.narrow ? 20 : 28), (e.deleted_paths != null ? n(e.deleted_paths) + ' store paths removed · ' : '') + 'key gone · ' + hhmm(e.deleted_at), 'f-text', fs * (g.narrow ? .85 : .95), 'middle');
+    s += '</g>';
+  }
+
+  /* the ledger */
+  var lP = prog(t, Tm.ledger[0], Tm.ledger[0] + .8);
+  if (lP > 0) {
+    var rows = ALL.slice(-5), rh = g.narrow ? 24 : 30, lw = Math.min(g.vx1 - g.vx0 - 20, g.narrow ? 330 : 600), lh = rh * (rows.length + 1) + 22;
+    var lx0 = g.narrow ? (W - lw) / 2 : g.vx0 + 10, ly0 = Math.max(6, g.vy1 - lh + 8) + (1 - ease(lP)) * 30;
+    s += '<g opacity="' + ease(lP).toFixed(2) + '">';
+    s += '<rect x="' + lx0 + '" y="' + ly0 + '" width="' + lw + '" height="' + lh + '" rx="12" class="f-panel s-acc" stroke-width="2"/>';
+    s += T(lx0 + 14, ly0 + rh * .8 + 2, 'the ledger · ' + ALL.length + ' run' + (ALL.length === 1 ? '' : 's'), 'f-head', fs * 1.0, '', ' font-weight="700"');
+    var cols = g.narrow ? [14, 150, 210, 270] : [14, 250, 350, 460];
+    var hdr = g.narrow ? ['run', 'commits', 'files', 'hits'] : ['run', 'commits', 'files', 'plaintext hits'];
+    hdr.forEach(function (h, c) { if (c) s += T(lx0 + cols[c], ly0 + rh * .8 + 2, h, 'f-dim', fs * .78, ''); });
+    rows.forEach(function (v, r) {
+      var y = ly0 + rh * (r + 1) + 12, me = v === E, rp = me ? ease(prog(t, Tm.ledger[0] + .6, Tm.ledger[0] + 1.4)) : 1;
+      if (me) s += '<rect x="' + (lx0 + 6) + '" y="' + y + '" width="' + (lw - 12) + '" height="' + (rh - 3) + '" rx="6" class="f-tint" opacity="' + rp.toFixed(2) + '"/>';
+      var yy = y + rh * .68, cl = me ? 'f-acc' : 'f-text', op = ' opacity="' + rp.toFixed(2) + '"' + (me ? ' font-weight="700"' : '');
+      var hits = v.server_store ? v.server_store.plaintext_hits : '—';
+      s += T(lx0 + cols[0] + (1 - rp) * 30, yy, v.run + (me ? ' ←' : ''), cl + ' mono', fs * .85, '', op);
+      s += T(lx0 + cols[1], yy, n(v.commits), cl + ' mono', fs * .85, '', op);
+      s += T(lx0 + cols[2], yy, n(v.files), cl + ' mono', fs * .85, '', op);
+      s += T(lx0 + cols[3], yy, String(hits), cl + ' mono', fs * .85, '', op);
+    });
+    s += '</g>';
+  }
+  s += '</g>';
+  svg.innerHTML = s;
+}
+
+function caption(t) {
+  var Tm = TL.T, e = E, N = TL.br.length, c;
+  if (t < Tm.spawn[0]) c = 'one run, one vault: <b>' + esc(e.run) + '</b>';
+  else if (t < Tm.open[0]) c = 'the Ruflo queen spawns <b>' + N + ' worker' + (N === 1 ? '' : 's') + '</b>, one per branch';
+  else if (t < Tm.work[0]) c = 'an sgit vault is created on the server; <b>current</b> holds the brief';
+  else if (t < Tm.deliver[0]) c = 'the workers work <b>in parallel</b>, each toward its own branch';
+  else if (t < Tm.tail[0]) {
+    var cur = null; TL.br.forEach(function (x) { if (t >= x.t0) cur = x; });
+    c = cur ? 'delivery: <b>' + esc(cur.b.name) + '</b> commits + pushes (' + n(cur.wr) + ' ms), merges into current (' + n(cur.mg) + ' ms)' : 'deliveries land';
+  }
+  else if (t < Tm.del[0]) c = 'vault closed and measured: plaintext found on the server: <b>' + n((e.server_store || {}).plaintext_hits) + '</b>';
+  else if (t < Tm.ledger[0]) c = e.deleted_at ? 'ephemeral: the vault is <b>deleted</b>; only its numbers remain' : 'this vault has no deleted_at in the ledger';
+  else c = 'the run joins the ledger: <b>' + ALL.length + '</b> run' + (ALL.length === 1 ? '' : 's') + ' so far';
+  if (c !== lastCap) { capEl.innerHTML = c; lastCap = c; }
+}
+
+/* ---------- loop ---------- */
+var start = performance.now();
+function frame(now) {
+  tNow = REVIEW ? TL.T.fade[0] - 0.01 : ((now - start) / 1000) % TL.LOOP;
+  render(tNow); drawTiles(tNow); caption(tNow);
+  barEl.style.width = (tNow / TL.LOOP * 100).toFixed(2) + '%';
+  if (!REVIEW) requestAnimationFrame(frame);
+}
+function fail(m) { capEl.textContent = 'could not load the ledger'; var el = document.getElementById('msg'); el.style.display = 'flex'; el.textContent = m; }
+
+fetch('../../data/vaults.json', { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function (L0) {
+  L = L0; var vs = (L.vaults || []).filter(function (v) { return v && v.run; });
+  if (!vs.length) return fail('data/vaults.json has no runs yet.');
+  ALL = vs.slice().sort(function (a, b) { return String(a.created_at).localeCompare(String(b.created_at)); });
+  var pk = pick(vs); E = pk.e; TL = build(E);
+  runEl.textContent = E.run;
+  var dur = when(E.closed_at) && when(E.created_at) ? Math.round((when(E.closed_at) - when(E.created_at)) / 1000) : null;
+  scaleEl.textContent = 'sgit time ×' + TL.k.toFixed(2) + ' (' + secs(TL.R) + ' of real sgit ops in ' + secs(TL.R * TL.k) + '); spawn, hive work and close not to scale';
+  srcEl.innerHTML = 'entry <b>' + esc(E.run) + '</b> (' + (ALL.indexOf(E) + 1) + ' of ' + ALL.length + ')' + (dur != null && dur >= 0 ? ', vault open ' + dur + ' s' : '') + (L.sample ? ', <b>SAMPLE data</b>' : '') + (L.updated ? ', ledger updated ' + esc(L.updated.slice(0, 16).replace('T', ' ')) : '') + (pk.note ? ' · ' + esc(pk.note) : '') + ' · pick another with ?run=&lt;id&gt;';
+  makeTiles(E); layout();
+  window.addEventListener('resize', function () { layout(); if (REVIEW) frame(performance.now()); });
+  requestAnimationFrame(frame);
+}).catch(function (err) { fail('data/vaults.json could not be read (' + err.message + '). Serve the site folder over http.'); });
+})();
+</script>
+</body>
+</html>

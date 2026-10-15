@@ -5,7 +5,7 @@ import re, sys, pathlib
 SITE = pathlib.Path(__file__).resolve().parents[1]
 SECRET = re.compile(r'(sgit_private_vault_[A-Za-z0-9_]{8,}|sk-or-v1-[0-9a-f]{20,}|ghp_[A-Za-z0-9]{20,})')  # the public vault's READ key (sgit_private_read_…) is published on purpose
 fails = []
-pages = sorted(SITE.glob('*.html')) + [SITE / 'talk' / 'index.html', SITE / 'studio' / 'index.html', SITE / 'admin' / 'versions.html'] + sorted((SITE / 'articles').glob('*.html'))
+pages = sorted(SITE.glob('*.html')) + [SITE / 'talk' / 'index.html', SITE / 'studio' / 'index.html', SITE / 'admin' / 'versions.html', SITE / 'ruv-sgit' / 'index.html'] + sorted((SITE / 'articles').glob('*.html'))
 for p in pages:
     html = p.read_text(encoding='utf-8'); name = p.relative_to(SITE).as_posix()
     for need in ['<nav class="main">', 'assets/site.js', 'assets/site.css', '<link rel="canonical" href="https://ruv.sgit.ai/' + name + '">']:

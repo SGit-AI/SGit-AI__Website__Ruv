@@ -5,7 +5,7 @@
   const NAV = [
     ['Tonight', [['talk/index.html', "Tonight's talk"], ['talk/player.html?talk=talk-10.json', 'Present (10 min)'], ['demo.html', 'The five-minute demo script']]],
     ['The idea', [['index.html', 'Overview'], ['ruv-stack.html', "rUv's stack"], ['use-cases.html', 'Use cases'], ['architecture.html', 'Architecture']]],
-    ['Proofs', [['pocs.html', 'The six POCs'], ['app/index.html', 'Live app'], ['studio/index.html', 'The studio'], ['replicate.html', 'Replicate']]],
+    ['Proofs', [['ruv-sgit/index.html', 'ruv.sgit runs and vaults'], ['pocs.html', 'The six POCs'], ['app/index.html', 'Live app'], ['studio/index.html', 'The studio'], ['replicate.html', 'Replicate']]],
     ['Articles', [['articles/index.html', 'All articles'], ['articles/the-studio.html', 'The studio: plan'], ['articles/studio-setup-brief.html', 'Set it up: the brief']]],
   ];
   const root = document.body.dataset.root ?? '';

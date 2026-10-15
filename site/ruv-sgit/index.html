@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ruv.sgit</title>
+<meta name="description" content="ruv.sgit: a Ruflo hive (a queen and workers in parallel) whose memory and output is one ephemeral sgit vault per run, tracked in a ledger with its statistics, then deleted. The runs, the ledger, one vault as a case study, and how to run it.">
+<link rel="canonical" href="https://ruv.sgit.ai/ruv-sgit/index.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f766e%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Georgia%27%3Er%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/site.css">
+<script src="../assets/theme.js"></script>
+<style>
+.cycle{counter-reset:c;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:18px 0;padding:0;list-style:none}
+.cycle li{counter-increment:c;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;max-width:none;font-size:14.5px}
+.cycle li::before{content:counter(c);display:inline-flex;width:24px;height:24px;border-radius:50%;background:var(--t);color:var(--on-accent);font:700 13px ui-sans-serif,system-ui;align-items:center;justify-content:center;margin-right:8px}
+.cycle li b{display:block;margin:6px 0 2px}
+.runs td{font-variant-numeric:tabular-nums}.runs td.n{text-align:right}
+.frame{position:relative;aspect-ratio:16/9;width:100%;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg);box-shadow:var(--shadow)}.frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+</style>
+</head>
+<body data-root="../">
+<header class="top"><div class="wrap"><a class="brand" href="../index.html">ruv.sgit.ai<small>rUv + sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
+
+<section class="hero"><div class="wrap">
+<p class="k">Ruflo's hive-mind (MIT, by rUv) · sgit vaults · the way this site's materials are now made</p>
+<h1>ruv.sgit</h1>
+<p class="lead">A Ruflo hive, a queen and workers running in parallel, whose memory and output is <b>one ephemeral sgit vault per run</b>: created when the work starts, a branch per worker, every delivery committed and merged, measured when the run closes, then deleted. What stays is the ledger: what each run made, how long each step took, what the server held (ciphertext only), and whether a fresh clone got back exactly what the workers delivered.</p>
+<p class="k" id="summary">loading the ledger…</p>
+</div></section>
+
+<section class="alt"><div class="wrap">
+<h2>One run, six steps</h2>
+<ol class="cycle">
+<li><b>Open</b>The queen spawns one worker per role and queues a task each; a new vault is created and the feedback that started the run is committed as its brief.</li>
+<li><b>Work in parallel</b>Each worker builds its part at the same time, on its own branch.</li>
+<li><b>Deliver</b>Each delivery is committed on the worker's branch, pushed, and merged into <code>current</code>; the hive gets a broadcast with its hash.</li>
+<li><b>Close and measure</b>History, files, bytes; every byte the server stored is searched for the plaintext; a fresh clone is compared file by file.</li>
+<li><b>Delete</b>Ephemeral: the vault's objects leave the server, the key is destroyed, the working copy goes.</li>
+<li><b>Ledger</b>The run's numbers join <a href="../data/vaults.json">data/vaults.json</a> and its full record <code>evidence/ruv-sgit/&lt;run&gt;.json</code>.</li>
+</ol>
+<p>The pattern is the one the newsroom wrote up in <a href="https://newsroom.sgit.ai/articles/agent-workflows-on-ephemeral-vaults.html">Agent workflows on ephemeral vaults</a>: a vault as the shared file system and channel for agents working together, living only as long as the work.</p>
+</div></section>
+
+<section><div class="wrap">
+<h2>Every run</h2>
+<p>Read from the ledger at load: each row is a vault that existed for one run.</p>
+<div id="runs" class="tbl">loading…</div>
+</div></section>
+
+<section class="alt"><div class="wrap">
+<h2>See it</h2>
+<div class="cards">
+<div class="card"><h3><a href="motion/index.html">ruv.sgit in motion</a></h3><p>A real run, animated from its ledger entry: the queen, the workers in parallel, branches, merges, the close, the delete.</p></div>
+<div class="card"><h3><a href="ledger/index.html">The vault ledger</a></h3><p>Every vault so far: lifecycles, commits, bytes, what the server held, clone checks, sgit operation timings.</p></div>
+<div class="card"><h3><a href="case/index.html">One ephemeral vault</a></h3><p>A case study, start to finish, with the numbers of one run, beside what the newsroom measured on append lanes.</p></div>
+</div>
+<div class="frame"><iframe src="motion/index.html" title="ruv.sgit in motion" loading="lazy"></iframe></div>
+</div></section>
+
+<section><div class="wrap">
+<h2>Run it</h2>
+<pre><code>npm ci && pip install sgit-ai==0.21.0 sgraph-ai-app-send "mcp&lt;2"     # Ruflo 3.56.10 and a local SG/Send vault server
+python3 poc/ruv-sgit/ruvsgit.py server-start                       # local server, disk storage in ~/.ruv-sgit, a token made there (mode 0600)
+python3 poc/ruv-sgit/ruvsgit.py open    r3 poc/ruv-sgit/runs/r3.spec.json   # hive + vault + brief
+python3 poc/ruv-sgit/ruvsgit.py deliver r3 &lt;worker&gt; &lt;role&gt; &lt;folder&gt;   # once per worker, as each finishes
+python3 poc/ruv-sgit/ruvsgit.py close   r3 workers.json                # measure, ledger, evidence
+python3 poc/ruv-sgit/ruvsgit.py delete  r3                             # ephemeral</code></pre>
+<p class="k">The vault key and the server token never leave <code>~/.ruv-sgit</code>; they are passed on stdin or in files, never printed. The workers here are Claude Code subagents of the session that runs the hive; Ruflo holds the queen, the roles, the tasks and the broadcasts. The local server is one process on the same machine: the numbers are local numbers.</p>
+</div></section>
+
+<footer><div class="wrap"><span>ruv.sgit.ai · ruv.sgit</span><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">source on GitHub</a><a href="https://sgit.ai">sgit.ai</a><a href="https://github.com/ruvnet">github.com/ruvnet</a><span>code Apache-2.0 · rUv's projects MIT, by rUv / ruvnet</span><a href="../llms.txt">llms.txt</a></div></footer>
+<script src="../assets/site.js"></script>
+<script>
+(async () => {
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))
+  const kb = n => n >= 1e6 ? (n / 1e6).toFixed(1) + ' MB' : n >= 1e3 ? (n / 1e3).toFixed(1) + ' KB' : n + ' B'
+  try {
+    const L = await (await fetch('../data/vaults.json')).json(), V = L.vaults
+    const tok = V.reduce((a, v) => a + (v.workers || []).reduce((x, w) => x + (w.tokens || 0), 0), 0)
+    document.getElementById('summary').textContent = `${V.length} runs · ${V.length} vaults created, ${V.filter(v => v.deleted_at).length} deleted · ${V.reduce((a, v) => a + v.commits, 0)} commits · plaintext found on the server: ${V.reduce((a, v) => a + v.server_store.plaintext_hits, 0)} · fresh clones identical: ${V.filter(v => v.clone.identical).length} of ${V.length}` + (tok ? ` · ${tok.toLocaleString('en-GB')} worker tokens` : '') + ` · ${L.server}`
+    document.getElementById('runs').innerHTML = `<table class="runs"><thead><tr><th>run</th><th>what it was for</th><th>workers</th><th>commits</th><th>files</th><th>plaintext</th><th>server held</th><th>clone</th><th>deleted</th></tr></thead><tbody>${V.map(v => `<tr><td><b>${esc(v.run)}</b><br><span class="k">${esc((v.created_at || '').replace('T', ' ').slice(0, 16))}</span></td><td>${esc(v.purpose)}</td><td class="n">${v.branches.length}</td><td class="n">${v.commits}</td><td class="n">${v.files}</td><td class="n">${kb(v.bytes_plain)}</td><td class="n">${v.server_store.files} files, ${kb(v.server_store.bytes)}<br><span class="k">plaintext found: ${v.server_store.plaintext_hits}</span></td><td>${v.clone.identical ? 'identical' : 'DIFFERENT'}<br><span class="k">${v.clone.ms} ms</span></td><td>${v.deleted_at ? esc(v.deleted_at.slice(11, 16)) : 'not yet'}</td></tr>`).join('')}</tbody></table>`
+  } catch (e) { document.getElementById('runs').textContent = 'ledger not found (data/vaults.json)' }
+})()
+</script>
+</body>
+</html>
