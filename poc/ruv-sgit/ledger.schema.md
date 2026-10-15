@@ -1,0 +1,20 @@
+# data/vaults.json: the ruv.sgit vault ledger (one entry per run; every number measured by poc/ruv-sgit/ruvsgit.py)
+
+```
+{ "updated": "ISO time", "sample": false,
+  "server": "what served the vaults (local SG/Send vault server, version, storage mode)",
+  "vaults": [ {
+    "run": "r2-motion", "purpose": "one line", "feedback": "the request this run answered",
+    "vault_id": "id on the local server (the key is never recorded)",
+    "created_at": "ISO", "closed_at": "ISO", "deleted_at": "ISO or null",
+    "hive":  { "queen": "queen-…", "workers": 5, "tasks": 5, "ruflo_calls": 20, "ruflo_ms": 9000 },
+    "branches": [ { "name": "w-motion", "role": "developer", "commits": 1, "files": 3, "bytes": 40000,
+                    "write_ms": 900, "merge_ms": 700 } ],
+    "commits": 9, "files": 14, "bytes_plain": 160000,
+    "server_store": { "files": 120, "bytes": 190000, "plaintext_hits": 0, "probe": "what was searched for" },
+    "clone": { "ms": 1500, "files": 14, "identical": true },
+    "ops": [ { "op": "init", "ms": 800 }, { "op": "push", "ms": 600 } ],
+    "history": [ { "id": "3bf90dd8d00a", "message": "…", "branch": "w-motion" } ],
+    "workers": [ { "id": "motion", "role": "developer", "tokens": 90000, "tool_uses": 15, "wall_s": 420 } ]
+  } ] }
+```

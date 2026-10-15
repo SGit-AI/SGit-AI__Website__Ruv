@@ -1,0 +1,9 @@
+{"purpose": "materials for tonight's talk: visualise ruv.sgit runs, the vault ledger and one ephemeral vault, and rework the script around memory and storage",
+ "feedback": "Dinis, 15 Oct 2026: add a lot more animations and explanations; every change made by a ruv.sgit run (a Ruflo queen with workers in parallel, output defined in an ephemeral vault), with the vault tracked and statistics on it; a couple of slides with the stats of all the vaults and a case study of one; visualise how it works; the studio animations belong in the presentation; memory and storage are the story, behaviour policies less so.",
+ "workers": [
+  {"id": "motion", "role": "developer", "task": "ruv.sgit in motion: an animation of a real run drawn from data/vaults.json", "out": "site/ruv-sgit/motion/"},
+  {"id": "ledger", "role": "developer", "task": "the vault ledger: stats of every ruv.sgit vault from data/vaults.json", "out": "site/ruv-sgit/ledger/"},
+  {"id": "case", "role": "designer", "task": "case study: one ephemeral vault from creation to deletion, with its real numbers", "out": "site/ruv-sgit/case/"},
+  {"id": "script", "role": "writer", "task": "the ten-minute script reworked around memory and storage, with the studio animations and the three new pages on beats", "out": "out/ruv-sgit/r2-materials/script/"},
+  {"id": "editor", "role": "editor", "task": "check every number in the four deliveries against the data; list fixes", "out": "out/ruv-sgit/r2-materials/editor/"}
+ ]}

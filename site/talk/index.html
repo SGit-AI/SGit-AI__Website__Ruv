@@ -20,6 +20,7 @@ kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;paddi
 .reader .beat .t{font:700 14px ui-monospace,monospace;color:var(--a)}.reader .beat h3{margin:.3em 0}.reader .beat .scr{font-size:14px;color:var(--m);border-left:3px solid var(--line);padding-left:10px;margin:10px 0}
 .reader .beat .say{font:19px/1.55 Georgia,serif;margin:0}.rnav{display:flex;gap:10px;align-items:center;margin:4px 0 10px}.rnav button{min-width:44px;height:44px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;font-size:16px;cursor:pointer}
 .evening td:first-child{white-space:nowrap;font-weight:600;color:var(--a)}.evening tr.us td{background:var(--t2)}
+.embed{position:relative;aspect-ratio:16/9;width:100%;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);background:var(--bg)}.embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .check li{list-style:none;margin-left:-22px}.check li::before{content:"☐ ";color:var(--t)}
 @media print{header.top,footer,.noprint,.btns,.seg{display:none!important}section{padding:6px 0}body{font-size:12px}.ros td.say{font-size:12px}}
 </style>
@@ -39,6 +40,13 @@ kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;paddi
 <a class="btn" href="offline-5.html" download>Offline file (5 min)</a>
 </div>
 <p class="k">The player needs no build and no network once loaded. The offline files carry the timeline, the data and the images inside one HTML file; the live-app beat shows a recorded screenshot there, because a page opened from a file cannot load WASM.</p>
+</div></section>
+
+<section id="watch"><div class="wrap">
+<h2>Watch it here</h2>
+<p>The player, embedded: the same file as the full-screen version, playing in this page so the script, the sources and the slides sit side by side. Click into it, then <kbd>Space</kbd> to play, arrows or a swipe to move, <b>review</b> to see every slide finished; <b>⤢</b> opens it in its own window at the same second.</p>
+<div class="seg noprint" role="group" aria-label="version"><button data-w="talk-10.json" aria-pressed="true">10 minutes</button><button data-w="talk-5.json" aria-pressed="false">5 minutes</button><button data-w="talk-10.json&amp;review" aria-pressed="false">review</button></div>
+<div class="embed"><iframe id="embed" src="player.html?talk=talk-10.json&amp;embed" title="The talk player" allow="fullscreen" loading="lazy"></iframe></div>
 </div></section>
 
 <section id="read"><div class="wrap">
@@ -196,6 +204,7 @@ kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;paddi
   reader.addEventListener('scroll', () => requestAnimationFrame(rposUpdate), { passive: true })
   document.querySelectorAll('[data-r]').forEach(b => b.onclick = () => readerShow(b.dataset.r))
   readerShow('talk-10.json')
+  document.querySelectorAll('[data-w]').forEach(b => b.onclick = () => { document.querySelectorAll('[data-w]').forEach(x => x.setAttribute('aria-pressed', x === b)); document.getElementById('embed').src = `player.html?talk=${b.dataset.w.replace('&amp;', '&')}&embed` })
   // rehearsal drift
   const reh = document.getElementById('reh'), drop = document.getElementById('drop'), input = drop.querySelector('input')
   function report(r) {

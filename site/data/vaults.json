@@ -1,0 +1,131 @@
+{
+ "vaults": [
+  {
+   "run": "smoke-1",
+   "purpose": "smoke test of the ruv.sgit runner",
+   "feedback": "none: a smoke test",
+   "vault_id": "0977t8t6",
+   "created_at": "2026-10-15T13:23:03+00:00",
+   "closed_at": "2026-10-15T13:23:26+00:00",
+   "deleted_at": "2026-10-15T13:23:39+00:00",
+   "hive": {
+    "workers": 1,
+    "tasks": 1,
+    "ruflo_calls": 7,
+    "ruflo_ms": 3372
+   },
+   "branches": [
+    {
+     "name": "w-w1",
+     "role": "developer",
+     "commits": 1,
+     "files": 1,
+     "bytes": 72,
+     "write_ms": 2751,
+     "merge_ms": 2901
+    }
+   ],
+   "commits": 3,
+   "files": 3,
+   "bytes_plain": 285,
+   "server_store": {
+    "files": 20,
+    "bytes": 6458,
+    "plaintext_hits": 0,
+    "probe": "3 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 1061,
+    "files": 3,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 877,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 786,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1401,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 894,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 913,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 944,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 879,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 948,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1075,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 923,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 1061,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "obj-cas-imm-",
+     "message": "init",
+     "time": null
+    },
+    {
+     "id": "obj-cas-imm-",
+     "message": "brief: run smoke-1",
+     "time": null
+    },
+    {
+     "id": "obj-cas-imm-",
+     "message": "developer w1: delivered 1 files",
+     "time": null
+    }
+   ],
+   "workers": [
+    {
+     "id": "w1",
+     "role": "developer",
+     "tokens": 0,
+     "tool_uses": 0,
+     "wall_s": 0
+    }
+   ],
+   "deleted_paths": 45
+  }
+ ],
+ "sample": false,
+ "updated": "2026-10-15T13:23:39+00:00",
+ "server": "a local SG/Send vault server (sgraph-ai-app-send, disk storage), one process, on the machine that ran the hive"
+}

@@ -272,7 +272,7 @@ ul.bul { list-style:none; padding:0; font-size:3.4vh; margin:0 } ul.bul li { mar
 <body>
 <div id="stage"></div>
 <aside id="side"></aside>
-<div id="bar"><div id="ctl"><button data-k="ArrowLeft" aria-label="previous beat">◀</button><button data-k=" " id="pp" aria-label="play or pause">▶</button><button data-k="ArrowRight" aria-label="next beat">▶︎▶︎</button><button data-k="v" id="rv" aria-label="review mode: everything at once, no animation">review</button><button data-k="p" id="nb" aria-label="speaker notes">notes</button><button data-k="t" id="th" aria-label="next theme" title="theme (the site's five)">◐</button><button data-k="f" aria-label="fullscreen">⛶</button></div><span class="clock" id="clock">0:00</span><span class="dim" id="beatno"></span><div id="prog" title="click to seek"><b id="progb"></b></div><span class="dim" id="state">paused</span></div>
+<div id="bar"><div id="ctl"><button data-k="x" id="ex" aria-label="leave the presentation" title="leave (X)">✕</button><button data-k="ArrowLeft" aria-label="previous beat">◀</button><button data-k=" " id="pp" aria-label="play or pause">▶</button><button data-k="ArrowRight" aria-label="next beat">▶︎▶︎</button><button data-k="v" id="rv" aria-label="review mode: everything at once, no animation">review</button><button data-k="p" id="nb" aria-label="speaker notes">notes</button><button data-k="t" id="th" aria-label="next theme" title="theme (the site's five)">◐</button><button data-k="f" aria-label="fullscreen">⛶</button></div><span class="clock" id="clock">0:00</span><span class="dim" id="beatno"></span><div id="prog" title="click to seek"><b id="progb"></b></div><span class="dim" id="state">paused</span></div>
 <div id="intro"><div><h2 id="ttl">Talk player</h2><p id="sub"></p><p>Tap ▶ or press <kbd>Space</kbd> to start · swipe left or right between beats · <b>review</b> or <kbd>V</kbd> to see everything at once · <b>notes</b> or <kbd>P</kbd> for the words · <kbd>A</kbd> audience window · <kbd>?</kbd> all keys</p></div></div>
 <div id="black"></div>
 <div id="err"></div>
@@ -288,6 +288,7 @@ ul.bul { list-style:none; padding:0; font-size:3.4vh; margin:0 } ul.bul li { mar
 <tr><td><kbd>V</kbd> or <b>review</b></td><td>review mode: every beat as it looks at its end, no animation, the clock stopped; step with → ← or swipe (or open player.html?review)</td></tr>
 <tr><td><kbd>R</kbd></td><td>rehearsal: records when each beat actually started; press again to save rehearsal.json</td></tr>
 <tr><td><kbd>0</kbd> <kbd>Home</kbd></td><td>back to 0:00</td></tr>
+<tr><td><kbd>X</kbd> or <b>✕</b></td><td>leave the presentation (out of fullscreen first, then back to the talk page); embedded in a page, ⤢ opens it in its own window</td></tr>
 <tr><td><kbd>Esc</kbd></td><td>give the keyboard back to the player after typing in a live page</td></tr>
 </table></div>
 <script>
@@ -305,10 +306,12 @@ const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '
 const $ = id => document.getElementById(id)
 const qs = new URLSearchParams(location.search)
 const VIEW = qs.get('view') || 'main', ME = Math.random().toString(36).slice(2)
+const EMBED = qs.has('embed') || window.top !== window.self   // inside the talk page: ✕ becomes 'open full window'
 let talk, data = {}, t = 0, playing = false, last = 0, beatIx = -1, rehearse = false, log = [], wall0 = 0, leader = VIEW !== 'audience', lastBack = 0, lastSend = 0, black = false, review = qs.has('review')
 const chan = 'BroadcastChannel' in window ? new BroadcastChannel('ruv-talk:' + (qs.get('talk') || 'talk-10.json') + (window.TALK ? ':offline' : '')) : null   // one channel per timeline
 if (VIEW === 'audience') document.body.classList.add('audience')
 if (qs.has('review')) document.body.classList.add('review')
+if (EMBED) { document.addEventListener('DOMContentLoaded', () => { const b = document.getElementById('ex'); if (b) { b.textContent = '⤢'; b.title = 'open in its own window'; b.setAttribute('aria-label', 'open in its own window') } }) }
 
 function fail(msg) { $('err').textContent = msg; $('err').style.display = 'block' }
 
@@ -385,7 +388,7 @@ function render(b) {
       const src = window.TALK_IMAGES?.[s.fallback] || s.fallback
       el.className = 'slide image'; el.innerHTML = `<img src="${src}" alt="${esc(s.caption || '')}">`; st.querySelector('.shead .sub').textContent += ' (screenshot: the offline file cannot run the live page)'
     } else {
-      el.innerHTML = `<iframe src="${s.src}${s.src.includes('?') ? '&' : '?'}theme=${window.RuvTheme ? RuvTheme.current() : ''}" tabindex="-1"></iframe>`   // the live app wears the slides' theme
+      el.innerHTML = `<iframe src="${s.src}${s.src.includes('?') ? '&' : '?'}theme=${window.RuvTheme ? RuvTheme.current() : ''}${review ? '&review' : ''}" tabindex="-1"></iframe>`   // the live app wears the slides' theme
       const f = el.querySelector('iframe')
       f.addEventListener('load', () => { try { f.contentDocument.activeElement?.blur(); f.blur(); f.contentWindow.addEventListener('keydown', e => { if (['PageDown', 'PageUp', 'Escape'].includes(e.key) || (['ArrowRight', 'ArrowLeft'].includes(e.key) && e.target.tagName !== 'INPUT')) { window.focus(); onKey(e) } }) } catch {} window.focus() })
     }
@@ -458,6 +461,11 @@ function onKey(e) {
   else if (k === 'b' || k === 'B' || k === '.') { black = !black; document.body.classList.toggle('black', black) }
   else if (k === '?') document.body.classList.toggle('help')
   else if (k === 'Escape') document.body.classList.remove('help')
+  else if (k === 'x' || k === 'X') {   // leave: out of fullscreen first, then back to the talk page (or, embedded, open the player in its own window)
+    if (document.fullscreenElement || document.webkitFullscreenElement) (document.exitFullscreen || document.webkitExitFullscreen).call(document)
+    else if (EMBED) { const u = new URL(location.href); u.searchParams.delete('embed'); u.searchParams.set('t', Math.floor(t)); window.open(u.href, '_blank') }
+    else location.href = 'index.html'
+  }
   else if (k === 't' || k === 'T') { if (window.RuvTheme) { const ks = Object.keys(RuvTheme.THEMES); RuvTheme.set(ks[(ks.indexOf(RuvTheme.current()) + 1) % ks.length]); $('th').title = 'theme: ' + RuvTheme.THEMES[RuvTheme.current()][0] } }
   else if (k === 'v' || k === 'V') { review = !review; playing = false; document.body.classList.toggle('review', review); beatIx = -1 }
   else if (k === 'r' || k === 'R') {

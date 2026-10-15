@@ -1,0 +1,175 @@
+{
+ "run": "smoke-1",
+ "purpose": "smoke test of the ruv.sgit runner",
+ "feedback": "none: a smoke test",
+ "vault_id": "0977t8t6",
+ "created_at": "2026-10-15T13:23:03+00:00",
+ "closed_at": "2026-10-15T13:23:26+00:00",
+ "deleted_at": "2026-10-15T13:23:39+00:00",
+ "hive": {
+  "workers": 1,
+  "tasks": 1,
+  "ruflo_calls": 7,
+  "ruflo_ms": 3372
+ },
+ "branches": [
+  {
+   "name": "w-w1",
+   "role": "developer",
+   "commits": 1,
+   "files": 1,
+   "bytes": 72,
+   "write_ms": 2751,
+   "merge_ms": 2901
+  }
+ ],
+ "commits": 3,
+ "files": 3,
+ "bytes_plain": 285,
+ "server_store": {
+  "files": 20,
+  "bytes": 6458,
+  "plaintext_hits": 0,
+  "probe": "3 text fragments from the delivered files, searched for in every byte the server stored"
+ },
+ "clone": {
+  "ms": 1061,
+  "files": 3,
+  "identical": true
+ },
+ "ops": [
+  {
+   "op": "init",
+   "ms": 877,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 786,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 1401,
+   "rc": 0
+  },
+  {
+   "op": "branch-new",
+   "ms": 894,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 913,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 944,
+   "rc": 0
+  },
+  {
+   "op": "branch-switch",
+   "ms": 879,
+   "rc": 0
+  },
+  {
+   "op": "merge",
+   "ms": 948,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 1075,
+   "rc": 0
+  },
+  {
+   "op": "history",
+   "ms": 923,
+   "rc": 0
+  },
+  {
+   "op": "clone",
+   "ms": 1061,
+   "rc": 0
+  }
+ ],
+ "ruflo": [
+  {
+   "seq": 1,
+   "actor": "queen",
+   "cmd": "hive-mind init -t hierarchical-mesh -c byzantine -m 12",
+   "rc": 0,
+   "ms": 436
+  },
+  {
+   "seq": 2,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t developer -r specialist -p w1",
+   "rc": 0,
+   "ms": 489
+  },
+  {
+   "seq": 3,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d w1: write one note -p high",
+   "rc": 0,
+   "ms": 442
+  },
+  {
+   "seq": 4,
+   "actor": "conductor",
+   "cmd": "hive-mind broadcast -m run smoke-1: smoke test of the ruv.sgit runner -f conductor",
+   "rc": 0,
+   "ms": 446
+  },
+  {
+   "seq": 5,
+   "actor": "developer",
+   "cmd": "hive-mind broadcast -m delivered w1 sha256:611414c58d6af168 files:1 -f developer",
+   "rc": 0,
+   "ms": 458
+  },
+  {
+   "seq": 6,
+   "actor": "queen",
+   "cmd": "hive-mind status",
+   "rc": 0,
+   "ms": 460
+  },
+  {
+   "seq": 7,
+   "actor": "queen",
+   "cmd": "daemon stop",
+   "rc": 0,
+   "ms": 641
+  }
+ ],
+ "history": [
+  {
+   "id": "obj-cas-imm-",
+   "message": "init",
+   "time": null
+  },
+  {
+   "id": "obj-cas-imm-",
+   "message": "brief: run smoke-1",
+   "time": null
+  },
+  {
+   "id": "obj-cas-imm-",
+   "message": "developer w1: delivered 1 files",
+   "time": null
+  }
+ ],
+ "workers": [
+  {
+   "id": "w1",
+   "role": "developer",
+   "tokens": 0,
+   "tool_uses": 0,
+   "wall_s": 0
+  }
+ ],
+ "deleted_paths": 45
+}
