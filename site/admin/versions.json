@@ -5,9 +5,25 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.7",
+   "version": "v0.1.8",
    "date": "2026-10-15",
    "commit": null,
+   "title": "ruv.sgit: the first run made in an ephemeral vault",
+   "changes": "ruv.sgit, a Ruflo hive + sgit vaults + Agent Behaviour Policies: each piece of feedback becomes a run whose memory and output is one ephemeral sgit vault on a local vault server, a branch per worker, measured on close and deleted. Run r2-materials made this release's materials: ruv.sgit in motion, the vault ledger, a case study of one ephemeral vault, and the ten-minute script reworked memory-first (16 beats, studio v3, v6 and v7 and the three new pages on slides); an editor worker found 11 must-fixes (claims beyond what was measured), all applied, and the runner now measures more (files delivered apart from the brief; a verified delete: 0 store paths left, a clone afterwards fails). The talk player can be left (X) and is embedded on the talk page; llms.txt is rewritten as the agents' briefing; the ruv.sgit hub page is new.",
+   "pages": [
+    "ruv-sgit/index.html",
+    "ruv-sgit/motion/index.html",
+    "ruv-sgit/ledger/index.html",
+    "ruv-sgit/case/index.html",
+    "talk/index.html",
+    "talk/player.html",
+    "llms.txt"
+   ]
+  },
+  {
+   "version": "v0.1.7",
+   "date": "2026-10-15",
+   "commit": "a231dd8",
    "title": "The newsroom's five themes, and slides that do not move",
    "changes": "The five themes of newsroom.sgit.ai (Newsprint, Night, Paper, Blueprint, Ember) are now the site's colours: the token blocks are copied from its themes.css, the site's stylesheet names every colour through them, and a picker in the nav replaces the light/dark button. The talk player and the live app read the same tokens, so the slides, the site and the app change together (no more dark slides with a white app); T or the ◐ button picks the next theme in the player; terminals stay dark in every theme, as on the newsroom. Every slide now shares one frame: a brand strip (ruv.sgit.ai · rUv + sgit, the event, the slide number) and the title top left at the same position on all fourteen, with a source line under it; labels and captions that used to sit inside or under the slide moved there. Diagrams take their colours from the theme.",
    "pages": [

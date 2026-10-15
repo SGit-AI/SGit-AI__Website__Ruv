@@ -152,10 +152,10 @@ function makeTiles(e) {
   var pb = bytes(e.bytes_plain), sb = bytes(ss.bytes), hits = ss.plaintext_hits;
   TILES = [
     { l: 'commits', v: e.commits, s: (e.branches || []).length + ((e.branches || []).length === 1 ? ' branch' : ' branches') + ' → current' },
-    { l: 'files delivered', v: e.files, s: 'in the vault at close' },
-    { l: 'plaintext bytes', v: Number(pb[0]), dec: pb[0].indexOf('.') >= 0 ? 1 : 0, u: pb[1], s: n(e.bytes_plain) + ' bytes delivered' },
-    { l: 'what the server stored', v: Number(sb[0]), dec: sb[0].indexOf('.') >= 0 ? 1 : 0, u: sb[1], s: n(ss.files) + ' files, ciphertext' },
-    { l: 'plaintext found on the server', v: hits, s: probeShort(ss.probe), cls: hits === 0 ? 'key' : (hits > 0 ? 'bad' : '') },
+    { l: 'files in the vault', v: e.files, s: 'brief + ' + n((e.branches||[]).reduce(function(a,b){return a+(b.files||0)},0)) + ' delivered' },
+    { l: 'plaintext bytes', v: Number(pb[0]), dec: pb[0].indexOf('.') >= 0 ? 1 : 0, u: pb[1], s: n(e.bytes_plain) + ' bytes in the vault' },
+    { l: 'what the server stored', v: Number(sb[0]), dec: sb[0].indexOf('.') >= 0 ? 1 : 0, u: sb[1], s: n(ss.files) + ' files in the server store at close' },
+    { l: 'plaintext fragments found on the server', v: hits, s: probeShort(ss.probe), cls: hits === 0 ? 'key' : (hits > 0 ? 'bad' : '') },
     { l: 'fresh clone identical', txt: cl.identical === true ? 'yes' : cl.identical === false ? 'no' : '—', s: n(cl.files) + ' files, byte for byte', cls: cl.identical === true ? 'key' : cl.identical === false ? 'bad' : '' },
     { l: 'clone', v: cl.ms, u: 'ms', s: 'fresh clone, with the key' },
     { l: 'hive', v: hv.workers, u: 'workers', s: n(hv.ruflo_calls) + ' ruflo calls · ' + secs(hv.ruflo_ms || 0) }
@@ -317,7 +317,7 @@ function render(t) {
     var bw = g.narrow ? 5 : 8, gap = g.narrow ? 2 : 3, lx = g.narrow ? g.vx0 + 116 : g.vx0 + 252;
     s += '<g opacity="' + sOn.toFixed(2) + '">';
     s += '<rect x="' + g.vx0 + '" y="' + g.sy0 + '" width="' + (g.vx1 - g.vx0) + '" height="' + (g.sy1 - g.sy0) + '" rx="8" class="f-panel2 ' + (delP > 0 ? 's-red' : 's-line') + '" stroke-width="1.5"' + (delP > 0 ? ' stroke-dasharray="6 5"' : '') + '/>';
-    s += T(g.vx0 + 12, (g.sy0 + g.sy1) / 2 + fs * .34, g.narrow ? 'server: ciphertext' : 'vault server: ciphertext only', 'f-text', fs * .88, '', ' font-weight="600"');
+    s += T(g.vx0 + 12, (g.sy0 + g.sy1) / 2 + fs * .34, g.narrow ? 'server: ciphertext' : 'vault server: holds what sgit encrypted', 'f-text', fs * .88, '', ' font-weight="600"');
     var shown = Math.min(pushes, Math.floor((g.vx1 - lx - (g.narrow ? 10 : 230)) / (bw + gap)));
     for (var i = 0; i < shown; i++) s += '<rect x="' + (lx + i * (bw + gap)) + '" y="' + (g.sy0 + 9) + '" width="' + bw + '" height="' + (g.sy1 - g.sy0 - 18) + '" rx="1.5" class="f-dim" opacity="' + (.45 + .4 * ((i * 7) % 5) / 5).toFixed(2) + '"/>';
     if (!g.narrow && tailP > 0) { var sb = bytes((e.server_store || {}).bytes); s += T(g.vx1 - 12, (g.sy0 + g.sy1) / 2 + fs * .34, n((e.server_store || {}).files) + ' files · ' + sb[0] + ' ' + sb[1] + ' stored', 'f-dim mono', fs * .82, 'end', ' opacity="' + tailP.toFixed(2) + '"'); }
@@ -374,9 +374,9 @@ function caption(t) {
   else if (t < Tm.deliver[0]) c = 'the workers work <b>in parallel</b>, each toward its own branch';
   else if (t < Tm.tail[0]) {
     var cur = null; TL.br.forEach(function (x) { if (t >= x.t0) cur = x; });
-    c = cur ? 'delivery: <b>' + esc(cur.b.name) + '</b> commits + pushes (' + n(cur.wr) + ' ms), merges into current (' + n(cur.mg) + ' ms)' : 'deliveries land';
+    c = cur ? 'delivery: <b>' + esc(cur.b.name) + '</b> branches, commits, pushes (' + n(cur.wr) + ' ms), merges into current (' + n(cur.mg) + ' ms)' : 'deliveries land';
   }
-  else if (t < Tm.del[0]) c = 'vault closed and measured: plaintext found on the server: <b>' + n((e.server_store || {}).plaintext_hits) + '</b>';
+  else if (t < Tm.del[0]) c = 'vault closed and measured: plaintext fragments found on the server: <b>' + n((e.server_store || {}).plaintext_hits) + '</b>';
   else if (t < Tm.ledger[0]) c = e.deleted_at ? 'ephemeral: the vault is <b>deleted</b>; only its numbers remain' : 'this vault has no deleted_at in the ledger';
   else c = 'the run joins the ledger: <b>' + ALL.length + '</b> run' + (ALL.length === 1 ? '' : 's') + ' so far';
   if (c !== lastCap) { capEl.innerHTML = c; lastCap = c; }

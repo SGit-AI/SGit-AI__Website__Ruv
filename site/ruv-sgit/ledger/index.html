@@ -147,6 +147,7 @@
     var withClone = V.filter(function (v) { return v.clone; });
     var identical = withClone.filter(function (v) { return v.clone.identical === true; }).length;
     var hits = sum(V, function (v) { return v.server_store && v.server_store.plaintext_hits; });
+    var probes = sum(V, function (v) { var m = /^(\d+)/.exec((v.server_store || {}).probe || ''); return m ? +m[1] : 0; });
     var plain = bytes(sum(V, function (v) { return v.bytes_plain; }));
     var stored = bytes(sum(V, function (v) { return v.server_store && v.server_store.bytes; }));
     var tokens = sum(V, function (v) { return sum(v.workers || [], function (w) { return w.tokens; }); });
@@ -157,10 +158,10 @@
       kpi(num(V.length), '', 'vaults created' + (smokes ? ' (' + smokes + ' smoke test' + (smokes > 1 ? 's' : '') + ')' : '')) +
       kpi(num(deleted), '', 'deleted after the run: ephemeral', deleted === V.length ? 'good' : '') +
       kpi(num(sum(V, function (v) { return v.commits; })), '', 'commits') +
-      kpi(num(sum(V, function (v) { return v.files; })), '', 'files delivered') +
-      kpi(plain[0], plain[1], 'plaintext delivered') +
-      kpi(stored[0], stored[1], 'the server stored (ciphertext)') +
-      kpi(num(hits), '', 'plaintext found on any server', hits === 0 ? 'good' : 'bad') +
+      kpi(num(sum(V, function (v) { return v.files; })), '', 'files in the vaults (brief + deliveries)') +
+      kpi(plain[0], plain[1], 'plaintext in the vaults') +
+      kpi(stored[0], stored[1], 'server store at close (summed per run)') +
+      kpi(num(hits), '', 'plaintext fragments found in the server store (of ' + num(probes) + ' probed)', hits === 0 ? 'good' : 'bad') +
       kpi(num(identical) + '<span class="u">of ' + num(withClone.length) + '</span>', '', 'fresh clones identical to delivery', identical === withClone.length ? 'good' : 'bad') +
       kpi(num(tokens), '', 'worker tokens<br><b style="color:var(--fg)">' + num(calls) + '</b> Ruflo calls');
 
@@ -201,8 +202,8 @@
           '<span><b>' + num(h.workers) + '</b> worker' + (h.workers === 1 ? '' : 's') + ' · <b>' + num((v.branches || []).length) + '</b> branch' + ((v.branches || []).length === 1 ? '' : 'es') + '</span>' +
           '<span><b>' + num(v.commits) + '</b> commits</span>' +
           '<span><b>' + num(v.files) + '</b> files</span>' +
-          '<span><b>' + bstr(v.bytes_plain) + '</b> plain → <b>' + bstr(ss.bytes) + '</b> stored (' + num(ss.files) + ' objects)</span>' +
-          '<span class="' + hitsCls + '">plaintext on server <b>' + num(ss.plaintext_hits) + '</b></span>' +
+          '<span><b>' + bstr(v.bytes_plain) + '</b> plain → <b>' + bstr(ss.bytes) + '</b> server store at close (' + num(ss.files) + ' files)</span>' +
+          '<span class="' + hitsCls + '">plaintext fragments found <b>' + num(ss.plaintext_hits) + '</b></span>' +
           '<span class="' + (cl.identical ? 'ok' : 'no') + '">fresh clone <b>' + (cl.identical ? 'identical' : 'DIFFERS') + '</b></span>' +
           '<span><b>' + num(h.ruflo_calls) + '</b> Ruflo calls · <b>' + num(sum(v.workers || [], function (w) { return w.tokens; })) + '</b> tokens</span>' +
         '</div>' +
@@ -239,7 +240,7 @@
     });
     svg += '</svg>';
     document.getElementById('opchart').innerHTML = svg;
-    document.getElementById('opnote').innerHTML = num(nOps) + ' timed sgit calls across ' + num(V.length) + ' vault' + (V.length === 1 ? '' : 's') +
+    document.getElementById('opnote').innerHTML = num(nOps) + ' timed sgit calls (history excluded) across ' + num(V.length) + ' vault' + (V.length === 1 ? '' : 's') +
       ' (branch = new + switch). Wall time of each CLI call against ' + esc(d.server || 'the vault server') + '.';
   }
 

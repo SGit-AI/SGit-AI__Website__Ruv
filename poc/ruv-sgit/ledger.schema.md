@@ -10,7 +10,9 @@
     "hive":  { "queen": "queen-…", "workers": 5, "tasks": 5, "ruflo_calls": 20, "ruflo_ms": 9000 },
     "branches": [ { "name": "w-motion", "role": "developer", "commits": 1, "files": 3, "bytes": 40000,
                     "write_ms": 900, "merge_ms": 700 } ],
-    "commits": 9, "files": 14, "bytes_plain": 160000,
+    "commits": 9, "files": 14, "bytes_plain": 160000,          // everything in the vault at close, the brief included
+    "files_delivered": 12, "bytes_delivered": 150000,        // what the workers delivered (sum of branches)
+    "delete_check": { "store_paths_left": 0, "clone_after_delete": "failed" },   // checked before the key is destroyed
     "server_store": { "files": 120, "bytes": 190000, "plaintext_hits": 0, "probe": "what was searched for" },
     "clone": { "ms": 1500, "files": 14, "identical": true },
     "ops": [ { "op": "init", "ms": 800 }, { "op": "push", "ms": 600 } ],

@@ -121,7 +121,7 @@ body.review .stat{background:var(--bg)}
     <h3>Measured elsewhere<span>not this run, not this site's ledger</span></h3>
     <blockquote>&ldquo;<b>a hundred writers</b> posting ten entries each landed <b>a thousand entries in an append lane in 4.9 seconds</b>, none lost.&rdquo;</blockquote>
     <blockquote>&ldquo;<b>Ten scoped clones</b> at once took <b>1.9 seconds</b>; <b>ten full clones, 21.1</b>.&rdquo;</blockquote>
-    <div class="src">Source: &ldquo;Agent workflows on ephemeral vaults&rdquo;, Dinis Cruz, 14 Oct 2026, newsroom.sgit.ai. In-memory storage, one four-core machine, one server process, run once.</div>
+    <div class="src">Source: &ldquo;Agent workflows on ephemeral vaults&rdquo;, Dinis Cruz, 14 Oct 2026, newsroom.sgit.ai. One four-core machine, one server process; append lane on in-memory storage, run once; scoped clones of one folder of a 2,000-file vault, full clones of a 500-file vault. The same article found disk storage ran appends at about three a second (a defect); the vaults on this page use disk storage.</div>
   </aside>
 </div>
 <script>
@@ -146,8 +146,9 @@ body.review .stat{background:var(--bg)}
     var vs = (L && L.vaults) || [];
     var want = Q.get('run');
     if (want) { var f = vs.filter(function (v) { return v.run === want; })[0]; if (f) return f; }
-    var real = vs.filter(function (v) { return !/^smoke/.test(v.run); });
-    return (real.length ? real : vs).slice(-1)[0] || null;
+    var sorted = vs.slice().sort(function (a, b) { return String(a.created_at).localeCompare(String(b.created_at)); });
+    var real = sorted.filter(function (v) { return !/smoke/i.test(v.run + ' ' + (v.purpose || '')); });
+    return (real.length ? real : sorted).slice(-1)[0] || null;   // the same rule as the motion page
   }
 
   // ---------- the diagram: one SVG, drawn for a step (elements of later steps are absent) ----------
@@ -191,7 +192,7 @@ body.review .stat{background:var(--bg)}
     if (s === 4) o += '<text class="big in" x="38" y="368">' + num(ss.files) + ' encrypted files · ' + bytes(ss.bytes) + ' · <tspan class="' + (ss.plaintext_hits === 0 ? 'okt' : 'redt') + '" style="font-size:19px">plaintext found: ' + num(ss.plaintext_hits) + '</tspan></text>';
     if (s >= 5) o += '<text class="big redt' + (A(5) ? ' in' : '') + '" x="38" y="368">deleted: ' + num(V.deleted_paths) + ' store paths removed, key gone</text>';
     if (s === 4) {   // the fresh clone
-      o += '<g class="in"><rect class="card" x="470" y="70" width="150" height="74" rx="8"/><text class="sub" x="484" y="96">fresh clone</text><text class="big" x="484" y="122">' + ms(V.clone && V.clone.ms) + '</text><text class="okt" x="484" y="140" style="font-size:13px">' + (V.clone && V.clone.identical ? 'identical' : 'NOT identical') + '</text></g>';
+      o += '<g class="in"><rect class="card" x="470" y="70" width="150" height="74" rx="8"/><text class="sub" x="484" y="96">fresh clone</text><text class="big" x="484" y="122">' + ms(V.clone && V.clone.ms) + '</text><text class="' + (V.clone && V.clone.identical ? 'okt' : 'redt') + '" x="484" y="140" style="font-size:13px">' + (V.clone && V.clone.identical ? 'identical' : 'NOT identical') + '</text></g>';
     }
     if (s === 5) o += '<text class="redt' + (A(5) ? ' in' : '') + '" x="320" y="170" text-anchor="middle" style="font-size:46px;opacity:.85">DELETED</text>';
     if (s === 6) {
@@ -230,18 +231,18 @@ body.review .stat{background:var(--bg)}
         x: '<div class="bars">' + rows + '</div><div class="key"><span><i style="background:var(--accent)"></i>write</span><span><i style="background:var(--warm)"></i>merge</span><span>total ' + ms(sum('write_ms') + sum('merge_ms')) + '</span></div>' };
     }
     if (s === 4) return { t: 'Close', h: 'Close and measure',
-      p: 'The vault: ' + num(V.commits) + ' commits, ' + num(V.files) + ' files, ' + bytes(V.bytes_plain) + ' of plaintext. The server: ' + num(ss.files) + ' encrypted files, ' + bytes(ss.bytes) + '. Probe: ' + esc(ss.probe) + '.',
-      x: stat(num(V.commits) + ' / ' + num(V.files), 'commits / files in the vault') + stat(num(ss.files) + ' · ' + bytes(ss.bytes), 'what the server holds, encrypted') +
-         stat(num(ss.plaintext_hits), 'plaintext found on the server', ss.plaintext_hits === 0 ? 'ok' : 'bad') + stat((C.identical ? 'identical' : 'differs') + ', ' + ms(C.ms), 'a fresh clone of ' + num(C.files) + ' files', C.identical ? 'ok' : 'bad') };
+      p: 'The vault: ' + num(V.commits) + ' commits, ' + num(V.files) + ' files, ' + bytes(V.bytes_plain) + ' of plaintext. The server: ' + num(ss.files) + ' files in the server store, ' + bytes(ss.bytes) + '. Probe: ' + esc(ss.probe) + '.',
+      x: stat(num(V.commits) + ' / ' + num(V.files), 'commits / files in the vault') + stat(num(ss.files) + ' · ' + bytes(ss.bytes), 'the whole server store at close') +
+         stat(num(ss.plaintext_hits), 'plaintext fragments found (' + esc((/^(\d+)/.exec(ss.probe || '') || [0, '?'])[1]) + ' probed)', ss.plaintext_hits === 0 ? 'ok' : 'bad') + stat((C.identical ? 'identical' : 'differs') + ', ' + ms(C.ms), 'a fresh clone of ' + num(C.files) + ' files', C.identical ? 'ok' : 'bad') };
     if (s === 5) {
       var life = secs(V.created_at, V.deleted_at);
       return { t: 'Delete', h: 'Delete: the vault was ephemeral',
-        p: V.deleted_at ? 'The key file is removed, the working copy is removed, and every store path named by the vault id is removed from the server. Nothing is left to decrypt, and nothing left to decrypt it with.' : 'This run has not been deleted yet: the ledger has no deleted_at.',
+        p: V.deleted_at ? 'The key file and the working copy are removed, and so is every store path named by the vault id (removed on the server\'s disk by the runner, on the same machine).' + (V.delete_check ? ' Checked before the key was destroyed: ' + esc(V.delete_check.store_paths_left) + ' store paths left, and a clone with the key afterwards ' + esc(V.delete_check.clone_after_delete) + '.' : '') + ' The key is gone with them.' : 'This run has not been deleted yet: the ledger has no deleted_at.',
         x: stat(num(V.deleted_paths), 'store paths removed', 'bad') + stat(V.deleted_at ? 'gone' : 'still held', 'the vault key') +
            stat(life != null ? life + ' s' : 'n/a', 'whole life, open to delete') + stat(hhmm(V.deleted_at), 'deleted ' + esc((V.deleted_at || '').slice(0, 10))) };
     }
     return { t: 'Remains', h: 'What remains: the record, not the vault',
-      p: 'The ledger entry and the evidence file: timings, counts, the history\'s messages. Never the key, never the content.',
+      p: 'The ledger entry and the evidence file: timings, counts, the history\'s messages. Never the key, never the delivered files.',
       x: stat(num((V.history || []).length), 'history messages kept') + stat(num((V.ops || []).length), 'timed sgit ops kept') +
          '<div class="note" style="grid-column:1/-1">' + (V.history || []).slice(0, 4).map(function (h) { return '<code>' + esc(h.message) + '</code>'; }).join(' · ') + ((V.history || []).length > 4 ? ' · …' : '') + '</div>' };
   }

@@ -163,6 +163,7 @@ def close(run, workers_json):
                       'tasks': sum(1 for x in st['ruflo'] if 'hive-mind task' in x['cmd'] and x['rc'] == 0),
                       'ruflo_calls': len(st['ruflo']), 'ruflo_ms': sum(x['ms'] for x in st['ruflo'])},
              'branches': st['branches'], 'commits': len(history), 'files': len(plain), 'bytes_plain': sum(f.stat().st_size for f in files),
+             'files_delivered': sum(b['files'] for b in st['branches']), 'bytes_delivered': sum(b['bytes'] for b in st['branches']),   # the brief is in files/bytes_plain, not here
              'server_store': {'files': len(sf), 'bytes': sum(f.stat().st_size for f in sf), 'plaintext_hits': hits,
                               'probe': f'{len(probes)} text fragments from the delivered files, searched for in every byte the server stored'},
              'clone': {'ms': clone_ms, 'files': len(cf), 'identical': cf == plain},
@@ -182,18 +183,25 @@ def ledger(entry):
 def delete(run):
     R = Run(run); vid = R.state.get('vault_id')
     store = HOME / 'store'; gone = 0
+    key = secret(f'runs/{run}/vault.key')
     for p in sorted(store.rglob('*'), key=lambda p: -len(p.parts)):
         if vid and vid in p.as_posix() and p.exists():
             if p.is_dir(): shutil.rmtree(p, ignore_errors=True)
             else: p.unlink()
             gone += 1
+    # check the delete before the key is destroyed: nothing in the store is named by the vault id, and a clone with the key now fails
+    left = sum(1 for p in store.rglob('*') if vid and vid in p.as_posix())
+    tmp = pathlib.Path(tempfile.mkdtemp(prefix='ruvsgit-gone-'))
+    r = R.sgit('clone-after-delete', ['clone', '--base-url', BASE, '--token', token(), '-', str(tmp / 'c')], cwd=tmp, stdin=key, check=False)
+    shutil.rmtree(tmp, ignore_errors=True)
+    check = {'store_paths_left': left, 'clone_after_delete': 'failed' if r.returncode else 'SUCCEEDED (not deleted)'}
     shutil.rmtree(R.vault, ignore_errors=True)
     (HOME / 'runs' / run / 'vault.key').unlink(missing_ok=True)
-    R.state['deleted_at'] = now(); R.state['deleted_paths'] = gone; R.save()
+    R.state['deleted_at'] = now(); R.state['deleted_paths'] = gone; R.state['delete_check'] = check; R.save()
     ev = REPO / f'evidence/ruv-sgit/{run}.json'
     if ev.exists():
-        e = json.loads(ev.read_text()); e['deleted_at'] = R.state['deleted_at']; e['deleted_paths'] = gone; ev.write_text(json.dumps(e, indent=1)); ledger(e)
-    print(f'{run}: vault {vid} deleted ({gone} store paths named by its id removed; key and working copy gone)')
+        e = json.loads(ev.read_text()); e['deleted_at'] = R.state['deleted_at']; e['deleted_paths'] = gone; e['delete_check'] = check; ev.write_text(json.dumps(e, indent=1)); ledger(e)
+    print(f'{run}: vault {vid} deleted ({gone} store paths named by its id removed, {left} left; a clone with the key afterwards: {check["clone_after_delete"]}; key and working copy gone)')
 
 if __name__ == '__main__':
     a = sys.argv[1:]
