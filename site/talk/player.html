@@ -394,8 +394,9 @@ function goBeat(ix) { ix = Math.max(0, Math.min(B.length - 1, ix)); t = B[ix].at
 function stops(b) {
   const st = stepsOf(b), out = []
   st.forEach((x, i) => {
-    const nxt = i + 1 < st.length ? st[i + 1].t : b.dur, end = Math.max(x.t, nxt - 0.25)
-    out.push({ t: x.t, end: false })
+    const nxt = i + 1 < st.length ? st[i + 1].t : b.dur, end = Math.max(x.t, nxt - (b.slide.layout === 'iframe' && i + 1 < st.length ? 1.0 : 0.25))   // a second early on a live page: before its part fades out
+    // on a live page a step's start is the moment before its part is drawn (a blank frame), so there › goes to ends only
+    if (b.slide.layout !== 'iframe' || i === 0) out.push({ t: x.t, end: false })
     if (end - x.t > 0.4) out.push({ t: end, end: true })
   })
   return out

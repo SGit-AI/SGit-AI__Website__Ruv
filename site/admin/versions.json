@@ -5,9 +5,19 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.22",
+   "version": "v0.1.23",
    "date": "2026-10-15",
    "commit": null,
+   "title": "› on a live slide lands on each part fully built",
+   "changes": "On live (animated) slides, › and ‹ now stop only on the end of each step, a second before the next part begins, so every press shows that part fully built and paused (no blank frames at the start of an act, no half-faded frames). Text slides keep start and end stops.",
+   "pages": [
+    "talk/player.html"
+   ]
+  },
+  {
+   "version": "v0.1.22",
+   "date": "2026-10-15",
+   "commit": "bd8fb94",
    "title": "Steps have a start and an end",
    "changes": "Every step of a slide now has two stops: its start and its end (just before the next step begins, so that part is fully built). › moves start → end → next start → next end; ‹ goes back the same way. Landing on an end pauses there, so you can talk over the finished picture; landing on a start plays on.",
    "pages": [
