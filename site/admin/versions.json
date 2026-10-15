@@ -5,9 +5,20 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.18",
+   "version": "v0.1.19",
    "date": "2026-10-15",
    "commit": null,
+   "title": "The ask: build a company on it (run r9-ask); rUv's sites in the closing gallery",
+   "changes": "Run r9-ask (1 worker; vault measured, 0 plaintext found, fresh clone identical, deleted and verified) replaced 'pick one of three POCs' with the ask that fits: the business plan pages shown one by one from real screenshots (the business model, four services, consultants, companies, internal teams, the shop), all of it open source (our code Apache-2.0, rUv's projects MIT), and 'Build a company on this, or add it to your services.' The closing gallery adds ruv.io, github.com/ruvnet/ruflo and github.com/ruvnet/ruvector (live screenshots).",
+   "pages": [
+    "talk/slides/ask/index.html",
+    "talk/slides/visit/index.html"
+   ]
+  },
+  {
+   "version": "v0.1.18",
+   "date": "2026-10-15",
+   "commit": "ecc01ba",
    "title": "ruv.sgit in motion: no overlapping text on a slide",
    "changes": "The motion page's number tiles and source line no longer overlap when it is shown inside the talk player (short heights): tiles shrink and clip, labels stay on one line, and the source line is one line.",
    "pages": [
