@@ -25,6 +25,19 @@
 <figure class="fig" style="margin:0"><img src="assets/img/replicate-steps.webp" alt="Six steps: clone the repo, npm install, pip install sgit-ai, run the POCs, create two vaults, publish and serve"></figure>
 </div></div></section>
 
+<section id="offline"><div class="wrap">
+<h2>Run it on your laptop, offline</h2>
+<p><b>Just the talk and the site</b> (no setup, no network; Python 3 only):</p>
+<pre><code>git clone https://github.com/SGit-AI/SGit-AI__Website__Ruv && cd SGit-AI__Website__Ruv
+python3 -m http.server -d site 8080
+# then open http://localhost:8080/talk/player.html?talk=talk-10.json   (or any page: http://localhost:8080/)</code></pre>
+<p>With no server at all, open <code>site/talk/offline-10.html</code> from the file: the whole talk in one file (live slides show as screenshots).</p>
+<p><b>Everything</b>, the POCs and a ruv.sgit run on a local vault server (set up once while online, then no network):</p>
+<pre><code>bash scripts/offline.sh setup    # once, online: npm ci (Ruflo, RuVector, MetaHarness, pinned) + .venv with sgit-ai and the SG/Send vault server
+bash scripts/offline.sh all      # offline: doctor, POC1/3/4/5, sync + validate the site, one ruv.sgit run (open, deliver, close, delete), serve on :8080</code></pre>
+<p class="k">Steps one at a time: <code>doctor</code>, <code>pocs</code>, <code>run</code>, <code>serve</code>. The laptop run's ledger goes to <code>out/offline/</code>, not the public ledger; its keys to <code>~/.ruv-sgit-offline</code> (mode 0600). Needs Node 20+ and Python 3.11+. Details in the <a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv#run-it-offline-on-a-laptop">README</a>.</p>
+</div></section>
+
 <section id="prereq"><div class="wrap">
 <h2>Prerequisites</h2>
 <div class="tbl"><table>

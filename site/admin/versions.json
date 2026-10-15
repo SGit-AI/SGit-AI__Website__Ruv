@@ -5,9 +5,20 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.12",
+   "version": "v0.1.13",
    "date": "2026-10-15",
    "commit": null,
+   "title": "The GitHub link in the top banner, and how to run it offline",
+   "changes": "Every page's top banner links to the source on GitHub, and every slide's brand strip shows github.com/SGit-AI/SGit-AI__Website__Ruv. Replicate opens with 'Run it on your laptop, offline' (just the talk: python3 -m http.server -d site 8080; everything: scripts/offline.sh), linked from the Tonight menu.",
+   "pages": [
+    "replicate.html",
+    "talk/player.html"
+   ]
+  },
+  {
+   "version": "v0.1.12",
+   "date": "2026-10-15",
+   "commit": "0c7800b",
    "title": "The talk player: a talk timer, auto-advance as a choice, and a slide picker",
    "changes": "A talk timer (bottom right, Z): it starts when you start speaking and keeps running whatever slide you go to, until you stop it; it survives a reload; its colour compares it with the plan for the slide on screen (teal ahead, amber a little late, red behind, with the minutes). Auto-advance is now a button (H): off by default, so each slide stops at its end until you move on; on, the talk plays through. ☰ slides (G) opens every slide, extras included, with each live slide's steps, to jump straight to one during questions.",
    "pages": [

@@ -54,3 +54,5 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--m);font-
 pre:not(.mermaid){white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}code{overflow-wrap:anywhere}
 .md{max-width:100%;overflow-x:auto}.fig img{max-width:100%}
 @media(max-width:820px){header.top .wrap{flex-wrap:wrap;height:auto;padding:8px 16px}.menu-btn{display:inline-block;margin-left:auto}nav.main{display:none;order:3;flex:1 0 100%;flex-direction:column;align-items:stretch;margin:4px 0 6px}body.nav-open nav.main{display:flex}nav.main .nl{width:100%;justify-content:space-between;font-weight:600}nav.main .ni .sub{display:block;position:static;box-shadow:none;border:0;padding:0 0 6px 12px;min-width:0;background:none}nav.main .caret{display:none}header.top{position:static}}
+
+header.top .gh{display:inline-flex;align-items:center;gap:6px;padding:4px 9px;border:1px solid var(--line);border-radius:8px;color:var(--ink);font-size:13px}header.top .gh:hover{border-color:var(--t);color:var(--t);text-decoration:none}@media(max-width:900px){header.top .gh span{display:none}}

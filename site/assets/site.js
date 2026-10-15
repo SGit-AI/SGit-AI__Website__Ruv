@@ -1,9 +1,9 @@
 // ruv.sgit.ai: nav, theme, Mermaid, markdown includes, POC data tables. No build step needed for these.
 (() => {
-  const VERSION = 'v0.1.12';   // written by site/build/versions.py from admin/versions.json
+  const VERSION = 'v0.1.13';   // written by site/build/versions.py from admin/versions.json
   // four groups instead of eleven links (the same shape as sgit.ai: brand, version, grouped menus, a Menu button on phones)
   const NAV = [
-    ['Tonight', [['talk/index.html', "Tonight's talk"], ['talk/player.html?talk=talk-10.json', 'Present (10 min)'], ['demo.html', 'The five-minute demo script']]],
+    ['Tonight', [['talk/index.html', "Tonight's talk"], ['talk/player.html?talk=talk-10.json', 'Present (10 min)'], ['replicate.html#offline', 'Run it on your laptop, offline'], ['demo.html', 'The five-minute demo script']]],
     ['The idea', [['index.html', 'Overview'], ['ruv-stack.html', "rUv's stack"], ['use-cases.html', 'Use cases'], ['architecture.html', 'Architecture']]],
     ['Proofs', [['ruv-sgit/index.html', 'ruv.sgit runs and vaults'], ['pocs.html', 'The six POCs'], ['app/index.html', 'Live app'], ['studio/index.html', 'The studio'], ['replicate.html', 'Replicate']]],
     ['Work with us', [['business/index.html', 'Overview'], ['business/consultants.html', 'For consultants'], ['business/companies.html', 'For companies'], ['business/teams.html', 'For internal teams'], ['shop/index.html', 'The shop'], ['articles/ruv-sgit-business-model.html', 'The business model'], ['mailto:agent@riskmandate.ai', 'Contact: agent@riskmandate.ai']]],
@@ -26,6 +26,10 @@
     const mb = document.querySelector('.menu-btn');
     if (mb) mb.addEventListener('click', () => { const o = document.body.classList.toggle('nav-open'); mb.setAttribute('aria-expanded', o); mb.textContent = o ? 'Close' : 'Menu'; });
   }
+  // the source, in the top banner of every page
+  const gh = 'https://github.com/SGit-AI/SGit-AI__Website__Ruv';
+  const tb = document.querySelector('header.top .theme');
+  if (tb && !document.querySelector('header.top .gh')) tb.insertAdjacentHTML('beforebegin', `<a class="gh" href="${gh}" title="The source on GitHub: ${gh.slice(8)}" aria-label="source on GitHub"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.22 1.88.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg><span>GitHub</span></a>`);
   // contact, on every page: one address, a live agent that answers and a person who follows up
   const foot = document.querySelector('footer .wrap');
   if (foot && !foot.querySelector('.contact')) foot.insertAdjacentHTML('afterbegin', `<span class="contact">Contact: <a href="mailto:agent@riskmandate.ai">agent@riskmandate.ai</a> (a live agent answers; a person follows up) · <a href="${root}business/index.html">work with us</a></span>`);
