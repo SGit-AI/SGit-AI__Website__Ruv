@@ -19,6 +19,14 @@ This file is the briefing for agents working on this site. Every page has the si
 - Runner: `poc/ruv-sgit/ruvsgit.py` — `server-start`, `open <run> <spec>`, `deliver <run> <worker> <role> <folder>`, `close <run> <workers.json>`, `delete <run>`, `server-stop`. Needs `npm ci` (ruflo 3.56.10), `pip install sgit-ai==0.21.0 sgraph-ai-app-send "mcp<2"`. Keys and the server token live only in `~/.ruv-sgit` (mode 0600).
 - Background: [Agent workflows on ephemeral vaults](https://newsroom.sgit.ai/articles/agent-workflows-on-ephemeral-vaults.md) (newsroom.sgit.ai, the pattern and its swarm measurements); [Self-hosting a vault server for agents](https://sgit.ai/docs/self-host-for-agents.md) (sgit.ai, how the local server is run)
 
+## Work with us (run r5-market)
+- Four services, mix and match, none automated end to end yet: **runs** on shared infrastructure priced by size (our model key or bring your own; no internet from the run; materials up to a size limit; a behaviour policy per role; the vault handed over as a zip or published), **dedicated compute** on demand (an EC2 instance per job via SG Compute, AWS's cost passed through on top; the vault is created inside it; not built yet), a **maintained GitHub repo** subscription (monthly), and **expert time** (£500 / £1,500 / £5,000). Anyone who implements this implements sgit vaults and ABPs.
+- [Overview](https://ruv.sgit.ai/business/index.html) · [For consultants](https://ruv.sgit.ai/business/consultants.html) (white label, custom) · [For companies](https://ruv.sgit.ai/business/companies.html) (add it to your offering) · [For internal teams](https://ruv.sgit.ai/business/teams.html)
+- [The shop](https://ruv.sgit.ai/shop/index.html): a cart with no payment; checkout opens an email with the order to agent@riskmandate.ai (or copy/download the order as JSON). `?add=<offer id>` adds an item.
+- [The business model](https://ruv.sgit.ai/articles/ruv-sgit-business-model.md): the plan, written to be copied
+- Data: [data/offers.json](https://ruv.sgit.ai/data/offers.json) (every price, with the cost model and its assumptions; source `poc/ruv-sgit/market/model.py`, `economics.md`; cloud prices to be confirmed on AWS's price list) · [data/maps.json](https://ruv.sgit.ai/data/maps.json) (five Wardley maps: whole, runs, compute, repo, expert; drawn by `assets/maps.js`, `RuvMaps.renderAll('[data-map]')`, `data-map-reading` shows each map's reading)
+- Contact for everything: agent@riskmandate.ai
+
 ## Tonight's talk
 - [Tonight's talk](https://ruv.sgit.ai/talk/index.html): the player embedded in the page, the script as swipeable cards, the evening (agenda, the 7:00 pm slot, who is in the room), the run of show, sources for every number, questions to expect, rehearsals
 - [Player](https://ruv.sgit.ai/talk/player.html?talk=talk-10.json): plays a timeline on a clock. Keys: Space play/pause, arrows or PageUp/PageDown or a swipe between beats, P speaker notes, A audience window (synced), V review (every slide finished, no animation; also `?review`), T next theme, B black, R rehearsal log, X leave, F fullscreen, ? help. Embedded (`&embed`), ⤢ opens it in its own window.
@@ -38,6 +46,7 @@ This file is the briefing for agents working on this site. Every page has the si
 
 ## Articles (each has a .md twin)
 - [The studio: a Ruflo hive that animates its own explanation](https://ruv.sgit.ai/articles/the-studio.md): plan, architecture, run 1
+- [The business model](https://ruv.sgit.ai/articles/ruv-sgit-business-model.md): four services, prices and their costs, Wardley maps, how to copy it
 - [Set it up: a brief any agent can follow](https://ruv.sgit.ai/articles/studio-setup-brief.md): install, vaults, hive, lanes (append mode), observe, close the run into one evidence vault, a prompt to paste into any agent
 - Source: `site/articles/src/*.md` → `site/build/articles.py`
 
@@ -47,7 +56,7 @@ This file is the briefing for agents working on this site. Every page has the si
 
 ## Look and feel
 - Five themes from newsroom.sgit.ai (Newsprint, Night, Paper, Blueprint, Ember) in `assets/themes.css` (token blocks copied unchanged), applied before paint by `assets/theme.js` (localStorage `ruv.theme`, or `?theme=` for one page). Every colour on the site is a token; terminal blocks stay dark in every theme. The player, the live app and the ruv.sgit pages read the same tokens.
-- Navigation: four groups (Tonight, The idea, Proofs, Articles) built by `assets/site.js`; the collaboration is written "rUv + sgit".
+- Navigation: five groups (Tonight, The idea, Proofs, Articles, Work with us) built by `assets/site.js`; the collaboration is written "rUv + sgit".
 
 ## Releases
 - [Release history](https://ruv.sgit.ai/admin/versions.md) ([versions.json](https://ruv.sgit.ai/admin/versions.json)): the site version is in the nav of every page and increments on every push to `dev`; add a release at the top of `site/admin/versions.json` and run `site/build/versions.py`

@@ -6,7 +6,7 @@
     ['Tonight', [['talk/index.html', "Tonight's talk"], ['talk/player.html?talk=talk-10.json', 'Present (10 min)'], ['demo.html', 'The five-minute demo script']]],
     ['The idea', [['index.html', 'Overview'], ['ruv-stack.html', "rUv's stack"], ['use-cases.html', 'Use cases'], ['architecture.html', 'Architecture']]],
     ['Proofs', [['ruv-sgit/index.html', 'ruv.sgit runs and vaults'], ['pocs.html', 'The six POCs'], ['app/index.html', 'Live app'], ['studio/index.html', 'The studio'], ['replicate.html', 'Replicate']]],
-    ['Work with us', [['mailto:agent@riskmandate.ai', 'Contact: agent@riskmandate.ai']]],
+    ['Work with us', [['business/index.html', 'Overview'], ['business/consultants.html', 'For consultants'], ['business/companies.html', 'For companies'], ['business/teams.html', 'For internal teams'], ['shop/index.html', 'The shop'], ['articles/ruv-sgit-business-model.html', 'The business model'], ['mailto:agent@riskmandate.ai', 'Contact: agent@riskmandate.ai']]],
     ['Articles', [['articles/index.html', 'All articles'], ['articles/the-studio.html', 'The studio: plan'], ['articles/studio-setup-brief.html', 'Set it up: the brief']]],
   ];
   const root = document.body.dataset.root ?? '';
@@ -28,7 +28,7 @@
   }
   // contact, on every page: one address, a live agent that answers and a person who follows up
   const foot = document.querySelector('footer .wrap');
-  if (foot && !foot.querySelector('.contact')) foot.insertAdjacentHTML('afterbegin', `<span class="contact">Contact: <a href="mailto:agent@riskmandate.ai">agent@riskmandate.ai</a> (a live agent answers; a person follows up)</span>`);
+  if (foot && !foot.querySelector('.contact')) foot.insertAdjacentHTML('afterbegin', `<span class="contact">Contact: <a href="mailto:agent@riskmandate.ai">agent@riskmandate.ai</a> (a live agent answers; a person follows up) · <a href="${root}business/index.html">work with us</a></span>`);
   // theme: the five newsroom themes (assets/themes.css), applied before paint by assets/theme.js; the picker replaces the old toggle
   const btn = document.querySelector('header.top .theme');
   const isDark = () => window.RuvTheme ? RuvTheme.isDark() : matchMedia('(prefers-color-scheme: dark)').matches;
