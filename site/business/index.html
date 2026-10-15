@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ruv.sgit for business</title>
+<meta name="description" content="ruv.sgit for business: pages for independent consultants, companies and internal teams, the shop, and the business model.">
+<link rel="canonical" href="https://ruv.sgit.ai/business/index.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f766e%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Georgia%27%3Er%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/site.css">
+<script src="../assets/theme.js"></script>
+<style>
+.who{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:16px 0;padding:0;list-style:none}
+.who li{min-width:0;max-width:none;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:15px}
+.who li b{display:block;margin-bottom:2px}
+blockquote.said{margin:16px 0;padding:12px 16px;border-left:4px solid var(--a);background:var(--a2);border-radius:0 10px 10px 0;font-family:Georgia,serif;font-size:18px;max-width:66ch}
+blockquote.said p{margin:.3em 0}
+.offers{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:16px 0}
+.offers a{display:block;min-width:0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--ink)}
+.offers a:hover{border-color:var(--t);text-decoration:none}
+.offers a b{display:block;color:var(--t)}.offers a span{font-size:14px;color:var(--m)}
+.wmap{min-height:120px;margin:16px 0;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;overflow-x:auto;max-width:100%}
+.contact{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
+.contact .mail{font:600 clamp(17px,4.6vw,22px) Georgia,serif;overflow-wrap:anywhere}
+main p,main li{overflow-wrap:anywhere}
+</style>
+</head>
+<body data-root="../">
+<header class="top"><div class="wrap"><a class="brand" href="../index.html">ruv.sgit.ai<small>rUv + sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
+<main>
+<section class="hero"><div class="wrap">
+<p class="k">ruv.sgit for business</p>
+<h1>Governed agent swarms, as something you can buy, resell or run yourself.</h1>
+<p class="lead">ruv.sgit is a Ruflo hive + sgit vaults + Agent Behaviour Policies. Four offers mix and match: task runs, dedicated compute, the maintained repository and expert time. Pick the page that sounds like you.</p>
+<p class="k">Built on rUv's tools: <b>Ruflo</b> (MIT, by rUv / ruvnet), an agent meta-harness for Claude Code and Codex with a queen-led hive-mind and a policy engine that runs in <code>legacy</code>, <code>observe</code> or <code>enforce</code> mode and writes a hash-chained receipt for every decision. Ours: sgit vaults and Agent Behaviour Policies (Apache-2.0).</p>
+<p class="k" id="ledger"><a href="../data/vaults.json">data/vaults.json</a></p>
+</div></section>
+
+<section><div class="wrap">
+<div class="cards">
+<div class="card"><span class="n">CONSULTANTS</span><h3><a href="consultants.html">Independent consultants and freelancers</a></h3><p>Copy it yourself, white label it, or build a custom offering with us. Your client receives the run's vault.</p></div>
+<div class="card"><span class="n">COMPANIES</span><h3><a href="companies.html">Consultancies and product companies</a></h3><p>From reselling runs to white label to your own deployment. Your clients, your brand, your keys.</p></div>
+<div class="card"><span class="n">TEAMS</span><h3><a href="teams.html">Internal teams</a></h3><p>Governance, data and deployment for providing agent swarms inside your organisation.</p></div>
+</div>
+<div class="btns"><a class="btn p" href="../shop/index.html">The shop</a><a class="btn" href="../articles/ruv-sgit-business-model.html">The business model</a><a class="btn" href="../ruv-sgit/index.html">ruv.sgit</a></div>
+<div class="callout warn"><p><b>Not automated end to end yet.</b> A person on our side starts each run and watches it to the end. The runs on this site used a local vault server on the machine that ran the hive, so their timings are local numbers; the workers were Claude Code subagents, with Ruflo holding the queen, the roles, the tasks and the broadcasts.</p></div>
+</div></section>
+
+<section class="alt"><div class="wrap">
+<h2>Talk to us</h2>
+<div class="contact">
+<p class="mail"><a href="mailto:agent@riskmandate.ai">agent@riskmandate.ai</a></p>
+<p>A live agent answers; a person follows up. Every contact and every order from <a href="../shop/index.html">the shop</a> goes to this address.</p>
+</div>
+</div></section>
+</main>
+<footer><div class="wrap"><span>ruv.sgit.ai · business</span><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">source on GitHub</a><a href="https://sgit.ai">sgit.ai</a><a href="https://github.com/ruvnet">github.com/ruvnet</a><span>code Apache-2.0 · rUv's projects MIT, by rUv / ruvnet</span><a href="../llms.txt">llms.txt</a></div></footer>
+<script src="../assets/site.js"></script>
+<script>
+// the ledger line, recomputed from data/vaults.json at load: no number on this page is typed by hand
+fetch('../data/vaults.json').then(r => r.json()).then(L => {
+  const V = L.vaults || [], el = document.getElementById('ledger'); if (!V.length || !el) return
+  const tok = V.reduce((a, v) => a + (v.workers || []).reduce((x, w) => x + (w.tokens || 0), 0), 0)
+  el.textContent = `${V.length} runs in the ledger · ${V.filter(v => v.deleted_at).length} vaults deleted after their run · ${V.reduce((a, v) => a + v.commits, 0)} commits · plaintext found on the vault server: ${V.reduce((a, v) => a + v.server_store.plaintext_hits, 0)} · fresh clones identical: ${V.filter(v => v.clone && v.clone.identical).length} of ${V.length}` + (tok ? ` · ${tok.toLocaleString('en-GB')} worker tokens` : '') + ' · local vault server, local numbers'
+}).catch(() => {})
+</script>
+
+</body>
+</html>

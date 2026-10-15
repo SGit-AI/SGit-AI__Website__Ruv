@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>For internal teams</title>
+<meta name="description" content="For internal teams providing agent swarms inside their organisation: a written mandate per role in Ruflo's enforce mode with receipts, no network by default, encrypted ephemeral vaults deleted and verified, deployed in your AWS or your own environment.">
+<link rel="canonical" href="https://ruv.sgit.ai/business/teams.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f766e%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Georgia%27%3Er%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/site.css">
+<script src="../assets/theme.js"></script>
+<style>
+.who{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:16px 0;padding:0;list-style:none}
+.who li{min-width:0;max-width:none;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:15px}
+.who li b{display:block;margin-bottom:2px}
+blockquote.said{margin:16px 0;padding:12px 16px;border-left:4px solid var(--a);background:var(--a2);border-radius:0 10px 10px 0;font-family:Georgia,serif;font-size:18px;max-width:66ch}
+blockquote.said p{margin:.3em 0}
+.offers{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:16px 0}
+.offers a{display:block;min-width:0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--ink)}
+.offers a:hover{border-color:var(--t);text-decoration:none}
+.offers a b{display:block;color:var(--t)}.offers a span{font-size:14px;color:var(--m)}
+.wmap{min-height:120px;margin:16px 0;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;overflow-x:auto;max-width:100%}
+.contact{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
+.contact .mail{font:600 clamp(17px,4.6vw,22px) Georgia,serif;overflow-wrap:anywhere}
+main p,main li{overflow-wrap:anywhere}
+</style>
+</head>
+<body data-root="../">
+<header class="top"><div class="wrap"><a class="brand" href="../index.html">ruv.sgit.ai<small>rUv + sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
+<main>
+<section class="hero"><div class="wrap">
+<p class="k">For internal teams · <a href="index.html">business</a></p>
+<h1>Provide agent swarms inside your organisation, with the governance already written.</h1>
+<p class="lead">People across the organisation want agents doing real work. Security, risk and legal want to know what those agents can touch. This gives both: a hive with a written mandate per role, enforced, with receipts, and data that lives only as long as the run.</p>
+<p class="k">Built on rUv's tools: <b>Ruflo</b> (MIT, by rUv / ruvnet), an agent meta-harness for Claude Code and Codex with a queen-led hive-mind and a policy engine that runs in <code>legacy</code>, <code>observe</code> or <code>enforce</code> mode and writes a hash-chained receipt for every decision. Ours: sgit vaults and Agent Behaviour Policies (Apache-2.0).</p>
+</div></section>
+
+<section><div class="wrap">
+<h2>Who this is for</h2>
+<ul class="who">
+<li><b>Platform and AI enablement teams</b>asked to offer agents as an internal service.</li>
+<li><b>Security and risk teams</b>who need the mandate, the decisions and the data path in writing before they say yes.</li>
+</ul>
+<h2>The problem, in your words</h2>
+<blockquote class="said"><p>"Everyone wants agents. I am the one who has to explain what they did, with whose data, if something goes wrong."</p></blockquote>
+</div></section>
+
+<section class="alt"><div class="wrap">
+<h2>Governance</h2>
+<div class="cards">
+<div class="card"><h3>A written mandate per role</h3><p>An Agent Behaviour Policy for each role: what it can reach, what it is mandated to do, the barrier between the two, and the person who owns it, valid until a date.</p></div>
+<div class="card"><h3>Enforced, not advised</h3><p>The mandate compiles into Ruflo's policy engine in <code>enforce</code> mode. On a fresh project the engine runs in <code>legacy</code> mode; <code>observe</code> sits between the two. In our trace, <code>enforce</code> stopped 6 of 11 actions: 4 denied, 2 sent to a named person. <a href="../pocs.html#poc1">POC1 →</a></p></div>
+<div class="card"><h3>Receipts</h3><p>Ruflo writes a hash-chained receipt for every decision. They go into the run's vault with the policy that produced them.</p></div>
+<div class="card"><h3>No network by default</h3><p>Runs get no internet. Materials are provided up front, and the policy denies egress.</p></div>
+</div>
+</div></section>
+
+<section><div class="wrap">
+<h2>Data</h2>
+<ul>
+<li><b>Encrypted vaults.</b> Files are encrypted on the client before upload; the server stores ciphertext under opaque ids.</li>
+<li><b>Ephemeral per run.</b> One vault is created when the run starts and holds everything the run made.</li>
+<li><b>Deleted, and the delete verified.</b> After the run the vault's objects leave the server, the key is destroyed, and the delete is checked: no stored objects left, and a clone after the delete fails.</li>
+</ul>
+<p class="k" id="ledger"><a href="../data/vaults.json">data/vaults.json</a></p>
+<p>Every run so far, with its numbers, is in <a href="../ruv-sgit/ledger/index.html">the ledger</a>.</p>
+</div></section>
+
+<section class="alt"><div class="wrap">
+<h2>Deployment</h2>
+<div class="two">
+<div class="card"><h3>In your AWS</h3><p>Dedicated compute: one machine per task, small, medium or GPU, in your account. The vault is created inside that environment.</p></div>
+<div class="card"><h3>In your own environment</h3><p>The maintained repository: the code that runs this, kept current, set up for your stack. Runs on Claude, on AWS, or anywhere you run code.</p></div>
+</div>
+<div class="callout warn"><p><b>Not automated end to end yet.</b> A person on our side starts each run and watches it to the end. The runs on this site used a local vault server on the machine that ran the hive, so their timings are local numbers; the workers were Claude Code subagents, with Ruflo holding the queen, the roles, the tasks and the broadcasts.</p></div>
+</div></section>
+
+<section><div class="wrap">
+<h2>How we help you start</h2>
+<p>Expert time, mixed with runs. A couple of hours to review your first policy. A day to run the first hive with your team. Several days to set up your deployment and hand it over.</p>
+<h2>Offers that fit</h2>
+<div class="offers"><a href="../shop/index.html"><b>Expert time</b><span>A couple of hours, a day, or several days of a person who has run these hives, mixed with runs.</span></a><a href="../shop/index.html"><b>Dedicated compute</b><span>One machine per task on demand (small, medium or GPU), the vault created inside that environment.</span></a><a href="../shop/index.html"><b>The maintained repository</b><span>A monthly subscription to the code that runs this: updates, UI, branding, setup; runs on Claude, AWS, or anywhere.</span></a><a href="../shop/index.html"><b>Task runs</b><span>A Ruflo hive on shared infrastructure, priced by time and tokens, under a written behaviour policy, with no internet; the run's vault delivered.</span></a></div>
+<p class="k">Prices are in <a href="../shop/index.html">the shop</a>. Mix and match: put what fits in the cart and send it; there is no payment step, the order comes to us by email and we reply.</p>
+<h3>Where this sits</h3>
+<div class="wmap" data-map="compute" role="img" aria-label="Wardley map: Dedicated compute: the parts you run yourself and the parts you buy."></div>
+<p class="k">Dedicated compute: the parts you run yourself and the parts you buy. Read the map with <a href="../articles/ruv-sgit-business-model.html">the business model</a>.</p>
+</div></section>
+
+<section class="alt"><div class="wrap">
+<h2>Talk to us</h2>
+<div class="contact">
+<p class="mail"><a href="mailto:agent@riskmandate.ai">agent@riskmandate.ai</a></p>
+<p>A live agent answers; a person follows up. Every contact and every order from <a href="../shop/index.html">the shop</a> goes to this address.</p>
+</div>
+</div></section>
+</main>
+<footer><div class="wrap"><span>ruv.sgit.ai · business</span><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">source on GitHub</a><a href="https://sgit.ai">sgit.ai</a><a href="https://github.com/ruvnet">github.com/ruvnet</a><span>code Apache-2.0 · rUv's projects MIT, by rUv / ruvnet</span><a href="../llms.txt">llms.txt</a></div></footer>
+<script src="../assets/site.js"></script>
+<script>
+// the ledger line, recomputed from data/vaults.json at load: no number on this page is typed by hand
+fetch('../data/vaults.json').then(r => r.json()).then(L => {
+  const V = L.vaults || [], el = document.getElementById('ledger'); if (!V.length || !el) return
+  const tok = V.reduce((a, v) => a + (v.workers || []).reduce((x, w) => x + (w.tokens || 0), 0), 0)
+  el.textContent = `${V.length} runs in the ledger · ${V.filter(v => v.deleted_at).length} vaults deleted after their run · ${V.reduce((a, v) => a + v.commits, 0)} commits · plaintext found on the vault server: ${V.reduce((a, v) => a + v.server_store.plaintext_hits, 0)} · fresh clones identical: ${V.filter(v => v.clone && v.clone.identical).length} of ${V.length}` + (tok ? ` · ${tok.toLocaleString('en-GB')} worker tokens` : '') + ' · local vault server, local numbers'
+}).catch(() => {})
+</script>
+<script src="../assets/maps.js"></script>
+<script>if (window.RuvMaps) { try { RuvMaps.renderAll('[data-map]') } catch (e) {} }</script>
+</body>
+</html>
