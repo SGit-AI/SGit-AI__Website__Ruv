@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The ask</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../../assets/themes.css">
+<script src="../../../assets/theme.js"></script>
+<script src="../../../assets/clock.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{overflow:hidden;position:relative;width:100vw;height:100vh;height:100dvh}
+body.narrow{overflow-x:hidden;overflow-y:auto}
+#cv{position:absolute;left:0;top:0;width:1280px;height:600px;transform-origin:0 0;overflow:hidden}
+.narrow #cv{width:640px;height:1120px}
+
+#hd{position:absolute;left:24px;top:12px}
+#hd .chip{font:600 15px ui-monospace,SFMono-Regular,Menlo,monospace;padding:3px 11px;border-radius:999px;background:var(--tint-solid);color:var(--accent);border:1px solid var(--line);white-space:nowrap}
+
+.card{position:absolute;left:0;top:0;opacity:0;transform-origin:50% 50%}
+.card .sh{position:absolute;left:0;right:0;top:0;border-radius:10px;overflow:hidden;border:1.5px solid var(--line2);background:var(--panel);box-shadow:var(--shadow)}
+.card .sh i{display:block;height:16px;background:var(--panel2);border-bottom:1px solid var(--line)}
+.card img{display:block;width:100%;height:auto}
+.card .lb{position:absolute;left:-40px;right:-40px;font:700 15px system-ui,sans-serif;color:var(--head);white-space:nowrap;text-align:center}
+.card.on .sh{border-color:var(--accent);box-shadow:var(--shadow-pop)}
+.card.on .lb{color:var(--accent)}
+
+#cap{position:absolute;left:620px;top:480px;width:600px;text-align:center;font:760 30px system-ui,sans-serif;color:var(--accent);letter-spacing:-.01em;opacity:0}
+#cap small{display:block;font:600 15px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--dim);letter-spacing:0;margin-top:2px}
+#intro{position:absolute;left:600px;top:200px;width:640px;text-align:center;opacity:0}
+#intro b{display:block;font-size:48px;line-height:1.08;font-weight:800;color:var(--head);letter-spacing:-.02em}
+#intro b em{font-style:normal;color:var(--accent)}
+#intro span{display:block;margin-top:14px;font-size:22px;color:var(--dim)}
+.narrow #cap{left:24px;width:592px;top:470px}
+.narrow #intro{left:24px;width:592px;top:120px}
+
+#os{position:absolute;left:0;right:0;top:220px;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;opacity:0}
+#os div{display:inline-flex;align-items:center;gap:10px;padding:6px 16px;border-radius:999px;border:1.5px solid var(--line2);background:var(--panel);font-size:18px;color:var(--text);box-shadow:var(--shadow)}
+#os div b{font:800 15px ui-monospace,SFMono-Regular,Menlo,monospace;padding:2px 9px;border-radius:999px;background:var(--accent);color:var(--on-accent)}
+#os div.w b{background:var(--warm)}
+#os .m{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:16px;color:var(--head)}
+.narrow #os{top:400px;flex-direction:column;align-items:center;gap:10px;padding:0 20px}
+
+#ask{position:absolute;left:0;right:0;top:282px;text-align:center;opacity:0}
+#ask b{display:block;font-size:56px;line-height:1.05;font-weight:820;color:var(--head);letter-spacing:-.025em}
+#ask b em{font-style:normal;color:var(--accent)}
+.narrow #ask{top:520px;padding:0 20px}.narrow #ask b{font-size:52px}
+#sub{position:absolute;left:0;right:0;top:408px;text-align:center;font-size:25px;color:var(--text);opacity:0}
+#sub strong{color:var(--head)}
+.narrow #sub{top:730px;padding:0 28px;font-size:26px}
+#ct{position:absolute;left:0;right:0;top:466px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+.narrow #ct{top:850px;flex-direction:column;align-items:center;gap:12px}
+#ct a{display:inline-flex;align-items:center;padding:8px 20px;border-radius:12px;border:1.5px solid var(--line2);background:var(--panel);color:var(--head);text-decoration:none;font:700 24px ui-monospace,SFMono-Regular,Menlo,monospace;opacity:0;box-shadow:var(--shadow)}
+#ct a.mail{border-color:var(--accent);color:var(--accent)}
+#ft{position:absolute;left:24px;right:24px;bottom:12px;font-size:14px;color:var(--dim);line-height:1.3;text-align:center;opacity:0}
+.narrow #ft{bottom:22px;font-size:15px}
+#prog{position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--line)}
+#prog i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--accent)}
+</style>
+</head>
+<body>
+<div id="cv">
+  <div id="hd"><span class="chip">the ask</span></div>
+  <div id="intro"><b>The business plan is <em>written down</em>.</b><span>In detail, so you can copy it.</span></div>
+  <div id="cards"></div>
+  <div id="cap"></div>
+  <div id="os">
+    <div><b>Apache-2.0</b>our code <span class="m">github.com/SGit-AI/SGit-AI__Website__Ruv</span></div>
+    <div class="w"><b>MIT</b>rUv's projects, by rUv / ruvnet</div>
+  </div>
+  <div id="ask"><b>Build a company on this,<br>or <em>add it to your services</em>.</b></div>
+  <div id="sub">Anybody who implements this implements <strong>sgit vaults</strong> and <strong>Agent Behaviour Policies</strong>.</div>
+  <div id="ct"><a class="mail" href="mailto:agent@riskmandate.ai">agent@riskmandate.ai</a><a href="../../../business/index.html">ruv.sgit.ai/business</a></div>
+  <div id="ft">Screenshots of six ruv.sgit.ai pages from this repository, taken with Playwright on 15 Oct 2026. Ruflo, RuVector, AgentDB and the rest of rUv's stack are MIT, by rUv / ruvnet.</div>
+  <div id="prog"><i></i></div>
+</div>
+<script>
+(function () {
+'use strict';
+var Q = new URLSearchParams(location.search), REVIEW = Q.has('review');
+var $ = function (id) { return document.getElementById(id); };
+var clamp = function (x, a, b) { return x < a ? a : x > b ? b : x; };
+var seg = function (t, a, b) { return clamp((t - a) / (b - a), 0, 1); };
+var ease = function (x) { return x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; };
+var lerp = function (a, b, k) { return a + (b - a) * k; };
+
+var PAGES = [
+  ['model', 'the business model, to copy', 'business model', 'articles/ruv-sgit-business-model'],
+  ['business', 'four services, priced', 'four services', '/business'],
+  ['consultants', 'for consultants: white label', 'consultants', '/business/consultants'],
+  ['companies', 'for companies: add it to your offering', 'companies', '/business/companies'],
+  ['teams', 'for internal teams', 'internal teams', '/business/teams'],
+  ['shop', 'the shop', 'the shop', '/shop']];
+var FAN = .3, OPEN0 = 2.6, SPOT = 2.4, SETTLE = OPEN0 + PAGES.length * SPOT + .2;   // 17.2
+var OS = SETTLE + 1.8, ASK = OS + 2.2, SUB = ASK + 2.4, CT = SUB + 2.2, END = CT + 1.6; // 27.4
+
+/* ---------- layout ---------- */
+var cv = $('cv'), N = false;
+function fit() {
+  var w = innerWidth, h = innerHeight; N = w < 700 || w / h < 0.9;
+  document.body.classList.toggle('narrow', N);
+  var CW = N ? 640 : 1280, CH = N ? 1120 : 600, S = N ? w / CW : Math.min(w / CW, h / CH);
+  cv.style.transform = 'scale(' + S + ')';
+  cv.style.left = Math.max(0, (w - CW * S) / 2) + 'px';
+  cv.style.top = N ? '0px' : Math.max(0, (h - CH * S) / 2) + 'px';
+  document.body.style.height = N ? Math.max(h, CH * S) + 'px' : '';
+}
+addEventListener('resize', function () { fit(); render(now()); }); fit();
+var AR = 10 / 16, BAR = 16;
+function fan(i) {   // the closed stack of pages, fanned out
+  var d = i - 2.5;
+  if (N) return { x: 170 + d * 26, y: 760 + Math.abs(d) * 8, w: 300, r: d * 5 };
+  return { x: 150 + d * 30, y: 220 + Math.abs(d) * 9, w: 360, r: d * 5 };
+}
+function spot() { return N ? { x: 24, y: 60, w: 592, r: 0 } : { x: 600, y: 52, w: 640, r: 0 }; }
+function read(i) {  // opened pages, laid out on the left while the rest open
+  if (N) { var c = i % 3, r = Math.floor(i / 3); return { x: 24 + c * 204, y: 560 + r * 150, w: 184, r: 0 }; }
+  var cc = i % 3, rr = Math.floor(i / 3); return { x: 24 + cc * 186, y: 60 + rr * 260, w: 170, r: 0 };
+}
+function strip(i) {  // the final frame
+  if (N) { var c = i % 3, r = Math.floor(i / 3); return { x: 24 + c * 204, y: 52 + r * 168, w: 184, r: 0 }; }
+  var W = 180, G = (1280 - 2 * 40 - 6 * W) / 5; return { x: 40 + i * (W + G), y: 50, w: W, r: 0 };
+}
+function mix(a, b, k) { return { x: lerp(a.x, b.x, k), y: lerp(a.y, b.y, k), w: lerp(a.w, b.w, k), r: lerp(a.r, b.r, k) }; }
+
+/* ---------- build ---------- */
+var cards = PAGES.map(function (s) {
+  var d = document.createElement('div'); d.className = 'card';
+  d.innerHTML = '<div class="sh"><i></i><img alt="" decoding="async" src="../../../assets/img/talk/ask-' + s[0] + '.webp"></div><div class="lb"></div>';
+  $('cards').appendChild(d); return d;
+});
+var lastCap = -2;
+
+function render(t) {
+  var settle = ease(seg(t, SETTLE, SETTLE + 1.4)), active = -1;
+  cards.forEach(function (c, i) {
+    var s0 = OPEN0 + i * SPOT, up = ease(seg(t, s0, s0 + .6)), down = ease(seg(t, s0 + SPOT - .45, s0 + SPOT + .15));
+    var p = up < 1 ? mix(fan(i), spot(), up) : mix(spot(), read(i), down);
+    if (settle > 0) p = mix(read(i), strip(i), settle);
+    if (up > 0 && down < 1) active = i;
+    var h = p.w * AR + BAR, appear = ease(seg(t, FAN + i * .25, FAN + i * .25 + .6));
+    c.style.left = p.x + 'px'; c.style.top = p.y + 'px'; c.style.width = p.w + 'px'; c.style.height = (h + 26) + 'px';
+    c.querySelector('.sh').style.height = h + 'px';
+    c.style.opacity = appear;
+    c.style.transform = 'translateY(' + ((1 - appear) * 24) + 'px) rotate(' + p.r + 'deg)';
+    c.style.zIndex = active === i ? 20 : (up >= 1 ? 10 + i : 6 - i);
+    c.classList.toggle('on', active === i && up > .5);
+    var lb = c.querySelector('.lb'), showLb = up >= 1 && down >= 1 && active !== i;
+    lb.style.top = (h + 6) + 'px'; lb.textContent = PAGES[i][2]; lb.style.opacity = showLb ? 1 : 0;
+  });
+  // caption under the opened page
+  var cap = $('cap');
+  if (active !== lastCap) { lastCap = active; if (active >= 0) cap.innerHTML = PAGES[active][1] + '<small>ruv.sgit.ai/' + PAGES[active][3].replace(/^\//, '') + '</small>'; }
+  var cs = active >= 0 ? OPEN0 + active * SPOT : 0;
+  cap.style.opacity = active >= 0 ? Math.min(seg(t, cs + .35, cs + .7), 1 - seg(t, cs + SPOT - .5, cs + SPOT - .3)) : 0;
+  var io = Math.min(ease(seg(t, .3, 1.1)), 1 - ease(seg(t, OPEN0 - .2, OPEN0 + .2)));
+  $('intro').style.opacity = io; $('intro').style.transform = 'translateY(' + ((1 - io) * 10) + 'px)';
+
+  var o = ease(seg(t, OS, OS + .9)); $('os').style.opacity = o; $('os').style.transform = 'translateY(' + ((1 - o) * 12) + 'px)';
+  var a = ease(seg(t, ASK, ASK + 1.1)); $('ask').style.opacity = a; $('ask').style.transform = 'scale(' + (.94 + .06 * a) + ')';
+  var sb = ease(seg(t, SUB, SUB + .9)); $('sub').style.opacity = sb; $('sub').style.transform = 'translateY(' + ((1 - sb) * 10) + 'px)';
+  document.querySelectorAll('#ct a').forEach(function (e, i) { var q = ease(seg(t, CT + i * .5, CT + i * .5 + .6)); e.style.opacity = q; e.style.transform = 'translateY(' + ((1 - q) * 10) + 'px)'; });
+  $('ft').style.opacity = ease(seg(t, CT + .6, CT + 1.4));
+  $('prog').firstChild.style.width = (100 * clamp(t / END, 0, 1)) + '%';
+}
+var r1 = function (x) { return Math.round(x * 10) / 10; };
+window.RUV_STEPS = [{ t: 0, label: 'the plan, written down' }, { t: r1(SETTLE), label: 'all open source' }, { t: r1(ASK), label: 'the ask' }, { t: r1(END), label: 'get in touch' }];
+function now() { return REVIEW ? END : Math.min(performance.now() / 1000, END); }
+function frame() { var t = now(); render(t); if (!REVIEW && t < END) requestAnimationFrame(frame); }
+render(now()); requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

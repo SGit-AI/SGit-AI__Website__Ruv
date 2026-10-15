@@ -64,7 +64,7 @@ body.narrow{overflow-x:hidden;overflow-y:auto}
     <div class="t r"><span>ruv.sgit</span><small>rUv + sgit</small></div>
   </div>
   <div id="ct"><a class="mail" href="mailto:agent@riskmandate.ai">agent@riskmandate.ai</a><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">github.com/SGit-AI/SGit-AI__Website__Ruv</a></div>
-  <div id="ft">Screenshots taken with Playwright on 15 Oct 2026: four ruv.sgit.ai pages from this repository, and sgit.ai and newsroom.sgit.ai live. Ruflo is MIT, by rUv / ruvnet.</div>
+  <div id="ft">Screenshots taken with Playwright on 15 Oct 2026: four ruv.sgit.ai pages from this repository; sgit.ai, newsroom.sgit.ai, ruv.io (its headline and its open-source section, joined) and rUv's GitHub repositories live. rUv's projects are MIT, by rUv / ruvnet.</div>
   <div id="prog"><i></i></div>
 </div>
 <script>
@@ -83,8 +83,11 @@ var SITES = [
   ['shop', 'ruv.sgit.ai/shop', 'the shop', '/shop'],
   ['ledger', 'ruv.sgit.ai/ruv-sgit/ledger', 'the vault ledger', '/ruv-sgit/ledger'],
   ['sgit', 'sgit.ai', 'sgit', 'sgit.ai'],
-  ['newsroom', 'newsroom.sgit.ai', 'the newsroom', 'newsroom.sgit.ai']];
-var IN0 = .4, IN_GAP = .55, SPOT0 = 4.0, SPOT = 1.6, SETTLE = SPOT0 + SITES.length * SPOT + .2;   // 13.8
+  ['newsroom', 'newsroom.sgit.ai', 'the newsroom', 'newsroom.sgit.ai'],
+  ['ruvio', 'ruv.io', "rUv's open source", 'ruv.io'],
+  ['ruflo', 'github.com/ruvnet/ruflo', 'Ruflo (MIT)', 'ruvnet/ruflo'],
+  ['ruvector', 'github.com/ruvnet/ruvector', 'RuVector (MIT)', 'ruvnet/ruvector']];
+var IN0 = .4, IN_GAP = .35, SPOT0 = 3.6, SPOT = 1.1, SETTLE = SPOT0 + SITES.length * SPOT + .2;   // 13.8
 var BIG = SETTLE + 1.0, EQ = BIG + 1.6, CT = EQ + 3.4;
 
 /* ---------- layout ---------- */
@@ -103,11 +106,11 @@ addEventListener('resize', function () { fit(); render(now()); }); fit();
 var AR = 10 / 16, BAR = 16;
 function grid(i) {   // the gallery
   if (N) { var w = 288, c = i % 2, r = Math.floor(i / 2); return { x: 24 + c * (w + 16), y: 60 + r * (w * AR + BAR + 46), w: w }; }
-  var W = 330, cc = i % 3, rr = Math.floor(i / 3); return { x: 115 + cc * (W + 30), y: 52 + rr * (W * AR + BAR + 40), w: W };
+  var W = 228, cc = i % 5, rr = Math.floor(i / 5); return { x: (1280 - 5 * W - 4 * 18) / 2 + cc * (W + 18), y: 62 + rr * (W * AR + BAR + 52), w: W };
 }
 function strip(i) {  // the final frame
   if (N) { var w = 182, c = i % 3, r = Math.floor(i / 3); return { x: 24 + c * (w + 23), y: 610 + r * (w * AR + BAR + 44), w: w }; }
-  var W = 178, G = (1280 - 2 * 44 - 6 * W) / 5; return { x: 44 + i * (W + G), y: 392, w: W };
+  var W = 126, G = (1280 - 2 * 30 - 9 * W) / 8; return { x: 30 + i * (W + G), y: 400, w: W };
 }
 
 /* ---------- build ---------- */
