@@ -1,0 +1,289 @@
+
+ruflo v3.56.10
+Ruflo - AI Agent Orchestration Platform
+
+USAGE:
+  ruflo <command> [subcommand] [options]
+
+PRIMARY COMMANDS:
+  init         Initialize RuFlo in the current directory
+  start        Start the RuFlo orchestration system
+  status       Show system status
+  agent        Agent management commands
+  swarm        Swarm coordination commands
+  memory       Memory management commands
+  task         Task management commands
+  session      Session management commands
+  mcp          MCP server management
+  hooks        Self-learning hooks system for intelligent workflow automation
+
+ADVANCED COMMANDS:
+  neural       Neural pattern training, MoE, Flash Attention, pattern learning
+  security     Security scanning, CVE detection, threat modeling, AI defense
+  policy       Agentic policy engine — evaluate actions, manage rules/approvals, and verify the decision ledger (ADR-324)
+  performance  Performance profiling, benchmarking, optimization, metrics
+  embeddings   Vector embeddings, semantic search, similarity operations
+  hive-mind    Queen-led consensus-based multi-agent coordination
+  ruvector     RuVector PostgreSQL Bridge management
+  guidance     Guidance Control Plane - compile, retrieve, enforce, and optimize guidance rules
+  autopilot    Persistent swarm completion — keeps agents working until ALL tasks are done
+
+UTILITY COMMANDS:
+  config       Configuration management
+  doctor       System diagnostics and health checks
+  daemon       Manage background worker daemon (Node.js-based, auto-runs like shell helpers)
+  completions  Generate shell completion scripts
+  migrate      V2 to V3 migration tools
+  workflow     Workflow execution and management
+
+ANALYSIS COMMANDS:
+  analyze      Code analysis, diff classification, graph boundaries, and change risk assessment
+  route        Intelligent task-to-agent routing using Q-Learning
+  progress     Check V3 implementation progress
+
+MANAGEMENT COMMANDS:
+  providers    Manage AI providers, models, and configurations
+  plugins      Plugin management with IPFS-based decentralized registry
+  deployment   Deployment management, environments, rollbacks
+  claims       Claims-based authorization, permissions, and access control
+  issues       Collaborative issue claims for human-agent workflows (ADR-016)
+  update       Manage @claude-flow package updates (ADR-025)
+  process      Background process management, daemon, and monitoring
+  appliance    Self-contained RVFA appliance management (build, inspect, verify, extract, run)
+  cleanup      Remove project artifacts created by claude-flow/ruflo
+
+GLOBAL OPTIONS:
+  -h, --help                Show help information
+  -V, --version             Show version number
+  -v, --verbose             Enable verbose output
+  -Q, --quiet               Suppress non-essential output
+  -c, --config              Path to configuration file
+      --format              Output format (text, json, table)
+      --no-color            Disable colored output
+  -i, --interactive         Enable interactive mode
+
+V3 FEATURES:
+  - 15-agent hierarchical mesh coordination
+  - AgentDB with HNSW indexing (150x-12,500x faster)
+  - Flash Attention (2.49x-7.47x speedup)
+  - Unified SwarmCoordinator engine
+  - Event-sourced state management
+  - Domain-Driven Design architecture
+
+EXAMPLES:
+  ruflo agent spawn -t coder              # Spawn a coder agent
+  ruflo swarm init --v3-mode              # Initialize V3 swarm
+  ruflo memory search -q "auth patterns"  # Semantic search
+  ruflo mcp start                         # Start MCP server
+
+Run "ruflo <command> --help" for command help
+
+Created with ❤️ by ruv.io
+
+=== ruflo policy --help
+
+ruflo policy
+Agentic policy engine — evaluate actions, manage rules/approvals, and verify the decision ledger (ADR-324)
+
+OPTIONS:
+      --mode                Policy mode: legacy | observe | enforce
+      --project-root        Project root containing .claude-flow/policy
+      --establish-anchor    verify: explicitly anchor a ledger that has receipts but no anchor (interactive, logged with user and time)
+
+EXAMPLES:
+  $ ruflo policy status
+    Show policy mode and ledger health
+  $ ruflo policy init --mode observe
+    Migrate an existing install without blocking legacy actions
+  $ ruflo policy budget set '{"id":"daily-model","action":"model.call","maxCostUsd":10,"periodMs":86400000}'
+    Set an atomic policy budget ceiling
+  $ ruflo policy evaluate '{"identity":{"id":"agent-1","type":"agent"},"action":{"type":"deploy","environment":"production"}}'
+    Evaluate an action and write a decision receipt
+
+=== ruflo claims --help
+
+ruflo claims
+Claims-based authorization, permissions, and access control
+
+SUBCOMMANDS:
+  list            List claims and permissions
+  check           Check if a specific claim is granted
+  grant           Grant a claim to user or role
+  revoke          Revoke a claim from user or role
+  roles           Manage roles and their claims
+  policies        Manage claim policies
+
+EXAMPLES:
+  $ claude-flow claims list
+    List all claims
+  $ claude-flow claims check -c swarm:create
+    Check permission
+  $ claude-flow claims grant -c agent:spawn -r developer
+    Grant claim
+
+=== ruflo guidance --help
+
+ruflo guidance
+Guidance Control Plane - compile, retrieve, enforce, and optimize guidance rules
+
+SUBCOMMANDS:
+  compile         Compile CLAUDE.md into a policy bundle (constitution + shards + manifest)
+  mod-candidates  Review unverified native mod observations without training or promotion
+  retrieve        Retrieve task-relevant guidance shards for a given task description
+  gates           Evaluate enforcement gates against a command or content
+  status          Show guidance control plane status and metrics
+  optimize        Analyze and optimize a CLAUDE.md file for structure, coverage, and enforceability
+  ab-test         Run A/B behavioral comparison between two CLAUDE.md versions
+
+EXAMPLES:
+  $ claude-flow guidance compile
+    Compile CLAUDE.md into policy bundle
+  $ claude-flow guidance retrieve -t "Fix auth bug"
+    Retrieve relevant guidance
+  $ claude-flow guidance gates -c "rm -rf /"
+    Check enforcement gates
+  $ claude-flow guidance status
+    Show control plane status
+  $ claude-flow guidance optimize
+    Analyze and optimize CLAUDE.md
+  $ claude-flow guidance ab-test
+    Run A/B behavioral comparison
+
+=== ruflo memory --help
+
+ruflo memory
+Memory management commands
+
+SUBCOMMANDS:
+  init            Initialize memory database with sql.js (WASM SQLite) - includes vector embeddings, pattern learning, temporal decay
+  store           Store data in memory
+  retrieve        Retrieve data from memory (get)
+  search          Search memory with semantic/vector search
+  list            List memory entries (ls)
+  delete          Delete a memory entry from the default store and its AgentDB mirror (use --path to select one store) (rm)
+  purge           Permanently delete a namespace from the default store and its AgentDB mirror (use --path to select one store)
+  stats           Show memory statistics
+  configure       Configure memory backend (config)
+  cleanup         Clean up stale and expired memory entries
+  compress        Compress and optimize memory storage
+  export          Export memory to file
+  import          Import memory from file
+  distill         Memory distillation (ADR-174): mine memory_entries into reasoning_patterns/episodes/causal_edges
+  backup          Snapshot active project memory stores — WAL-safe, rotated, optional GCS offsite
+  classify        Classify a query into episodic/semantic/procedural intent (SCM router, dream-cycle #2760)
+  select-operator Pick the highest-value consolidation operator that fits a budget (OAS, dream-cycle #2763)
+
+EXAMPLES:
+  $ claude-flow memory store -k "key" -v "value"
+    Store data
+  $ claude-flow memory search -q "auth patterns"
+    Search memory
+  $ claude-flow memory stats
+    Show statistics
+
+=== ruflo hooks --help
+
+ruflo hooks
+Self-learning hooks system for intelligent workflow automation
+
+SUBCOMMANDS:
+  pre-edit        Get context and agent suggestions before editing a file
+  post-edit       Record editing outcome for learning
+  pre-command     Assess risk before executing a command
+  post-command    Record command execution outcome
+  pre-task        Record task start and get agent suggestions
+  post-task       Record task completion for learning
+  session-end     End current session and persist state
+  session-restore Restore a previous session
+  route           Route task to optimal agent using learned patterns
+  explain         Explain routing decision with transparency
+  pretrain        Bootstrap intelligence from repository (4-step pipeline + embeddings)
+  build-agents    Generate optimized agent configs from pretrain data
+  metrics         View learning metrics dashboard
+  transfer        Transfer patterns and plugins via IPFS-based decentralized registry
+  list            List all registered hooks (ls)
+  intelligence    RuVector intelligence system (SONA, MoE, HNSW 150x faster)
+  notify          Send a notification message (logged to session)
+  worker          Background worker management (12 workers for analysis/optimization)
+  progress        Check V3 implementation progress via hooks
+  statusline      Generate dynamic statusline with V3 progress and system status
+  coverage-route  Route task to agents based on test coverage gaps (ruvector integration)
+  coverage-suggest Suggest coverage improvements for a path (ruvector integration)
+  coverage-gaps   List all coverage gaps with priority scoring and agent assignments
+  token-optimize  Token optimization via agentic-flow Agent Booster integration
+  model-route     Route task to optimal Claude model (haiku/sonnet/opus) based on complexity
+  model-outcome   Record model routing outcome for learning
+  model-stats     View model routing statistics and learning metrics
+  route-task      (DEPRECATED: Use "route" instead) Route task to optimal agent
+  session-start   (DEPRECATED: Use "session-restore" instead) Start/restore session
+  pre-bash        (ALIAS) Same as pre-command
+  post-bash       (ALIAS) Same as post-command
+  teammate-idle   Handle idle teammate in Agent Teams - auto-assign tasks or notify lead
+  task-completed  Handle task completion in Agent Teams - train patterns and notify lead
+  refresh-funnel  Best-effort background refresh of the funnel message cache (internal — see hook-handler.cjs session-restore)
+  refresh-advisor Best-effort background refresh of the co-pilot advisor tip (internal — see hook-handler.cjs session-restore; ADR-316)
+
+EXAMPLES:
+  $ claude-flow hooks pre-edit -f src/utils.ts
+    Get context before editing
+  $ claude-flow hooks route -t "Fix authentication bug"
+    Route task to optimal agent
+  $ claude-flow hooks pretrain
+    Bootstrap intelligence from repository
+  $ claude-flow hooks metrics --v3-dashboard
+    View V3 performance metrics
+
+=== ruflo swarm --help
+
+ruflo swarm
+Swarm coordination commands
+
+SUBCOMMANDS:
+  init            Initialize a new swarm
+  start           Start swarm execution
+  status          Show swarm status
+  stop            Stop swarm execution
+  scale           Scale swarm agent count
+  coordinate      Execute V3 15-agent hierarchical mesh coordination
+  compress-message Compress an inter-agent message to a token budget (IB+VQ-inspired, dream-cycle #2727)
+  pheromone       Inspect or update ADR-330 pheromone-adaptive scheduling state
+  join            Join a SLIM group-membership channel scoped to a namespace (ADR-380 §2)
+
+EXAMPLES:
+  $ claude-flow swarm init --v3-mode
+    Initialize V3 swarm
+  $ claude-flow swarm start -o "Build API" -s development
+    Start development swarm
+  $ claude-flow swarm coordinate --agents 15
+    V3 coordination
+  $ claude-flow swarm pheromone
+    Inspect pheromone-adaptive scheduling state
+
+=== ruflo mcp --help
+
+ruflo mcp
+MCP server management
+
+SUBCOMMANDS:
+  start           Start MCP server
+  stop            Stop MCP server
+  status          Show MCP server status
+  health          Check MCP server health
+  restart         Restart MCP server
+  tools           List available MCP tools
+  toggle          Enable or disable MCP tools
+  exec            Execute an MCP tool
+  logs            Show MCP server logs
+
+EXAMPLES:
+  $ claude-flow mcp start
+    Start MCP server
+  $ claude-flow mcp start -t http -p 8080
+    Start HTTP server on port 8080
+  $ claude-flow mcp status
+    Show server status
+  $ claude-flow mcp tools
+    List tools
+  $ claude-flow mcp stop
+    Stop the server
+

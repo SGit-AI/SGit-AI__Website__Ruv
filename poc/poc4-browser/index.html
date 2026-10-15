@@ -1,0 +1,36 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ABP + memory, in the browser</title>
+<style>:root{--bg:#faf9f5;--ink:#1a1917;--m:#6b675f;--line:#e5e2d9;--t:#0f766e;--bad:#b42318}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1917;--ink:#efeae0;--m:#a39d90;--line:#3a3833;--t:#4cc1b4;--bad:#f97066}}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,sans-serif;padding:20px 16px}main{max-width:980px;margin:auto}
+h1{font:bold 26px Georgia,serif;margin:0}input{font:inherit;width:100%;box-sizing:border-box;padding:10px;border:1px solid var(--line);border-radius:8px;background:transparent;color:inherit}
+table{width:100%;border-collapse:collapse;font-size:13px}td,th{border-top:1px solid var(--line);padding:6px;text-align:left;vertical-align:top}.k{color:var(--m);font-size:12px}
+.ok{color:var(--t)}.no{color:var(--bad)}.card{border:1px solid var(--line);border-radius:10px;padding:12px;margin:12px 0}code{font-size:12px}</style></head>
+<body><main>
+<p class="k">sgit vault + Agent Behaviour Policy + RuVector WASM · runs in your browser, offline after load</p>
+<h1>What is this swarm allowed to do?</h1>
+<p class="k" id="status">loading RuVector WASM…</p>
+<input id="q" placeholder="Ask: can the coder send email? can the tester change code? who may deploy?" autofocus>
+<div id="ans"></div>
+<div class="card"><b>Same swarm, same actions: Ruflo default vs with the ABP</b><div id="report" class="k">loading POC1 report…</div></div>
+</main>
+<script type="module">
+const WASM = new URL('./vendor/ruvector_wasm.js', location.href).href; // vendored @ruvector/wasm@0.2.1 pkg (npm run vendor)
+const DIM = 128;
+const embed = s => { const v = new Float32Array(DIM); for (const w of s.toLowerCase().match(/[a-z]+/g) ?? []) { let h = 2166136261; for (const c of w) h = Math.imul(h ^ c.charCodeAt(0), 16777619); v[Math.abs(h) % DIM] += 1; } const n = Math.hypot(...v) || 1; return v.map(x => x / n); };
+const words = { 'send.message.world': 'send email message mail post', 'write.file.project': 'change edit write code files', 'create.record.world': 'deploy publish release production package', 'read.credential.host': 'read secrets credentials keys passwords', 'send.endpoint.world': 'internet any host network fetch', 'send.endpoint.allowed': 'registry allowed hosts network fetch', 'write.repository.tenant': 'push repository branch origin', 'execute.process.self': 'run tests build commands', 'write.budget.tenant': 'spend money model calls budget tokens' };
+const st = document.getElementById('status');
+try {
+  const { default: init, VectorDB, version, hnswAvailable } = await import(WASM);
+  await init();
+  const [abp, rep] = await Promise.all([fetch('./data/abp.json').then(r => r.json()), fetch('./data/report.json').then(r => r.json()).catch(() => null)]);
+  const db = new VectorDB(DIM, 'cosine', true); const rows = [];
+  for (const role of abp.roles) for (const row of role.rows) { const id = `${role.id}|${row.capability}`; rows.push({ role, row }); db.insert(embed(`${role.id} ${role.id} ${row.capability.replaceAll('.', ' ')} ${words[row.capability] ?? ''} ${row.why}`), id, {}); }
+  st.textContent = `RuVector WASM ${version()} · HNSW ${hnswAvailable()} · ${rows.length} ABP rows indexed · owner ${abp.owner} · valid until ${abp.valid_until}`;
+  const show = q => { const hits = db.search(embed(q), 3); document.getElementById('ans').innerHTML = hits.map(h => { const [r, c] = h.id.split('|'); const x = rows.find(o => o.role.id === r && o.row.capability === c).row;
+    const dec = rep?.rows.find(z => z.who === r && (rep && true)); const cls = x.mandate === 'yes' ? 'ok' : 'no';
+    return `<div class="card"><b>${r}</b> · <code>${c}</code> · mandate <b class="${cls}">${x.mandate}</b><br>${x.why}${x.barrier ? `<br><span class="k">barrier: ${x.barrier}</span>` : ''}</div>`; }).join(''); };
+  document.getElementById('q').addEventListener('input', e => e.target.value.length > 3 && show(e.target.value));
+  if (rep) document.getElementById('report').innerHTML = `<table><tr><th>agent</th><th>action</th><th>Ruflo default</th><th>with ABP</th></tr>${rep.rows.map(r => `<tr><td>${r.who}</td><td><code>${r.action}</code></td><td class="${r.legacy.startsWith('allowed') ? 'ok' : 'no'}">${r.legacy}</td><td class="${r.abp.startsWith('allowed') ? 'ok' : 'no'}">${r.abp}</td></tr>`).join('')}</table><p class="k">receipt ledger (ABP): ${JSON.stringify(rep.ledger.abp)}</p>`;
+} catch (e) { st.textContent = 'error: ' + e; }
+</script></body></html>

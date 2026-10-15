@@ -1,0 +1,2 @@
+{ "name": "poc1-abp-to-ruflo-policy", "private": true, "type": "module",
+  "dependencies": { "ruflo": "3.56.10" }, "scripts": { "start": "node run.mjs" } }

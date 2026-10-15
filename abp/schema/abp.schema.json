@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Agent Behaviour Policy (ABP), POC profile",
+  "type": "object",
+  "required": ["abp_version", "deployment", "owner", "roles"],
+  "properties": {
+    "abp_version": {"const": "0.1-poc"},
+    "deployment": {"type": "string", "description": "one agent system, one deployment"},
+    "owner": {"type": "string", "description": "the named person who signs the mandate"},
+    "valid_until": {"type": "string", "format": "date", "description": "licence to operate: the mandate expires"},
+    "roles": {"type": "array", "items": {
+      "type": "object", "required": ["id", "purpose", "rows"],
+      "properties": {
+        "id": {"type": "string"}, "purpose": {"type": "string"},
+        "rows": {"type": "array", "items": {
+          "type": "object", "required": ["capability", "reach", "mandate"],
+          "properties": {
+            "capability": {"type": "string", "pattern": "^[a-z-]+\\.[a-z-]+\\.[a-z-]+$", "description": "a primitive from abp/vocabulary/capabilities.json"},
+            "reach": {"type": "boolean", "description": "can it, technically, today?"},
+            "mandate": {"enum": ["yes", "no", "approval"], "description": "is it authorised to?"},
+            "instances": {"type": "array", "items": {"type": "string"}, "description": "paths, hosts, repos: instances of the primitive"},
+            "barrier": {"type": "string", "description": "what actually stops it when mandate is no/approval"},
+            "evidence": {"type": "string", "description": "how we know the barrier holds"},
+            "why": {"type": "string"}
+          }}}}}}
+  }
+}

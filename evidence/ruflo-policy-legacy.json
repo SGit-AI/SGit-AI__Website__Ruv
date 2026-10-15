@@ -1,0 +1,10 @@
+{
+  "requestId": "2132b0d2-83ac-4513-aa47-6740f182f735",
+  "outcome": "allowed",
+  "enforcedOutcome": "allowed",
+  "mode": "legacy",
+  "reason": "legacy-default-allow",
+  "matchedRules": [],
+  "obligations": [],
+  "receiptId": "sha256:aebf8a41ea9e886ba26048d992f9ea17031360fd30a5e46bd25e2b856da1c251"
+}

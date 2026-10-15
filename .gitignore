@@ -218,3 +218,20 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# --- ruv-x-sgit-pocs ---
+node_modules/
+out/
+.vault-*/
+work-*/
+restore-*/
+.swarm/
+.claude-flow/
+.hive-mind/
+.ruflo/
+ruvector.db
+*.db
+history-*.json
+secrets.env
+*.sg_vault*
+.sg_vault/

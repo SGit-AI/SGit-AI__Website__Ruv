@@ -1,0 +1,13 @@
+[
+ {"who":"coder","action":{"type":"file.write","resource":"src/**"}},
+ {"who":"coder","action":{"type":"test.run"}},
+ {"who":"coder","action":{"type":"repo.commit"}},
+ {"who":"coder","action":{"type":"repo.push","resource":"origin/feature"}},
+ {"who":"coder","action":{"type":"network.fetch","resource":"registry.npmjs.org"}},
+ {"who":"coder","action":{"type":"network.fetch.world","resource":"pastebin.example"}},
+ {"who":"coder","action":{"type":"email.send","resource":"gmail"}},
+ {"who":"tester","action":{"type":"file.write","resource":"src/**"}},
+ {"who":"researcher","action":{"type":"credential.read","resource":"~/.aws/credentials"}},
+ {"who":"queen-strategic","action":{"type":"model.call","costUsd":0.4}},
+ {"who":"documenter","action":{"type":"deploy","environment":"production"}}
+]

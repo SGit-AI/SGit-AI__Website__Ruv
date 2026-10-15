@@ -1,0 +1,2 @@
+{ "name": "poc4-browser", "private": true, "dependencies": { "@ruvector/wasm": "0.2.1" },
+  "scripts": { "vendor": "mkdir -p vendor data && cp node_modules/@ruvector/wasm/pkg/ruvector_wasm.js node_modules/@ruvector/wasm/pkg/ruvector_wasm_bg.wasm vendor/ && cp ../../abp/examples/ruflo-sparc-swarm.abp.json data/abp.json && (cp ../poc1-abp-to-ruflo-policy/out/report.json data/report.json || true)" } }

@@ -1,0 +1,73 @@
+name: pocs
+on: { push: { branches: [dev, main] }, pull_request: {}, workflow_dispatch: {} }
+permissions: { contents: read }
+env: { SGIT_VERSION: "0.21.0" }
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: npm ci            # WITH install scripts: better-sqlite3 native (see evidence/notes.md)
+      - name: ABP gate (the policy is a test)
+        run: npm run abp:gate
+      - name: POC1 ABP -> Ruflo policy (legacy vs enforce, receipts)
+        run: npm run poc1
+      - name: POC3 ABP -> RVM capabilities
+        run: npm run poc3
+      - name: POC4 build the browser app
+        run: npm run poc4:build
+      - name: POC5 MetaHarness scaffold -> ABP + diff
+        run: npm run poc5
+      - name: cleanup ruflo daemon
+        if: always()
+        run: npm run cleanup
+      - uses: actions/upload-artifact@v4
+        with: { name: out, path: out }
+  publish-to-vault:
+    needs: build
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment: vault          # protected environment: a named human approves (the ABP's 'approval' row)
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: out, path: out }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install "sgit-ai==${SGIT_VERSION}"
+      - name: write outputs to the public vault and publish
+        env: { VAULT_KEY: "${{ secrets.SGIT_VAULT_KEY_PUBLIC }}", SGIT_TOKEN: "${{ secrets.SGIT_TOKEN }}" }
+        run: |
+          echo "::add-mask::$VAULT_KEY"
+          scripts/vault_write.sh out "runs/${{ github.run_id }}" "ci: pocs run ${{ github.run_id }}" .vault-public
+          cd .vault-public && sgit publish --visibility public --yes   # read key published ON PURPOSE (public demo vault only)
+  poc2-write:
+    needs: build
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    strategy: { matrix: { role: [coder, tester] }, max-parallel: 1 }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: npm ci && pip install "sgit-ai==${SGIT_VERSION}"
+      - env: { VAULT_KEY: "${{ secrets.SGIT_VAULT_KEY_MEMORY }}", SGIT_TOKEN: "${{ secrets.SGIT_TOKEN }}", ROLE: "${{ matrix.role }}", RUN_ID: "${{ github.run_id }}" }
+        run: echo "::add-mask::$VAULT_KEY" && bash poc/poc2-agent-memory-in-vault/run.sh write
+  poc2-read:
+    needs: poc2-write
+    runs-on: ubuntu-latest      # a different, fresh runner: memory must survive
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: npm ci && pip install "sgit-ai==${SGIT_VERSION}"
+      - env: { VAULT_KEY: "${{ secrets.SGIT_VAULT_KEY_MEMORY }}", SGIT_TOKEN: "${{ secrets.SGIT_TOKEN }}" }
+        run: echo "::add-mask::$VAULT_KEY" && bash poc/poc2-agent-memory-in-vault/run.sh read

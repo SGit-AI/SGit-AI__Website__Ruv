@@ -1,0 +1,65 @@
+{
+  "abp_version": "0.1-poc",
+  "deployment": "Claude Code session building this repo (Fable)",
+  "owner": "Dinis Cruz",
+  "valid_until": "2026-10-16",
+  "roles": [
+    {
+      "id": "builder",
+      "purpose": "build the POCs in BRIEF.md",
+      "rows": [
+        {
+          "capability": "write.file.project",
+          "reach": true,
+          "mandate": "yes",
+          "why": "build"
+        },
+        {
+          "capability": "execute.process.self",
+          "reach": true,
+          "mandate": "yes",
+          "why": "run"
+        },
+        {
+          "capability": "send.endpoint.allowed",
+          "reach": true,
+          "mandate": "yes",
+          "why": "registries, GitHub, sgit server",
+          "instances": [
+            "registry.npmjs.org",
+            "pypi.org",
+            "github.com",
+            "sgit server"
+          ]
+        },
+        {
+          "capability": "write.repository.project",
+          "reach": true,
+          "mandate": "yes",
+          "why": "branches + PRs"
+        },
+        {
+          "capability": "authenticate-as.credential.tenant",
+          "reach": true,
+          "mandate": "approval",
+          "why": "only through repo secrets",
+          "barrier": "secrets never echoed; masked"
+        },
+        {
+          "capability": "send.message.world",
+          "reach": true,
+          "mandate": "no",
+          "why": "Dinis talks to rUv",
+          "barrier": "rule in CLAUDE.md"
+        },
+        {
+          "capability": "read.credential.host",
+          "reach": true,
+          "mandate": "no",
+          "why": "never print keys",
+          "barrier": "git diff before commit"
+        }
+      ]
+    }
+  ]
+}

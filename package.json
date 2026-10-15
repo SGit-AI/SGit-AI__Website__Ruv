@@ -1,0 +1,15 @@
+{ "name": "ruv-x-sgit-pocs", "private": true, "type": "module",
+  "description": "sgit vaults + Agent Behaviour Policies inside rUv's agentic stack (POCs)",
+  "license": "Apache-2.0",
+  "dependencies": { "ruflo": "3.56.10", "@ruvector/wasm": "0.2.1", "ruvector": "0.3.3", "metaharness": "0.4.17" },
+  "scripts": {
+    "poc1": "node poc/poc1-abp-to-ruflo-policy/run.mjs abp/examples/ruflo-sparc-swarm.abp.json poc/poc1-abp-to-ruflo-policy/trace.json out/poc1",
+    "poc3": "mkdir -p out/poc3 && python3 poc/poc3-abp-to-rvm-caps/abp_to_rvm.py > out/poc3/rvm-caps.md",
+    "poc4:build": "mkdir -p out/app/vendor out/app/data && cp poc/poc4-browser/index.html out/app/ && cp node_modules/@ruvector/wasm/pkg/ruvector_wasm.js node_modules/@ruvector/wasm/pkg/ruvector_wasm_bg.wasm out/app/vendor/ && cp abp/examples/ruflo-sparc-swarm.abp.json out/app/data/abp.json && cp out/poc1/report.json out/app/data/report.json",
+    "abp:gate": "node -e \"import('./poc/poc1-abp-to-ruflo-policy/compile.mjs').then(m=>{const a=JSON.parse(require('fs').readFileSync('abp/examples/ruflo-sparc-swarm.abp.json'));const g=m.compile(a).gaps;console.log('ABP gaps:',g.length,JSON.stringify(g));process.exit(g.length?1:0)})\"",
+    "poc5": "mkdir -p out/poc5 && (test -d out/poc5/harness || npx --no-install metaharness rm-agentics --template vertical:agentics --host claude-code --no-darwin --target out/poc5/harness > out/poc5/scaffold.log 2>&1) && node poc/poc5-metaharness-abp/harness-to-abp.mjs out/poc5/harness abp/examples/ruflo-sparc-swarm.abp.json coder out/poc5 > /dev/null && (npx --no-install metaharness score . --json > out/poc5/score.json 2>/dev/null || true)",
+    "site:sync": "bash site/build/sync.sh",
+    "site:validate": "python3 site/build/validate.py",
+    "site:serve": "python3 -m http.server -d site 8080",
+    "cleanup": "npx --no-install ruflo daemon stop || true"
+  } }

@@ -1,0 +1,36 @@
+name: deploy-pages
+on:
+  push: { branches: [dev, main] }
+  workflow_dispatch: {}
+permissions: { contents: read, pages: write, id-token: write }
+concurrency: { group: pages, cancel-in-progress: true }
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "20", cache: npm }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: npm ci
+      - name: ABP gate, POC1, POC3, POC4 build, POC5 (the site renders their outputs)
+        run: npm run abp:gate && npm run poc1 && npm run poc3 && npm run poc4:build && npm run poc5
+      - if: always()
+        run: npm run cleanup
+      - name: sync POC outputs into the site
+        run: bash site/build/sync.sh
+      - name: validate (links, images, chrome, no secrets)
+        run: python3 site/build/validate.py
+      - uses: actions/configure-pages@v5
+        with: { enablement: true }      # enables Pages (source: GitHub Actions) when the token may; otherwise enable it once in Settings → Pages
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: site }
+  deploy:
+    needs: build
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment: { name: github-pages, url: "${{ steps.deployment.outputs.page_url }}" }
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

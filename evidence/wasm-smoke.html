@@ -1,0 +1,7 @@
+<!doctype html><script type="module">
+import init, { VectorDB, version, hnswAvailable } from './node_modules/@ruvector/wasm/pkg/ruvector_wasm.js';
+try{ await init(); const db=new VectorDB(4,'cosine',true);
+db.insert(new Float32Array([1,0,0,0]),'a',{t:'ABP row A'}); db.insert(new Float32Array([0,1,0,0]),'b',{t:'ABP row B'});
+const r=db.search(new Float32Array([0.9,0.1,0,0]),1);
+document.title='OK '+version()+' hnsw='+hnswAvailable()+' top='+JSON.stringify(r.map(x=>x.id));}catch(e){document.title='ERR '+e}
+</script>

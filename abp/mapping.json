@@ -1,0 +1,29 @@
+{
+  "_what": "ABP primitive (verb.object.reach) -> Ruflo policy action types (@claude-flow/security PolicyAction.type) and RVM rights. Action type names are OUR convention for the trace; Ruflo matches rules on whatever strings the caller emits. Keep them stable.",
+  "primitives": {
+    "read.file.project":               {"ruflo": ["file.read"],                 "rvm": ["READ"]},
+    "write.file.project":              {"ruflo": ["file.write", "file.edit"],   "rvm": ["WRITE"]},
+    "read.file.host":                  {"ruflo": ["file.read.host"],            "rvm": ["READ"]},
+    "write.file.host":                 {"ruflo": ["file.write.host"],           "rvm": ["WRITE"]},
+    "delete.file.host":                {"ruflo": ["file.delete"],               "rvm": ["WRITE"]},
+    "execute.process.host":            {"ruflo": ["command.run.host"],          "rvm": ["EXECUTE"]},
+    "execute.process.self":            {"ruflo": ["command.run", "test.run"],   "rvm": ["EXECUTE"]},
+    "send.endpoint.allowed":           {"ruflo": ["network.fetch"],             "rvm": ["EXECUTE"]},
+    "send.endpoint.world":             {"ruflo": ["network.fetch.world"],       "rvm": ["EXECUTE"]},
+    "read.credential.host":            {"ruflo": ["credential.read"],           "rvm": ["READ"]},
+    "authenticate-as.credential.tenant": {"ruflo": ["credential.use"],          "rvm": ["PROVE"]},
+    "grant.credential.self":           {"ruflo": ["permission.change"],         "rvm": ["GRANT"]},
+    "send.message.world":              {"ruflo": ["email.send", "message.send"], "rvm": ["EXECUTE"]},
+    "read.message.tenant":             {"ruflo": ["message.read"],              "rvm": ["READ"]},
+    "write.repository.project":        {"ruflo": ["repo.commit"],               "rvm": ["WRITE"]},
+    "write.repository.tenant":         {"ruflo": ["repo.push"],                 "rvm": ["WRITE"]},
+    "authenticate-as.credential.signing": {"ruflo": ["repo.sign"],              "rvm": ["PROVE"]},
+    "create.record.world":             {"ruflo": ["package.publish", "deploy"], "rvm": ["WRITE", "GRANT_ONCE"]},
+    "write.budget.tenant":             {"ruflo": ["model.call"],                "rvm": ["EXECUTE"]},
+    "create.schedule.host":            {"ruflo": ["schedule.create.host"],      "rvm": ["EXECUTE"]},
+    "read.record.history":             {"ruflo": ["history.read"],              "rvm": ["READ"]},
+    "create.schedule.tenant":          {"ruflo": ["schedule.create"],           "rvm": ["EXECUTE"]},
+    "read.record.browsing":            {"ruflo": ["browser.read"],              "rvm": ["READ"]}
+  },
+  "mandate_to_effect": {"yes": "allow", "no": "deny", "approval": "require_approval"}
+}

@@ -1,0 +1,1 @@
+Headless Chromium (Playwright), page loads ./node_modules/@ruvector/wasm/pkg/ruvector_wasm.js: title = OK 2.3.1 hnsw=true top=["a"] (VectorDB(4,'cosine',true); insert 2 vectors; search [0.9,0.1,0,0] k=1 -> 'a'). 14 Oct 2026.
