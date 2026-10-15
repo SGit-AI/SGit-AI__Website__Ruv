@@ -7,8 +7,8 @@
 Website: **https://ruv.sgit.ai** (GitHub Pages, deployed by `.github/workflows/deploy-pages.yml` from `site/`).
 
 Built on 14 Oct 2026 for *Agentic Engineering Live: rUv in London* (Agentics Foundation London, 15 Oct). The one-sentence story:
-rUv's stack (Ruflo, RuVector, RVM, MetaHarness) lets agents go to town. Ours adds the two things autonomy needs to be trusted:
-**a written mandate per agent (ABP)** and **memory with history that the host cannot read (sgit vaults)**. Six proofs of concept show both running *inside* his tools, in CI, in a browser and in a Claude Code session.
+rUv's stack (Ruflo, RuVector, RVM, MetaHarness) gives agents swarms, consensus, self-learning and speed, with its own policy engine and memory. Ours adds two things:
+**a written mandate per agent (ABP)**, compiled into Ruflo's own policy engine, and **a memory with history, encrypted before it leaves the agent (sgit vaults)**. Six proofs of concept show both running *inside* his tools, in CI, in a browser and in a Claude Code session.
 
 | Where | What |
 |---|---|

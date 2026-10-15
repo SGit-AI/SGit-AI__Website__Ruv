@@ -99,11 +99,11 @@ When this was written the ledger held nine runs (smoke-1 to r9-ask): 57 commits,
 
 ## 11. The city of vaults (7:42, slide 18)
 
-This one is older than ruv.sgit, and it is the reason ruv.sgit exists. In studio run 1, a Ruflo hive-mind (a queen and eight specialists, 31 calls, none failed) coordinated seven Claude Code subagents that built seven animations in parallel, about 630,000 tokens in all (629,857 by the host's usage report, `studio/run.json`). This was version 7: 102,599 tokens, 560 seconds. But the hive's shared memory said OK on a set and "key not found" on the very next get, so results travelled as broadcasts. That run had no vault; that gap is what a vault fills.
+This one is older than ruv.sgit, and it is the reason ruv.sgit exists. In studio run 1, a Ruflo hive-mind (a queen and eight specialists, 31 calls, none failed) coordinated seven Claude Code subagents that built seven animations in parallel, about 630,000 tokens in all (629,857 by the host's usage report, `studio/run.json`). This was version 7: 102,599 tokens, 560 seconds. But the hive's shared memory said OK on a set and "key not found" on the very next get, so results travelled as broadcasts. That run had no vault; a vault added alongside the hive is what ruv.sgit brings.
 
 The picture: each role's branch is a street, each commit a floor, and the mandate is a wall with gates. The first floors are POC2's real vault history; the streets are illustrative; then POC1's eleven actions drive out twice, once under Ruflo's default and once against the ABP.
 
-<figure class="live"><div class="live-frame" data-src="../studio/v7/index.html" data-end="39" data-title="The city of vaults" data-steps='[{"t":0,"label":"the vault remembers (POC2)"},{"t":9.2,"label":"run 1: Ruflo default"},{"t":17.4,"label":"run 2: the same 11 actions meet the wall"},{"t":30.6,"label":"the evidence"}]'></div><figcaption>Live page: <code>studio/v7/</code> (three.js, vendored). Made in studio run 1, without a vault. Always dark: it predates the site's themes. Steps measured from the page's phase captions.</figcaption></figure>
+<figure class="live"><div class="live-frame" data-src="../studio/v7/index.html" data-end="39" data-title="The city of vaults" data-steps='[{"t":0,"label":"the vault remembers (POC2)"},{"t":9.2,"label":"run 1: Ruflo default"},{"t":17.4,"label":"run 2: the same 11 actions meet the wall"},{"t":30.6,"label":"the evidence"}]'></div><figcaption>Live page: <code>studio/v7/</code> (three.js, vendored). Made in studio run 1, by a Ruflo hive of Claude Code subagents. Always dark: it predates the site's themes. Steps measured from the page's phase captions.</figcaption></figure>
 
 ## 12. Four ways to work with us (8:32, slide 20)
 

@@ -1,0 +1,187 @@
+{
+ "run": "r11-position",
+ "purpose": "r11-position: reposition 'autonomy you can trust' as additive: Ruflo's hive is not untrustworthy without us; sgit vaults and ABPs add a memory with history and a written mandate",
+ "feedback": "Dinis: change the references to 'autonomy you can trust', because that implies that without sgit and ABPs you can't trust it. It's a strong statement, and it's very important that we don't throw Ruflo's hive under the bus; it has a negative connotation. Find a different way to position this. It's fine to change the presentation and the articles.",
+ "vault_id": "s8nw67im",
+ "created_at": "2026-10-15T23:30:12+00:00",
+ "closed_at": "2026-10-15T23:40:01+00:00",
+ "deleted_at": "2026-10-15T23:40:01+00:00",
+ "hive": {
+  "workers": 1,
+  "tasks": 1,
+  "ruflo_calls": 7,
+  "ruflo_ms": 3101
+ },
+ "branches": [
+  {
+   "name": "w-editor",
+   "role": "editor",
+   "commits": 1,
+   "files": 36,
+   "bytes": 4010729,
+   "write_ms": 1597,
+   "merge_ms": 1521
+  }
+ ],
+ "commits": 3,
+ "files": 38,
+ "bytes_plain": 4011990,
+ "files_delivered": 36,
+ "bytes_delivered": 4010729,
+ "server_store": {
+  "files": 71,
+  "bytes": 4036421,
+  "plaintext_hits": 0,
+  "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+ },
+ "clone": {
+  "ms": 627,
+  "files": 38,
+  "identical": true
+ },
+ "ops": [
+  {
+   "op": "init",
+   "ms": 457,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 562,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 603,
+   "rc": 0
+  },
+  {
+   "op": "branch-new",
+   "ms": 463,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 443,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 685,
+   "rc": 0
+  },
+  {
+   "op": "branch-switch",
+   "ms": 477,
+   "rc": 0
+  },
+  {
+   "op": "merge",
+   "ms": 407,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 638,
+   "rc": 0
+  },
+  {
+   "op": "history",
+   "ms": 414,
+   "rc": 0
+  },
+  {
+   "op": "clone",
+   "ms": 626,
+   "rc": 0
+  }
+ ],
+ "ruflo": [
+  {
+   "seq": 1,
+   "actor": "queen",
+   "cmd": "hive-mind init -t hierarchical-mesh -c byzantine -m 12",
+   "rc": 0,
+   "ms": 748
+  },
+  {
+   "seq": 2,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t editor -r specialist -p editor",
+   "rc": 0,
+   "ms": 481
+  },
+  {
+   "seq": 3,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d editor: find every 'trust' framing that implies rUv's stack is untrustworthy without us, rephrase it as additive across the talk, slides, site, articles and README, and recapture the screenshots that show the old words -p high",
+   "rc": 0,
+   "ms": 438
+  },
+  {
+   "seq": 4,
+   "actor": "conductor",
+   "cmd": "hive-mind broadcast -m run r11-position: r11-position: reposition 'autonomy you can trust' as additive: Ruflo's hive is not untrustworthy without us; sgit vaults and ABPs add a memory with history and a written mandate -f conductor",
+   "rc": 0,
+   "ms": 410
+  },
+  {
+   "seq": 5,
+   "actor": "editor",
+   "cmd": "hive-mind broadcast -m delivered editor sha256:b84a35132a812625 files:36 -f editor",
+   "rc": 0,
+   "ms": 319
+  },
+  {
+   "seq": 6,
+   "actor": "queen",
+   "cmd": "hive-mind status",
+   "rc": 0,
+   "ms": 379
+  },
+  {
+   "seq": 7,
+   "actor": "queen",
+   "cmd": "daemon stop",
+   "rc": 0,
+   "ms": 326
+  }
+ ],
+ "history": [
+  {
+   "id": "182596e3a246",
+   "message": "init",
+   "time": "2026-10-15T23:30:14Z",
+   "files_added": 0,
+   "parents": 0
+  },
+  {
+   "id": "e218b7bfed3f",
+   "message": "brief: run r11-position",
+   "time": "2026-10-15T23:30:15Z",
+   "files_added": 2,
+   "parents": 1
+  },
+  {
+   "id": "f77fd208cedc",
+   "message": "editor editor: delivered 36 files",
+   "time": "2026-10-15T23:39:46Z",
+   "files_added": 36,
+   "parents": 1
+  }
+ ],
+ "workers": [
+  {
+   "id": "editor",
+   "role": "editor",
+   "tokens": 193102,
+   "tool_uses": 69,
+   "wall_s": 543
+  }
+ ],
+ "deleted_paths": 147,
+ "delete_check": {
+  "store_paths_left": 0,
+  "clone_after_delete": "failed"
+ }
+}

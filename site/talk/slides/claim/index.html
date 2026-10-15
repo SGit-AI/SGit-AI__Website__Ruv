@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>A memory you can trust</title>
+<title>A memory and a mandate</title>
 <link rel="stylesheet" href="../../../assets/themes.css">
 <script src="../../../assets/theme.js"></script>
 <script src="../../../assets/clock.js"></script>
@@ -75,7 +75,7 @@ svg .mono-t{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 </head>
 <body>
 <div id="cv">
-  <div id="hl">Autonomy needs a <em>memory you can trust</em>.</div>
+  <div id="hl">Autonomy goes further with <em>a memory and a mandate</em>.</div>
   <div id="act"></div>
   <div id="stage">
     <svg id="sv" viewBox="0 0 1280 300"></svg>
@@ -230,7 +230,7 @@ function panels() {
     { k: 'encrypted', v: n(D.hits), l: 'plaintext found on the server', s: n(D.probes) + ' fragments probed, ' + n(D.measured) + ' runs' },
     { k: 'versioned', v: n(D.commits), l: 'commits: who, what, when', s: 'on ' + n(D.branches) + ' branches, one per worker' },
     { k: 'scoped to one run', v: n(D.deleted) + '<small> of ' + n(D.runs) + '</small>', l: 'vaults measured, then deleted', s: n(D.verified) + ' checked: 0 store paths left' },
-    { k: 'a written mandate', c: 'mand', v: n(D.stopped) + '<small> of ' + n(D.rows) + '</small>', l: 'actions stopped by the policy', s: n(D.denied) + ' denied, ' + n(D.appr) + ' sent to a human; without it, ' + n(D.legacyAllowed) + ' of ' + n(D.rows) + ' ran' }
+    { k: 'a written mandate', c: 'mand', v: n(D.stopped) + '<small> of ' + n(D.rows) + '</small>', l: 'actions stopped by the policy', s: n(D.denied) + ' denied, ' + n(D.appr) + ' sent to a human; in legacy mode, ' + n(D.legacyAllowed) + ' of ' + n(D.rows) + ' ran' }
   ];
   E.pn.innerHTML = D.tiles.map(function (d) { return '<div class="p ' + (d.c || '') + '"><div class="k">' + esc(d.k) + '</div><div class="v">' + d.v + '</div><div class="l">' + esc(d.l) + '</div><div class="s">' + esc(d.s) + '</div></div>'; }).join('');
   E.tiles = Array.prototype.slice.call(E.pn.querySelectorAll('.p'));

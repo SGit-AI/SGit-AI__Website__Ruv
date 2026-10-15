@@ -16,7 +16,7 @@
    "title": "The claim",
    "slide": {
     "layout": "statement",
-    "text": "Autonomy needs two more things to be trusted.",
+    "text": "Autonomy goes further with a memory and a mandate.",
     "builds": [
      {
       "at": 8,
@@ -24,12 +24,12 @@
      },
      {
       "at": 16,
-      "text": "Memory with history the host can't read."
+      "text": "A memory with history, encrypted before it leaves the agent."
      }
     ],
-    "sub": "What tonight shows, inside rUv's stack"
+    "sub": "What tonight adds, inside rUv's stack"
    },
-   "say": "I'm Dinis, sgit.ai. rUv's stack lets agents go to town: swarms, consensus, self-learning. Autonomy needs two more things to be trusted: a written mandate per agent, and memory with history the host can't read. Tonight both run inside his tools."
+   "say": "I'm Dinis, sgit.ai. rUv's stack gives agents swarms, consensus, self-learning and speed, with its own policy engine and memory. What we add is a mandate, written down per agent, and a memory with history, encrypted before it leaves the agent. Tonight both run inside his tools."
   },
   {
    "id": "default",

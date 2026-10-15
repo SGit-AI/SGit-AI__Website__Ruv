@@ -21,13 +21,13 @@ Reuven Cohen (rUv): founder and Chief AI Officer, Cognitum One; creator of the A
 Fair note (Dinis's point): some of this is superseded by Claude Code itself (subagents, plugins, hooks), and Ruflo now plugs into Claude Code as a plugin or MCP server. The innovation rate is the point.
 
 ## The two halves (Dinis's framing)
-- rUv: let the agents go to town: swarms, consensus, self-learning, speed, autonomy, many agents.
+- rUv: swarms, consensus, self-learning, speed, autonomy, many agents, with a policy engine (legacy/observe/enforce, hash-chained receipts) and memory (AgentDB, RuVector).
 - Dinis: determinism and memory: what the agent is allowed to do (ABP), and what it did and knew, kept encrypted, versioned and reviewable (sgit), read through a graph.
-Autonomy needs both: the more the swarm learns and evolves, the more you need a written mandate and a history you can trust.
+Autonomy goes further with both: the more the swarm learns and evolves, the more a written mandate and a versioned history add.
 
-## Where his own docs leave the gaps we fill
+## Where our pieces add to his (read from his own docs)
 - CORRECTED 15 Oct 2026 (run r4-hero): "no encryption at rest or in transit" and "no document versioning" are NOT in RuVector's README; it ships snapshots and copy-on-write branching. Its "Security and governance" section (github.com/ruvnet/ruvector, main) says witnesses "do not encrypt memory content", filters "are not a complete authorization boundary", replication uses "simulated transport", deletes do not reach snapshots/branches/replicas/exports. Original note, kept for the record: RuVector, in its own words: no encryption at rest or in transit ("witnesses do not encrypt memory content"; embeddings are sensitive); no document versioning; replication with "simulated transport", "not a complete production network replication plane"; "collections and metadata filters ... are not a complete authorization boundary"; deletes do not reach snapshots, branches or replicas. => sgit: encrypted client-side, server sees ciphertext, full history, branch/merge, clone anywhere.
-- Ruflo: anti-drift pins the spec; deviations become votes. No permissions model, RBAC or audit log described. => ABP: the spec becomes a mandate per queen and worker: reach, mandate, gap, barriers, owner.
+- Ruflo: anti-drift pins the spec; deviations become votes; its policy engine (legacy/observe/enforce modes, approvals, budgets, hash-chained receipts) enforces rules. (CORRECTED 15 Oct 2026: an earlier note here said no permissions model or audit log was described; ruv-stack.html lists what Ruflo ships.) => ABP adds the spec as a mandate per queen and worker, compiled into that engine: reach, mandate, gap, barriers, owner.
 - MetaHarness: ships "a governance policy" per harness. => ABP is that policy as a document the CISO and insurer read; MetaHarness can be one of its enforcers.
 - RVM: capabilities and witness logs enforce reach. => ABP says why each right was granted; RVM tokens are the compiled form.
 - Learning loops (SONA, ReasoningBank, Darwin mode): behaviour changes over time. => versioned ABPs and sgit history show what changed, when, and let you roll back a learned pattern.
@@ -36,7 +36,7 @@ Autonomy needs both: the more the swarm learns and evolves, the more you need a 
 | His piece | Our piece | Together |
 |---|---|---|
 | Ruflo swarm (queens, 8 workers) | ABP per role | A swarm whose every role has a written mandate; anti-drift votes check against it |
-| RuVector memory | sgit vault | Agent memory that is encrypted, versioned and shareable without trusting the host |
+| RuVector memory | sgit vault | Agent memory that is encrypted, versioned and shareable, with the host holding only ciphertext |
 | RVF witness logs, RVM witness chain | sgit commits | Witness logs committed per session: tamper-evident and private and replayable |
 | MetaHarness governance policy | ABP | Policy as code (his) plus policy as document (ours), generated from each other |
 | RVM capabilities (7 rights) | ABP rows | ABP row -> capability tokens; every token traceable to a mandate |

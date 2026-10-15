@@ -17,7 +17,7 @@
 <section class="hero"><div class="wrap">
 <p class="k">Start from what you want to do, not from a repository</p>
 <h1>Six use cases</h1>
-<p class="lead">Each one names the problem, the piece of rUv's stack that does the autonomous part, the piece of ours that does the trust part, the flow, and the proof. The first four are built and run; the last two are designed and partly run.</p>
+<p class="lead">Each one names the problem, the piece of rUv's stack that does the work, the piece of ours that it adds, the flow, and the proof. The first four are built and run; the last two are designed and partly run.</p>
 <div class="toc"><a href="#govern">1 Govern a swarm</a><a href="#remember">2 Remember across runs</a><a href="#prove">3 Prove what happened</a><a href="#publish">4 Publish only on approval</a><a href="#learn">5 Learn with rollback</a><a href="#anywhere">6 Run anywhere</a></div>
 <figure class="fig half" style="margin-top:24px"><img src="assets/img/use-cases.webp" alt="Six use-case tiles"></figure>
 </div></section>
@@ -55,7 +55,7 @@ sequenceDiagram
 </div></section>
 
 <section class="alt" id="remember"><div class="wrap">
-<h2>2. Remember across runs, on a machine you do not trust <span class="pill">built · POC2</span></h2>
+<h2>2. Remember across runs, on a machine you do not control <span class="pill">built · POC2</span></h2>
 <div class="two">
 <div>
 <p><b>Problem.</b> Agents learn things during a run. On an ephemeral runner that memory dies with the job; on a shared server the host can read it. RuVector's README is candid about its boundaries: its witness logs “do not encrypt memory content”, filters “are not a complete authorization boundary”, replication runs on “simulated transport”, and a delete “does not automatically remove copies in snapshots, branches, replicas, exports”.</p>

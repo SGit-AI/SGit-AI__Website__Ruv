@@ -69,7 +69,7 @@ npx ruflo daemon stop                    # it auto-starts a daemon; stop it in e
 </div>
 <div>
 <div class="card"><h4>When to reach for it</h4><ul><li>You want more than one agent on a task and a defined way to split and merge the work (SPARC).</li><li>You want agents to learn routing from past outcomes (hooks, ReasoningBank).</li><li>You want a policy engine with receipts, without writing one.</li></ul></div>
-<div class="card"><h4>What it already has, and where an ABP fits</h4><p>Ruflo already has console permission levels, a policy engine with rules, approvals, budgets and a hash-chained receipt ledger, federation trust levels with compliance audit trails, and AgentDB audit trails. What it does not ship is a per-role mandate as a written, human-readable document with an owner and an end date: that is where an ABP fits, compiled into the engine's own rules.</p></div>
+<div class="card"><h4>What it already has, and where an ABP fits</h4><p>Ruflo already has console permission levels, a policy engine with rules, approvals, budgets and a hash-chained receipt ledger, federation trust levels with compliance audit trails, and AgentDB audit trails. An ABP adds a per-role mandate as a written, human-readable document with an owner and an end date, compiled into the engine's own rules.</p></div>
 <div class="card"><h4>Pitfalls we hit</h4><ul><li><code>memory export</code> returned 0 entries after a successful <code>store</code> (they read different stores); <code>import</code> failed on a fresh project. Copying the DB files works.</li><li>Install <b>with</b> scripts so better-sqlite3 builds; otherwise it falls back to sql.js and warns that persistence is not guaranteed.</li></ul></div>
 </div>
 </div>

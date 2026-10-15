@@ -36,7 +36,7 @@
     "heading": "The claim",
     "sub": "Encrypted · versioned · scoped to one run · a written mandate: each number read from data/vaults.json and data/report.json"
    },
-   "say": "rUv's stack gives agents swarms, consensus, self-learning and speed. To trust all that, autonomy needs a memory you can trust. Here a worker learns something. It is encrypted before it leaves the agent, so the server only ever holds ciphertext: zero plaintext found, across every run. It is versioned, so you know who learned what, and when. It is scoped to one run: the vault is measured, then deleted. And each agent gets a written mandate for what it may do: six of eleven actions stopped. Tonight is mostly about the memory."
+   "say": "rUv's stack gives agents swarms, consensus, self-learning and speed, with its own policy engine and memory. What we add is a memory with history, and a mandate. Here a worker learns something. It is encrypted before it leaves the agent, so the server only ever holds ciphertext: zero plaintext found, across every run. It is versioned, so you know who learned what, and when. It is scoped to one run: the vault is measured, then deleted. And a mandate, written down, compiled into Ruflo's own policy engine: six of eleven actions stopped. Tonight is mostly about the memory."
   },
   {
    "id": "stack",
@@ -230,7 +230,7 @@
     "caption": "Studio v6 · the hive in 3D · studio run 1: ruflo hive-mind 3.56.10, 8 specialists, 7 tasks, 31 calls, none failed · evidence/poc7-trace.jsonl",
     "speed": 1.3
    },
-   "say": "Why give the hive a vault at all? In our first studio run, Ruflo's hive-mind coordinated eight specialists: thirty-one calls, none failed. But its shared memory said OK on set, and key not found on the very next get. Memory was the weak link, and that run had no vault: it passed results along as broadcasts instead. ruv.sgit gives the hive one."
+   "say": "What does a vault add to a hive? In our first studio run, Ruflo's hive-mind coordinated eight specialists: thirty-one calls, none failed. In that run, its shared memory returned OK on set and key not found on the next get, so results went along as broadcasts. ruv.sgit adds a vault alongside: one shared, versioned memory per run."
   },
   {
    "id": "motion",
@@ -273,7 +273,7 @@
     "fallback": "../studio/posters/v7.webp",
     "caption": "Studio v7 · the city of vaults: a street per branch, a floor per commit, the Agent Behaviour Policy (ABP) as the city wall · built by a Claude Code subagent"
    },
-   "say": "Zoom out, and it's a city: each branch a street, each commit a floor, the mandate as the wall, with its gates. Seven of these animations were built in parallel by Claude Code subagents, coordinated by a Ruflo hive, without a vault, in one studio run: about six hundred and thirty thousand tokens, and under ten minutes each. Three of them are in this talk; all seven are on the site. Which brings us to the wall."
+   "say": "Zoom out, and it's a city: each branch a street, each commit a floor, the mandate as the wall, with its gates. Seven of these animations were built in parallel by Claude Code subagents, coordinated by a Ruflo hive on its own, in one studio run: about six hundred and thirty thousand tokens, and under ten minutes each. Three of them are in this talk; all seven are on the site. Which brings us to the wall."
   },
   {
    "id": "table",

@@ -5,9 +5,22 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.28",
+   "version": "v0.1.29",
    "date": "2026-10-15",
    "commit": null,
+   "title": "Additive, not deficit: 'autonomy you can trust' reworded (run r11-position)",
+   "changes": "At Dinis's request, every line that implied rUv's stack cannot be trusted without sgit and ABPs is reworded as what we add. The claim slide now reads 'Autonomy goes further with a memory and a mandate.'; the equation closes with 'autonomy with a memory and a mandate'; the spoken claim credits Ruflo's own policy engine and memory, then names what we add (a memory with history, encrypted before it leaves the agent; a mandate, written down, compiled into Ruflo's own policy engine). 'The weak link', 'go to town' and 'without a vault' are gone from the talk, the site, the README and the articles; the studio run 1 memory result is stated plainly. The long read and walking backwards note the rewording. Historical records (the ledger, evidence, run specs) are unchanged.",
+   "pages": [
+    "talk/slides/claim/index.html",
+    "ruv-sgit/define/equation/index.html",
+    "articles/the-talk-long-read.html",
+    "articles/walking-backwards.html"
+   ]
+  },
+  {
+   "version": "v0.1.28",
+   "date": "2026-10-15",
+   "commit": "cedf878",
    "title": "Five articles after the talk (run r10-articles)",
    "changes": "Run r10-articles (5 workers, 7 commits, plaintext found on the server 0, fresh clone identical, vault deleted and verified) wrote five articles while it was fresh: The talk, slide by slide (a long read with 93 screenshots); The talk, live (13 animations embedded with their own controls); How it was made (the history from agents the session ran itself to ruv.sgit runs, with its numbers computed by a script); The talk player (every feature, a business for somebody to build, and Claude speaking for itself); Walking backwards (the non-linear path to the features, failures and bugs included). The Articles menu lists them.",
    "pages": [

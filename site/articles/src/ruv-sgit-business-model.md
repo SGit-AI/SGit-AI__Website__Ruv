@@ -17,7 +17,7 @@ Six things to know.
 | Thing | What to know |
 |---|---|
 | **The business** | Agent work done under a written policy, with a record the customer keeps. A queen and a team of agent workers do one task; their messages, deliveries and decisions go into an sgit vault; the vault is what the customer receives. |
-| **Why now** | Multi-agent hives are available as open source (Ruflo, by rUv / ruvnet, MIT), model tokens are bought by the million, and machines by the hour. What is scarce is a run somebody can trust afterwards: what the agents were allowed to do, and proof of what they did. |
+| **Why now** | Multi-agent hives are available as open source (Ruflo, by rUv / ruvnet, MIT), model tokens are bought by the million, and machines by the hour. What is scarce is a run somebody can check afterwards: what the agents were allowed to do, and proof of what they did. |
 | **The stack** | Ruflo's hive-mind (a queen, workers, tasks, a policy engine with legacy, observe and enforce modes that writes a decision receipt for each action), sgit vaults (encrypted, versioned, the server holds ciphertext only) and Agent Behaviour Policies (what each agent may do, and the barrier when it may not). |
 | **What you sell** | Four offers: task runs on shared infrastructure, dedicated compute per task, a maintained repository you run yourself, and expert time. Three sizes each, published prices, mixed and matched in one order. |
 | **The numbers** | Target margin 40%, floor 35%, at the base assumptions. Run margins 39% / 47% / 50%; compute 38% / 38% / 43%; repository 43% / 42% / 47%; expert time 55% / 52% / 46%. The biggest sensitivity is operator minutes per run. |
