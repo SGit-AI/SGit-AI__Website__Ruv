@@ -1,4 +1,8 @@
+<img src="site/assets/brand/ruv-sgit-logo.svg" alt="ruv.sgit" width="420">
+
 # ruv.sgit.ai: sgit vaults + Agent Behaviour Policies inside rUv's agentic stack
+
+[![built with ruv.sgit](site/assets/brand/ruv-sgit-badge.svg)](https://ruv.sgit.ai/ruv-sgit/index.html)
 
 Website: **https://ruv.sgit.ai** (GitHub Pages, deployed by `.github/workflows/deploy-pages.yml` from `site/`).
 

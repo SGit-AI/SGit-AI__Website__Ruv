@@ -84,6 +84,9 @@ tr.row { opacity:.08; transition:opacity .4s } tr.row.on { opacity:1 }
 .foot { color:var(--dim); margin-top:2vh; font-size:2vh }
 ul.bul { list-style:none; padding:0; font-size:3.4vh; margin:0 } ul.bul li { margin:2.2vh 0; opacity:0; transition:opacity .5s } ul.bul li.on { opacity:1 } ul.bul li:before { content:"→ "; color:var(--teal) }
 .image img { display:block; max-width:100%; max-height:58vh; border-radius:12px; border:1px solid var(--line) }
+.image .imgwrap { position:relative; display:inline-block; max-width:100% }
+.image .b.punch { position:absolute; right:-2vw; bottom:-3vh; margin:0; white-space:nowrap; font:600 4.6vh/1.2 Georgia,serif; color:var(--head); background:var(--panel); border:2px solid var(--accent); border-radius:14px; padding:2.2vh 2.4vw; box-shadow:0 12px 40px rgba(0,0,0,.28); transform:translateY(2vh) rotate(-1.5deg) scale(.96) }
+.image .b.punch.on { transform:rotate(-1.5deg) }
 .quote blockquote { font:500 4.6vh/1.3 Georgia,serif; margin:0 0 3vh; border-left:6px solid var(--teal); padding-left:3vw }
 .quote blockquote .b { font-size:inherit; margin:0 0 2vh }
 .quote cite { color:var(--dim); font-size:2.3vh; font-style:normal }
@@ -243,7 +246,7 @@ function render(b) {
     el.innerHTML = `<blockquote>${s.lines.map((x, i) => `<div class="b" data-at="${i * (s.reveal_every || 0)}">${x}</div>`).join('')}</blockquote><cite>${s.cite || ''}</cite>`
   } else if (s.layout === 'image') {
     const src = window.TALK_IMAGES?.[s.src] || s.src
-    el.innerHTML = `<img src="${src}" alt="${esc(s.alt || s.caption || '')}">`
+    el.innerHTML = `<div class="imgwrap"><img src="${src}" alt="${esc(s.alt || s.caption || '')}">${(s.builds || []).map(x => `<div class="b punch" data-at="${x.at}">${x.text}</div>`).join('')}</div>`   // builds on an image: a punchline over it
   } else if (s.layout === 'iframe') {
     if (location.protocol === 'file:' && s.fallback) {   // a live page cannot load its WASM from file://; show the recorded screenshot
       const src = window.TALK_IMAGES?.[s.fallback] || s.fallback

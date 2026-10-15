@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 96" width="500" height="96" role="img" aria-label="ruv.sgit">
+  <title>ruv.sgit: a Ruflo hive + sgit vaults + Agent Behaviour Policies</title>
+  <g transform="translate(8 14) scale(1.06)">
+    <path d="M32 3.5 56.7 17.75v28.5L32 60.5 7.3 46.25v-28.5Z" fill="#0f766e" stroke="#0b5a54" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M32 11 50.2 21.5v21L32 53 13.8 42.5v-21Z" fill="none" stroke="#5eead4" stroke-opacity=".45" stroke-width="1.6" stroke-linejoin="round"/>
+    <circle cx="32" cy="28.5" r="6.4" fill="#fff"/><path d="M28.6 31.5h6.8l2.4 13h-11.6Z" fill="#fff"/>
+    <circle cx="20.5" cy="20.5" r="2.4" fill="#f0b45a"/><circle cx="32" cy="15" r="2.4" fill="#f0b45a"/><circle cx="43.5" cy="20.5" r="2.4" fill="#f0b45a"/>
+  </g>
+  <text x="92" y="58" font-family="ui-sans-serif,-apple-system,'Segoe UI',Inter,Helvetica,Arial,sans-serif" font-size="46" font-weight="800" letter-spacing="-1" fill="#1a1f24">ruv<tspan fill="#0f766e">.</tspan>sgit</text>
+  <text x="94" y="82" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="12.5" fill="#5b6470">a Ruflo hive + sgit vaults + Agent Behaviour Policies</text>
+</svg>

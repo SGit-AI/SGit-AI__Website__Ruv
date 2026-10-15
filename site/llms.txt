@@ -60,6 +60,9 @@ This file is the briefing for agents working on this site. Every page has the si
 - Five themes from newsroom.sgit.ai (Newsprint, Night, Paper, Blueprint, Ember) in `assets/themes.css` (token blocks copied unchanged), applied before paint by `assets/theme.js` (localStorage `ruv.theme`, or `?theme=` for one page). Every colour on the site is a token; terminal blocks stay dark in every theme. The player, the live app and the ruv.sgit pages read the same tokens.
 - Navigation: five groups (Tonight, The idea, Proofs, Articles, Work with us) built by `assets/site.js`; the collaboration is written "rUv + sgit".
 
+## Brand
+- ruv.sgit logo, icon and 'built with ruv.sgit' badge (SVG): [logo](https://ruv.sgit.ai/assets/brand/ruv-sgit-logo.svg) · [icon](https://ruv.sgit.ai/assets/brand/ruv-sgit-icon.svg) · [badge](https://ruv.sgit.ai/assets/brand/ruv-sgit-badge.svg). Written "ruv.sgit" (lowercase, with the dot, like its domain); the collaboration is "rUv + sgit".
+
 ## Releases
 - [Release history](https://ruv.sgit.ai/admin/versions.md) ([versions.json](https://ruv.sgit.ai/admin/versions.json)): the site version is in the nav of every page and increments on every push to `dev`; add a release at the top of `site/admin/versions.json` and run `site/build/versions.py`
 

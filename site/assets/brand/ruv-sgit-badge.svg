@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="168" height="24" viewBox="0 0 168 24" role="img" aria-label="built with ruv.sgit">
+  <title>built with ruv.sgit: a Ruflo hive + sgit vaults + Agent Behaviour Policies</title>
+  <clipPath id="r"><rect width="168" height="24" rx="5"/></clipPath>
+  <g clip-path="url(#r)"><rect width="74" height="24" fill="#3b4048"/><rect x="74" width="94" height="24" fill="#0f766e"/></g>
+  <text x="37" y="16.2" text-anchor="middle" font-family="ui-sans-serif,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="11.5" fill="#fff">built with</text>
+  <g transform="translate(79 3) scale(.28)"><path d="M32 3.5 56.7 17.75v28.5L32 60.5 7.3 46.25v-28.5Z" fill="#fff" fill-opacity=".18" stroke="#fff" stroke-width="3"/><circle cx="32" cy="28.5" r="7.5" fill="#fff"/><path d="M28.2 31.5h7.6l2.8 14h-13.2Z" fill="#fff"/></g>
+  <text x="128" y="16.4" text-anchor="middle" font-family="ui-sans-serif,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12.5" font-weight="700" fill="#fff">ruv.sgit</text>
+</svg>

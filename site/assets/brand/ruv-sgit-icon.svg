@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="ruv.sgit">
+  <title>ruv.sgit: a Ruflo hive + sgit vaults + Agent Behaviour Policies</title>
+  <!-- the hive: a hexagon; the vault: a keyhole; the mandate: the three workers it lets through -->
+  <path d="M32 3.5 56.7 17.75v28.5L32 60.5 7.3 46.25v-28.5Z" fill="#0f766e" stroke="#0b5a54" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M32 11 50.2 21.5v21L32 53 13.8 42.5v-21Z" fill="none" stroke="#5eead4" stroke-opacity=".45" stroke-width="1.6" stroke-linejoin="round"/>
+  <circle cx="32" cy="28.5" r="6.4" fill="#fff"/>
+  <path d="M28.6 31.5h6.8l2.4 13h-11.6Z" fill="#fff"/>
+  <circle cx="20.5" cy="20.5" r="2.4" fill="#f0b45a"/><circle cx="32" cy="15" r="2.4" fill="#f0b45a"/><circle cx="43.5" cy="20.5" r="2.4" fill="#f0b45a"/>
+</svg>

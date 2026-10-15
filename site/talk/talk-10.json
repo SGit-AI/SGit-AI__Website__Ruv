@@ -42,15 +42,21 @@
    "id": "stack",
    "at": 53,
    "dur": 8,
-   "title": "Before ruv.sgit: an AI infographic",
+   "title": "rUv's stack, as an AI infographic",
    "slide": {
     "layout": "image",
     "src": "../assets/img/ruv-stack-layers.webp",
     "caption": "Bottom to top: RVM, RuVector, Ruflo, MetaHarness, the hosts · all MIT, by rUv / ruvnet",
-    "heading": "Before ruv.sgit: an AI infographic",
-    "sub": "rUv's stack, drawn by an image model: cool, until we had the ruv.sgit workflow (next slide)"
+    "heading": "rUv's stack, in one picture",
+    "sub": "An infographic drawn by an image model",
+    "builds": [
+     {
+      "at": 3.5,
+      "text": "… but that was before we had <b style=\"color:var(--accent)\">ruv.sgit</b> 🙂"
+     }
+    ]
    },
-   "say": "This is rUv's stack as an AI infographic, made with an image model. It was cool, until we had the ruv.sgit workflow. Here's the same picture, made that way."
+   "say": "Here's rUv's stack as an infographic, drawn by an image model. Pretty cool. But that was before we had ruv.sgit. Here's the same picture, made that way."
   },
   {
    "id": "stack-ruv",
