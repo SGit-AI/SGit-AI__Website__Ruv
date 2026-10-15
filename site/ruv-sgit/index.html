@@ -35,7 +35,7 @@
 <li><b>Open</b>The queen spawns one worker per role and queues a task each; a new vault is created and the feedback that started the run is committed as its brief.</li>
 <li><b>Work in parallel</b>Each worker builds its part at the same time, on its own branch.</li>
 <li><b>Deliver</b>Each delivery is committed on the worker's branch, pushed, and merged into <code>current</code>; the hive gets a broadcast with its hash.</li>
-<li><b>Close and measure</b>History, files, bytes; every byte the server stored is searched for the plaintext; a fresh clone is compared file by file.</li>
+<li><b>Close and measure</b>History, files, bytes; text fragments sampled from the delivered files (up to 40) are searched for in every byte the server stored; a fresh clone is compared file by file.</li>
 <li><b>Delete</b>Ephemeral: the vault's objects leave the server, the key is destroyed, the working copy goes.</li>
 <li><b>Ledger</b>The run's numbers join <a href="../data/vaults.json">data/vaults.json</a> and its full record <code>evidence/ruv-sgit/&lt;run&gt;.json</code>.</li>
 </ol>
@@ -54,6 +54,12 @@
 <div class="card"><h3><a href="motion/index.html">ruv.sgit in motion</a></h3><p>A real run, animated from its ledger entry: the queen, the workers in parallel, branches, merges, the close, the delete.</p></div>
 <div class="card"><h3><a href="ledger/index.html">The vault ledger</a></h3><p>Every vault so far: lifecycles, commits, bytes, what the server held, clone checks, sgit operation timings.</p></div>
 <div class="card"><h3><a href="case/index.html">One ephemeral vault</a></h3><p>A case study, start to finish, with the numbers of one run, beside what the newsroom measured on append lanes.</p></div>
+</div>
+<h3>The definition, animated (run r3-define)</h3>
+<div class="cards">
+<div class="card"><h3><a href="define/equation/index.html">The equation</a></h3><p>A Ruflo hive + sgit vaults + Agent Behaviour Policies, each with one measured number, fused into ruv.sgit.</p></div>
+<div class="card"><h3><a href="define/layers/index.html">The layers</a></h3><p>Hive, mandate and vault as three planes: POC1's decisions at the mandate, run r2-materials' deliveries in the vault, then the stack lays flat into the tagline.</p></div>
+<div class="card"><h3><a href="define/journey/index.html">One action's journey</a></h3><p>Three of POC1's recorded decisions, act by act: a file write allowed, an email denied with its why, a deploy waiting for a named human.</p></div>
 </div>
 <div class="frame"><iframe src="motion/index.html" title="ruv.sgit in motion" loading="lazy"></iframe></div>
 </div></section>

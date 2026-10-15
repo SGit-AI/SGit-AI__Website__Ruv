@@ -67,6 +67,7 @@ body.narrow{overflow-x:hidden;overflow-y:auto}
 .tok{position:absolute;left:0;top:0;width:20px;height:20px;border-radius:6px;background:var(--accent);color:var(--on-accent);font:800 13px/20px system-ui,sans-serif;text-align:center;opacity:0}
 .tok.task{width:16px;height:16px;border-radius:4px;background:var(--accent)}
 .tok.deny{background:var(--red)} .tok.appr{background:var(--warm)} .tok.parcel{background:var(--head);color:var(--bg)}
+.cond{position:absolute;left:0;top:0;padding:4px 10px;border-radius:8px;border:2px dashed var(--head);background:var(--panel2);color:var(--head);font:700 13px ui-monospace,monospace;white-space:nowrap;opacity:0}
 .shd{position:absolute;left:0;top:0;width:22px;height:22px;border-radius:50%;background:var(--fg);opacity:0}
 
 /* labels flying into the tagline */
@@ -131,7 +132,7 @@ body.narrow{overflow-x:hidden;overflow-y:auto}
   <div id="tagsub"></div>
   <div class="lab" id="lab-hive"><span class="t">Ruflo hive</span><span class="s">queen + workers, in parallel</span></div>
   <div class="lab" id="lab-abp"><span class="t">Agent Behaviour Policies</span><span class="s">the mandate · POC1</span></div>
-  <div class="lab" id="lab-vault"><span class="t">sgit vaults</span><span class="s">encrypted · one per run</span></div>
+  <div class="lab" id="lab-vault"><span class="t">sgit vaults</span><span class="s">encrypted client-side · one per run</span></div>
   <div id="ft">An illustration drawn from recorded data. Gates: POC1, 11 actions through Ruflo's policy engine with an ABP compiled (data/report.json). Vault: run r2-materials (data/vaults.json). ruv.sgit runs so far were not gated by a compiled ABP. Ruflo is MIT, by rUv / ruvnet.</div>
   <div id="bar"><i></i></div>
 </div>
@@ -198,7 +199,7 @@ function build(V, R) {
 /* ---------- geometry (plane coordinates, px) ---------- */
 var G = {};
 function geometry() {
-  G.queen = [200, 104];
+  G.queen = [200, 104]; G.cond = [470, -40];
   G.wk = []; for (var i = 0; i < D.nW; i++) { var a = (-90 + i * 360 / D.nW) * Math.PI / 180; G.wk.push([200 + 140 * Math.cos(a), 102 + 72 * Math.sin(a)]); }
   G.queue = []; for (i = 0; i < D.run.hive.tasks; i++) G.queue.push([26 + i * 22, 40]);
   G.gate = { allowed: [76, 148], approval: [200, 148], denied: [324, 148] };
@@ -208,7 +209,6 @@ function geometry() {
     r.src = r.who.indexOf('queen') === 0 ? G.queen : G.wk[D.roles.indexOf(r.who) % D.nW];
     var g = G.gate[r.out], n = k[r.out]++, off = [-22, 22, 0, -11, 11, 0][n % 6];
     r.dst = [g[0] + off, g[1] + (n % 2 ? 12 : -12)];
-    r.land = [40 + j * 32, 205];
     r.t0 = 5.5 + j * 0.62;
   });
   // r2-materials branches in the vault plane
@@ -216,11 +216,11 @@ function geometry() {
   D.run.branches.forEach(function (b, i) {
     var y = 30 + i * 28, xf = 64 + i * 7, cx = 152 + i * 20, mx = 262 + i * 22;
     var wi = -1; D.workers.forEach(function (w, j) { if ('w-' + w.id === b.name) wi = j; });
-    b.src = wi >= 0 ? G.wk[wi] : G.queen;
+    b.src = wi >= 0 ? G.wk[wi] : G.cond; b.conductor = wi < 0;
     b.y = y; b.cx = cx; b.mx = mx;
     b.lane = 'M' + xf + ',' + G.trunkY + ' C' + xf + ',' + y + ' ' + xf + ',' + y + ' ' + (xf + 26) + ',' + y + ' H' + cx;
     b.merge = 'M' + cx + ',' + y + ' H' + (mx - 28) + ' C' + mx + ',' + y + ' ' + mx + ',' + y + ' ' + mx + ',' + G.trunkY;
-    b.t0 = 13.7 + i * 0.12; b.drop = 14.1 + i * 0.4; b.mt = 17.7 + i * 0.5;
+    b.t0 = 13.7 + i * 1.0; b.drop = b.t0 + 0.1; b.mt = b.t0 + 1.4;
   });
 }
 
@@ -248,7 +248,7 @@ function scene() {
   var q = el('div', 'queen', ph, 'QUEEN'); q.style.left = G.queen[0] + 'px'; q.style.top = G.queen[1] + 'px';
   // mandate
   var pa = E.plane.abp;
-  el('div', 'pt', pa, 'POC1 · ABP compiled into Ruflo');
+  el('div', 'pt', pa, 'POC1 · ABP in Ruflo\'s enforce mode');
   E.gate = {};
   [['allowed', 'g-allow', 'allow'], ['approval', 'g-appr', 'approval'], ['denied', 'g-deny', 'deny']].forEach(function (g) {
     var e = el('div', 'gate ' + g[1], pa, '<span class="g">' + g[2] + '</span><span class="n">0</span>');
@@ -258,7 +258,7 @@ function scene() {
   // vault
   var pv = E.plane.vault;
   el('div', 'hex', pv, hexBlock(900));
-  el('div', 'lock', pv, 'AES-256-GCM · ciphertext only');
+  el('div', 'lock', pv, 'AES-256-GCM' + (D.probeN ? ' · probe: ' + D.run.server_store.plaintext_hits + '/' + D.probeN + ' found' : ''));
   var vt = el('div', 'pt', pv, 'sgit · ' + esc(D.run.run)); vt.style.top = '9px'; vt.style.bottom = 'auto';
   var svg = '<svg viewBox="0 0 400 230" aria-hidden="true">' +
     '<line x1="16" y1="' + G.trunkY + '" x2="388" y2="' + G.trunkY + '" stroke="var(--head)" stroke-width="4" stroke-linecap="round" id="trunk"/>' +
@@ -266,15 +266,15 @@ function scene() {
   D.run.branches.forEach(function (b, i) {
     svg += '<path d="' + b.lane + '" pathLength="1" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="1 1" stroke-dashoffset="1" id="ln' + i + '"/>' +
       '<path d="' + b.merge + '" pathLength="1" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="1 1" stroke-dashoffset="1" id="mg' + i + '"/>' +
-      '<text x="' + (b.cx - 6) + '" y="' + (b.y - 7) + '" font-size="11.5" font-weight="700" text-anchor="end" fill="var(--text)" font-family="ui-monospace,monospace" opacity="0" id="bt' + i + '">' + esc(b.name) + '</text>' +
+      '<text x="' + (b.cx - 6) + '" y="' + (b.y - 7) + '" font-size="11.5" font-weight="700" text-anchor="end" fill="var(--text)" font-family="ui-monospace,monospace" opacity="0" id="bt' + i + '">' + esc(b.name) + (b.conductor ? ' (conductor)' : '') + '</text>' +
       '<circle cx="' + b.cx + '" cy="' + b.y + '" r="0" fill="var(--accent)" stroke="var(--panel)" stroke-width="2" id="cd' + i + '"/>' +
       '<circle cx="' + b.mx + '" cy="' + G.trunkY + '" r="0" fill="var(--head)" stroke="var(--panel)" stroke-width="2" id="md' + i + '"/>';
   });
   for (var i = 0; i < D.trunk; i++) svg += '<circle cx="' + (26 + i * 16) + '" cy="' + G.trunkY + '" r="0" fill="var(--head)" stroke="var(--panel)" stroke-width="2" id="td' + i + '"/>';
   pv.insertAdjacentHTML('beforeend', svg + '</svg>');
   E.scan = el('div', '', pv); E.scan.id = 'scan';
-  E.seal = el('div', '', pv, '<b>sealed</b><span>measured on close</span>'); E.seal.id = 'seal';
-  E.ghost = el('div', ''); E.ghost.id = 'ghost';
+  E.seal = el('div', '', pv, '<b>measured</b><span>on close</span>'); E.seal.id = 'seal';
+  E.cond = el('div', 'cond', null, 'conductor · the host'); E.ghost = el('div', ''); E.ghost.id = 'ghost';
   E.ghost.innerHTML = '<b>deleted</b><span>' + fmt(D.run.deleted_paths) + ' store paths · ' + D.run.delete_check.store_paths_left + ' left</span>';
   // tokens
   E.task = G.queue.map(function () { return el('div', 'tok task'); });
@@ -283,7 +283,7 @@ function scene() {
   E.lab = { hive: $('lab-hive'), abp: $('lab-abp'), vault: $('lab-vault') };
   E.slot = { hive: $('slot-hive'), abp: $('slot-abp'), vault: $('slot-vault') };
   var ab = D.cnt;
-  $('tagsub').innerHTML = '<b>Ruflo</b>: a queen and ' + D.nW + ' workers in parallel · <b>ABP</b> (POC1): ' + ab.denied + ' denied, ' + ab.approval + ' for approval, ' + ab.allowed + ' allowed · <b>vault</b> ' + esc(D.run.run) + ': ' + D.run.branches.length + ' branches, ' + D.run.commits + ' commits, measured, then deleted';
+  $('tagsub').innerHTML = '<b>Ruflo</b>: a queen and ' + D.nW + ' workers in parallel · <b>ABP</b> (POC1): ' + ab.denied + ' denied, ' + ab.approval + ' for approval, ' + ab.allowed + ' allowed · <b>vault</b> ' + esc(D.run.run) + ': ' + D.run.branches.length + ' branches (' + D.nW + ' workers + the conductor\'s fixes), ' + D.run.commits + ' commits, measured, then deleted';
 }
 
 function place(e, x, y, z, s, o) {
@@ -345,9 +345,9 @@ function render(t) {
     if (s >= 0.85) {
       glow[r.out] = Math.max(glow[r.out], 1 - seg(s, 0.85, 1.4));
       if (r.out === 'allowed') {
-        var kp = easeIn(seg(s, 0.95, 1.55)); cls += ''; txt = '✓';
-        x = lerp(r.dst[0], r.land[0], kp); y = lerp(r.dst[1], r.land[1], kp); z = lerp(4, -ZG + 4, kp);
-        o = 1 - seg(s, 1.6, 2.2); sc = 1 + 0.6 * seg(s, 1.55, 2.2); sz = -ZG; so = 0.25 * kp * o;
+        var kp = easeIn(seg(s, 0.95, 1.55)); txt = '✓';
+        x = r.dst[0]; y = r.dst[1] + 18 * kp; z = 4;
+        o = 1 - seg(s, 1.6, 2.2); sz = 0; so = 0;
       } else if (r.out === 'approval') {
         cls += ' appr'; txt = '?'; z = 4 + 6 * Math.abs(Math.sin((s - 0.85) * 3));
         o = 1 - seg(t, 13.6, 14.3); so = 0;
@@ -381,6 +381,7 @@ function render(t) {
     var md = seg(t, b.mt + 0.4, b.mt + 0.6); if (md >= 1) merged++;
     $('md' + i).setAttribute('r', (6 * md).toFixed(2));
   });
+  place(E.cond, G.cond[0], G.cond[1], ZG, 1, (seg(t, 13.5, 14) * (1 - seg(t, 20.8, 21.4))).toFixed(2));
   var commits = Math.min(D.run.commits, (t >= 13.9 ? D.trunk : t >= 13.6 ? 1 : 0) + landed);
   // close: measure, seal, delete
   var ks = seg(t, 21.1, 22.3);
@@ -391,7 +392,7 @@ function render(t) {
   E.ghost.style.transform = 'translate3d(0,0,' + (-ZG + 2) + 'px)'; E.ghost.style.opacity = kg;
   // labels: beside their planes, then into the tagline
   var cr = cv.getBoundingClientRect(), kl = ease(seg(t, 25.6, 27.9));
-  [['hive', 'Ruflo hive', 'queen + workers, in parallel'], ['abp', 'Agent Behaviour Policies', act === 'vault' || act === 'close' ? 'not compiled in this run' : 'the mandate · POC1 gates'], ['vault', 'sgit vaults', t >= 23.8 ? 'measured, sealed, deleted' : 'encrypted · one per run']].forEach(function (L3) {
+  [['hive', 'Ruflo hive', act === 'mandate' ? 'shown: POC1\'s roles, a separate run' : 'queen + workers, in parallel'], ['abp', 'Agent Behaviour Policies', act === 'vault' || act === 'close' ? 'not compiled in this run' : 'the mandate · POC1 gates'], ['vault', 'sgit vaults', t >= 23.8 ? 'measured, then deleted' : 'encrypted client-side · one per run']].forEach(function (L3) {
     var n = L3[0], lab = E.lab[n], best = null;
     E.cn[n].forEach(function (c) { var r = c.getBoundingClientRect(); if (!best || r.left < best.left) best = r; });
     var cx = (best.left - cr.left) / S, cy = (best.top - cr.top) / S;
@@ -430,12 +431,12 @@ function panelHTML(act, t, gc, commits, merged) {
       '<div class="note">Run ' + esc(r.run) + ', from data/vaults.json</div>';
   } else if (act === 'mandate') {
     var seen = D.rows.filter(function (x) { return t >= x.t0 + 0.85; }).reverse().slice(0, 3);
-    h = '<h2><em>2</em>The mandate</h2><p>Each action meets the Agent Behaviour Policy, compiled into Ruflo\'s policy engine. Allowed ones pass; denied ones stop; approvals wait for a human.</p>' +
+    h = '<h2><em>2</em>The mandate</h2><p>POC1, a separate run: each action met the Agent Behaviour Policy, compiled into Ruflo\'s own policy engine in enforce mode. Allowed ones pass; denied ones stop; approvals wait for a human.</p>' +
       '<div class="tiles">' + tile(gc.allowed, 'allowed', 'a') + tile(gc.approval, 'approval', 'w') + tile(gc.denied, 'denied', 'r') + '</div>' +
       '<div class="tick">' + seen.map(function (x) { return '<div><span class="pill ' + x.out + '">' + x.out + '</span>' + esc(x.who.replace('-strategic', '')) + ' · ' + esc(x.action) + '</div>'; }).join('') + '</div>' +
-      '<div class="note">POC1: the same ' + D.rows.length + ' actions under Ruflo\'s default: ' + D.defAllowed + ' of ' + D.rows.length + ' allowed.' + (D.ledger ? ' ' + D.ledger.length + ' hash-chained receipts, chain ' + (D.ledger.valid ? 'valid' : 'INVALID') + '.' : '') + '</div>';
+      '<div class="note">POC1: the same ' + D.rows.length + ' actions in Ruflo\'s legacy mode (its default on a fresh project): ' + D.defAllowed + ' of ' + D.rows.length + ' allowed.' + (D.ledger ? ' ' + D.ledger.length + ' hash-chained receipts, chain ' + (D.ledger.valid ? 'valid' : 'INVALID') + '.' : '') + '</div>';
   } else if (act === 'vault') {
-    h = '<h2><em>3</em>The vault</h2><p>Each delivery is encrypted on the client (AES-256-GCM) and lands on its worker\'s branch; the branches merge into current. The server holds ciphertext.</p>' +
+    h = '<h2><em>3</em>The vault</h2><p>sgit encrypts on the client (AES-256-GCM, by design). The host commits each worker\'s output onto its own branch; the branches merge into current one at a time. On close, ' + r.server_store.plaintext_hits + ' of ' + D.probeN + ' probed text fragments were found in what the server stored.</p>' +
       '<div class="tiles">' + tile(r.branches.length, 'branches') + tile(commits + '<small>/' + r.commits + '</small>', 'commits', 'a') + tile(merged + '<small>/' + r.branches.length + '</small>', 'merged') + '</div>' +
       '<div class="note">Run ' + esc(r.run) + ': ' + D.nW + ' workers + the conductor\'s fixes branch. This run was not gated by a compiled ABP.</div>';
   } else if (act === 'close' || act === 'tagline') {
@@ -448,7 +449,7 @@ function panelHTML(act, t, gc, commits, merged) {
       ['clone after delete', esc(r.delete_check.clone_after_delete), 'gone']
     ];
     var n = Math.floor(seg(t, 21, 21 + rows.length * 0.4) * rows.length + 0.0001);
-    h = '<h2><em>4</em>Close, measure, delete</h2><p>One vault per run: measured on close, sealed, then deleted. The memory goes; the record stays.</p>' +
+    h = '<h2><em>4</em>Close, measure, delete</h2><p>One vault per run: measured on close, then deleted, and the delete checked. The memory goes; the record stays.</p>' +
       '<div class="rows">' + rows.slice(0, Math.max(1, n)).map(function (x) { return '<div><span>' + x[0] + '</span><b class="' + x[2] + '">' + x[1] + '</b></div>'; }).join('') + '</div>';
   }
   return h;

@@ -525,9 +525,795 @@
     "store_paths_left": 0,
     "clone_after_delete": "failed"
    }
+  },
+  {
+   "run": "r3-define",
+   "purpose": "animations of the definition: ruv.sgit, a Ruflo hive + sgit vaults + Agent Behaviour Policies",
+   "feedback": "Dinis, 15 Oct 2026: let's go with the title and sub heading 'ruv.sgit: a Ruflo hive + sgit vaults + Agent Behaviour Policies'; in fact it needs its own animations.",
+   "vault_id": "j1pn3zt4",
+   "created_at": "2026-10-15T13:47:11+00:00",
+   "closed_at": "2026-10-15T14:07:44+00:00",
+   "deleted_at": "2026-10-15T14:07:46+00:00",
+   "hive": {
+    "workers": 4,
+    "tasks": 4,
+    "ruflo_calls": 19,
+    "ruflo_ms": 8719
+   },
+   "branches": [
+    {
+     "name": "w-equation",
+     "role": "designer",
+     "commits": 1,
+     "files": 1,
+     "bytes": 22025,
+     "write_ms": 3163,
+     "merge_ms": 3723
+    },
+    {
+     "name": "w-journey",
+     "role": "developer",
+     "commits": 1,
+     "files": 1,
+     "bytes": 25143,
+     "write_ms": 3038,
+     "merge_ms": 3251
+    },
+    {
+     "name": "w-layers",
+     "role": "developer",
+     "commits": 1,
+     "files": 1,
+     "bytes": 32757,
+     "write_ms": 3157,
+     "merge_ms": 3364
+    },
+    {
+     "name": "w-editor",
+     "role": "editor",
+     "commits": 1,
+     "files": 1,
+     "bytes": 15729,
+     "write_ms": 3052,
+     "merge_ms": 3637
+    },
+    {
+     "name": "w-equation-r2",
+     "role": "designer",
+     "commits": 1,
+     "files": 1,
+     "bytes": 23042,
+     "write_ms": 2813,
+     "merge_ms": 2887
+    },
+    {
+     "name": "w-layers-r2",
+     "role": "developer",
+     "commits": 1,
+     "files": 1,
+     "bytes": 33494,
+     "write_ms": 2758,
+     "merge_ms": 3093
+    },
+    {
+     "name": "w-journey-r2",
+     "role": "developer",
+     "commits": 1,
+     "files": 1,
+     "bytes": 26012,
+     "write_ms": 2831,
+     "merge_ms": 3055
+    }
+   ],
+   "commits": 9,
+   "files": 9,
+   "bytes_plain": 179418,
+   "files_delivered": 7,
+   "bytes_delivered": 178202,
+   "server_store": {
+    "files": 136,
+    "bytes": 489791,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 987,
+    "files": 9,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 862,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 978,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1027,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 1081,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 1047,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1033,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1145,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1131,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1446,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 859,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 1034,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1144,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1326,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 963,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 962,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 1038,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 901,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1217,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 990,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1001,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1373,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 960,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 1012,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1079,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1139,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 999,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1499,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 855,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 860,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1096,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 879,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 906,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1102,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 797,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 807,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1154,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 964,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 990,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1138,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 851,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 856,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1122,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 911,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 988,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1156,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 1012,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 986,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "703498811770",
+     "message": "init",
+     "time": "2026-10-15T13:47:17Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "d29d56b52b5a",
+     "message": "brief: run r3-define",
+     "time": "2026-10-15T13:47:18Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "9b527b6d6619",
+     "message": "designer equation: delivered 1 files",
+     "time": "2026-10-15T13:56:33Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "2ce599c42bcf",
+     "message": "developer journey: delivered 1 files",
+     "time": "2026-10-15T13:57:05Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "a6dd77ed8918",
+     "message": "developer layers: delivered 1 files",
+     "time": "2026-10-15T13:58:45Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "3ff3b28c0e83",
+     "message": "editor editor: delivered 1 files",
+     "time": "2026-10-15T14:02:22Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "77a894f5debb",
+     "message": "designer equation-r2: delivered 1 files",
+     "time": "2026-10-15T14:06:14Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "e2f750b9b2b1",
+     "message": "developer layers-r2: delivered 1 files",
+     "time": "2026-10-15T14:06:20Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "7d6f9c8453e1",
+     "message": "developer journey-r2: delivered 1 files",
+     "time": "2026-10-15T14:06:26Z",
+     "files_added": 1,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "equation",
+     "role": "designer",
+     "tokens": 122483,
+     "tool_uses": 35,
+     "wall_s": 660,
+     "note": "two rounds: built, then the editor's fixes"
+    },
+    {
+     "id": "journey",
+     "role": "developer",
+     "tokens": 120731,
+     "tool_uses": 34,
+     "wall_s": 677,
+     "note": "two rounds: built, then the editor's fixes"
+    },
+    {
+     "id": "layers",
+     "role": "developer",
+     "tokens": 151370,
+     "tool_uses": 39,
+     "wall_s": 777,
+     "note": "two rounds: built, then the editor's fixes"
+    },
+    {
+     "id": "editor",
+     "role": "editor",
+     "tokens": 130149,
+     "tool_uses": 11,
+     "wall_s": 197
+    }
+   ],
+   "deleted_paths": 129,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
+  },
+  {
+   "run": "r4-hero",
+   "purpose": "the home page's main section rewritten for rUv's community: accurate, generous to his tools, with a way in",
+   "feedback": "Dinis, 15 Oct 2026: improve the home page's main section ('Let the agents go to town...'): I don't like that line; this site and its materials are now more powerful; a key objective is to reach rUv's community and users (much bigger than mine) and get them using what we created; be 100% accurate and don't diminish or under-represent the Ruflo hive and rUv's other published tools.",
+   "vault_id": "dyqtnecw",
+   "created_at": "2026-10-15T13:50:17+00:00",
+   "closed_at": "2026-10-15T14:07:48+00:00",
+   "deleted_at": "2026-10-15T14:07:49+00:00",
+   "hive": {
+    "workers": 3,
+    "tasks": 3,
+    "ruflo_calls": 15,
+    "ruflo_ms": 7245
+   },
+   "branches": [
+    {
+     "name": "w-facts",
+     "role": "researcher",
+     "commits": 1,
+     "files": 1,
+     "bytes": 8794,
+     "write_ms": 3130,
+     "merge_ms": 3280
+    },
+    {
+     "name": "w-fixes-ruvector",
+     "role": "conductor",
+     "commits": 1,
+     "files": 10,
+     "bytes": 120347,
+     "write_ms": 3193,
+     "merge_ms": 3233
+    },
+    {
+     "name": "w-hero",
+     "role": "writer",
+     "commits": 1,
+     "files": 2,
+     "bytes": 18923,
+     "write_ms": 3288,
+     "merge_ms": 3168
+    },
+    {
+     "name": "w-editor",
+     "role": "editor",
+     "commits": 1,
+     "files": 3,
+     "bytes": 23380,
+     "write_ms": 3185,
+     "merge_ms": 3010
+    },
+    {
+     "name": "w-fixes-site",
+     "role": "conductor",
+     "commits": 1,
+     "files": 7,
+     "bytes": 83074,
+     "write_ms": 2876,
+     "merge_ms": 3346
+    }
+   ],
+   "commits": 7,
+   "files": 25,
+   "bytes_plain": 256079,
+   "files_delivered": 23,
+   "bytes_delivered": 254518,
+   "server_store": {
+    "files": 74,
+    "bytes": 284062,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 990,
+    "files": 25,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 925,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 849,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1191,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 967,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 855,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1308,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1235,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1026,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1018,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 1061,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 909,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1216,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1046,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1124,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1062,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 1070,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 1007,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1209,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1015,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1024,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1128,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 958,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 1103,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1123,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 949,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 963,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1097,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 899,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 883,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1093,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1037,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1042,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1266,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 891,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 990,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "bbb93834818d",
+     "message": "init",
+     "time": "2026-10-15T13:50:22Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "b63ffb51b929",
+     "message": "brief: run r4-hero",
+     "time": "2026-10-15T13:50:23Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "b1d78fdfbe08",
+     "message": "researcher facts: delivered 1 files",
+     "time": "2026-10-15T13:56:05Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "266299129a33",
+     "message": "conductor fixes-ruvector: delivered 10 files",
+     "time": "2026-10-15T13:56:12Z",
+     "files_added": 10,
+     "parents": 1
+    },
+    {
+     "id": "2992406c990b",
+     "message": "writer hero: delivered 2 files",
+     "time": "2026-10-15T13:59:23Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "fa23a9d327fd",
+     "message": "editor editor: delivered 3 files",
+     "time": "2026-10-15T14:05:24Z",
+     "files_added": 3,
+     "parents": 1
+    },
+    {
+     "id": "7fd41f7ff3ba",
+     "message": "conductor fixes-site: delivered 7 files",
+     "time": "2026-10-15T14:05:30Z",
+     "files_added": 7,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "facts",
+     "role": "researcher",
+     "tokens": 104145,
+     "tool_uses": 25,
+     "wall_s": 203
+    },
+    {
+     "id": "fixes-ruvector",
+     "role": "conductor",
+     "tokens": null,
+     "tool_uses": null,
+     "wall_s": null,
+     "note": "the host applied the correction the researcher found"
+    },
+    {
+     "id": "hero",
+     "role": "writer",
+     "tokens": 93486,
+     "tool_uses": 12,
+     "wall_s": 132
+    },
+    {
+     "id": "editor",
+     "role": "editor",
+     "tokens": 127182,
+     "tool_uses": 37,
+     "wall_s": 302
+    },
+    {
+     "id": "fixes-site",
+     "role": "conductor",
+     "tokens": null,
+     "tool_uses": null,
+     "wall_s": null,
+     "note": "the host applied the editor's hero and 18 line fixes"
+    }
+   ],
+   "deleted_paths": 153,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
   }
  ],
  "sample": false,
- "updated": "2026-10-15T13:44:55+00:00",
+ "updated": "2026-10-15T14:07:49+00:00",
  "server": "a local SG/Send vault server (sgraph-ai-app-send, disk storage), one process, on the machine that ran the hive"
 }

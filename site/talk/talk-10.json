@@ -97,30 +97,13 @@
    "at": 115,
    "dur": 40,
    "title": "ruv.sgit: one hive, one vault, one run",
-   "cue": "Builds every 6-7 s.",
+   "cue": "The animation runs itself: hive on top, the mandate in the middle (POC1 outcomes), the vault below (r2-materials), then the stack lays flat into the tagline.",
    "slide": {
-    "layout": "statement",
-    "kicker": "The idea",
-    "text": "ruv.sgit: one hive, one vault, one run",
-    "builds": [
-     {
-      "at": 5,
-      "text": "A Ruflo queen records one task per worker; the workers run in parallel"
-     },
-     {
-      "at": 12,
-      "text": "Each worker's delivery lands on its own branch of one sgit vault"
-     },
-     {
-      "at": 19,
-      "text": "The vault holds the brief and every delivery"
-     },
-     {
-      "at": 26,
-      "text": "Measured into a ledger, then deleted"
-     }
-    ],
-    "sub": "ruv.sgit: a Ruflo hive + sgit vaults + Agent Behaviour Policies"
+    "layout": "iframe",
+    "src": "../ruv-sgit/define/layers/index.html",
+    "fallback": "img/ruv-sgit-layers.webp",
+    "sub": "ruv.sgit: a Ruflo hive + sgit vaults + Agent Behaviour Policies",
+    "caption": "The layers · made by ruv.sgit run r3-define · policy outcomes from POC1, vault from run r2-materials"
    },
    "say": "So put the two together. ruv.sgit is a Ruflo hive plus sgit vaults plus Agent Behaviour Policies: a queen and workers in parallel, one ephemeral vault per run, and a written mandate for what each worker may do. Each worker's delivery lands on its own branch; the branches merge; the run is measured into a ledger; and then the vault is deleted. Memory that exists for exactly as long as the work does, with a receipt afterwards. Tonight's three new pages, and this script, were made by one such run: run r2-materials, five workers, on a local vault server."
   },

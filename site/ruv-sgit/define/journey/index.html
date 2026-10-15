@@ -32,6 +32,7 @@ h1{margin:0;font-size:24px;font-weight:700;color:var(--head);letter-spacing:-.01
 .card .s{font-size:15px;line-height:1.3;color:var(--text);overflow-wrap:anywhere}
 .card .s.dim{color:var(--dim);font-size:14px}
 .card .q{font-size:16px;font-style:italic;color:var(--head)}
+.card.illus{border-style:dashed;background:var(--panel2)}
 .card.act{box-shadow:0 0 0 3px var(--tint-solid);border-color:var(--accent)}
 .card.ok.on.stamp{border-color:var(--accent);background:var(--tint-solid)}
 .card.no.on.stamp{border-color:var(--red)}
@@ -138,7 +139,7 @@ body.review .tag{font-size:24px}
   <div id="bar"><i></i></div>
   <div id="stage"><div id="rows"></div><div id="out"></div><div id="end"></div><div id="msg"></div></div>
   <div id="chain"></div>
-  <footer><span>policy decisions + receipts: <b>POC1, recorded 14 Oct 2026</b> (data/report.json, data/state-abp.json, rows from data/abp.json)</span><span>vault numbers: <b>ruv.sgit run r2-materials</b> (data/vaults.json)</span><span>ruv.sgit runs so far were not gated by a compiled ABP</span><span>Ruflo: MIT, by rUv / ruvnet</span></footer>
+  <footer><span>policy decisions + receipts: <b id="pocd">POC1</b> (data/report.json, data/state-abp.json, rows from data/abp.json)</span><span>vault numbers: <b>ruv.sgit run r2-materials</b> (data/vaults.json)</span><span>ruv.sgit runs so far were not gated by a compiled ABP</span><span>Ruflo: MIT, by rUv / ruvnet</span></footer>
 </div>
 <script>
 (function () {
@@ -154,6 +155,7 @@ if (REVIEW) document.body.classList.add('review');
 
 function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 function sh(h) { return h ? String(h).replace(/^sha256:/, '').slice(0, 8) + '…' : 'none (genesis)'; }
+function day(x) { return new Date(x).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }); }
 function fmt(n) { return Number(n).toLocaleString('en-GB'); }
 function getJ(p) { return fetch(p, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(p + ': HTTP ' + r.status); return r.json(); }); }
 var KIND = { allowed: 'ok', denied: 'no', approval_required: 'wait' };
@@ -182,24 +184,24 @@ function model(abp, rep, st, vl) {
   var counts = { allowed: 0, denied: 0, approval_required: 0 };
   rc.forEach(function (x) { counts[x.payload.decision.outcome] = (counts[x.payload.decision.outcome] || 0) + 1; });
   return { owner: abp.owner, queen: queen, acts: [act('coder', 'file.write'), act('coder', 'email.send'), act('documenter', 'deploy')],
-    rc: rc, ledger: rep.ledger && rep.ledger.abp, head: st.ledgerHead, approvals: st.approvals || [], counts: counts, v: v, roles: abp.roles.length };
+    pocDay: day(rc[0].payload.issuedAt), rc: rc, ledger: rep.ledger && rep.ledger.abp, head: st.ledgerHead, approvals: st.approvals || [], counts: counts, v: v, roles: abp.roles.length };
 }
 
 /* ---------- one act = six stations ---------- */
 function stations(A, n) {
   var k = KIND[A.outcome], row = A.row;
-  var ask = { k: 'ask · Ruflo worker', v: A.action + (A.resource ? ' ' + A.resource : ''), s: ['<b>' + esc(A.who) + '</b> asks to act'] };
-  var task = { k: 'the queen\'s task', v: esc(D.queen.id) + ' → ' + esc(A.who), s: ['“' + esc(A.purpose) + '”', '<span class="dim">one worker of the hive; others run in parallel</span>'] };
+  var ask = { k: 'ask · POC1 role', v: A.action + (A.resource ? ' ' + A.resource : ''), s: ['<b>' + esc(A.who) + '</b> asks to act'] };
+  var task = { k: 'its ABP role', v: esc(A.who), s: ['purpose: “' + esc(A.purpose) + '”', '<span class="dim">one of ' + D.roles + ' roles in POC1\'s Ruflo swarm</span>'] };
   var abp = { k: 'ABP row · ' + esc(A.who), v: esc(row.capability), s: [
     'mandate: <b class="t-' + k + '">' + esc(row.mandate) + '</b>',
     '<span class="q">“' + esc(row.why) + '”</span>',
     row.barrier ? '<span class="dim">barrier: ' + esc(row.barrier) + '</span>' : (row.instances ? '<span class="dim">scope: ' + esc(row.instances.join(', ')) + '</span>' : '')] };
   var dec = { k: 'Ruflo policy engine', pill: WORD[A.outcome], v: '', s: ['<span class="mono" style="font-size:13.5px">' + esc(A.reason) + '</span>',
-    '<span class="dim">without the ABP: ' + esc(A.legacy) + '</span>'], stamp: true };
+    '<span class="dim">in Ruflo\'s legacy mode (default on a fresh project): ' + esc(A.legacy) + '</span>'], stamp: true };
   if (A.obligations.length) dec.s.splice(1, 0, 'obligation: <b class="mono">' + esc(A.obligations.join(', ')) + '</b>');
   var five;
-  if (k === 'ok') five = { k: 'sgit vault · worker branch', svg: svgCommit(n), s: ['lands as a commit on the worker\'s own branch', '<span class="dim">encrypted on the client; the server holds ciphertext</span>'] };
-  else if (k === 'no') five = { k: 'sgit vault', svg: svgNothing(n), s: ['<b class="t-no">nothing reaches the vault</b>', '<span class="dim">no commit, no file, no branch change</span>'] };
+  if (k === 'ok') five = { k: 'what happens next', svg: svgCommit(n), s: ['POC1 recorded the decision; no vault was written', '<span class="dim">illustration, not a recording: in a ruv.sgit run the host commits a worker\'s output to its own branch; those runs were not ABP-gated</span>'] };
+  else if (k === 'no') five = { k: 'the action', svg: svgNothing(n), s: ['<b class="t-no">the action does not run</b>', '<span class="dim">' + esc(row.why) + '</span>'] };
   else five = { k: 'waits for a named human', v: esc(D.owner), s: ['the ABP\'s owner must approve', D.approvals.length ? '' : '<span class="dim">POC1 recorded no approval: still waiting, nothing deployed</span>'], stamp: true };
   var rec = { k: 'receipt #' + A.seq, v: sh(A.rid), s: ['<span class="dim">receiptId</span>',
     '← prev <b class="mono">' + esc(sh(A.prev)) + '</b>' + (A.prevAction ? ' <span class="dim">(' + esc(A.prevAction) + ')</span>' : ''),
@@ -210,7 +212,7 @@ function svgCommit(n) {
   return '<svg class="mini" viewBox="0 0 170 58" aria-hidden="true"><path d="M8 44 H162" class="s-line" stroke-width="4" fill="none"/>' +
     '<text x="8" y="57" class="f-dim">current</text><path d="M30 44 C46 44 46 16 66 16 H150" class="s-acc" stroke-width="3" fill="none"/>' +
     '<circle cx="30" cy="44" r="5" class="f-dim"/><circle id="cm' + n + '" cx="122" cy="16" r="8" class="f-acc"/>' +
-    '<text x="70" y="34" class="f-head">its branch</text></svg>';
+    '<text x="70" y="34" class="f-head">its branch</text><text x="8" y="10" class="f-dim">illustration</text></svg>';
 }
 function svgNothing(n) {
   return '<svg class="mini" viewBox="0 0 170 58" aria-hidden="true"><path d="M8 44 H162" class="s-line" stroke-width="4" fill="none"/>' +
@@ -226,6 +228,7 @@ function build() {
     b.addEventListener('click', function () { if (REVIEW) return; t0 = performance.now() - (i * ACT + 0.01) * 1000; });
     actsEl.appendChild(b);
   });
+  document.getElementById('pocd').textContent = 'POC1, recorded ' + D.pocDay;
   var acts = REVIEW ? [0, 1, 2] : [0];
   acts.forEach(function (ai) {
     if (REVIEW) { var lab = document.createElement('div'); lab.className = 'rlab'; lab.textContent = 'Act ' + (ai + 1) + ': ' + D.acts[ai].who + ' · ' + D.acts[ai].action + ' → ' + WORD[D.acts[ai].outcome].toLowerCase(); rowsEl.appendChild(lab); }
@@ -238,20 +241,20 @@ function build() {
   // end card
   var v = D.v, ss = v.server_store;
   endEl.innerHTML = '<div class="cols">' +
-    '<div class="col"><h2>HIVE</h2><h3>a Ruflo hive</h3><p>A queen plans and broadcasts; worker roles take tasks and run in parallel. Above: <b>' + esc(D.acts[0].who) + '</b> and <b>' + esc(D.acts[2].who) + '</b>, two of its workers.</p><div class="n"><span><b>' + v.hive.workers + '</b>workers in r2-materials</span><span><b>' + v.hive.tasks + '</b>tasks</span><span><b>' + v.hive.ruflo_calls + '</b>Ruflo calls</span></div><p style="font-size:13px;color:var(--dim)">Ruflo: MIT, by rUv / ruvnet</p></div>' +
-    '<div class="col"><h2>MANDATE</h2><h3>Agent Behaviour Policies</h3><p>A written mandate per role (' + D.roles + ' roles). Compiled into Ruflo\'s policy engine, POC1 decided ' + D.rc.length + ' actions:</p>' +
+    '<div class="col"><h2>HIVE</h2><h3>a Ruflo hive</h3><p>A queen plans and broadcasts; worker roles take tasks and run in parallel. In our runs, Claude Code subagents (r2-materials: ' + esc(v.workers.filter(function (w) { return w.role !== 'conductor'; }).map(function (w) { return w.role; }).join(', ')) + '). The actions above come from POC1\'s roles, a separate run.</p><div class="n"><span><b>' + v.hive.workers + '</b>workers in r2-materials</span><span><b>' + v.hive.tasks + '</b>tasks</span><span><b>' + v.hive.ruflo_calls + '</b>Ruflo calls</span></div><p style="font-size:13px;color:var(--dim)">Ruflo: MIT, by rUv / ruvnet</p></div>' +
+    '<div class="col"><h2>MANDATE</h2><h3>Agent Behaviour Policies</h3><p>A written mandate per role (' + D.roles + ' roles). Compiled into Ruflo\'s policy engine (enforce mode), POC1 decided ' + D.rc.length + ' actions:</p>' +
       '<div class="n"><span><b class="t-ok">' + D.counts.allowed + '</b>allowed</span><span><b class="t-no">' + D.counts.denied + '</b>denied</span><span><b class="t-wait">' + D.counts.approval_required + '</b>approval</span><span><b>' + D.rc.length + '</b>receipts chained</span></div></div>' +
-    '<div class="col"><h2>MEMORY</h2><h3>sgit vaults</h3><p>Encrypted on the client, one branch per worker, one ephemeral vault per run. r2-materials closed with:</p>' +
+    '<div class="col"><h2>MEMORY</h2><h3>sgit vaults</h3><p>Encrypted on the client (sgit\'s design), one branch per delivery (' + v.branches.length + ': ' + v.hive.workers + ' workers + the conductor\'s fixes), one ephemeral vault per run. r2-materials closed with:</p>' +
       '<div class="n"><span><b>' + v.commits + '</b>commits</span><span><b class="t-ok">' + ss.plaintext_hits + '</b>of ' + (ss.probe.match(/^\d+/) || [''])[0] + ' plaintext fragments found</span><span><b>' + (v.clone.identical ? 'yes' : 'no') + '</b>clone identical (' + v.clone.files + ' files)</span><span><b>' + (v.deleted_at ? 'deleted' : 'kept') + '</b>' + fmt(v.deleted_paths) + ' paths, ' + (v.delete_check ? v.delete_check.store_paths_left : '?') + ' left</span></div></div>' +
     '</div><div class="tag"><span>ruv.sgit</span>: a Ruflo hive + sgit vaults + Agent Behaviour Policies</div>' +
-    '<div class="tagsub">decisions: POC1, recorded 14 Oct 2026 · vault: r2-materials, ' + esc(v.vault_id) + ', created ' + esc(v.created_at.slice(11, 16)) + ', deleted ' + esc(v.deleted_at.slice(11, 16)) + ' UTC, 15 Oct 2026</div>';
+    '<div class="tagsub">decisions: POC1, recorded ' + D.pocDay + ' · vault: r2-materials, ' + esc(v.vault_id) + ', created ' + esc(v.created_at.slice(11, 16)) + ', deleted ' + esc(v.deleted_at.slice(11, 16)) + ' UTC, ' + day(v.created_at) + '</div>';
   if (REVIEW) { endEl.classList.add('on'); D.acts.forEach(function (A) { var e = document.getElementById('rc' + A.idx); e.classList.add('hit', KIND[A.outcome]); }); }
 }
 function fill(R, ai) {
   R.act = ai; var A = D.acts[ai], k = KIND[A.outcome], st = stations(A, ai), h = '';
   st.forEach(function (c, i) {
     if (i) h += '<i class="link ' + (i >= 4 ? k : (i === 4 ? k : '')) + (k === 'no' && i === 4 ? ' cut' : '') + '"><b></b></i>';
-    h += '<div class="card ' + k + (c.stamp ? ' stamp' : '') + '"><div class="k"><i>' + (i + 1) + '</i> · ' + c.k + '</div><div class="body">' +
+    h += '<div class="card ' + k + (c.stamp ? ' stamp' : '') + (i === 4 && k === 'ok' ? ' illus' : '') + '"><div class="k"><i>' + (i + 1) + '</i> · ' + c.k + '</div><div class="body">' +
       (c.pill ? '<span class="pill ' + k + '">' + c.pill + '</span>' : '') + (c.v ? '<div class="v">' + c.v + '</div>' : '') + (c.svg || '') +
       c.s.filter(Boolean).map(function (x) { return '<div class="s">' + x + '</div>'; }).join('') + '</div></div>';
   });
@@ -273,14 +276,14 @@ function caps(A, k) {
   var r = A.row;
   return [
     'Act ' + (D.acts.indexOf(A) + 1) + ': follow one action, <b>' + esc(A.who) + ' · ' + esc(A.action) + '</b>.',
-    'The <b>' + esc(A.who) + '</b>, a worker in the Ruflo hive, asks to <b class="mono">' + esc(A.action + (A.resource ? ' ' + A.resource : '')) + '</b>.',
-    'Its task, from the queen: “' + esc(A.purpose) + '”.',
+    'The <b>' + esc(A.who) + '</b>, a role in POC1\'s Ruflo swarm, asks to <b class="mono">' + esc(A.action + (A.resource ? ' ' + A.resource : '')) + '</b>.',
+    'Its role in the ABP: “' + esc(A.purpose) + '”.',
     'Its ABP row <b class="mono">' + esc(r.capability) + '</b> says <b class="t-' + k + '">' + esc(r.mandate) + '</b>: “' + esc(r.why) + '”.',
-    k === 'ok' ? 'Ruflo\'s own policy engine, with the ABP compiled in, decides: <b class="t-ok">allowed</b>.'
-      : k === 'no' ? 'Ruflo\'s policy engine decides: <b class="t-no">denied</b>. Without the ABP it was allowed.'
+    k === 'ok' ? 'Ruflo\'s own policy engine, in enforce mode with the ABP compiled in, decides: <b class="t-ok">allowed</b>.'
+      : k === 'no' ? 'Ruflo\'s policy engine, in enforce mode with the ABP compiled in, decides: <b class="t-no">denied</b>. In legacy mode, its default on a fresh project, it was allowed.'
       : 'Ruflo\'s policy engine decides: <b class="t-wait">approval required</b>, with the obligation <b class="mono">' + esc(A.obligations.join(', ')) + '</b>.',
-    k === 'ok' ? 'The write lands as a commit on the worker\'s own branch of the sgit vault, encrypted on the client.'
-      : k === 'no' ? '<b class="t-no">Nothing reaches the vault.</b> Agents draft; a person sends.'
+    k === 'ok' ? 'POC1 only recorded the decision. In a ruv.sgit run, the host commits a worker\'s output onto its own vault branch; those runs were not gated by an ABP.'
+      : k === 'no' ? '<b class="t-no">The action does not run.</b> The ABP row\'s reason: “' + esc(r.why) + '”.'
       : 'It waits for a named human: <b>' + esc(D.owner) + '</b>, the ABP\'s owner.',
     k === 'no' ? 'The refusal is still a receipt (#' + A.seq + '), chained to the one before it.'
       : 'The decision becomes receipt <b>#' + A.seq + '</b>, chained to <b class="mono">' + esc(sh(A.prev)) + '</b>.'
@@ -288,13 +291,13 @@ function caps(A, k) {
 }
 function out(A, k) {
   var c = k === 'ok' ? 't-ok' : k === 'no' ? 't-no' : 't-wait';
-  var what = k === 'ok' ? 'committed to the worker\'s branch' : k === 'no' ? 'nothing reached the vault' : 'waiting for ' + esc(D.owner);
+  var what = k === 'ok' ? 'allowed, recorded' : k === 'no' ? 'not run' : 'waiting for ' + esc(D.owner);
   return '<b class="' + c + '">' + WORD[A.outcome].toLowerCase() + '</b> by <span class="mono">' + esc(A.row.capability) + '</span> → ' + what + ' → receipt <b class="mono">#' + A.seq + ' ' + esc(sh(A.hash)) + '</b>';
 }
 var lastCap = '', lastAct = -2;
 function loop(now) {
   if (REVIEW) {
-    tNow = LOOP; capEl.innerHTML = 'Review: all three acts at once. Policy decisions are POC1\'s (recorded 14 Oct 2026); vault numbers are r2-materials\'.';
+    tNow = LOOP; capEl.innerHTML = 'Review: all three acts at once. Policy decisions are POC1\'s (recorded ' + D.pocDay + '); vault numbers are r2-materials\'.';
     [].forEach.call(actsEl.children, function (b) { b.setAttribute('aria-current', 'false'); });
     barEl.style.width = '100%'; return;
   }

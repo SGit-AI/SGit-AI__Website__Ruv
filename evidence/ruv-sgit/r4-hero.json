@@ -1,0 +1,457 @@
+{
+ "run": "r4-hero",
+ "purpose": "the home page's main section rewritten for rUv's community: accurate, generous to his tools, with a way in",
+ "feedback": "Dinis, 15 Oct 2026: improve the home page's main section ('Let the agents go to town...'): I don't like that line; this site and its materials are now more powerful; a key objective is to reach rUv's community and users (much bigger than mine) and get them using what we created; be 100% accurate and don't diminish or under-represent the Ruflo hive and rUv's other published tools.",
+ "vault_id": "dyqtnecw",
+ "created_at": "2026-10-15T13:50:17+00:00",
+ "closed_at": "2026-10-15T14:07:48+00:00",
+ "deleted_at": "2026-10-15T14:07:49+00:00",
+ "hive": {
+  "workers": 3,
+  "tasks": 3,
+  "ruflo_calls": 15,
+  "ruflo_ms": 7245
+ },
+ "branches": [
+  {
+   "name": "w-facts",
+   "role": "researcher",
+   "commits": 1,
+   "files": 1,
+   "bytes": 8794,
+   "write_ms": 3130,
+   "merge_ms": 3280
+  },
+  {
+   "name": "w-fixes-ruvector",
+   "role": "conductor",
+   "commits": 1,
+   "files": 10,
+   "bytes": 120347,
+   "write_ms": 3193,
+   "merge_ms": 3233
+  },
+  {
+   "name": "w-hero",
+   "role": "writer",
+   "commits": 1,
+   "files": 2,
+   "bytes": 18923,
+   "write_ms": 3288,
+   "merge_ms": 3168
+  },
+  {
+   "name": "w-editor",
+   "role": "editor",
+   "commits": 1,
+   "files": 3,
+   "bytes": 23380,
+   "write_ms": 3185,
+   "merge_ms": 3010
+  },
+  {
+   "name": "w-fixes-site",
+   "role": "conductor",
+   "commits": 1,
+   "files": 7,
+   "bytes": 83074,
+   "write_ms": 2876,
+   "merge_ms": 3346
+  }
+ ],
+ "commits": 7,
+ "files": 25,
+ "bytes_plain": 256079,
+ "files_delivered": 23,
+ "bytes_delivered": 254518,
+ "server_store": {
+  "files": 74,
+  "bytes": 284062,
+  "plaintext_hits": 0,
+  "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+ },
+ "clone": {
+  "ms": 990,
+  "files": 25,
+  "identical": true
+ },
+ "ops": [
+  {
+   "op": "init",
+   "ms": 925,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 849,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 1191,
+   "rc": 0
+  },
+  {
+   "op": "branch-new",
+   "ms": 967,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 855,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 1308,
+   "rc": 0
+  },
+  {
+   "op": "branch-switch",
+   "ms": 1235,
+   "rc": 0
+  },
+  {
+   "op": "merge",
+   "ms": 1026,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 1018,
+   "rc": 0
+  },
+  {
+   "op": "branch-new",
+   "ms": 1061,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 909,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 1216,
+   "rc": 0
+  },
+  {
+   "op": "branch-switch",
+   "ms": 1046,
+   "rc": 0
+  },
+  {
+   "op": "merge",
+   "ms": 1124,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 1062,
+   "rc": 0
+  },
+  {
+   "op": "branch-new",
+   "ms": 1070,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 1007,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 1209,
+   "rc": 0
+  },
+  {
+   "op": "branch-switch",
+   "ms": 1015,
+   "rc": 0
+  },
+  {
+   "op": "merge",
+   "ms": 1024,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 1128,
+   "rc": 0
+  },
+  {
+   "op": "branch-new",
+   "ms": 958,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 1103,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 1123,
+   "rc": 0
+  },
+  {
+   "op": "branch-switch",
+   "ms": 949,
+   "rc": 0
+  },
+  {
+   "op": "merge",
+   "ms": 963,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 1097,
+   "rc": 0
+  },
+  {
+   "op": "branch-new",
+   "ms": 899,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 883,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 1093,
+   "rc": 0
+  },
+  {
+   "op": "branch-switch",
+   "ms": 1037,
+   "rc": 0
+  },
+  {
+   "op": "merge",
+   "ms": 1042,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 1266,
+   "rc": 0
+  },
+  {
+   "op": "history",
+   "ms": 891,
+   "rc": 0
+  },
+  {
+   "op": "clone",
+   "ms": 990,
+   "rc": 0
+  }
+ ],
+ "ruflo": [
+  {
+   "seq": 1,
+   "actor": "queen",
+   "cmd": "hive-mind init -t hierarchical-mesh -c byzantine -m 12",
+   "rc": 0,
+   "ms": 475
+  },
+  {
+   "seq": 2,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t researcher -r specialist -p facts",
+   "rc": 0,
+   "ms": 501
+  },
+  {
+   "seq": 3,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t writer -r specialist -p hero",
+   "rc": 0,
+   "ms": 519
+  },
+  {
+   "seq": 4,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t editor -r specialist -p editor",
+   "rc": 0,
+   "ms": 612
+  },
+  {
+   "seq": 5,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d facts: what rUv's tools already do, in their own READMEs' words, and where ruv.sgit adds to them without overlapping -p high",
+   "rc": 0,
+   "ms": 470
+  },
+  {
+   "seq": 6,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d hero: the hero: headline, lead, three on-ramps for Ruflo and RuVector users, buttons; three variants and a recommendation -p high",
+   "rc": 0,
+   "ms": 415
+  },
+  {
+   "seq": 7,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d editor: check the hero against the facts file and the evidence: nothing overclaimed, nothing about rUv's tools understated -p high",
+   "rc": 0,
+   "ms": 392
+  },
+  {
+   "seq": 8,
+   "actor": "conductor",
+   "cmd": "hive-mind broadcast -m run r4-hero: the home page's main section rewritten for rUv's community: accurate, generous to his tools, with a way in -f conductor",
+   "rc": 0,
+   "ms": 472
+  },
+  {
+   "seq": 9,
+   "actor": "researcher",
+   "cmd": "hive-mind broadcast -m delivered facts sha256:3588e79560643e34 files:1 -f researcher",
+   "rc": 0,
+   "ms": 569
+  },
+  {
+   "seq": 10,
+   "actor": "conductor",
+   "cmd": "hive-mind broadcast -m delivered fixes-ruvector sha256:114fbe9400d7be65 files:10 -f conductor",
+   "rc": 0,
+   "ms": 549
+  },
+  {
+   "seq": 11,
+   "actor": "writer",
+   "cmd": "hive-mind broadcast -m delivered hero sha256:e7fb4706c7dbeaf1 files:2 -f writer",
+   "rc": 0,
+   "ms": 550
+  },
+  {
+   "seq": 12,
+   "actor": "editor",
+   "cmd": "hive-mind broadcast -m delivered editor sha256:5bc8c06aac4582a6 files:3 -f editor",
+   "rc": 0,
+   "ms": 411
+  },
+  {
+   "seq": 13,
+   "actor": "conductor",
+   "cmd": "hive-mind broadcast -m delivered fixes-site sha256:e986d4c3a083180d files:7 -f conductor",
+   "rc": 0,
+   "ms": 454
+  },
+  {
+   "seq": 14,
+   "actor": "queen",
+   "cmd": "hive-mind status",
+   "rc": 0,
+   "ms": 441
+  },
+  {
+   "seq": 15,
+   "actor": "queen",
+   "cmd": "daemon stop",
+   "rc": 0,
+   "ms": 415
+  }
+ ],
+ "history": [
+  {
+   "id": "bbb93834818d",
+   "message": "init",
+   "time": "2026-10-15T13:50:22Z",
+   "files_added": 0,
+   "parents": 0
+  },
+  {
+   "id": "b63ffb51b929",
+   "message": "brief: run r4-hero",
+   "time": "2026-10-15T13:50:23Z",
+   "files_added": 2,
+   "parents": 1
+  },
+  {
+   "id": "b1d78fdfbe08",
+   "message": "researcher facts: delivered 1 files",
+   "time": "2026-10-15T13:56:05Z",
+   "files_added": 1,
+   "parents": 1
+  },
+  {
+   "id": "266299129a33",
+   "message": "conductor fixes-ruvector: delivered 10 files",
+   "time": "2026-10-15T13:56:12Z",
+   "files_added": 10,
+   "parents": 1
+  },
+  {
+   "id": "2992406c990b",
+   "message": "writer hero: delivered 2 files",
+   "time": "2026-10-15T13:59:23Z",
+   "files_added": 2,
+   "parents": 1
+  },
+  {
+   "id": "fa23a9d327fd",
+   "message": "editor editor: delivered 3 files",
+   "time": "2026-10-15T14:05:24Z",
+   "files_added": 3,
+   "parents": 1
+  },
+  {
+   "id": "7fd41f7ff3ba",
+   "message": "conductor fixes-site: delivered 7 files",
+   "time": "2026-10-15T14:05:30Z",
+   "files_added": 7,
+   "parents": 1
+  }
+ ],
+ "workers": [
+  {
+   "id": "facts",
+   "role": "researcher",
+   "tokens": 104145,
+   "tool_uses": 25,
+   "wall_s": 203
+  },
+  {
+   "id": "fixes-ruvector",
+   "role": "conductor",
+   "tokens": null,
+   "tool_uses": null,
+   "wall_s": null,
+   "note": "the host applied the correction the researcher found"
+  },
+  {
+   "id": "hero",
+   "role": "writer",
+   "tokens": 93486,
+   "tool_uses": 12,
+   "wall_s": 132
+  },
+  {
+   "id": "editor",
+   "role": "editor",
+   "tokens": 127182,
+   "tool_uses": 37,
+   "wall_s": 302
+  },
+  {
+   "id": "fixes-site",
+   "role": "conductor",
+   "tokens": null,
+   "tool_uses": null,
+   "wall_s": null,
+   "note": "the host applied the editor's hero and 18 line fixes"
+  }
+ ],
+ "deleted_paths": 153,
+ "delete_check": {
+  "store_paths_left": 0,
+  "clone_after_delete": "failed"
+ }
+}

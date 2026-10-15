@@ -59,7 +59,7 @@ sequenceDiagram
 <div class="two">
 <div>
 <p><b>Problem.</b> Agents learn things during a run. On an ephemeral runner that memory dies with the job; on a shared server the host can read it. RuVector's README is candid about its boundaries: its witness logs “do not encrypt memory content”, filters “are not a complete authorization boundary”, replication runs on “simulated transport”, and a delete “does not automatically remove copies in snapshots, branches, replicas, exports”.</p>
-<p><b>His piece.</b> Ruflo memory (<code>memory init|store|list</code>, sql.js or better-sqlite3, AgentDB mirror) or RuVector itself.</p>
+<p><b>His piece.</b> Ruflo memory (<code>memory init|store|list</code>; AgentDB with HNSW search, better-sqlite3, sql.js as the fallback) or RuVector itself.</p>
 <p><b>Our piece.</b> An sgit vault. Each role writes its memory files on its own branch (<code>mem-coder-&lt;run&gt;</code>), pushes, and merges into the default branch. A fresh machine clones the vault with the key and restores the files. Files are encrypted on the client; the server stores ciphertext under opaque ids.</p>
 <p><b>Result.</b> Two roles wrote, a fresh clone restored both, <code>ruflo memory list</code> returned the same entry on the new machine; the vault history shows who learned what and when.</p>
 <p><a href="pocs.html#poc2">POC2: flow, script, history →</a></p>

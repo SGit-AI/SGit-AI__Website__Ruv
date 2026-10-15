@@ -46,10 +46,10 @@ html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font:16px/1.
 svg text{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 .fa{fill:var(--accent)}.fw{fill:var(--warm)}.fh{fill:var(--head)}.fd{fill:var(--dim)}.ft{fill:var(--text)}.fr{fill:var(--red)}.fp{fill:var(--panel)}.fp2{fill:var(--panel2)}.fo{fill:var(--on-accent)}.fb{fill:var(--bg)}.fn{fill:none}
 .sa{stroke:var(--accent)}.sw{stroke:var(--warm)}.sh{stroke:var(--head)}.sl{stroke:var(--line)}.sd{stroke:var(--dim)}.sr{stroke:var(--red)}
-@media (max-width:700px){
+@media (max-width:700px) and (orientation:portrait){
   :root{--u:min(2.6vw,1.2vh)}
   #stage{padding:12px 16px 14px}
-  #eyebrow{font-size:12px}#eyebrow span.r{display:none}
+  #eyebrow{font-size:12px;flex-wrap:wrap}#eyebrow span.r{margin-left:0;font-size:10.5px}
   #row{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) 22px minmax(0,1fr) 22px minmax(0,1fr) 22px;margin-top:8px}
   .op{font-size:26px}
   .card{display:grid;grid-template-columns:38% minmax(0,1fr);grid-template-rows:auto auto 1fr auto auto;column-gap:10px;padding:8px 12px 8px}
@@ -85,14 +85,14 @@ svg text{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
       <div class="card" id="c2">
         <div class="tag">sgit vaults</div><h2>memory</h2>
         <svg id="g2" viewBox="0 0 300 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
-        <div class="line">memory with history, encrypted, ephemeral</div>
+        <div class="line">memory with history, encrypted client-side, ephemeral</div>
         <div class="num"><b id="n2">…</b><span id="l2"></span></div>
         <div class="src" id="s2"></div>
       </div></div>
     <div class="op" id="p2">+</div>
     <div class="slot"><div class="ghost">3</div>
       <div class="card" id="c3">
-        <div class="tag">Agent Behaviour Policies</div><h2>a mandate</h2>
+        <div class="tag">Agent Behaviour Policies · POC1</div><h2>a mandate</h2>
         <svg id="g3" viewBox="0 0 300 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
         <div class="line">a mandate, written down, enforced with receipts</div>
         <div class="num"><b id="n3">…</b><span id="l3"></span></div>
@@ -103,7 +103,7 @@ svg text{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
   <div id="final">
     <div id="tagline"><span class="w k1" id="w1">a Ruflo hive<i id="f1"></i></span><span class="p" id="q1">+</span><span class="w k2" id="w2">sgit vaults<i id="f2"></i></span><span class="p" id="q2">+</span><span class="w k3" id="w3">Agent Behaviour Policies<i id="f3"></i></span></div>
     <div id="word"><span class="eq">=</span>ruv<span class="dot">.</span>sgit</div>
-    <div id="close"><b>autonomy you can trust:</b> many hands, a written mandate, and a memory the host can't read.</div>
+    <div id="close"><b>autonomy you can trust:</b> many hands, a written mandate (tested in POC1), and a memory encrypted before it leaves the client: the server held <span id="cz2"></span> probed text fragments in plaintext.</div>
   </div>
   <div id="bar"><i></i></div>
   <div id="msg"></div>
@@ -138,17 +138,19 @@ function build(V, A, R) {
   R.rows.forEach(function (r) { var k = String(r.abp).split(' ')[0]; cnt[k] = (cnt[k] || 0) + 1; });
   var N = R.rows.length, legacyAll = R.rows.every(function (r) { return /^allowed/.test(r.legacy); });
   var chainOk = R.ledger && R.ledger.abp && R.ledger.abp.valid, receipts = R.ledger && R.ledger.abp ? R.ledger.abp.length : N;
+  var probeN = +(((run.server_store.probe || '').match(/^\d+/)) || [0])[0];
+  $('cz2').textContent = run.server_store.plaintext_hits + ' of ' + probeN;
   var life = Math.round((Date.parse(run.closed_at) - Date.parse(run.created_at)) / 1000);
 
   $('runlbl').textContent = 'numbers: run ' + run.run + ' + POC1';
   $('n1').textContent = W; $('l1').textContent = 'workers in parallel, one queen';
-  $('s1').textContent = 'run ' + run.run + ': ' + run.hive.tasks + ' tasks queued, ' + run.hive.ruflo_calls + ' Ruflo calls. Ruflo: MIT, by rUv / ruvnet';
-  $('n2').textContent = run.server_store.plaintext_hits; $('l2').textContent = 'plaintext hits in the ' + run.server_store.files + ' files the server stored';
-  $('s2').textContent = 'run ' + run.run + ': ' + run.commits + ' commits, ' + nb + ' branches merged, clone ' + (run.clone.identical ? 'identical' : 'differs') + ', then deleted (' + (run.delete_check ? run.delete_check.store_paths_left : '?') + ' paths left)';
-  $('n3').textContent = cnt.denied + '/' + N; $('l3').textContent = 'actions denied by the compiled ABP (default: ' + (legacyAll ? 'all ' + N + ' allowed' : 'mixed') + ')';
-  $('s3').textContent = 'POC1, Ruflo policy engine: ' + cnt.approval_required + ' for approval, ' + cnt.allowed + ' allowed, ' + receipts + ' receipts hash-chained' + (chainOk ? ' (valid)' : '') + '. ABP: ' + roles + ' roles, ' + rows + ' rows';
+  $('s1').textContent = 'run ' + run.run + ': ' + run.hive.tasks + ' tasks queued, ' + run.hive.ruflo_calls + ' Ruflo calls; the workers were Claude Code subagents, the host delivered each output. Ruflo: MIT, by rUv / ruvnet';
+  $('n2').textContent = run.server_store.plaintext_hits + '/' + probeN; $('l2').textContent = 'probed text fragments found in plaintext in the ' + run.server_store.files + ' files the server stored';
+  $('s2').textContent = 'run ' + run.run + ': ' + run.commits + ' commits, ' + nb + ' branches (' + run.branches.filter(function (b) { return b.role !== 'conductor'; }).length + ' workers + the conductor\'s fixes), merged one at a time, clone ' + (run.clone.identical ? 'identical' : 'differs') + ', then deleted (' + (run.delete_check ? run.delete_check.store_paths_left : '?') + ' paths left)' + (run.delete_check ? ', clone after delete ' + run.delete_check.clone_after_delete : '');
+  $('n3').textContent = cnt.denied + '/' + N; $('l3').textContent = 'denied in POC1 by an ABP compiled into Ruflo\'s enforce mode (Ruflo\'s legacy mode: ' + (legacyAll ? 'all ' + N + ' allowed' : 'mixed') + ')';
+  $('s3').textContent = 'POC1, Ruflo policy engine: ' + cnt.approval_required + ' for approval, ' + cnt.allowed + ' allowed, ' + receipts + ' receipts in Ruflo\'s ledger' + (chainOk ? ' (valid)' : '') + '. ABP: ' + roles + ' roles, ' + rows + ' rows';
   $('f1').textContent = W + ' workers in parallel';
-  $('f2').textContent = run.server_store.plaintext_hits + ' plaintext hits on the server';
+  $('f2').textContent = run.server_store.plaintext_hits + ' of ' + probeN + ' probed fragments in plaintext';
   $('f3').textContent = cnt.denied + ' of ' + N + ' denied (POC1)';
 
   // ---- glyph 1: the hive
@@ -175,20 +177,21 @@ function build(V, A, R) {
   G2.lock = el(g2, 'g', {});
   el(G2.lock, 'rect', { x: 18, y: 20, width: 18, height: 14, rx: 2, class: 'fw' });
   el(G2.lock, 'path', { d: 'M21 20v-4a6 6 0 0 1 12 0v4', class: 'fn sw', 'stroke-width': 2.4 });
-  G2.txt = el(g2, 'text', { x: 46, y: 32, 'font-size': 13, class: 'ft' }, '');
+  G2.txt = el(g2, 'text', { x: 44, y: 32, 'font-size': 12, class: 'ft' }, '');
   G2.cur = el(g2, 'line', { x1: 24, y1: 134, x2: 276, y2: 134, class: 'sw', 'stroke-width': 3.4, 'stroke-linecap': 'round', 'stroke-dasharray': 260, 'stroke-dashoffset': 260 });
   G2.curl = el(g2, 'text', { x: 276, y: 150, 'text-anchor': 'end', 'font-size': 10, class: 'fd', opacity: 0 }, 'current');
   G2.br = [];
   for (var b = 0; b < nb; b++) {
     var ly = 52 + b * (66 / Math.max(1, nb - 1)), x0 = 40 + b * 9, x1 = 190 + b * 13;
-    G2.br.push(el(g2, 'path', { d: 'M' + x0 + ' 134 C' + x0 + ' ' + ly + ' ' + x0 + ' ' + ly + ' ' + (x0 + 24) + ' ' + ly + ' L' + (x1 - 24) + ' ' + ly + ' C' + x1 + ' ' + ly + ' ' + x1 + ' ' + ly + ' ' + x1 + ' 134', class: 'fn sw', 'stroke-width': 1.6, opacity: .85, 'stroke-dasharray': 420, 'stroke-dashoffset': 420 }));
+    G2.br.push(el(g2, 'path', { d: 'M' + x0 + ' 134 C' + x0 + ' ' + ly + ' ' + x0 + ' ' + ly + ' ' + (x0 + 24) + ' ' + ly + ' L' + (x1 - 24) + ' ' + ly + ' C' + x1 + ' ' + ly + ' ' + x1 + ' ' + ly + ' ' + x1 + ' 134', class: 'fn sw', 'stroke-width': 1.6, opacity: run.branches[b].role === 'conductor' ? .5 : .85, 'stroke-dasharray': 420, 'stroke-dashoffset': 420 }));
+    G2.br[b]._c = run.branches[b].role === 'conductor';
   }
   G2.dots = [];
   for (var c = 0; c < run.commits; c++) G2.dots.push(el(g2, 'circle', { cx: 32 + c * (236 / Math.max(1, run.commits - 1)), cy: 134, r: 5.5, class: 'fp sw', 'stroke-width': 2.4, opacity: 0 }));
   G2.del = el(g2, 'g', { opacity: 0 });
-  el(G2.del, 'rect', { x: 214, y: 4, width: 76, height: 22, rx: 4, class: 'fw' });
-  el(G2.del, 'text', { x: 252, y: 19, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 700, class: 'fo' }, 'deleted');
-  var plain = 'brief.md  script.md', HX = '0123456789abcdef';
+  el(G2.del, 'rect', { x: 88, y: 72, width: 124, height: 28, rx: 4, class: 'fw', transform: 'rotate(-8 150 86)' });
+  el(G2.del, 'text', { x: 150, y: 91, transform: 'rotate(-8 150 86)', 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 700, class: 'fo' }, 'deleted on close');
+  var plain = 'brief/feedback.md  workers/', HX = '0123456789abcdef';
   function scr(k, seed) { var s = ''; for (var i = 0; i < plain.length; i++) { if (plain[i] === ' ' && i < k) { s += ' '; continue; } s += i < k ? HX[(i * 7 + seed * 13 + i * i) % 16] : plain[i]; } return s; }
 
   // ---- glyph 3: the policy, as rows with stamps
@@ -259,7 +262,7 @@ function build(V, A, R) {
     G2.lock.setAttribute('opacity', ramp(l2, .2, .5));
     G2.cur.setAttribute('stroke-dashoffset', 260 * (1 - ease(ramp(l2, .9, 1.6))));
     G2.curl.setAttribute('opacity', ramp(l2, 1.4, 1.8));
-    G2.br.forEach(function (p, i) { p.setAttribute('stroke-dashoffset', 420 * (1 - ease(ramp(l2, 1.6 + i * .06, 2.7 + i * .06)))); });
+    G2.br.forEach(function (p, i) { var d = ease(ramp(l2, 1.4 + i * .22, 1.9 + i * .22)); if (p._c) p.setAttribute('stroke-dasharray', d >= 1 ? '4 4' : 420); p.setAttribute('stroke-dashoffset', d >= 1 ? 0 : 420 * (1 - d)); });
     G2.dots.forEach(function (d, i) { var a = back(ramp(l2, 2.6 + i * .12, 2.9 + i * .12)); d.setAttribute('opacity', cl(a)); d.setAttribute('r', 5.5 * Math.max(0, a)); });
     var dl = ease(ramp(l2, 3.7, 4.3));
     G2.del.setAttribute('opacity', dl);

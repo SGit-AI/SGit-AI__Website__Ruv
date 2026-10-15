@@ -59,17 +59,17 @@ flowchart TB
 <pre><code>npx ruflo@3.56.10 --help                 # 40+ commands; read PRIMARY COMMANDS only
 npx ruflo policy status                  # policy mode: legacy by default (everything allowed)
 npx ruflo policy evaluate '{"identity":{"id":"coder-1","type":"agent"},"action":{"type":"email.send"}}'
-#  → allowed · legacy-default-allow       (this is the gap the ABP closes)
+#  → allowed · legacy-default-allow       (legacy is the default; enforce mode takes the ABP's rules)
 npx ruflo memory init && npx ruflo memory store -k lesson -v "…" -n coder
 npx ruflo daemon stop                    # it auto-starts a daemon; stop it in every script</code></pre>
 <h4>Ignore on day one</h4>
-<p>neural, performance, hive-mind, autopilot, appliance, plugins (IPFS registry), migrate. They are real, but none is needed to govern or remember.</p>
+<p>neural, performance, autopilot, appliance, plugins (IPFS registry), migrate. They are real, but none is needed to govern or remember. (hive-mind is not on this list: ruv.sgit runs on it.)</p>
 <h4>The part we build on</h4>
 <p><code>@claude-flow/security</code> ships <code>AgenticPolicyEngine</code>: modes <code>legacy</code>, <code>observe</code>, <code>enforce</code>; rules with effect allow / deny / require_approval; budgets; a hash-chained receipt ledger with <code>verifyLedger()</code>. The CLI's policy administration needs an interactive terminal by design; the library engine is the documented programmatic surface, which is what <a href="pocs.html#poc1">POC1</a> uses.</p>
 </div>
 <div>
 <div class="card"><h4>When to reach for it</h4><ul><li>You want more than one agent on a task and a defined way to split and merge the work (SPARC).</li><li>You want agents to learn routing from past outcomes (hooks, ReasoningBank).</li><li>You want a policy engine with receipts, without writing one.</li></ul></div>
-<div class="card"><h4>What it does not say</h4><p>No permissions model, RBAC or audit log beyond the policy engine's receipts; anti-drift pins the spec, deviations become votes. That is exactly where a per-role mandate (ABP) fits: the spec becomes a signed document the engine enforces.</p></div>
+<div class="card"><h4>What it already has, and where an ABP fits</h4><p>Ruflo already has console permission levels, a policy engine with rules, approvals, budgets and a hash-chained receipt ledger, federation trust levels with compliance audit trails, and AgentDB audit trails. What it does not ship is a per-role mandate as a written, human-readable document with an owner and an end date: that is where an ABP fits, compiled into the engine's own rules.</p></div>
 <div class="card"><h4>Pitfalls we hit</h4><ul><li><code>memory export</code> returned 0 entries after a successful <code>store</code> (they read different stores); <code>import</code> failed on a fresh project. Copying the DB files works.</li><li>Install <b>with</b> scripts so better-sqlite3 builds; otherwise it falls back to sql.js and warns that persistence is not guaranteed.</li></ul></div>
 </div>
 </div>
@@ -109,7 +109,7 @@ db.search(queryVec, 3);                          // → [{id, score}]
 </div>
 <div>
 <div class="card"><h4>When to reach for it</h4><ul><li>You need enforcement below the host: not "the tool runner denied it" but "the VM has no capability for it".</li><li>You need replayable evidence of what ran.</li></ul></div>
-<div class="card"><h4>The gap, and the fit</h4><p>Rights are coarser than mandates: EXECUTE covers both a sandboxed test run and an email send. The token says <i>what</i>; the ABP keeps <i>why</i>, who signed it and until when. Compile tokens from the mandate, not the other way round.</p></div>
+<div class="card"><h4>The gap, and the fit</h4><p>Rights are coarser than mandates: EXECUTE covers both a sandboxed test run and an email send. The token says <i>what</i>; the ABP keeps <i>why</i>, who owns it and until when. Compile tokens from the mandate, not the other way round.</p></div>
 </div>
 </div>
 </div></section>

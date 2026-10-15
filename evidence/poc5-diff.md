@@ -53,4 +53,4 @@ Not found in the generated files: a governance policy document, deny-by-default 
 
 ## Reading
 
-The scaffold ships a host permission list (what the tool runner lets through) and prose rules. An ABP adds the three things a permission list cannot say: whether the reach is mandated, who signed it, and until when. The harness file is a good barrier; the ABP is the mandate it should be generated from.
+The scaffold ships a host permission list (what the tool runner lets through) and prose rules. An ABP adds the three things a permission list cannot say: whether the reach is mandated, who owns it, and until when. The harness file is a good barrier; the ABP is the mandate it should be generated from.
