@@ -1,0 +1,86 @@
+{
+  "hero-two-worlds": {
+    "model": "google/gemini-2.5-flash-image",
+    "duration_s": 6.7,
+    "cost_usd": 0.038406753,
+    "generation_id": "gen-1792013556-NPHR70Vde7XcpXQ7nFAb",
+    "at": "2026-10-14T21:32:42Z"
+  },
+  "ruv-stack-layers": {
+    "model": "google/gemini-3-pro-image",
+    "duration_s": 24.2,
+    "cost_usd": 0.1393821,
+    "generation_id": "gen-1792013563-aR0nw3bR7zeYrtAGQQGy",
+    "at": "2026-10-14T21:33:06Z"
+  },
+  "intersection-map": {
+    "model": "google/gemini-3-pro-image",
+    "duration_s": 21.4,
+    "cost_usd": 0.13808916,
+    "generation_id": "gen-1792013587-ALPOraupbdFy5zFpTiBr",
+    "at": "2026-10-14T21:33:28Z"
+  },
+  "abp-anatomy": {
+    "model": "google/gemini-3-pro-image",
+    "duration_s": 19.4,
+    "cost_usd": 0.1392138,
+    "generation_id": "gen-1792013608-HRKNrWe2xw0cqiGa41db",
+    "at": "2026-10-14T21:33:47Z"
+  },
+  "poc1-flow": {
+    "model": "google/gemini-3-pro-image",
+    "duration_s": 19.9,
+    "cost_usd": 0.13848714,
+    "generation_id": "gen-1792013628-2vWY4ZHWiGf3IImhwHLo",
+    "at": "2026-10-14T21:34:07Z"
+  },
+  "poc2-flow": {
+    "model": "google/gemini-3-pro-image",
+    "duration_s": 22.0,
+    "cost_usd": 0.13804164,
+    "generation_id": "gen-1792013648-jp5Kv8lg0EG0rOUAS2yC",
+    "at": "2026-10-14T21:34:29Z"
+  },
+  "poc4-browser": {
+    "model": "google/gemini-2.5-flash-image",
+    "duration_s": 6.8,
+    "cost_usd": 0.038381112,
+    "generation_id": "gen-1792013673-dPaXkdYmu84oiZ01WUiu",
+    "at": "2026-10-14T21:34:39Z"
+  },
+  "use-cases": {
+    "model": "google/gemini-2.5-flash-image",
+    "duration_s": 6.5,
+    "cost_usd": 0.038349828,
+    "generation_id": "gen-1792013683-QzZ6K0BN0rzlBASJtSSI",
+    "at": "2026-10-14T21:34:49Z"
+  },
+  "replicate-steps": {
+    "model": "google/gemini-3-pro-image",
+    "duration_s": 20.9,
+    "cost_usd": 0.13803174,
+    "generation_id": "gen-1792013689-38xiFanBxuWJTmZP1Tdd",
+    "at": "2026-10-14T21:35:10Z"
+  },
+  "rvm-rights": {
+    "model": "google/gemini-3-pro-image",
+    "duration_s": 20.3,
+    "cost_usd": 0.1378971,
+    "generation_id": "gen-1792013711-BAfKBCPlygEj65Lbc3KX",
+    "at": "2026-10-14T21:35:30Z"
+  },
+  "memory-compare": {
+    "model": "google/gemini-3-pro-image",
+    "duration_s": 19.4,
+    "cost_usd": 0.13856238,
+    "generation_id": "gen-1792013734-P1XxVuY3QTcnnlZUtl6V",
+    "at": "2026-10-14T21:35:53Z"
+  },
+  "ci-pipeline": {
+    "model": "google/gemini-3-pro-image",
+    "duration_s": 18.3,
+    "cost_usd": 0.13744368,
+    "generation_id": "gen-1792013754-FasTUfbKTE2jKZfNbwtE",
+    "at": "2026-10-14T21:36:12Z"
+  }
+}

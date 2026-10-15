@@ -234,3 +234,6 @@ history-*.json
 secrets.env
 *.sg_vault*
 .sg_vault/
+
+# site build scripts are not Python build output
+!site/build/
