@@ -237,6 +237,17 @@ body.interactive #touch { display:none }
 #loading { position:absolute; display:none; align-items:center; justify-content:center; gap:12px; color:var(--dim); font:600 2.4vh ui-sans-serif,system-ui; background:var(--bg); border-radius:12px; z-index:3 }
 #loading.on { display:flex } #loading i { width:3vh; height:3vh; border-radius:50%; border:.45vh solid var(--line); border-top-color:var(--teal); animation:spin .8s linear infinite } @keyframes spin { to { transform:rotate(360deg) } }
 #cache { font-size:12px; color:var(--dim); white-space:nowrap }
+.ctl button.timer { min-width:9.5em; font-variant-numeric:tabular-nums; font-weight:700 }
+.ctl button.timer.run { background:var(--panel2); border-color:var(--teal); color:var(--teal) }
+.ctl button.timer.ahead { border-color:var(--teal); color:var(--teal) } .ctl button.timer.late { border-color:var(--amber); color:var(--amber) } .ctl button.timer.behind { border-color:var(--red); color:var(--red); background:var(--panel2) }
+.ctl button.timer small { display:inline; font-size:11px; text-transform:none; letter-spacing:0; margin:0 0 0 .4em; opacity:.85 }
+#pick { position:fixed; inset:4vh 4vw calc(var(--barh) + 2vh); background:var(--panel); border:1px solid var(--line); border-radius:14px; z-index:45; display:none; flex-direction:column; box-shadow:0 10px 40px rgba(0,0,0,.25) }
+body.pick #pick { display:flex } #pick .ph { display:flex; gap:16px; align-items:baseline; padding:14px 18px; border-bottom:1px solid var(--line); font-size:16px }
+#picklist { overflow:auto; padding:12px; display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:10px; align-content:start }
+#picklist .pc { border:1px solid var(--line); border-radius:10px; padding:10px 12px; background:var(--bg); cursor:pointer }
+#picklist .pc:hover { border-color:var(--teal) } #picklist .pc.cur { border-color:var(--teal); box-shadow:inset 0 0 0 1px var(--teal) } #picklist .pc.ex { border-style:dashed }
+#picklist .pc .n { font:700 12px ui-monospace,monospace; color:var(--dim) } #picklist .pc h4 { margin:3px 0 6px; font:600 15px/1.25 Georgia,serif; color:var(--head) }
+#picklist .pc .sts { display:flex; flex-wrap:wrap; gap:4px } #picklist .pc .sts a { font-size:11.5px; padding:2px 7px; border-radius:999px; background:var(--panel2); color:var(--text); text-decoration:none; border:1px solid var(--line) } #picklist .pc .sts a:hover { border-color:var(--teal); color:var(--teal) }
 #bar .clock { font-size:22px; font-weight:700; min-width:6.4em; white-space:nowrap } .dim { color:var(--dim) }
 #beatno { min-width:3.2em; text-align:right; white-space:nowrap } #state { min-width:8.5em; text-align:right; white-space:nowrap }
 body.review .b, body.review tr.row, body.review ul.bul li, body.review .term .out { transition:none !important } body.review .cursor { display:none }
@@ -276,7 +287,7 @@ ul.bul { list-style:none; padding:0; font-size:3.4vh; margin:0 } ul.bul li { mar
 .ctl button.nav { font-size:15px; min-width:58px } .ctl button.pp { min-width:64px; font-size:20px; background:var(--teal); color:var(--on-accent); border-color:var(--teal) }
 .ctl.small button { height:34px; min-width:38px; font-size:14px; border-radius:8px }
 .ctl button small { display:block; font:600 9px ui-sans-serif,system-ui; letter-spacing:.06em; text-transform:uppercase; opacity:.7; margin-top:-2px }
-@media (max-width:1100px) { #state, #cache { display:none } #bar .clock { font-size:17px; min-width:5.4em } .ctl button.nav { min-width:46px } }
+@media (max-width:1100px) { #state, #cache, #beatno { display:none } .ctl button.timer { min-width:7.5em } #bar .clock { font-size:17px; min-width:5.4em } .ctl button.nav { min-width:46px } }
 @media (max-width:700px) { #steps .st span { font-size:0 } #count { min-width:6em; font-size:14px } #count .n { font-size:18px } }
 @media (orientation:portrait) {   /* iPad upright: the words go under the slide, not beside it */
   body.presenter #stage, body.presenter #touch { inset:0 0 calc(42vh + var(--barh)) 0 }
@@ -297,17 +308,20 @@ ul.bul { list-style:none; padding:0; font-size:3.4vh; margin:0 } ul.bul li { mar
 <div id="bar">
  <div class="row"><div class="ctl"><button data-k=" " id="pp" class="pp" aria-label="play or pause" title="play / pause (Space)">▶</button></div><span class="clock" id="clock">0:00</span><span class="dim" id="beatno"></span><div id="prog" title="click to seek"><b id="progb"></b></div><span class="dim" id="state">paused</span>
   <div class="ctl"><button class="nav" data-k="PageUp" aria-label="previous slide" title="previous slide (↑ or PageUp)">«<small>slide</small></button><button class="nav" data-k="ArrowLeft" aria-label="previous step" title="previous step (←)">‹<small>step</small></button><button class="nav" data-k="ArrowRight" aria-label="next step" title="next step (→, or tap the slide)">›<small>step</small></button><button class="nav" data-k="PageDown" aria-label="next slide" title="next slide (↓ or PageDown, or swipe)">»<small>slide</small></button><button data-k="s" id="sp" aria-label="speed" title="speed (S)">1×</button></div></div>
- <div class="row"><div class="ctl small"><button data-k="x" id="ex" aria-label="leave the presentation" title="leave (X)">✕</button><button data-k="h" id="hd" aria-label="hold at the end of each slide" title="hold at the end of each slide (H)">hold</button><button data-k="v" id="rv" aria-label="review mode: everything at once, no animation" title="review (V)">review</button><button data-k="p" id="nb" aria-label="speaker notes" title="notes (P)">notes</button><button data-k="t" id="th" aria-label="next theme" title="theme (T)">◐</button><button data-k="f" aria-label="fullscreen" title="fullscreen (F)">⛶</button></div><div id="steps" title="this slide's steps: click to jump"></div><span id="cache"></span><span id="count"></span></div>
+ <div class="row"><div class="ctl small"><button data-k="x" id="ex" aria-label="leave the presentation" title="leave (X)">✕</button><button data-k="g" id="go" aria-label="go to any slide" title="go to any slide or step (G)">☰ slides</button><button data-k="v" id="rv" aria-label="review mode: everything at once, no animation" title="review (V)">review</button><button data-k="p" id="nb" aria-label="speaker notes" title="notes (P)">notes</button><button data-k="t" id="th" aria-label="next theme" title="theme (T)">◐</button><button data-k="f" aria-label="fullscreen" title="fullscreen (F)">⛶</button></div><div id="steps" title="this slide's steps: click to jump"></div><span id="cache"></span><span id="count"></span><div class="ctl small"><button data-k="h" id="hd" aria-label="auto-advance to the next slide" title="auto: move to the next slide when one ends (H); off: stop at the end of each slide">auto</button><button data-k="z" id="tm" class="timer" aria-label="start or stop the talk timer" title="talk timer: start when you start speaking (Z); it keeps running whatever you click, until you stop it">▶ start talk</button></div></div>
 </div>
-<div id="intro"><div><h2 id="ttl">Talk player</h2><p id="sub"></p><p>Tap ▶ or press <kbd>Space</kbd> to start · tap the slide for the next step, swipe for the next slide · <b>‹ ›</b> steps, <b>« »</b> slides · <b>1×</b> speed · <b>hold</b> stops at the end of each slide · <b>review</b> everything at once · <b>notes</b> the words · <kbd>?</kbd> all keys</p></div></div>
+<div id="intro"><div><h2 id="ttl">Talk player</h2><p id="sub"></p><p>Tap ▶ or press <kbd>Space</kbd> to start · tap the slide for the next step, swipe for the next slide · <b>‹ ›</b> steps, <b>« »</b> slides · <b>1×</b> speed · <b>auto</b> moves on when a slide ends (off: it stops) · <b>start talk</b> starts your timer · <b>☰ slides</b> jumps anywhere · <b>review</b> everything at once · <b>notes</b> the words · <kbd>?</kbd> all keys</p></div></div>
 <div id="black"></div>
 <div id="err"></div>
+<div id="pick"><div class="ph"><b>Go to a slide</b><span class="dim">click a slide, or one of its steps · <kbd>G</kbd> or <kbd>Esc</kbd> to close</span></div><div id="picklist"></div></div>
 <div id="help"><h3 style="margin-top:0;font-family:Georgia,serif">Keys</h3><table>
 <tr><td><kbd>Space</kbd> <kbd>K</kbd></td><td>play / pause (the live pages pause too)</td></tr>
 <tr><td><kbd>→</kbd> <kbd>←</kbd> · tap</td><td>next / previous step of this slide (the steps are under the timeline)</td></tr>
 <tr><td><kbd>PageDown</kbd> <kbd>PageUp</kbd> <kbd>↓</kbd> <kbd>↑</kbd> <kbd>N</kbd> · swipe</td><td>next / previous slide (clickers send PageDown)</td></tr>
 <tr><td><kbd>S</kbd> or <b>1×</b></td><td>speed: 0.75×, 1×, 1.25×, 1.5×, 2× (the live pages follow)</td></tr>
-<tr><td><kbd>H</kbd> or <b>hold</b></td><td>hold at the end of each slide until you move on</td></tr>
+<tr><td><kbd>H</kbd> or <b>auto</b></td><td>auto on: the next slide starts when one ends. Off (the default): each slide stops at its end until you press » or tap</td></tr>
+<tr><td><kbd>Z</kbd> or <b>start talk</b></td><td>the talk timer: starts when you start speaking and keeps running whatever you click, until you stop it. Teal: ahead of the plan for the slide on screen; amber: a little late; red: behind</td></tr>
+<tr><td><kbd>G</kbd> or <b>☰ slides</b></td><td>go to any slide, or straight to one of its steps (for questions at the end)</td></tr>
 <tr><td><kbd>P</kbd></td><td>presenter view: the words, seconds left, what comes next</td></tr>
 <tr><td><kbd>A</kbd></td><td>open the audience window (drag it to the projector, press F there); both stay in sync</td></tr>
 <tr><td><kbd>F</kbd></td><td>fullscreen</td></tr>
@@ -338,7 +352,8 @@ const VIEW = qs.get('view') || 'main', ME = Math.random().toString(36).slice(2)
 const EMBED = qs.has('embed') || window.top !== window.self   // inside the talk page: ✕ becomes 'open full window'
 const RATES = [0.75, 1, 1.25, 1.5, 2]
 let talk, data = {}, B = [], MAIN = 0, TOTAL = 0, t = 0, playing = false, last = 0, beatIx = -1, rehearse = false, log = [], wall0 = 0, leader = VIEW !== 'audience', lastSend = 0, black = false, review = qs.has('review')
-let rate = +(qs.get('rate') || 1), hold = qs.has('hold'), held = false, frameReady = false, stepCache = null
+const KS = {}   // steps the live pages have published, by page, for the slide picker
+let rate = +(qs.get('rate') || 1), hold = !qs.has('auto'), held = false, timer = null, frameReady = false, stepCache = null
 const chan = 'BroadcastChannel' in window ? new BroadcastChannel('ruv-talk:' + (qs.get('talk') || 'talk-10.json') + (window.TALK ? ':offline' : '')) : null   // one channel per timeline
 if (VIEW === 'audience') document.body.classList.add('audience')
 if (qs.has('review')) document.body.classList.add('review')
@@ -471,6 +486,7 @@ function stepsOf(b) {
   st = st.filter(x => x.t >= 0 && x.t <= b.dur).sort((x, y) => x.t - y.t)
   if (!st.length || st[0].t > 0.05) st.unshift({ t: 0, label: 'start' })
   st.forEach((x, i) => { x.label = x.label || (i === 0 ? 'start' : `step ${i + 1}`) })
+  if (fromPage) KS[s.src] = st
   if (s.layout !== 'iframe' || b.steps || fromPage) stepCache = st
   return st
 }
@@ -543,13 +559,13 @@ function tick(now) {
   $('beatno').textContent = b.extra ? `+${ix + 1 - talk.beats.length}` : `${ix + 1}/${talk.beats.length}`
   $('progb').style.width = (100 * t / TOTAL) + '%'
   $('state').textContent = (review ? 'review' : held ? 'holding' : playing ? 'playing' : 'paused') + (rate !== 1 ? ` · ${rate}×` : '') + (rehearse ? ' · rehearsing' : '') + (VIEW === 'audience' ? ' · audience' : '')
-  $('pp').textContent = playing && !held ? '❚❚' : '▶'; $('nb').classList.toggle('on', document.body.classList.contains('presenter')); $('rv').classList.toggle('on', review); $('hd').classList.toggle('on', hold); $('sp').textContent = rate + '×'
+  $('pp').textContent = playing && !held ? '❚❚' : '▶'; $('nb').classList.toggle('on', document.body.classList.contains('presenter')); $('rv').classList.toggle('on', review); $('hd').classList.toggle('on', !hold); $('hd').textContent = hold ? 'auto off' : 'auto ▸▸'; $('go').classList.toggle('on', document.body.classList.contains('pick')); paintTimer(b); $('sp').textContent = rate + '×'
   // how long until the next slide, in talk seconds and at the current speed
   const left = b.at + b.dur - t, secs = left / rate, c = $('count')
   if (review) { c.className = ''; c.textContent = 'review' }
   else if (held) { c.className = 'now'; c.innerHTML = 'holding · <b>»</b> for next' }
   else if (!playing) { c.className = ''; c.innerHTML = `<span class="n">${Math.ceil(secs)}</span> s on this slide` }
-  else { c.className = secs < 5 ? 'now' : secs < 10 ? 'soon' : ''; c.style.setProperty('--p', (100 * (1 - left / b.dur)).toFixed(1) + '%'); c.innerHTML = `<span class="ring"></span>next in <span class="n">${Math.ceil(secs)}</span> s` }
+  else { c.className = secs < 5 ? 'now' : secs < 10 ? 'soon' : ''; c.style.setProperty('--p', (100 * (1 - left / b.dur)).toFixed(1) + '%'); c.innerHTML = `<span class="ring"></span>${hold && !b.extra ? 'ends in' : 'next in'} <span class="n">${Math.ceil(secs)}</span> s` }
   const L = $('left')
   if (L) { L.textContent = `${Math.ceil(secs)} s left`; L.className = 'left ' + (secs < 5 ? 'behind' : 'ok') }
   const w = $('wall'); if (w) w.textContent = new Date().toTimeString().slice(0, 5) + (rehearse ? ` · rehearsal ${fmt((performance.now() - wall0) / 1000)}` : '')
@@ -584,14 +600,16 @@ function onKey(e) {
   else if (k === 'PageDown' || k === 'ArrowDown' || k === 'n' || k === 'N' || k === 'swipe-next') goBeat(beatAt(t) + 1)
   else if (k === 'PageUp' || k === 'ArrowUp' || k === 'swipe-back') { const ix = beatAt(t); goBeat(t - B[ix].at < 2 ? ix - 1 : ix) }
   else if (k === 's' || k === 'S') rate = RATES[(RATES.indexOf(rate) + 1) % RATES.length] || 1
-  else if (k === 'h' || k === 'H') { hold = !hold; held = false }
+  else if (k === 'h' || k === 'H') { hold = !hold; if (!hold && held) { held = false; step(1) } }
+  else if (k === 'z' || k === 'Z') toggleTimer()
+  else if (k === 'g' || k === 'G') { document.body.classList.toggle('pick'); if (document.body.classList.contains('pick')) drawPick() }
   else if (k === '0' || k === 'Home') { t = 0; beatIx = -1; playing = false; held = false }
   else if (k === 'p' || k === 'P') document.body.classList.toggle('presenter')
   else if (k === 'a' || k === 'A') { const u = new URL(location.href); u.searchParams.set('view', 'audience'); u.searchParams.delete('presenter'); window.open(u.href, 'ruv-talk-audience', 'width=1280,height=720'); document.body.classList.add('presenter') }
   else if (k === 'f' || k === 'F') { const d = document.documentElement; (d.requestFullscreen || d.webkitRequestFullscreen)?.call(d) }
   else if (k === 'b' || k === 'B' || k === '.') { black = !black; document.body.classList.toggle('black', black) }
   else if (k === '?') document.body.classList.toggle('help')
-  else if (k === 'Escape') document.body.classList.remove('help')
+  else if (k === 'Escape') document.body.classList.remove('help', 'pick')
   else if (k === 'x' || k === 'X') {   // leave: out of fullscreen first, then back to the talk page (or, embedded, open the player in its own window)
     if (document.fullscreenElement || document.webkitFullscreenElement) (document.exitFullscreen || document.webkitExitFullscreen).call(document)
     else if (EMBED) { const u = new URL(location.href); u.searchParams.delete('embed'); u.searchParams.set('t', Math.floor(t)); window.open(u.href, '_blank') }
@@ -640,7 +658,7 @@ function warm() {
         const f = document.createElement('iframe'); f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1
         Object.assign(f.style, { position: 'fixed', left: '-2000px', top: '0', width: '1280px', height: '600px', visibility: 'hidden' })
         f.src = src + (src.includes('?') ? '&' : '?') + 'review&once&ruvpaused'
-        const done = () => { setTimeout(() => { f.remove(); res() }, 1500) }
+        const done = () => { setTimeout(() => { try { const r = f.contentWindow.RUV_STEPS; if (r?.length) KS[src] = r.map(x => ({ t: +x.t, label: x.label })) } catch {} f.remove(); res() }, 1500) }
         f.onload = done; setTimeout(done, 15000); document.body.appendChild(f)
       })
       $('cache').textContent = `cached ${++n}/${pages.length} live slides`
@@ -648,6 +666,50 @@ function warm() {
     $('cache').textContent = `ready offline: ${pages.length} live slides cached`
   }).catch(() => {})
 }
+// the talk timer: wall-clock time since you started speaking. It is yours: no slide button changes it. It is kept in this
+// browser (a reload does not lose it). Its colour compares it with the plan for the slide on screen.
+try { timer = JSON.parse(localStorage.getItem('ruv-talk-timer') || 'null') } catch {}
+const saveTimer = () => { try { localStorage.setItem('ruv-talk-timer', JSON.stringify(timer)) } catch {} }
+const timerS = () => !timer ? 0 : (timer.stopped_ms ?? (Date.now() - timer.start)) / 1000
+function toggleTimer() {
+  if (timer && timer.stopped_ms == null) { timer.stopped_ms = Date.now() - timer.start }      // stop
+  else if (timer && timer.stopped_ms != null && confirmReset()) timer = null                    // stopped: a second press resets
+  else if (timer) { timer.start = Date.now() - timer.stopped_ms; delete timer.stopped_ms }     // or resume
+  else { timer = { start: Date.now() }; if (!playing) playing = true; $('intro').style.display = 'none' }
+  saveTimer()
+}
+let resetAsk = -1e9
+function confirmReset() { const n = performance.now(); if (n - resetAsk < 2500) return true; resetAsk = n; return false }   // press twice within 2.5 s to reset
+function paintTimer(b) {
+  const el = $('tm'), s = timerS()
+  if (!timer) { el.className = 'timer'; el.innerHTML = '▶ start talk'; return }
+  const stopped = timer.stopped_ms != null
+  let cls = 'timer run', note = ''
+  if (!b.extra && !review) {
+    const early = b.at - s, late = s - (b.at + b.dur)
+    if (late > 20) { cls += ' behind'; note = `${fmt(late)} behind` } else if (late > 0) { cls += ' late'; note = `${fmt(late)} late` }
+    else if (early > 10) { cls += ' ahead'; note = `${fmt(early)} ahead` } else note = 'on time'
+  }
+  el.className = cls
+  el.innerHTML = `${stopped ? (performance.now() - resetAsk < 2500 ? 'press again: reset' : '▶ ' + fmt(s)) : '■ ' + fmt(s)}${note && !stopped ? `<small>${note}</small>` : ''}`
+  el.title = stopped ? 'timer stopped: press to resume, press twice quickly to reset' : 'talk timer running: press to stop'
+}
+// go to any slide or step: for questions at the end
+function drawPick() {
+  const cur = beatAt(t)
+  $('picklist').innerHTML = B.map((b, i) => {
+    let st = []; try { st = i === cur ? stepsOf(b) : b.steps ? b.steps.map(x => typeof x === 'number' ? { t: x } : x) : (KS[b.slide.src] || []) } catch {}
+    return `<div class="pc${i === cur ? ' cur' : ''}${b.extra ? ' ex' : ''}" data-i="${i}"><div class="n">${b.extra ? 'extra ' + (i + 1 - talk.beats.length) : i + 1} · ${b.extra ? 'untimed' : fmt(b.at)} · ${b.dur} s</div><h4>${esc(b.title)}</h4>` +
+      (st.length > 1 ? `<div class="sts">${st.map((x, j) => `<a href="#" data-i="${i}" data-t="${x.t}">${j + 1}. ${esc(x.label || '')}</a>`).join('')}</div>` : '') + '</div>'
+  }).join('')
+}
+$('picklist').addEventListener('click', e => {
+  e.preventDefault(); const a = e.target.closest('a[data-t]'), c = e.target.closest('.pc'); if (!c) return
+  const i = +c.dataset.i, b = B[i]
+  if (i !== beatAt(t)) beatIx = -1
+  t = b.at + (a ? +a.dataset.t : 0); held = false; leader = true
+  document.body.classList.remove('pick'); send()
+})
 window.__state = () => ({ t, beat: B[beatIx]?.id, playing, held, rate, log, leader, steps: B[beatIx] && stepsOf(B[beatIx]) })
 window.__seek = s => { t = s }
 load()

@@ -5,9 +5,19 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.11",
+   "version": "v0.1.12",
    "date": "2026-10-15",
    "commit": null,
+   "title": "The talk player: a talk timer, auto-advance as a choice, and a slide picker",
+   "changes": "A talk timer (bottom right, Z): it starts when you start speaking and keeps running whatever slide you go to, until you stop it; it survives a reload; its colour compares it with the plan for the slide on screen (teal ahead, amber a little late, red behind, with the minutes). Auto-advance is now a button (H): off by default, so each slide stops at its end until you move on; on, the talk plays through. ☰ slides (G) opens every slide, extras included, with each live slide's steps, to jump straight to one during questions.",
+   "pages": [
+    "talk/player.html"
+   ]
+  },
+  {
+   "version": "v0.1.11",
+   "date": "2026-10-15",
+   "commit": "420c226",
    "title": "The talk, reworked: step-by-step controls, speed, a countdown, and six new slides from run r6-talk",
    "changes": "Dinis's notes on the talk, turned into run r6-talk (5 workers; vault measured, 0 plaintext found, fresh clone identical, deleted and verified). The player: play on the left; previous/next slide (« ») and previous/next step (‹ ›) on the right; a speed control (0.75× to 2×); a step track under the timeline for every slide; a countdown to the next slide; hold mode (stop at the end of each slide); tap for the next step and swipe for the next slide on an iPad; a loading indicator; the live pages now pause, speed up and step with the player (assets/clock.js) and play once instead of looping; a service worker keeps every file the talk has used, and the player loads each live slide once in the background. New slides: the equation opens the talk; RuVector's README 'Security and governance' section, screenshotted and highlighted, then where sgit adds; a real vault's history from run r5-market and POC2; how to read the ledger; the four services with their prices; the shop walkthrough from real screenshots; and where to find it. The case study and Ruflo's default became extras after the timed talk. The shop lost its 'not automated end to end' warning and gained a three-step order strip.",
    "pages": [
