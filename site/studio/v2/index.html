@@ -70,6 +70,7 @@ svg .mono{font-family:var(--mono)}
   </aside>
 </div>
 <div class="corner">v2 · Messages in flight · made in the ruv.sgit.ai studio run<a href="../index.html">all versions</a></div>
+<script src="../../assets/clock.js"></script>
 <script>
 (function(){
 'use strict';
@@ -84,7 +85,7 @@ const COL = {queen: QUEEN.c}; ROLES.forEach(r => COL[r.id] = r.c);
 const ANG = {conductor:212, librarian:174, architect:138, designer:104, developer:76, editor:42, historian:6, observer:-32};
 
 let t0 = null;
-window.__t = () => t0 === null ? 0 : ((performance.now() - t0) / 1000) % LOOP;
+window.__t = () => t0 === null ? 0 : ruvLoop((performance.now() - t0) / 1000, LOOP, 28);
 
 // seeded rng so every loop shows the same illustrative ids
 function rng(seed){ return () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }; }
@@ -322,7 +323,7 @@ Promise.all([
   buildMessages();
   build();
   window.matchMedia('(max-width:800px)').addEventListener('change', build);
-  t0 = performance.now();
+  t0 = 0;   // the page clock (assets/clock.js) starts at 0 when the page starts, so a player can start it part-way
   requestAnimationFrame(frame);
 }).catch(e => { document.getElementById('err').textContent = 'Could not load the run data (' + e.message + '); no numbers shown.'; });
 })();

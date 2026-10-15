@@ -20,11 +20,12 @@
 <canvas id="c"></canvas>
 <div id="corner"><span>v4 · The policy gate · made in the ruv.sgit.ai studio run</span><a href="../index.html">← studio</a></div>
 <div id="err"></div>
+<script src="../../assets/clock.js"></script>
 <script>
 (() => {
   const LOOP = 36;
   const t0 = performance.now();
-  window.__t = () => ((performance.now() - t0) / 1000) % LOOP;
+  window.__t = () => ruvLoop((performance.now() - t0) / 1000, LOOP, 34);
 
   const C = { green:'#4ade80', teal:'#2dd4bf', red:'#f87171', amber:'#fbbf24', ink:'#e2e8f0', muted:'#94a3b8', dim:'#334155', panel:'#0f172a' };
   const AGENT_COLS = ['#60a5fa','#a78bfa','#f472b6','#f59e0b','#34d399','#94a3b8'];

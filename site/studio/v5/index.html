@@ -35,11 +35,12 @@ text{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 </div>
 <div class="stage"><svg id="s" viewBox="-575 -150 1190 815" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Isometric agent studio floor"></svg></div>
 <div class="cap" id="cap"><span class="k">loading data…</span></div>
+<script src="../../assets/clock.js"></script>
 <script>
 (function(){
 'use strict';
 var T = 35, t0 = performance.now();
-window.__t = function(){ return ((performance.now() - t0) / 1000) % T; };
+window.__t = function(){ return ruvLoop((performance.now() - t0) / 1000, T, 33); };
 
 var NS = 'http://www.w3.org/2000/svg', S = 52, C = 0.866;
 var svg = document.getElementById('s');

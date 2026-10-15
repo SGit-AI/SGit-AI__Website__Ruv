@@ -2,7 +2,7 @@
  "title": "Autonomy with a mandate and a memory",
  "event": "Agentic Engineering Live: rUv in London, 15 Oct 2026",
  "speaker": "Dinis Cruz",
- "duration_s": 573,
+ "duration_s": 653,
  "source": "ruv.sgit.ai: every number on screen is read from data/report.json, data/vaults.json, studio/run.json or a recorded run under evidence/",
  "data": {
   "report": "../data/report.json",
@@ -159,8 +159,68 @@
    "say": "This is a real run's vault, from this afternoon. The brief lands on current. Then each worker gets its own branch, commits what it delivered, and merges back: who, what, when, and how long each sgit step took, in milliseconds. Now the flow: six workers, eight commits, encrypted on the client before the push. The server holds ciphertext only: we searched it for forty fragments of the text and found none. A fresh clone came back identical, and then the vault was deleted, with nothing left. Memory works the same way. In POC2, run locally, a coder and a tester each wrote their Ruflo memory to the vault; the folder was deleted, a fresh clone restored it, and Ruflo gave the same answers. Every step is a commit, and it's gone when the run is."
   },
   {
-   "id": "hive",
+   "id": "studio-v1",
    "at": 283,
+   "dur": 20,
+   "title": "Studio v1: the diagram that builds",
+   "slide": {
+    "layout": "iframe",
+    "src": "../studio/v1/index.html",
+    "fallback": "../studio/posters/v1.webp",
+    "heading": "Studio v1: the diagram that builds",
+    "sub": "SVG only: agents, the ABP gate, the vault, receipts, built step by step · made in studio run 1 (a Ruflo hive of Claude Code subagents)",
+    "speed": 1.47
+   },
+   "say": "Seven animations of this story were built in parallel by a Ruflo hive of Claude Code workers. Version one: a diagram that builds, the agents, the mandate's gate, the vault, the receipts."
+  },
+  {
+   "id": "studio-v2",
+   "at": 303,
+   "dur": 20,
+   "title": "Studio v2: messages in flight",
+   "slide": {
+    "layout": "iframe",
+    "src": "../studio/v2/index.html",
+    "fallback": "../studio/posters/v2.webp",
+    "heading": "Studio v2: messages in flight",
+    "sub": "the queen hands tasks to workers; envelopes travel through the vault between them · made in studio run 1 (a Ruflo hive of Claude Code subagents)",
+    "speed": 1.47
+   },
+   "say": "Version two: messages in flight. The queen hands tasks to workers, and every envelope passes through the vault, encrypted."
+  },
+  {
+   "id": "studio-v4",
+   "at": 323,
+   "dur": 20,
+   "title": "Studio v4: the policy gate",
+   "slide": {
+    "layout": "iframe",
+    "src": "../studio/v4/index.html",
+    "fallback": "../studio/posters/v4.webp",
+    "heading": "Studio v4: the policy gate",
+    "sub": "11 actions fly at a gate twice: the default lets all through; the ABP denies 4, holds 2 for a human, lets 5 through · made in studio run 1 (a Ruflo hive of Claude Code subagents)",
+    "speed": 1.79
+   },
+   "say": "Version four: the policy gate. The same eleven actions, twice. Ruflo's default lets all of them through; the ABP denies four, holds two for a human, and lets five through, with receipts."
+  },
+  {
+   "id": "studio-v5",
+   "at": 343,
+   "dur": 20,
+   "title": "Studio v5: the isometric office",
+   "slide": {
+    "layout": "iframe",
+    "src": "../studio/v5/index.html",
+    "fallback": "../studio/posters/v5.webp",
+    "heading": "Studio v5: the isometric office",
+    "sub": "one desk per role, a vault safe in the middle, envelopes walking between desks and the safe · made in studio run 1 (a Ruflo hive of Claude Code subagents)",
+    "speed": 1.74
+   },
+   "say": "Version five: an isometric office. A desk per role, the vault as a safe in the middle, and envelopes walking between them."
+  },
+  {
+   "id": "hive",
+   "at": 363,
    "dur": 25,
    "title": "The hive in 3D",
    "slide": {
@@ -174,7 +234,7 @@
   },
   {
    "id": "motion",
-   "at": 308,
+   "at": 388,
    "dur": 40,
    "title": "ruv.sgit in motion",
    "slide": {
@@ -189,7 +249,7 @@
   },
   {
    "id": "ledger",
-   "at": 348,
+   "at": 428,
    "dur": 34,
    "title": "How to read the ledger",
    "slide": {
@@ -204,7 +264,7 @@
   },
   {
    "id": "city",
-   "at": 382,
+   "at": 462,
    "dur": 20,
    "title": "The city of vaults",
    "slide": {
@@ -217,7 +277,7 @@
   },
   {
    "id": "table",
-   "at": 402,
+   "at": 482,
    "dur": 30,
    "title": "Same 11 actions, default against the ABP",
    "slide": {
@@ -239,7 +299,7 @@
   },
   {
    "id": "services",
-   "at": 432,
+   "at": 512,
    "dur": 46,
    "title": "Four ways to work with us",
    "slide": {
@@ -253,7 +313,7 @@
   },
   {
    "id": "shop",
-   "at": 478,
+   "at": 558,
    "dur": 34,
    "title": "The shop",
    "slide": {
@@ -267,7 +327,7 @@
   },
   {
    "id": "ask",
-   "at": 512,
+   "at": 592,
    "dur": 35,
    "title": "The ask",
    "slide": {
@@ -281,7 +341,7 @@
   },
   {
    "id": "visit",
-   "at": 547,
+   "at": 627,
    "dur": 26,
    "title": "Where to find it",
    "slide": {

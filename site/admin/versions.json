@@ -5,9 +5,23 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.20",
+   "version": "v0.1.21",
    "date": "2026-10-15",
    "commit": null,
+   "title": "Four more studio animations in the talk",
+   "changes": "Studio v1 (the diagram that builds), v2 (messages in flight), v4 (the policy gate) and v5 (the isometric office) now play in the talk before the hive in 3D, 20 s each with their animation compressed to fit (slide.speed 1.4 to 1.74). Each page now runs on assets/clock.js, so the player pauses, speeds and steps it, and with ?once it plays once and holds its final frame (standalone, it still loops). The talk is 10:53 with them; skip any with » if time is short.",
+   "pages": [
+    "talk/player.html",
+    "studio/v1/index.html",
+    "studio/v2/index.html",
+    "studio/v4/index.html",
+    "studio/v5/index.html"
+   ]
+  },
+  {
+   "version": "v0.1.20",
+   "date": "2026-10-15",
+   "commit": "0522cff",
    "title": "A punchline on the infographic; a ruv.sgit logo and badge",
    "changes": "The AI infographic of rUv's stack now lands a punchline on its second step: '… but that was before we had ruv.sgit 🙂', before the ruv.sgit-made version. A logo for ruv.sgit (a hive hexagon with a vault keyhole and three workers), an icon and a 'built with ruv.sgit' badge, in site/assets/brand/ (SVG).",
    "pages": [

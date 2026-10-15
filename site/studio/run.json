@@ -69,8 +69,8 @@
    "id": "v1",
    "title": "Static diagram that builds",
    "level": "SVG only, step-by-step build of the architecture: agents, ABP gate, vault, receipts",
-   "bytes": 18739,
-   "sha256": "edf9966f87e9d1e3bee18b3521c61bff782f3efaf2f4aa29b31461026ebcc6d7",
+   "bytes": 18795,
+   "sha256": "3be24df5f7954e53103da285459d169da54a45fdb5b3bb7678357c528d79d753",
    "video": "video/v1.mp4",
    "poster": "posters/v1.webp"
   },
@@ -78,8 +78,8 @@
    "id": "v2",
    "title": "Messages in flight",
    "level": "2D SVG/CSS: the queen hands tasks to workers; envelopes travel through the vault between them",
-   "bytes": 19194,
-   "sha256": "7702c77839cfe47b1824529eb803a172da88f153fed0a50a47c618278dc49645",
+   "bytes": 19340,
+   "sha256": "dc12f8b1055a5c13eb91877a33fe1c773657f066a8e4a225050840f3a047029a",
    "video": "video/v2.mp4",
    "poster": "posters/v2.webp"
   },
@@ -87,8 +87,8 @@
    "id": "v3",
    "title": "Vault lanes",
    "level": "a subway-map of vault branches, one lane per agent role; commits appear, lanes merge, a fresh clone pulls them",
-   "bytes": 19602,
-   "sha256": "24275d35380bec8dac47c6eba9c00f04ac5c42a543451ae1dee9e59ac82aa615",
+   "bytes": 19666,
+   "sha256": "c52a5acae92da97659c09950497049a9ad504fcc3c38caa362fa2c206c5d019a",
    "video": "video/v3.mp4",
    "poster": "posters/v3.webp"
   },
@@ -96,8 +96,8 @@
    "id": "v4",
    "title": "The policy gate",
    "level": "canvas particles: 11 actions fly at a gate twice; default lets all through, the ABP denies 4, holds 2 for a human, lets 5 through; receipts chain below",
-   "bytes": 19604,
-   "sha256": "baab30b5f5a1ab755bd434d97657b99c626a593ea428f38a54b90507e51c3235",
+   "bytes": 19660,
+   "sha256": "c3711aea43fa13e5138384df251b36f89ad75b960ee037423482dfe816d879fe",
    "video": "video/v4.mp4",
    "poster": "posters/v4.webp"
   },
@@ -105,8 +105,8 @@
    "id": "v5",
    "title": "The isometric office",
    "level": "2.5D isometric floor: one desk per role, a vault safe in the middle, envelopes walking between desks and safe",
-   "bytes": 28533,
-   "sha256": "acc33b7996e7871a0ab60d4ee422d9951108d03c7abc2fefd46d4d31db46730b",
+   "bytes": 28589,
+   "sha256": "c1b62580ec9e62291f02f603a2a42a39d5944c6d1c693fde9aa4c8d3f5225908",
    "video": "video/v5.mp4",
    "poster": "posters/v5.webp"
   },
@@ -114,8 +114,8 @@
    "id": "v6",
    "title": "The hive in 3D",
    "level": "three.js: queen at the centre, workers orbiting, an encrypted vault cube; decisions pulse along edges",
-   "bytes": 27111,
-   "sha256": "cde32243f95454af37cb8a9d66da30eacb667fd97e4fb4083b9026a1f8fc8941",
+   "bytes": 27173,
+   "sha256": "329b2cc4f4a4ef4f29604c54070f9dc8bf1ea361a24365d93ca76410b177e7d9",
    "video": "video/v6.mp4",
    "poster": "posters/v6.webp"
   },
@@ -123,8 +123,8 @@
    "id": "v7",
    "title": "The city of vaults",
    "level": "three.js: a city where each vault branch is a street and each commit adds a floor; the ABP is the city wall with gates; receipts are streetlights",
-   "bytes": 31363,
-   "sha256": "c1c832bcb0896aeafb5a1e4297d54e6c69ac01c861f41b10575745feee1ed31e",
+   "bytes": 31422,
+   "sha256": "9b4c9ee36813d699aa62be4bbca662de1ce2046d034b8c508d401446e855c324",
    "video": "video/v7.mp4",
    "poster": "posters/v7.webp"
   }

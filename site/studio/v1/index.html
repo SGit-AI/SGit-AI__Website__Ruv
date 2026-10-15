@@ -25,12 +25,13 @@
 <body>
 <svg id="stage" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Architecture diagram that builds step by step"></svg>
 <div id="corner">v1 · Static diagram that builds · made in the ruv.sgit.ai studio run · <a href="../index.html">all versions</a></div>
+<script src="../../assets/clock.js"></script>
 <script>
 (function () {
   'use strict';
   const LOOP = 32;                 // seconds per loop: ~25 s build, hold, fade
   const start = performance.now();
-  window.__t = () => ((performance.now() - start) / 1000) % LOOP;
+  window.__t = () => ruvLoop((performance.now() - start) / 1000, LOOP, 28);
 
   const NS = 'http://www.w3.org/2000/svg';
   const svg = document.getElementById('stage');
