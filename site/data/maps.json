@@ -1,0 +1,186 @@
+{
+  "about": "Wardley maps of ruv.sgit as a business: one for the whole and one per offer. Evolution (x) runs genesis 0 to commodity 1 (stage edges at 0.17, 0.4, 0.7); visibility (y) runs 1 at the user to 0 out of sight. Positions are judgements, not measurements: a map, not a measurement. Group colours and shapes come from the site's theme tokens (assets/maps.js). Drawn for run r5-market, 15 Oct 2026.",
+  "stages": [
+    {"label": "Genesis", "from": 0, "to": 0.17},
+    {"label": "Custom", "from": 0.17, "to": 0.4},
+    {"label": "Product", "from": 0.4, "to": 0.7},
+    {"label": "Commodity", "from": 0.7, "to": 1}
+  ],
+  "groups": {
+    "ours": "ours (sgit, ABPs, the runner)",
+    "rUv": "rUv's tools (MIT, by rUv / ruvnet)",
+    "cloud": "cloud and hosting",
+    "model": "model providers",
+    "people": "people"
+  },
+  "maps": {
+    "whole": {
+      "title": "ruv.sgit as a business",
+      "user": "A consultant, company or internal team",
+      "user_x": 0.36,
+      "need": "agent work done under a policy, with a record they keep",
+      "components": [
+        {"id": "offers", "label": "Governed agent work (four offers, mix and match)", "x": 0.26, "y": 0.86, "group": "ours", "note": "What is sold: task runs, dedicated compute, a maintained repository, expert time. Today assembled by hand per order."},
+        {"id": "expert", "label": "Expert time", "x": 0.1, "y": 0.76, "group": "people", "note": "Dinis's judgement: what to run, what to allow, what a run proved. Stays custom on purpose."},
+        {"id": "runs", "label": "Task runs on a shared hive", "x": 0.3, "y": 0.72, "group": "ours", "note": "A queen and workers, one ephemeral vault per run. Run by hand with ruvsgit.py today; not automated end to end."},
+        {"id": "repo", "label": "Maintained repository", "x": 0.47, "y": 0.75, "group": "ours", "note": "This repository: runner, specs, ABPs, site. Already a thing others can clone."},
+        {"id": "compute", "label": "Dedicated compute per task", "x": 0.2, "y": 0.6, "group": "ours", "note": "An EC2 per task. Designed, not yet wired to ruv.sgit runs."},
+        {"id": "abp", "label": "Agent Behaviour Policies", "x": 0.23, "y": 0.47, "group": "ours", "note": "What an agent may do. POC1: an ABP compiled into Ruflo's rules stopped 6 of 11 actions in enforce mode."},
+        {"id": "ledger", "label": "Ledger and evidence", "x": 0.34, "y": 0.39, "group": "ours", "note": "data/vaults.json and evidence/: every run measured. The record the customer keeps."},
+        {"id": "vault", "label": "sgit vaults", "x": 0.5, "y": 0.5, "group": "ours", "note": "Encrypted, versioned, cloneable; the server holds ciphertext only. sgit-ai 0.21.0, a product."},
+        {"id": "ruflo", "label": "Ruflo hive-mind", "x": 0.52, "y": 0.34, "group": "rUv", "note": "Queen, roles, tasks, broadcasts, policy engine. MIT, by rUv / ruvnet; pinned 3.56.10."},
+        {"id": "agentdb", "label": "AgentDB / RuVector", "x": 0.58, "y": 0.2, "group": "rUv", "note": "Agent memory and vector search. MIT, by rUv / ruvnet."},
+        {"id": "workers", "label": "Coding agents (Claude Code)", "x": 0.68, "y": 0.28, "group": "model", "note": "The workers in every run so far are Claude Code subagents."},
+        {"id": "tokens", "label": "Model tokens", "x": 0.86, "y": 0.16, "group": "model", "note": "Bought by the million; our key or the customer's."},
+        {"id": "github", "label": "GitHub", "x": 0.84, "y": 0.38, "group": "cloud", "note": "Where the repository lives and CI runs."},
+        {"id": "aws", "label": "AWS compute and storage", "x": 0.9, "y": 0.06, "group": "cloud", "note": "EC2 and storage by the hour and the byte."}
+      ],
+      "links": [
+        ["user", "offers"],
+        ["offers", "expert"], ["offers", "runs"], ["offers", "repo"], ["offers", "compute"],
+        ["runs", "abp"], ["runs", "vault"], ["runs", "ledger"], ["runs", "ruflo"],
+        ["compute", "runs"], ["compute", "aws"],
+        ["repo", "github"], ["repo", "abp"], ["repo", "vault"],
+        ["expert", "abp"], ["expert", "ledger"],
+        ["abp", "ruflo"], ["ledger", "vault"],
+        ["ruflo", "workers"], ["ruflo", "agentdb"],
+        ["workers", "tokens"], ["vault", "aws"], ["agentdb", "aws"]
+      ],
+      "movements": [
+        {"id": "offers", "to_x": 0.45, "label": "productising: a catalogue"},
+        {"id": "runs", "to_x": 0.52, "label": "a run becomes a product"},
+        {"id": "abp", "to_x": 0.42, "label": "policy templates"},
+        {"id": "vault", "to_x": 0.66, "label": "commoditising storage of work"}
+      ],
+      "reading": "The user sees one thing, governed agent work, and it is still custom: every order so far is assembled by hand. Everything heavy under it is bought or borrowed: rUv's Ruflo hive and AgentDB/RuVector are products we build on, the model tokens and AWS are commodities, and sgit vaults are our own product. The move is to productise the middle, so that a task run, an ABP and a delivered vault become things with a price and a size, and to let vault storage drift toward commodity. What stays custom is the expert's judgement and the policy written for one customer; that is where the margin is, because nobody can buy it by the token. Not claimed: runs are not automated end to end yet, and dedicated compute is designed, not wired."
+    },
+    "runs": {
+      "title": "Offer 1: task runs on shared infrastructure",
+      "user": "Someone with a bounded task",
+      "user_x": 0.38,
+      "need": "a task done in minutes, under a policy, with its vault delivered",
+      "components": [
+        {"id": "run", "label": "A task run (priced by time and tokens)", "x": 0.28, "y": 0.86, "group": "ours", "note": "A queen plus 10 to 20 agents for about five minutes; tiers like £5, £10, £50 (see the catalogue)."},
+        {"id": "delivery", "label": "The run's vault, as a zip or published", "x": 0.5, "y": 0.73, "group": "ours", "note": "sgit can export or publish a vault; the delivery step per order is manual today."},
+        {"id": "spec", "label": "Run spec (the brief)", "x": 0.3, "y": 0.68, "group": "ours", "note": "poc/ruv-sgit/runs/*.spec.json: the feedback and one task per worker."},
+        {"id": "materials", "label": "Materials sandbox (no internet, up to 50-100 MB)", "x": 0.12, "y": 0.56, "group": "ours", "note": "Offline runs with provided materials: designed, not built."},
+        {"id": "automation", "label": "Order to run, end to end", "x": 0.06, "y": 0.78, "group": "ours", "note": "Not automated yet: today a person opens, delivers and closes each run."},
+        {"id": "abp", "label": "Behaviour policy (ABP)", "x": 0.24, "y": 0.44, "group": "ours", "note": "The run is governed by an ABP; POC1 shows Ruflo enforcing one."},
+        {"id": "hive", "label": "Ruflo queen + workers", "x": 0.5, "y": 0.5, "group": "rUv", "note": "Ruflo hive-mind, MIT, by rUv / ruvnet: queen, roles, tasks, broadcasts."},
+        {"id": "vault", "label": "Ephemeral sgit vault", "x": 0.46, "y": 0.34, "group": "ours", "note": "One per run: a branch per worker, merged, measured, deleted."},
+        {"id": "ledger", "label": "Ledger entry", "x": 0.3, "y": 0.26, "group": "ours", "note": "Every run's numbers in data/vaults.json and evidence/ruv-sgit/."},
+        {"id": "agents", "label": "Claude Code workers", "x": 0.68, "y": 0.4, "group": "model", "note": "Workers so far are Claude Code subagents."},
+        {"id": "tokens", "label": "Model tokens (ours or BYO key)", "x": 0.86, "y": 0.22, "group": "model", "note": "About a million tokens per run at the target size; a commodity priced by the provider."},
+        {"id": "host", "label": "Shared runner", "x": 0.78, "y": 0.08, "group": "cloud", "note": "A machine many runs share; a local SG/Send vault server on it."}
+      ],
+      "links": [
+        ["user", "run"],
+        ["run", "delivery"], ["run", "spec"], ["run", "automation"], ["run", "abp"],
+        ["spec", "materials"], ["spec", "hive"],
+        ["delivery", "vault"],
+        ["abp", "hive"], ["hive", "vault"], ["hive", "agents"], ["vault", "ledger"],
+        ["agents", "tokens"], ["vault", "host"], ["agents", "host"]
+      ],
+      "movements": [
+        {"id": "run", "to_x": 0.5, "label": "custom → product: fixed tiers"},
+        {"id": "automation", "to_x": 0.3, "label": "next to build"},
+        {"id": "abp", "to_x": 0.42, "label": "a policy per tier"}
+      ],
+      "reading": "This is the offer we are commoditising hardest. The user sees a run with a price; under it, the hive is rUv's product, the workers and the tokens are bought, and the vault is ours. The run itself is custom today because a person drives each one; the arrow is the work of turning it into a product with three sizes and a policy per size. The gap on the far left is the honest one: ordering a run and getting a vault back is not automated end to end, and the offline materials sandbox is not built. The margin is thin per run and comes from the spread between the tier price and the tokens and shared machine time under it."
+    },
+    "compute": {
+      "title": "Offer 2: dedicated compute on demand",
+      "user": "A team whose task needs its own machine",
+      "user_x": 0.34,
+      "need": "an isolated machine per task, sized to it, gone afterwards",
+      "components": [
+        {"id": "dedicated", "label": "A run on its own machine", "x": 0.22, "y": 0.86, "group": "ours", "note": "Small, medium or GPU; the EC2 cost on top of the run price."},
+        {"id": "sizes", "label": "Sizes: small / medium / GPU", "x": 0.46, "y": 0.72, "group": "ours", "note": "A menu, not a quote: the productising step."},
+        {"id": "launcher", "label": "SG Compute (an EC2 per task)", "x": 0.3, "y": 0.6, "group": "ours", "note": "sgraph's ephemeral EC2 tooling; not wired to ruv.sgit runs yet."},
+        {"id": "invault", "label": "Vault created inside the machine", "x": 0.2, "y": 0.46, "group": "ours", "note": "Keys born and kept in the environment; the design, not yet run."},
+        {"id": "abp", "label": "Behaviour policy (ABP)", "x": 0.26, "y": 0.32, "group": "ours", "note": "The same policies as shared runs."},
+        {"id": "hive", "label": "Ruflo hive-mind", "x": 0.52, "y": 0.42, "group": "rUv", "note": "MIT, by rUv / ruvnet; installed on the machine from the pinned version."},
+        {"id": "billing", "label": "EC2 cost passed through", "x": 0.62, "y": 0.8, "group": "ours", "note": "Priced at cost on top: no margin hidden in the machine."},
+        {"id": "ec2", "label": "EC2 instances", "x": 0.88, "y": 0.28, "group": "cloud", "note": "A commodity, by the hour."},
+        {"id": "gpu", "label": "GPU instances", "x": 0.72, "y": 0.16, "group": "cloud", "note": "A product, scarcer and pricier than general EC2."},
+        {"id": "tokens", "label": "Model tokens", "x": 0.88, "y": 0.06, "group": "model", "note": "Ours or the customer's key."}
+      ],
+      "links": [
+        ["user", "dedicated"],
+        ["dedicated", "sizes"], ["dedicated", "billing"], ["dedicated", "launcher"],
+        ["sizes", "ec2"], ["sizes", "gpu"], ["billing", "ec2"],
+        ["launcher", "invault"], ["launcher", "hive"], ["launcher", "ec2"],
+        ["invault", "abp"], ["hive", "abp"], ["hive", "tokens"]
+      ],
+      "movements": [
+        {"id": "dedicated", "to_x": 0.44, "label": "a size menu, not a quote"},
+        {"id": "launcher", "to_x": 0.5, "label": "per-task launch as a product"}
+      ],
+      "reading": "Here the heavy parts are someone else's commodity: EC2 by the hour, GPUs as a product. What we add is small and sits on the left: a launcher that makes one machine per task, and a vault born inside it so the keys never leave. The arrow is turning \"a machine for your task\" from a quote into a menu of three sizes. The margin is not in the machine, which is passed through at cost; it is in the run on top of it and in the isolation the customer cannot easily build themselves. Not claimed: SG Compute exists as sgraph tooling, but launching a ruv.sgit run on it per order has not been done yet."
+    },
+    "repo": {
+      "title": "Offer 3: a maintained repository subscription",
+      "user": "A team that will run it themselves",
+      "user_x": 0.36,
+      "need": "a working setup they own, kept current",
+      "components": [
+        {"id": "sub", "label": "Monthly subscription", "x": 0.3, "y": 0.86, "group": "ours", "note": "Updates, UI, branding and setup, on Claude, AWS or anywhere."},
+        {"id": "branding", "label": "UI and branding", "x": 0.18, "y": 0.74, "group": "ours", "note": "Their name on it: white label for consultants."},
+        {"id": "setup", "label": "Setup on their infrastructure", "x": 0.12, "y": 0.6, "group": "people", "note": "Done with them, per customer: custom."},
+        {"id": "updates", "label": "Updates, pinned versions", "x": 0.46, "y": 0.7, "group": "ours", "note": "Pins move only when tested (see README): ruflo 3.56.10, sgit-ai 0.21.0."},
+        {"id": "runner", "label": "The runner (ruvsgit.py)", "x": 0.32, "y": 0.5, "group": "ours", "note": "open, deliver, close, delete: the run lifecycle as one script."},
+        {"id": "abp", "label": "ABP templates", "x": 0.2, "y": 0.38, "group": "ours", "note": "The ABPs in this repository, to adapt."},
+        {"id": "sgit", "label": "sgit (CLI and vaults)", "x": 0.54, "y": 0.4, "group": "ours", "note": "pip install sgit-ai; a product."},
+        {"id": "ruflo", "label": "Ruflo", "x": 0.5, "y": 0.26, "group": "rUv", "note": "MIT, by rUv / ruvnet."},
+        {"id": "agentdb", "label": "AgentDB / RuVector", "x": 0.6, "y": 0.14, "group": "rUv", "note": "MIT, by rUv / ruvnet."},
+        {"id": "github", "label": "GitHub and CI", "x": 0.84, "y": 0.52, "group": "cloud", "note": "Where the repository is delivered and tested."},
+        {"id": "models", "label": "Claude and other models", "x": 0.82, "y": 0.3, "group": "model", "note": "Their account, their key."},
+        {"id": "infra", "label": "AWS, or anywhere", "x": 0.9, "y": 0.1, "group": "cloud", "note": "Their cloud, a commodity."}
+      ],
+      "links": [
+        ["user", "sub"],
+        ["sub", "branding"], ["sub", "setup"], ["sub", "updates"],
+        ["updates", "github"], ["updates", "runner"],
+        ["setup", "runner"], ["setup", "infra"],
+        ["runner", "abp"], ["runner", "sgit"], ["runner", "ruflo"],
+        ["abp", "ruflo"], ["ruflo", "agentdb"], ["ruflo", "models"], ["sgit", "infra"]
+      ],
+      "movements": [
+        {"id": "sub", "to_x": 0.5, "label": "productising the repo"},
+        {"id": "runner", "to_x": 0.48, "label": "a packaged runner"}
+      ],
+      "reading": "The repository already exists and is public in shape: a runner, specs, policies and a site, built on sgit and rUv's tools, run on the customer's own models and cloud. The subscription productises the upkeep: tested version bumps, the UI with their brand on it. What stays custom is the setup on each customer's infrastructure and the first policies written for them, which is where the expert offer joins. The margin is recurring and small per customer, and it rests on every layer under the runner being somebody's product or commodity; the risk is that the runner itself becomes a commodity, which is fine, because anybody who implements it implements sgit and ABPs."
+    },
+    "expert": {
+      "title": "Offer 4: expert time",
+      "user": "A team adopting agents",
+      "user_x": 0.32,
+      "need": "judgement: what to run, what to allow, what it proved",
+      "components": [
+        {"id": "time", "label": "Expert time (hours, a day, several days)", "x": 0.16, "y": 0.86, "group": "people", "note": "£500 a couple of hours, £1,500 a day, £5,000 several days; mixed with runs."},
+        {"id": "blocks", "label": "Fixed-price blocks", "x": 0.42, "y": 0.78, "group": "ours", "note": "Productising time: three sizes instead of a day rate."},
+        {"id": "scoping", "label": "Scoping and policy writing", "x": 0.14, "y": 0.66, "group": "people", "note": "Turning a team's rules into an ABP: custom every time."},
+        {"id": "review", "label": "Reading a run's evidence", "x": 0.26, "y": 0.54, "group": "people", "note": "What the ledger says and what it does not."},
+        {"id": "maps", "label": "The method, published", "x": 0.5, "y": 0.6, "group": "ours", "note": "Articles, maps and specs anyone can copy."},
+        {"id": "runs", "label": "Task runs", "x": 0.36, "y": 0.4, "group": "ours", "note": "Expert time is mixed and matched with runs."},
+        {"id": "abp", "label": "ABPs", "x": 0.24, "y": 0.3, "group": "ours", "note": "The artefact the expert leaves behind."},
+        {"id": "ledger", "label": "Ledger and evidence", "x": 0.4, "y": 0.2, "group": "ours", "note": "Every number from a recorded run."},
+        {"id": "ruflo", "label": "Ruflo and AgentDB", "x": 0.56, "y": 0.28, "group": "rUv", "note": "MIT, by rUv / ruvnet; the stack the advice is about."},
+        {"id": "calls", "label": "Calls and email", "x": 0.9, "y": 0.5, "group": "cloud", "note": "A commodity channel; every contact goes to agent@riskmandate.ai."},
+        {"id": "models", "label": "Models", "x": 0.86, "y": 0.12, "group": "model", "note": "Used inside the runs the expert directs."}
+      ],
+      "links": [
+        ["user", "time"],
+        ["time", "blocks"], ["time", "scoping"], ["time", "review"], ["time", "calls"],
+        ["blocks", "maps"],
+        ["scoping", "abp"], ["review", "ledger"], ["review", "runs"],
+        ["runs", "abp"], ["runs", "ruflo"], ["runs", "ledger"], ["ruflo", "models"]
+      ],
+      "movements": [
+        {"id": "time", "to_x": 0.36, "label": "packaged into blocks"},
+        {"id": "scoping", "to_x": 0.3, "label": "repeatable, never a product"}
+      ],
+      "reading": "The one offer that stays on the left. A person's judgement about what to run and what to allow is custom by nature, and the map says keep it there: it is the scarcest component and the highest margin. What we productise is the wrapper, fixed-price blocks instead of a day rate, and what we commoditise is the method, published so anyone can copy it. Every engagement leaves artefacts that sit further right, an ABP and a ledger of runs, which is how expert time pulls the other three offers along. Not automated, and not meant to be."
+    }
+  }
+}

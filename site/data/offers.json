@@ -1,0 +1,285 @@
+{
+ "updated": "2026-10-15",
+ "currency": "GBP",
+ "contact": "agent@riskmandate.ai",
+ "assumptions": {
+  "fx_usd_per_gbp": 1.30,
+  "model_prices_usd_per_mtok": {
+   "source": "Anthropic first-party prices, cached 6 Oct 2026",
+   "fable-5.1": {"input": 10.00, "output": 50.00, "cache_read": 0.25},
+   "opus-5.5": {"input": 4.00, "output": 20.00, "cache_read": 0.20},
+   "sonnet-5.5": {"input": 2.00, "output": 10.00, "cache_read": 0.20},
+   "haiku-5.5": {"input": 0.10, "output": 0.50, "cache_read": null, "note": "prompts up to 100K tokens"}
+  },
+  "ec2_usd_per_hour": {
+   "source": "eu-west-2 (London) on-demand, from third-party aggregators (doit.com, devzero.io); to be confirmed on AWS's price list",
+   "small": {"instance": "t3.medium", "vcpu": 2, "memory_gib": 4, "usd_per_hour": 0.0472},
+   "medium": {"instance": "m7i.xlarge", "vcpu": 4, "memory_gib": 16, "usd_per_hour": 0.2331},
+   "gpu": {"instance": "g5.xlarge", "vcpu": 4, "memory_gib": 16, "gpu": "1x NVIDIA A10G", "usd_per_hour": 1.277}
+  },
+  "notes": [
+   "All prices in GBP, excluding VAT. No payment is taken on the site: the order is emailed to agent@riskmandate.ai and we reply with a quote.",
+   "Token mix (editable): 75% cache reads, 20% fresh input, 5% output. That blends to $1.05 per million tokens on Sonnet 5.5, $1.95 on Opus 5.5, $0.05 on Haiku 5.5 (Haiku cache reads assumed at $0.01) and $4.69 on Fable 5.1.",
+   "Token budgets are Sonnet-equivalent: 1M on Sonnet 5.5 = 0.5M on Opus 5.5 = 10M on Haiku 5.5 (half the cost-equivalent 20M, because Haiku's cache price is not listed). Fable 5.1 on request.",
+   "We add 25% on top of the workers' tokens for the queen and the host session (not yet measured).",
+   "Measured on our own runs (15 Oct 2026): 75k to 151k tokens per worker, 325k to 541k per run with 3 to 6 workers, 17 to 21 minutes per run; studio run 1 used 629,857 tokens across 7 builders.",
+   "Runs are not automated end to end yet: a person on our side starts, watches and hands over every run. Prices cover that person's time at an assumed £75 an hour.",
+   "Margin target 40%, floor 35%. The arithmetic behind every price is in out/ruv-sgit/r5-market/economist/economics.md."
+  ]
+ },
+ "groups": [
+  {
+   "id": "runs",
+   "title": "Task runs",
+   "summary": "A Ruflo queen and a team of agent workers do one task on our shared infrastructure, inside an sgit vault, under an Agent Behaviour Policy with no internet access. You get the vault back.",
+   "who": "Anyone with a well-defined task and the materials for it: consultants, teams trying ruv.sgit, people who want the audit trail as much as the result.",
+   "map": "runs",
+   "items": [
+    {
+     "id": "run-s",
+     "name": "Small run",
+     "price": 10,
+     "unit": "per run",
+     "summary": "A queen and up to 5 workers for a focused task.",
+     "details": [
+      "1 queen + up to 5 workers in parallel",
+      "Up to 1M tokens on Sonnet 5.5, or 0.5M on Opus 5.5, or 10M on Haiku 5.5",
+      "Stops at 15 minutes of wall-clock time",
+      "Materials up to 50 MB, uploaded by you",
+      "No network access: the run's behaviour policy allows no egress",
+      "You get the run's sgit vault: every brief, message, delivery, decision and the run ledger entry, as a zip or published with a read key",
+      "If a cap is reached the run stops; the vault holds everything done until then"
+     ],
+     "options": [
+      {"id": "model", "label": "Model", "choices": [
+       {"id": "sonnet", "label": "Sonnet 5.5 (1M tokens)", "delta": 0},
+       {"id": "opus", "label": "Opus 5.5 (0.5M tokens)", "delta": 0},
+       {"id": "haiku", "label": "Haiku 5.5 (10M tokens)", "delta": 0}]},
+      {"id": "key", "label": "Model key", "choices": [
+       {"id": "ours", "label": "Our key (tokens included)", "delta": 0},
+       {"id": "byok", "label": "Bring your own key (tokens billed to your account)", "delta": -1}]},
+      {"id": "delivery", "label": "Delivery", "choices": [
+       {"id": "zip", "label": "Vault as a zip", "delta": 0},
+       {"id": "published", "label": "Vault published with a read key (cannot be undone)", "delta": 0}]}
+     ],
+     "max_qty": 50
+    },
+    {
+     "id": "run-m",
+     "name": "Team run",
+     "price": 20,
+     "unit": "per run",
+     "summary": "A queen and up to 10 workers: the size of our own site-building runs.",
+     "details": [
+      "1 queen + up to 10 workers in parallel",
+      "Up to 3M tokens on Sonnet 5.5, or 1.5M on Opus 5.5, or 30M on Haiku 5.5",
+      "Stops at 25 minutes of wall-clock time",
+      "Materials up to 100 MB, uploaded by you",
+      "No network access: the run's behaviour policy allows no egress",
+      "You get the run's sgit vault: every brief, message, delivery, decision and the run ledger entry, as a zip or published with a read key",
+      "If a cap is reached the run stops; the vault holds everything done until then"
+     ],
+     "options": [
+      {"id": "model", "label": "Model", "choices": [
+       {"id": "sonnet", "label": "Sonnet 5.5 (3M tokens)", "delta": 0},
+       {"id": "opus", "label": "Opus 5.5 (1.5M tokens)", "delta": 0},
+       {"id": "haiku", "label": "Haiku 5.5 (30M tokens)", "delta": 0}]},
+      {"id": "key", "label": "Model key", "choices": [
+       {"id": "ours", "label": "Our key (tokens included)", "delta": 0},
+       {"id": "byok", "label": "Bring your own key (tokens billed to your account)", "delta": -3}]},
+      {"id": "delivery", "label": "Delivery", "choices": [
+       {"id": "zip", "label": "Vault as a zip", "delta": 0},
+       {"id": "published", "label": "Vault published with a read key (cannot be undone)", "delta": 0}]}
+     ],
+     "max_qty": 50
+    },
+    {
+     "id": "run-l",
+     "name": "Large run",
+     "price": 50,
+     "unit": "per run",
+     "summary": "A queen and up to 20 workers for a big task.",
+     "details": [
+      "1 queen + up to 20 workers in parallel",
+      "Up to 10M tokens on Sonnet 5.5, or 5M on Opus 5.5, or 100M on Haiku 5.5",
+      "Stops at 45 minutes of wall-clock time",
+      "Materials up to 100 MB, uploaded by you",
+      "No network access: the run's behaviour policy allows no egress",
+      "You get the run's sgit vault: every brief, message, delivery, decision and the run ledger entry, as a zip or published with a read key",
+      "If a cap is reached the run stops; the vault holds everything done until then"
+     ],
+     "options": [
+      {"id": "model", "label": "Model", "choices": [
+       {"id": "sonnet", "label": "Sonnet 5.5 (10M tokens)", "delta": 0},
+       {"id": "opus", "label": "Opus 5.5 (5M tokens)", "delta": 0},
+       {"id": "haiku", "label": "Haiku 5.5 (100M tokens)", "delta": 0}]},
+      {"id": "key", "label": "Model key", "choices": [
+       {"id": "ours", "label": "Our key (tokens included)", "delta": 0},
+       {"id": "byok", "label": "Bring your own key (tokens billed to your account)", "delta": -10}]},
+      {"id": "delivery", "label": "Delivery", "choices": [
+       {"id": "zip", "label": "Vault as a zip", "delta": 0},
+       {"id": "published", "label": "Vault published with a read key (cannot be undone)", "delta": 0}]}
+     ],
+     "max_qty": 20
+    }
+   ]
+  },
+  {
+   "id": "compute",
+   "title": "Dedicated compute",
+   "summary": "An AWS EC2 instance in London started for your task and stopped after it (SG Compute). The vault is created inside that environment, so nothing is shared with other customers.",
+   "who": "Tasks that need their own machine, more memory, a GPU or a longer time than a shared run allows.",
+   "map": "compute",
+   "items": [
+    {
+     "id": "compute-small",
+     "name": "Small instance",
+     "price": 21,
+     "unit": "per 8-hour block",
+     "summary": "t3.medium: 2 vCPU, 4 GiB memory.",
+     "details": [
+      "AWS EC2 t3.medium in eu-west-2 (London): 2 vCPU, 4 GiB",
+      "Price = £20 platform fee + twice the EC2 cost ($0.0472 an hour)",
+      "Started for your task, stopped when it ends or after 8 hours",
+      "The sgit vault is created inside the instance",
+      "Add a task run for the tokens (Task runs above)"
+     ],
+     "max_qty": 30
+    },
+    {
+     "id": "compute-medium",
+     "name": "Medium instance",
+     "price": 23,
+     "unit": "per 8-hour block",
+     "summary": "m7i.xlarge: 4 vCPU, 16 GiB memory.",
+     "details": [
+      "AWS EC2 m7i.xlarge in eu-west-2 (London): 4 vCPU, 16 GiB",
+      "Price = £20 platform fee + twice the EC2 cost ($0.2331 an hour)",
+      "Started for your task, stopped when it ends or after 8 hours",
+      "The sgit vault is created inside the instance",
+      "Add a task run for the tokens (Task runs above)"
+     ],
+     "max_qty": 30
+    },
+    {
+     "id": "compute-gpu",
+     "name": "GPU instance",
+     "price": 36,
+     "unit": "per 8-hour block",
+     "summary": "g5.xlarge: 4 vCPU, 16 GiB memory, 1 NVIDIA A10G.",
+     "details": [
+      "AWS EC2 g5.xlarge in eu-west-2 (London): 4 vCPU, 16 GiB, 1 NVIDIA A10G GPU",
+      "Price = £20 platform fee + twice the EC2 cost ($1.277 an hour)",
+      "Started for your task, stopped when it ends or after 8 hours",
+      "The sgit vault is created inside the instance",
+      "Add a task run for the tokens (Task runs above)"
+     ],
+     "max_qty": 30
+    }
+   ]
+  },
+  {
+   "id": "repo",
+   "title": "Maintained repository",
+   "summary": "The full ruv.sgit setup in a private repository of your own, kept up to date by us. Runs on Claude Code, on AWS or anywhere else you run agents.",
+   "who": "Consultants, companies and internal teams who want to run ruv.sgit themselves without maintaining it.",
+   "map": "repo",
+   "items": [
+    {
+     "id": "repo-individual",
+     "name": "Individual",
+     "price": 149,
+     "unit": "per month",
+     "summary": "One private repository for one person, kept current.",
+     "details": [
+      "The full ruv.sgit setup in a private repository",
+      "New versions as we release them",
+      "Setup help by email",
+      "Up to 1 hour of our time a month; more as expert time",
+      "Model tokens and cloud costs are on your own accounts"
+     ],
+     "max_qty": 12
+    },
+    {
+     "id": "repo-team",
+     "name": "Team",
+     "price": 499,
+     "unit": "per month",
+     "summary": "One repository for a team, with your branding and a better UI.",
+     "details": [
+      "Everything in Individual",
+      "Custom branding and the latest UI",
+      "A setup call, and help running it on Claude Code or AWS",
+      "Up to 3.5 hours of our time a month; more as expert time",
+      "Model tokens and cloud costs are on your own accounts"
+     ],
+     "max_qty": 12
+    },
+    {
+     "id": "repo-white-label",
+     "name": "White-label ready",
+     "price": 1500,
+     "unit": "per month",
+     "summary": "Ready to offer to your own clients under your name.",
+     "details": [
+      "Everything in Team",
+      "White-label ready: your name, your domain, no mention of ours unless you want it",
+      "Priority on new versions and fixes",
+      "Up to 10 hours of our time a month; more as expert time",
+      "rUv's projects stay attributed as their licences require (MIT, by rUv / ruvnet)",
+      "Model tokens and cloud costs are on your own accounts"
+     ],
+     "max_qty": 12
+    }
+   ]
+  },
+  {
+   "id": "expert",
+   "title": "Expert time",
+   "summary": "Time with the people who built ruv.sgit, to scope tasks, steer runs and read the results with you. Mix it with runs: ten runs and two hours to steer them works well.",
+   "who": "Anyone buying runs who wants help shaping them, and teams adopting ruv.sgit.",
+   "map": "expert",
+   "items": [
+    {
+     "id": "expert-hours",
+     "name": "A couple of hours",
+     "price": 500,
+     "unit": "per session",
+     "summary": "About 2 hours: scope a task, steer a few runs, review what came back.",
+     "details": [
+      "About 2 hours of expert time, remote",
+      "Good with a pack of runs: we shape the briefs and read the vaults with you",
+      "Runs are not automated end to end yet: a person on our side starts, watches and hands over each run"
+     ],
+     "max_qty": 10
+    },
+    {
+     "id": "expert-day",
+     "name": "A day",
+     "price": 1500,
+     "unit": "per day",
+     "summary": "A working day: design a run pipeline, a behaviour policy, or a pilot.",
+     "details": [
+      "One working day of expert time, remote",
+      "Design and run a pilot with you, including its Agent Behaviour Policy",
+      "Runs are not automated end to end yet: a person on our side starts, watches and hands over each run"
+     ],
+     "max_qty": 5
+    },
+    {
+     "id": "expert-days",
+     "name": "Several days",
+     "price": 5000,
+     "unit": "per engagement",
+     "summary": "Four working days: set ruv.sgit up in your environment and hand it over.",
+     "details": [
+      "Four working days of expert time",
+      "Set up ruv.sgit in your environment (Claude Code, AWS or your own), with your policies and your first runs",
+      "Runs are not automated end to end yet: a person on our side starts, watches and hands over each run"
+     ],
+     "max_qty": 3
+    }
+   ]
+  }
+ ]
+}
