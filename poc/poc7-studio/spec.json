@@ -1,0 +1,32 @@
+{
+ "studio": "ruv.sgit.ai studio, run 1",
+ "story": "A Ruflo swarm (queen + workers) is let loose. Each agent has a written mandate (an ABP) and memory in an sgit vault. The same 11 actions are tried twice: Ruflo's default allows all 11; with the ABP, 6 are stopped (4 denied, 2 sent to a named human for approval) and 5 are allowed, and every decision becomes a hash-chained receipt (11 each side, ledger valid). Each role writes what it learned on its own vault branch, encrypted on the client (the server sees ciphertext), the branches merge, and a fresh clone gets the same memory back. At the end of the run, one vault holds everything that happened: the evidence.",
+ "facts_source": "site/data/report.json (11 actions, 4 denied, 2 approval_required, 5 allowed, ledger valid 11+11), site/data/abp.json (6 roles, 36 rows, 0 gaps, owner Dinis Cruz, valid until 2026-10-31), site/data/poc2-run.txt (vault history: init, init: memory vault, coder learned, tester learned)",
+ "roles": [
+  { "id": "conductor", "does": "turns the objective into tasks, sets priorities, cuts scope", "colour": "#2dd4bf" },
+  { "id": "librarian", "does": "keeps the brief pack and the reality document; links every artefact", "colour": "#a78bfa" },
+  { "id": "architect", "does": "decides structure and boundaries; writes the decision record", "colour": "#60a5fa" },
+  { "id": "designer", "does": "visual language, palette, motion rules", "colour": "#f472b6" },
+  { "id": "developer", "does": "builds each version as one HTML file", "colour": "#f59e0b" },
+  { "id": "editor", "does": "checks every claim on screen against the data; cuts words", "colour": "#34d399" },
+  { "id": "historian", "does": "records what happened, when, and why, from the vault history", "colour": "#fbbf24" },
+  { "id": "observer", "does": "times every call and commit; the run's telemetry", "colour": "#94a3b8" }
+ ],
+ "versions": [
+  { "id": "v1", "title": "Static diagram that builds", "level": "SVG only, step-by-step build of the architecture: agents, ABP gate, vault, receipts" },
+  { "id": "v2", "title": "Messages in flight", "level": "2D SVG/CSS: the queen hands tasks to workers; envelopes travel through the vault between them" },
+  { "id": "v3", "title": "Vault lanes", "level": "a subway-map of vault branches, one lane per agent role; commits appear, lanes merge, a fresh clone pulls them" },
+  { "id": "v4", "title": "The policy gate", "level": "canvas particles: 11 actions fly at a gate twice; default lets all through, the ABP denies 4, holds 2 for a human, lets 5 through; receipts chain below" },
+  { "id": "v5", "title": "The isometric office", "level": "2.5D isometric floor: one desk per role, a vault safe in the middle, envelopes walking between desks and safe" },
+  { "id": "v6", "title": "The hive in 3D", "level": "three.js: queen at the centre, workers orbiting, an encrypted vault cube; decisions pulse along edges" },
+  { "id": "v7", "title": "The city of vaults", "level": "three.js: a city where each vault branch is a street and each commit adds a floor; the ABP is the city wall with gates; receipts are streetlights" }
+ ],
+ "rules": [
+  "one self-contained HTML file per version at site/studio/<id>/index.html; no build step",
+  "scripts only from cdnjs.cloudflare.com with an exact version (three.js: https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js)",
+  "read numbers from ../../data/report.json and ../../data/abp.json at load; never type a number the data does not hold",
+  "1600x900 first, also fine at 390 px wide; dark background; autoplay a loop of 25 to 40 seconds; no audio",
+  "a corner label: '<id> · <title> · made in the ruv.sgit.ai studio run' and a link back to ../index.html",
+  "no console errors; expose window.__t() returning seconds into the loop"
+ ]
+}

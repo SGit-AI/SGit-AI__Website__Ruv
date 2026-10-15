@@ -1,0 +1,49 @@
+{
+ "source": "the host (Claude Code) usage report for each builder subagent, studio run 1, 15 Oct 2026; one subagent per version, all seven started at the same time",
+ "builders": [
+  {
+   "id": "v1",
+   "tokens": 80674,
+   "tool_uses": 11,
+   "wall_s": 284
+  },
+  {
+   "id": "v2",
+   "tokens": 91393,
+   "tool_uses": 18,
+   "wall_s": 502
+  },
+  {
+   "id": "v3",
+   "tokens": 88379,
+   "tool_uses": 18,
+   "wall_s": 455
+  },
+  {
+   "id": "v4",
+   "tokens": 81750,
+   "tool_uses": 13,
+   "wall_s": 420
+  },
+  {
+   "id": "v5",
+   "tokens": 97682,
+   "tool_uses": 15,
+   "wall_s": 419
+  },
+  {
+   "id": "v6",
+   "tokens": 87380,
+   "tool_uses": 14,
+   "wall_s": 335
+  },
+  {
+   "id": "v7",
+   "tokens": 102599,
+   "tool_uses": 19,
+   "wall_s": 560
+  }
+ ],
+ "total_tokens": 629857,
+ "wall_s_parallel": 560
+}

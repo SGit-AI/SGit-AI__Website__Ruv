@@ -11,6 +11,8 @@
 - [Replicate](https://ruv.sgit.ai/replicate.html): install, run, vaults, CI secrets, this site, the infographics, build notes
 - [Demo](https://ruv.sgit.ai/demo.html): the five-minute script
 - [Tonight's talk](https://ruv.sgit.ai/talk/index.html): the scripted talk (10 and 5 minutes) as a timeline that plays on a clock, the run of show, sources for every number, questions to expect, rehearsals; [player](https://ruv.sgit.ai/talk/player.html), [timeline](https://ruv.sgit.ai/talk/talk-10.json)
+- [The studio](https://ruv.sgit.ai/studio/index.html): seven animations of Ruflo + sgit + ABPs (diagram to 3D city) made by a Ruflo hive run, with MP4s, the timed trace and the builders' token use; [run record](https://ruv.sgit.ai/studio/run.json)
+- [Articles](https://ruv.sgit.ai/articles/index.html): [The studio: plan and architecture](https://ruv.sgit.ai/articles/the-studio.md) · [Set it up: a brief any agent can follow](https://ruv.sgit.ai/articles/studio-setup-brief.md) (every article has a .md twin)
 - [Live app](https://ruv.sgit.ai/app/index.html): ask the ABP in the browser (RuVector WASM)
 
 ## Data

@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Static diagram that builds</title>
+<meta name="description" content="v1 of the ruv.sgit.ai studio run: an SVG diagram that builds the Ruflo swarm, the ABP gate, hash-chained receipts and the sgit vault step by step.">
+<style>
+  :root { --bg:#0b0f17; --ink:#e5e7eb; --dim:#8b95a7; --faint:#2a3242; --panel:#111827;
+          --ok:#4ade80; --no:#f87171; --hold:#fb923c; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; background:var(--bg); color:var(--ink); overflow-x:hidden;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  #stage { display:block; width:100vw; height:100vh; }
+  body.narrow #stage { height:auto; }
+  #corner { position:fixed; top:10px; right:12px; max-width:calc(100vw - 24px); text-align:right;
+    font-size:12px; color:var(--dim); background:rgba(11,15,23,.8); padding:4px 8px; border-radius:6px; }
+  #corner a { color:#2dd4bf; text-decoration:none; }
+  body.narrow #corner { position:static; text-align:left; margin:8px 16px 16px; max-width:none; }
+  #err { color:var(--no); padding:16px; font-size:14px; }
+  text { fill:var(--ink); }
+  .mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+</style>
+</head>
+<body>
+<svg id="stage" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Architecture diagram that builds step by step"></svg>
+<div id="corner">v1 · Static diagram that builds · made in the ruv.sgit.ai studio run · <a href="../index.html">all versions</a></div>
+<script>
+(function () {
+  'use strict';
+  const LOOP = 32;                 // seconds per loop: ~25 s build, hold, fade
+  const start = performance.now();
+  window.__t = () => ((performance.now() - start) / 1000) % LOOP;
+
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.getElementById('stage');
+  const C = { ok:'#4ade80', no:'#f87171', hold:'#fb923c', dim:'#8b95a7', faint:'#2a3242', ink:'#e5e7eb', panel:'#111827', queen:'#fde68a' };
+  let anim = [];                   // {node, t0, t1, kind}
+  let data = null, mode = null;
+
+  function el(tag, attrs, parent, t0, t1, kind) {
+    const n = document.createElementNS(NS, tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    (parent || svg).appendChild(n);
+    if (t0 !== undefined) { n.style.opacity = 0; anim.push({ node:n, t0, t1, kind: kind || 'fade' }); }
+    return n;
+  }
+  function txt(s, x, y, size, attrs, t0, t1, parent) {
+    const n = el('text', Object.assign({ x, y, 'font-size': size }, attrs || {}), parent, t0, t1);
+    n.textContent = s; return n;
+  }
+  const verdictOf = s => s.startsWith('denied') ? 'denied' : s.startsWith('approval') ? 'approval' : 'allowed';
+  const vColour = v => v === 'denied' ? C.no : v === 'approval' ? C.hold : C.ok;
+  function hex(n) { const a = new Uint8Array(n); crypto.getRandomValues(a); return Array.from(a, b => b.toString(16).padStart(2, '0')).join(''); }
+
+  function build() {
+    const narrow = innerWidth < 900 || innerWidth / innerHeight < 1.1;
+    mode = narrow;
+    document.body.classList.toggle('narrow', narrow);
+    svg.innerHTML = ''; anim = [];
+    const { report, abp, roles } = data;
+    const rows = report.rows;
+    const N = rows.length;
+    const legacy = rows.map(r => verdictOf(r.legacy));
+    const pol = rows.map(r => verdictOf(r.abp));
+    const count = (arr, v) => arr.filter(x => x === v).length;
+    const nDen = count(pol, 'denied'), nApp = count(pol, 'approval'), nAll = count(pol, 'allowed');
+    const legAll = count(legacy, 'allowed');
+    const abpRows = abp.roles.reduce((s, r) => s + r.rows.length, 0);
+    const gaps = (report.gaps || []).length;
+
+    // ---- layout ---------------------------------------------------------
+    const W = narrow ? 400 : 1600;
+    const L = narrow ? {
+      H: 1010, title:[12, 32, 17], sub:[12, 50, 9],
+      agents:{ hx:12, hy:80, q:[200, 168, 18], ring:62, r:10, lab:9 },
+      card:{ x:12, y:270, w:376, h:52, fs:9.5 },
+      act:{ hx:12, hy:342, y0:366, dy:24, who:12, act:84, res:null, gate:236, chip:244, chipW:66, w0:316, w1:384, fs:9.5, tally:[12, 640] },
+      rc:{ hx:12, hy:672, rows:[690, 734], x0:64, dx:30, bw:24, bh:26, lab:8 },
+      v:{ hx:12, hy:790, x:12, y:800, w:376, lane0:822, dl:17, lab:20, c1:150, mx:300, out:384, fs:9 },
+      cap:[200, 990, 12]
+    } : {
+      H: 900, title:[40, 52, 26], sub:[40, 76, 13],
+      agents:{ hx:40, hy:124, q:[250, 330, 30], ring:150, r:17, lab:12 },
+      card:{ x:40, y:560, w:420, h:96, fs:13 },
+      act:{ hx:520, hy:124, y0:166, dy:38, who:520, act:620, res:true, gate:850, chip:866, chipW:96, w0:972, w1:1080, fs:13, tally:[520, 600] },
+      rc:{ hx:520, hy:690, rows:[724, 800], x0:620, dx:86, bw:66, bh:40, lab:12 },
+      v:{ hx:1130, hy:124, x:1130, y:140, w:430, lane0:182, dl:42, lab:1150, c1:1270, mx:1450, out:1555, fs:12 },
+      cap:[40, 760, 18]
+    };
+    svg.setAttribute('viewBox', `0 0 ${W} ${L.H}`);
+    svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    if (narrow) svg.style.height = (innerWidth * L.H / W) + 'px'; else svg.style.height = '';
+
+    const defs = el('defs', {});
+    defs.innerHTML = `<marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="${C.ok}"/></marker>
+      <marker id="ard" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="${C.dim}"/></marker>`;
+
+    // timeline (seconds)
+    const T = { title:0.2, queen:1.0, workers:1.6, card:4.6, gate:5.4, pass1:6.4, step1:0.25, switch:9.9, pass2:10.8, step2:0.42,
+                tally:15.6, vault:16.6, lanes:17.2, cipher:20.4, merge:21.2, clone:22.4, caption:23.6 };
+    const e1 = T.pass1 + N * T.step1 + 0.3;  // end of default pass
+
+    // ---- title ----------------------------------------------------------
+    txt('One swarm, one mandate, one vault', L.title[0], L.title[1], L.title[2], { 'font-weight':600 }, T.title);
+    txt(report.deployment, L.sub[0], L.sub[1], L.sub[2], { fill:C.dim }, T.title + 0.3);
+
+    // ---- agents ---------------------------------------------------------
+    const A = L.agents;
+    A.w = i => { const a = -Math.PI / 2 + (i + 0.5) * 2 * Math.PI / roles.length; return [A.q[0] + A.ring * Math.cos(a), A.q[1] + A.ring * Math.sin(a), Math.cos(a), Math.sin(a)]; };
+    txt('RUFLO SWARM · queen + ' + roles.length + ' role workers', A.hx, A.hy, narrow ? 9 : 12, { fill:C.dim, 'letter-spacing':'0.08em' }, T.queen - 0.4);
+    roles.forEach((r, i) => {
+      const [x, y] = A.w(i);
+      const [, , cx, cy] = A.w(i);
+      el('line', { x1:A.q[0] + cx * (A.q[2] + 4), y1:A.q[1] + cy * (A.q[2] + 4), x2:x - cx * (A.r + 3), y2:y - cy * (A.r + 3), stroke:r.colour, 'stroke-opacity':0.35, 'stroke-width':1.2 }, null, T.workers + i * 0.3 - 0.15, undefined, 'draw');
+    });
+    el('circle', { cx:A.q[0], cy:A.q[1], r:A.q[2], fill:'none', stroke:C.queen, 'stroke-width':2 }, null, T.queen);
+    el('circle', { cx:A.q[0], cy:A.q[1], r:A.q[2] * 0.42, fill:C.queen }, null, T.queen + 0.1);
+    txt('queen', A.q[0], A.q[1] + A.q[2] + (narrow ? 12 : 20), narrow ? 9 : 13, { fill:C.queen, 'font-weight':600, 'text-anchor':'middle' }, T.queen + 0.2);
+    roles.forEach((r, i) => {
+      const [x, y, cx, cy] = A.w(i), t = T.workers + i * 0.3, d = A.r + 6;
+      el('circle', { cx:x, cy:y, r:A.r, fill:r.colour, 'fill-opacity':0.18, stroke:r.colour, 'stroke-width':1.5 }, null, t);
+      txt(r.id, x + cx * d, y + cy * d + A.lab * 0.35 + (cy > 0.5 ? A.lab * 0.5 : cy < -0.5 ? -A.lab * 0.3 : 0), A.lab,
+          { 'text-anchor': cx > 0.3 ? 'start' : cx < -0.3 ? 'end' : 'middle', fill:r.colour }, t + 0.1);
+    });
+
+    // ---- ABP card -------------------------------------------------------
+    const K = L.card;
+    el('rect', { x:K.x, y:K.y, width:K.w, height:K.h, rx:8, fill:C.panel, stroke:'#2dd4bf', 'stroke-opacity':0.5 }, null, T.card);
+    if (narrow) {
+      txt('ABP · the written mandate · owner ' + abp.owner + ' · valid until ' + abp.valid_until, K.x + 10, K.y + 20, K.fs, {}, T.card + 0.2);
+      txt(abp.roles.length + ' roles · ' + abpRows + ' rows · ' + gaps + ' gaps', K.x + 10, K.y + 38, K.fs, { fill:C.dim }, T.card + 0.4);
+    } else {
+      txt('ABP · the written mandate', K.x + 18, K.y + 30, 16, { 'font-weight':600, fill:'#2dd4bf' }, T.card + 0.2);
+      txt('owner ' + abp.owner + ' · valid until ' + abp.valid_until, K.x + 18, K.y + 56, K.fs, {}, T.card + 0.4);
+      txt(abp.roles.length + ' roles · ' + abpRows + ' rows · ' + gaps + ' gaps', K.x + 18, K.y + 78, K.fs, { fill:C.dim }, T.card + 0.6);
+    }
+
+    // ---- actions + gate -------------------------------------------------
+    const P = L.act;
+    txt(N + ' ACTIONS · tried twice', P.hx, P.hy, narrow ? 9 : 12, { fill:C.dim, 'letter-spacing':'0.08em' }, T.gate - 0.4);
+    const modeA = txt('pass 1 · Ruflo default', P.chip, P.hy, narrow ? 9 : 12, { fill:C.ink }, T.pass1 - 0.3, T.switch);
+    const modeB = txt('pass 2 · with the ABP', P.chip, P.hy, narrow ? 9 : 12, { fill:'#2dd4bf', 'font-weight':600 }, T.switch + 0.2);
+    txt('world', P.w1, P.hy, narrow ? 9 : 12, { fill:C.dim, 'text-anchor':'end' }, T.gate);
+    const gy0 = P.y0 - P.dy * 0.7, gy1 = P.y0 + (N - 1) * P.dy + P.dy * 0.45;
+    // open gate (default) then closed gate (ABP)
+    el('line', { x1:P.gate, y1:gy0, x2:P.gate, y2:gy1, stroke:C.dim, 'stroke-width':2, 'stroke-dasharray':'3 7' }, null, T.gate, T.switch);
+    el('rect', { x:P.gate - 3, y:gy0, width:6, height:gy1 - gy0, rx:3, fill:'#2dd4bf' }, null, T.switch, undefined, 'drawY');
+    txt('ABP gate', P.gate, gy1 + (narrow ? 12 : 18), narrow ? 9 : 12, { 'text-anchor':'middle', fill:'#2dd4bf' }, T.switch + 0.3);
+    rows.forEach((r, i) => {
+      const y = P.y0 + i * P.dy, ta = T.pass1 + i * T.step1, tb = T.pass2 + i * T.step2;
+      txt(r.who, P.who, y, P.fs - (narrow ? 1 : 1), { fill:C.dim }, ta - 0.2);
+      txt(r.action, P.act, y, P.fs, { class:'mono' }, ta - 0.1);
+      if (P.res && r.resource) txt(r.resource, P.act, y + 14, 10, { class:'mono', fill:'#5b6577' }, ta);
+      // pass 1 verdicts
+      chip(P.chip, y, P.chipW, legacy[i], ta + 0.1, T.switch);
+      if (legacy[i] === 'allowed') el('line', { x1:P.chip + P.chipW + 4, y1:y - 4, x2:P.w1, y2:y - 4, stroke:C.ok, 'stroke-width':1.2, 'stroke-opacity':0.6, 'marker-end':'url(#ar)' }, null, ta + 0.2, T.switch, 'draw');
+      // pass 2 verdicts
+      chip(P.chip, y, P.chipW, pol[i], tb, undefined);
+      if (pol[i] === 'allowed') el('line', { x1:P.chip + P.chipW + 4, y1:y - 4, x2:P.w1, y2:y - 4, stroke:C.ok, 'stroke-width':1.2, 'stroke-opacity':0.6, 'marker-end':'url(#ar)' }, null, tb + 0.15, undefined, 'draw');
+    });
+    function chip(x, y, w, v, t0, t1) {
+      const g = el('g', {}, null, t0, t1);
+      const h = narrow ? 15 : 22, col = vColour(v);
+      el('rect', { x, y: y - h * 0.72, width:w, height:h, rx:h / 2, fill:col, 'fill-opacity':0.16, stroke:col, 'stroke-width':1 }, g);
+      const label = v === 'approval' ? (narrow ? 'approval' : 'approval') : v;
+      txt(label, x + w / 2, y - h * 0.72 + h * 0.7, narrow ? 8.5 : 12, { 'text-anchor':'middle', fill:col }, undefined, undefined, g);
+    }
+    txt('default: ' + legAll + ' of ' + N + ' allowed', P.tally[0], P.tally[1], narrow ? 10 : 15, { fill:C.dim }, e1, T.tally);
+    const tg = el('text', { x:P.tally[0], y:P.tally[1], 'font-size': narrow ? 10 : 15 }, null, T.tally);
+    [['with the ABP: ', C.ink], [nDen + ' denied', C.no], [' · ', C.dim], [nApp + ' held for ' + abp.owner, C.hold], [' · ', C.dim], [nAll + ' allowed', C.ok]]
+      .forEach(([s, c]) => { const t = document.createElementNS(NS, 'tspan'); t.setAttribute('fill', c); t.textContent = s; tg.appendChild(t); });
+
+    // ---- receipts -------------------------------------------------------
+    const R = L.rc, lg = report.ledger;
+    txt('HASH-CHAINED RECEIPTS · each one links the one before', R.hx, R.hy, narrow ? 9 : 12, { fill:C.dim, 'letter-spacing':'0.08em' }, T.pass1 - 0.3);
+    [[legacy, lg.legacy, 'default', T.pass1, T.step1], [pol, lg.abp, 'ABP', T.pass2, T.step2]].forEach(([vs, led, name, t0, st], k) => {
+      const y = R.rows[k];
+      txt(name, R.hx, y + R.bh * 0.45, R.lab + 1, { fill:k ? '#2dd4bf' : C.dim, 'font-weight':600 }, t0 - 0.2);
+      txt(led.length + ' · ' + (led.valid ? 'valid ✓' : 'INVALID'), R.hx, y + R.bh * 0.45 + R.lab + 4, R.lab, { fill:led.valid ? C.ok : C.no }, t0 + Math.min(led.length, N) * st + 0.2);
+      for (let i = 0; i < led.length; i++) {
+        const x = R.x0 + i * R.dx, t = t0 + i * st + 0.15, v = vs[i] || 'allowed', col = vColour(v);
+        if (i > 0) el('line', { x1:x - R.dx + R.bw, y1:y + R.bh / 2, x2:x, y2:y + R.bh / 2, stroke:C.dim, 'stroke-width':1.2 }, null, t - 0.05, undefined, 'draw');
+        const g = el('g', {}, null, t);
+        el('rect', { x, y, width:R.bw, height:R.bh, rx:4, fill:C.panel, stroke:col, 'stroke-opacity':0.8 }, g);
+        el('rect', { x, y, width:narrow ? 3 : 4, height:R.bh, rx:2, fill:col }, g);
+        txt('#' + (i + 1), x + R.bw / 2 + 2, y + R.bh / 2 + (narrow ? 3 : 4), narrow ? 8 : 12, { 'text-anchor':'middle', class:'mono' }, undefined, undefined, g);
+      }
+    });
+
+    // ---- vault ----------------------------------------------------------
+    const V = L.v, nr = roles.length;
+    const vh = (V.lane0 - V.y) * 2 + (nr - 1) * V.dl + (narrow ? 0 : 10);
+    txt('SGIT VAULT · encrypted on the client · one branch per role', V.hx, V.hy - (narrow ? 0 : 0), narrow ? 9 : 12, { fill:C.dim, 'letter-spacing':'0.08em' }, T.vault - 0.3);
+    el('rect', { x:V.x, y:V.y, width:V.w, height:vh, rx:10, fill:C.panel, stroke:C.queen, 'stroke-opacity':0.45 }, null, T.vault);
+    // lock icon
+    const lx = V.x + V.w - (narrow ? 22 : 30), ly = V.y + (narrow ? 8 : 12), lk = el('g', {}, null, T.vault + 0.3);
+    el('path', { d:`M${lx + 3},${ly + 8} v-3 a5,5 0 0 1 10,0 v3`, fill:'none', stroke:C.queen, 'stroke-width':1.6 }, lk);
+    el('rect', { x:lx, y:ly + 8, width:16, height:11, rx:2, fill:C.queen }, lk);
+    const mainY0 = V.lane0, mainY1 = V.lane0 + (nr - 1) * V.dl;
+    roles.forEach((r, i) => {
+      const y = V.lane0 + i * V.dl, t = T.lanes + i * 0.3;
+      const lx0 = narrow ? V.x + 74 : V.c1 - 40;
+      txt(r.id, narrow ? V.x + 8 : V.lab, y + 4, V.fs, { fill:r.colour }, t);
+      el('path', { d:`M${lx0},${y} H${V.mx - 24} Q${V.mx},${y} ${V.mx},${(y + (mainY0 + mainY1) / 2) / 2}`, fill:'none', stroke:r.colour, 'stroke-width':1.6, 'stroke-opacity':0.7 }, null, t, undefined, 'draw');
+      const cx = (narrow ? V.x + 120 : V.c1) + (i % 2) * (narrow ? 26 : 50);
+      el('circle', { cx, cy:y, r:narrow ? 4 : 6, fill:r.colour }, null, t + 0.4);
+      // ciphertext on the server side of each commit
+      txt(hex(narrow ? 4 : 6), cx + (narrow ? 8 : 12), y - (narrow ? 4 : 6), narrow ? 7 : 10, { class:'mono', fill:'#64748b' }, T.cipher + i * 0.08);
+    });
+    txt('server sees ciphertext only', narrow ? V.x + 120 : V.c1, V.y + vh - (narrow ? 6 : 10), narrow ? 8.5 : 12, { fill:'#94a3b8', 'font-style':'italic' }, T.cipher + 0.5);
+    // merge trunk + clone
+    el('line', { x1:V.mx, y1:mainY0 - 6, x2:V.mx, y2:mainY1 + 6, stroke:C.queen, 'stroke-width':3, 'stroke-linecap':'round' }, null, T.merge, undefined, 'drawY');
+    el('circle', { cx:V.mx, cy:(mainY0 + mainY1) / 2, r:narrow ? 6 : 9, fill:C.bg || '#0b0f17', stroke:C.queen, 'stroke-width':2.5 }, null, T.merge + 0.4);
+    txt('merge', V.mx, mainY0 - (narrow ? 10 : 14), V.fs, { 'text-anchor':'middle', fill:C.queen }, T.merge + 0.3);
+    el('line', { x1:V.mx + (narrow ? 8 : 12), y1:(mainY0 + mainY1) / 2, x2:V.out, y2:(mainY0 + mainY1) / 2, stroke:C.queen, 'stroke-width':1.5, 'stroke-dasharray':'4 4' }, null, T.clone, undefined, 'draw');
+    txt('fresh clone:', V.out - (narrow ? 2 : 4), (mainY0 + mainY1) / 2 + (narrow ? 16 : 22), V.fs, { 'text-anchor':'end', fill:C.queen }, T.clone + 0.4);
+    txt('same memory', V.out - (narrow ? 2 : 4), (mainY0 + mainY1) / 2 + (narrow ? 28 : 38), V.fs, { 'text-anchor':'end', fill:C.queen }, T.clone + 0.6);
+
+    // ---- caption --------------------------------------------------------
+    if (narrow) txt('At the end of the run, one vault holds everything that happened: the evidence.', L.cap[0], L.cap[1], 10.5, { 'text-anchor':'middle', fill:C.queen }, T.caption);
+    else {
+      txt('At the end of the run, one vault holds', L.cap[0], L.cap[1], L.cap[2], { fill:C.queen }, T.caption);
+      txt('everything that happened: the evidence.', L.cap[0], L.cap[1] + 28, L.cap[2], { fill:C.queen }, T.caption + 0.3);
+    }
+
+    // prepare draw animations
+    anim.forEach(a => {
+      if (a.kind === 'draw' || a.kind === 'drawY') {
+        const len = a.node.getTotalLength ? a.node.getTotalLength() : 0;
+        if (a.kind === 'draw' && len) { a.len = len; a.node.style.strokeDasharray = len; a.node.style.strokeDashoffset = len; }
+      }
+    });
+  }
+
+  const ease = x => x <= 0 ? 0 : x >= 1 ? 1 : 1 - Math.pow(1 - x, 3);
+  function frame() {
+    const t = window.__t();
+    const fadeAll = t > LOOP - 1.2 ? Math.max(0, (LOOP - t) / 1.2) : 1;
+    for (const a of anim) {
+      let o = ease((t - a.t0) / 0.5);
+      if (a.t1 !== undefined) o *= 1 - ease((t - a.t1) / 0.4);
+      a.node.style.opacity = o * fadeAll;
+      if (a.kind === 'draw' && a.len) a.node.style.strokeDashoffset = a.len * (1 - ease((t - a.t0) / 0.7));
+      if (a.kind === 'drawY') { const p = ease((t - a.t0) / 0.7); a.node.style.transformBox = 'fill-box'; a.node.style.transformOrigin = 'top'; a.node.style.transform = `scaleY(${Math.max(p, 0.001)})`; }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  Promise.all([
+    fetch('../../data/report.json').then(r => r.json()),
+    fetch('../../data/abp.json').then(r => r.json())
+  ]).then(([report, abp]) => {
+    data = { report, abp, roles: ROLES };
+    build();
+    addEventListener('resize', () => { const n = innerWidth < 900 || innerWidth / innerHeight < 1.1; if (n !== mode) build(); else if (n) svg.style.height = (innerWidth * 1010 / 400) + 'px'; });
+    requestAnimationFrame(frame);
+  }).catch(e => { const d = document.createElement('div'); d.id = 'err'; d.textContent = 'Could not load the data files: ' + e.message; document.body.prepend(d); });
+
+  // role names and colours from poc/poc7-studio/spec.json (not served under site/)
+  const ROLES = [
+    { id:'conductor', colour:'#2dd4bf' }, { id:'librarian', colour:'#a78bfa' }, { id:'architect', colour:'#60a5fa' },
+    { id:'designer', colour:'#f472b6' }, { id:'developer', colour:'#f59e0b' }, { id:'editor', colour:'#34d399' },
+    { id:'historian', colour:'#fbbf24' }, { id:'observer', colour:'#94a3b8' }
+  ];
+})();
+</script>
+</body>
+</html>

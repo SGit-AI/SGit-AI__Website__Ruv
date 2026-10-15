@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Isometric Office</title>
+<style>
+:root{--bg:#0b0f17;--ink:#e5e7eb;--dim:#8b95a7;--line:#1f2937;--ok:#4ade80;--deny:#f87171;--hold:#facc15}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overflow-x:hidden}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:12px 16px 0;flex-wrap:wrap}
+.corner{font-size:12px;color:var(--dim)}
+.corner a{color:#2dd4bf;text-decoration:none;margin-right:8px}
+.corner b{color:var(--ink);font-weight:600}
+.hud{display:flex;gap:8px;flex-wrap:wrap}
+.g{border:1px solid var(--line);border-radius:8px;padding:4px 10px;min-width:92px;background:#0f1520}
+.g .n{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
+.g .l{font-size:11px;color:var(--dim)}
+.stage{width:100%;display:flex;justify-content:center}
+svg#s{width:100%;height:calc(100vh - 128px);min-height:300px;display:block}
+.cap{margin:0 16px 12px;min-height:58px;padding:8px 12px;border-left:3px solid #2dd4bf;background:#0f1520;border-radius:4px;min-height:40px;font-size:14px}
+.cap .k{color:var(--dim);font-size:12px}
+@media (max-width:700px){svg#s{height:auto;min-height:0}.g{min-width:0;flex:1}.g .n{font-size:16px}.cap{font-size:13px}}
+text{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="corner"><a href="../index.html">&larr; studio</a><b>v5 · The isometric office · made in the ruv.sgit.ai studio run</b></div>
+  <div class="hud" aria-label="observer gauges">
+    <div class="g"><div class="n" id="hm">0</div><div class="l">messages</div></div>
+    <div class="g"><div class="n" id="hc">0</div><div class="l">vault commits read</div></div>
+    <div class="g"><div class="n" id="hd">0</div><div class="l">ABP decisions</div></div>
+  </div>
+</div>
+<div class="stage"><svg id="s" viewBox="-575 -150 1190 815" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Isometric agent studio floor"></svg></div>
+<div class="cap" id="cap"><span class="k">loading data…</span></div>
+<script>
+(function(){
+'use strict';
+var T = 35, t0 = performance.now();
+window.__t = function(){ return ((performance.now() - t0) / 1000) % T; };
+
+var NS = 'http://www.w3.org/2000/svg', S = 52, C = 0.866;
+var svg = document.getElementById('s');
+function P(x, y, z){ return [(x - y) * C * S, (x + y) * 0.5 * S - (z || 0) * S]; }
+function el(tag, a, parent){ var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (parent) parent.appendChild(e); return e; }
+function pts(arr){ return arr.map(function(p){ var q = P(p[0], p[1], p[2]); return q[0].toFixed(1) + ',' + q[1].toFixed(1); }).join(' '); }
+function shade(hex, f){ var n = parseInt(hex.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255;
+  function c(v){ return Math.max(0, Math.min(255, Math.round(f < 0 ? v * (1 + f) : v + (255 - v) * f))); }
+  return 'rgb(' + c(r) + ',' + c(g) + ',' + c(b) + ')'; }
+function wallM(x, y, z){ var q = P(x, y, z); return 'matrix(' + C + ',0.5,0,1,' + q[0].toFixed(1) + ',' + q[1].toFixed(1) + ')'; }
+function box(g, x, y, w, d, h, col, z0){
+  z0 = z0 || 0;
+  el('polygon', {points: pts([[x + w, y, z0], [x + w, y + d, z0], [x + w, y + d, z0 + h], [x + w, y, z0 + h]]), fill: shade(col, -0.45)}, g);
+  el('polygon', {points: pts([[x, y + d, z0], [x + w, y + d, z0], [x + w, y + d, z0 + h], [x, y + d, z0 + h]]), fill: shade(col, -0.25)}, g);
+  el('polygon', {points: pts([[x, y, z0 + h], [x + w, y, z0 + h], [x + w, y + d, z0 + h], [x, y + d, z0 + h]]), fill: col}, g);
+}
+function lerp(a, b, k){ return a + (b - a) * k; }
+function clamp(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
+function ease(k){ k = clamp(k); return k * k * (3 - 2 * k); }
+function hex(n){ var s = '', h = '0123456789abcdef'; for (var i = 0; i < n; i++) s += h[(Math.random() * 16) | 0]; return s; }
+
+var cap = document.getElementById('cap');
+Promise.all([
+  fetch('../../data/report.json').then(function(r){ return r.json(); }),
+  fetch('../../data/abp.json').then(function(r){ return r.json(); }),
+  fetch('../../data/poc2-history.json').then(function(r){ return r.json(); })
+]).then(function(d){ build(d[0], d[1], d[2], {studio: 'ruv.sgit.ai studio, run 1'}); }).catch(function(e){
+  cap.innerHTML = '<span class="k">could not load ../../data/*.json (' + String(e && e.message || e).replace(/</g, '&lt;') + ')</span>';
+});
+
+function build(report, abp, hist, spec){
+  var ROLES = [
+    {id:'conductor',colour:'#2dd4bf'},{id:'librarian',colour:'#a78bfa'},{id:'architect',colour:'#60a5fa'},{id:'designer',colour:'#f472b6'},
+    {id:'developer',colour:'#f59e0b'},{id:'editor',colour:'#34d399'},{id:'historian',colour:'#fbbf24'},{id:'observer',colour:'#94a3b8'}];
+  var col = {}; ROLES.forEach(function(r){ col[r.id] = r.colour; });
+  var rows = report.rows || [], owner = report.owner || abp.owner || 'a named human';
+  var commits = (hist && hist.commits) || [];
+  function outcome(r){ return String(r.abp).split(' ')[0]; }
+  var nDen = rows.filter(function(r){ return outcome(r) === 'denied'; }).length;
+  var nHold = rows.filter(function(r){ return outcome(r) === 'approval_required'; }).length;
+  var nOk = rows.filter(function(r){ return outcome(r) === 'allowed'; }).length;
+  var nAbpRows = (abp.roles || []).reduce(function(a, r){ return a + (r.rows || []).length; }, 0);
+
+  // ---------- layout (grid units) ----------
+  var DESK = {
+    conductor: [3.9, 1.4], architect: [6.4, 1.0], observer: [9.8, 1.0], librarian: [1.0, 4.4],
+    historian: [8.6, 4.6], designer: [1.0, 8.0], developer: [8.4, 8.4], editor: [4.4, 9.8]
+  };
+  var DW = 1.4, DD = 0.8, DH = 0.55;
+  function seat(id){ var p = DESK[id]; return [p[0] + DW / 2, p[1] - 0.3]; }
+  var VAULT = [5.0, 5.0, 2.2, 2.2, 1.7], VTOP = [6.1, 6.1, 1.75];
+  var GATE_Y = 9.1, GATE_X = 11.75;
+
+  var defs = el('defs', {}, svg);
+  var rg = el('radialGradient', {id: 'glow'}, defs);
+  el('stop', {offset: '0', 'stop-color': '#2dd4bf', 'stop-opacity': '0.35'}, rg);
+  el('stop', {offset: '1', 'stop-color': '#2dd4bf', 'stop-opacity': '0'}, rg);
+
+  // world beyond the gate
+  var world = el('g', {}, svg);
+  var wq = P(15.3, GATE_Y, 0);
+  el('ellipse', {cx: wq[0], cy: wq[1], rx: 120, ry: 70, fill: 'url(#glow)'}, world);
+  for (var i = 0; i < 3; i++) el('ellipse', {cx: wq[0], cy: wq[1] - 18, rx: 34 - i * 11, ry: 34, fill: 'none', stroke: '#2dd4bf', 'stroke-opacity': 0.35}, world);
+  el('ellipse', {cx: wq[0], cy: wq[1] - 18, rx: 34, ry: 12, fill: 'none', stroke: '#2dd4bf', 'stroke-opacity': 0.35}, world);
+  el('text', {x: wq[0] + 62, y: wq[1] - 10, fill: '#5eead4', 'font-size': 15, 'text-anchor': 'start', 'font-weight': 600}, world).textContent = 'the world';
+  // floor + walls
+  var floor = el('g', {}, svg);
+  el('polygon', {points: pts([[0, 0, 0], [12, 0, 0], [12, 12, 0], [0, 12, 0]]), fill: '#111827', stroke: '#1f2937'}, floor);
+  for (i = 1; i < 12; i++){
+    el('polyline', {points: pts([[i, 0, 0], [i, 12, 0]]), stroke: '#18212f', fill: 'none'}, floor);
+    el('polyline', {points: pts([[0, i, 0], [12, i, 0]]), stroke: '#18212f', fill: 'none'}, floor);
+  }
+  el('polygon', {points: pts([[0, 0, 0], [0, 12, 0], [0, 12, 2.4], [0, 0, 2.4]]), fill: '#141c2b', stroke: '#1f2937'}, floor);
+  el('polygon', {points: pts([[0, 0, 0], [12, 0, 0], [12, 0, 2.4], [0, 0, 2.4]]), fill: '#172133', stroke: '#1f2937'}, floor);
+  var tt = el('text', {transform: wallM(0.3, 0, 2.1), fill: '#64748b', 'font-size': 13, 'font-weight': 600}, floor);
+  tt.textContent = (spec && spec.studio) || 'ruv.sgit.ai studio';
+  // path to the gate on the floor
+  el('polyline', {points: pts([[10, GATE_Y, 0], [15, GATE_Y, 0]]), stroke: '#334155', 'stroke-width': 10, 'stroke-linecap': 'round', fill: 'none', opacity: 0.6}, floor);
+
+  // observer gauge wall (on the y=0 wall)
+  var gaugeWall = el('g', {}, svg);
+  var GA = [];
+  ['messages', 'commits', 'decisions'].forEach(function(name, k){
+    var gx = 8.0 + k * 1.3;
+    var g = el('g', {transform: wallM(gx, 0, 2.15)}, gaugeWall);
+    el('rect', {x: 0, y: 0, width: 60, height: 62, rx: 4, fill: '#0b1220', stroke: '#334155'}, g);
+    el('path', {d: 'M10 38 A20 20 0 0 1 50 38', stroke: '#1f2937', 'stroke-width': 5, fill: 'none'}, g);
+    var arc = el('path', {d: 'M10 38 A20 20 0 0 1 50 38', stroke: col.observer, 'stroke-width': 5, fill: 'none', 'stroke-dasharray': '0 100', pathLength: 100}, g);
+    var num = el('text', {x: 30, y: 38, 'text-anchor': 'middle', fill: '#e5e7eb', 'font-size': 13, 'font-weight': 700}, g);
+    el('text', {x: 30, y: 54, 'text-anchor': 'middle', fill: '#94a3b8', 'font-size': 8.5}, g).textContent = name;
+    GA.push({arc: arc, num: num});
+  });
+
+  // ---------- depth-sorted scene ----------
+  var scene = el('g', {}, svg), items = [];
+  function item(depth){ var g = el('g', {}, scene); var it = {g: g, depth: depth}; items.push(it); return it; }
+
+  // queen's dais
+  var dais = item(3.9);
+  box(dais.g, 0.6, 0.6, 2.6, 2.6, 0.35, '#334155');
+  el('text', {transform: wallM(0.75, 3.2, 0.3), fill: '#cbd5e1', 'font-size': 10}, dais.g).textContent = "queen's dais";
+
+  function figure(color, opts){
+    opts = opts || {};
+    var it = item(0), g = it.g, inner = el('g', {}, g);
+    el('ellipse', {cx: 0, cy: 0, rx: 11, ry: 5.5, fill: '#000', opacity: 0.35}, inner);
+    el('path', {d: 'M-8 -6 Q-9 -30 0 -31 Q9 -30 8 -6 Z', fill: color}, inner);
+    el('circle', {cx: 0, cy: -38, r: 7, fill: opts.head || '#f3e8d8'}, inner);
+    if (opts.crown) el('path', {d: 'M-7 -45 L-7 -52 L-3.5 -48 L0 -54 L3.5 -48 L7 -52 L7 -45 Z', fill: '#fbbf24'}, inner);
+    if (opts.label){ var lt = el('text', {x: 0, y: -50 - (opts.crown ? 8 : 0), 'text-anchor': 'middle', fill: color, 'font-size': 11, 'font-weight': 600}, inner); lt.textContent = opts.label; it.lt = lt; }
+    it.inner = inner;
+    it.at = function(x, y, z){ var q = P(x, y, z || 0); g.setAttribute('transform', 'translate(' + q[0].toFixed(1) + ',' + q[1].toFixed(1) + ')'); it.depth = x + y; it.x = x; it.y = y; };
+    return it;
+  }
+  var queen = figure('#e2e8f0', {crown: true, label: 'queen'});
+  queen.at(1.9, 1.9, 0.35); queen.depth = 4.0;
+
+  // desks
+  var deskCard = {}, people = {};
+  ROLES.forEach(function(r){
+    var p = DESK[r.id]; if (!p) return;
+    var s = seat(r.id);
+    if (r.id !== 'conductor'){ people[r.id] = figure(r.colour); people[r.id].at(s[0], s[1]); }
+    var dk = item(p[0] + DW / 2 + p[1] + DD / 2 + 0.2);
+    box(dk.g, p[0], p[1], DW, DD, DH, '#3b4252');
+    // monitor
+    box(dk.g, p[0] + 0.45, p[1] + 0.05, 0.5, 0.06, 0.32, '#0f172a', DH);
+    el('polygon', {points: pts([[p[0] + 0.48, p[1] + 0.11, DH + 0.04], [p[0] + 0.92, p[1] + 0.11, DH + 0.04], [p[0] + 0.92, p[1] + 0.11, DH + 0.29], [p[0] + 0.48, p[1] + 0.11, DH + 0.29]]), fill: r.colour, opacity: 0.55}, dk.g);
+    // name plate on the desk front
+    var pg = el('g', {transform: wallM(p[0] + 0.08, p[1] + DD, DH - 0.06)}, dk.g);
+    el('rect', {x: 0, y: 0, width: DW * S - 8, height: 17, rx: 3, fill: '#0b0f17', stroke: r.colour}, pg);
+    el('text', {x: (DW * S - 8) / 2, y: 12.5, 'text-anchor': 'middle', fill: r.colour, 'font-size': 11, 'font-weight': 600}, pg).textContent = r.id;
+    // task card (hidden until delivered)
+    var card = el('polygon', {points: pts([[p[0] + 1.0, p[1] + 0.35, DH + 0.01], [p[0] + 1.3, p[1] + 0.35, DH + 0.01], [p[0] + 1.3, p[1] + 0.7, DH + 0.01], [p[0] + 1.0, p[1] + 0.7, DH + 0.01]]), fill: '#f8fafc', stroke: r.colour, 'stroke-width': 2, opacity: 0}, dk.g);
+    deskCard[r.id] = card;
+  });
+  var conductor = figure(col.conductor);
+
+  // vault safe
+  var vault = item(VAULT[0] + VAULT[1] + VAULT[2]);
+  box(vault.g, VAULT[0], VAULT[1], VAULT[2], VAULT[3], VAULT[4], '#475569');
+  box(vault.g, VAULT[0] - 0.08, VAULT[1] - 0.08, VAULT[2] + 0.16, VAULT[3] + 0.16, 0.1, '#64748b', VAULT[4]);
+  var dc0 = P(VAULT[0] + VAULT[2] * 0.5, VAULT[1] + VAULT[3], 0), dc = P(VAULT[0] + VAULT[2], VAULT[1] + VAULT[3] * 0.5, VAULT[4] * 0.5);
+  var dial = el('g', {transform: 'matrix(' + C + ',-0.5,0,1,' + dc[0].toFixed(1) + ',' + dc[1].toFixed(1) + ')'}, vault.g);
+  el('circle', {r: 24, fill: '#1e293b', stroke: '#94a3b8', 'stroke-width': 3}, dial);
+  for (var sp = 0; sp < 6; sp++) el('line', {x1: 0, y1: -24, x2: 0, y2: -31, stroke: '#94a3b8', 'stroke-width': 3, transform: 'rotate(' + sp * 60 + ')'}, dial);
+  var dialHand = el('line', {x1: 0, y1: 0, x2: 0, y2: -16, stroke: '#2dd4bf', 'stroke-width': 3, 'stroke-linecap': 'round'}, dial);
+  var vl = el('g', {transform: wallM(VAULT[0] + 0.1, VAULT[1] + VAULT[3], VAULT[4] - 0.08)}, vault.g);
+  el('text', {x: 4, y: 12, fill: '#e2e8f0', 'font-size': 12, 'font-weight': 700}, vl).textContent = 'sgit vault';
+  var vr = el('g', {transform: wallM(VAULT[0] + 0.1, VAULT[1] + VAULT[3], 0.42)}, vault.g);
+  el('text', {x: 4, y: 0, fill: '#cbd5e1', 'font-size': 9}, vr).textContent = 'client-side encrypted';
+  el('text', {x: 4, y: 11, fill: '#94a3b8', 'font-size': 9}, vr).textContent = 'server sees ciphertext';
+  var vaultCount = el('text', {x: P(6.1, 6.1, 0)[0], y: P(6.1, 6.1, VAULT[4] + 0.1)[1] - 6, 'text-anchor': 'middle', fill: '#5eead4', 'font-size': 11}, vault.g);
+
+  // gatehouse
+  var gate = item(GATE_X + GATE_Y + 1.2);
+  box(gate.g, GATE_X - 0.1, GATE_Y - 1.05, 0.7, 0.5, 1.9, '#334155');
+  box(gate.g, GATE_X - 0.1, GATE_Y + 0.55, 0.7, 0.5, 1.9, '#334155');
+  box(gate.g, GATE_X - 0.1, GATE_Y - 1.05, 0.7, 2.1, 0.4, '#475569', 1.9);
+  var gl = el('g', {transform: 'translate(' + P(GATE_X + 0.6, GATE_Y, 2.3)[0] + ',' + P(GATE_X + 0.6, GATE_Y, 2.3)[1] + ')'}, gate.g);
+  var gateBadge = el('rect', {x: -24, y: -22, width: 48, height: 22, rx: 4, fill: '#0b0f17', stroke: '#2dd4bf', 'stroke-width': 2}, gl);
+  el('text', {x: 0, y: -6, 'text-anchor': 'middle', fill: '#5eead4', 'font-size': 14, 'font-weight': 800}, gl).textContent = 'ABP';
+  var gateFlash = el('polygon', {points: pts([[GATE_X + 0.6, GATE_Y - 0.55, 0], [GATE_X + 0.6, GATE_Y + 0.55, 0], [GATE_X + 0.6, GATE_Y + 0.55, 1.9], [GATE_X + 0.6, GATE_Y - 0.55, 1.9]]), fill: '#2dd4bf', opacity: 0}, gate.g);
+  var tally = el('text', {x: P(GATE_X + 1.2, GATE_Y - 1.6, 0)[0], y: P(GATE_X + 1.2, GATE_Y - 1.6, 0)[1] + 4, fill: '#cbd5e1', 'font-size': 11}, gate.g);
+
+  // the human approver
+  var human = figure('#e5e7eb', {label: owner, head: '#fde7c8'});
+  var HUMAN = [13.4, 11.0];
+  human.at(HUMAN[0], HUMAN[1]);
+  var bubble = el('g', {opacity: 0}, human.inner);
+  el('rect', {x: -20, y: -92, width: 150, height: 22, rx: 11, fill: '#facc15'}, bubble);
+  var bubbleT = el('text', {x: 55, y: -77, 'text-anchor': 'middle', fill: '#111', 'font-size': 11, 'font-weight': 600}, bubble);
+  bubbleT.textContent = 'approval needed';
+
+  // ---------- top layer: flying things ----------
+  var top = el('g', {}, svg);
+  var envs = [], acts = [];
+
+  // conductor route with timed stops
+  var route = [
+    {p: [5.6, 2.6]}, {p: [8.1, 2.3], role: 'architect'}, {p: [11.4, 2.3], role: 'observer'},
+    {p: [10.3, 5.8], role: 'historian'}, {p: [10.3, 9.6], role: 'developer'}, {p: [6.1, 10.9], role: 'editor'},
+    {p: [4.0, 11.0]}, {p: [2.8, 9.1], role: 'designer'}, {p: [2.8, 5.5], role: 'librarian'}, {p: [5.6, 2.6]}
+  ];
+  var tcur = 0.8, SPEED = 4.6, DWELL = 0.45, legs = [], deliver = {};
+  for (i = 1; i < route.length; i++){
+    var a = route[i - 1].p, b = route[i].p, dist = Math.hypot(b[0] - a[0], b[1] - a[1]), dur = dist / SPEED;
+    legs.push({a: a, b: b, t0: tcur, t1: tcur + dur}); tcur += dur;
+    if (route[i].role){ deliver[route[i].role] = tcur; legs.push({a: b, b: b, t0: tcur, t1: tcur + DWELL}); tcur += DWELL; }
+  }
+  var conductorEnd = tcur;
+  function conductorPos(t){
+    if (t <= legs[0].t0) return route[0].p;
+    for (var k = 0; k < legs.length; k++){ var L = legs[k]; if (t <= L.t1){ var f = (t - L.t0) / (L.t1 - L.t0 || 1); return [lerp(L.a[0], L.b[0], f), lerp(L.a[1], L.b[1], f)]; } }
+    return route[route.length - 1].p;
+  }
+
+  // envelopes: every worker writes what it learned into the vault
+  var workers = Object.keys(deliver);
+  workers.forEach(function(id){
+    var g = el('g', {opacity: 0}, top);
+    var paper = el('rect', {x: -9, y: -6, width: 18, height: 12, rx: 1.5, fill: '#f8fafc', stroke: col[id], 'stroke-width': 1.5}, g);
+    var flap = el('path', {d: 'M-9 -6 L0 1 L9 -6', fill: 'none', stroke: col[id], 'stroke-width': 1.2}, g);
+    var lock = el('g', {opacity: 0}, g);
+    el('path', {d: 'M-3.5 -6 v-3 a3.5 3.5 0 0 1 7 0 v3', fill: 'none', stroke: '#5eead4', 'stroke-width': 1.6}, lock);
+    el('rect', {x: -5, y: -6, width: 10, height: 8, rx: 1.5, fill: '#5eead4'}, lock);
+    var cipher = el('text', {x: 0, y: 18, 'text-anchor': 'middle', fill: '#5eead4', 'font-size': 8, 'font-family': 'ui-monospace,monospace', opacity: 0}, g);
+    cipher.textContent = hex(8);
+    envs.push({id: id, g: g, paper: paper, flap: flap, lock: lock, cipher: cipher, t0: deliver[id] + 0.35, dur: 1.6});
+  });
+
+  // action requests from the developer's desk to the gate, one per report row
+  var ACT0 = 11.2, ACTDT = 1.5;
+  var holdSlot = 0;
+  rows.forEach(function(r, k){
+    var g = el('g', {opacity: 0}, top);
+    var label = r.action;
+    var w = Math.max(48, label.length * 6.2 + 14);
+    var bg = el('rect', {x: -w / 2, y: -10, width: w, height: 20, rx: 10, fill: '#0b0f17', stroke: '#e5e7eb', 'stroke-width': 1.5}, g);
+    var tx = el('text', {x: 0, y: 4, 'text-anchor': 'middle', fill: '#e5e7eb', 'font-size': 10.5, 'font-weight': 600}, g);
+    tx.textContent = label;
+    var o = outcome(r);
+    acts.push({r: r, k: k, g: g, bg: bg, tx: tx, o: o, t0: ACT0 + k * ACTDT, slot: o === 'approval_required' ? holdSlot++ : -1});
+  });
+  var OUTC = {allowed: '#4ade80', denied: '#f87171', approval_required: '#facc15'};
+
+  // historian reads the vault history
+  var HIST0 = 20.5, HISTREAD = 1.25;
+  var histPath = [seat('historian'), [10.3, 4.25], [10.3, 5.8], [7.8, 6.6]];
+  var histPanel = el('g', {opacity: 0}, top);
+  var hp = P(5.2, 3.6, 3.4);
+  el('rect', {x: hp[0] - 150, y: hp[1] - 24, width: 300, height: 24 + 18 * Math.max(1, commits.length) + 8, rx: 8, fill: '#0b0f17', stroke: col.historian, 'stroke-width': 1.5, opacity: 0.95}, histPanel);
+  el('text', {x: hp[0] - 138, y: hp[1] - 7, fill: col.historian, 'font-size': 11, 'font-weight': 700}, histPanel).textContent = 'sgit history log (read by the historian)';
+  var histLines = commits.map(function(c, k){
+    var line = el('text', {x: hp[0] - 138, y: hp[1] + 14 + k * 18, fill: '#e5e7eb', 'font-size': 10.5, opacity: 0}, histPanel);
+    var m = c.message.length > 44 ? c.message.slice(0, 43) + '…' : c.message;
+    line.textContent = String(c.commit_id).replace('obj-cas-imm-', '').slice(0, 7) + '  ' + m;
+    return line;
+  });
+  var book = el('g', {opacity: 0}, people.historian.inner);
+  el('rect', {x: -10, y: -30, width: 20, height: 14, rx: 2, fill: col.historian}, book);
+  el('line', {x1: 0, y1: -30, x2: 0, y2: -16, stroke: '#78350f', 'stroke-width': 1.5}, book);
+  function pathPos(path, f){
+    var segs = [], tot = 0;
+    for (var k = 1; k < path.length; k++){ var dd = Math.hypot(path[k][0] - path[k - 1][0], path[k][1] - path[k - 1][1]); segs.push(dd); tot += dd; }
+    var want = clamp(f) * tot;
+    for (k = 0; k < segs.length; k++){ if (want <= segs[k] || k === segs.length - 1){ var ff = segs[k] ? want / segs[k] : 1; return [lerp(path[k][0], path[k + 1][0], ff), lerp(path[k][1], path[k + 1][1], ff)]; } want -= segs[k]; }
+  }
+
+  // summary banner
+  var SUM0 = 29.6;
+  var banner = el('g', {opacity: 0}, top);
+  var bq = P(6, 6, 4.4);
+  el('rect', {x: bq[0] - 290, y: bq[1] - 46, width: 580, height: 92, rx: 12, fill: '#0b0f17', stroke: '#2dd4bf', 'stroke-width': 2, opacity: 0.96}, banner);
+  el('text', {x: bq[0], y: bq[1] - 18, 'text-anchor': 'middle', fill: '#e5e7eb', 'font-size': 17, 'font-weight': 700}, banner).textContent =
+    rows.length + ' actions at the gate: ' + nDen + ' denied · ' + nHold + ' held for ' + owner + ' · ' + nOk + ' allowed';
+  var lg = report.ledger || {};
+  el('text', {x: bq[0], y: bq[1] + 6, 'text-anchor': 'middle', fill: '#5eead4', 'font-size': 13}, banner).textContent =
+    'receipt ledger ' + ((lg.abp && lg.abp.valid && lg.legacy && lg.legacy.valid) ? 'valid' : 'check') + ': ' + (lg.legacy ? lg.legacy.length : '?') + ' default + ' + (lg.abp ? lg.abp.length : '?') + ' ABP receipts';
+  el('text', {x: bq[0], y: bq[1] + 28, 'text-anchor': 'middle', fill: '#94a3b8', 'font-size': 12}, banner).textContent =
+    'ABP: ' + (abp.roles || []).length + ' roles, ' + nAbpRows + ' rows, owner ' + (abp.owner || owner) + ', valid until ' + abp.valid_until + ' · vault: ' + commits.length + ' commits';
+
+  // ---------- events for captions and gauges ----------
+  var events = [];
+  workers.forEach(function(id){ events.push({t: deliver[id], msg: 1, cap: '<b style="color:' + col.conductor + '">conductor</b> hands a task to the <b style="color:' + col[id] + '">' + id + '</b>'}); });
+  envs.forEach(function(e){ events.push({t: e.t0 + e.dur * 0.5, cap: '<b style="color:' + col[e.id] + '">' + e.id + '</b> writes what it learned; the envelope locks on the way in (encrypted on the client)'}); events.push({t: e.t0 + e.dur, msg: 1}); });
+  acts.forEach(function(a){
+    var r = a.r, res = r.resource ? ' <span class="k">' + r.resource + '</span>' : '';
+    var txt = a.o === 'denied' ? '<b style="color:#f87171">denied</b>, bounced back' : a.o === 'allowed' ? '<b style="color:#4ade80">allowed</b>, through to the world' : '<b style="color:#facc15">approval required</b>, waits for ' + owner;
+    events.push({t: a.t0 + 1.1, msg: 1, dec: a.o, cap: '<span class="k">row ' + (a.k + 1) + '/' + rows.length + ' · ' + r.who + '</span> <b style="color:' + col.developer + '">' + r.action + '</b>' + res + ' → ABP: ' + txt + '<br><span class="k">' + r.abp + '</span>'});
+  });
+  commits.forEach(function(c, k){ events.push({t: HIST0 + 1.4 + k * HISTREAD, msg: 1, commit: 1, cap: '<b style="color:' + col.historian + '">historian</b> reads the vault history: <span class="k">' + c.message + '</span>'}); });
+  events.push({t: 0, cap: 'The studio floor. The <b style="color:' + col.conductor + '">conductor</b> turns the objective into tasks.'});
+  events.push({t: HIST0, cap: '<b style="color:' + col.historian + '">historian</b> walks to the vault to read its history'});
+  events.push({t: SUM0, cap: 'One vault holds everything that happened: the evidence.'});
+  events.sort(function(a, b){ return a.t - b.t; });
+  var totalMsg = events.filter(function(e){ return e.msg; }).length;
+
+  var hm = document.getElementById('hm'), hc = document.getElementById('hc'), hd = document.getElementById('hd');
+  var lastCap = null, lastOrder = '';
+  var GMAX = [totalMsg, commits.length, rows.length];
+
+  function frame(){
+    var t = window.__t();
+    // conductor
+    var cp = conductorPos(t); conductor.at(cp[0], cp[1]);
+    conductor.inner.setAttribute('transform', (t > legs[0].t0 && t < conductorEnd) ? 'translate(0,' + (-Math.abs(Math.sin(t * 12)) * 2).toFixed(1) + ')' : '');
+    // task cards
+    for (var id in deskCard) if (deliver[id] !== undefined) deskCard[id].setAttribute('opacity', t >= deliver[id] && t < SUM0 + 4.6 ? 1 : 0);
+    if (deskCard.conductor) deskCard.conductor.setAttribute('opacity', 0);
+
+    // envelopes
+    var stored = 0;
+    envs.forEach(function(e){
+      var f = (t - e.t0) / e.dur;
+      if (f < 0 || f > 1.15){ e.g.setAttribute('opacity', 0); if (f > 1) stored++; return; }
+      var s = seat(e.id), k = ease(f);
+      var x = lerp(s[0], VTOP[0], k), y = lerp(s[1], VTOP[1], k), z = lerp(1.0, VTOP[2], k) + Math.sin(Math.PI * clamp(f)) * 1.6;
+      var q = P(x, y, z), sc = f > 1 ? Math.max(0, 1 - (f - 1) * 6) : 1;
+      e.g.setAttribute('transform', 'translate(' + q[0].toFixed(1) + ',' + q[1].toFixed(1) + ') scale(' + sc.toFixed(2) + ')');
+      e.g.setAttribute('opacity', 1);
+      var locked = f > 0.5;
+      e.paper.setAttribute('fill', locked ? '#134e4a' : '#f8fafc');
+      e.flap.setAttribute('opacity', locked ? 0 : 1);
+      e.lock.setAttribute('opacity', locked ? 1 : 0);
+      e.cipher.setAttribute('opacity', locked ? 1 : 0);
+      if (locked && Math.random() < 0.3) e.cipher.textContent = hex(8);
+      if (f > 1) stored++;
+    });
+    vaultCount.textContent = stored ? stored + ' encrypted envelopes in' : '';
+    dialHand.setAttribute('transform', 'rotate(' + (t * 40 % 360).toFixed(0) + ')');
+
+    // actions
+    var flash = 0, flashCol = '#2dd4bf', waiting = 0, cnt = {allowed: 0, denied: 0, approval_required: 0};
+    acts.forEach(function(a){
+      var dt = t - a.t0, x, y = GATE_Y, z = 0.55, op = 1;
+      if (dt < 0 || t >= SUM0 + 4.6){ a.g.setAttribute('opacity', 0); return; }
+      var reached = dt >= 1.1;
+      if (!reached){ x = lerp(9.9, GATE_X - 0.2, ease(dt / 1.1)); }
+      else {
+        cnt[a.o]++;
+        var d2 = dt - 1.1;
+        if (d2 < 0.35){ flash = Math.max(flash, 1 - d2 / 0.35); flashCol = OUTC[a.o]; }
+        if (a.o === 'allowed'){ x = lerp(GATE_X - 0.2, 15.0, ease((d2 - 0.2) / 1.2)); op = d2 > 1.2 ? Math.max(0, 1 - (d2 - 1.2) / 0.4) : 1; }
+        else if (a.o === 'denied'){ var kk = ease((d2 - 0.3) / 1.0); x = lerp(GATE_X - 0.2, 9.9, kk); z = 0.55 + Math.sin(Math.PI * clamp((d2 - 0.3) / 1.0)) * 0.9; op = d2 > 1.3 ? Math.max(0, 1 - (d2 - 1.3) / 0.5) : 1; }
+        else { var kh = ease((d2 - 0.25) / 0.8); x = lerp(GATE_X - 0.2, 11.0, kh); y = lerp(GATE_Y, 10.5 + a.slot * 0.8, kh); z = 0.55; waiting++; }
+      }
+      var q = P(x, y, z);
+      a.g.setAttribute('transform', 'translate(' + q[0].toFixed(1) + ',' + q[1].toFixed(1) + ')');
+      a.g.setAttribute('opacity', op.toFixed(2));
+      var c = reached ? OUTC[a.o] : '#e5e7eb';
+      a.bg.setAttribute('stroke', c); a.tx.setAttribute('fill', c);
+      a.bg.setAttribute('fill', reached ? shade(c, -0.82) : '#0b0f17');
+    });
+    gateFlash.setAttribute('opacity', (flash * 0.55).toFixed(2)); gateFlash.setAttribute('fill', flashCol);
+    gateBadge.setAttribute('stroke', flash > 0.05 ? flashCol : '#2dd4bf');
+    var dec = cnt.allowed + cnt.denied + cnt.approval_required;
+    tally.innerHTML = '';
+    if (dec){ [['allowed', '#4ade80', cnt.allowed], ['denied', '#f87171', cnt.denied], ['held', '#facc15', cnt.approval_required]].forEach(function(p, k){
+      var ts = el('tspan', {x: tally.getAttribute('x'), dy: k ? 14 : 0, fill: p[1]}, tally); ts.textContent = p[2] + ' ' + p[0]; }); }
+    bubble.setAttribute('opacity', waiting && t < SUM0 + 4.6 ? 1 : 0);
+    bubbleT.textContent = waiting + ' waiting: approval needed';
+    human.inner.setAttribute('transform', waiting ? 'translate(0,' + (-Math.abs(Math.sin(t * 3)) * 3).toFixed(1) + ')' : '');
+
+    // historian
+    var hf = t - HIST0, hpos, walkT = 1.4, readT = commits.length * HISTREAD;
+    if (hf < 0 || hf > walkT * 2 + readT) hpos = seat('historian');
+    else if (hf < walkT) hpos = pathPos(histPath, hf / walkT);
+    else if (hf < walkT + readT) hpos = histPath[histPath.length - 1];
+    else hpos = pathPos(histPath, 1 - (hf - walkT - readT) / walkT);
+    people.historian.at(hpos[0], hpos[1]);
+    var reading = hf >= walkT && hf < walkT + readT + 0.2;
+    book.setAttribute('opacity', reading ? 1 : 0);
+    var panelOn = hf >= walkT - 0.2 && hf < walkT + readT + 2.2;
+    histPanel.setAttribute('opacity', panelOn ? 1 : 0);
+    histLines.forEach(function(l, k){ l.setAttribute('opacity', hf >= walkT + k * HISTREAD ? 1 : 0); });
+
+    // banner
+    var bo = t < SUM0 ? 0 : t < SUM0 + 0.5 ? (t - SUM0) / 0.5 : t > T - 0.6 ? Math.max(0, (T - t) / 0.6) : 1;
+    banner.setAttribute('opacity', bo.toFixed(2));
+
+    // depth sort
+    items.sort(function(a, b){ return a.depth - b.depth; });
+    var order = items.map(function(it){ return it.depth.toFixed(2); }).join('|');
+    if (order !== lastOrder){ items.forEach(function(it){ scene.appendChild(it.g); }); lastOrder = order; }
+
+    // gauges + captions
+    var m = 0, cm = 0, dd = 0, capTxt = '';
+    for (var i2 = 0; i2 < events.length; i2++){ var e = events[i2]; if (e.t > t) break; if (e.msg) m++; if (e.commit) cm++; if (e.dec) dd++; if (e.cap) capTxt = e.cap; }
+    var vals = [m, cm, dd];
+    GA.forEach(function(g, k){ g.num.textContent = vals[k]; g.arc.setAttribute('stroke-dasharray', (GMAX[k] ? 100 * vals[k] / GMAX[k] : 0).toFixed(1) + ' 100'); });
+    hm.textContent = m; hc.textContent = cm; hd.textContent = dd;
+    if (capTxt !== lastCap){ cap.innerHTML = capTxt; lastCap = capTxt; }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+})();
+</script>
+</body>
+</html>

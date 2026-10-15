@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The city of vaults</title>
+<style>
+  :root { --bg:#060a14; --ink:#e2e8f0; --dim:#94a3b8; --teal:#2dd4bf; --red:#f87171; --amber:#f59e0b; --gold:#fde68a; }
+  html, body { margin:0; height:100%; background:var(--bg); color:var(--ink); overflow:hidden;
+    font:13px/1.4 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+  canvas { display:block; position:fixed; inset:0; width:100%; height:100%; }
+  .hud { position:fixed; z-index:2; pointer-events:none; text-shadow:0 1px 3px #000; }
+  .hud a { pointer-events:auto; }
+  #corner { top:12px; left:16px; max-width:calc(100% - 32px); font-size:12px; color:var(--dim); }
+  #corner a { color:var(--teal); text-decoration:none; }
+  #corner b { color:var(--ink); font-weight:600; }
+  #phase { top:12px; right:16px; text-align:right; max-width:min(520px, calc(100% - 32px)); }
+  #phase .k { font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--dim); }
+  #phase .v { font-size:16px; font-weight:600; }
+  #phase .s { font-size:12px; color:var(--dim); }
+  #feed { bottom:14px; left:16px; max-width:min(440px, calc(100% - 32px)); font:11.5px/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; }
+  #feed div { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; opacity:.9; }
+  .rec { color:var(--gold); } .ill { color:#64748b; }
+  #count { bottom:14px; right:16px; text-align:right; font:12px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; max-width:calc(100% - 32px); }
+  #count .r { color:var(--red); } #count .a { color:var(--amber); } #count .t { color:var(--teal); } #count .d { color:var(--dim); }
+  #fade { position:fixed; inset:0; background:var(--bg); z-index:3; pointer-events:none; opacity:1; }
+  @media (max-width:700px) {
+    #phase { top:auto; bottom:92px; right:16px; left:16px; text-align:left; }
+    #phase .v { font-size:14px; }
+    #feed { display:none; }
+    #count { left:16px; text-align:left; font-size:11px; }
+  }
+</style>
+</head>
+<body>
+<div id="corner" class="hud"><b>v7 · The city of vaults</b> · made in the ruv.sgit.ai studio run · <a href="../index.html">← studio</a></div>
+<div id="phase" class="hud"><div class="k" id="pk">loading</div><div class="v" id="pv">reading the run data…</div><div class="s" id="ps"></div></div>
+<div id="feed" class="hud"></div>
+<div id="count" class="hud"></div>
+<div id="fade"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  'use strict';
+  var L = 40;                       // loop length, seconds
+  var T0 = performance.now();
+  window.__t = function () { return ((performance.now() - T0) / 1000) % L; };
+
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  // studio roles = vault branches = streets (colours from poc/poc7-studio/spec.json)
+  var ROLES = [
+    ['conductor', '#2dd4bf'], ['librarian', '#a78bfa'], ['architect', '#60a5fa'], ['designer', '#f472b6'],
+    ['developer', '#f59e0b'], ['editor', '#34d399'], ['historian', '#fbbf24'], ['observer', '#94a3b8']
+  ];
+  var C_RED = new THREE.Color('#f87171'), C_AMB = new THREE.Color('#f59e0b'), C_TEAL = new THREE.Color('#2dd4bf'),
+      C_PALE = new THREE.Color('#cbd5e1'), C_OFF = new THREE.Color('#1e293b'), C_GOLD = new THREE.Color('#fde68a');
+
+  function getJSON(u) { return fetch(u).then(function (r) { if (!r.ok) throw new Error(u + ' ' + r.status); return r.json(); }); }
+  function history() {
+    return getJSON('../../data/poc2-history.json').then(function (h) {
+      return h.commits.map(function (c) { return { id: c.commit_id.slice(-12), msg: c.message }; });
+    }).catch(function () {
+      return fetch('../../data/poc2-run.txt').then(function (r) { return r.text(); }).then(function (txt) {
+        var out = [];
+        txt.split('\n').forEach(function (l) { var m = l.match(/^\s+([0-9a-f]{12})(?:\s+\(HEAD\))?\s+(.+?)\s+\+\d/); if (m) out.unshift({ id: m[1], msg: m[2] }); });
+        return out;
+      });
+    });
+  }
+
+  Promise.all([getJSON('../../data/report.json'), getJSON('../../data/abp.json'), history().catch(function () { return []; })])
+    .then(function (d) { build(d[0], d[1], d[2]); })
+    .catch(function (e) {
+      $('pk').textContent = 'data unavailable'; $('pv').textContent = 'could not read ../../data/*.json';
+      $('ps').textContent = String(e.message || e); $('fade').style.opacity = 0;
+    });
+
+  function build(report, abp, hist) {
+    // ---------- data ----------
+    var rows = report.rows.map(function (r) {
+      var k = /^denied/.test(r.abp) ? 'denied' : /^approval/.test(r.abp) ? 'approval' : 'allowed';
+      return { who: r.who, action: r.action, resource: r.resource, abp: k, legacy: /^allowed/.test(r.legacy) ? 'allowed' : 'other' };
+    });
+    var N = rows.length;
+    var gates = abp.roles.map(function (r) { return r.id; });
+    var G = gates.length;
+    var LGA = report.ledger.abp, LGL = report.ledger.legacy;
+    var tot = { denied: 0, approval: 0, allowed: 0 };
+    rows.forEach(function (r) { tot[r.abp]++; });
+
+    // ---------- renderer / scene ----------
+    var renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: 'high-performance' });
+    var soft = false;
+    try { var gl = renderer.getContext(), dbg = gl.getExtension('WEBGL_debug_renderer_info');
+      soft = /swiftshader|llvmpipe|software/i.test(String(dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : '')); } catch (e) {}
+    renderer.setPixelRatio(soft ? 0.8 : Math.min(window.devicePixelRatio || 1, 1.75));
+    renderer.setSize(innerWidth, innerHeight);
+    document.body.insertBefore(renderer.domElement, document.body.firstChild);
+    var scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x060a14);
+    scene.fog = new THREE.FogExp2(0x060a14, 0.0115);
+    var camera = new THREE.PerspectiveCamera(48, innerWidth / innerHeight, 0.5, 400);
+    scene.add(new THREE.HemisphereLight(0x4a5f9a, 0x05060a, 0.75));
+    var moon = new THREE.DirectionalLight(0x9db4ff, 0.45); moon.position.set(-30, 50, 20); scene.add(moon);
+
+    var dummy = new THREE.Object3D();
+    function put(mesh, i, x, y, z, sx, sy, sz, ry) {
+      dummy.position.set(x, y, z); dummy.scale.set(sx, sy, sz); dummy.rotation.set(0, ry || 0, 0);
+      dummy.updateMatrix(); mesh.setMatrixAt(i, dummy.matrix);
+    }
+    function inst(geo, mat, n) {
+      var m = new THREE.InstancedMesh(geo, mat, n);
+      m.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+      for (var i = 0; i < n; i++) { put(m, i, 0, -99, 0, 0, 0, 0); }
+      scene.add(m); return m;
+    }
+    function colorAll(m, c) { for (var i = 0; i < m.count; i++) m.setColorAt(i, c); m.instanceColor.needsUpdate = true; }
+    function P(r, a) { return [r * Math.cos(a), r * Math.sin(a)]; }
+    function radY(a) { return Math.atan2(Math.cos(a), Math.sin(a)); }
+    var ease = function (x) { x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); };
+
+    // textures
+    function canvasTex(w, h, draw) { var c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h); var t = new THREE.CanvasTexture(c); return t; }
+    var seed = 7; function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+    var winTex = canvasTex(128, 32, function (g, w, h) {
+      g.fillStyle = '#05070c'; g.fillRect(0, 0, w, h);
+      for (var row = 0; row < 2; row++) for (var col = 0; col < 14; col++) {
+        var on = rnd(); if (on < 0.25) continue;
+        g.fillStyle = on > 0.85 ? '#9fd8ff' : on > 0.5 ? '#ffe2a8' : '#c9a86a';
+        g.fillRect(4 + col * 8.8, 5 + row * 13, 5, 8);
+      }
+    });
+    var glowTex = canvasTex(64, 64, function (g, w) {
+      var gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+      gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(0.25, 'rgba(255,255,255,.45)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
+      g.fillStyle = gr; g.fillRect(0, 0, w, w);
+    });
+
+    function label(text, color, h, sub) {
+      var fs = 44, pad = 14;
+      var c = document.createElement('canvas'), g = c.getContext('2d');
+      g.font = '600 ' + fs + 'px system-ui, sans-serif';
+      var w = Math.ceil(g.measureText(text).width) + pad * 2, hh = fs + pad * 1.4;
+      c.width = w; c.height = hh;
+      g.font = '600 ' + fs + 'px system-ui, sans-serif'; g.textBaseline = 'middle';
+      g.fillStyle = 'rgba(6,10,20,.55)'; g.fillRect(0, 0, w, hh);
+      g.fillStyle = color; g.fillRect(0, hh - 3, w, 3);
+      g.fillStyle = color; g.fillText(text, pad, hh / 2);
+      var t = new THREE.CanvasTexture(c); t.minFilter = THREE.LinearFilter;
+      var s = new THREE.Sprite(new THREE.SpriteMaterial({ map: t, transparent: true, depthTest: false, depthWrite: false, fog: false }));
+      s.scale.set(h * w / hh, h, 1); s.renderOrder = 10; scene.add(s); return s;
+    }
+
+    // ---------- ground, grid, sky ----------
+    var ground = new THREE.Mesh(new THREE.CircleGeometry(160, 64), new THREE.MeshLambertMaterial({ color: 0x070b14 }));
+    ground.rotation.x = -Math.PI / 2; scene.add(ground);
+    var grid = new THREE.PolarGridHelper(44, 24, 8, 96, 0x16233a, 0x0e1626); grid.position.y = 0.01; scene.add(grid);
+    (function stars() {
+      var n = 700, pos = new Float32Array(n * 3);
+      for (var i = 0; i < n; i++) { var a = rnd() * Math.PI * 2, e = 0.08 + rnd() * 1.3, r = 170;
+        pos[i * 3] = r * Math.cos(e) * Math.cos(a); pos[i * 3 + 1] = r * Math.sin(e); pos[i * 3 + 2] = r * Math.cos(e) * Math.sin(a); }
+      var g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      scene.add(new THREE.Points(g, new THREE.PointsMaterial({ color: 0xaab8d8, size: 0.9, fog: false, transparent: true, opacity: 0.7 })));
+    })();
+
+    // glow discs (one instanced mesh, slots handed out)
+    var GLOW_N = 400, glowUsed = 0;
+    var glowGeo = new THREE.PlaneGeometry(1, 1); glowGeo.rotateX(-Math.PI / 2);
+    var glow = inst(glowGeo, new THREE.MeshBasicMaterial({ map: glowTex, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, fog: false }), GLOW_N);
+    colorAll(glow, new THREE.Color(0));
+    function glowSlot() { return glowUsed++; }
+    function setGlow(i, x, y, z, s, c, k) { put(glow, i, x, y, z, s, 1, s); glow.setColorAt(i, tmpC.copy(c).multiplyScalar(k)); }
+    var tmpC = new THREE.Color();
+
+    // ---------- layout ----------
+    var R_BLD = 11, R_WALL = 30, R_WORLD = 42, R_LEDL = 21.5, R_LEDA = 25;
+    var streetA = ROLES.map(function (r, i) { return Math.PI / 8 + i * Math.PI / 4; });
+    var gateA = gates.map(function (g, i) { return i * 2 * Math.PI / G; });
+
+    // roads
+    var roadMat = new THREE.MeshLambertMaterial({ color: 0x0d1424 });
+    var roads = inst(new THREE.BoxGeometry(1, 0.04, 1), roadMat, ROLES.length + G);
+    ROLES.forEach(function (r, i) { var a = streetA[i], p = P(9.5, a); put(roads, i, p[0], 0.02, p[1], 1.6, 1, 13, radY(a)); });
+    gateA.forEach(function (a, i) { var p = P((3 + R_WORLD) / 2, a); put(roads, ROLES.length + i, p[0], 0.025, p[1], 1.3, 1, R_WORLD - 3, radY(a)); });
+    function ring(r, w, col, y) { var m = new THREE.Mesh(new THREE.RingGeometry(r - w / 2, r + w / 2, 128), new THREE.MeshBasicMaterial({ color: col, side: THREE.DoubleSide })); m.rotation.x = -Math.PI / 2; m.position.y = y; scene.add(m); return m; }
+    ring(R_LEDL, 0.9, 0x0c1322, 0.03); ring(R_LEDA, 0.9, 0x0c1322, 0.03);
+    ring(R_WORLD, 0.12, 0x0f4f4a, 0.04);
+    var plaza = new THREE.Mesh(new THREE.CircleGeometry(3.4, 48), new THREE.MeshLambertMaterial({ color: 0x111a2e })); plaza.rotation.x = -Math.PI / 2; plaza.position.y = 0.03; scene.add(plaza);
+    ring(3.4, 0.12, 0x2dd4bf, 0.05);
+
+    // street centre lines + streetlights in role colours
+    var lanes = inst(new THREE.BoxGeometry(1, 0.02, 1), new THREE.MeshBasicMaterial({ fog: true }), ROLES.length + G);
+    var poles = inst(new THREE.CylinderGeometry(0.05, 0.07, 1, 5), new THREE.MeshLambertMaterial({ color: 0x334155 }), 200);
+    var bulbs = inst(new THREE.SphereGeometry(0.16, 8, 6), new THREE.MeshBasicMaterial(), 200);
+    colorAll(bulbs, C_OFF); colorAll(lanes, C_OFF);
+    var nPole = 0;
+    function lamp(x, z, h, c, glowK) {
+      var i = nPole++; put(poles, i, x, h / 2, z, 1, h, 1); put(bulbs, i, x, h, z, 1, 1, 1); bulbs.setColorAt(i, c);
+      var gi = glowSlot(); setGlow(gi, x, 0.06, z, 2.6, c, glowK == null ? 0.55 : glowK); return { i: i, g: gi, x: x, z: z };
+    }
+    ROLES.forEach(function (r, i) {
+      var a = streetA[i], c = new THREE.Color(r[1]), p = P(9.5, a);
+      put(lanes, i, p[0], 0.05, p[1], 0.07, 1, 13, radY(a)); lanes.setColorAt(i, c.clone().multiplyScalar(0.7));
+      for (var k = 0; k < 4; k++) {
+        var rr = 5 + k * 3.6, side = (k % 2 ? 1 : -1) * 1.15, pp = P(rr, a), px = -Math.sin(a) * side, pz = Math.cos(a) * side;
+        lamp(pp[0] + px, pp[1] + pz, 1.3, c);
+      }
+      var lp = P(17.4, a); var s = label(r[0], r[1], 0.8); s.position.set(lp[0], 1.0, lp[1]);
+    });
+    gateA.forEach(function (a, i) { var p = P((3 + R_WORLD) / 2, a); put(lanes, ROLES.length + i, p[0], 0.055, p[1], 0.05, 1, R_WORLD - 3, radY(a)); lanes.setColorAt(ROLES.length + i, new THREE.Color(0x1f3346)); });
+
+    // ---------- buildings: floors per street (illustrative) + current tower (recorded first) ----------
+    var FH = 0.62, CFH = 0.8, FW = 2.0, CW = 3.4;
+    var floorsPer = [3, 4, 4, 3, 6, 4, 5, 2];  // illustrative
+    var ev = [];  // floor events for streets
+    var maxF = Math.max.apply(null, floorsPer);
+    for (var k = 0; k < maxF; k++) for (var ri = 0; ri < ROLES.length; ri++) if (floorsPer[ri] > k) ev.push({ role: ri, level: k });
+    var tA = 8.6, tB = 27.5;
+    ev.forEach(function (e, j) { e.t = tA + (tB - tA) * j / (ev.length - 1); });
+    var bMeshes = ROLES.map(function (r, ri) {
+      var em = new THREE.Color(r[1]).lerp(new THREE.Color('#ffffff'), 0.45);
+      var m = inst(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshLambertMaterial({ color: 0x141b2b, emissive: em, emissiveMap: winTex }), floorsPer[ri]);
+      return m;
+    });
+    // merges: each street bridges into current after its last floor
+    var merges = ROLES.map(function (r, ri) {
+      var last = 0; ev.forEach(function (e) { if (e.role === ri) last = Math.max(last, e.t); });
+      return { role: ri, t: last + 0.9 };
+    }).sort(function (a, b) { return a.t - b.t; });
+    var nRec = Math.max(hist.length, 0);
+    var recT = hist.map(function (h, i) { return 0.9 + i * 1.7; });
+    var cRec = inst(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshLambertMaterial({ color: 0x1b1a12, emissive: 0xffe9b0, emissiveMap: winTex }), Math.max(nRec, 1));
+    var cMer = inst(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshLambertMaterial({ color: 0x141b2b, emissive: 0xd9fbf5, emissiveMap: winTex }), merges.length);
+    var nFloorsTot = ev.length + nRec + merges.length;
+    var rims = inst(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial(), nFloorsTot);
+    colorAll(rims, C_OFF);
+    var roofs = inst(new THREE.CylinderGeometry(0.0, 0.5, 1, 4), new THREE.MeshBasicMaterial(), ROLES.length + 1);
+    colorAll(roofs, C_OFF);
+    var curLbl = label('current', '#2dd4bf', 1.0); var recLbl = label('recorded · POC2 vault history', '#fde68a', 0.62);
+    var illLbl = label('illustrative', '#94a3b8', 0.62);
+
+    // bridges
+    var bridges = merges.map(function (m, mi) {
+      var a = streetA[m.role], top = floorsPer[m.role] * FH;
+      var s = P(R_BLD - FW / 2, a), e = P(CW / 2, a), cy = (nRec + mi) * CFH + CFH / 2;
+      var curve = new THREE.QuadraticBezierCurve3(new THREE.Vector3(s[0], top - 0.15, s[1]), new THREE.Vector3((s[0] + e[0]) / 2, Math.max(top, cy) + 2.4, (s[1] + e[1]) / 2), new THREE.Vector3(e[0], cy, e[1]));
+      var geo = new THREE.TubeGeometry(curve, 40, 0.07, 5, false);
+      var mesh = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: ROLES[m.role][1] }));
+      mesh.visible = false; scene.add(mesh);
+      return { mesh: mesh, n: geo.index.count, t: m.t, role: m.role };
+    });
+
+    // ---------- the wall (ABP) with gates ----------
+    var WSEG = 132, gap = 0.075;
+    var wallIdx = [];
+    for (var w = 0; w < WSEG; w++) {
+      var a = (w + 0.5) / WSEG * Math.PI * 2, near = false;
+      gateA.forEach(function (g) { var d = Math.abs(Math.atan2(Math.sin(a - g), Math.cos(a - g))); if (d < gap) near = true; });
+      if (!near) wallIdx.push(a);
+    }
+    var segW = 2 * Math.PI * R_WALL / WSEG * 1.02;
+    var wall = inst(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshLambertMaterial({ color: 0x1a2235, emissive: 0x0a1020 }), wallIdx.length);
+    var cap = inst(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: 0x1d6f6a }), wallIdx.length);
+    wallIdx.forEach(function (a, i) { var p = P(R_WALL, a), ry = radY(a) + Math.PI / 2;
+      put(wall, i, p[0], 1.1, p[1], segW, 2.2, 0.7, ry); put(cap, i, p[0], 2.24, p[1], segW, 0.08, 0.74, ry); });
+    var pillars = inst(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshLambertMaterial({ color: 0x243049, emissive: 0x0b1220 }), G * 3);
+    var gLamp = inst(new THREE.SphereGeometry(0.32, 10, 8), new THREE.MeshBasicMaterial(), G);
+    colorAll(gLamp, C_TEAL);
+    var gateGlow = [];
+    gateA.forEach(function (a, i) {
+      var p = P(R_WALL, a), tx = -Math.sin(a), tz = Math.cos(a), hw = R_WALL * gap + 0.2;
+      put(pillars, i * 3, p[0] + tx * hw, 1.7, p[1] + tz * hw, 0.7, 3.4, 0.9, radY(a));
+      put(pillars, i * 3 + 1, p[0] - tx * hw, 1.7, p[1] - tz * hw, 0.7, 3.4, 0.9, radY(a));
+      put(pillars, i * 3 + 2, p[0], 3.55, p[1], 0.9, 0.35, hw * 2 + 0.7, radY(a));
+      put(gLamp, i, p[0], 4.05, p[1], 1, 1, 1);
+      gateGlow.push(glowSlot());
+      var s = label('gate · ' + gates[i], '#e2e8f0', 0.85); s.position.set(p[0], 5.2, p[1]);
+    });
+    var guards = inst(new THREE.ConeGeometry(0.28, 0.9, 8), new THREE.MeshBasicMaterial({ color: 0xf59e0b }), N);
+    var wallLbl = label('the wall: ABP · owner ' + abp.owner + ' · valid until ' + abp.valid_until, '#2dd4bf', 0.9);
+    (function () { var p = P(R_WALL + 0.5, Math.PI * 1.5 + Math.PI / G); wallLbl.position.set(p[0], 3.1, p[1]); })();
+    [1, 3, 5].forEach(function (k) { var p = P(R_WORLD + 4, k * Math.PI / G); var s = label('the world', '#2dd4bf', 1.1); s.position.set(p[0], 1.6, p[1]); });
+
+    // ---------- receipt ledgers: chained roads of streetlights ----------
+    function ledger(r, n, a0) {
+      var lights = [], links = [], LINKS = 7;
+      for (var i = 0; i < n; i++) { var a = a0 + i / n * Math.PI * 2, p = P(r, a); var lp = lamp(p[0], p[1], 1.8, C_OFF, 0); lp.a = a; lights.push(lp); }
+      var mesh = inst(new THREE.BoxGeometry(0.34, 0.08, 0.16), new THREE.MeshBasicMaterial(), Math.max(1, (n - 1) * LINKS));
+      colorAll(mesh, C_OFF);
+      for (var j = 0; j < n - 1; j++) for (var q = 0; q < LINKS; q++) {
+        var a = a0 + (j + (q + 0.5) / LINKS) / n * Math.PI * 2, p = P(r, a);
+        put(mesh, j * LINKS + q, p[0], 0.08, p[1], 1, 1, 1, radY(a) + (q % 2 ? Math.PI / 2 : 0));
+      }
+      return { lights: lights, links: mesh, LINKS: LINKS };
+    }
+    var ledL = ledger(R_LEDL, LGL.length, 0.12), ledAb = ledger(R_LEDA, LGA.length, 0.12);
+    (function () { var s = label('receipt ledger · ABP run · hash-chained', '#2dd4bf', 0.7); var p = P(R_LEDA, 0.12 - 0.14); s.position.set(p[0], 2.6, p[1]);
+      var s2 = label('receipt ledger · default run', '#cbd5e1', 0.6); var p2 = P(R_LEDL, 0.12 - 0.16); s2.position.set(p2[0], 2.6, p2[1]); })();
+
+    // ---------- traffic: 11 actions × 2 runs ----------
+    var cars = inst(new THREE.BoxGeometry(0.5, 0.28, 0.95), new THREE.MeshBasicMaterial(), N * 2);
+    colorAll(cars, C_PALE);
+    var carGlow = []; for (var i = 0; i < N * 2; i++) carGlow.push(glowSlot());
+    var LEG0 = 9.0, LEGDT = 0.62, ABP0 = 17.6, ABPDT = 0.92, DRIVE = 2.5;
+    rows.forEach(function (r, i) {
+      var gi = gates.indexOf(r.who); r.gate = gi < 0 ? 0 : gi;
+      r.legDep = LEG0 + i * LEGDT; r.legArr = r.legDep + DRIVE;
+      r.dep = ABP0 + i * ABPDT; r.arr = r.dep + DRIVE;
+    });
+    var R_START = 3.6, R_STOP = R_WALL - 1.2;
+    function carState(r, pass, t) {
+      var dep = pass ? r.dep : r.legDep, arr = pass ? r.arr : r.legArr, kind = pass ? r.abp : 'allowed';
+      if (t < dep) return null;
+      var a = gateA[r.gate], rr, lane = 0.32, col = C_PALE, back = false, fade = 1;
+      if (t < arr) { var u = (t - dep) / DRIVE; rr = R_START + (R_STOP - R_START) * (0.25 * ease(u) + 0.75 * u); }
+      else if (kind === 'allowed') { var v = (t - arr) / 1.4; rr = R_STOP + (R_WORLD + 2 - R_STOP) * v; col = pass ? C_TEAL : C_PALE; if (v > 1) fade = Math.max(0, 1 - (v - 1) * 2); if (fade <= 0) return null; }
+      else if (kind === 'denied') { var w = (t - arr - 0.5) / 2.6; col = C_RED; if (w < 0) rr = R_STOP; else { rr = R_STOP - (R_STOP - R_START) * ease(w); back = true; lane = -0.32; if (w > 1) return null; } }
+      else { rr = R_STOP - 0.3; lane = 1.05; col = C_AMB; }
+      var p = P(rr, a), tx = -Math.sin(a), tz = Math.cos(a);
+      return { x: p[0] + tx * lane, z: p[1] + tz * lane, ry: radY(a) + (back ? Math.PI : 0), col: col, fade: fade, decided: t >= arr };
+    }
+
+    // ---------- feed events ----------
+    var feed = [];
+    hist.forEach(function (h, i) { feed.push({ t: recT[i], html: '<span class="rec">recorded</span> ' + esc(h.id) + ' ' + esc(h.msg) }); });
+    ev.forEach(function (e) { feed.push({ t: e.t, html: '<span class="ill">illustrative</span> commit on branch ' + esc(ROLES[e.role][0]) }); });
+    merges.forEach(function (m) { feed.push({ t: m.t + 1.1, html: '<span class="ill">illustrative</span> merge ' + esc(ROLES[m.role][0]) + ' → current' }); });
+    rows.forEach(function (r) { feed.push({ t: r.arr, html: '<span style="color:' + (r.abp === 'denied' ? '#f87171' : r.abp === 'approval' ? '#f59e0b' : '#2dd4bf') + '">' + r.abp + '</span> ' + esc(r.who) + ' ' + esc(r.action) + (r.resource ? ' ' + esc(r.resource) : '') }); });
+    feed.sort(function (a, b) { return a.t - b.t; });
+
+    // ---------- per-frame update ----------
+    var lastFeed = '', lastCount = '', lastPhase = '';
+    function frame() {
+      var t = window.__t();
+      // buildings
+      var rimI = 0;
+      ROLES.forEach(function (r, ri) {
+        var a = streetA[ri], p = P(R_BLD, a), ry = radY(a), m = bMeshes[ri], c = new THREE.Color(r[1]), built = 0, k = 0;
+        ev.forEach(function (e) {
+          if (e.role !== ri) return;
+          var g = ease((t - e.t) / 0.8), y = e.level * FH;
+          if (g > 0) { put(m, e.level, p[0], y + FH * g / 2, p[1], FW, FH * g, FW, ry); built = Math.max(built, y + FH * g); }
+          else put(m, e.level, 0, -99, 0, 0, 0, 0);
+          var flash = Math.max(0, 1 - (t - e.t) / 1.6);
+          if (g > 0) { put(rims, rimI, p[0], y + 0.02, p[1], FW + 0.12, 0.05, FW + 0.12, ry); rims.setColorAt(rimI, tmpC.copy(c).multiplyScalar(0.55 + flash * 0.9)); }
+          else put(rims, rimI, 0, -99, 0, 0, 0, 0);
+          rimI++; k++;
+        });
+        m.instanceMatrix.needsUpdate = true;
+        if (built > 0) { put(roofs, ri, p[0], built + 0.25, p[1], FW * 1.2, 0.5, FW * 1.2, ry + Math.PI / 4); roofs.setColorAt(ri, c); }
+        else put(roofs, ri, 0, -99, 0, 0, 0, 0);
+      });
+      var cTop = 0;
+      for (var i = 0; i < nRec; i++) {
+        var g = ease((t - recT[i]) / 0.8), y = i * CFH;
+        if (g > 0) { put(cRec, i, 0, y + CFH * g / 2, 0, CW, CFH * g, CW, 0); cTop = Math.max(cTop, y + CFH * g);
+          put(rims, rimI, 0, y + 0.02, 0, CW + 0.16, 0.06, CW + 0.16, 0); rims.setColorAt(rimI, tmpC.copy(C_GOLD).multiplyScalar(0.7 + Math.max(0, 1 - (t - recT[i]) / 1.6))); }
+        else { put(cRec, i, 0, -99, 0, 0, 0, 0); put(rims, rimI, 0, -99, 0, 0, 0, 0); }
+        rimI++;
+      }
+      cRec.instanceMatrix.needsUpdate = true;
+      bridges.forEach(function (b, mi) {
+        var u = (t - b.t) / 1.1;
+        b.mesh.visible = u > 0;
+        if (u > 0) b.mesh.geometry.setDrawRange(0, Math.floor(Math.min(1, u) * b.n / 3) * 3);
+        var g = ease((t - b.t - 1.1) / 0.8), y = (nRec + mi) * CFH;
+        if (g > 0) { put(cMer, mi, 0, y + CFH * g / 2, 0, CW, CFH * g, CW, 0); cTop = Math.max(cTop, y + CFH * g);
+          put(rims, rimI, 0, y + 0.02, 0, CW + 0.16, 0.06, CW + 0.16, 0); rims.setColorAt(rimI, tmpC.set(ROLES[b.role][1]).multiplyScalar(0.7 + Math.max(0, 1 - (t - b.t - 1.1) / 1.6))); }
+        else { put(cMer, mi, 0, -99, 0, 0, 0, 0); put(rims, rimI, 0, -99, 0, 0, 0, 0); }
+        rimI++;
+      });
+      cMer.instanceMatrix.needsUpdate = true;
+      rims.instanceMatrix.needsUpdate = true; rims.instanceColor.needsUpdate = true;
+      put(roofs, ROLES.length, 0, cTop + 0.4, 0, CW * 1.15, 0.8 * (cTop > 0 ? 1 : 0), CW * 1.15, Math.PI / 4);
+      roofs.setColorAt(ROLES.length, C_TEAL); roofs.instanceMatrix.needsUpdate = true; roofs.instanceColor.needsUpdate = true;
+      curLbl.position.set(0, cTop + 1.7, 0); curLbl.visible = cTop > 0;
+      recLbl.position.set(CW / 2 + 0.2, Math.min(nRec, 2) * CFH, CW / 2 + 0.2); recLbl.visible = t > (recT[0] || 0);
+      illLbl.position.set(-CW / 2 - 0.2, (nRec + 1.5) * CFH, -CW / 2 - 0.2); illLbl.visible = merges.length && t > merges[0].t + 1.3;
+
+      // traffic, gates, ledgers
+      var cnt = { denied: 0, approval: 0, allowed: 0, legacy: 0, rA: 0, rL: 0 };
+      var gateCol = gates.map(function () { return null; }), gateHot = gates.map(function () { return 0; });
+      for (var pass = 0; pass < 2; pass++) rows.forEach(function (r, i) {
+        var idx = pass * N + i, s = carState(r, pass, t), gslot = carGlow[idx], arr = pass ? r.arr : r.legArr;
+        if (t >= arr) { if (pass) { cnt[r.abp]++; cnt.rA++; } else { cnt.legacy++; cnt.rL++; } }
+        if (!s) { put(cars, idx, 0, -99, 0, 0, 0, 0); put(glow, gslot, 0, -99, 0, 0, 0, 0); return; }
+        put(cars, idx, s.x, 0.2, s.z, s.fade, s.fade, s.fade, s.ry); cars.setColorAt(idx, s.col);
+        setGlow(gslot, s.x, 0.07, s.z, 2.2 * s.fade, s.col, 0.6);
+        if (t >= arr) {
+          var hot = Math.max(0, 1 - (t - arr) / 1.2);
+          if (hot >= gateHot[r.gate]) { gateHot[r.gate] = hot; gateCol[r.gate] = pass ? (r.abp === 'denied' ? C_RED : r.abp === 'approval' ? C_AMB : C_TEAL) : C_PALE; }
+        }
+      });
+      // guards for approvals
+      var gq = 0;
+      rows.forEach(function (r, i) {
+        var show = r.abp === 'approval' && t > r.arr + 0.4, a = gateA[r.gate];
+        if (show) { var p = P(R_WALL - 0.9, a), tx = -Math.sin(a), tz = Math.cos(a), bob = 0.08 * Math.sin(t * 4 + i);
+          put(guards, i, p[0] + tx * 2.0, 0.45 + bob, p[1] + tz * 2.0, 1, 1, 1, 0); }
+        else put(guards, i, 0, -99, 0, 0, 0, 0);
+      });
+      guards.instanceMatrix.needsUpdate = true;
+      cars.instanceMatrix.needsUpdate = true; cars.instanceColor.needsUpdate = true;
+      gateA.forEach(function (a, i) {
+        var c = gateCol[i] || C_TEAL, k = gateCol[i] ? 0.5 + gateHot[i] * 1.2 : 0.35, p = P(R_WALL, a);
+        gLamp.setColorAt(i, tmpC.copy(c).multiplyScalar(Math.min(1, 0.5 + k)));
+        setGlow(gateGlow[i], p[0], 0.08, p[1], 4 + gateHot[i] * 4, c, k * 0.6);
+      });
+      gLamp.instanceColor.needsUpdate = true;
+      function litLedger(led, n, colorOf, timeOf) {
+        for (var j = 0; j < led.lights.length; j++) {
+          var lt = led.lights[j], on = j < n, c = on ? colorOf(j) : C_OFF, fl = on ? Math.max(0, 1 - (t - timeOf(j)) / 1.0) : 0;
+          bulbs.setColorAt(lt.i, c);
+          setGlow(lt.g, lt.x, 0.06, lt.z, on ? 3 + fl * 3 : 0.01, c, on ? 0.6 + fl : 0);
+          if (j < led.lights.length - 1) for (var q = 0; q < led.LINKS; q++) {
+            var prog = j < n - 1 ? 1 : 0;
+            led.links.setColorAt(j * led.LINKS + q, prog ? tmpC.copy(colorOf(j + 1)).multiplyScalar(0.75) : C_OFF);
+          }
+        }
+        led.links.instanceColor.needsUpdate = true;
+      }
+      litLedger(ledL, Math.min(cnt.rL, ledL.lights.length), function () { return C_PALE; }, function (j) { return rows[j] ? rows[j].legArr : 0; });
+      litLedger(ledAb, Math.min(cnt.rA, ledAb.lights.length), function (j) { var r = rows[j]; return !r ? C_TEAL : r.abp === 'denied' ? C_RED : r.abp === 'approval' ? C_AMB : C_TEAL; }, function (j) { return rows[j] ? rows[j].arr : 0; });
+      bulbs.instanceColor.needsUpdate = true;
+      glow.instanceMatrix.needsUpdate = true; glow.instanceColor.needsUpdate = true;
+      lanes.instanceColor.needsUpdate = true;
+
+      // HUD
+      var ph;
+      if (t < 8.4) ph = ['recorded', 'The vault remembers', 'the first floors of “current” are the real POC2 history (' + nRec + ' commits)'];
+      else if (t < LEG0 + 0.2) ph = ['illustrative', 'Each role builds on its own vault branch', 'one street per role; every commit adds a floor'];
+      else if (t < ABP0 - 0.3) ph = ['run 1 · Ruflo default', 'Every action drives straight out', cnt.legacy + ' of ' + N + ' allowed · each one a receipt on the chain'];
+      else if (t < rows[N - 1].arr + 1.2) ph = ['run 2 · with the ABP', 'The same ' + N + ' actions meet the wall', 'denied turn back · approvals wait for a named human · allowed reach the world'];
+      else ph = ['the evidence', 'One vault holds everything that happened', tot.denied + ' denied · ' + tot.approval + ' held for approval · ' + tot.allowed + ' allowed · ledgers ' + (LGL.valid && LGA.valid ? 'valid' : 'INVALID') + ' (' + LGL.length + ' + ' + LGA.length + ')'];
+      var key = ph.join('|');
+      if (key !== lastPhase) { lastPhase = key; $('pk').textContent = ph[0]; $('pv').textContent = ph[1]; $('ps').textContent = ph[2]; }
+      var fh = feed.filter(function (f) { return f.t <= t; }).slice(-6).map(function (f) { return '<div>' + f.html + '</div>'; }).join('');
+      if (fh !== lastFeed) { lastFeed = fh; $('feed').innerHTML = fh; }
+      var ch = '<div class="d">default run · allowed ' + cnt.legacy + '/' + N + ' · receipts ' + cnt.rL + '/' + report.ledger.legacy.length + '</div>' +
+        '<div>ABP run · <span class="r">denied ' + cnt.denied + '</span> · <span class="a">approval ' + cnt.approval + '</span> · <span class="t">allowed ' + cnt.allowed + '</span></div>' +
+        '<div class="d">receipts ' + cnt.rA + '/' + report.ledger.abp.length + (cnt.rA >= report.ledger.abp.length ? ' · chain ' + (report.ledger.abp.valid && report.ledger.legacy.valid ? 'valid' : 'INVALID') : '') + ' · ' + G + ' gates in the wall</div>';
+      if (ch !== lastCount) { lastCount = ch; $('count').innerHTML = ch; }
+
+      // camera: slow cinematic orbit, continuous across the loop seam
+      var u = t / L, tw = Math.PI * 2 * u, narrow = camera.aspect < 1 ? 1.4 : 1;
+      var ang = 0.6 - tw, rad = (40 + 9 * Math.cos(tw)) * narrow, hgt = (18 + 7 * Math.cos(tw) + 3 * Math.sin(2 * tw)) * (narrow > 1 ? 1.5 : 1);
+      camera.position.set(rad * Math.cos(ang), hgt, rad * Math.sin(ang));
+      camera.lookAt(0, 3.2 + 1.5 * Math.sin(tw), 0);
+      var f = t < 0.9 ? 1 - t / 0.9 : t > L - 1 ? t - (L - 1) : 0;
+      $('fade').style.opacity = f.toFixed(3);
+      renderer.render(scene, camera);
+      requestAnimationFrame(frame);
+    }
+    function resize() { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); }
+    addEventListener('resize', resize);
+    requestAnimationFrame(frame);
+  }
+})();
+</script>
+</body>
+</html>

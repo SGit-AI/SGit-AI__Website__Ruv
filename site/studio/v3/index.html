@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vault lanes</title>
+<style>
+:root{--bg:#0b1020;--panel:#11182c;--line:#25304d;--text:#e6ebf5;--muted:#8b97b3;--current:#e6ebf5;--server:#64748b}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:14px/1.4 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow:hidden}
+#app{display:flex;flex-direction:column;height:100vh;height:100dvh;width:100%}
+header{padding:14px 20px 6px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px}
+h1{margin:0;font-size:20px;font-weight:650;letter-spacing:.01em}
+.tag{font-size:12px;padding:2px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted);transition:color .4s,border-color .4s}
+.tag.real{color:#5eead4;border-color:#115e59}
+.tag.ill{color:#fbbf24;border-color:#713f12}
+#caption{flex-basis:100%;color:var(--muted);font-size:13px;min-height:1.4em;transition:opacity .3s}
+#legend{display:flex;flex-wrap:wrap;gap:4px 12px;padding:0 20px;font-size:12px;color:var(--muted);min-height:18px;transition:opacity .5s}
+#legend span{display:inline-flex;align-items:center;gap:5px}
+#legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+#stage{flex:1;position:relative;min-height:0}
+svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+#counter{position:absolute;right:20px;top:4px;font:600 13px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted);transition:opacity .5s}
+#counter b{color:var(--text);font-size:18px}
+#strip{height:46px;margin:0 20px 6px;border:1px solid var(--line);border-radius:8px;background:var(--panel);display:flex;align-items:center;gap:10px;padding:0 12px;overflow:hidden;font:12px ui-monospace,SFMono-Regular,Menlo,monospace}
+#strip .lbl{color:#cbd5e1;white-space:nowrap;flex:none}
+#strip .lbl::before{content:"\1F512  ";}
+#ticker{flex:1;display:flex;justify-content:flex-end;gap:8px;overflow:hidden;white-space:nowrap;color:var(--server);min-width:0}
+#ticker span{flex:none;animation:in .5s ease-out}
+#ticker .note{color:var(--muted);white-space:normal;line-height:1.25;flex:1;text-align:left}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+footer{padding:4px 20px 10px;font-size:12px;color:var(--muted);display:flex;gap:12px;flex-wrap:wrap}
+footer a{color:#93c5fd;text-decoration:none}
+footer a:hover{text-decoration:underline}
+text{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.halo{paint-order:stroke;stroke:var(--bg);stroke-width:4px;stroke-linejoin:round}
+@media (max-width:600px){header{padding:10px 16px 4px}h1{font-size:17px}#legend,footer{padding-left:16px;padding-right:16px}#strip{margin:0 16px 6px;height:52px}#counter{right:16px}#strip{flex-direction:column;align-items:stretch;justify-content:center;gap:3px;height:66px;padding:6px 10px}#ticker .note{font-size:10.5px}}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1>Vault lanes</h1>
+    <span id="tag" class="tag real">recorded</span>
+    <div id="caption"></div>
+  </header>
+  <div id="legend"></div>
+  <div id="stage">
+    <svg id="map" xmlns="http://www.w3.org/2000/svg" aria-label="Subway map of sgit vault branches"></svg>
+    <div id="counter"></div>
+  </div>
+  <div id="strip"><span class="lbl">server sees: ciphertext</span><div id="ticker"></div></div>
+  <footer><span>v3 · Vault lanes · made in the ruv.sgit.ai studio run</span><a href="../index.html">← back to the studio</a></footer>
+</div>
+<script>
+(function(){
+'use strict';
+var LOOP = 35, P1_END = 17.5, P2_START = 18;
+var ROLES = [
+  ['conductor','#2dd4bf'],['librarian','#a78bfa'],['architect','#60a5fa'],['designer','#f472b6'],
+  ['developer','#f59e0b'],['editor','#34d399'],['historian','#fbbf24'],['observer','#94a3b8']
+];
+var COL = {coder:'#f59e0b', tester:'#34d399'};
+var NS = 'http://www.w3.org/2000/svg';
+var svg = document.getElementById('map'), stage = document.getElementById('stage');
+var tagEl = document.getElementById('tag'), capEl = document.getElementById('caption');
+var legendEl = document.getElementById('legend'), counterEl = document.getElementById('counter');
+var ticker = document.getElementById('ticker');
+var t0 = performance.now(), tNow = 0;
+window.__t = function(){ return tNow; };
+
+/* ---------- data: the real POC2 run (parsed from ../../data/poc2-run.txt) ---------- */
+var FALLBACK = [
+ '# POC2 local roundtrip, 14 Oct 2026 (ruflo 3.56.10, sgit-ai 0.21.0)',
+ '== coder','[INFO] Showing 1 of 1 entries','== tester','[INFO] Showing 1 of 1 entries',
+ '  3bf90dd8d00a (HEAD)  memory: tester learned something in run local-20261014T2132  +5',
+ '  8ac2a0e9f200  memory: coder learned something in run local-20261014T2132  +5',
+ '  1ac3298a6cc9  init: memory vault  +1','  48aaaee48630  init',
+ '# Server side: ciphertext only (sgit encrypts client-side, AES-256-GCM); the vault id is the only thing in the URL.'
+].join('\n');
+var D = null;
+function parse(txt){
+  var lines = txt.split('\n'), d = {date:'', commits:[], answers:{}, run:'', server:''}, sec = null;
+  lines.forEach(function(l){
+    var m;
+    if(!d.date && (m = l.match(/(\d{1,2} [A-Z][a-z]{2} \d{4})/))) d.date = m[1];
+    if((m = l.match(/^== (\w+)/))) sec = m[1];
+    if(sec && (m = l.match(/(Showing \d+ of \d+ entries)/))) d.answers[sec] = m[1];
+    if((m = l.match(/^\s+([0-9a-f]{12})\s+(\(HEAD\)\s+)?(.+?)(\s+\+\d+.*)?$/))) d.commits.unshift({h:m[1], head:!!m[2], msg:m[3].trim()});
+    if(!d.run && (m = l.match(/run (local-\S+)/))) d.run = m[1];
+    if(/^# Server side:/.test(l)) d.server = l.replace(/^# Server side:\s*/,'');
+  });
+  return d;
+}
+function find(re){ for(var i=0;i<D.commits.length;i++) if(re.test(D.commits[i].msg)) return D.commits[i]; return {h:'?',msg:''}; }
+
+/* ---------- layout ---------- */
+var W=0,H=0,vertical=false,parts=[],built=false;
+function el(name, attrs, parent){ var e=document.createElementNS(NS,name); for(var k in attrs) e.setAttribute(k,attrs[k]); if(parent) parent.appendChild(e); return e; }
+function mapper(padA, padB, padC, gap){
+  // u: 0..1000 along time; v: lane index (0 = current)
+  return function(u,v){
+    if(!vertical){ return [padA + u/1000*(W-padA-padB), H/2 + v*gap]; }
+    return [W/2 + v*gap, padC + u/1000*(H-padC-padB)];
+  };
+}
+function pathD(pts, M){ // pts: list of [u,v]; consecutive points with different v -> smooth S curve
+  var p = M(pts[0][0],pts[0][1]), d='M'+p[0].toFixed(1)+' '+p[1].toFixed(1);
+  for(var i=1;i<pts.length;i++){
+    var a=pts[i-1], b=pts[i];
+    if(a[1]===b[1]){ var q=M(b[0],b[1]); d+=' L'+q[0].toFixed(1)+' '+q[1].toFixed(1); }
+    else { var um=(a[0]+b[0])/2, c1=M(um,a[1]), c2=M(um,b[1]), q2=M(b[0],b[1]);
+      d+=' C'+c1[0].toFixed(1)+' '+c1[1].toFixed(1)+' '+c2[0].toFixed(1)+' '+c2[1].toFixed(1)+' '+q2[0].toFixed(1)+' '+q2[1].toFixed(1); }
+  }
+  return d;
+}
+function stroke(g, pts, M, color, u0, u1, opts){
+  opts = opts||{};
+  var p = el('path',{d:pathD(pts,M),fill:'none',stroke:color,'stroke-width':opts.w||5,'stroke-linecap':'round','stroke-linejoin':'round',opacity:opts.op||1},g);
+  var len = p.getTotalLength();
+  if(opts.dash){ p.setAttribute('stroke-dasharray', opts.dash); }
+  else { p.setAttribute('stroke-dasharray', len+' '+len); p.setAttribute('stroke-dashoffset', len); }
+  return {kind:'path', node:p, len:len, u0:u0, u1:u1, dashed:!!opts.dash};
+}
+function dot(g, M, u, v, color, opts){
+  opts=opts||{};
+  var p=M(u,v), gg=el('g',{transform:'translate('+p[0].toFixed(1)+' '+p[1].toFixed(1)+')',opacity:0},g);
+  var inner = el('g',{},gg);
+  if(opts.ring) el('circle',{r:opts.r?opts.r+5:12,fill:'none',stroke:color,'stroke-width':2},inner);
+  el('circle',{r:opts.r||7,fill:opts.hollow?'#0b1020':color,stroke:color,'stroke-width':3},inner);
+  var pulse = el('circle',{r:8,fill:'none',stroke:color,'stroke-width':2,opacity:0},gg);
+  return {kind:'dot', node:gg, inner:inner, pulse:pulse, u:u};
+}
+function label(g, M, u, v, dx, dy, lines, opts){
+  opts=opts||{};
+  var p=M(u,v), t=el('text',{x:(p[0]+dx).toFixed(1),y:(p[1]+dy).toFixed(1),'text-anchor':opts.anchor||'middle',opacity:0,'class':'halo'},g);
+  lines.forEach(function(L,i){
+    var s=el('tspan',{x:(p[0]+dx).toFixed(1),dy:i? (opts.lh||15):0,fill:L.c||'#e6ebf5','font-size':L.s||12,'font-weight':L.b?650:400},t);
+    if(L.m) s.setAttribute('class','mono');
+    s.textContent=L.t;
+  });
+  return {kind:'fade', node:t, u:u};
+}
+function card(g, M, u, v, dx, dy, w, color, title, body, cmd){
+  var p=M(u,v), x=p[0]+dx-w/2, y=p[1]+dy, gg=el('g',{opacity:0},g);
+  el('rect',{x:x,y:y,width:w,height:62,rx:8,fill:'#11182c',stroke:color,'stroke-width':1.5},gg);
+  el('rect',{x:x,y:y,width:4,height:62,rx:2,fill:color},gg);
+  var a=el('text',{x:x+12,y:y+18,'font-size':vertical?9.5:11,fill:'#8b97b3','class':'mono'},gg); a.textContent=cmd;
+  var b=el('text',{x:x+12,y:y+36,'font-size':13,fill:color,'font-weight':650},gg); b.textContent=title;
+  var c=el('text',{x:x+12,y:y+53,'font-size':12,fill:'#e6ebf5','class':'mono'},gg); c.textContent=body;
+  return {kind:'fade', node:gg, u:u, rise:true};
+}
+
+/* Part 1: the real POC2 history */
+function buildP1(){
+  var g = el('g',{opacity:0},svg), items=[];
+  var narrow = W < 600;
+  var gap = vertical ? Math.min(95, W/4.2) : Math.min(120, H/4.2);
+  var M = mapper(narrow?30:60, vertical?40:150, 30, gap);
+  var cInit=D.commits[0]||{h:'?'}, cMem=D.commits[1]||{h:'?'}, cCoder=find(/coder/), cTester=find(/tester/);
+  var run = D.run || '';
+  // current (default branch)
+  items.push(stroke(g,[[20,0],[690,0]],M,'#e6ebf5',20,690,{w:6}));
+  // coder lane: branch off after "init: memory vault", commit, merge
+  items.push(stroke(g,[[190,0],[250,-1],[370,-1],[430,0]],M,COL.coder,190,430));
+  // tester lane: branch off after coder merged
+  items.push(stroke(g,[[445,0],[505,1],[620,1],[680,0]],M,COL.tester,445,680));
+  // push + fresh clone (dashed)
+  items.push(stroke(g,[[690,0],[790,0]],M,'#64748b',690,790,{w:3}));
+  items.push(stroke(g,[[790,0],[890,0]],M,'#5eead4',790,890,{w:3}));
+  var lh = vertical ? 1 : 0;
+  // stations on current
+  items.push(dot(g,M,60,0,'#e6ebf5',{hollow:true}));
+  items.push(label(g,M,60,0, vertical?-12:0, vertical?4:-32,[{t:cInit.h,m:1,s:11,c:'#cbd5e1'},{t:'init',s:11,c:'#8b97b3'}],{anchor:vertical?'end':'middle',lh:13}));
+  items.push(dot(g,M,170,0,'#e6ebf5',{hollow:true}));
+  items.push(label(g,M,170,0, vertical?-12:0, vertical?4:30,[{t:cMem.h,m:1,s:11,c:'#cbd5e1'},{t:cMem.msg||'init: memory vault',s:11,c:'#8b97b3'}],{anchor:vertical?'end':'middle',lh:13}));
+  // coder commit
+  items.push(dot(g,M,310,-1,COL.coder,{}));
+  items.push(label(g,M,310,-1, vertical?12:0, vertical?0:-34,[{t:cCoder.h,m:1,s:vertical?10.5:12,c:COL.coder,b:1},{t:'coder learned',s:11,c:'#cbd5e1'}],{anchor:vertical?'start':'middle',lh:13}));
+  items.push(label(g,M,vertical?370:250,-1, vertical?-10:0, vertical?4:22,[{t:vertical?'mem-coder':'branch mem-coder-'+run,m:1,s:10.5,c:COL.coder}],{anchor:vertical?'end':'start'}));
+  items.push(dot(g,M,430,0,COL.coder,{r:6}));
+  // tester commit
+  items.push(dot(g,M,565,1,COL.tester,{}));
+  items.push(label(g,M,565,1, vertical?-12:0, vertical?0:30,[{t:cTester.h,m:1,s:vertical?10.5:12,c:COL.tester,b:1},{t:'tester learned',s:11,c:'#cbd5e1'}],{anchor:vertical?'end':'middle',lh:13}));
+  items.push(label(g,M,vertical?620:505,1, vertical?10:0, vertical?4:-14,[{t:vertical?'mem-tester':'branch mem-tester-'+run,m:1,s:10.5,c:COL.tester}],{anchor:'start'}));
+  items.push(dot(g,M,680,0,'#e6ebf5',{ring:true}));
+  items.push(label(g,M,680,0, vertical?-14:0, vertical?4:-26,[{t:'current (HEAD) = '+cTester.h.slice(0,7),m:1,s:11,c:'#e6ebf5',b:1},{t:'both merged',s:11,c:'#8b97b3'}],{anchor:vertical?'end':'middle',lh:13}));
+  // server
+  var sp = M(790,0), sg = el('g',{opacity:0},g);
+  el('rect',{x:sp[0]-36,y:sp[1]-17,width:72,height:34,rx:7,fill:'#1e293b',stroke:'#64748b','stroke-width':1.5},sg);
+  var st=el('text',{x:sp[0],y:sp[1]-1,'text-anchor':'middle','font-size':11,fill:'#cbd5e1'},sg); st.textContent='sgit server';
+  var st2=el('text',{x:sp[0],y:sp[1]+11,'text-anchor':'middle','font-size':9.5,fill:'#94a3b8','class':'mono'},sg); st2.textContent='ciphertext';
+  items.push({kind:'fade',node:sg,u:770});
+  // fresh clone station
+  items.push(dot(g,M,890,0,'#5eead4',{ring:true,r:8}));
+  items.push(label(g,M,890,0, vertical?14:0, vertical?4:-28,[{t:'fresh clone',s:12,c:'#5eead4',b:1}],{anchor:vertical?'start':'middle'}));
+  var cw = vertical ? Math.min(178, gap*1.9) : 224;
+  var cdx = vertical ? 0 : 0;
+  items.push(card(g,M,900,-1, cdx, vertical?24:-31, cw, COL.coder,'coder', D.answers.coder||'', 'ruflo memory list -n coder'));
+  items.push(card(g,M,900, 1, cdx, vertical?24:-31, cw, COL.tester,'tester', D.answers.tester||'', 'ruflo memory list -n tester'));
+  return {g:g, items:items};
+}
+
+/* Part 2: illustrative, 8 role lanes at speed */
+function rng(seed){ return function(){ seed = (seed*1664525 + 1013904223) >>> 0; return seed/4294967296; }; }
+function buildP2(){
+  var g = el('g',{opacity:0},svg), items=[], R=rng(20261014);
+  var narrow = W < 600;
+  var gap = vertical ? (W-36)/8.6 : (H-40)/9.2;
+  var M = mapper(narrow?30:110, 30, 34, gap);
+  var lanesV = [-4,-3,-2,-1,1,2,3,4];
+  var commits=[], merges=[];
+  items.push(stroke(g,[[10,0],[990,0]],M,'#e6ebf5',10,990,{w:6}));
+  if(!vertical){
+    ROLES.forEach(function(r,i){ var p=M(0,lanesV[i]); var t=el('text',{x:p[0]-14,y:p[1]+4,'text-anchor':'end','font-size':12,fill:r[1]},g); t.textContent=r[0]; });
+    var p0=M(0,0), tc=el('text',{x:p0[0]-14,y:p0[1]+4,'text-anchor':'end','font-size':12,'font-weight':650,fill:'#e6ebf5'},g); tc.textContent='current';
+  } else {
+  }
+  var paths=[], dots=[];
+  ROLES.forEach(function(r,i){
+    var v=lanesV[i], s = 25 + i*9 + R()*40, gapU = 26 + Math.abs(v)*4;
+    while(s < 840){
+      var len = 110 + R()*130, e = Math.min(s+len, 975);
+      if(e - s < 90) break;
+      paths.push(stroke(g,[[s,0],[s+gapU,v],[e-gapU,v],[e,0]],M,r[1],s,e,{w:4}));
+      var k = 2 + Math.floor(R()*3);
+      for(var j=1;j<=k;j++){ var u = s+gapU + (e-s-2*gapU)*j/(k+1); dots.push(dot(g,M,u,v,r[1],{r:4.5})); commits.push({u:u,c:r[1]}); }
+      dots.push(dot(g,M,e,0,r[1],{r:4})); merges.push({u:e});
+      s = e + 18 + R()*70;
+    }
+  });
+  items = items.concat(paths, dots);
+  commits.sort(function(a,b){return a.u-b.u;}); merges.sort(function(a,b){return a.u-b.u;});
+  return {g:g, items:items, commits:commits, merges:merges};
+}
+
+function build(){
+  var r = stage.getBoundingClientRect(); W = Math.max(300, r.width); H = Math.max(260, r.height);
+  vertical = W < 700 && H > W*1.05;
+  svg.setAttribute('viewBox','0 0 '+W+' '+H);
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+  var defs = el('defs',{},svg), f = el('filter',{id:'glow',x:'-50%',y:'-50%',width:'200%',height:'200%'},defs);
+  el('feGaussianBlur',{stdDeviation:3,result:'b'},f); var mg=el('feMerge',{},f); el('feMergeNode',{'in':'b'},mg); el('feMergeNode',{'in':'SourceGraphic'},mg);
+  parts = [buildP1(), buildP2()];
+  lastPart = -1; built = true;
+}
+
+/* ---------- ticker ---------- */
+var lastPart=-1, lastCommits=0, tickR=rng(7);
+function hex(n){ var s=''; for(var i=0;i<n;i++) s+='0123456789abcdef'[Math.floor(tickR()*16)]; return s; }
+function setTicker(part){
+  ticker.innerHTML='';
+  if(part===0){ var n=document.createElement('span'); n.className='note'; n.textContent = D.server || 'ciphertext only'; ticker.appendChild(n); }
+}
+function pushChunk(){
+  var s=document.createElement('span'); s.textContent=hex(6)+'…'+hex(4); ticker.appendChild(s);
+  while(ticker.children.length>24) ticker.removeChild(ticker.firstChild);
+}
+
+/* ---------- captions ---------- */
+function cap1(head){
+  if(head<170) return 'sgit init: an empty encrypted vault, default branch "current"';
+  if(head<300) return 'coder branches off and writes its ruflo memory DB files';
+  if(head<440) return 'coder commits, then merges into current';
+  if(head<680) return 'tester does the same on its own branch';
+  if(head<780) return 'push: the server stores encrypted blobs only';
+  if(head<890) return 'rm -rf the local vault, fresh clone of current';
+  return 'restored memory answers for both roles';
+}
+
+/* ---------- render ---------- */
+function ease(x){ return x<0?0:x>1?1:x*x*(3-2*x); }
+function apply(part, head){
+  part.items.forEach(function(it){
+    if(it.kind==='path'){
+      var p = Math.max(0, Math.min(1, (head-it.u0)/(it.u1-it.u0)));
+      it.node.setAttribute('visibility', p>0?'visible':'hidden');
+      if(!it.dashed) it.node.setAttribute('stroke-dashoffset', (it.len*(1-p)).toFixed(1));
+    } else if(it.kind==='dot'){
+      var a = (head-it.u)/18; it.node.setAttribute('opacity', a<=0?0:1);
+      var sc = a<=0?0:a>=1?1:(1+0.6*Math.sin(Math.PI*a))*ease(a+0.3);
+      it.inner.setAttribute('transform','scale('+sc.toFixed(3)+')');
+      var pa = (head-it.u)/60;
+      if(pa>0 && pa<1){ it.pulse.setAttribute('opacity',(1-pa).toFixed(2)); it.pulse.setAttribute('r',(8+pa*16).toFixed(1)); } else it.pulse.setAttribute('opacity',0);
+    } else if(it.kind==='fade'){
+      var o = ease((head-it.u)/40); it.node.setAttribute('opacity', o.toFixed(3));
+      if(it.rise) it.node.setAttribute('transform','translate(0 '+((1-o)*10).toFixed(1)+')');
+    }
+  });
+}
+function frame(now){
+  tNow = ((now - t0)/1000) % LOOP;
+  var t = tNow;
+  if(!built || !D){ requestAnimationFrame(frame); return; }
+  var partIdx = t < P1_END ? 0 : 1;
+  var fadeIn, fadeOut, head;
+  if(partIdx===0){ head = (t-0.4)/13.4*1000; fadeIn = ease(t/0.6); fadeOut = 1 - ease((t-(P1_END-0.6))/0.6); }
+  else { head = (t-P2_START)/14.5*1000; fadeIn = ease((t-P1_END)/0.6); fadeOut = 1 - ease((t-(LOOP-0.8))/0.7); }
+  var part = parts[partIdx], other = parts[1-partIdx];
+  part.g.setAttribute('opacity', Math.min(fadeIn,fadeOut).toFixed(3)); other.g.setAttribute('opacity',0);
+  if(partIdx!==lastPart){
+    lastPart = partIdx; lastCommits = 0; setTicker(partIdx);
+    tagEl.className = 'tag ' + (partIdx? 'ill':'real');
+    tagEl.textContent = partIdx? 'illustrative: the studio run' : 'recorded ' + (D.date||'') + ' · real POC2 history';
+    legendEl.innerHTML = '';
+    if(partIdx===1){ ROLES.concat([['current','#e6ebf5']]).forEach(function(r){ var s=document.createElement('span'); s.innerHTML='<i style="background:'+r[1]+'"></i>'+r[0]; legendEl.appendChild(s); }); }
+    else { [['coder',COL.coder],['tester',COL.tester],['current','#e6ebf5']].forEach(function(r){ var s=document.createElement('span'); s.innerHTML='<i style="background:'+r[1]+'"></i>'+r[0]; legendEl.appendChild(s); }); }
+  }
+  apply(part, head);
+  if(partIdx===0){
+    capEl.textContent = cap1(head); counterEl.style.opacity = 0;
+  } else {
+    capEl.textContent = 'every role writes on its own vault branch, encrypted on the client, and merges into current';
+    var c=0,m=0; while(c<part.commits.length && part.commits[c].u<=head) c++; while(m<part.merges.length && part.merges[m].u<=head) m++;
+    counterEl.style.opacity = 1;
+    counterEl.innerHTML = 'commits <b>'+c+'</b> · merges <b>'+m+'</b>';
+    while(lastCommits < c){ lastCommits++; pushChunk(); }
+  }
+  requestAnimationFrame(frame);
+}
+
+function start(txt){ D = parse(txt); if(!D.commits.length) D = parse(FALLBACK); build(); }
+var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(function(){ if(D) build(); }, 120); });
+fetch('../../data/poc2-run.txt').then(function(r){ return r.ok ? r.text() : FALLBACK; }).catch(function(){ return FALLBACK; }).then(start);
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

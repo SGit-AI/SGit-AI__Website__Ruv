@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The studio</title>
+<meta name="description" content="Seven animations of Ruflo plus sgit vaults plus Agent Behaviour Policies, from a diagram that builds to a 3D city of vaults, made by a Ruflo hive run with every call timed.">
+<link rel="canonical" href="https://ruv.sgit.ai/studio/index.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f766e%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Georgia%27%3Er%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px;margin:18px 0}
+.vcard{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.vcard video,.vcard img{width:100%;aspect-ratio:16/9;display:block;background:#0f1115;object-fit:cover}
+.vcard .body{padding:12px 16px 14px}.vcard h3{margin:0 0 4px;font-size:18px}.vcard p{font-size:14px;margin:4px 0}
+.vcard .links{display:flex;gap:12px;font-size:14px;margin-top:6px;flex-wrap:wrap}
+.trace td:nth-child(5),.trace td:nth-child(4){text-align:right;font-variant-numeric:tabular-nums}
+.bar{display:inline-block;height:8px;background:var(--t);border-radius:4px;vertical-align:middle}
+</style>
+</head>
+<body data-root="../">
+<header class="top"><div class="wrap"><a class="brand" href="../index.html">ruv.sgit.ai<small>rUv x sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
+
+<section class="hero"><div class="wrap">
+<p class="k">Studio run 1 · 15 Oct 2026 · Ruflo 3.56.10 hive-mind · sgit-ai 0.21.0</p>
+<h1>The studio</h1>
+<p class="lead">Seven animations of the same story: a Ruflo swarm with a written mandate per agent and memory in sgit vaults. From a diagram that builds to a city of vaults. Made by a Ruflo hive with a queen and eight roles, every call timed. The plan is in <a href="../articles/the-studio.html">The studio</a>; the steps to run it yourself are in <a href="../articles/studio-setup-brief.html">the setup brief</a>.</p>
+<p class="k" id="summary">loading the run record…</p>
+</div></section>
+
+<section class="alt"><div class="wrap">
+<h2>Seven versions</h2>
+<p>Each version is one HTML file that reads its numbers from this site's data at load time. The videos are recordings of the live pages in headless Chromium (1280×720, software WebGL, so the 3D ones run slower than on a laptop).</p>
+<div class="vgrid" id="versions">loading…</div>
+</div></section>
+
+<section id="trace"><div class="wrap">
+<h2>The run, call by call</h2>
+<p>Every Ruflo call the hive made, from <code>poc/poc7-studio/hive.sh</code> and <code>close.sh</code>: who made it, what it was, how long it took. The raw trace is <a href="run.json">run.json</a>.</p>
+<div id="tracetbl" class="tbl">loading…</div>
+<h3>The builders</h3>
+<p>One Claude Code subagent per version, all seven started together, each given only the spec and the data. Usage as reported by the host.</p>
+<div id="builders" class="tbl">loading…</div>
+<h3>Delivered, as the hive recorded it</h3>
+<p>Each delivery was broadcast to the hive with the file's hash; this is read back from the hive's own state file.</p>
+<pre id="delivered">loading…</pre>
+<h3>What run 1 did not do</h3>
+<ul>
+<li>The workers were Claude Code subagents of the session that ran the hive, not processes launched by Ruflo's <code>hive-mind work</code>.</li>
+<li>No vault was pushed: the session had no sgit server credentials it was allowed to use. The run folder is packed and ready; <a href="../articles/studio-setup-brief.html#7-close-the-run-one-vault-is-the-evidence">step 7 of the brief</a> writes it to a vault.</li>
+</ul>
+</div></section>
+
+<footer><div class="wrap"><span>ruv.sgit.ai · the studio</span><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">source on GitHub</a><a href="https://sgit.ai">sgit.ai</a><a href="https://github.com/ruvnet">github.com/ruvnet</a><span>code Apache-2.0 · rUv's projects MIT, by rUv / ruvnet</span><a href="../llms.txt">llms.txt</a></div></footer>
+<script src="../assets/site.js"></script>
+<script>
+(async () => {
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))
+  try {
+    const run = await (await fetch('run.json')).json()
+    document.getElementById('versions').innerHTML = run.versions.map(v => `<div class="vcard">
+      ${v.video ? `<video src="${v.video}" poster="${v.poster || ''}" muted loop playsinline preload="none" controls></video>` : v.poster ? `<img src="${v.poster}" alt="${esc(v.title)}">` : ''}
+      <div class="body"><span class="pill">${v.id}</span><h3>${esc(v.title)}</h3><p>${esc(v.level)}</p>
+      <p class="k">${v.bytes ? (v.bytes / 1024).toFixed(0) + ' KB · ' : ''}sha256 ${esc((v.sha256 || '').slice(0, 12))}</p>
+      <div class="links"><a href="${v.id}/index.html">Open live →</a>${v.video ? `<a href="${v.video}">MP4</a>` : ''}</div></div></div>`).join('')
+    const B = run.builders.builders
+    document.getElementById('builders').innerHTML = `<table><thead><tr><th>version</th><th>tokens</th><th>tool calls</th><th>wall clock</th></tr></thead><tbody>${B.map(b => `<tr><td>${b.id}</td><td>${b.tokens.toLocaleString('en-GB')}</td><td>${b.tool_uses}</td><td>${Math.floor(b.wall_s / 60)} min ${b.wall_s % 60} s</td></tr>`).join('')}<tr><td><b>all seven</b></td><td><b>${run.builders.total_tokens.toLocaleString('en-GB')}</b></td><td>${B.reduce((a, b) => a + b.tool_uses, 0)}</td><td><b>${Math.floor(run.builders.wall_s_parallel / 60)} min ${run.builders.wall_s_parallel % 60} s</b> in parallel</td></tr></tbody></table>`
+    document.getElementById('delivered').textContent = run.delivered.join('\n')
+    const max = Math.max(...run.trace.map(t => t.ms))
+    document.getElementById('tracetbl').innerHTML = `<table class="trace"><thead><tr><th>#</th><th>actor</th><th>ruflo command</th><th>exit</th><th>ms</th><th></th></tr></thead><tbody>${run.trace.map(t =>
+      `<tr><td>${t.seq}</td><td>${esc(t.actor)}</td><td><code>${esc(t.cmd.length > 90 ? t.cmd.slice(0, 90) + '…' : t.cmd)}</code></td><td>${t.rc}</td><td>${t.ms}</td><td><span class="bar" style="width:${Math.round(80 * t.ms / max)}px"></span></td></tr>`).join('')}</tbody></table>`
+    const total = run.trace.reduce((a, t) => a + t.ms, 0), ms = run.trace.map(t => t.ms).sort((a, b) => a - b)
+    document.getElementById('summary').textContent = `${run.trace.length} Ruflo calls · ${(total / 1000).toFixed(1)} s in total · median ${ms[ms.length >> 1]} ms · ${run.hive.workers} workers · ${run.hive.tasks} tasks · ${run.versions.length} versions delivered`
+  } catch (e) { document.getElementById('versions').textContent = 'run record not found (run.json)' }
+})()
+</script>
+</body>
+</html>

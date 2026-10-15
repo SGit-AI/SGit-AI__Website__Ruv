@@ -9,6 +9,8 @@ rUv's stack (Ruflo, RuVector, RVM, MetaHarness) lets agents go to town. Ours add
 | Where | What |
 |---|---|
 | `site/` | The website: home, rUv's stack by use case, use cases, architecture, the POCs with live outputs, replicate, demo script, and the browser app under `site/app/` |
+| `site/articles/` | Articles (newsroom shape, each with a `.md` twin) built from `site/articles/src/*.md` by `site/build/articles.py`: the studio plan, and the setup brief any agent can follow |
+| `site/studio/`, `poc/poc7-studio/` | POC7, the studio: a Ruflo hive-mind (queen + 8 roles) whose run made seven animations (`site/studio/v1..v7`, MP4s in `video/`); `hive.sh` / `close.sh` time every Ruflo call; `lane.sh` is the sgit bus protocol (not yet run against a server) |
 | `site/talk/` | Tonight's talk as a timeline: `talk-10.json` / `talk-5.json`, the player (`player.html`, presenter + synced audience window), offline single-file builds (`site/build/talk_offline.py`), rehearsal check (`site/build/rehearsal_check.py`) |
 | `BRIEF.md`, `CLAUDE.md`, `docs/` | The technical brief, the builder agent's own mandate, and the facts and commands the build followed |
 | `abp/` | ABP schema, vocabulary (23 primitives, `verb.object.reach`), mapping to Ruflo actions and RVM rights, two example ABPs |

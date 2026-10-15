@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Messages in flight</title>
+<meta name="description" content="v2 of the ruv.sgit.ai studio run: the Ruflo queen hands tasks to eight role workers, and every message travels through the sgit vault as ciphertext.">
+<style>
+:root{
+  --bg:#070b14; --panel:#0d1424; --line:#1e293b; --ink:#e2e8f0; --muted:#94a3b8; --dim:#64748b;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:hidden}
+.wrap{display:grid;grid-template-columns:minmax(0,1fr) 380px;height:100vh}
+.stage{position:relative;min-width:0;height:100vh}
+.stage svg{display:block;width:100%;height:100%}
+.side{border-left:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column;min-height:0;padding:22px 20px 56px}
+h1{font-size:20px;margin:0 0 4px;letter-spacing:.2px}
+.sub{color:var(--muted);font-size:13px;line-height:1.45;margin:0 0 16px}
+.obs{border:1px solid #334155;border-radius:10px;padding:12px 14px;margin-bottom:16px;background:#0a101d}
+.obs .hd{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#94a3b8;display:flex;gap:8px;align-items:center}
+.obs .hd i{width:8px;height:8px;border-radius:50%;background:#94a3b8;display:inline-block}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.stat b{display:block;font-family:var(--mono);font-size:24px;font-weight:600;font-variant-numeric:tabular-nums}
+.stat span{font-size:11px;color:var(--muted)}
+.note{font-size:11px;color:var(--dim);margin-top:8px}
+.loghd{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;display:flex;justify-content:space-between;gap:8px}
+.loghd em{font-style:normal;text-transform:none;letter-spacing:0;color:#fbbf24;border:1px solid #78350f;border-radius:4px;padding:0 5px}
+.log{list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:12px;line-height:1.5;overflow:hidden;flex:1;min-height:0}
+.log li{padding:4px 0;border-bottom:1px dashed #1e293b;animation:in .35s ease-out;overflow-wrap:anywhere}
+.log li .d{color:var(--muted)}
+@keyframes in{from{background:#1e293b}to{background:transparent}}
+.corner{position:fixed;left:12px;bottom:10px;font-size:12px;color:var(--muted);background:rgba(7,11,20,.85);border:1px solid var(--line);border-radius:8px;padding:6px 10px;z-index:5;max-width:calc(100vw - 24px)}
+.corner a{color:#2dd4bf;text-decoration:none;margin-left:6px}
+.corner a:hover{text-decoration:underline}
+.err{color:#f87171;font-size:13px}
+svg text{font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+svg .mono{font-family:var(--mono)}
+@media (max-width:800px){
+  .wrap{display:block;height:auto}
+  .stage{height:auto}
+  .stage svg{height:auto}
+  .side{border-left:0;border-top:1px solid var(--line);padding:16px 16px 20px}
+  .corner{position:static;display:block;margin:0 16px 16px}
+  .log{max-height:none}
+  .stat b{font-size:20px}
+}
+@media (prefers-reduced-motion:reduce){.log li{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stage"><svg id="s" role="img" aria-label="The Ruflo queen and eight role workers exchange messages through an sgit vault"></svg></div>
+  <aside class="side">
+    <h1>Messages in flight</h1>
+    <p class="sub">The Ruflo queen hands tasks to eight role workers. No message goes direct: each one is sealed on the sender's machine, passes through the sgit vault as ciphertext, and is opened only by the receiver.</p>
+    <div class="obs">
+      <div class="hd"><i></i>observer · telemetry</div>
+      <div class="stats">
+        <div class="stat"><b id="kMsg">0</b><span>messages</span></div>
+        <div class="stat"><b id="kFly">0</b><span>in flight</span></div>
+        <div class="stat"><b id="kLat">–</b><span>avg latency</span></div>
+      </div>
+      <div class="note">Latency is the animation clock, illustrative, not a measurement.</div>
+    </div>
+    <div class="loghd"><span>run log</span><em>commit ids illustrative</em></div>
+    <ul class="log" id="log"></ul>
+    <div id="err" class="err"></div>
+  </aside>
+</div>
+<div class="corner">v2 · Messages in flight · made in the ruv.sgit.ai studio run<a href="../index.html">all versions</a></div>
+<script>
+(function(){
+'use strict';
+const LOOP = 30, FIN = 26.2;
+const NS = 'http://www.w3.org/2000/svg';
+const ROLES = [
+  {id:'conductor', c:'#2dd4bf'}, {id:'librarian', c:'#a78bfa'}, {id:'architect', c:'#60a5fa'}, {id:'designer', c:'#f472b6'},
+  {id:'developer', c:'#f59e0b'}, {id:'editor', c:'#34d399'}, {id:'historian', c:'#fbbf24'}, {id:'observer', c:'#94a3b8'}
+];
+const QUEEN = {id:'queen', c:'#e5e7eb'};
+const COL = {queen: QUEEN.c}; ROLES.forEach(r => COL[r.id] = r.c);
+const ANG = {conductor:212, librarian:174, architect:138, designer:104, developer:76, editor:42, historian:6, observer:-32};
+
+let t0 = null;
+window.__t = () => t0 === null ? 0 : ((performance.now() - t0) / 1000) % LOOP;
+
+// seeded rng so every loop shows the same illustrative ids
+function rng(seed){ return () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }; }
+const B64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+
+const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const clamp = v => v < 0 ? 0 : v > 1 ? 1 : v;
+const ease = p => p < .5 ? 2*p*p : 1 - Math.pow(-2*p + 2, 2) / 2;
+const lerp = (a, b, p) => a + (b - a) * p;
+
+let D = null, MSGS = [], L = null, S = {}, lastDelivered = -1;
+
+function buildMessages(){
+  const rows = D.report.rows;
+  const cnt = k => rows.filter(r => String(r.abp).startsWith(k)).length;
+  const n = rows.length, den = cnt('denied'), app = cnt('approval_required'), alw = cnt('allowed');
+  const lg = D.report.ledger;
+  D.pol = {n, den, app, alw, la: lg.legacy.length, lb: lg.abp.length, valid: lg.legacy.valid && lg.abp.valid};
+  const list = [
+    ['queen','conductor','objective','objective: studio run 1'],
+    ['conductor','librarian','brief pack','task: brief pack'],
+    ['conductor','architect','structure','task: structure'],
+    ['architect','designer','decision','decision record'],
+    ['conductor','developer','task v2','task v2'],
+    ['designer','developer','palette','palette + motion rules'],
+    ['librarian','editor','facts','facts: report.json, abp.json'],
+    ['queen','observer','policy', `ABP: ${n} actions · ${den} denied · ${app} to a human · ${alw} allowed`],
+    ['developer','editor','v2 draft','v2 draft for review'],
+    ['editor','developer','checked','claims checked vs data'],
+    ['observer','historian','receipts', `receipts ${D.pol.la}+${D.pol.lb} · ledger ${D.pol.valid ? 'valid' : 'NOT valid'}`],
+    ['developer','conductor','v2 ready','v2 ready'],
+    ['historian','librarian','history','run history written'],
+    ['conductor','queen','done','run complete']
+  ];
+  const r = rng(20261015);
+  MSGS = list.map((m, i) => {
+    const hex = Array.from({length:4}, () => '0123456789abcdef'[Math.floor(r()*16)]).join('');
+    return {from:m[0], to:m[1], short:m[2], text:m[3], start:0.6 + i*1.65, commit:hex,
+      cipher: Array.from({length:Math.max(m[2].length, 8)}, () => B64[Math.floor(r()*64)]).join('')};
+  });
+}
+
+function layout(){
+  const narrow = window.matchMedia('(max-width:800px)').matches;
+  if (narrow) return {narrow, w:400, h:560, v:{x:200,y:292}, R:78, q:{x:200,y:42}, rx:160, ry:196, cy:300, s:.72, fs:11};
+  return {narrow, w:1000, h:700, v:{x:500,y:372}, R:122, q:{x:500,y:70}, rx:390, ry:238, cy:388, s:1, fs:15};
+}
+
+function build(){
+  L = layout();
+  const svg = document.getElementById('s');
+  svg.innerHTML = '';
+  svg.setAttribute('viewBox', `0 0 ${L.w} ${L.h}`);
+  const P = {queen:{x:L.q.x, y:L.q.y}};
+  ROLES.forEach(r => { const a = ANG[r.id] * Math.PI / 180; P[r.id] = {x: L.v.x + L.rx*Math.cos(a), y: L.cy + L.ry*Math.sin(a)}; });
+  L.P = P;
+  const maxD = Math.max(...Object.values(P).map(p => Math.hypot(p.x - L.v.x, p.y - L.v.y)));
+  MSGS.forEach(m => {
+    m.l1 = 0.7 + 0.9 * Math.hypot(P[m.from].x - L.v.x, P[m.from].y - L.v.y) / maxD;
+    m.dw = 0.35;
+    m.l2 = 0.7 + 0.9 * Math.hypot(P[m.to].x - L.v.x, P[m.to].y - L.v.y) / maxD;
+    m.lat = m.l1 + m.dw + m.l2;
+  });
+
+  const defs = el('defs', {}, svg);
+  const f = el('filter', {id:'glow', x:'-50%', y:'-50%', width:'200%', height:'200%'}, defs);
+  el('feGaussianBlur', {stdDeviation:'6', result:'b'}, f);
+  const mg = el('feMerge', {}, f); el('feMergeNode', {in:'b'}, mg); el('feMergeNode', {in:'SourceGraphic'}, mg);
+  const rg = el('radialGradient', {id:'halo'}, defs);
+  el('stop', {offset:'0', 'stop-color':'#a78bfa', 'stop-opacity':'.28'}, rg);
+  el('stop', {offset:'1', 'stop-color':'#a78bfa', 'stop-opacity':'0'}, rg);
+
+  // server zone
+  S.halo = el('circle', {cx:L.v.x, cy:L.v.y, r:L.R*1.6, fill:'url(#halo)', opacity:.5}, svg);
+  el('circle', {cx:L.v.x, cy:L.v.y, r:L.R, fill:'#0b1222', stroke:'#475569', 'stroke-dasharray':'4 6', 'stroke-width':1.2}, svg);
+  const zt = el('text', {x:L.v.x, y:L.v.y - L.R - 8, 'text-anchor':'middle', fill:'#94a3b8', 'font-size':L.fs*.78, 'letter-spacing':'.06em'}, svg);
+  zt.textContent = 'sgit server · sees ciphertext only';
+
+  S.lines = el('g', {}, svg);
+  // nodes
+  S.nodes = {};
+  [QUEEN, ...ROLES].forEach(r => {
+    const p = P[r.id], g = el('g', {transform:`translate(${p.x},${p.y})`}, svg);
+    const rad = (r.id === 'queen' ? 30 : 24) * L.s;
+    const pulse = el('circle', {r:rad, fill:'none', stroke:r.c, 'stroke-width':2, opacity:0}, g);
+    let body;
+    if (r.id === 'queen') {
+      const pts = Array.from({length:6}, (_, i) => { const a = Math.PI/6 + i*Math.PI/3; return `${(rad*Math.cos(a)).toFixed(1)},${(rad*Math.sin(a)).toFixed(1)}`; }).join(' ');
+      body = el('polygon', {points:pts, fill:'#1f2937', stroke:r.c, 'stroke-width':2}, g);
+    } else { el('circle', {r:rad, fill:'#070b14'}, g); body = el('circle', {r:rad, fill:r.c + '22', stroke:r.c, 'stroke-width':2}, g); }
+    const ini = el('text', {y:L.fs*.36, 'text-anchor':'middle', fill:r.c, 'font-size':L.fs*1.05, 'font-weight':700}, g);
+    ini.textContent = r.id === 'queen' ? 'Q' : r.id[0].toUpperCase();
+    const lab = el('text', {y:rad + L.fs*1.15, 'text-anchor':'middle', fill:'#e2e8f0', 'font-size':L.fs*.92}, g);
+    lab.textContent = r.id === 'queen' ? 'Ruflo queen' : r.id;
+    let tag = null;
+    if (r.id === 'observer') { tag = el('text', {y:-rad - 8, 'text-anchor':'middle', fill:'#94a3b8', 'font-size':L.fs*.78, class:'mono'}, g); }
+    S.nodes[r.id] = {g, pulse, body, rad, tag};
+  });
+
+  // vault
+  const vg = el('g', {transform:`translate(${L.v.x},${L.v.y}) scale(${L.s})`}, svg);
+  S.vault = vg;
+  S.vbody = el('rect', {x:-62, y:-38, width:124, height:84, rx:10, fill:'#0f172a', stroke:'#cbd5e1', 'stroke-width':2.5}, vg);
+  el('path', {d:'M -24 -38 V -58 A 24 24 0 0 1 24 -58 V -38', fill:'none', stroke:'#cbd5e1', 'stroke-width':7, 'stroke-linecap':'round'}, vg);
+  el('circle', {cx:0, cy:-22, r:5, fill:'#cbd5e1'}, vg);
+  el('rect', {x:-2, y:-22, width:4, height:9, fill:'#cbd5e1'}, vg);
+  S.slots = MSGS.map((m, i) => el('rect', {x:-52 + (i % 7) * 15, y:-2 + Math.floor(i / 7) * 16, width:11, height:11, rx:2, fill:'#1e293b'}, vg));
+  const vl = el('text', {y:66, 'text-anchor':'middle', fill:'#e2e8f0', 'font-size':15, 'font-weight':600, 'paint-order':'stroke', stroke:'#070b14', 'stroke-width':5}, vg); vl.textContent = 'sgit vault';
+  S.vcount = el('text', {y:84, 'text-anchor':'middle', fill:'#94a3b8', 'font-size':12, class:'mono', 'paint-order':'stroke', stroke:'#070b14', 'stroke-width':5}, vg);
+
+  // envelopes
+  S.env = MSGS.map(m => {
+    const line = el('polyline', {points:`${P[m.from].x},${P[m.from].y} ${L.v.x},${L.v.y} ${P[m.to].x},${P[m.to].y}`, fill:'none', stroke:COL[m.from], 'stroke-width':1.4, 'stroke-dasharray':'3 5', opacity:0}, S.lines);
+    const g = el('g', {opacity:0}, svg);
+    const e = el('g', {}, g);
+    const rect = el('rect', {x:-14, y:-10, width:28, height:20, rx:2.5, 'stroke-width':1.5}, e);
+    const flap = el('path', {d:'M -14 -10 L 0 2 L 14 -10', fill:'none', 'stroke-width':1.5}, e);
+    const lab = el('text', {y:-17, 'text-anchor':'middle', 'font-size':L.fs*.9, class:'mono', 'paint-order':'stroke', stroke:'#070b14', 'stroke-width':4}, g);
+    return {line, g, e, rect, flap, lab};
+  });
+
+  // finale card
+  const lines = finaleLines(), top0 = L.narrow ? 26 : 36, gap = L.narrow ? 22 : 30, extra = L.narrow ? 12 : 18;
+  const fw = L.narrow ? 384 : 760, fh = top0 + extra + (lines.length - 1) * gap + (L.narrow ? 18 : 26), fy = L.v.y + (L.narrow ? 90 : 118);
+  S.fin = el('g', {opacity:0}, svg);
+  el('rect', {x:L.v.x - fw/2, y:fy, width:fw, height:fh, rx:12, fill:'#0b1222', stroke:'#a78bfa', 'stroke-opacity':.6}, S.fin);
+  lines.forEach((ln, i) => {
+    const tx = el('text', {x:L.v.x, y:fy + top0 + (i ? extra + i * gap : 0), 'text-anchor':'middle',
+      fill:i ? (i === lines.length - 1 ? '#fbbf24' : '#cbd5e1') : '#f8fafc', 'font-size': i ? L.fs*.88 : L.fs*1.45, 'font-weight': i ? 400 : 700, class: i === lines.length - 1 ? 'mono' : ''}, S.fin);
+    tx.textContent = ln;
+  });
+  S.finLinks = el('g', {opacity:0}, svg);
+  svg.insertBefore(S.finLinks, S.lines);
+  ROLES.concat([QUEEN]).forEach(r => { const dx = L.v.x - P[r.id].x, dy = L.v.y - P[r.id].y, dd = Math.hypot(dx, dy), o = S.nodes[r.id].rad + 4 + (r.id === 'queen' ? L.fs * 1.6 : 0); el('line', {x1:P[r.id].x + dx/dd*o, y1:P[r.id].y + dy/dd*o, x2:L.v.x, y2:L.v.y, stroke:r.c, 'stroke-width':2, opacity:.55}, S.finLinks); });
+  lastDelivered = -1;
+}
+
+function finaleLines(){
+  const p = D.pol, own = D.abp.owner || D.report.owner;
+  const hist = D.hist.length ? `real vault history (POC2): ${D.hist.map(h => h.slice(0, 8)).join(' → ')}` : '';
+  const out = ['one vault = the evidence of the run',
+    `${MSGS.length} messages stored · the server saw ciphertext only`,
+    L.narrow ? `ABP: ${p.n} actions · ${p.den} denied · ${p.app} held · ${p.alw} allowed` : `ABP: ${p.n} actions · ${p.den} denied · ${p.app} held for ${own} · ${p.alw} allowed`,
+    `receipts ${p.la}+${p.lb} · ledger ${p.valid ? 'valid' : 'NOT valid'}`];
+  if (hist) out.push(L.narrow ? 'POC2 history: ' + D.hist.map(h => h.slice(0, 6)).join('→') : hist);
+  return out;
+}
+
+function mix(plain, cipher, k){
+  const n = Math.max(plain.length, 1), cut = Math.round(k * n);
+  return cipher.slice(0, cut) + plain.slice(cut);
+}
+
+function frame(){
+  const t = window.__t();
+  const P = L.P;
+  let fly = 0, delivered = 0, stored = 0, latSum = 0;
+  const pulse = {};
+  MSGS.forEach((m, i) => {
+    const s = m.start, a = s + m.l1, b = a + m.dw, c = b + m.l2, end = c + 0.8;
+    const E = S.env[i];
+    const bump = (tt) => { const d = t - tt; return d >= 0 && d < .6 ? 1 - d / .6 : 0; };
+    pulse[m.from] = Math.max(pulse[m.from] || 0, bump(s));
+    pulse[m.to] = Math.max(pulse[m.to] || 0, bump(c));
+    if (t >= a) stored++;
+    if (t >= c) { delivered++; latSum += m.lat; }
+    S.slots[i].setAttribute('fill', t >= a ? COL[m.from] : '#1e293b');
+    if (t < s || t > end) { E.g.setAttribute('opacity', 0); E.line.setAttribute('opacity', 0); return; }
+    let x, y, k, sc = 1, op = 1;
+    if (t < a) { const p = (t - s) / m.l1, e = ease(p); x = lerp(P[m.from].x, L.v.x, e); y = lerp(P[m.from].y, L.v.y, e); k = clamp((p - .05) / .35); fly++; }
+    else if (t < b) { x = L.v.x; y = L.v.y - 4; k = 1; sc = .8; fly++; }
+    else if (t < c) { const p = (t - b) / m.l2, e = ease(p); x = lerp(L.v.x, P[m.to].x, e); y = lerp(L.v.y, P[m.to].y, e); k = 1 - clamp((p - .78) / .22); fly++; }
+    else { x = P[m.to].x; y = P[m.to].y - S.nodes[m.to].rad - 14; k = 0; op = 1 - (t - c) / .8; }
+    const enc = k > .5;
+    E.g.setAttribute('opacity', op.toFixed(3));
+    E.g.setAttribute('transform', `translate(${x.toFixed(1)},${y.toFixed(1)})`);
+    E.e.setAttribute('transform', `scale(${(sc * (L.narrow ? .8 : 1)).toFixed(2)})`);
+    E.rect.setAttribute('fill', enc ? '#111827' : COL[m.from]);
+    E.rect.setAttribute('stroke', enc ? '#a78bfa' : '#0b1020');
+    E.flap.setAttribute('stroke', enc ? '#a78bfa' : '#0b1020');
+    E.lab.textContent = t >= c ? m.short + ' ✓' : mix(m.short, m.cipher, k);
+    E.lab.setAttribute('fill', k > .5 ? '#a78bfa' : COL[m.from]);
+    E.line.setAttribute('opacity', t < c ? .35 : 0);
+  });
+  for (const id in S.nodes) {
+    const n = S.nodes[id], pv = pulse[id] || 0;
+    n.pulse.setAttribute('r', (n.rad * (1 + .7 * (1 - pv))).toFixed(1));
+    n.pulse.setAttribute('opacity', (pv * .9).toFixed(2));
+  }
+  S.vcount.textContent = `${stored} objects · ciphertext`;
+  S.halo.setAttribute('opacity', (.35 + .25 * Math.sin(t * 2)).toFixed(2));
+  const avg = delivered ? (latSum / delivered).toFixed(1) + ' s' : '–';
+  document.getElementById('kMsg').textContent = delivered;
+  document.getElementById('kFly').textContent = fly;
+  document.getElementById('kLat').textContent = avg;
+  S.nodes.observer.tag.textContent = `${delivered} msgs · ${avg}`;
+
+  // finale
+  const fi = t < FIN ? 0 : t < FIN + .6 ? (t - FIN) / .6 : t > LOOP - .5 ? (LOOP - t) / .5 : 1;
+  S.fin.setAttribute('opacity', fi.toFixed(2));
+  S.finLinks.setAttribute('opacity', fi.toFixed(2));
+  const vs = L.s * (1 + .18 * fi);
+  S.vault.setAttribute('transform', `translate(${L.v.x},${L.v.y}) scale(${vs.toFixed(3)})`);
+  S.vault.setAttribute('filter', fi > .05 ? 'url(#glow)' : '');
+  for (const id in S.nodes) S.nodes[id].g.setAttribute('opacity', (1 - .3 * fi).toFixed(2));
+
+  if (delivered !== lastDelivered) { renderLog(delivered); lastDelivered = delivered; }
+  requestAnimationFrame(frame);
+}
+
+function renderLog(n){
+  const ul = document.getElementById('log');
+  if (n < ul.children.length) ul.innerHTML = '';
+  for (let i = ul.children.length; i < n; i++) {
+    const m = MSGS[i], li = document.createElement('li');
+    const sp = (txt, c) => { const s = document.createElement('span'); s.textContent = txt; if (c) s.style.color = c; return s; };
+    li.append(sp(m.from, COL[m.from]), sp(' → ', '#64748b'), sp(m.to, COL[m.to]), sp(' · ' + m.text + ' · ', null), sp('commit ' + m.commit + '…', '#fbbf24'), sp(' · ' + m.lat.toFixed(1) + ' s', '#64748b'));
+    li.children[3].className = 'd';
+    ul.insertBefore(li, ul.firstChild);
+  }
+}
+
+function parseHist(txt){
+  const ids = [];
+  txt.split('\n').forEach(l => { const m = l.match(/^\s+([0-9a-f]{12})\s/); if (m) ids.push(m[1]); });
+  return ids.reverse();
+}
+
+Promise.all([
+  fetch('../../data/report.json').then(r => r.json()),
+  fetch('../../data/abp.json').then(r => r.json()),
+  fetch('../../data/poc2-run.txt').then(r => r.ok ? r.text() : '').catch(() => '')
+]).then(([report, abp, txt]) => {
+  D = {report, abp, hist: parseHist(txt)};
+  buildMessages();
+  build();
+  window.matchMedia('(max-width:800px)').addEventListener('change', build);
+  t0 = performance.now();
+  requestAnimationFrame(frame);
+}).catch(e => { document.getElementById('err').textContent = 'Could not load the run data (' + e.message + '); no numbers shown.'; });
+})();
+</script>
+</body>
+</html>

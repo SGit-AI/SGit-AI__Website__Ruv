@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 880" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif">
+<title>The studio: a Ruflo hive with sgit vaults as its bus and its evidence</title>
+<defs>
+<marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#9a968c"/></marker>
+<marker id="art" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2dd4bf"/></marker>
+<linearGradient id="vault" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#1b2a3a"/><stop offset="1" stop-color="#101820"/></linearGradient>
+</defs>
+<rect width="1400" height="880" fill="#0f1115"/>
+<text x="40" y="52" fill="#f4f1ea" font-family="Georgia,serif" font-size="30" font-weight="600">The studio: a Ruflo hive that explains itself</text>
+<text x="40" y="80" fill="#9a968c" font-size="16">Ruflo coordinates · the ABP bounds each role · sgit vaults carry every message and keep every artefact · the observer times it all</text>
+
+<!-- host band -->
+<rect x="40" y="104" width="1320" height="56" rx="12" fill="#161a20" stroke="#2a2d35"/>
+<text x="60" y="138" fill="#9a968c" font-size="13" letter-spacing="1.5">HOST</text>
+<text x="120" y="139" fill="#f4f1ea" font-size="16">Claude Code (run 1) · Claude on the web · ChatGPT · Lovable · a CI runner: anything that can run a shell and follow the brief</text>
+
+<!-- hive -->
+<rect x="40" y="184" width="560" height="440" rx="16" fill="#12161c" stroke="#2dd4bf" stroke-opacity=".5"/>
+<text x="60" y="214" fill="#2dd4bf" font-size="13" letter-spacing="1.5">RUFLO HIVE-MIND · ruflo 3.56.10</text>
+<circle cx="320" cy="268" r="50" fill="#2dd4bf" fill-opacity=".15" stroke="#2dd4bf" stroke-width="2"/>
+<text x="320" y="266" text-anchor="middle" fill="#f4f1ea" font-size="16" font-weight="700">queen</text>
+<text x="320" y="285" text-anchor="middle" fill="#9a968c" font-size="11">plans · assigns</text>
+<g font-size="14" text-anchor="middle" fill="#f4f1ea">
+<g transform="translate(100,360)"><rect x="-52" y="-22" width="104" height="44" rx="10" fill="#161a20" stroke="#2dd4bf"/><text y="5">conductor</text></g>
+<g transform="translate(230,360)"><rect x="-52" y="-22" width="104" height="44" rx="10" fill="#161a20" stroke="#a78bfa"/><text y="5">librarian</text></g>
+<g transform="translate(360,360)"><rect x="-52" y="-22" width="104" height="44" rx="10" fill="#161a20" stroke="#60a5fa"/><text y="5">architect</text></g>
+<g transform="translate(490,360)"><rect x="-52" y="-22" width="104" height="44" rx="10" fill="#161a20" stroke="#f472b6"/><text y="5">designer</text></g>
+<g transform="translate(100,430)"><rect x="-52" y="-22" width="104" height="44" rx="10" fill="#161a20" stroke="#f59e0b"/><text y="5">developer</text></g>
+<g transform="translate(230,430)"><rect x="-52" y="-22" width="104" height="44" rx="10" fill="#161a20" stroke="#34d399"/><text y="5">editor</text></g>
+<g transform="translate(360,430)"><rect x="-52" y="-22" width="104" height="44" rx="10" fill="#161a20" stroke="#fbbf24"/><text y="5">historian</text></g>
+<g transform="translate(490,430)"><rect x="-52" y="-22" width="104" height="44" rx="10" fill="#161a20" stroke="#94a3b8"/><text y="5">observer</text></g>
+</g>
+<g stroke="#2dd4bf" stroke-opacity=".35" stroke-width="1.5"><line x1="300" y1="306" x2="110" y2="338"/><line x1="310" y1="309" x2="235" y2="338"/><line x1="330" y1="309" x2="355" y2="338"/><line x1="340" y1="306" x2="480" y2="338"/></g>
+<g font-size="13" fill="#9a968c">
+<rect x="60" y="480" width="250" height="124" rx="10" fill="#161a20" stroke="#2a2d35"/>
+<text x="76" y="504" fill="#f4f1ea" font-size="14" font-weight="600">what Ruflo holds</text>
+<text x="76" y="528">task queue · 7 tasks (v1 to v7)</text>
+<text x="76" y="550">shared state · broadcasts (persist)</text>
+<text x="76" y="572">consensus (byzantine) · mesh</text>
+<text x="76" y="594">broadcast · hooks · status</text>
+<rect x="326" y="480" width="254" height="124" rx="10" fill="#161a20" stroke="#2a2d35"/>
+<text x="342" y="504" fill="#f4f1ea" font-size="14" font-weight="600">who does the work</text>
+<text x="342" y="528">run 1: Claude Code subagents,</text>
+<text x="342" y="550">one per version, as the developer</text>
+<text x="342" y="572">next: hive-mind work, or any host</text>
+<text x="342" y="594">that follows the brief</text>
+</g>
+
+<!-- ABP gate -->
+<rect x="640" y="184" width="150" height="440" rx="16" fill="#1d1608" stroke="#f59e0b" stroke-opacity=".7"/>
+<text x="715" y="214" text-anchor="middle" fill="#f59e0b" font-size="13" letter-spacing="1.5">ABP</text>
+<text x="715" y="250" text-anchor="middle" fill="#f4f1ea" font-size="14">one mandate</text>
+<text x="715" y="270" text-anchor="middle" fill="#f4f1ea" font-size="14">per role</text>
+<g font-size="13" text-anchor="middle"><rect x="660" y="300" width="110" height="34" rx="8" fill="#0d2a26"/><text x="715" y="322" fill="#2dd4bf">allow</text>
+<rect x="660" y="344" width="110" height="34" rx="8" fill="#2a1a08"/><text x="715" y="366" fill="#f59e0b">approval</text>
+<rect x="660" y="388" width="110" height="34" rx="8" fill="#2d1414"/><text x="715" y="410" fill="#f87171">deny</text></g>
+<text x="715" y="460" text-anchor="middle" fill="#9a968c" font-size="12">compiled to Ruflo's</text>
+<text x="715" y="477" text-anchor="middle" fill="#9a968c" font-size="12">policy engine (POC1)</text>
+<text x="715" y="510" text-anchor="middle" fill="#9a968c" font-size="12">every decision a</text>
+<text x="715" y="527" text-anchor="middle" fill="#9a968c" font-size="12">hash-chained receipt</text>
+<text x="715" y="575" text-anchor="middle" fill="#f4f1ea" font-size="12">studio rows: write the</text>
+<text x="715" y="592" text-anchor="middle" fill="#f4f1ea" font-size="12">bus · publish = approval</text>
+<line x1="602" y1="400" x2="636" y2="400" stroke="#9a968c" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="792" y1="300" x2="838" y2="300" stroke="#2dd4bf" stroke-width="2" marker-end="url(#art)"/>
+<line x1="792" y1="500" x2="838" y2="500" stroke="#2dd4bf" stroke-width="2" marker-end="url(#art)"/>
+
+<!-- vaults -->
+<g>
+<rect x="840" y="184" width="520" height="210" rx="16" fill="url(#vault)" stroke="#60a5fa" stroke-opacity=".6"/>
+<text x="860" y="214" fill="#60a5fa" font-size="13" letter-spacing="1.5">SGIT VAULT · studio-bus (private)</text>
+<text x="860" y="240" fill="#f4f1ea" font-size="15">the message bus: one branch, one lane, per role</text>
+<g font-family="ui-monospace,monospace" font-size="13" fill="#9a968c">
+<text x="860" y="268">lanes/conductor/0007-to-developer.json</text>
+<text x="860" y="288">lanes/developer/0012-to-editor.json</text>
+<text x="860" y="308">lanes/editor/0003-to-historian.json</text></g>
+<g stroke-width="3" fill="none"><path d="M1190 268 H1340" stroke="#2dd4bf"/><path d="M1190 288 H1260 Q1280 288 1290 270 H1340" stroke="#f59e0b"/><path d="M1190 308 H1240 Q1265 308 1280 272" stroke="#34d399"/></g>
+<text x="860" y="342" fill="#9a968c" font-size="13">append-only per lane, so writers never collide · merge at milestones</text>
+<text x="860" y="364" fill="#9a968c" font-size="13">encrypted on the client (AES-256-GCM): the server sees ciphertext</text>
+</g>
+<g>
+<rect x="840" y="414" width="520" height="210" rx="16" fill="url(#vault)" stroke="#a78bfa" stroke-opacity=".6"/>
+<text x="860" y="444" fill="#a78bfa" font-size="13" letter-spacing="1.5">SGIT VAULT · studio-run-&lt;id&gt; (the evidence)</text>
+<text x="860" y="470" fill="#f4f1ea" font-size="15">at the end of the run, one vault holds everything</text>
+<g font-family="ui-monospace,monospace" font-size="13" fill="#9a968c">
+<text x="860" y="498">brief/ spec.json · abp.json · decisions/</text>
+<text x="860" y="518">versions/ v1 … v7 index.html · video/*.mp4</text>
+<text x="860" y="538">trace/ trace.jsonl · ruflo status · history.json</text>
+<text x="860" y="558">receipts/ policy ledger · review/ editor's checks</text></g>
+<text x="860" y="592" fill="#9a968c" font-size="13">publish its read key on purpose (a named human approves)</text>
+</g>
+
+<!-- observer band -->
+<rect x="40" y="648" width="1320" height="112" rx="16" fill="#12161c" stroke="#94a3b8" stroke-opacity=".5"/>
+<text x="60" y="678" fill="#94a3b8" font-size="13" letter-spacing="1.5">OBSERVABILITY · the observer role</text>
+<g font-size="14" fill="#f4f1ea">
+<text x="60" y="708">every ruflo call timed → trace.jsonl</text>
+<text x="400" y="708">every message = a vault commit (who, when)</text>
+<text x="760" y="708">sgit --debug / dev profile: network timings</text>
+<text x="1110" y="708">wall clock per version</text></g>
+<g font-size="13" fill="#9a968c">
+<text x="60" y="736">run 1: 31 calls, 0.39 to 0.57 s each</text>
+<text x="400" y="736">sgit history log = the transcript of the run</text>
+<text x="760" y="736">run 1: not measured (no server credentials)</text>
+<text x="1110" y="736">run 1: 630k tokens, 9 min 20 s</text></g>
+
+<!-- outputs -->
+<g font-size="15" fill="#f4f1ea">
+<text x="40" y="806" fill="#9a968c" font-size="13" letter-spacing="1.5">OUTPUT</text>
+<g font-size="13" text-anchor="middle">
+<rect x="120" y="786" width="120" height="34" rx="17" fill="#161a20" stroke="#2a2d35"/><text x="180" y="808">v1 diagram</text>
+<rect x="250" y="786" width="120" height="34" rx="17" fill="#161a20" stroke="#2a2d35"/><text x="310" y="808">v2 messages</text>
+<rect x="380" y="786" width="120" height="34" rx="17" fill="#161a20" stroke="#2a2d35"/><text x="440" y="808">v3 lanes</text>
+<rect x="510" y="786" width="120" height="34" rx="17" fill="#161a20" stroke="#2a2d35"/><text x="570" y="808">v4 the gate</text>
+<rect x="640" y="786" width="120" height="34" rx="17" fill="#161a20" stroke="#2a2d35"/><text x="700" y="808">v5 isometric</text>
+<rect x="770" y="786" width="120" height="34" rx="17" fill="#161a20" stroke="#2a2d35"/><text x="830" y="808">v6 3D hive</text>
+<rect x="900" y="786" width="120" height="34" rx="17" fill="#161a20" stroke="#2a2d35"/><text x="960" y="808">v7 the city</text>
+<rect x="1040" y="786" width="150" height="34" rx="17" fill="#0d2a26" stroke="#2dd4bf"/><text x="1115" y="808">MP4 per version</text>
+<rect x="1200" y="786" width="160" height="34" rx="17" fill="#0d2a26" stroke="#2dd4bf"/><text x="1280" y="808">this article</text></g></g>
+<text x="40" y="856" fill="#5f5c55" font-size="12">ruv.sgit.ai · studio run 1, 15 Oct 2026 · Ruflo, RuVector, RVM, MetaHarness: MIT, by rUv / ruvnet · sgit.ai · drawn by hand as SVG so every label is exact</text>
+</svg>

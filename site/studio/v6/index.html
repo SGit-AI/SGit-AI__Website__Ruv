@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Hive in 3D</title>
+<link rel="icon" href="data:,">
+<style>
+  :root { --bg:#05070d; --ink:#e2e8f0; --mute:#8b97ab; --teal:#2dd4bf; --red:#f87171; --amber:#fbbf24; --line:rgba(148,163,184,.22); }
+  * { box-sizing:border-box; }
+  html, body { margin:0; height:100%; overflow:hidden; background:var(--bg); color:var(--ink);
+    font:13px/1.4 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  #c { position:fixed; inset:0; width:100%; height:100%; display:block; cursor:grab; touch-action:none; }
+  #c:active { cursor:grabbing; }
+  #labels { position:fixed; inset:0; pointer-events:none; overflow:hidden; }
+  .lbl { position:absolute; left:0; top:0; white-space:nowrap; font-size:11px; letter-spacing:.02em;
+    transform:translate(-50%, -150%); text-shadow:0 0 6px #000, 0 0 2px #000; will-change:transform; }
+  .lbl.act { font:10.5px ui-monospace, SFMono-Regular, Menlo, monospace; padding:1px 5px; border-radius:4px;
+    background:rgba(5,7,13,.72); border:1px solid var(--line); transform:translate(-50%, -170%); }
+  .lbl.queen { font-weight:600; color:#fff3c4; }
+  #top { position:fixed; left:16px; right:16px; top:14px; display:flex; gap:16px; justify-content:space-between; align-items:flex-start; pointer-events:none; }
+  #cap { max-width:560px; }
+  #cap h1 { margin:0 0 4px; font-size:13px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--mute); }
+  #phase { font-size:17px; line-height:1.35; color:var(--ink); transition:opacity .4s; }
+  #phase b { color:var(--teal); font-weight:600; }
+  #hud { min-width:220px; padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:rgba(8,11,20,.72);
+    font:12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; }
+  #hud .row { display:flex; justify-content:space-between; gap:14px; }
+  #hud .k { color:var(--mute); }
+  #hud .sep { height:1px; background:var(--line); margin:6px 0; }
+  .d { color:var(--red); } .a { color:var(--amber); } .ok { color:var(--teal); }
+  #ticker { margin-top:6px; font-size:11px; color:var(--mute); min-height:3em; }
+  #ticker div { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:260px; }
+  #corner { position:fixed; left:16px; bottom:12px; right:16px; font-size:11.5px; color:var(--mute); display:flex; gap:12px; flex-wrap:wrap; align-items:baseline; }
+  #corner a { color:var(--teal); text-decoration:none; } #corner a:hover { text-decoration:underline; }
+  #hint { color:#5d687c; }
+  #bar { position:fixed; left:0; bottom:0; height:2px; background:var(--teal); opacity:.5; width:0; }
+  #err { position:fixed; inset:auto 16px 50% 16px; text-align:center; color:var(--red); display:none; }
+  @media (max-width: 640px) {
+    #top { flex-direction:column; gap:8px; top:10px; }
+    #phase { font-size:14px; }
+    #cap h1 { font-size:11px; }
+    #hud { min-width:0; width:100%; font-size:11px; padding:8px 10px; }
+    #ticker { display:none; }
+    .lbl { font-size:10px; }
+    #hint { display:none; }
+  }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="labels"></div>
+<div id="top">
+  <div id="cap"><h1>The hive in 3D</h1><div id="phase">Loading the run data…</div></div>
+  <div id="hud"></div>
+</div>
+<div id="corner"><span>v6 · The hive in 3D · made in the ruv.sgit.ai studio run</span><a href="../index.html">← studio index</a><span id="hint">drag to orbit</span></div>
+<div id="bar"></div>
+<div id="err"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  'use strict';
+  var LOOP = 40, T0 = 0; // loop clock runs from page navigation
+  window.__t = function () { return ((performance.now() - T0) / 1000) % LOOP; };
+
+  var ROLES = [
+    { id: 'conductor', colour: '#2dd4bf' }, { id: 'librarian', colour: '#a78bfa' },
+    { id: 'architect', colour: '#60a5fa' }, { id: 'designer', colour: '#f472b6' },
+    { id: 'developer', colour: '#f59e0b' }, { id: 'editor', colour: '#34d399' },
+    { id: 'historian', colour: '#fbbf24' }, { id: 'observer', colour: '#94a3b8' }
+  ];
+  var COL = { deny: 0xf87171, appr: 0xfbbf24, allow: 0x2dd4bf, legacy: 0xcbd5e1 };
+
+  // timeline (seconds in loop)
+  var P = { memA: 3, memB: 11, legA: 11.5, legStep: 0.5, abpA: 19, abpStep: 0.95, fly: 1.7, sumA: 32 };
+  var SHELL_R = 9.5;
+
+  Promise.all([
+    fetch('../../data/report.json').then(function (r) { if (!r.ok) throw new Error('report.json ' + r.status); return r.json(); }),
+    fetch('../../data/abp.json').then(function (r) { if (!r.ok) throw new Error('abp.json ' + r.status); return r.json(); })
+  ]).then(function (d) { start(d[0], d[1]); }).catch(function (e) {
+    var el = document.getElementById('err'); el.style.display = 'block'; el.textContent = 'Could not load run data: ' + e.message;
+    document.getElementById('phase').textContent = '';
+  });
+
+  function kindOf(s) { s = String(s || ''); return s.indexOf('denied') === 0 ? 'deny' : s.indexOf('approval') === 0 ? 'appr' : s.indexOf('allowed') === 0 ? 'allow' : 'other'; }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function clamp(x, a, b) { return Math.max(a, Math.min(b, x)); }
+  function ease(x) { x = clamp(x, 0, 1); return x * x * (3 - 2 * x); }
+
+  function start(report, abp) {
+    var rows = report.rows || [];
+    var N = rows.length;
+    var kinds = rows.map(function (r) { return kindOf(r.abp); });
+    var legacyKinds = rows.map(function (r) { return kindOf(r.legacy); });
+    var cnt = function (arr, k) { return arr.filter(function (x) { return x === k; }).length; };
+    var nDeny = cnt(kinds, 'deny'), nAppr = cnt(kinds, 'appr'), nAllow = cnt(kinds, 'allow'), nLegAllow = cnt(legacyKinds, 'allow');
+    var owner = report.owner || abp.owner || '';
+    var abpRoles = (abp.roles || []).length;
+    var abpRows = (abp.roles || []).reduce(function (s, r) { return s + (r.rows || []).length; }, 0);
+    var gaps = (report.gaps || []).length;
+    var led = report.ledger || {};
+    var ledOk = led.legacy && led.abp && led.legacy.valid && led.abp.valid;
+    var ledTxt = (led.legacy ? led.legacy.length : '?') + ' + ' + (led.abp ? led.abp.length : '?');
+
+    // ---------- renderer / scene ----------
+    var canvas = document.getElementById('c');
+    var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: false, alpha: false, powerPreference: 'low-power' });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    renderer.setClearColor(0x05070d, 1);
+    var scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x05070d, 0.018);
+    var camera = new THREE.PerspectiveCamera(50, 1, 0.1, 200);
+
+    function glowTex() {
+      var c = document.createElement('canvas'); c.width = c.height = 64;
+      var g = c.getContext('2d'), gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+      gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(0.25, 'rgba(255,255,255,.55)');
+      gr.addColorStop(0.6, 'rgba(255,255,255,.12)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
+      g.fillStyle = gr; g.fillRect(0, 0, 64, 64);
+      return new THREE.CanvasTexture(c);
+    }
+    var GLOW = glowTex();
+    function glow(color, size, opacity) {
+      var m = new THREE.SpriteMaterial({ map: GLOW, color: color, transparent: true, opacity: opacity == null ? 1 : opacity,
+        blending: THREE.AdditiveBlending, depthWrite: false, fog: false });
+      var s = new THREE.Sprite(m); s.scale.set(size, size, 1); return s;
+    }
+
+    // stars
+    (function () {
+      var n = 500, pos = new Float32Array(n * 3);
+      for (var i = 0; i < n; i++) {
+        var u = Math.random() * 2 - 1, th = Math.random() * Math.PI * 2, r = 45 + Math.random() * 40, s = Math.sqrt(1 - u * u);
+        pos[i * 3] = r * s * Math.cos(th); pos[i * 3 + 1] = r * u; pos[i * 3 + 2] = r * s * Math.sin(th);
+      }
+      var g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      scene.add(new THREE.Points(g, new THREE.PointsMaterial({ color: 0x64748b, size: 0.18, fog: false, transparent: true, opacity: 0.7 })));
+    })();
+
+    // queen
+    var queen = new THREE.Group(); scene.add(queen);
+    var qCore = new THREE.Mesh(new THREE.IcosahedronGeometry(0.62, 1), new THREE.MeshBasicMaterial({ color: 0xfff3c4 }));
+    var qWire = new THREE.Mesh(new THREE.IcosahedronGeometry(0.95, 1), new THREE.MeshBasicMaterial({ color: 0xfbbf24, wireframe: true, transparent: true, opacity: 0.35 }));
+    var qGlow = glow(0xffd27a, 4.2, 0.9), qGlow2 = glow(0xfff3c4, 1.8, 1);
+    queen.add(qCore, qWire, qGlow, qGlow2);
+
+    // rings / workers
+    var RINGS = [
+      { r: 3.1, tiltX: 0.32, yaw: 0.0, turns: 2, members: [0, 1, 2] },
+      { r: 5.6, tiltX: -0.2, yaw: 0.7, turns: -1, members: [3, 4, 5, 6, 7] }
+    ];
+    var ringEuler = RINGS.map(function (R) { return new THREE.Euler(R.tiltX, R.yaw, 0, 'YXZ'); });
+    RINGS.forEach(function (R, ri) {
+      var pts = [];
+      for (var i = 0; i <= 96; i++) { var a = i / 96 * Math.PI * 2; pts.push(new THREE.Vector3(R.r * Math.cos(a), 0, R.r * Math.sin(a)).applyEuler(ringEuler[ri])); }
+      scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({ color: 0x334155, transparent: true, opacity: 0.55 })));
+    });
+    var workerRing = [], workerPhase = [];
+    RINGS.forEach(function (R, ri) { R.members.forEach(function (k, j) { workerRing[k] = ri; workerPhase[k] = j / R.members.length * Math.PI * 2; }); });
+    function workerPos(k, t, out) {
+      var R = RINGS[workerRing[k]], a = workerPhase[k] + R.turns * Math.PI * 2 * t / LOOP;
+      out = out || new THREE.Vector3();
+      return out.set(R.r * Math.cos(a), 0.25 * Math.sin(a * 3 + k), R.r * Math.sin(a)).applyEuler(ringEuler[workerRing[k]]);
+    }
+    var workers = ROLES.map(function (r) {
+      var g = new THREE.Group();
+      var c = new THREE.Color(r.colour);
+      g.add(new THREE.Mesh(new THREE.SphereGeometry(0.27, 14, 10), new THREE.MeshBasicMaterial({ color: c })));
+      var gl = glow(c, 1.6, 0.85); g.add(gl); g.userData.glow = gl;
+      scene.add(g); return g;
+    });
+
+    // vault
+    var VAULT = new THREE.Vector3(0, -5.4, 0);
+    var vault = new THREE.Group(); vault.position.copy(VAULT); scene.add(vault);
+    var glyphC = document.createElement('canvas'); glyphC.width = glyphC.height = 256;
+    var gctx = glyphC.getContext('2d');
+    var GLY = '0123456789abcdef#%&*+=<>/\\|~@$ΔΣΩλψξ'.split('');
+    var glyphSeed = 1;
+    function rnd() { glyphSeed = (glyphSeed * 16807) % 2147483647; return glyphSeed / 2147483647; }
+    function drawGlyphs(seed, heat) {
+      glyphSeed = seed + 1;
+      gctx.fillStyle = '#04121a'; gctx.fillRect(0, 0, 256, 256);
+      gctx.font = 'bold 15px monospace'; gctx.textBaseline = 'top';
+      for (var y = 0; y < 16; y++) for (var x = 0; x < 21; x++) {
+        var v = rnd();
+        gctx.fillStyle = v < 0.08 + heat * 0.25 ? '#ccfbf1' : v < 0.5 ? 'rgba(45,212,191,.85)' : 'rgba(45,212,191,.35)';
+        gctx.fillText(GLY[(rnd() * GLY.length) | 0], x * 12 + 2, y * 16);
+      }
+    }
+    drawGlyphs(1, 0);
+    var glyphTex = new THREE.CanvasTexture(glyphC);
+    var inner = new THREE.Mesh(new THREE.BoxGeometry(1.9, 1.9, 1.9),
+      new THREE.MeshBasicMaterial({ map: glyphTex, transparent: true, opacity: 0.55, side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending }));
+    var shellBox = new THREE.Mesh(new THREE.BoxGeometry(2.3, 2.3, 2.3),
+      new THREE.MeshBasicMaterial({ color: 0x0e7490, transparent: true, opacity: 0.12, depthWrite: false }));
+    var edges = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(2.3, 2.3, 2.3)),
+      new THREE.LineBasicMaterial({ color: 0x5eead4, transparent: true, opacity: 0.9 }));
+    var vGlow = glow(0x2dd4bf, 5, 0.25);
+    vault.add(inner, shellBox, edges, vGlow);
+    // padlock emblem
+    (function () {
+      var c = document.createElement('canvas'); c.width = c.height = 128; var g = c.getContext('2d');
+      g.strokeStyle = '#ccfbf1'; g.lineWidth = 9; g.beginPath(); g.arc(64, 52, 22, Math.PI, 0); g.lineTo(86, 66); g.moveTo(42, 66); g.lineTo(42, 52); g.stroke();
+      g.fillStyle = '#ccfbf1'; g.beginPath(); if (g.roundRect) g.roundRect(30, 62, 68, 50, 9); else g.rect(30, 62, 68, 50); g.fill();
+      g.fillStyle = '#04121a'; g.beginPath(); g.arc(64, 82, 7, 0, Math.PI * 2); g.fill(); g.fillRect(61, 84, 6, 16);
+      var s = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), transparent: true, depthTest: false, fog: false }));
+      s.scale.set(0.95, 0.95, 1); s.renderOrder = 5; vault.add(s);
+    })();
+
+    // edges of the mesh (dynamic)
+    var EDGE_PAIRS = [];
+    var Q = -1, V = -2;
+    [0, 1, 2].forEach(function (k) { EDGE_PAIRS.push([Q, k]); });
+    [[0, 1], [1, 2], [2, 0]].forEach(function (p) { EDGE_PAIRS.push(p); });
+    [3, 4, 5, 6, 7].forEach(function (k, j) { EDGE_PAIRS.push([k, [0, 1, 2][j % 3]]); EDGE_PAIRS.push([k, 3 + (j + 1) % 5]); });
+    var vaultEdgeStart = EDGE_PAIRS.length;
+    for (var k = 0; k < 8; k++) EDGE_PAIRS.push([k, V]);
+    var ePos = new Float32Array(EDGE_PAIRS.length * 6), eCol = new Float32Array(EDGE_PAIRS.length * 6);
+    var eGeo = new THREE.BufferGeometry();
+    eGeo.setAttribute('position', new THREE.BufferAttribute(ePos, 3));
+    eGeo.setAttribute('color', new THREE.BufferAttribute(eCol, 3));
+    scene.add(new THREE.LineSegments(eGeo, new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false })));
+    var QCOL = new THREE.Color(0xfde68a), VCOL = new THREE.Color(0x2dd4bf);
+    function nodeCol(n) { return n === Q ? QCOL : n === V ? VCOL : new THREE.Color(ROLES[n].colour); }
+    var nodeColCache = {};
+    EDGE_PAIRS.forEach(function (p, i) {
+      var dim = i >= vaultEdgeStart ? 0.35 : 0.6;
+      [0, 1].forEach(function (e) { var c = nodeCol(p[e]); eCol[i * 6 + e * 3] = c.r * dim; eCol[i * 6 + e * 3 + 1] = c.g * dim; eCol[i * 6 + e * 3 + 2] = c.b * dim; });
+    });
+
+    // ABP shell
+    var shell = new THREE.LineSegments(new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(SHELL_R, 2)),
+      new THREE.LineBasicMaterial({ color: 0x2dd4bf, transparent: true, opacity: 0.05, depthWrite: false, fog: false }));
+    scene.add(shell);
+
+    // pulses: memory messages (8) and actions (N)
+    var memPulses = ROLES.map(function (r) { var s = glow(new THREE.Color(r.colour), 0.9, 1); s.visible = false; scene.add(s); return s; });
+    var actPulses = rows.map(function () {
+      var s = glow(0xffffff, 1.0, 1); s.visible = false; scene.add(s);
+      var h = glow(0xffffff, 2.2, 0); h.visible = false; scene.add(h);   // hit flash
+      return { core: s, hit: h };
+    });
+    // which node sends each action: the queen's own row leaves the queen, the rest leave the workers in turn
+    var wi = 0;
+    var actSrc = rows.map(function (r) { return /queen/.test(r.who || '') ? Q : (wi++ % 8); });
+
+    // ---------- labels ----------
+    var labelsEl = document.getElementById('labels');
+    function mkLabel(text, cls, color) {
+      var d = document.createElement('div'); d.className = 'lbl ' + (cls || ''); d.textContent = text;
+      if (color) d.style.color = color; labelsEl.appendChild(d); return d;
+    }
+    var wLabels = ROLES.map(function (r) { return mkLabel(r.id, '', r.colour); });
+    var qLabel = mkLabel('Ruflo queen', 'queen');
+    var vLabel = mkLabel('sgit vault · ciphertext', '', '#5eead4');
+    var shellLabel = mkLabel('ABP · the written mandate', '', '#5eead4');
+    var aLabels = rows.map(function (r) { return mkLabel((r.who || '') + ' · ' + (r.action || ''), 'act'); });
+    var tmpV = new THREE.Vector3();
+    var W = 1, H = 1;
+    function place(el, v3, show, opacity) {
+      if (!show) { el.style.display = 'none'; return; }
+      tmpV.copy(v3).project(camera);
+      if (tmpV.z > 1 || tmpV.x < -1.2 || tmpV.x > 1.2 || tmpV.y < -1.2 || tmpV.y > 1.2) { el.style.display = 'none'; return; }
+      el.style.display = 'block';
+      el.style.left = ((tmpV.x * 0.5 + 0.5) * W).toFixed(1) + 'px';
+      el.style.top = ((-tmpV.y * 0.5 + 0.5) * H).toFixed(1) + 'px';
+      el.style.opacity = opacity == null ? 1 : opacity;
+    }
+
+    // ---------- camera control ----------
+    var dragAz = 0, dragEl = 0, dragging = false, lx = 0, ly = 0;
+    canvas.addEventListener('pointerdown', function (e) { dragging = true; lx = e.clientX; ly = e.clientY; try { canvas.setPointerCapture(e.pointerId); } catch (_) {} });
+    canvas.addEventListener('pointermove', function (e) {
+      if (!dragging) return;
+      dragAz -= (e.clientX - lx) * 0.006; dragEl = clamp(dragEl + (e.clientY - ly) * 0.004, -0.5, 0.9);
+      lx = e.clientX; ly = e.clientY;
+    });
+    function endDrag() { dragging = false; }
+    canvas.addEventListener('pointerup', endDrag); canvas.addEventListener('pointercancel', endDrag);
+
+    function resize() {
+      W = window.innerWidth; H = window.innerHeight;
+      renderer.setSize(W, H, false); camera.aspect = W / H; camera.updateProjectionMatrix();
+    }
+    window.addEventListener('resize', resize); resize();
+
+    // ---------- HUD ----------
+    var phaseEl = document.getElementById('phase'), hudEl = document.getElementById('hud'), barEl = document.getElementById('bar');
+    var lastPhase = '', lastHud = '';
+    function hudRow(k, v, cls) { return '<div class="row"><span class="k">' + k + '</span><span class="' + (cls || '') + '">' + v + '</span></div>'; }
+
+    function resolveT(i, base, step) { return base + i * step + P.fly; }
+
+    function frame() {
+      var t = window.__t();
+      var tmp = new THREE.Vector3();
+
+      // camera path
+      var pol = ease((t - 10) / 4) * (1 - ease((t - 37) / 3));
+      var portrait = camera.aspect < 0.9;
+      var dist = (15 + 9 * pol) * (portrait ? 1.75 : 1);
+      var az = Math.PI * 2 * t / LOOP + 0.6 + dragAz;
+      var el = 0.38 + 0.12 * Math.sin(Math.PI * 2 * t / LOOP) + dragEl;
+      var lookY = -1.6 * (1 - pol) - 0.6 * pol + (portrait ? 2.2 : 0);
+      camera.position.set(dist * Math.cos(el) * Math.cos(az), lookY + dist * Math.sin(el), dist * Math.cos(el) * Math.sin(az));
+      camera.lookAt(0, lookY, 0);
+
+      // intro fade-in of the hive
+      var intro = ease(t / 2.2);
+
+      // queen
+      var qb = 1 + 0.08 * Math.sin(t * 3.1);
+      qCore.rotation.y = t * 0.6; qWire.rotation.y = -t * 0.3; qWire.rotation.x = t * 0.2;
+      qGlow.scale.setScalar(4.2 * qb * intro); qGlow2.scale.setScalar(1.8 * qb);
+
+      // workers
+      var wp = [];
+      for (var k = 0; k < 8; k++) {
+        wp[k] = workerPos(k, t);
+        workers[k].position.copy(wp[k]).multiplyScalar(0.4 + 0.6 * intro);
+        wp[k].copy(workers[k].position);
+      }
+      function nodePos(n) { return n === Q ? queen.position : n === V ? VAULT : wp[n]; }
+      EDGE_PAIRS.forEach(function (p, i) {
+        var a = nodePos(p[0]), b = nodePos(p[1]);
+        ePos[i * 6] = a.x; ePos[i * 6 + 1] = a.y; ePos[i * 6 + 2] = a.z; ePos[i * 6 + 3] = b.x; ePos[i * 6 + 4] = b.y; ePos[i * 6 + 5] = b.z;
+      });
+      eGeo.attributes.position.needsUpdate = true;
+
+      // memory messages into the vault
+      var heat = 0;
+      for (k = 0; k < 8; k++) {
+        var st = P.memA + k * 0.85, s = (t - st) / 1.4, m = memPulses[k];
+        if (s > 0 && s < 1) {
+          m.visible = true; m.position.copy(wp[k]).lerp(VAULT, ease(s));
+          m.scale.setScalar(0.7 + 0.4 * Math.sin(s * Math.PI));
+          workers[k].userData.glow.scale.setScalar(1.6 + 1.2 * (1 - s));
+        } else { m.visible = false; workers[k].userData.glow.scale.setScalar(1.6); }
+        if (s >= 1 && s < 1.6) heat = Math.max(heat, 1 - (s - 1) / 0.6);
+      }
+      vGlow.material.opacity = 0.22 + 0.5 * heat;
+      vGlow.scale.setScalar(5 + 2 * heat);
+      vault.rotation.y = t * 0.25; vault.rotation.x = 0.15 * Math.sin(t * 0.4);
+      var gseed = Math.floor(t * 7);
+      if (gseed !== frame.gseed) { frame.gseed = gseed; drawGlyphs(gseed, heat); glyphTex.needsUpdate = true; }
+
+      // policy phases
+      var legacy = t >= P.legA - 0.5 && t < P.abpA - 0.3;
+      var abpOn = t >= P.abpA - 1.2;
+      var shellTarget = abpOn ? 0.16 : legacy ? 0.035 : 0.05;
+      shell.material.opacity = shellTarget * (abpOn ? ease((t - P.abpA + 1.2) / 1.2) * (1 - ease((t - 38.6) / 1.2)) : 1) + (legacy ? 0 : 0);
+      shell.material.color.setHex(abpOn ? 0x2dd4bf : 0x64748b);
+      shell.rotation.y = t * 0.03;
+
+      var live = { deny: 0, appr: 0, allow: 0, legacy: 0 }, ticker = [];
+      for (var i = 0; i < N; i++) {
+        var pu = actPulses[i], lab = aLabels[i];
+        var isAbp = t >= P.abpA - 0.2;
+        var base = isAbp ? P.abpA : P.legA, step = isAbp ? P.abpStep : P.legStep;
+        var launch = base + i * step, sf = (t - launch) / P.fly;
+        var kind = isAbp ? kinds[i] : 'legacy';
+        var src = nodePos(actSrc[i]);
+        var dir = tmp.copy(actSrc[i] === Q ? new THREE.Vector3(Math.cos(i), 0.6, Math.sin(i)) : workerPos(actSrc[i], launch)).normalize();
+        var srcAtLaunch = actSrc[i] === Q ? new THREE.Vector3() : workerPos(actSrc[i], launch);
+        var hitP = dir.clone().multiplyScalar(SHELL_R);
+        pu.core.visible = false; pu.hit.visible = false;
+        var labShow = false, labOp = 1;
+        if ((legacy && !isAbp) || isAbp) {
+          if (sf > 0 && sf <= 1) {
+            pu.core.visible = true;
+            pu.core.position.copy(srcAtLaunch).lerp(hitP, ease(sf));
+            pu.core.material.color.setHex(isAbp ? 0xe2e8f0 : COL.legacy);
+            pu.core.material.opacity = 1; pu.core.scale.setScalar(0.9);
+            labShow = isAbp; lab.style.color = '#e2e8f0';
+          } else if (sf > 1) {
+            var after = (sf - 1) * P.fly;  // seconds after reaching the shell
+            if (kind === 'deny') {
+              live.deny++;
+              if (after < 1.2) {
+                pu.core.visible = true; pu.core.position.copy(hitP); pu.core.material.color.setHex(COL.deny);
+                pu.core.material.opacity = 1 - after / 1.2; pu.core.scale.setScalar(0.9 + after * 1.4);
+                pu.hit.visible = true; pu.hit.position.copy(hitP); pu.hit.material.color.setHex(COL.deny);
+                pu.hit.material.opacity = 0.9 * (1 - after / 1.2); pu.hit.scale.setScalar(2 + after * 3);
+                labShow = true; labOp = 1 - after / 1.2; lab.style.color = '#f87171';
+              }
+            } else if (kind === 'appr') {
+              live.appr++;
+              if (t < 38.8) {
+                var b = 0.5 + 0.5 * Math.sin(t * 4 + i);
+                pu.core.visible = true; pu.core.position.copy(hitP); pu.core.material.color.setHex(COL.appr);
+                pu.core.material.opacity = 1; pu.core.scale.setScalar(0.9 + 0.35 * b);
+                pu.hit.visible = true; pu.hit.position.copy(hitP); pu.hit.material.color.setHex(COL.appr);
+                pu.hit.material.opacity = 0.25 + 0.35 * b; pu.hit.scale.setScalar(2.2);
+                labShow = true; lab.style.color = '#fbbf24';
+              }
+            } else {
+              if (kind === 'legacy') live.legacy++; else live.allow++;
+              if (after < 1.6) {
+                var out = after / 1.6;
+                pu.core.visible = true; pu.core.position.copy(hitP).multiplyScalar(1 + 0.45 * out);
+                pu.core.material.color.setHex(kind === 'legacy' ? COL.legacy : COL.allow);
+                pu.core.material.opacity = 1 - out; pu.core.scale.setScalar(0.9);
+                if (after < 0.6) { pu.hit.visible = true; pu.hit.position.copy(hitP); pu.hit.material.color.setHex(kind === 'legacy' ? COL.legacy : COL.allow);
+                  pu.hit.material.opacity = 0.5 * (1 - after / 0.6); pu.hit.scale.setScalar(1.8); }
+                labShow = isAbp; labOp = 1 - out; lab.style.color = '#2dd4bf';
+              }
+            }
+            if (isAbp) ticker.push(i);
+          }
+        }
+        var lp = pu.core.visible ? pu.core.position : hitP;
+        if (labShow && kind === 'appr' && sf > 1) lab.textContent = (rows[i].who || '') + ' · ' + (rows[i].action || '') + ' → awaits ' + owner;
+        else lab.textContent = (rows[i].who || '') + ' · ' + (rows[i].action || '');
+        place(lab, lp, labShow && !(portrait && kind === 'appr' && sf > 1 && false), labOp);
+      }
+
+      // labels for nodes
+      for (k = 0; k < 8; k++) place(wLabels[k], wp[k], intro > 0.5, portrait ? 0.85 : 1);
+      place(qLabel, queen.position, true);
+      tmp.copy(VAULT); tmp.y -= 1.6;
+      place(vLabel, tmp, true);
+      vLabel.style.transform = 'translate(-50%, 0)';
+      tmp.set(0, SHELL_R, 0);
+      place(shellLabel, tmp, abpOn && t < 38.6, 0.9);
+
+      // phase caption
+      var ph;
+      if (t < P.memA) ph = 'The Ruflo queen at the core; ' + ROLES.length + ' role workers orbit her on rings, a hierarchical mesh.';
+      else if (t < P.memB) ph = 'Each role writes what it learned to <b>its own vault branch</b>, encrypted on the client: the server only sees ciphertext.';
+      else if (t < P.abpA - 0.3) ph = 'Ruflo default, no policy: every action passes straight out. Passed so far: <b>' + live.legacy + ' / ' + N + '</b>.';
+      else if (t < P.sumA) ph = 'The same ' + N + ' actions meet the <b>ABP</b>, the written mandate: denied ones die at the shell, approvals wait for ' + esc(owner) + '.';
+      else ph = 'With the ABP: <span class="d">' + nDeny + ' denied</span>, <span class="a">' + nAppr + ' held for ' + esc(owner) + '</span>, <span class="ok">' + nAllow + ' allowed</span>. Every decision is a hash-chained receipt; ledger ' + (ledOk ? 'valid' : 'NOT valid') + ' (' + ledTxt + ').';
+      if (ph !== lastPhase) { phaseEl.innerHTML = ph; lastPhase = ph; }
+
+      // HUD
+      var showLive = t >= P.abpA - 0.3;
+      var h = hudRow('actions', N) +
+        hudRow('Ruflo default', (t >= P.legA ? (t < P.abpA - 0.3 ? live.legacy : nLegAllow) : 0) + ' / ' + N + ' allowed') +
+        '<div class="sep"></div>' +
+        hudRow('ABP denied', showLive ? live.deny + ' / ' + nDeny : '–', 'd') +
+        hudRow('ABP approval', showLive ? live.appr + ' / ' + nAppr : '–', 'a') +
+        hudRow('ABP allowed', showLive ? live.allow + ' / ' + nAllow : '–', 'ok') +
+        '<div class="sep"></div>' +
+        hudRow('ABP', abpRoles + ' roles · ' + abpRows + ' rows · ' + gaps + ' gaps') +
+        hudRow('receipts', ledTxt + (ledOk ? ' · valid' : ''), ledOk ? 'ok' : 'd') +
+        '<div id="ticker">' + ticker.slice(-3).reverse().map(function (i) {
+          var k = kinds[i], c = k === 'deny' ? 'd' : k === 'appr' ? 'a' : 'ok';
+          return '<div><span class="' + c + '">' + (k === 'appr' ? 'approval' : k === 'deny' ? 'denied' : 'allowed') + '</span> ' + esc(rows[i].who) + ' · ' + esc(rows[i].action) + '</div>';
+        }).join('') + '</div>';
+      if (h !== lastHud) { hudEl.innerHTML = h; lastHud = h; }
+      barEl.style.width = (t / LOOP * 100).toFixed(2) + '%';
+
+      renderer.render(scene, camera);
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,382 @@
+{
+ "builders": {
+  "source": "the host (Claude Code) usage report for each builder subagent, studio run 1, 15 Oct 2026; one subagent per version, all seven started at the same time",
+  "builders": [
+   {
+    "id": "v1",
+    "tokens": 80674,
+    "tool_uses": 11,
+    "wall_s": 284
+   },
+   {
+    "id": "v2",
+    "tokens": 91393,
+    "tool_uses": 18,
+    "wall_s": 502
+   },
+   {
+    "id": "v3",
+    "tokens": 88379,
+    "tool_uses": 18,
+    "wall_s": 455
+   },
+   {
+    "id": "v4",
+    "tokens": 81750,
+    "tool_uses": 13,
+    "wall_s": 420
+   },
+   {
+    "id": "v5",
+    "tokens": 97682,
+    "tool_uses": 15,
+    "wall_s": 419
+   },
+   {
+    "id": "v6",
+    "tokens": 87380,
+    "tool_uses": 14,
+    "wall_s": 335
+   },
+   {
+    "id": "v7",
+    "tokens": 102599,
+    "tool_uses": 19,
+    "wall_s": 560
+   }
+  ],
+  "total_tokens": 629857,
+  "wall_s_parallel": 560
+ },
+ "delivered": [
+  "delivered studio/v1 sha256:edf9966f87e9d1e3 bytes:18739",
+  "delivered studio/v2 sha256:7702c77839cfe47b bytes:19194",
+  "delivered studio/v3 sha256:24275d35380bec8d bytes:19602",
+  "delivered studio/v4 sha256:baab30b5f5a1ab75 bytes:19604",
+  "delivered studio/v5 sha256:acc33b7996e7871a bytes:28533",
+  "delivered studio/v6 sha256:abe0acf419235fa0 bytes:27143",
+  "delivered studio/v7 sha256:ddee45ef84580593 bytes:31395"
+ ],
+ "run": "studio run 1",
+ "date": "2026-10-15",
+ "ruflo": "3.56.10",
+ "hive": {
+  "workers": 8,
+  "tasks": 7
+ },
+ "versions": [
+  {
+   "id": "v1",
+   "title": "Static diagram that builds",
+   "level": "SVG only, step-by-step build of the architecture: agents, ABP gate, vault, receipts",
+   "bytes": 18739,
+   "sha256": "edf9966f87e9d1e3bee18b3521c61bff782f3efaf2f4aa29b31461026ebcc6d7",
+   "video": "video/v1.mp4",
+   "poster": "posters/v1.webp"
+  },
+  {
+   "id": "v2",
+   "title": "Messages in flight",
+   "level": "2D SVG/CSS: the queen hands tasks to workers; envelopes travel through the vault between them",
+   "bytes": 19194,
+   "sha256": "7702c77839cfe47b1824529eb803a172da88f153fed0a50a47c618278dc49645",
+   "video": "video/v2.mp4",
+   "poster": "posters/v2.webp"
+  },
+  {
+   "id": "v3",
+   "title": "Vault lanes",
+   "level": "a subway-map of vault branches, one lane per agent role; commits appear, lanes merge, a fresh clone pulls them",
+   "bytes": 19602,
+   "sha256": "24275d35380bec8dac47c6eba9c00f04ac5c42a543451ae1dee9e59ac82aa615",
+   "video": "video/v3.mp4",
+   "poster": "posters/v3.webp"
+  },
+  {
+   "id": "v4",
+   "title": "The policy gate",
+   "level": "canvas particles: 11 actions fly at a gate twice; default lets all through, the ABP denies 4, holds 2 for a human, lets 5 through; receipts chain below",
+   "bytes": 19604,
+   "sha256": "baab30b5f5a1ab755bd434d97657b99c626a593ea428f38a54b90507e51c3235",
+   "video": "video/v4.mp4",
+   "poster": "posters/v4.webp"
+  },
+  {
+   "id": "v5",
+   "title": "The isometric office",
+   "level": "2.5D isometric floor: one desk per role, a vault safe in the middle, envelopes walking between desks and safe",
+   "bytes": 28533,
+   "sha256": "acc33b7996e7871a0ab60d4ee422d9951108d03c7abc2fefd46d4d31db46730b",
+   "video": "video/v5.mp4",
+   "poster": "posters/v5.webp"
+  },
+  {
+   "id": "v6",
+   "title": "The hive in 3D",
+   "level": "three.js: queen at the centre, workers orbiting, an encrypted vault cube; decisions pulse along edges",
+   "bytes": 27143,
+   "sha256": "abe0acf419235fa028632f66bf801838e2699af25f4ffcd2fa4257ee12ce4791",
+   "video": "video/v6.mp4",
+   "poster": "posters/v6.webp"
+  },
+  {
+   "id": "v7",
+   "title": "The city of vaults",
+   "level": "three.js: a city where each vault branch is a street and each commit adds a floor; the ABP is the city wall with gates; receipts are streetlights",
+   "bytes": 31395,
+   "sha256": "ddee45ef84580593cab204f4887d3798342425251d3ca335cc89ff189fb4f407",
+   "video": "video/v7.mp4",
+   "poster": "posters/v7.webp"
+  }
+ ],
+ "trace": [
+  {
+   "seq": 1,
+   "actor": "queen",
+   "cmd": "hive-mind init -t hierarchical-mesh -c byzantine -m 12",
+   "rc": 0,
+   "start_ms": 1792068023777,
+   "ms": 491
+  },
+  {
+   "seq": 2,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t conductor -r specialist -p conductor",
+   "rc": 0,
+   "start_ms": 1792068024327,
+   "ms": 422
+  },
+  {
+   "seq": 3,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t librarian -r specialist -p librarian",
+   "rc": 0,
+   "start_ms": 1792068024784,
+   "ms": 511
+  },
+  {
+   "seq": 4,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t architect -r specialist -p architect",
+   "rc": 0,
+   "start_ms": 1792068025334,
+   "ms": 456
+  },
+  {
+   "seq": 5,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t designer -r specialist -p designer",
+   "rc": 0,
+   "start_ms": 1792068025825,
+   "ms": 505
+  },
+  {
+   "seq": 6,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t developer -r specialist -p developer",
+   "rc": 0,
+   "start_ms": 1792068026360,
+   "ms": 536
+  },
+  {
+   "seq": 7,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t editor -r specialist -p editor",
+   "rc": 0,
+   "start_ms": 1792068026932,
+   "ms": 526
+  },
+  {
+   "seq": 8,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t historian -r specialist -p historian",
+   "rc": 0,
+   "start_ms": 1792068027490,
+   "ms": 505
+  },
+  {
+   "seq": 9,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t observer -r specialist -p observer",
+   "rc": 0,
+   "start_ms": 1792068028022,
+   "ms": 438
+  },
+  {
+   "seq": 10,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d v1: Static diagram that builds -p high",
+   "rc": 0,
+   "start_ms": 1792068028513,
+   "ms": 460
+  },
+  {
+   "seq": 11,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d v2: Messages in flight -p high",
+   "rc": 0,
+   "start_ms": 1792068029005,
+   "ms": 458
+  },
+  {
+   "seq": 12,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d v3: Vault lanes -p high",
+   "rc": 0,
+   "start_ms": 1792068029496,
+   "ms": 436
+  },
+  {
+   "seq": 13,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d v4: The policy gate -p high",
+   "rc": 0,
+   "start_ms": 1792068029965,
+   "ms": 455
+  },
+  {
+   "seq": 14,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d v5: The isometric office -p high",
+   "rc": 0,
+   "start_ms": 1792068030449,
+   "ms": 512
+  },
+  {
+   "seq": 15,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d v6: The hive in 3D -p high",
+   "rc": 0,
+   "start_ms": 1792068030995,
+   "ms": 546
+  },
+  {
+   "seq": 16,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d v7: The city of vaults -p high",
+   "rc": 0,
+   "start_ms": 1792068031583,
+   "ms": 492
+  },
+  {
+   "seq": 17,
+   "actor": "conductor",
+   "cmd": "hive-mind broadcast -m Brief: animate how an ABP + sgit vaults make a Ruflo swarm trustworthy; one HTML file per version; data from site/data only -f conductor",
+   "rc": 0,
+   "start_ms": 1792068032113,
+   "ms": 434
+  },
+  {
+   "seq": 18,
+   "actor": "librarian",
+   "cmd": "hive-mind memory -a set -k studio/spec -v poc/poc7-studio/spec.json",
+   "rc": 0,
+   "start_ms": 1792068032574,
+   "ms": 392
+  },
+  {
+   "seq": 19,
+   "actor": "queen",
+   "cmd": "hive-mind status",
+   "rc": 0,
+   "start_ms": 1792068032996,
+   "ms": 510
+  },
+  {
+   "seq": 20,
+   "actor": "queen",
+   "cmd": "swarm status",
+   "rc": 0,
+   "start_ms": 1792068033538,
+   "ms": 392
+  },
+  {
+   "seq": 21,
+   "actor": "queen",
+   "cmd": "daemon stop",
+   "rc": 0,
+   "start_ms": 1792068033957,
+   "ms": 483
+  },
+  {
+   "seq": 22,
+   "actor": "developer",
+   "cmd": "hive-mind broadcast -m delivered studio/v1 sha256:edf9966f87e9d1e3 bytes:18739 -f developer",
+   "rc": 0,
+   "start_ms": 1792068034496,
+   "ms": 563
+  },
+  {
+   "seq": 23,
+   "actor": "developer",
+   "cmd": "hive-mind broadcast -m delivered studio/v2 sha256:7702c77839cfe47b bytes:19194 -f developer",
+   "rc": 0,
+   "start_ms": 1792068035115,
+   "ms": 551
+  },
+  {
+   "seq": 24,
+   "actor": "developer",
+   "cmd": "hive-mind broadcast -m delivered studio/v3 sha256:24275d35380bec8d bytes:19602 -f developer",
+   "rc": 0,
+   "start_ms": 1792068035722,
+   "ms": 536
+  },
+  {
+   "seq": 25,
+   "actor": "developer",
+   "cmd": "hive-mind broadcast -m delivered studio/v4 sha256:baab30b5f5a1ab75 bytes:19604 -f developer",
+   "rc": 0,
+   "start_ms": 1792068036300,
+   "ms": 537
+  },
+  {
+   "seq": 26,
+   "actor": "developer",
+   "cmd": "hive-mind broadcast -m delivered studio/v5 sha256:acc33b7996e7871a bytes:28533 -f developer",
+   "rc": 0,
+   "start_ms": 1792068036881,
+   "ms": 554
+  },
+  {
+   "seq": 27,
+   "actor": "developer",
+   "cmd": "hive-mind broadcast -m delivered studio/v6 sha256:abe0acf419235fa0 bytes:27143 -f developer",
+   "rc": 0,
+   "start_ms": 1792068037487,
+   "ms": 572
+  },
+  {
+   "seq": 28,
+   "actor": "developer",
+   "cmd": "hive-mind broadcast -m delivered studio/v7 sha256:ddee45ef84580593 bytes:31395 -f developer",
+   "rc": 0,
+   "start_ms": 1792068038108,
+   "ms": 566
+  },
+  {
+   "seq": 29,
+   "actor": "historian",
+   "cmd": "hive-mind memory -a list",
+   "rc": 0,
+   "start_ms": 1792068038707,
+   "ms": 479
+  },
+  {
+   "seq": 30,
+   "actor": "queen",
+   "cmd": "hive-mind status",
+   "rc": 0,
+   "start_ms": 1792068039254,
+   "ms": 506
+  },
+  {
+   "seq": 31,
+   "actor": "queen",
+   "cmd": "daemon stop",
+   "rc": 0,
+   "start_ms": 1792068039790,
+   "ms": 489
+  }
+ ]
+}

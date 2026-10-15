@@ -1,0 +1,86 @@
+{
+ "initialized": true,
+ "topology": "hierarchical-mesh",
+ "workers": [
+  "conductor-1792068024731-zc8r",
+  "librarian-1792068025274-4ukg",
+  "architect-1792068025770-g4by",
+  "designer-1792068026306-u0ou",
+  "developer-1792068026871-nsyv",
+  "editor-1792068027434-r1q6",
+  "historian-1792068027976-p94k",
+  "observer-1792068028441-q5wh"
+ ],
+ "consensus": {
+  "pending": [],
+  "history": []
+ },
+ "sharedMemory": {
+  "broadcasts": [
+   {
+    "messageId": "msg-1792068032538-7cp63h",
+    "message": "Brief: animate how an ABP + sgit vaults make a Ruflo swarm trustworthy; one HTML file per version; data from site/data only",
+    "priority": "normal",
+    "fromId": "conductor",
+    "timestamp": "2026-10-15T12:40:32.539Z"
+   },
+   {
+    "messageId": "msg-1792068035044-aq3077",
+    "message": "delivered studio/v1 sha256:edf9966f87e9d1e3 bytes:18739",
+    "priority": "normal",
+    "fromId": "developer",
+    "timestamp": "2026-10-15T12:40:35.044Z"
+   },
+   {
+    "messageId": "msg-1792068035654-ifykfp",
+    "message": "delivered studio/v2 sha256:7702c77839cfe47b bytes:19194",
+    "priority": "normal",
+    "fromId": "developer",
+    "timestamp": "2026-10-15T12:40:35.654Z"
+   },
+   {
+    "messageId": "msg-1792068036244-404yo3",
+    "message": "delivered studio/v3 sha256:24275d35380bec8d bytes:19602",
+    "priority": "normal",
+    "fromId": "developer",
+    "timestamp": "2026-10-15T12:40:36.244Z"
+   },
+   {
+    "messageId": "msg-1792068036822-kf4nhi",
+    "message": "delivered studio/v4 sha256:baab30b5f5a1ab75 bytes:19604",
+    "priority": "normal",
+    "fromId": "developer",
+    "timestamp": "2026-10-15T12:40:36.822Z"
+   },
+   {
+    "messageId": "msg-1792068037424-fk3n6y",
+    "message": "delivered studio/v5 sha256:acc33b7996e7871a bytes:28533",
+    "priority": "normal",
+    "fromId": "developer",
+    "timestamp": "2026-10-15T12:40:37.424Z"
+   },
+   {
+    "messageId": "msg-1792068038040-cv63kg",
+    "message": "delivered studio/v6 sha256:abe0acf419235fa0 bytes:27143",
+    "priority": "normal",
+    "fromId": "developer",
+    "timestamp": "2026-10-15T12:40:38.040Z"
+   },
+   {
+    "messageId": "msg-1792068038661-gv9zt4",
+    "message": "delivered studio/v7 sha256:ddee45ef84580593 bytes:31395",
+    "priority": "normal",
+    "fromId": "developer",
+    "timestamp": "2026-10-15T12:40:38.661Z"
+   }
+  ]
+ },
+ "createdAt": "2026-10-15T12:40:24.258Z",
+ "updatedAt": "2026-10-15T12:40:38.662Z",
+ "consensusStrategy": "byzantine",
+ "queen": {
+  "agentId": "queen-1792068024258",
+  "electedAt": "2026-10-15T12:40:24.258Z",
+  "term": 1
+ }
+}

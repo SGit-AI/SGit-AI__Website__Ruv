@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Set it up: a brief any agent can follow to run a Ruflo hive with sgit vaults as its bus and its evidence</title>
+<meta name="description" content="Point an agent at this page and say: set this up. It is written for any host that can run a shell: Claude Code, Claude on the web, ChatGPT, Lovable, a CI runner. It installs pinned versions of Ruflo and sgit, creates two vaults (a message bus with a lane per role, and one vault per run that keeps ev">
+<link rel="canonical" href="https://ruv.sgit.ai/articles/studio-setup-brief.html">
+<link rel="alternate" type="text/markdown" href="studio-setup-brief.md">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f766e%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Georgia%27%3Er%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/site.css">
+<style>.article{max-width:780px}.article p,.article li{max-width:none}.article h2{margin-top:1.6em}.abstract{font-size:18px;border-left:4px solid var(--t);padding:4px 0 4px 16px;margin:18px 0}.byline{color:var(--m);font-size:14px}.article figure{margin:24px 0}.article figure img,.article figure svg{width:100%;height:auto;border-radius:12px;border:1px solid var(--line);background:var(--card)}.article figcaption{color:var(--m);font-size:13px;margin-top:6px}.article blockquote{margin:16px 0;padding:8px 16px;border-left:4px solid var(--a);background:var(--a2);border-radius:0 10px 10px 0}.tags span{display:inline-block;margin-bottom:4px;font-size:12px;padding:2px 8px;border:1px solid var(--line);border-radius:999px;margin-right:6px;color:var(--m)}</style>
+</head>
+<body data-root="../">
+<header class="top"><div class="wrap"><a class="brand" href="../index.html">ruv.sgit.ai<small>rUv x sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
+<section class="hero"><div class="wrap article">
+<p class="k"><a href="index.html">Articles</a> · No. 2</p>
+<h1>Set it up: a brief any agent can follow to run a Ruflo hive with sgit vaults as its bus and its evidence</h1>
+<p class="byline">By Dinis Cruz · 2026-10-15 · article v1.0.0 · <a href="studio-setup-brief.md">.md twin</a></p>
+<p class="tags"><span>brief</span> <span>setup</span> <span>ruflo</span> <span>hive-mind</span> <span>sgit</span> <span>abp</span> <span>agents</span> <span>observability</span></p>
+<p class="abstract"><b>Abstract.</b> Point an agent at this page and say: set this up. It is written for any host that can run a shell: Claude Code, Claude on the web, ChatGPT, Lovable, a CI runner. It installs pinned versions of Ruflo and sgit, creates two vaults (a message bus with a lane per role, and one vault per run that keeps everything), starts a Ruflo hive with a queen and eight roles, runs the work under a written mandate, times every call and commit, and ends with one vault that is the evidence of the whole run. Each step has a check, and the rules about keys are not optional.</p>
+</div></section>
+<section><div class="wrap article">
+<h2 id="how-to-use-this-page">How to use this page</h2>
+<p>Give an agent this page (or its <a href="studio-setup-brief.md">.md twin</a>) and one sentence: "Set this up and do run 1 with the objective below." The steps are in order; each has a check. If a command differs from what is written here, trust the tool's <code>--help</code>, and write the difference in the run's notes. The plan and the architecture behind it are in <a href="the-studio.html">The studio</a>.</p>
+<h2 id="what-you-will-have-at-the-end">What you will have at the end</h2>
+<ul><li>A Ruflo hive: a queen, eight role workers, a task per deliverable.</li><li>A bus vault (<code>studio-bus</code>): every message between agents, one lane per role, encrypted on the client.</li><li>A run vault (<code>studio-run-&lt;id&gt;</code>): the brief, the mandate, every artefact, the trace, the hive's status. This vault is the evidence.</li><li>A trace: every Ruflo call and every vault write, timed.</li></ul>
+<h2 id="0-the-rules-read-first">0. The rules (read first)</h2>
+<ol><li><b>Keys are secrets.</b> A vault key is shown once by <code>sgit create</code> and there is no reset. Keep it in the host's secret store or an environment variable. Never print it, log it, commit it, or pass it on a command line: pass it on stdin (<code>printf &#x27;%s&#x27; &quot;$VAULT_KEY&quot; | sgit clone - dir</code>).</li><li><b>Publishing is a human's call.</b> <code>sgit publish --visibility public</code> publishes the vault's read key, for ever. Only for the run vault, and only when a named person says so.</li><li><b>Do not work around a safety check.</b> Ruflo's policy admin asks for an interactive terminal; if your host has none, use the library engine or skip it. Do not fake a TTY.</li><li><b>Record, do not invent.</b> Every number you report comes from the trace or the vault history.</li><li><b>Pin versions.</b> Do not upgrade mid-run.</li></ol>
+<h2 id="1-install-pinned">1. Install (pinned)</h2>
+<pre><code>node --version        # 20 or later
+python3 --version     # 3.11 or later
+npm install ruflo@3.56.10
+pip install sgit-ai==0.21.0
+npx ruflo --version   # ruflo v3.56.10
+sgit --version        # 0.21.0</code></pre>
+<p>Check: both version lines print. Ruflo is MIT, by rUv (ruvnet); it auto-starts a background daemon on some commands, so end every session with <code>npx ruflo daemon stop</code>.</p>
+<h2 id="2-create-the-two-vaults">2. Create the two vaults</h2>
+<p>You need an SG/Send access token (<code>SGIT_TOKEN</code>) from the person you work for.</p>
+<pre><code>sgit --token &quot;$SGIT_TOKEN&quot; create studio-bus          # prints the vault key ONCE: store it as SGIT_VAULT_KEY_BUS
+sgit --token &quot;$SGIT_TOKEN&quot; create studio-run-001      # store as SGIT_VAULT_KEY_RUN</code></pre>
+<p>Seed each with a README commit and push before any script clones it (a vault with no commits cannot be cloned). Then clone the bus:</p>
+<pre><code>printf &#x27;%s&#x27; &quot;$SGIT_VAULT_KEY_BUS&quot; | sgit --token &quot;$SGIT_TOKEN&quot; clone - .vault-bus</code></pre>
+<p>Check: <code>cd .vault-bus &amp;&amp; sgit history log --oneline</code> shows the README commit. sgit calls its default branch <code>current</code>.</p>
+<h2 id="3-write-the-mandate">3. Write the mandate</h2>
+<p>Copy the ABP format from this site (<a href="../data/abp.json">data/abp.json</a>, grammar <code>verb.object.reach</code>) and write one row set per role. The minimum for the studio:</p>
+<div class="tbl"><table><thead><tr><th>Role</th><th>Capability</th><th>Mandate</th><th>Barrier</th></tr></thead><tbody><tr><td>every role</td><td><code>write.file.project</code></td><td>yes: its own lane and folder</td><td>the lane convention; review by the editor</td></tr><tr><td>every role</td><td><code>send.endpoint.world</code></td><td>no</td><td>default-deny egress; libraries from a pinned CDN only</td></tr><tr><td>every role</td><td><code>read.credential.host</code></td><td>no</td><td>keys only via the host's secret store</td></tr><tr><td>developer</td><td><code>execute.process.self</code></td><td>yes: a headless browser to check its work</td><td>sandbox</td></tr><tr><td>conductor</td><td><code>create.record.world</code></td><td>approval</td><td>a named human publishes the run vault</td></tr></tbody></table></div>
+<p>Put it at <code>brief/abp.json</code> in the run folder.</p>
+<h2 id="4-start-the-hive">4. Start the hive</h2>
+<p>Use the script from this repository (it times every call into <code>trace.jsonl</code>): <code>bash poc/poc7-studio/hive.sh out/run-001</code>. Or by hand:</p>
+<pre><code>npx ruflo hive-mind init -t hierarchical-mesh -c byzantine -m 12
+npx ruflo hive-mind spawn -n 1 -t conductor -r specialist -p conductor   # once per role:
+#   conductor librarian architect designer developer editor historian observer
+npx ruflo hive-mind task -d &quot;v1: &lt;deliverable&gt;&quot; -p high                  # once per deliverable
+npx ruflo hive-mind broadcast -m &quot;&lt;the brief in one line&gt;&quot; -f conductor
+npx ruflo hive-mind memory -a set -k studio/spec -v &quot;brief/spec.json&quot;   # in 3.56.10 this did not persist across calls: use broadcast for anything you need back
+npx ruflo hive-mind status</code></pre>
+<p>Check: <code>hive-mind status</code> lists the queen, eight workers and the tasks queued. Use a new, empty folder for every run: Ruflo anchors each project's policy ledger in <code>~/.config/ruflo/policy-trust/</code>, and a folder deleted and recreated at the same path is refused with <code>policy-anchor-log-missing</code> (its tamper check; never delete the anchor to get past it).</p>
+<h2 id="5-the-run-loop">5. The run loop</h2>
+<p>For each task, the conductor assigns a worker; the worker reads only the brief and its inbox, does the work, and answers on its own lane.</p>
+<pre><code>lanes/&lt;from-role&gt;/&lt;seq&gt;-to-&lt;to-role&gt;.json    # one writer per lane: append, never edit</code></pre>
+<p>Write a message with <code>bash poc/poc7-studio/lane.sh &lt;from&gt; &lt;to&gt; msg.json trace.jsonl</code> (it calls <code>sgit write &lt;path&gt; --file msg.json --push --json</code> and times it). Each role works on its own branch (<code>sgit branch new &lt;role&gt;</code>); the conductor merges into <code>current</code> at milestones (<code>sgit branch switch current &amp;&amp; sgit branch merge &lt;role&gt;</code>).</p>
+<p>Who does the work depends on the host. In Claude Code, a subagent per task (run 1). Ruflo can also launch Claude Code itself (<code>npx ruflo hive-mind work</code>, <code>spawn --claude</code>); both skip permission prompts by default, so only use them in a sandbox you are allowed to run unattended. In ChatGPT, Claude on the web or Lovable, the host is the worker: do the tasks in turn and write each answer to its lane.</p>
+<p>The editor checks every number in every artefact against the data before the task is closed. The librarian keeps <code>brief/spec.json</code> current and labels anything proposed as proposed.</p>
+<h2 id="6-observe">6. Observe</h2>
+<div class="tbl"><table><thead><tr><th>Measure</th><th>How</th></tr></thead><tbody><tr><td>Ruflo calls</td><td><code>trace.jsonl</code>: seq, actor, command, exit code, start, milliseconds</td></tr><tr><td>Messages</td><td>One vault commit per message: <code>sgit history log --json</code> gives author, time, message</td></tr><tr><td>Network</td><td><code>sgit --debug &lt;command&gt;</code> shows traffic with timing; <code>sgit dev profile</code> profiles one operation</td></tr><tr><td>Deliverables</td><td>Wall clock from task to checked file; file size; sha256 recorded in hive memory</td></tr><tr><td>Tokens</td><td>From the host (per worker), written into the run notes</td></tr></tbody></table></div>
+<h2 id="7-close-the-run-one-vault-is-the-evidence">7. Close the run: one vault is the evidence</h2>
+<pre><code>bash poc/poc7-studio/close.sh out/run-001     # broadcasts each deliverable&#x27;s sha256 to the hive, reads it back, packs out/run-001/run/
+VAULT_KEY=&quot;$SGIT_VAULT_KEY_RUN&quot; SGIT_TOKEN=&quot;$SGIT_TOKEN&quot; scripts/vault_write.sh out/run-001/run runs/001 &quot;studio run 001&quot;
+npx ruflo daemon stop</code></pre>
+<p>Check: a fresh clone of the run vault on another machine has <code>brief/</code>, <code>versions/</code>, <code>trace/</code>, and <code>sgit history log</code> shows the run. Only if a named person approves: <code>sgit publish --visibility public --yes</code> in the run vault, and share the read key.</p>
+<h2 id="8-report">8. Report</h2>
+<p>Write five lines and no more: what was made (links), how long it took (from the trace), what it cost (from the host), what failed and why, and the run vault's id. Numbers only from the trace and the vault.</p>
+<h2 id="a-prompt-to-paste-into-any-agent">A prompt to paste into any agent</h2>
+<pre><code>Read https://ruv.sgit.ai/articles/studio-setup-brief.md and follow it step by step.
+Objective for run 1: make &lt;N&gt; versions of an animation that explains &lt;subject&gt;,
+from a simple diagram to a full 3D scene, each one self-contained HTML that reads its numbers from &lt;data URLs&gt;.
+Use the roles conductor, librarian, architect, designer, developer, editor, historian, observer.
+Rules: keys only from my secret store, never printed; do not publish anything without asking me;
+every number you report comes from your trace or the vault history. Stop and ask if blocked for more than 20 minutes.</code></pre>
+<h2 id="what-this-does-not-claim">What this does not claim</h2>
+<ul><li><b>Steps 2, 5 and 7 have not run against a server from this repository yet.</b> Run 1 had no sgit credentials; the commands are checked against <code>--help</code> of sgit-ai 0.21.0, not executed.</li><li><b>The hosts differ.</b> Some cannot run a shell or hold secrets; there, a person runs the vault steps.</li><li>**Ruflo's <code>hive-mind work</code> was not used in run 1.**</li></ul>
+<h2 id="where-this-comes-from">Where this comes from</h2>
+<p>This repository's POCs (POC1 for the ABP and Ruflo's policy engine, POC2 for memory per role in a vault, branch per role, merged), the sgit cheatsheet in <code>docs/01-sgit-cheatsheet.md</code>, <code>ruflo hive-mind --help</code> (3.56.10) and <code>sgit write --help</code> (0.21.0), run on 15 October 2026. The plan is in <a href="the-studio.html">The studio</a>.</p>
+</div></section>
+<footer><div class="wrap"><span>ruv.sgit.ai · articles</span><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">source on GitHub</a><a href="https://newsroom.sgit.ai">newsroom.sgit.ai</a><a href="https://github.com/ruvnet">github.com/ruvnet</a><span>code Apache-2.0 · rUv's projects MIT · "per its README" means we read, not ran, unless a POC says so</span><a href="../llms.txt">llms.txt</a></div></footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 // ruv.sgit.ai: nav, theme, Mermaid, markdown includes, POC data tables. No build step needed for these.
 (() => {
-  const PAGES = [['index.html','Home'],['ruv-stack.html',"rUv's stack"],['use-cases.html','Use cases'],['architecture.html','Architecture'],['pocs.html','The POCs'],['replicate.html','Replicate'],['demo.html','Demo'],['talk/index.html','Tonight\'s talk'],['app/index.html','Live app']];
+  const PAGES = [['index.html','Home'],['ruv-stack.html',"rUv's stack"],['use-cases.html','Use cases'],['architecture.html','Architecture'],['pocs.html','The POCs'],['replicate.html','Replicate'],['demo.html','Demo'],['talk/index.html','Tonight\'s talk'],['studio/index.html','Studio'],['articles/index.html','Articles'],['app/index.html','Live app']];
   const root = document.body.dataset.root ?? '';
   const segs = location.pathname.split('/'), file = segs.pop() || 'index.html';
   const here = root ? `${segs.pop()}/${file}` : file;   // pages in a subfolder (talk/) set data-root="../"
