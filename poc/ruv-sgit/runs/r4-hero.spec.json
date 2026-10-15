@@ -1,0 +1,7 @@
+{"purpose": "the home page's main section rewritten for rUv's community: accurate, generous to his tools, with a way in",
+ "feedback": "Dinis, 15 Oct 2026: improve the home page's main section ('Let the agents go to town...'): I don't like that line; this site and its materials are now more powerful; a key objective is to reach rUv's community and users (much bigger than mine) and get them using what we created; be 100% accurate and don't diminish or under-represent the Ruflo hive and rUv's other published tools.",
+ "workers": [
+  {"id": "facts", "role": "researcher", "task": "what rUv's tools already do, in their own READMEs' words, and where ruv.sgit adds to them without overlapping", "out": "out/ruv-sgit/r4-hero/facts/"},
+  {"id": "hero", "role": "writer", "task": "the hero: headline, lead, three on-ramps for Ruflo and RuVector users, buttons; three variants and a recommendation", "out": "out/ruv-sgit/r4-hero/hero/"},
+  {"id": "editor", "role": "editor", "task": "check the hero against the facts file and the evidence: nothing overclaimed, nothing about rUv's tools understated", "out": "out/ruv-sgit/r4-hero/editor/"}
+ ]}
