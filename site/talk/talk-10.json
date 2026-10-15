@@ -30,29 +30,13 @@
    "dur": 25,
    "title": "The claim",
    "slide": {
-    "layout": "statement",
-    "text": "Autonomy needs a memory you can trust.",
-    "builds": [
-     {
-      "at": 8,
-      "text": "Encrypted before it leaves the agent."
-     },
-     {
-      "at": 14,
-      "text": "Versioned: who learned what, and when."
-     },
-     {
-      "at": 20,
-      "text": "Scoped to one run: measured, then deleted."
-     },
-     {
-      "at": 25,
-      "text": "…and a written mandate for what each agent may do."
-     }
-    ],
-    "sub": "What tonight shows, inside rUv's stack"
+    "layout": "iframe",
+    "src": "slides/claim/index.html",
+    "fallback": "../assets/img/talk/claim.webp",
+    "heading": "The claim",
+    "sub": "Encrypted · versioned · scoped to one run · a written mandate: each number read from data/vaults.json and data/report.json"
    },
-   "say": "rUv's stack gives agents swarms, consensus, self-learning and speed. To trust all that, autonomy needs a memory you can trust. Encrypted before it leaves the agent, so the host never reads it. Versioned, so you know who learned what, and when. Scoped to one run, measured, then deleted. And a written mandate for what each agent may do. Tonight is mostly about the memory."
+   "say": "rUv's stack gives agents swarms, consensus, self-learning and speed. To trust all that, autonomy needs a memory you can trust. Here a worker learns something. It is encrypted before it leaves the agent, so the server only ever holds ciphertext: zero plaintext found, across every run. It is versioned, so you know who learned what, and when. It is scoped to one run: the vault is measured, then deleted. And each agent gets a written mandate for what it may do: six of eleven actions stopped. Tonight is mostly about the memory."
   },
   {
    "id": "stack",

@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rUv's stack, five layers</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../../assets/themes.css">
+<script src="../../../assets/theme.js"></script>
+<script src="../../../assets/clock.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{overflow:hidden;position:relative;width:100vw;height:100vh;height:100dvh}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+#cv{position:absolute;left:0;top:0;width:1280px;height:600px;transform-origin:0 0;overflow:hidden}
+
+/* header: one small line, the player has the title */
+#hd{position:absolute;left:24px;right:24px;top:10px;height:30px;display:flex;align-items:baseline;gap:14px}
+#hd h1{margin:0;font-size:21px;font-weight:770;color:var(--head);letter-spacing:-.01em}
+#hd h1 b{color:var(--accent)}
+#hd .lic{font-size:17px;color:var(--dim);font-weight:600}
+#hd .src{margin-left:auto;font:600 16px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--dim)}
+
+/* the five layers */
+.band{position:absolute;left:24px;width:960px;display:grid;grid-template-columns:200px 1fr;gap:0 14px;padding:9px 16px 9px 18px;background:var(--panel);border:1.5px solid var(--line2);border-left:7px solid var(--accent);border-radius:12px;box-shadow:var(--shadow);opacity:0}
+.band.host{border-left-color:var(--dim);background:var(--panel2)}
+.nm b{display:block;font-size:27px;font-weight:820;color:var(--head);line-height:1.1;letter-spacing:-.01em}
+.nm .chip{display:inline-block;margin-top:5px;font:700 16px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent);background:var(--tint-solid);border:1px solid var(--tint-line);border-radius:999px;padding:4px 9px}
+.nm .chip+.chip{margin-top:4px}
+.nm .fm{display:block;font-size:16px;color:var(--dim);margin-top:5px}
+.qq{font-size:20px;font-weight:720;color:var(--accent);line-height:1.2;margin:1px 0 7px}
+.band.host .qq{color:var(--head)}
+.pills{display:flex;flex-wrap:wrap;gap:6px 5px}
+.pills span{font-size:16px;font-weight:600;color:var(--text);background:var(--panel2);border:1.5px solid var(--line2);border-radius:8px;padding:2px 8px;line-height:1.4;position:relative;transition:none}
+.band.host .pills span{background:var(--panel)}
+.pills span.ring{border-color:var(--accent);border-style:dashed;border-width:2.5px;padding:1px 7px;background:var(--tint-solid);color:var(--head)}
+.pills span .bd{position:absolute;right:-9px;top:-11px;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--on-accent);font:800 14px/22px system-ui,sans-serif;text-align:center;opacity:0}
+
+/* where sgit plugs in: a column outside rUv's stack */
+#sg{position:absolute;left:1004px;width:252px;top:48px;opacity:0}
+#sg .h{font-size:21px;font-weight:800;color:var(--accent);line-height:1.15}
+#sg .s{font-size:16px;color:var(--dim);margin-top:3px;line-height:1.3}
+.pc{position:absolute;left:1004px;width:252px;background:var(--tint-solid);border:2px solid var(--accent);border-radius:12px;padding:8px 12px 8px 42px;opacity:0;box-shadow:var(--shadow)}
+.pc .n{position:absolute;left:10px;top:10px;width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--on-accent);font:800 15px/24px system-ui,sans-serif;text-align:center}
+.pc .t{font-size:17.5px;font-weight:760;color:var(--head);line-height:1.22}
+.pc .u{font:700 16px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent);margin-top:3px}
+
+#ov{position:absolute;left:0;top:0;width:1280px;height:600px;pointer-events:none;overflow:visible}
+#ov .vault{fill:none;stroke:var(--accent);stroke-width:3;stroke-dasharray:10 7}
+#ov .wire{fill:none;stroke:var(--accent);stroke-width:2.5}
+#ov .dot{fill:var(--accent)}
+#ov .tag{fill:var(--accent)}
+#ov .tagt{fill:var(--on-accent);font:800 15px system-ui,sans-serif}
+
+/* the line under the stack */
+.ln{position:absolute;left:24px;right:24px;top:546px;text-align:center;font-size:23px;font-weight:720;color:var(--head);line-height:1.3;opacity:0}
+.ln b{color:var(--accent)}
+#ln0{font-size:20px;font-weight:600;color:var(--text)}
+#bar{position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--line)}
+#bar i{position:absolute;left:0;top:0;bottom:0;background:var(--accent);width:0}
+</style>
+</head>
+<body>
+<div id="cv">
+  <div id="hd"><h1>rUv's stack, <b>bottom to top</b></h1><span class="lic">all MIT, by rUv / ruvnet</span><span class="src">source: ruv.sgit.ai/ruv-stack</span></div>
+
+  <div class="band host" id="L4" style="top:46px;height:76px">
+    <div class="nm"><b>The hosts</b></div>
+    <div><div class="qq">where agents run</div>
+      <div class="pills"><span>Claude Code</span><span>Codex</span><span>GitHub Actions</span><span>the browser</span></div></div>
+  </div>
+  <div class="band" id="L3" style="top:128px;height:84px">
+    <div class="nm"><b>MetaHarness</b><span class="chip">metaharness 0.4.17</span></div>
+    <div><div class="qq">how a harness is assembled for a host</div>
+      <div class="pills"><span>agents</span><span>skills</span><span>commands</span><span>MCP tools</span><span>memory namespace</span><span>governance policy</span></div></div>
+  </div>
+  <div class="band" id="L2" style="top:218px;height:114px">
+    <div class="nm"><b>Ruflo</b><span class="chip">ruflo 3.56.10</span><span class="fm">formerly Claude Flow</span></div>
+    <div><div class="qq">how many agents coordinate</div>
+      <div class="pills"><span id="p-hive">queen-led hive-mind</span><span>worker roles</span><span>consensus</span><span>SPARC</span><span>hooks</span><span id="p-adb">AgentDB memory</span><span id="p-pol">policy engine: legacy · observe · enforce, decision receipts</span></div></div>
+  </div>
+  <div class="band" id="L1" style="top:338px;height:114px">
+    <div class="nm"><b>RuVector</b><span class="chip">ruvector 0.3.3</span><br><span class="chip">@ruvector/wasm 0.2.1</span></div>
+    <div><div class="qq">what agents remember</div>
+      <div class="pills"><span>vectors + graph + temporal memory</span><span>HNSW</span><span>WASM</span><span>MCP server</span><span>witness logs</span><span>snapshots</span><span>copy-on-write branches</span></div></div>
+  </div>
+  <div class="band" id="L0" style="top:458px;height:80px">
+    <div class="nm"><b>RVM</b><span class="chip">early · Apr 2026</span></div>
+    <div><div class="qq">what an agent can physically touch</div>
+      <div class="pills"><span>bare-metal Rust capability VM</span><span>capabilities with 7 rights</span><span>witness chain</span><span>replay</span></div></div>
+  </div>
+
+  <svg id="ov" viewBox="0 0 1280 600"></svg>
+
+  <div id="sg"><div class="h">where sgit plugs in</div><div class="s">additive: rUv's layers stay as they are</div></div>
+  <div class="pc" id="c1" style="top:350px"><span class="n">1</span><div class="t">an sgit vault around the memory files</div><div class="u">POC2</div></div>
+  <div class="pc" id="c2" style="top:134px"><span class="n">2</span><div class="t">one ephemeral vault per run, around the hive</div><div class="u">ruv.sgit</div></div>
+  <div class="pc" id="c3" style="top:236px"><span class="n">3</span><div class="t">an ABP compiled into enforce mode</div><div class="u">POC1</div></div>
+
+  <div class="ln" id="ln0">Five layers, five questions. Each one is real, shipped and documented.</div>
+  <div class="ln" id="ln1">rUv's stack: complete, and all MIT. <b>sgit adds a vault and a written mandate.</b></div>
+  <div id="bar"><i></i></div>
+</div>
+
+<script>
+(function () {
+'use strict';
+var Q = new URLSearchParams(location.search), REVIEW = Q.has('review');
+var RM = false; try { RM = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+var END = 21;
+var FREEZE = Q.has('t') ? Math.max(0, Math.min(END, +Q.get('t') || 0)) : (REVIEW || RM ? END : null);
+window.RUV_STEPS = [
+  { t: 0, label: 'RVM, RuVector' },
+  { t: 4.6, label: 'Ruflo, MetaHarness, hosts' },
+  { t: 12, label: 'sgit: the memory vault' },
+  { t: 15, label: 'The hive, the policy engine' },
+  { t: 21, label: 'Complete, all MIT' }
+];
+var $ = function (id) { return document.getElementById(id); };
+var clamp = function (x, a, b) { return x < a ? a : x > b ? b : x; };
+var seg = function (t, a, b) { return clamp((t - a) / (b - a), 0, 1); };
+var ease = function (x) { return x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; };
+var cv = $('cv'), T0 = performance.now();
+
+/* ---------- layout: a fixed design canvas, scaled to fit ---------- */
+function fit() {
+  var w = innerWidth, h = innerHeight, S = Math.min(w / 1280, h / 600);
+  cv.style.transform = 'scale(' + S + ')';
+  cv.style.left = Math.max(0, (w - 1280 * S) / 2) + 'px';
+  cv.style.top = Math.max(0, (h - 600 * S) / 2) + 'px';
+}
+addEventListener('resize', fit); fit();
+
+/* ---------- geometry from the laid-out canvas (unscaled units) ---------- */
+function box(el) {
+  var x = 0, y = 0, e = el;
+  while (e && e !== cv) { x += e.offsetLeft; y += e.offsetTop; e = e.offsetParent; }
+  return { x: x, y: y, w: el.offsetWidth, h: el.offsetHeight };
+}
+var NS = 'http://www.w3.org/2000/svg', OV = $('ov');
+function mk(tag, at, cls) { var e = document.createElementNS(NS, tag); for (var k in at) e.setAttribute(k, at[k]); if (cls) e.setAttribute('class', cls); OV.appendChild(e); return e; }
+var M = {};   // the three plug-in markers
+function build() {
+  OV.innerHTML = '';
+  // 1: the memory layer, a vault drawn around RuVector, and Ruflo's AgentDB memory ringed
+  var b1 = box($('L1')), c1 = box($('c1')), c2 = box($('c2')), c3 = box($('c3'));
+  var vx = b1.x - 6, vy = b1.y - 5, vw = b1.w + 12, vh = b1.h + 10, per = 2 * (vw + vh);
+  M.vault = mk('rect', { x: vx, y: vy, width: vw, height: vh, rx: 16, 'stroke-dashoffset': 0 }, 'vault');
+  M.vtag = mk('g', {});
+  M.vtag.innerHTML = '<rect x="' + (vx + vw - 196) + '" y="' + (vy + 13) + '" width="180" height="26" rx="13" class="tag"/>' +
+    '<text x="' + (vx + vw - 106) + '" y="' + (vy + 31) + '" text-anchor="middle" class="tagt">sgit vault · encrypted</text>';
+  M.vtag.setAttribute('opacity', 0);
+  M.per = per;
+  function wire(x1, y1, card) { var x2 = card.x, y2 = card.y + card.h / 2, mx = (x1 + x2) / 2;
+    var p = mk('path', { d: 'M' + x1 + ' ' + y1 + ' C' + mx + ' ' + y1 + ' ' + mx + ' ' + y2 + ' ' + x2 + ' ' + y2 }, 'wire');
+    var d = mk('circle', { cx: x1, cy: y1, r: 5 }, 'dot');
+    var L = p.getTotalLength(); p.style.strokeDasharray = L; p.style.strokeDashoffset = L; return { p: p, d: d, L: L }; }
+  var bh = box($('L2'));
+  M.w1 = wire(vx + vw, b1.y + b1.h / 2, c1);
+  M.w2 = wire(bh.x + bh.w, box($('p-hive')).y + box($('p-hive')).h / 2, c2);
+  M.w3 = wire(bh.x + bh.w, box($('p-pol')).y + box($('p-pol')).h / 2, c3);
+  // number badges on the pills they refer to
+  [['p-adb', 1], ['p-hive', 2], ['p-pol', 3]].forEach(function (a) {
+    var s = $(a[0]); if (!s.querySelector('.bd')) { var i = document.createElement('i'); i.className = 'bd'; i.textContent = a[1]; i.style.fontStyle = 'normal'; s.appendChild(i); }
+  });
+}
+
+/* ---------- the timeline ---------- */
+var LAY = [['L0', .4], ['L1', 2.6], ['L2', 4.6], ['L3', 6.8], ['L4', 8.8]];   // bottom to top
+var MK = [12.4, 15.0, 17.4];   // memory, hive, policy
+function marker(i, t) {
+  var a = MK[i], k = ease(seg(t, a + .5, a + 1.4));
+  var w = M['w' + (i + 1)]; w.p.style.strokeDashoffset = w.L * (1 - k); w.d.setAttribute('opacity', seg(t, a + .4, a + .6));
+  var c = $('c' + (i + 1)), kc = ease(seg(t, a + 1.1, a + 1.7));
+  c.style.opacity = kc; c.style.transform = 'translateX(' + (14 * (1 - kc)) + 'px)';
+  var pill = $(['p-adb', 'p-hive', 'p-pol'][i]), on = t >= a + .2;
+  pill.classList.toggle('ring', on); pill.querySelector('.bd').style.opacity = seg(t, a + .2, a + .5);
+}
+function render(t) {
+  LAY.forEach(function (l) {
+    var el = $(l[0]), k = ease(seg(t, l[1], l[1] + .8));
+    el.style.opacity = k; el.style.transform = 'translateY(' + (28 * (1 - k)) + 'px)';
+    var q = el.querySelector('.qq'); q.style.opacity = ease(seg(t, l[1] + .6, l[1] + 1.1));
+    Array.prototype.forEach.call(el.querySelectorAll('.pills span'), function (p, i) { p.style.opacity = ease(seg(t, l[1] + .8 + i * .14, l[1] + 1.2 + i * .14)); });
+  });
+  $('ln0').style.opacity = ease(seg(t, 10.2, 10.8)) * (1 - seg(t, 18.8, 19.3));
+  $('sg').style.opacity = ease(seg(t, 11.8, 12.4));
+  // the memory vault: drawn around RuVector, its line closing as it goes
+  var kv = ease(seg(t, MK[0] + .1, MK[0] + 1.3));
+  M.vault.setAttribute('opacity', seg(t, MK[0] + .1, MK[0] + .2));
+  M.vault.style.strokeDasharray = kv < 1 ? (M.per * kv) + ' ' + M.per : '10 7';
+  M.vtag.setAttribute('opacity', ease(seg(t, MK[0] + 1.0, MK[0] + 1.4)));
+  marker(0, t); marker(1, t); marker(2, t);
+  $('ln1').style.opacity = ease(seg(t, 19.4, 20.4));
+  $('bar').firstChild.style.width = (100 * clamp(t / END, 0, 1)) + '%';
+}
+var lastT = -1;
+function start() {
+  build();
+  if (FREEZE != null) { render(FREEZE); return; }
+  (function frame() {   // the page's clock (clock.js) is the only time source, so the player can pause and seek it
+    var t = Math.min((performance.now() - T0) / 1000, END);
+    if (t !== lastT) { lastT = t; try { render(t); } catch (e) { console.error(e); return; } }
+    requestAnimationFrame(frame);
+  })();
+}
+start();
+})();
+</script>
+</body>
+</html>

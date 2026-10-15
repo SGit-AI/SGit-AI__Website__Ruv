@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A memory you can trust</title>
+<link rel="stylesheet" href="../../../assets/themes.css">
+<script src="../../../assets/theme.js"></script>
+<script src="../../../assets/clock.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{overflow:hidden;position:relative;width:100vw;height:100vh;height:100dvh}
+.mono,.mono-t{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+#cv{position:absolute;left:0;top:0;width:1280px;height:600px;transform-origin:0 0;overflow:hidden}
+
+#hl{position:absolute;left:20px;right:20px;top:10px;text-align:center;font-size:42px;font-weight:800;letter-spacing:-.015em;color:var(--head);line-height:1.15}
+#hl em{font-style:normal;color:var(--accent)}
+#act{position:absolute;left:20px;right:20px;top:66px;text-align:center;font-size:22px;font-weight:650;color:var(--dim);height:30px}
+#act b{color:var(--accent);font-weight:800}
+
+#stage{position:absolute;left:0;top:102px;width:1280px;height:300px}
+#sv{position:absolute;left:0;top:0;width:1280px;height:300px;overflow:visible}
+svg text{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+svg .mono-t{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.t14{font-size:14px}.t15{font-size:15px}.t16{font-size:16px}.t17{font-size:17px}.t18{font-size:18px}.t20{font-size:20px}.t22{font-size:22px}
+.b6{font-weight:600}.b7{font-weight:700}.b8{font-weight:800}
+.f-acc{fill:var(--accent)} .f-warm{fill:var(--warm)} .f-head{fill:var(--head)} .f-dim{fill:var(--dim)} .f-text{fill:var(--text)} .f-red{fill:var(--red)} .f-on{fill:var(--on-accent)} .f-line{fill:var(--line)} .f-panel{fill:var(--panel)} .f-tint{fill:var(--tint-solid)}
+.s-acc{stroke:var(--accent)} .s-line{stroke:var(--line)}
+.zone{fill:var(--panel);stroke:var(--accent);stroke-width:2;stroke-dasharray:8 6}
+.srv{fill:var(--panel);stroke:var(--line);stroke-width:2}
+.wire{stroke:var(--line);stroke-width:2}
+.br{stroke:var(--accent);stroke-width:4;fill:none;stroke-linecap:round}
+.mainl{stroke:var(--dim);stroke-width:4;fill:none;stroke-linecap:round}
+
+/* the memory item */
+#mem{position:absolute;left:0;top:0;width:262px;padding:9px 13px 10px;border-radius:12px;background:var(--panel2,var(--panel));border:2.5px solid var(--warm);opacity:0;white-space:nowrap}
+#mem .tg{font:700 14px system-ui,sans-serif;color:var(--dim);margin-bottom:2px;display:flex;justify-content:space-between}
+#mem .tx{font:700 21px/1.25 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--head)}
+#mem .tx .c{color:var(--accent)}
+#mem.enc{border-color:var(--accent)}
+
+/* history card (versioned) */
+#hist{position:absolute;left:372px;top:132px;width:534px;background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:10px 16px;opacity:0}
+#hist .r{display:flex;gap:14px;align-items:baseline;font:600 20px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--text);white-space:nowrap}
+#hist .r i{font-style:normal;width:56px;color:var(--dim);font-size:16px;font-weight:700;flex:none}
+#hist .r b{color:var(--head)}
+
+/* the mandate card */
+#abp{position:absolute;left:350px;top:4px;width:570px;background:var(--panel);border:3px solid var(--warm);border-radius:14px;padding:10px 16px 10px;opacity:0}
+#abp h3{margin:0 0 6px;font-size:20px;color:var(--warm);font-weight:800;display:flex;justify-content:space-between;align-items:baseline}
+#abp h3 span{font-size:15px;color:var(--dim);font-weight:650}
+#abp .r{display:grid;grid-template-columns:110px 1fr 150px;gap:10px;align-items:baseline;font:600 19px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--text);opacity:0;white-space:nowrap}
+#abp .r .w{color:var(--dim);font-size:16px}
+#abp .r .v{font-weight:800;text-align:right;font-family:system-ui,sans-serif;font-size:18px}
+#abp .ok{color:var(--accent)} #abp .no{color:var(--red)} #abp .ap{color:var(--warm)}
+
+/* the four panels */
+#pn{position:absolute;left:28px;width:1224px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.p{background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:10px 16px 10px;opacity:0;min-width:0;overflow:hidden}
+.p .k{font-size:17px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.p .v{font:800 44px/1.08 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--head);white-space:nowrap;margin-top:2px}
+.p .v small{font-size:24px;color:var(--dim);font-weight:700}
+.p .l{font-size:18px;font-weight:700;color:var(--head);line-height:1.2;margin-top:3px}
+.p .s{font-size:15px;color:var(--dim);line-height:1.3;margin-top:3px}
+.p.on{border-color:var(--accent);background:var(--tint-solid)}
+.p.mand .k{color:var(--warm)} .p.mand.on{border-color:var(--warm)}
+#close{position:absolute;left:20px;right:20px;top:470px;text-align:center;font-size:36px;font-weight:800;color:var(--head);opacity:0;letter-spacing:-.01em}
+#close em{font-style:normal;color:var(--accent)}
+
+#ft{position:absolute;left:28px;right:28px;bottom:9px;font-size:14px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#bar{position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--line)}
+#bar i{position:absolute;left:0;top:0;bottom:0;background:var(--accent);width:0}
+</style>
+</head>
+<body>
+<div id="cv">
+  <div id="hl">Autonomy needs a <em>memory you can trust</em>.</div>
+  <div id="act"></div>
+  <div id="stage">
+    <svg id="sv" viewBox="0 0 1280 300"></svg>
+    <div id="mem"><div class="tg"><span>memory item</span><span id="memst">plaintext</span></div><div class="tx" id="memtx"></div></div>
+    <div id="hist"></div>
+    <div id="abp"></div>
+  </div>
+  <div id="pn"></div>
+  <div id="close">Tonight is mostly about <em>the memory</em>.</div>
+  <div id="ft">Numbers read at runtime from data/vaults.json (every run) and data/report.json (POC1). The memory item is an example. Ruflo is MIT, by rUv / ruvnet.</div>
+  <div id="bar"><i></i></div>
+</div>
+<script>
+(function () {
+'use strict';
+var Q = new URLSearchParams(location.search), REVIEW = Q.has('review');
+var RM = false; try { RM = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+var $ = function (id) { return document.getElementById(id); };
+var cv = $('cv'), sv = $('sv');
+var clamp = function (x, a, b) { return x < a ? a : x > b ? b : x; };
+var seg = function (t, a, b) { return clamp((t - a) / (b - a), 0, 1); };
+var ease = function (x) { return x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; };
+var lerp = function (a, b, k) { return a + (b - a) * k; };
+var fmt = function (n) { return Number(n).toLocaleString('en-GB'); };
+var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+var op = function (el, v) { if (el) el.style.opacity = v; };
+
+function fit() {
+  var w = innerWidth, h = innerHeight, S = Math.min(w / 1280, h / 600);
+  cv.style.transform = 'scale(' + S + ')';
+  cv.style.left = Math.max(0, (w - 1280 * S) / 2) + 'px';
+  cv.style.top = Math.max(0, (h - 600 * S) / 2) + 'px';
+}
+addEventListener('resize', fit); fit();
+
+/* ---------- timeline (seconds) ---------- */
+var A1 = 2.6, A2 = 8.0, A3 = 12.2, A4 = 15.8, FIN = 19.4, END = 21;
+window.RUV_STEPS = [
+  { t: 0, label: 'the claim' },
+  { t: A1, label: 'encrypted' },
+  { t: A2, label: 'versioned' },
+  { t: A3, label: 'scoped to one run' },
+  { t: A4, label: 'a written mandate' },
+  { t: END, label: 'the memory' }
+];
+
+/* ---------- data (render a sensible frame if it fails) ---------- */
+var D = { runs: null, hits: null, probes: null, measured: null, commits: null, branches: null, deleted: null, verified: null,
+          rows: null, stopped: null, denied: null, appr: null, legacyAllowed: null };
+function probeN(v) { var m = /^(\d+)/.exec(((v.server_store || {}).probe) || ''); return m ? +m[1] : 0; }
+function verified(v) { var c = v.delete_check; return !!(v.deleted_at && c && c.store_paths_left === 0 && c.clone_after_delete === 'failed'); }
+var get = function (u) { return fetch(u, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(u + ' HTTP ' + r.status); return r.json(); }); };
+var ready = 0;
+get('../../../data/vaults.json').then(function (V) {
+  var all = V.vaults || [];
+  D.runs = all.length; D.hits = 0; D.probes = 0; D.measured = 0; D.commits = 0; D.branches = 0; D.deleted = 0; D.verified = 0;
+  all.forEach(function (v) {
+    if (v.server_store) { D.measured++; D.hits += v.server_store.plaintext_hits || 0; D.probes += probeN(v); }
+    D.commits += v.commits || 0; D.branches += (v.branches || []).length;
+    if (v.deleted_at) D.deleted++; if (verified(v)) D.verified++;
+  });
+}).catch(function (e) { console.warn(e); }).then(function () { if (++ready === 2) panels(); });
+get('../../../data/report.json').then(function (R) {
+  var rows = R.rows || [];
+  D.rows = rows.length;
+  D.denied = rows.filter(function (r) { return /^denied/.test(r.abp); }).length;
+  D.appr = rows.filter(function (r) { return /^approval/.test(r.abp); }).length;
+  D.stopped = D.denied + D.appr;
+  D.legacyAllowed = rows.filter(function (r) { return /^allowed/.test(r.legacy); }).length;
+  D.abpRows = rows;
+}).catch(function (e) { console.warn(e); }).then(function () { if (++ready === 2) panels(); });
+
+/* ---------- static scene ---------- */
+var QX = 178, QY = 86, WY = 156, WX = [80, 146, 212, 278];
+(function svg() {
+  var h = '';
+  // agent zone and hive
+  h += '<g id="agent"><rect x="28" y="4" width="300" height="290" rx="18" class="zone"/>' +
+       '<text x="46" y="32" class="t18 b8 f-acc">agent</text><text x="106" y="32" class="t16 b6 f-dim">a Ruflo hive</text>' +
+       '<g id="links">' + WX.map(function (x) { return '<line x1="' + QX + '" y1="' + QY + '" x2="' + x + '" y2="' + WY + '" class="wire"/>'; }).join('') + '</g>' +
+       '<g id="queen"><circle cx="' + QX + '" cy="' + QY + '" r="22" class="f-acc"/><path d="M' + (QX - 10) + ' ' + (QY + 5) + 'l-2 -12 7 6 5 -9 5 9 7 -6 -2 12z" class="f-on"/></g>' +
+       WX.map(function (x, i) { return '<g class="wk"><circle cx="' + x + '" cy="' + WY + '" r="16" class="' + (i ? 'f-head' : 'f-warm') + '"/></g>'; }).join('') +
+       '<text id="coderL" x="' + WX[0] + '" y="' + (WY + 36) + '" text-anchor="middle" class="t16 b8 f-warm">coder</text></g>';
+  // the agent boundary
+  h += '<g id="bound"><line x1="336" y1="0" x2="336" y2="296" style="stroke:var(--accent);stroke-width:3"/>' +
+       '<text x="344" y="290" class="t15 b7 f-acc">agent boundary: encrypted here</text></g>';
+  // server
+  h += '<g id="srv"><rect id="srvR" x="934" y="4" width="318" height="290" rx="18" class="srv"/>' +
+       '<text x="954" y="32" class="t18 b8 f-head">sgit server</text><text x="1092" y="32" class="t16 b6 f-dim">a vault for one run</text>' +
+       '<g id="blobs">';
+  var hex = ['9f3a c1e0 77b2 04da', 'e81c 5a9f d03b 6e21', '2b7d f4a0 19ce 8853', '06f1 b3c9 ae42 7d10'];
+  hex.forEach(function (s, i) { h += '<g class="blob"><rect x="952" y="' + (48 + i * 40) + '" width="282" height="32" rx="8" class="f-tint"/><text x="966" y="' + (70 + i * 40) + '" class="t17 b6 f-dim mono-t">' + s + '</text></g>'; });
+  h += '</g><g id="newblob"><rect x="952" y="208" width="282" height="32" rx="8" style="fill:var(--tint-solid);stroke:var(--accent);stroke-width:2"/><text id="nbt" x="966" y="230" class="t17 b7 f-acc mono-t">c7e2 0b9d 41fa 3e86</text></g>' +
+       '<text id="srvNote" x="1093" y="270" text-anchor="middle" class="t16 b7 f-acc">holds ciphertext only</text>' +
+       // measure + delete
+       '<rect id="scan" x="944" y="44" width="298" height="6" rx="3" class="f-acc"/>' +
+       '<g id="meas"><rect x="962" y="110" width="262" height="58" rx="10" class="f-panel" style="stroke:var(--accent);stroke-width:2"/><text x="1093" y="136" text-anchor="middle" class="t18 b8 f-acc">measured</text><text x="1093" y="158" text-anchor="middle" class="t15 b6 f-dim">files, bytes, plaintext probe</text></g>' +
+       '<g id="gone"><text x="1093" y="138" text-anchor="middle" class="t22 b8 f-head">deleted</text><text x="1093" y="166" text-anchor="middle" class="t17 b7 f-acc mono-t">0 store paths left</text><text x="1093" y="192" text-anchor="middle" class="t15 b6 f-dim">a clone with the key fails</text></g>' +
+       '</g>';
+  // versioned: a branch graph in the middle
+  h += '<g id="graph">' +
+       '<path d="M380 48 H900" class="mainl"/>' +
+       '<circle cx="400" cy="48" r="9" class="f-dim"/><text x="400" y="26" text-anchor="middle" class="t15 b6 f-dim">init</text>' +
+       '<circle cx="490" cy="48" r="9" class="f-dim"/><text x="490" y="26" text-anchor="middle" class="t15 b6 f-dim">brief</text>' +
+       '<text x="906" y="54" class="t16 b7 f-dim mono-t">main</text>' +
+       '<path id="brp" d="M490 48 C540 48 540 98 590 98 H760" class="br"/>' +
+       '<text id="brl" x="600" y="124" class="t16 b8 f-acc mono-t">w-coder</text>' +
+       '<g id="cm"><circle cx="730" cy="98" r="13" class="f-acc"/><circle cx="730" cy="98" r="5" class="f-on"/></g>' +
+       '</g>';
+  sv.innerHTML = h;
+})();
+var E = {
+  agent: $('agent'), queen: $('queen'), links: $('links'), wk: Array.prototype.slice.call(sv.querySelectorAll('.wk')), coderL: $('coderL'),
+  bound: $('bound'), srv: $('srv'), srvR: $('srvR'), blobs: $('blobs'), newblob: $('newblob'), srvNote: $('srvNote'), scan: $('scan'), meas: $('meas'), gone: $('gone'),
+  graph: $('graph'), brp: $('brp'), brl: $('brl'), cm: $('cm'), mem: $('mem'), memtx: $('memtx'), memst: $('memst'), hist: $('hist'), abp: $('abp'),
+  pn: $('pn'), close: $('close'), act: $('act')
+};
+var brLen = E.brp.getTotalLength(); E.brp.style.strokeDasharray = brLen;
+
+/* the memory item: each character turns to ciphertext as it crosses the boundary */
+var LINES = ['coder learned:', 'tests live in /test'];
+var CIPH = 'a9F2kQ7x0Zr+Lm3Pv8Wd/eT1yN6bH4cU5sJ'.split('');
+var CH = 12.65, BOUND = 336;        // px per character at 21px monospace; boundary x
+var chars = [];
+E.memtx.innerHTML = LINES.map(function (l, li) {
+  return l.split('').map(function (c, i) { var k = chars.length; chars.push({ p: c, c: c === ' ' ? ' ' : CIPH[(k * 7 + li * 3) % CIPH.length], x: 13 + i * CH }); return '<span data-k="' + k + '"></span>'; }).join('');
+}).join('<br>');
+var spans = Array.prototype.slice.call(E.memtx.querySelectorAll('span'));
+
+/* history and mandate (filled when data arrives; history is static) */
+function now() { var d = new Date(Date.now()); return ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2); }
+E.hist.innerHTML = '<div class="r"><i>who</i><b>coder</b> on branch w-coder</div><div class="r"><i>what</i>learned: tests live in /test</div><div class="r"><i>when</i><b id="when"></b> · in the vault\'s history</div>';
+$('when').textContent = now();
+
+var ABPROWS = [];
+function panels() {
+  // the mandate card: five of the eleven POC1 actions, read from report.json
+  var rows = D.abpRows || [];
+  var pick = [['coder', 'file.write'], ['coder', 'test.run'], ['coder', 'repo.push'], ['coder', 'email.send'], ['researcher', 'credential.read']];
+  var sel = pick.map(function (p) { return rows.filter(function (r) { return r.who === p[0] && r.action === p[1]; })[0]; }).filter(Boolean);
+  var h = '<h3>Agent Behaviour Policy<span>Ruflo policy engine, enforce mode</span></h3>';
+  sel.forEach(function (r) {
+    var v = /^allowed/.test(r.abp) ? ['ok', '✓ allowed'] : /^denied/.test(r.abp) ? ['no', '✗ denied'] : ['ap', '→ a human'];
+    var what = r.action + (r.resource && r.resource.length <= 8 ? ' ' + r.resource : '');
+    h += '<div class="r"><span class="w">' + esc(r.who) + '</span><span>' + esc(what) + '</span><span class="v ' + v[0] + '">' + v[1] + '</span></div>';
+  });
+  E.abp.innerHTML = h; ABPROWS = Array.prototype.slice.call(E.abp.querySelectorAll('.r'));
+  if (!sel.length) E.abp.innerHTML += '<div class="r" style="opacity:1">could not read data/report.json</div>';
+
+  var n = function (x) { return x == null ? '–' : fmt(x); };
+  D.tiles = [
+    { k: 'encrypted', v: n(D.hits), l: 'plaintext found on the server', s: n(D.probes) + ' fragments probed, ' + n(D.measured) + ' runs' },
+    { k: 'versioned', v: n(D.commits), l: 'commits: who, what, when', s: 'on ' + n(D.branches) + ' branches, one per worker' },
+    { k: 'scoped to one run', v: n(D.deleted) + '<small> of ' + n(D.runs) + '</small>', l: 'vaults measured, then deleted', s: n(D.verified) + ' checked: 0 store paths left' },
+    { k: 'a written mandate', c: 'mand', v: n(D.stopped) + '<small> of ' + n(D.rows) + '</small>', l: 'actions stopped by the policy', s: n(D.denied) + ' denied, ' + n(D.appr) + ' sent to a human; without it, ' + n(D.legacyAllowed) + ' of ' + n(D.rows) + ' ran' }
+  ];
+  E.pn.innerHTML = D.tiles.map(function (d) { return '<div class="p ' + (d.c || '') + '"><div class="k">' + esc(d.k) + '</div><div class="v">' + d.v + '</div><div class="l">' + esc(d.l) + '</div><div class="s">' + esc(d.s) + '</div></div>'; }).join('');
+  E.tiles = Array.prototype.slice.call(E.pn.querySelectorAll('.p'));
+}
+
+/* ---------- render the scene at time t ---------- */
+var ACTS = [[A1, '<b>1</b> · Encrypted before it leaves the agent'], [A2, '<b>2</b> · Versioned: who learned what, and when'],
+            [A3, '<b>3</b> · Scoped to one run: measured, then deleted'], [A4, '<b>4</b> · …and a written mandate for what each agent may do']];
+function render(t) {
+  var fin = ease(seg(t, FIN, FIN + 1.1));
+  // headline: centred big, settles to the top
+  // act line
+  var a = ''; ACTS.forEach(function (x) { if (t >= x[0] - .2) a = x[1]; });
+  if (t >= FIN) a = '';
+  if (E.act.innerHTML !== a) E.act.innerHTML = a;
+  op(E.act, 1 - fin);
+
+  // the hive
+  var kh = ease(seg(t, .4, 1.4));
+  op(E.agent, kh); op(E.bound, ease(seg(t, A1 - .4, A1 + .2)));
+  E.wk.forEach(function (w, i) { op(w, ease(seg(t, .8 + i * .12, 1.2 + i * .12))); });
+  op(E.srv, ease(seg(t, 1.2, 2.0)));
+  E.coderL.style.opacity = ease(seg(t, 1.6, 2.0));
+
+  // act 1: the memory item is born at the coder, crosses the boundary, lands as ciphertext
+  var born = ease(seg(t, A1, A1 + .6)), mv = ease(seg(t, A1 + 1.2, A1 + 3.6)), land = ease(seg(t, A1 + 3.6, A1 + 4.2));
+  var mx = lerp(44, 960, mv), my = lerp(196, 196, mv);
+  E.mem.style.left = mx + 'px'; E.mem.style.top = my + 'px';
+  E.mem.style.transform = 'scale(' + lerp(.6, 1, born) * lerp(1, .9, land) + ')'; E.mem.style.transformOrigin = '20px 30px';
+  op(E.mem, born * (1 - land));
+  var enc = 0;
+  spans.forEach(function (s, k) { var crossed = mx + chars[k].x > BOUND; if (crossed) enc++; var ch = crossed ? chars[k].c : chars[k].p; var cls = crossed ? 'c' : ''; if (s.textContent !== ch) s.textContent = ch; if (s.className !== cls) s.className = cls; });
+  var allEnc = enc === spans.length; E.mem.classList.toggle('enc', enc > 0);
+  var st = allEnc ? 'ciphertext' : enc ? 'encrypting…' : 'plaintext'; if (E.memst.textContent !== st) E.memst.textContent = st;
+  op(E.newblob, land);
+  op(E.srvNote, ease(seg(t, A1 + 4.2, A1 + 4.8)) * (1 - seg(t, A3, A3 + .4)));
+
+  // act 2: versioned
+  var g = ease(seg(t, A2, A2 + .6)), gOut = 1 - ease(seg(t, A4 - .4, A4 + .2));
+  op(E.graph, g * gOut);
+  E.brp.style.strokeDashoffset = brLen * (1 - ease(seg(t, A2 + .4, A2 + 1.4)));
+  op(E.brl, ease(seg(t, A2 + 1.0, A2 + 1.5)));
+  var kc = ease(seg(t, A2 + 1.4, A2 + 1.9)); op(E.cm, kc);
+  E.cm.setAttribute('transform', 'translate(730 98) scale(' + lerp(.2, 1, kc) + ') translate(-730 -98)');
+  var kh2 = ease(seg(t, A2 + 1.9, A2 + 2.6)); op(E.hist, kh2 * gOut);
+  E.hist.style.transform = 'translateY(' + (1 - kh2) * 14 + 'px)';
+  if (t < A2 + 2) $('when').textContent = now();
+
+  // act 3: measured, then deleted
+  var sc = seg(t, A3 + .2, A3 + 1.6);
+  E.scan.setAttribute('y', lerp(44, 246, sc)); op(E.scan, (sc > 0 && sc < 1) ? 1 : 0);
+  var km = ease(seg(t, A3 + 1.4, A3 + 1.8)) * (1 - ease(seg(t, A3 + 2.4, A3 + 2.7))); op(E.meas, km);
+  var kd = ease(seg(t, A3 + 2.4, A3 + 3.1));
+  op(E.blobs, 1 - kd); op(E.newblob, land * (1 - kd));
+  E.srvR.style.strokeDasharray = kd > .5 ? '8 6' : ''; E.srvR.style.opacity = lerp(1, .55, kd);
+  op(E.gone, ease(seg(t, A3 + 2.8, A3 + 3.3)));
+
+  // act 4: the mandate card, in front of the agent
+  var ka = ease(seg(t, A4, A4 + .6)); op(E.abp, ka); E.abp.style.transform = 'translateX(' + (1 - ka) * -30 + 'px)';
+  ABPROWS.forEach(function (r, i) { var k = ease(seg(t, A4 + .6 + i * .45, A4 + 1.0 + i * .45)); op(r, k); });
+
+  // the four panels: each appears as its act completes, then rise for the final frame
+  var stageOut = 1 - fin; op($('stage'), stageOut);
+  var top = lerp(406, 114, fin);
+  E.pn.style.top = top + 'px';
+  if (E.tiles) {
+    var due = [A1 + 4.6, A2 + 3.0, A3 + 3.3, A4 + 3.0];
+    E.tiles.forEach(function (p, i) {
+      var k = ease(seg(t, due[i], due[i] + .6)); op(p, k); p.style.transform = 'translateY(' + (1 - k) * 14 + 'px)';
+      p.classList.toggle('on', t >= due[i] && t < due[i] + 2.2 && t < FIN);
+      p.style.minHeight = lerp(0, 262, fin) + 'px';
+      p.style.paddingTop = lerp(10, 22, fin) + 'px';
+      var c = p.children; c[0].style.fontSize = lerp(17, 20, fin) + 'px'; c[1].style.fontSize = lerp(44, 76, fin) + 'px'; c[2].style.fontSize = lerp(18, 21, fin) + 'px'; c[3].style.fontSize = lerp(15, 17, fin) + 'px';
+    });
+  }
+  op(E.close, ease(seg(t, FIN + .6, FIN + 1.5)));
+  E.close.style.transform = 'translateY(' + (1 - ease(seg(t, FIN + .6, FIN + 1.5))) * 12 + 'px)';
+  E.close.style.top = '418px';
+  $('bar').firstChild.style.width = (100 * clamp(t / END, 0, 1)) + '%';
+}
+
+var start = performance.now(), FREEZE = null;
+function frame(nowT) {
+  if (FREEZE == null && (REVIEW || RM)) FREEZE = END;
+  if (Q.has('t')) FREEZE = clamp(+Q.get('t') || 0, 0, END);
+  var t = FREEZE != null ? FREEZE : (nowT - start) / 1000;
+  try { render(Math.min(t, END)); } catch (e) { console.error(e); return; }
+  requestAnimationFrame(frame);   // keep drawing so late data and seeks always land; the scene is still after END
+}
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
