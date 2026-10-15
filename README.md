@@ -9,6 +9,7 @@ rUv's stack (Ruflo, RuVector, RVM, MetaHarness) lets agents go to town. Ours add
 | Where | What |
 |---|---|
 | `site/` | The website: home, rUv's stack by use case, use cases, architecture, the POCs with live outputs, replicate, demo script, and the browser app under `site/app/` |
+| `site/talk/` | Tonight's talk as a timeline: `talk-10.json` / `talk-5.json`, the player (`player.html`, presenter + synced audience window), offline single-file builds (`site/build/talk_offline.py`), rehearsal check (`site/build/rehearsal_check.py`) |
 | `BRIEF.md`, `CLAUDE.md`, `docs/` | The technical brief, the builder agent's own mandate, and the facts and commands the build followed |
 | `abp/` | ABP schema, vocabulary (23 primitives, `verb.object.reach`), mapping to Ruflo actions and RVM rights, two example ABPs |
 | `poc/` | POC1 ABP → Ruflo policy engine with receipts · POC2 agent memory in a vault across runners · POC3 ABP → RVM rights · POC4 browser app (RuVector WASM) · POC5 MetaHarness ↔ ABP · POC6 Claude Code session runbook |

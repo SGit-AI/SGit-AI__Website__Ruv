@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate the site's infographics through OpenRouter (image-output chat models).
 Usage: OPENROUTER_API_KEY=... python3 site/build/gen_infographics.py [--only id,id] [--force]
-Reads site/build/infographics.json, writes site/assets/img/<id>.png and site/build/infographics-log.json
+Reads site/build/infographics.json, writes site/assets/img/<id>.png (+ <id>.webp, which the pages load) and site/build/infographics-log.json
 (model, duration, cost per image). Model per job follows newsroom.sgit.ai's bake-off: labelled diagrams ->
 Gemini 3 Pro Image; concept slides and comparisons -> Nano Banana 2.1, falling back to Gemini 2.5 Flash Image
 when a model is rate-limited upstream."""
@@ -39,6 +39,9 @@ for img in SPEC['images']:
         if not imgs: print(img['id'], model, 'no image returned'); continue
         url = imgs[0]['image_url']['url']
         png.write_bytes(base64.b64decode(url.split(',', 1)[1]))
+        try:  # the pages load the WebP (about 20x smaller); the PNG stays as the original
+            from PIL import Image; Image.open(png).save(png.with_suffix('.webp'), 'WEBP', quality=90, method=6)
+        except ImportError: print('pip install pillow to write the .webp the pages use')
         log[img['id']] = {'model': model, 'duration_s': dur, 'cost_usd': d.get('usage', {}).get('cost'), 'generation_id': d.get('id'), 'at': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}
         print(img['id'], model, f'{dur}s', '$%.4f' % (log[img['id']]['cost_usd'] or 0), png.stat().st_size, 'bytes')
         break

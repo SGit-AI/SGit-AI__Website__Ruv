@@ -1,8 +1,9 @@
 // ruv.sgit.ai: nav, theme, Mermaid, markdown includes, POC data tables. No build step needed for these.
 (() => {
-  const PAGES = [['index.html','Home'],['ruv-stack.html',"rUv's stack"],['use-cases.html','Use cases'],['architecture.html','Architecture'],['pocs.html','The POCs'],['replicate.html','Replicate'],['demo.html','Demo'],['app/index.html','Live app']];
-  const here = location.pathname.split('/').pop() || 'index.html';
+  const PAGES = [['index.html','Home'],['ruv-stack.html',"rUv's stack"],['use-cases.html','Use cases'],['architecture.html','Architecture'],['pocs.html','The POCs'],['replicate.html','Replicate'],['demo.html','Demo'],['talk/index.html','Tonight\'s talk'],['app/index.html','Live app']];
   const root = document.body.dataset.root ?? '';
+  const segs = location.pathname.split('/'), file = segs.pop() || 'index.html';
+  const here = root ? `${segs.pop()}/${file}` : file;   // pages in a subfolder (talk/) set data-root="../"
   const nav = document.querySelector('nav.main');
   if (nav) nav.innerHTML = PAGES.map(([h, t]) => `<a href="${root}${h}"${h === here ? ' aria-current="page"' : ''}>${t}</a>`).join('');
   // theme
@@ -18,7 +19,7 @@
   // copy buttons
   document.querySelectorAll('pre:not(.mermaid)').forEach(pre => { const b = document.createElement('button'); b.className = 'copy'; b.textContent = 'copy'; b.onclick = () => { navigator.clipboard?.writeText(pre.innerText.replace(/copy$/, '').trim()); b.textContent = 'copied'; setTimeout(() => b.textContent = 'copy', 1200); }; pre.appendChild(b); });
   // markdown includes: <div class="md" data-md="data/x.md">
-  document.querySelectorAll('[data-md]').forEach(async el => { try { const t = await (await fetch(el.dataset.md)).text(); el.innerHTML = window.marked ? marked.parse(t) : `<pre>${t.replace(/</g, '&lt;')}</pre>`; } catch (e) { el.textContent = 'could not load ' + el.dataset.md; } });
+  document.querySelectorAll('[data-md]').forEach(async el => { try { const t = await (await fetch(el.dataset.md)).text(); el.innerHTML = window.marked ? marked.parse(t) : `<pre>${t.replace(/</g, '&lt;')}</pre>`; el.querySelectorAll('h1,h2,h3').forEach(h => { const n = document.createElement('h' + (+h.tagName[1] + 1)); n.innerHTML = h.innerHTML; h.replaceWith(n) }); el.querySelectorAll('table').forEach(t => { if (!t.parentElement.classList.contains('tbl')) { const w = document.createElement('div'); w.className = 'tbl'; t.replaceWith(w); w.appendChild(t) } }); } catch (e) { el.textContent = 'could not load ' + el.dataset.md; } });
   // POC1 report table: <div data-poc1="data/report.json">
   document.querySelectorAll('[data-poc1]').forEach(async el => { try {
     const rep = await (await fetch(el.dataset.poc1)).json();

@@ -4,8 +4,8 @@
 @media(prefers-color-scheme:dark){:root{--bg:#1a1917;--ink:#efeae0;--m:#a39d90;--line:#3a3833;--t:#4cc1b4;--bad:#f97066}}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,sans-serif;padding:20px 16px}main{max-width:980px;margin:auto}
 h1{font:bold 26px Georgia,serif;margin:0}input{font:inherit;width:100%;box-sizing:border-box;padding:10px;border:1px solid var(--line);border-radius:8px;background:transparent;color:inherit}
-table{width:100%;border-collapse:collapse;font-size:13px}td,th{border-top:1px solid var(--line);padding:6px;text-align:left;vertical-align:top}.k{color:var(--m);font-size:12px}
-.ok{color:var(--t)}.no{color:var(--bad)}.card{border:1px solid var(--line);border-radius:10px;padding:12px;margin:12px 0}code{font-size:12px}</style></head>
+table{width:100%;border-collapse:collapse;font-size:13px}#report{overflow-x:auto}td{overflow-wrap:anywhere}td,th{border-top:1px solid var(--line);padding:6px;text-align:left;vertical-align:top}.k{color:var(--m);font-size:12px}
+.ok{color:var(--t)}.no{color:var(--bad)}.ap{color:#b45309}.card{border:1px solid var(--line);border-radius:10px;padding:12px;margin:12px 0}code{font-size:12px}</style></head>
 <body><main>
 <p class="k">sgit vault + Agent Behaviour Policy + RuVector WASM · runs in your browser, offline after load</p>
 <h1>What is this swarm allowed to do?</h1>
@@ -28,9 +28,10 @@ try {
   for (const role of abp.roles) for (const row of role.rows) { const id = `${role.id}|${row.capability}`; rows.push({ role, row }); db.insert(embed(`${role.id} ${role.id} ${row.capability.replaceAll('.', ' ')} ${words[row.capability] ?? ''} ${row.why}`), id, {}); }
   st.textContent = `RuVector WASM ${version()} · HNSW ${hnswAvailable()} · ${rows.length} ABP rows indexed · owner ${abp.owner} · valid until ${abp.valid_until}`;
   const show = q => { const hits = db.search(embed(q), 3); document.getElementById('ans').innerHTML = hits.map(h => { const [r, c] = h.id.split('|'); const x = rows.find(o => o.role.id === r && o.row.capability === c).row;
-    const dec = rep?.rows.find(z => z.who === r && (rep && true)); const cls = x.mandate === 'yes' ? 'ok' : 'no';
+    const dec = rep?.rows.find(z => z.who === r && (rep && true)); const cls = x.mandate === 'yes' ? 'ok' : x.mandate === 'approval' ? 'ap' : 'no';
     return `<div class="card"><b>${r}</b> · <code>${c}</code> · mandate <b class="${cls}">${x.mandate}</b><br>${x.why}${x.barrier ? `<br><span class="k">barrier: ${x.barrier}</span>` : ''}</div>`; }).join(''); };
   document.getElementById('q').addEventListener('input', e => e.target.value.length > 3 && show(e.target.value));
-  if (rep) document.getElementById('report').innerHTML = `<table><tr><th>agent</th><th>action</th><th>Ruflo default</th><th>with ABP</th></tr>${rep.rows.map(r => `<tr><td>${r.who}</td><td><code>${r.action}</code></td><td class="${r.legacy.startsWith('allowed') ? 'ok' : 'no'}">${r.legacy}</td><td class="${r.abp.startsWith('allowed') ? 'ok' : 'no'}">${r.abp}</td></tr>`).join('')}</table><p class="k">receipt ledger (ABP): ${JSON.stringify(rep.ledger.abp)}</p>`;
+  const q0 = new URLSearchParams(location.search).get('q') || document.getElementById('q').value; if (q0.length > 3) { document.getElementById('q').value = q0; show(q0); }
+  if (rep) document.getElementById('report').innerHTML = `<table><tr><th>agent</th><th>action</th><th>Ruflo default</th><th>with ABP</th></tr>${rep.rows.map(r => `<tr><td>${r.who}</td><td><code>${r.action}</code></td><td class="${r.legacy.startsWith('allowed') ? 'ok' : 'no'}">${r.legacy}</td><td class="${r.abp.startsWith('allowed') ? 'ok' : r.abp.startsWith('approval') ? 'ap' : 'no'}">${r.abp}</td></tr>`).join('')}</table><p class="k">receipt ledger (ABP): ${JSON.stringify(rep.ledger.abp)}</p>`;
 } catch (e) { st.textContent = 'error: ' + e; }
 </script></body></html>

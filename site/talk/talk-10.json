@@ -1,0 +1,109 @@
+{
+ "title": "Autonomy with a mandate and a memory",
+ "event": "Agentic Engineering Live: rUv in London, 15 Oct 2026",
+ "speaker": "Dinis Cruz",
+ "duration_s": 600,
+ "source": "ruv.sgit.ai: every number on screen is read from data/report.json, data/abp.json or a recorded run under evidence/",
+ "data": { "report": "../data/report.json", "abp": "../data/abp.json" },
+ "beats": [
+  {
+   "id": "title", "at": 0, "dur": 20, "title": "Title",
+   "slide": { "layout": "title", "kicker": "Agentic Engineering Live · rUv in London", "text": "Autonomy with a mandate and a memory",
+     "sub": "sgit vaults and Agent Behaviour Policies, running inside rUv's stack", "who": "Dinis Cruz · sgit.ai · ruv.sgit.ai" },
+   "say": "I'm Dinis. I build sgit, git for encrypted vaults, and Agent Behaviour Policies. Ten minutes; everything on screen comes from a recorded run, and the site and the vault are public."
+  },
+  {
+   "id": "claim", "at": 20, "dur": 40, "title": "The claim",
+   "slide": { "layout": "statement", "kicker": "rUv x sgit.ai", "text": "Autonomy needs two more things to be trusted.",
+     "builds": [ { "at": 10, "text": "A written mandate per agent." }, { "at": 20, "text": "Memory with history the host can't read." } ] },
+   "say": "rUv's stack lets agents go to town: swarms, consensus, self-learning. Autonomy needs two more things to be trusted: a written mandate per agent, and memory with history the host can't read. Tonight both run inside his tools."
+  },
+  {
+   "id": "stack", "at": 60, "dur": 45, "title": "rUv's stack, one picture",
+   "slide": { "layout": "image", "src": "../assets/img/ruv-stack-layers.webp", "caption": "Bottom to top: RVM, RuVector, Ruflo, MetaHarness, the hosts. All MIT, by rUv / ruvnet." },
+   "say": "His stack, bottom up: RVM, the capability VM; RuVector, the memory; Ruflo, the orchestrator, with queens and eight worker roles; MetaHarness, which assembles a harness for a host; and the hosts you already use. It's overwhelming because it's complete. I plug into two places: Ruflo's policy engine, and the memory."
+  },
+  {
+   "id": "default", "at": 105, "dur": 45, "title": "Ruflo's default",
+   "slide": { "layout": "terminal", "caption": "Recorded 14 Oct 2026 · ruflo 3.56.10, fresh project · evidence/ruflo-policy-legacy.json",
+     "command": "npx ruflo policy evaluate '{\"identity\":{\"id\":\"coder-1\",\"type\":\"agent\"},\"action\":{\"type\":\"email.send\"}}'",
+     "output": "{\n  \"outcome\": \"«allowed»\",\n  \"mode\": \"legacy\",\n  \"reason\": \"«legacy-default-allow»\",\n  \"matchedRules\": [],\n  \"receiptId\": \"sha256:aebf8a41ea9e886ba26048d992f9ea17…\"\n}",
+     "type_ms": 25, "output_at": 6 },
+   "say": "Ruflo has a real policy engine: rules, budgets, a hash-chained receipt ledger. But on a fresh project its mode is legacy. Ask whether the coder may send email: allowed, legacy-default-allow. Nobody wrote down that it may not, so it may."
+  },
+  {
+   "id": "abp", "at": 150, "dur": 45, "title": "What a mandate looks like",
+   "cue": "Rows reveal every 3 s.",
+   "slide": { "layout": "table", "caption": "One role of the ABP: the coder", "columns": ["capability", "mandate", "why", "barrier"],
+     "rows_from": "abp:coder", "reveal_from": 2, "reveal_every": 3 },
+   "say": "This is the mandate: an Agent Behaviour Policy. One row per capability, in a grammar: verb, object, reach. Is it mandated, why, and the barrier when it isn't. Agents draft, a person sends: so send dot message dot world is no, with a policy deny and no mail credential. Six roles, 36 rows, zero gaps; a gap is reach with no mandate and no barrier, and in CI a gap fails the build."
+  },
+  {
+   "id": "table", "at": 195, "dur": 75, "title": "Same 11 actions, default against the ABP",
+   "cue": "Rows reveal every 5 s; the stopped ones are the point.",
+   "slide": { "layout": "table", "caption": "Same 11 actions: Ruflo's default against the ABP", "columns": ["role", "action", "resource", "Ruflo default", "with the ABP"],
+     "rows_from": "report", "reveal_from": 3, "reveal_every": 5 },
+   "say": "Compile the ABP into Ruflo's own engine and play the same eleven actions twice. Left, the default: everything allowed. Right, enforce mode with the ABP: email denied, pastebin denied, the tester editing source denied, the researcher reading AWS credentials denied; the push and the deploy need a named human. Six of eleven stopped, five allowed, and every reason names its ABP row. Your engine enforces it. The ABP is the mandate it enforces."
+  },
+  {
+   "id": "app", "at": 270, "dur": 50, "title": "Ask the mandate, in the browser",
+   "cue": "Live page; it types the question itself. Esc returns the keyboard if you click into it.",
+   "slide": { "layout": "iframe", "src": "../app/index.html", "fallback": "img/app-answer.webp",
+     "type": { "selector": "#q", "text": "can the coder send email?", "at": 5, "ms": 80 },
+     "caption": "The live app: RuVector WASM in the browser, ABP rows indexed, offline after load. Also served from the public vault." },
+   "say": "The same mandate in the browser. This page loads RuVector's WASM build, indexes the 36 ABP rows, and answers offline. Can the coder send email? No: agents draft, a person sends; the barrier is right there, with the owner and the expiry date."
+  },
+  {
+   "id": "receipts", "at": 320, "dur": 30, "title": "Every decision is a receipt",
+   "slide": { "layout": "terminal", "caption": "POC1, recorded 14 Oct 2026 · evidence/poc1-run.txt",
+     "command": "npm run poc1 | tail -2",
+     "output": "ABP gaps: 0\nLedger: legacy {\"valid\":true,\"length\":11} · abp {\"valid\":true,\"length\":11}",
+     "type_ms": 40, "output_at": 3 },
+   "say": "And every decision is a receipt: hash-chained, each one pointing at the previous, and the ledger verifies. Eleven each side, both valid. That's evidence an auditor, or the next agent, can check."
+  },
+  {
+   "id": "gap", "at": 350, "dur": 35, "title": "Memory: the gap",
+   "slide": { "layout": "statement", "kicker": "Memory · per RuVector's own README", "text": "What the memory layer doesn't do yet",
+     "builds": [ { "at": 5, "text": "no encryption at rest or in transit" }, { "at": 11, "text": "no document versioning" },
+       { "at": 17, "text": "“collections and metadata filters … are not a complete authorization boundary”" } ] },
+   "say": "Second half: memory. RuVector is a remarkable memory substrate, and its README is honest about what it doesn't do yet: no encryption at rest or in transit, no document versioning, and collections are not a complete authorization boundary. That is exactly the layer sgit is."
+  },
+  {
+   "id": "memory", "at": 385, "dur": 60, "title": "Memory with history",
+   "slide": { "layout": "terminal", "caption": "POC2, recorded 14 Oct 2026 · ruflo 3.56.10 · sgit-ai 0.21.0 · evidence/poc2-run.txt",
+     "command": "sgit history log --oneline", "small": true,
+     "output": "3bf90dd8d00a (HEAD)  memory: tester learned something in run local-20261014T2132  +5  [blobs:+5 trees:+3]\n8ac2a0e9f200  memory: coder learned something in run local-20261014T2132  +5  [blobs:+5 trees:+4]\n1ac3298a6cc9  init: memory vault  +1  [blobs:+1]\n48aaaee48630  init\n\n# fresh clone, DB files restored, ruflo memory list -n <role>:\n== coder\n| coder/lesson-local-202... | coder     | 72 B |   -    |        0 | 4m ago  |\n[INFO] Showing 1 of 1 entries\n== tester\n| tester/lesson-local-20... | tester    | 72 B |   -    |        0 | 4m ago  |\n[INFO] Showing 1 of 1 entries",
+     "type_ms": 45, "output_at": 3 },
+   "say": "Each agent role writes its Ruflo memory on its own branch of a vault, encrypted on the client, AES-256-GCM; the server only sees ciphertext. The branches merge. Then the folder is deleted, the vault cloned fresh, the memory restored, and Ruflo asked again: coder and tester answer as before. The history says who learned what, and when."
+  },
+  {
+   "id": "rights", "at": 445, "dur": 40, "title": "Rights compiled from the mandate",
+   "slide": { "layout": "table", "caption": "RVM capability rights, compiled from the same ABP", "columns": ["role", "token rights", "GRANT"],
+     "rows": [ ["queen-strategic", "EXECUTE, READ", "never delegated"], ["coder", "EXECUTE, READ, WRITE", "never delegated"], ["tester", "EXECUTE, READ", "never delegated"],
+       ["reviewer", "READ", "never delegated"], ["researcher", "EXECUTE, WRITE", "never delegated"], ["documenter", "READ, WRITE", "never delegated"] ],
+     "reveal_from": 2, "reveal_every": 3, "footer": "0 gaps · EXECUTE covers a test run and an email send alike; the ABP keeps the difference · source: data/rvm-caps.md" },
+   "say": "One more compile target: RVM, his capability VM. The same rows become capability token rights per role. Tokens are coarser than the mandate: EXECUTE covers a test run and an email send alike. So compile the tokens from the mandate, and keep the why."
+  },
+  {
+   "id": "everywhere", "at": 485, "dur": 35, "title": "Where it runs",
+   "slide": { "layout": "bullets", "kicker": "Six POCs · status as on ruv.sgit.ai/pocs.html", "reveal_every": 6, "items": [
+       "CI: ABP gate, POC1, POC3, POC5 on every push; publishing waits for a named human",
+       "Browser: RuVector WASM, page served from a public sgit vault",
+       "MetaHarness: its scaffold rendered as an ABP and diffed against ours",
+       "Claude Code + Ruflo as MCP: a runbook; policy admin needs a human at the terminal" ] },
+   "say": "Where it runs: in CI, where the ABP is a test and publishing waits for a named human; in the browser, from a vault; against MetaHarness, whose scaffold we read as an ABP and diffed. The Claude Code session is a runbook: Ruflo's policy admin wants a human at an interactive terminal, and we did not work around that."
+  },
+  {
+   "id": "ask", "at": 520, "dur": 50, "title": "The ask",
+   "slide": { "layout": "statement", "kicker": "The ask", "text": "Pick one, and we build it together.",
+     "builds": [ { "at": 6, "text": "Ruflo policy profiles generated from ABPs" }, { "at": 14, "text": "Vault-backed memory for RuVector" }, { "at": 24, "text": "…and show it back here, at a future Agentics London." } ] },
+   "say": "So, the ask. Pick one, and we build it together: Ruflo policy profiles generated from ABPs, so a swarm ships with its mandate; or vault-backed memory for RuVector, encrypted, versioned, branch per agent. And we show it back here, at a future Agentics London."
+  },
+  {
+   "id": "close", "at": 570, "dur": 30, "title": "Close",
+   "slide": { "layout": "title", "kicker": "Thank you", "text": "ruv.sgit.ai", "sub": "the six POCs · the commands to replicate · the public vault (okbiml09) with its read key",
+     "who": "Our code Apache-2.0 · rUv's projects MIT, by rUv / ruvnet" },
+   "say": "Everything is at ruv.sgit.ai: the POCs, the commands to replicate them, and the public vault with its read key. Thank you."
+  }
+ ]
+}

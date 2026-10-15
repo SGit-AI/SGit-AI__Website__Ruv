@@ -8,7 +8,7 @@
 <link rel="canonical" href="https://ruv.sgit.ai/index.html">
 <meta property="og:title" content="rUv x sgit.ai: autonomy with a mandate and a memory">
 <meta property="og:description" content="A written mandate per agent (ABP) and memory with history the host cannot read (sgit vaults), proven inside Ruflo, RuVector, RVM and MetaHarness.">
-<meta property="og:image" content="https://ruv.sgit.ai/assets/img/hero-two-worlds.png">
+<meta property="og:image" content="https://ruv.sgit.ai/assets/img/hero-two-worlds.webp">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f766e%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Georgia%27%3Er%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="assets/site.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.12.0/mermaid.min.js"></script>
@@ -24,7 +24,7 @@
 <div class="btns"><a class="btn p" href="pocs.html">See the six POCs</a><a class="btn" href="ruv-stack.html">Understand rUv's stack</a><a class="btn" href="app/index.html">Open the live app</a></div>
 <div class="badges"><span class="badge t">ruflo 3.56.10</span><span class="badge t">@ruvector/wasm 0.2.1</span><span class="badge t">metaharness 0.4.17</span><span class="badge a">sgit-ai 0.21.0</span><span class="badge">Apache-2.0 (ours) · MIT (rUv's)</span></div>
 </div>
-<figure class="fig" style="margin:0"><img src="assets/img/hero-two-worlds.png" alt="Two worlds, one stack: autonomy on the left, trust on the right, overlapping in the middle"><figcaption>Two halves of the same goal. Autonomy without a mandate is a liability; a mandate without autonomy is paperwork.</figcaption></figure>
+<figure class="fig" style="margin:0"><img src="assets/img/hero-two-worlds.webp" alt="Two worlds, one stack: autonomy on the left, trust on the right, overlapping in the middle"><figcaption>Two halves of the same goal. Autonomy without a mandate is a liability; a mandate without autonomy is paperwork.</figcaption></figure>
 </div></div></section>
 
 <section><div class="wrap">
@@ -56,7 +56,7 @@
 sgit vault ◀── receipts, reports, ABPs       (ruv-pocs-public, read key published)
 sgit vault ◀── memory snapshots per agent    (ruv-pocs-memory, private)</code></pre>
 </div>
-<figure class="fig" style="margin:0"><img src="assets/img/intersection-map.png" alt="Hub and spoke: ABP and sgit vault in the centre, spokes to Ruflo policy engine, RVM, MetaHarness, RuVector memory and a Claude Code session"><figcaption>The intersection: one mandate, several enforcers; one vault, several writers.</figcaption></figure>
+<figure class="fig" style="margin:0"><img src="assets/img/intersection-map.webp" alt="Hub and spoke: ABP and sgit vault in the centre, spokes to Ruflo policy engine, RVM, MetaHarness, RuVector memory and a Claude Code session"><figcaption>The intersection: one mandate, several enforcers; one vault, several writers.</figcaption></figure>
 </div>
 </div></section>
 
@@ -71,13 +71,13 @@ sgit vault ◀── memory snapshots per agent    (ruv-pocs-memory, private)</c
 <div class="card"><span class="n">USE CASE 5</span><h3>Learn with rollback</h3><p>SONA, ReasoningBank, Darwin mode change behaviour over time. Versioned ABPs and vault history show what changed, when, and let you revert a learned pattern.</p><a href="use-cases.html#learn">How →</a></div>
 <div class="card"><span class="n">USE CASE 6</span><h3>Run anywhere</h3><p>The same ABP and vault in a GitHub Actions job, in a browser page with RuVector WASM, and in a Claude Code session with Ruflo as an MCP server.</p><a href="use-cases.html#anywhere">How →</a></div>
 </div>
-<figure class="fig wide"><img src="assets/img/use-cases.png" alt="Six use-case tiles"><figcaption>The six use cases. Generated infographic; the facts are in the pages.</figcaption></figure>
+<figure class="fig wide"><img src="assets/img/use-cases.webp" alt="Six use-case tiles"><figcaption>The six use cases. Generated infographic; the facts are in the pages.</figcaption></figure>
 </div></section>
 
 <section class="alt"><div class="wrap">
 <h2>What was proven, and when</h2>
 <p>Numbers on this site come from runs recorded under <code>evidence/</code> in the repository. Nothing here is invented; where a third-party tool differed from its docs, the note is in <a href="replicate.html#notes">build notes</a>.</p>
-<div class="stat"><div><b>11</b><span>actions in the swarm trace, evaluated twice</span></div><div><b>5</b><span>allowed by Ruflo's default, stopped by the ABP</span></div><div><b>2</b><span>of those need a named human (approval)</span></div><div><b>11</b><span>hash-chained receipts, ledger valid</span></div><div><b>0</b><span>ABP gaps (reach without mandate and no barrier)</span></div><div><b>2</b><span>vaults: one public with its read key, one private</span></div></div>
+<div class="stat"><div><b>11</b><span>actions in the swarm trace, evaluated twice</span></div><div><b>6</b><span>allowed by Ruflo's default, stopped by the ABP (4 denied, 2 for approval)</span></div><div><b>2</b><span>of those need a named human (approval)</span></div><div><b>11</b><span>hash-chained receipts, ledger valid</span></div><div><b>0</b><span>ABP gaps (reach without mandate and no barrier)</span></div><div><b>2</b><span>vaults: one public with its read key, one private</span></div></div>
 <h3>Same swarm, same actions: Ruflo default vs with the ABP</h3>
 <div data-poc1="data/report.json">loading…</div>
 <p><a class="btn" href="pocs.html">All six POCs with flows, commands and outputs →</a></p>

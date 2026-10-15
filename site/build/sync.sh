@@ -16,3 +16,4 @@ cp evidence/poc2-history.json site/data/poc2-history.json 2>/dev/null || true
 cp evidence/notes.md site/data/notes.md
 if [ -d out/app ]; then rm -rf site/app && cp -R out/app site/app; fi
 echo "site/data:" && ls site/data && echo "site/app:" && ls site/app
+python3 site/build/talk_offline.py

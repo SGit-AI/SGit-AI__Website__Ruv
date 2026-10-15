@@ -18,7 +18,7 @@
 <h1>Six use cases</h1>
 <p class="lead">Each one names the problem, the piece of rUv's stack that does the autonomous part, the piece of ours that does the trust part, the flow, and the proof. The first four are built and run; the last two are designed and partly run.</p>
 <div class="toc"><a href="#govern">1 Govern a swarm</a><a href="#remember">2 Remember across runs</a><a href="#prove">3 Prove what happened</a><a href="#publish">4 Publish only on approval</a><a href="#learn">5 Learn with rollback</a><a href="#anywhere">6 Run anywhere</a></div>
-<figure class="fig half" style="margin-top:24px"><img src="assets/img/use-cases.png" alt="Six use-case tiles"></figure>
+<figure class="fig half" style="margin-top:24px"><img src="assets/img/use-cases.webp" alt="Six use-case tiles"></figure>
 </div></section>
 
 <section id="govern"><div class="wrap">
@@ -28,7 +28,7 @@
 <p><b>Problem.</b> A Ruflo swarm with queens and eight worker roles will do whatever the task needs. By default its policy mode is <code>legacy</code>: ask whether <code>coder-1</code> may <code>email.send</code> and the answer is <code>allowed</code>, reason <code>legacy-default-allow</code>. Nobody wrote down that it may not.</p>
 <p><b>His piece.</b> Ruflo's <code>AgenticPolicyEngine</code> in <code>enforce</code> mode: rules with allow / deny / require_approval, budgets, a hash-chained receipt ledger.</p>
 <p><b>Our piece.</b> One ABP for the deployment, one row set per role: 6 roles, 36 rows, 0 gaps. A compiler turns each row into a rule; <code>mandate: yes</code> becomes allow, <code>no</code> becomes deny, <code>approval</code> becomes require_approval; a <code>write.budget.tenant</code> row with <code>daily-model &lt;= $10</code> becomes <code>setBudget()</code>.</p>
-<p><b>Result.</b> Same 11-action trace evaluated twice: 5 actions that legacy allows are stopped by the ABP (3 denied, 2 sent for approval), 6 are allowed with the rule that allowed them named in the reason. Ledger valid, 11 receipts.</p>
+<p><b>Result.</b> Same 11-action trace evaluated twice: 6 actions that legacy allows are stopped by the ABP (4 denied, 2 sent for approval), 5 are allowed with the rule that allowed them named in the reason. Ledger valid, 11 receipts.</p>
 <p><a href="pocs.html#poc1">POC1: flow, code, outputs →</a></p>
 </div>
 <div>
@@ -79,7 +79,7 @@ gitGraph
   merge mem-tester
   commit id: "fresh runner: clone + restore" type: HIGHLIGHT
 </pre>
-<figure class="fig"><img src="assets/img/memory-compare.png" alt="RuVector alone vs RuVector plus sgit vault: encryption, versioning, branch and merge, clone anywhere, authorization boundary"></figure>
+<figure class="fig"><img src="assets/img/memory-compare.webp" alt="RuVector alone vs RuVector plus sgit vault: encryption, versioning, branch and merge, clone anywhere, authorization boundary"></figure>
 </div>
 </div>
 </div></section>
@@ -115,7 +115,7 @@ flowchart LR
 <p><b>Result.</b> The CI pipeline: build → ABP gate (fails on any row with reach, no mandate and no barrier) → POCs → human approval → write to vault → publish.</p>
 <p><a href="replicate.html#ci">The workflow →</a></p>
 </div>
-<div><figure class="fig"><img src="assets/img/ci-pipeline.png" alt="CI pipeline: build, ABP gate, POC1, POC3, POC4 build, human approval, publish to vault; second row POC2 write coder, write tester, read on fresh runner"></figure></div>
+<div><figure class="fig"><img src="assets/img/ci-pipeline.webp" alt="CI pipeline: build, ABP gate, POC1, POC3, POC4 build, human approval, publish to vault; second row POC2 write coder, write tester, read on fresh runner"></figure></div>
 </div>
 </div></section>
 
@@ -151,7 +151,7 @@ flowchart TB
 <p><b>Our piece.</b> The ABP is JSON, so it goes anywhere; the vault is a static publish target, so the browser app is served from it; the Claude Code session writes its record back to the private vault.</p>
 <p><b>Result.</b> <a href="app/index.html">The live app</a> indexes the 36 ABP rows with RuVector WASM and answers "can the coder send email?" offline, showing the row, the engine's decision and the ledger. It is the same <code>app/</code> folder published in the vault.</p>
 </div>
-<div><figure class="fig"><img src="assets/img/poc4-browser.png" alt="A browser window asking can the coder send email, answer no with barrier, RuVector WASM badge, served from a vault badge"></figure></div>
+<div><figure class="fig"><img src="assets/img/poc4-browser.webp" alt="A browser window asking can the coder send email, answer no with barrier, RuVector WASM badge, served from a vault badge"></figure></div>
 </div>
 </div></section>
 

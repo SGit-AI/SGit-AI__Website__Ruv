@@ -84,7 +84,7 @@ sgit history log --oneline -n 10          # inside .vault-memory</code></pre>
 <p><b>Why it matters.</b> Per RuVector's README: no encryption at rest or in transit, no document versioning, replication on simulated transport, filters are not an authorization boundary. The vault is that layer.</p>
 </div>
 <div>
-<figure class="fig" style="margin:0 0 12px"><img src="assets/img/poc2-flow.png" alt="coder and tester write memory on their own branches, merged into main inside a padlocked vault, a fresh runner clones and restores"></figure>
+<figure class="fig" style="margin:0 0 12px"><img src="assets/img/poc2-flow.webp" alt="coder and tester write memory on their own branches, merged into main inside a padlocked vault, a fresh runner clones and restores"></figure>
 <h4>Output: the fresh runner's answer</h4>
 <pre><code id="poc2out">loading…</code></pre>
 </div>
@@ -117,7 +117,7 @@ sgit publish --visibility public --yes && sgit vault serve --open</code></pre>
 <p><b>Acceptance.</b> Works offline after load; the numbers and hashes on screen come from POC1's outputs. Met. The same folder is served <a href="app/index.html">on this site</a> and from the vault.</p>
 <p><a class="btn p" href="app/index.html">Open the live app →</a></p>
 </div>
-<div><figure class="fig" style="margin:0"><img src="assets/img/poc4-browser.png" alt="Browser window: can the coder send email? no, barrier: policy deny; RuVector WASM badge; served from a vault badge"></figure></div>
+<div><figure class="fig" style="margin:0"><img src="assets/img/poc4-browser.webp" alt="Browser window: can the coder send email? no, barrier: policy deny; RuVector WASM badge; served from a vault badge"></figure></div>
 </div>
 </div></section>
 
@@ -156,7 +156,7 @@ npx ruflo daemon stop</code></pre></li>
 <section id="vaults"><div class="wrap">
 <h2>The vaults</h2>
 <div class="cards">
-<div class="card"><h3>ruv-pocs-public</h3><p>Read key published on purpose. Contents: <code>README.md</code>, <code>app/</code> (the browser app), <code>poc1/</code> (report, rules, receipts), <code>runs/&lt;run&gt;/</code> (everything each run produced, including the POC3 table and the POC5 scaffold).</p><p id="vaultpub" class="k">URL: see the repository README once published (the publish step needs the owner's approval; the read key is the only thing it reveals).</p></div>
+<div class="card"><h3>ruv-pocs-public</h3><p>Read key published on purpose. Contents: <code>README.md</code>, <code>app/</code> (the browser app), <code>poc1/</code> (report, rules, receipts), <code>runs/&lt;run&gt;/</code> (everything each run produced, including the POC3 table and the POC5 scaffold).</p><p id="vaultpub" class="k">Published: vault id <code>okbiml09</code>, read key in <a href="data/vault-public.json">data/vault-public.json</a> (read-only; the write key stays private).</p></div>
 <div class="card"><h3>ruv-pocs-memory</h3><p>Private. <code>memory/coder/</code>, <code>memory/tester/</code> with their DB files and list dumps; <code>sessions/</code> for POC6. History: init → coder learned → tester learned.</p></div>
 <div class="card"><h3>Open a published vault yourself</h3><pre><code>pip install sgit-ai==0.21.0
 sgit clone --read-key &lt;hex&gt; &lt;vault_id&gt; ruv-pocs-public

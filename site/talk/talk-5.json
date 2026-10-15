@@ -1,0 +1,113 @@
+{
+ "title": "Autonomy with a mandate and a memory",
+ "event": "Agentic Engineering Live: rUv in London, 15 Oct 2026",
+ "speaker": "Dinis Cruz",
+ "duration_s": 300,
+ "source": "ruv.sgit.ai: every number on screen is read from data/report.json, data/abp.json or a recorded run under evidence/ · the five-minute cut of talk-10.json",
+ "data": {
+  "report": "../data/report.json",
+  "abp": "../data/abp.json"
+ },
+ "beats": [
+  {
+   "id": "claim",
+   "at": 0,
+   "dur": 30,
+   "title": "The claim",
+   "slide": {
+    "layout": "statement",
+    "kicker": "rUv x sgit.ai",
+    "text": "Autonomy needs two more things to be trusted.",
+    "builds": [
+     {
+      "at": 8,
+      "text": "A written mandate per agent."
+     },
+     {
+      "at": 16,
+      "text": "Memory with history the host can't read."
+     }
+    ]
+   },
+   "say": "I'm Dinis, sgit.ai. rUv's stack lets agents go to town: swarms, consensus, self-learning. Autonomy needs two more things to be trusted: a written mandate per agent, and memory with history the host can't read. Tonight both run inside his tools."
+  },
+  {
+   "id": "default",
+   "at": 30,
+   "dur": 45,
+   "title": "Ruflo's default",
+   "slide": {
+    "layout": "terminal",
+    "caption": "Recorded 14 Oct 2026 · ruflo 3.56.10, fresh project · evidence/ruflo-policy-legacy.json",
+    "command": "npx ruflo policy evaluate '{\"identity\":{\"id\":\"coder-1\",\"type\":\"agent\"},\"action\":{\"type\":\"email.send\"}}'",
+    "output": "{\n  \"outcome\": \"«allowed»\",\n  \"mode\": \"legacy\",\n  \"reason\": \"«legacy-default-allow»\",\n  \"matchedRules\": [],\n  \"receiptId\": \"sha256:aebf8a41ea9e886ba26048d992f9ea17…\"\n}",
+    "type_ms": 25,
+    "output_at": 6
+   },
+   "say": "Ruflo has a real policy engine: rules, budgets, a hash-chained receipt ledger. But on a fresh project its mode is legacy. Ask whether the coder may send email: allowed, legacy-default-allow. Nobody wrote down that it may not, so it may."
+  },
+  {
+   "id": "table",
+   "at": 75,
+   "dur": 90,
+   "title": "Same 11 actions, default against the ABP",
+   "cue": "Rows reveal every 5 s; the stopped ones are the point.",
+   "slide": {
+    "layout": "table",
+    "caption": "Same 11 actions: Ruflo's default against the ABP",
+    "columns": [
+     "role",
+     "action",
+     "resource",
+     "Ruflo default",
+     "with the ABP"
+    ],
+    "rows_from": "report",
+    "reveal_from": 3,
+    "reveal_every": 6
+   },
+   "say": "Compile the ABP into Ruflo's own engine and play the same eleven actions twice. Left, the default: everything allowed. Right, enforce mode with the ABP: email denied, pastebin denied, the tester editing source denied, the researcher reading AWS credentials denied; the push and the deploy need a named human. Six of eleven stopped, five allowed, and every reason names its ABP row. Your engine enforces it. The ABP is the mandate it enforces. Same mandate, live in the browser at ruv.sgit.ai/app, served from the vault."
+  },
+  {
+   "id": "memory",
+   "at": 165,
+   "dur": 75,
+   "title": "Memory with history",
+   "slide": {
+    "layout": "terminal",
+    "caption": "POC2, recorded 14 Oct 2026 · ruflo 3.56.10 · sgit-ai 0.21.0 · evidence/poc2-run.txt",
+    "command": "sgit history log --oneline", "small": true,
+    "output": "3bf90dd8d00a (HEAD)  memory: tester learned something in run local-20261014T2132  +5  [blobs:+5 trees:+3]\n8ac2a0e9f200  memory: coder learned something in run local-20261014T2132  +5  [blobs:+5 trees:+4]\n1ac3298a6cc9  init: memory vault  +1  [blobs:+1]\n48aaaee48630  init\n\n# fresh clone, DB files restored, ruflo memory list -n <role>:\n== coder\n| coder/lesson-local-202... | coder     | 72 B |   -    |        0 | 4m ago  |\n[INFO] Showing 1 of 1 entries\n== tester\n| tester/lesson-local-20... | tester    | 72 B |   -    |        0 | 4m ago  |\n[INFO] Showing 1 of 1 entries",
+    "type_ms": 45,
+    "output_at": 3
+   },
+   "say": "RuVector's own README lists no encryption at rest and no versioning. Each agent role writes its Ruflo memory on its own branch of a vault, encrypted on the client, AES-256-GCM; the server only sees ciphertext. The branches merge. Then the folder is deleted, the vault cloned fresh, the memory restored, and Ruflo asked again: coder and tester answer as before. The history says who learned what, and when."
+  },
+  {
+   "id": "ask",
+   "at": 240,
+   "dur": 60,
+   "title": "The ask",
+   "slide": {
+    "layout": "statement",
+    "kicker": "The ask",
+    "text": "Pick one, and we build it together.",
+    "builds": [
+     {
+      "at": 8,
+      "text": "Ruflo policy profiles generated from ABPs"
+     },
+     {
+      "at": 16,
+      "text": "Vault-backed memory for RuVector"
+     },
+     {
+      "at": 30,
+      "text": "ruv.sgit.ai · public vault okbiml09"
+     }
+    ]
+   },
+   "say": "Tokens compiled from the mandate, with the why kept. Pick one, and we build it together: Ruflo policy profiles generated from ABPs, so a swarm ships with its mandate; or vault-backed memory for RuVector, encrypted, versioned, branch per agent. And we show it back here, at a future Agentics London. Everything is at ruv.sgit.ai. Thank you."
+  }
+ ]
+}

@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tonight's talk</title>
+<meta name="description" content="The scripted talk for Agentic Engineering Live with rUv in London, 15 Oct 2026: a timeline that plays on a clock, the words for each beat, where every number comes from, the run of show, the questions to expect and the rehearsal log.">
+<link rel="canonical" href="https://ruv.sgit.ai/talk/index.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f766e%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Georgia%27%3Er%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+.ros td:first-child{white-space:nowrap;font-variant-numeric:tabular-nums}.ros td.say{font-family:Georgia,serif;font-size:15px;line-height:1.5}.ros .lay{font-size:12px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:6px 0 10px}.seg button{border:0;background:var(--card);color:var(--ink);padding:7px 14px;cursor:pointer;font:600 14px ui-sans-serif,system-ui}.seg button[aria-pressed=true]{background:var(--t);color:#fff}
+kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 6px;font:13px ui-monospace,monospace;background:var(--card)}
+.drop{border:2px dashed var(--line);border-radius:12px;padding:18px;text-align:center;color:var(--m);cursor:pointer}.drop.over{border-color:var(--t);color:var(--t)}
+.over10{color:var(--bad);font-weight:600}.under{color:var(--t)}
+.check li{list-style:none;margin-left:-22px}.check li::before{content:"☐ ";color:var(--t)}
+@media print{header.top,footer,.noprint,.btns,.seg{display:none!important}section{padding:6px 0}body{font-size:12px}.ros td.say{font-size:12px}}
+</style>
+</head>
+<body data-root="../">
+<header class="top"><div class="wrap"><a class="brand" href="../index.html">ruv.sgit.ai<small>rUv x sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
+
+<section class="hero"><div class="wrap">
+<p class="k">Agentic Engineering Live: rUv in London · Thu 15 Oct 2026 · 18:00 to 21:00 BST · Agentics Foundation London chapter · hybrid</p>
+<h1>Tonight's talk, as a timeline</h1>
+<p class="lead">The talk is scripted: slides, builds, the terminal and the live app play on a clock, and the speaker speaks to them. Every number on screen is read from this site's data or from a recorded run. Ten minutes, with a five-minute cut if the slot shrinks.</p>
+<div class="btns">
+<a class="btn p" href="player.html?talk=talk-10.json">Present: 10 minutes</a>
+<a class="btn" href="player.html?talk=talk-5.json">Present: 5 minutes</a>
+<a class="btn" href="offline-10.html" download>Offline file (10 min)</a>
+<a class="btn" href="offline-5.html" download>Offline file (5 min)</a>
+</div>
+<p class="k">The player needs no build and no network once loaded. The offline files carry the timeline, the data and the images inside one HTML file; the live-app beat shows a recorded screenshot there, because a page opened from a file cannot load WASM.</p>
+</div></section>
+
+<section class="alt"><div class="wrap">
+<h2>On the night</h2>
+<div class="two">
+<div>
+<ol class="steps">
+<li><h4>Before you walk on</h4><p>Open <a href="player.html?talk=talk-10.json">the player</a> on the laptop. Press <kbd>A</kbd>: an audience window opens. Drag it to the projector and press <kbd>F</kbd> there. The laptop now shows the presenter view; both windows share one clock.</p></li>
+<li><h4>Start</h4><p>Press <kbd>Space</kbd> (or the clicker's play key) when you start speaking. The beats change on time without a click.</p></li>
+<li><h4>If the room needs a moment</h4><p><kbd>Space</kbd> pauses the clock. <kbd>→</kbd> or the clicker's next (<kbd>PageDown</kbd>) jumps to the next beat; <kbd>←</kbd> goes to the start of this beat, twice quickly for the previous one. <kbd>B</kbd> blacks out the projector.</p></li>
+<li><h4>The live app beat</h4><p>The player types <i>can the coder send email?</i> into the live page itself. If you click into the page to type something else, press <kbd>Esc</kbd> to give the keyboard back to the player.</p></li>
+</ol>
+</div>
+<div>
+<h3 style="margin-top:0">Pre-flight checklist</h3>
+<ul class="check">
+<li>Open <a href="../app/index.html">the live app</a> once on the venue wifi, so the WASM is cached.</li>
+<li>Copy the two offline files to the desktop. If the network goes, open <code>offline-10.html</code>: same talk, no network.</li>
+<li>Do-not-disturb on; notifications, chat and mail closed; browser zoom 100%.</li>
+<li>Displays extended, not mirrored (the presenter view is for you only).</li>
+<li>Test the clicker: next must send <kbd>PageDown</kbd> or <kbd>→</kbd>.</li>
+<li>One rehearsal with <kbd>R</kbd> on: it saves <code>rehearsal.json</code>; drop it below to see the drift.</li>
+<li>Run the terminal command once beforehand if you plan to type it live (<code>npx</code> caches the package).</li>
+</ul>
+</div>
+</div>
+<p class="k">All keys: <kbd>Space</kbd> play/pause · <kbd>→</kbd>/<kbd>PageDown</kbd> next · <kbd>←</kbd>/<kbd>PageUp</kbd> back · <kbd>P</kbd> presenter · <kbd>A</kbd> audience window · <kbd>F</kbd> fullscreen · <kbd>B</kbd> black · <kbd>R</kbd> rehearsal · <kbd>0</kbd> restart · <kbd>?</kbd> help · click the progress bar to seek.</p>
+</div></section>
+
+<section id="ros"><div class="wrap">
+<h2>The run of show</h2>
+<p>Rendered from the timeline file the player plays, so the script and the slides cannot drift. Print this page for a paper copy of the words.</p>
+<div class="seg noprint" role="group" aria-label="version"><button data-v="talk-10.json" aria-pressed="true">10 minutes</button><button data-v="talk-5.json" aria-pressed="false">5 minutes</button></div>
+<div id="ros-table" class="tbl">loading…</div>
+<p class="k" id="ros-src"></p>
+</div></section>
+
+<section class="alt" id="sources"><div class="wrap">
+<h2>Every number on screen, and where it comes from</h2>
+<p>Rule 2 of this build: verify before you claim. The table and ABP slides are not typed into the timeline; the player reads them from the site's data at load time. The terminal beats show commands and the output their recorded runs produced.</p>
+<div class="tbl"><table>
+<thead><tr><th>On screen</th><th>Value</th><th>Source</th></tr></thead>
+<tbody>
+<tr><td>Ruflo's default for <code>email.send</code></td><td><code>allowed</code>, <code>legacy-default-allow</code></td><td><code>evidence/ruflo-policy-legacy.json</code> (ruflo 3.56.10, fresh project)</td></tr>
+<tr><td>The coder's ABP rows</td><td>10 rows, owner, valid until</td><td><a href="../data/abp.json">data/abp.json</a>: 6 roles, 36 rows, 0 gaps</td></tr>
+<tr><td>Same 11 actions, default vs ABP</td><td>6 stopped (4 denied, 2 approval), 5 allowed</td><td><a href="../data/report.json">data/report.json</a> (POC1)</td></tr>
+<tr><td>Ledger</td><td>valid, 11 receipts each side</td><td><a href="../data/report.json">data/report.json</a> · <a href="../data/state-abp.json">data/state-abp.json</a> · <code>evidence/poc1-run.txt</code></td></tr>
+<tr><td>Memory history and restore</td><td>4 commits; coder and tester entries back after a fresh clone</td><td><a href="../data/poc2-run.txt">data/poc2-run.txt</a> (local roundtrip; the CI jobs are wired and need the secrets)</td></tr>
+<tr><td>RVM rights per role</td><td>6 roles, GRANT never delegated, 0 gaps</td><td><a href="../data/rvm-caps.md">data/rvm-caps.md</a> (POC3)</td></tr>
+<tr><td>RuVector's gaps</td><td>no encryption at rest or in transit, no versioning, not an authorization boundary</td><td>RuVector's README, as read on 14 Oct 2026 ("per its README": read, not run)</td></tr>
+<tr><td>The live app</td><td>RuVector WASM 2.3.1, 36 rows indexed</td><td><a href="../app/index.html">app/</a>, also in the public vault <code>okbiml09</code></td></tr>
+</tbody></table></div>
+</div></section>
+
+<section id="qa"><div class="wrap">
+<h2>Questions to expect</h2>
+<div class="cards">
+<div class="card"><h4>"Isn't a scripted demo a fake demo?"</h4><p>The terminal shows the command and the output the real run produced, captured beforehand and kept in the repository. Anyone can run it again from <a href="../replicate.html">Replicate</a> and compare. The live app beat is live.</p></div>
+<div class="card"><h4>"Did you bypass Ruflo's policy admin?"</h4><p>No. Its CLI wants an interactive terminal for policy admin; POC1 uses the library engine, its documented programmatic surface. The Claude Code session (POC6) is a runbook for a human at the terminal.</p></div>
+<div class="card"><h4>"Why not just write Ruflo rules?"</h4><p>You can. The ABP is the layer above: one mandate per deployment with the <i>why</i> and the <i>barrier</i> per row, compiled to Ruflo rules, RVM rights and CI gates. Change the mandate, recompile all three.</p></div>
+<div class="card"><h4>"Does sgit see my agents' memory?"</h4><p>No. sgit encrypts on the client (AES-256-GCM); the server stores ciphertext. The public vault publishes a read key on purpose; the memory vault is private.</p></div>
+<div class="card"><h4>"Did the memory roundtrip run in CI?"</h4><p>It ran locally end to end (two writers, a fresh clone, same answer). The CI jobs are wired on separate runners and need the vault secrets; say so plainly.</p></div>
+<div class="card"><h4>"Is this upstream in rUv's projects?"</h4><p>No. These are proofs of concept using pinned npm packages (MIT, by rUv / ruvnet). The ask is to pick one and build it together.</p></div>
+</div>
+</div></section>
+
+<section class="alt" id="rehearsal"><div class="wrap">
+<h2>Rehearsals</h2>
+<p>Press <kbd>R</kbd> in the player at the start of a run-through and again at the end: it saves <code>rehearsal.json</code> with the planned and actual start of every beat. Drop it here to see the drift. A beat that starts more than ten seconds late is flagged; the same check runs from the command line with <code>python3 site/build/rehearsal_check.py rehearsal.json</code>.</p>
+<label class="drop noprint" id="drop">Drop rehearsal.json here, or click to choose it<input type="file" accept=".json,application/json" hidden></label>
+<div id="reh"></div>
+</div></section>
+
+<section id="origin"><div class="wrap">
+<h2>Where this comes from</h2>
+<p>A voice memo by Dinis Cruz on 14 Oct 2026, written up as <a href="https://newsroom.sgit.ai/articles/the-scripted-talk.html">The scripted talk</a> on the sgit newsroom: a talk as a timeline that plays on a clock. It grows out of two talks published as vaults: <a href="https://sgit.ai/demos/vaults/blackhat-eu-2025/index.html">AI vs. AI</a> at Black Hat Europe 2025 (slides as data) and the <a href="https://sgit.ai/demos/vaults/voicedebrief-pitch/index.html">VoiceDebrief pitch</a> (per-slide timings and a presenter). The first player was a prototype by the newsroom's agent; this one adds the audience window kept in sync with the presenter, clicker keys, a black screen, table rows read from the site's data, a live page that types its own question, an offline build with the images inside, and a timeline check that fails loudly if the beats do not add up.</p>
+<h3>What this does not claim</h3>
+<ul>
+<li>It has not been given yet: tested in headless Chromium, not in a room.</li>
+<li>Scripted is not read: the words are in the presenter view; whether to read them is the speaker's choice.</li>
+<li>The timings are a first cut; the rehearsal log is what tells.</li>
+</ul>
+</div></section>
+
+<footer><div class="wrap"><span>ruv.sgit.ai · built 14 to 15 Oct 2026 for Agentics London</span><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">source on GitHub</a><a href="https://sgit.ai">sgit.ai</a><a href="https://ruv.io">ruv.io</a><a href="https://github.com/ruvnet">github.com/ruvnet</a><span>code Apache-2.0 · rUv's projects MIT · "per its README" means we read, not ran, unless a POC says so</span><a href="../llms.txt">llms.txt</a></div></footer>
+<script src="../assets/site.js"></script>
+<script>
+(() => {
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))
+  const fmt = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`
+  const strip = s => String(s ?? '').replace(/<[^>]+>/g, '')
+  const onScreen = s => ({
+    title: () => strip(s.text), statement: () => strip(s.text) + (s.builds ? ' · ' + s.builds.map(b => strip(b.text)).join(' · ') : ''),
+    terminal: () => `$ ${s.command}`, table: () => s.caption + (s.rows_from ? ` (rows from ${s.rows_from === 'report' ? 'data/report.json' : 'data/abp.json'})` : ''),
+    bullets: () => s.items.map(strip).join(' · '), image: () => s.caption || s.src, iframe: () => `live page ${s.src}` + (s.type ? `, types “${s.type.text}”` : ''),
+    quote: () => s.lines.map(strip).join(' '), video: () => s.src }[s.layout] || (() => ''))()
+  async function show(v) {
+    document.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === v))
+    try {
+      const talk = await (await fetch(v)).json()
+      document.getElementById('ros-table').innerHTML = `<table class="ros"><thead><tr><th>at</th><th>beat</th><th>on screen</th><th>words</th></tr></thead><tbody>${talk.beats.map(b =>
+        `<tr><td>${fmt(b.at)}<br><span class="k">${b.dur} s</span></td><td><b>${esc(b.title)}</b><br><span class="k lay">${b.slide.layout}</span></td><td class="k">${esc(onScreen(b.slide))}</td><td class="say">${esc(b.say)}</td></tr>`).join('')}</tbody></table>`
+      const words = talk.beats.map(b => b.say || '').join(' ').split(/\s+/).length
+      document.getElementById('ros-src').textContent = `${talk.beats.length} beats · ${fmt(talk.duration_s)} · ${words} words to say (${Math.round(words / (talk.duration_s / 60))} a minute; a relaxed pace is about 130 to 150) · source: talk/${v}`
+    } catch (e) { document.getElementById('ros-table').textContent = 'could not load ' + v }
+  }
+  document.querySelectorAll('.seg button').forEach(b => b.onclick = () => show(b.dataset.v))
+  show('talk-10.json')
+  // rehearsal drift
+  const reh = document.getElementById('reh'), drop = document.getElementById('drop'), input = drop.querySelector('input')
+  function report(r) {
+    const rows = r.beats.map(b => { const d = b.actual_s - b.planned_s; return `<tr><td>${esc(b.beat)}</td><td>${fmt(b.planned_s)}</td><td>${fmt(b.actual_s)}</td><td class="${d > 10 ? 'over10' : 'under'}">${d >= 0 ? '+' : ''}${d.toFixed(1)} s</td></tr>` }).join('')
+    const late = r.beats.filter(b => b.actual_s - b.planned_s > 10).length
+    reh.innerHTML = `<p><b>${esc(r.talk || 'rehearsal')}</b> · ${esc(r.recorded_at || '')} · total ${r.total_actual_s ?? '?'} s against ${r.duration_s ?? '?'} s planned · <span class="${late ? 'over10' : 'under'}">${late ? late + ' beat(s) more than 10 s late' : 'every beat within 10 s'}</span></p><div class="tbl"><table><thead><tr><th>beat</th><th>planned</th><th>actual</th><th>drift</th></tr></thead><tbody>${rows}</tbody></table></div>`
+  }
+  const read = f => f.text().then(t => report(JSON.parse(t))).catch(e => reh.textContent = 'not a rehearsal file: ' + e)
+  input.onchange = () => input.files[0] && read(input.files[0])
+  drop.ondragover = e => { e.preventDefault(); drop.classList.add('over') }
+  drop.ondragleave = () => drop.classList.remove('over')
+  drop.ondrop = e => { e.preventDefault(); drop.classList.remove('over'); e.dataTransfer.files[0] && read(e.dataTransfer.files[0]) }
+  try { const last = localStorage.getItem('ruv-talk-last-rehearsal'); if (last) report(JSON.parse(last)) } catch {}
+})()
+</script>
+</body>
+</html>
