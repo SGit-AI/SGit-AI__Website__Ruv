@@ -1712,9 +1712,403 @@
     "store_paths_left": 0,
     "clone_after_delete": "failed"
    }
+  },
+  {
+   "run": "r6-talk",
+   "purpose": "r6-talk: new slides for tonight's talk: RuVector in its own words, a vault's history, how to read the ledger, the four services, the shop, and where to go next",
+   "feedback": "Dinis, reading the presentation: slide 4 should show RuVector's README itself, highlighted, and say what RuVector secures and where sgit adds (not 'where it stops'); slide 7 (history) needs more meat and the flows mapped; the ledger slide needs to say how to read it; the Ruflo default slide and the case study move to extras; the business models need visual explanations, one per service and the shop, with screenshots; end with screenshots of the sites and 'go to ruv.sgit.ai'; open with the equation animation (many hands + memory + mandate = ruv.sgit). Every slide at the quality of the layers animation, no loops, with steps the player can move through.",
+   "vault_id": "7kayvi4j",
+   "created_at": "2026-10-15T16:17:55+00:00",
+   "closed_at": "2026-10-15T16:35:07+00:00",
+   "deleted_at": "2026-10-15T16:35:08+00:00",
+   "hive": {
+    "workers": 5,
+    "tasks": 5,
+    "ruflo_calls": 20,
+    "ruflo_ms": 9960
+   },
+   "branches": [
+    {
+     "name": "w-ruvector",
+     "role": "researcher",
+     "commits": 1,
+     "files": 4,
+     "bytes": 539540,
+     "write_ms": 2849,
+     "merge_ms": 3059
+    },
+    {
+     "name": "w-history",
+     "role": "animator",
+     "commits": 1,
+     "files": 2,
+     "bytes": 151112,
+     "write_ms": 2921,
+     "merge_ms": 2920
+    },
+    {
+     "name": "w-ledger",
+     "role": "animator",
+     "commits": 1,
+     "files": 2,
+     "bytes": 84449,
+     "write_ms": 2883,
+     "merge_ms": 2850
+    },
+    {
+     "name": "w-services",
+     "role": "strategist",
+     "commits": 1,
+     "files": 2,
+     "bytes": 115563,
+     "write_ms": 2816,
+     "merge_ms": 3051
+    },
+    {
+     "name": "w-shop",
+     "role": "builder",
+     "commits": 1,
+     "files": 20,
+     "bytes": 1870273,
+     "write_ms": 2969,
+     "merge_ms": 3308
+    },
+    {
+     "name": "w-conductor",
+     "role": "conductor",
+     "commits": 1,
+     "files": 4,
+     "bytes": 65259,
+     "write_ms": 3002,
+     "merge_ms": 3282
+    }
+   ],
+   "commits": 8,
+   "files": 36,
+   "bytes_plain": 2828720,
+   "files_delivered": 34,
+   "bytes_delivered": 2826196,
+   "server_store": {
+    "files": 100,
+    "bytes": 2866725,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 1051,
+    "files": 36,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 1020,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 846,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 945,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 860,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 943,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1044,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1082,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 874,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1103,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 883,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 934,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1103,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 910,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 928,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1082,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 844,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 871,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1168,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 921,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 878,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1051,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 862,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 835,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1118,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 937,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 957,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1157,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 822,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 906,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1237,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1114,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 980,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1214,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 812,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 914,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1275,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 961,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1036,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1285,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 1079,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 1051,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "ea2b822f0518",
+     "message": "init",
+     "time": "2026-10-15T16:18:02Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "afc2ba8be945",
+     "message": "brief: run r6-talk",
+     "time": "2026-10-15T16:18:03Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "3d9adeadb997",
+     "message": "researcher ruvector: delivered 4 files",
+     "time": "2026-10-15T16:34:22Z",
+     "files_added": 4,
+     "parents": 1
+    },
+    {
+     "id": "464a18203118",
+     "message": "animator history: delivered 2 files",
+     "time": "2026-10-15T16:34:28Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "188287ea662b",
+     "message": "animator ledger: delivered 2 files",
+     "time": "2026-10-15T16:34:35Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "565637abf88e",
+     "message": "strategist services: delivered 2 files",
+     "time": "2026-10-15T16:34:41Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "1d2d0c8d6bfb",
+     "message": "builder shop: delivered 20 files",
+     "time": "2026-10-15T16:34:47Z",
+     "files_added": 20,
+     "parents": 1
+    },
+    {
+     "id": "adc9a48e561e",
+     "message": "conductor conductor: delivered 4 files",
+     "time": "2026-10-15T16:34:59Z",
+     "files_added": 4,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "ledger",
+     "role": "animator",
+     "tokens": 120568,
+     "tool_uses": 25,
+     "wall_s": 403
+    },
+    {
+     "id": "services",
+     "role": "strategist",
+     "tokens": 132606,
+     "tool_uses": 38,
+     "wall_s": 502
+    },
+    {
+     "id": "history",
+     "role": "animator",
+     "tokens": 142861,
+     "tool_uses": 33,
+     "wall_s": 546
+    },
+    {
+     "id": "ruvector",
+     "role": "researcher",
+     "tokens": 164790,
+     "tool_uses": 41,
+     "wall_s": 629
+    },
+    {
+     "id": "shop",
+     "role": "builder",
+     "tokens": 159083,
+     "tool_uses": 47,
+     "wall_s": 662
+    }
+   ],
+   "deleted_paths": 205,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
   }
  ],
  "sample": false,
- "updated": "2026-10-15T15:52:41+00:00",
+ "updated": "2026-10-15T16:35:08+00:00",
  "server": "a local SG/Send vault server (sgraph-ai-app-send, disk storage), one process, on the machine that ran the hive"
 }

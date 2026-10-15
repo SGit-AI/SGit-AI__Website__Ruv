@@ -66,15 +66,11 @@
   const optText = (it, opts) => (it.options || []).map(op => { const c = choice(it, op.id, opts[op.id]); return c ? `${op.label}: ${c.label}` : '' }).filter(Boolean).join(' · ')
 
   // ---- render: catalogue -------------------------------------------------------------------------------------------
-  // honest status per group, shown under its summary (the catalogue holds prices; this holds what is not built yet)
-  const STATUS = {
-    runs: 'Not automated end to end yet: a person on our side starts, watches and hands over every run. The materials sandbox for uploads is not built yet; we agree how materials reach the run when we reply.',
-    compute: 'Not built yet: dedicated compute is designed, and SG Compute is not connected to runs. EC2 prices are on-demand London rates from third-party aggregators, to confirm on AWS\'s price list.'
-  }
   function renderCatalogue () {
     const host = $('catalogue')
-    host.innerHTML = (CAT.groups || []).map(g => `<section class="grp" id="g-${esc(g.id)}" aria-labelledby="gh-${esc(g.id)}">
-<h2 id="gh-${esc(g.id)}">${esc(g.title)}</h2>${g.summary ? `<p>${esc(g.summary)}</p>` : ''}${g.who ? `<p class="k who">For: ${esc(g.who)}</p>` : ''}${STATUS[g.id] ? `<p class="callout warn">${esc(STATUS[g.id])}</p>` : ''}
+    const nav = (CAT.groups || []).length > 1 ? `<ul class="gnav" aria-label="Catalogue sections">${CAT.groups.map(g => `<li><a href="#g-${esc(g.id)}">${esc(g.title)}<small>${(g.items || []).length}</small></a></li>`).join('')}</ul>` : ''
+    host.innerHTML = nav + (CAT.groups || []).map(g => `<section class="grp" id="g-${esc(g.id)}" aria-labelledby="gh-${esc(g.id)}">
+<h2 id="gh-${esc(g.id)}">${esc(g.title)}</h2>${g.summary ? `<p>${esc(g.summary)}</p>` : ''}${g.who ? `<p class="k who">For: ${esc(g.who)}</p>` : ''}
 <div class="items">${(g.items || []).map(itemCard).join('')}</div></section>`).join('') +
       `<p class="k">Catalogue updated ${esc(CAT.updated || '')}. Prices in ${esc(CAT.currency || 'GBP')}, excluding VAT. An item “on request” can still be ordered: we price it when we follow up.</p>`
     host.removeAttribute('aria-busy')
@@ -117,9 +113,10 @@ ${it.details?.length ? `<ul>${it.details.map(d => `<li>${esc(d)}</li>`).join('')
 <div class="row" role="group" aria-label="${esc(it.name)} quantity"><button class="b sm" type="button" data-act="dec" data-i="${i}" aria-label="One fewer ${esc(it.name)}"${l.qty <= 1 ? ' disabled' : ''}>−</button><span class="q" aria-label="quantity">${l.qty}</span><button class="b sm" type="button" data-act="inc" data-i="${i}" aria-label="One more ${esc(it.name)}"${l.qty >= maxQ(it) ? ' disabled' : ''}>+</button><button class="b link" type="button" data-act="rm" data-i="${i}" aria-label="Remove ${esc(it.name)}">remove</button><span class="sub">${u == null ? 'on request' : esc(fmt(u * l.qty))}</span></div></li>`
       }).join('')}</ol>
 <div class="tot"><span>Total</span><b id="total">${esc(fmt(t.sum))}</b></div>${t.onReq ? `<p class="k">+ ${t.onReq} line${t.onReq === 1 ? '' : 's'} priced on request</p>` : ''}
-<p class="k">Prices exclude VAT. No payment is taken here.</p>
+<p class="k">Prices exclude VAT.</p>
 <div class="acts"><a class="b p full" href="#checkout-sec">Check out</a><button class="b" type="button" data-act="clear">Empty</button></div>`
     }
+    $('cart-cnt').textContent = t.n ? `${t.n} item${t.n === 1 ? '' : 's'}` : ''
     const bar = $('mbar'); bar.hidden = !cart.length; document.body.classList.toggle('has-bar', !!cart.length)
     $('mbar-t').textContent = cart.length ? `${t.n} item${t.n === 1 ? '' : 's'} · ${fmt(t.sum)}${t.onReq ? ' +' : ''}` : ''
   }
@@ -207,7 +204,7 @@ ${it.details?.length ? `<ul>${it.details.map(d => `<li>${esc(d)}</li>`).join('')
     const done = $('done')
     done.innerHTML = `<h3 id="done-h" style="margin-top:0">Order ${esc(o.id)} is ready</h3>
 <p>Your email app should have opened with the order addressed to <b>${CONTACT}</b>: press send there. We follow up by email. No payment has been taken.</p>
-<p class="callout warn">If your email app did not open, copy the order and send it to <a href="mailto:${CONTACT}">${CONTACT}</a>.</p>
+<p class="k">If your email app did not open, copy the order and send it to <a href="mailto:${CONTACT}">${CONTACT}</a>.</p>
 <div class="acts"><a class="b p" id="mail-again" href="${esc(href)}">Open email again</a><button class="b" type="button" id="copy">Copy order</button><button class="b" type="button" id="dl">Download order (JSON)</button><button class="b link" type="button" id="new">Start a new order</button></div>
 <pre id="order-text">${esc(full)}</pre>`
     done.hidden = false

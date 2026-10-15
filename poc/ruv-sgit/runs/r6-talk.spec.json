@@ -1,0 +1,11 @@
+{
+ "purpose": "r6-talk: new slides for tonight's talk: RuVector in its own words, a vault's history, how to read the ledger, the four services, the shop, and where to go next",
+ "feedback": "Dinis, reading the presentation: slide 4 should show RuVector's README itself, highlighted, and say what RuVector secures and where sgit adds (not 'where it stops'); slide 7 (history) needs more meat and the flows mapped; the ledger slide needs to say how to read it; the Ruflo default slide and the case study move to extras; the business models need visual explanations, one per service and the shop, with screenshots; end with screenshots of the sites and 'go to ruv.sgit.ai'; open with the equation animation (many hands + memory + mandate = ruv.sgit). Every slide at the quality of the layers animation, no loops, with steps the player can move through.",
+ "workers": [
+  {"id": "ruvector", "role": "researcher", "task": "slide: RuVector's 'Security and governance' section, screenshot of the README highlighted line by line, then what sgit adds", "out": "site/talk/slides/ruvector/"},
+  {"id": "history", "role": "animator", "task": "slide: a vault's history from a real run (branches, commits, merges, timings) and POC2's memory across runners", "out": "site/talk/slides/history/"},
+  {"id": "ledger", "role": "animator", "task": "slide: how to read the vault ledger, one row explained, then every run", "out": "site/talk/slides/ledger/"},
+  {"id": "services", "role": "strategist", "task": "slide: the four services, mix and match, with prices from offers.json", "out": "site/talk/slides/services/"},
+  {"id": "shop", "role": "builder", "task": "slides: the shop walkthrough with real screenshots, and the closing 'go to ruv.sgit.ai' with screenshots of the sites", "out": "site/talk/slides/shop/, site/talk/slides/visit/"}
+ ]
+}

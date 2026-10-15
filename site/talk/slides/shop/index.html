@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The shop, a guided tour</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../../assets/themes.css">
+<script src="../../../assets/theme.js"></script>
+<script src="../../../assets/clock.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{overflow:hidden;position:relative;width:100vw;height:100vh;height:100dvh}
+body.narrow{overflow-x:hidden;overflow-y:auto}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+#cv{position:absolute;left:0;top:0;width:1280px;height:600px;transform-origin:0 0;overflow:hidden}
+.narrow #cv{width:640px;height:1080px}
+
+#hd{position:absolute;left:24px;right:24px;top:14px;display:flex;align-items:baseline;gap:12px}
+#hd .chip{font:600 15px ui-monospace,SFMono-Regular,Menlo,monospace;padding:3px 11px;border-radius:999px;background:var(--tint-solid);color:var(--accent);border:1px solid var(--line);white-space:nowrap}
+#hd span.s{font-size:16px;color:var(--dim)}
+.narrow #hd span.s{display:none}
+
+/* the browser window */
+#win{position:absolute;left:24px;top:52px;width:840px;height:504px;border:1.5px solid var(--line2);border-radius:12px;background:var(--panel);overflow:hidden;box-shadow:var(--shadow-pop);transform-origin:0 0}
+.narrow #win{left:14px;top:56px;transform:scale(.7286)}
+#bar{height:34px;display:flex;align-items:center;gap:7px;padding:0 12px;background:var(--panel2);border-bottom:1px solid var(--line)}
+#bar i{width:11px;height:11px;border-radius:50%;background:var(--line2)}
+#bar .url{margin-left:10px;flex:1;max-width:420px;font:600 14px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--dim);background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:3px 10px}
+#vp{position:absolute;left:0;top:34px;width:840px;height:470px;overflow:hidden;background:var(--bg)}
+#cam{position:absolute;left:0;top:0;width:1280px;height:900px;transform-origin:0 0}
+#cam img{position:absolute;left:0;top:0;width:1280px;height:900px;opacity:0;display:block}
+.hl{position:absolute;border:3px solid var(--accent);border-radius:12px;opacity:0;pointer-events:none;box-shadow:0 0 0 4000px color-mix(in srgb,var(--fg) 13%,transparent)}
+.tag{position:absolute;opacity:0;padding:5px 12px;border-radius:9px;background:var(--accent);color:var(--on-accent);font:700 17px system-ui,sans-serif;white-space:nowrap;box-shadow:var(--shadow-pop)}
+#ptr{position:absolute;left:0;top:0;width:30px;height:34px;opacity:0;pointer-events:none;filter:drop-shadow(0 2px 3px color-mix(in srgb,var(--fg) 35%,transparent))}
+#ptr path{fill:var(--head);stroke:var(--bg);stroke-width:2;stroke-linejoin:round}
+.rip{position:absolute;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;border:3px solid var(--accent);opacity:0}
+
+/* the email */
+#mail{position:absolute;left:96px;top:46px;width:650px;height:440px;background:var(--panel);border:1.5px solid var(--line2);border-radius:12px;box-shadow:var(--shadow-pop);opacity:0;overflow:hidden;display:flex;flex-direction:column}
+#mail .mh{padding:12px 18px 10px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:5px;background:var(--panel2)}
+#mail .mh div{display:flex;gap:10px;font-size:16px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#mail .mh b{width:62px;flex:none;color:var(--dim);font-weight:600}
+#mail .mh .to{color:var(--accent);font-weight:700}
+#mail .mh .sj{color:var(--head);font-weight:700}
+#mail .mh .mt{font:600 14px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--dim)}
+#mail pre{margin:0;padding:12px 18px;font:14px/1.38 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--code-ink);white-space:pre-wrap;flex:1;overflow:hidden;-webkit-mask-image:linear-gradient(#000 82%,transparent);mask-image:linear-gradient(#000 82%,transparent)}
+#mail pre .em{color:var(--head);font-weight:700}
+
+/* the steps */
+#panel{position:absolute;left:888px;top:52px;width:368px;height:504px;display:flex;flex-direction:column;gap:3px}
+.narrow #panel{left:24px;top:442px;width:592px;height:560px;gap:8px}
+.st{display:grid;grid-template-columns:34px 1fr;gap:1px 12px;padding:7px 12px;border-radius:12px;border:1.5px solid transparent;opacity:.42;transition:none}
+.st .n{grid-row:span 2;width:30px;height:30px;border-radius:50%;border:2px solid var(--line2);color:var(--dim);font:800 15px/26px system-ui,sans-serif;text-align:center;align-self:start;margin-top:1px}
+.st h3{margin:0;font-size:19px;line-height:1.2;color:var(--head);font-weight:720}
+.st p{margin:0;font-size:15.5px;line-height:1.3;color:var(--text)}
+.st p b{white-space:nowrap;color:var(--accent);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.st.on{opacity:1;border-color:var(--accent);background:var(--tint)}
+.st.on .n{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.st.done{opacity:.95}
+.st.done .n{border-color:var(--accent);color:var(--accent)}
+#punch{margin-top:auto;padding:11px 16px;border-radius:12px;border:2px solid var(--head);background:var(--panel);opacity:0}
+#punch b{display:block;font-size:22px;line-height:1.2;color:var(--head);font-weight:780}
+#punch span{display:block;margin-top:6px;font-size:16.5px;line-height:1.35;color:var(--text)}
+#ft{position:absolute;left:24px;right:24px;bottom:12px;font-size:14px;color:var(--dim);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.narrow #ft{white-space:normal;bottom:18px;font-size:15px}
+#prog{position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--line)}
+#prog i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--accent)}
+</style>
+</head>
+<body>
+<div id="cv">
+  <div id="hd"><span class="chip">ruv.sgit.ai/shop</span><span class="s">a guided tour of an order, in real screenshots</span></div>
+  <div id="win">
+    <div id="bar"><i></i><i></i><i></i><span class="url">ruv.sgit.ai/shop/</span></div>
+    <div id="vp"><div id="cam"></div><div id="ov"></div>
+      <svg id="ptr" viewBox="0 0 30 34" aria-hidden="true"><path d="M3 2 L3 27 L9.5 21 L14 31.5 L18.5 29.5 L14 19.5 L23 19.5 Z"/></svg>
+    </div>
+    <div id="mail" role="img" aria-label="the order email the shop generates">
+      <div class="mh"><div><b>To</b><span class="to" id="m-to"></span></div><div><b>Subject</b><span class="sj" id="m-sj"></span></div><div><b>Sent by</b><span class="mt">your own email app (a mailto: link, nothing is paid)</span></div></div>
+      <pre id="m-body"></pre>
+    </div>
+  </div>
+  <div id="panel"></div>
+  <div id="ft"></div>
+  <div id="prog"><i></i></div>
+</div>
+<script>
+(function () {
+'use strict';
+/* recorded by the shop check (Playwright, site/shop, newsprint, 1280x900 at 2x): element boxes, prices, the mailto */
+var SH = {"1-catalogue":{"how":{"x":106,"y":351,"w":980,"h":117},"gnav":{"x":106,"y":652,"w":700,"h":36},"cart":{"x":834,"y":652,"w":340,"h":210}},"2-option":{"price":{"x":483,"y":129,"w":304,"h":32},"key":{"x":483,"y":648,"w":304,"h":42},"add":{"x":583,"y":800,"w":204,"h":42},"card":{"x":464,"y":80,"w":342,"h":780}},"priceBefore":"£20","priceAfter":"£17","3-price":{"price":{"x":483,"y":129,"w":304,"h":32},"key":{"x":483,"y":648,"w":304,"h":42},"add":{"x":583,"y":800,"w":204,"h":42},"cart":{"x":834,"y":72,"w":340,"h":210}},"4-added":{"add":{"x":583,"y":800,"w":204,"h":42},"cart":{"x":834,"y":72,"w":340,"h":449},"total":{"x":1124,"y":314,"w":33,"h":35}},"5a-before":{"add":{"x":583,"y":439,"w":204,"h":42},"cart":{"x":834,"y":72,"w":340,"h":558},"total":{"x":1113,"y":423,"w":44,"h":35},"card":{"x":464,"y":110,"w":342,"h":388}},"5-cart":{"card":{"x":464,"y":110,"w":342,"h":388},"add":{"x":583,"y":439,"w":204,"h":42},"cart":{"x":834,"y":72,"w":340,"h":668},"total":{"x":1097,"y":532,"w":61,"h":35},"lines":{"x":851,"y":126,"w":306,"h":391}},"total":"£2,016","cartLines":[{"name":"Team run","op":"Model: Sonnet 5.5 (3M tokens) · Model key: Bring your own key (tokens billed to your account) · Delivery: Vault as a zip | £17 per run","sub":"£17"},{"name":"Team","op":"£499 per month","sub":"£499"},{"name":"A day","op":"£1,500 per day","sub":"£1,500"}],"6-checkout":{"form":{"x":106,"y":272,"w":780,"h":440},"send":{"x":106,"y":669,"w":107,"h":42},"what":{"x":106,"y":464,"w":780,"h":110}},"7-done":{"done":{"x":106,"y":80,"w":1068,"h":671},"id":{"x":128,"y":99,"w":1027,"h":24},"pre":{"x":128,"y":298,"w":1027,"h":420}},"mail":{"href_chars":974,"to":"agent@riskmandate.ai","subject":"Order RS-20261015-UW8G · ruv.sgit","body":"Order RS-20261015-UW8G · ruv.sgit\nCreated 2026-10-15 16:23 UTC\n\nLines:\n- 1 x Team run (Sonnet 5.5 (3M tokens), Bring your own key (tokens billed to your account), Vault as a zip): GBP 17 per run = GBP 17\n- 1 x Team: GBP 499 per month = GBP 499\n- 1 x A day: GBP 1,500 per day = GBP 1,500\n\nTotal: GBP 2,016 excl. VAT (3 items)\nNo payment taken: please follow up by email.\n\nWhat I want done:\nReview our API documentation with a hive of agents and hand back the vault with the findings.\n\nName: Ada Example\nEmail: ada@example.org\nOrganisation: Example Ltd\nPreferred start: next week\nHeard via: A talk or demo"},"catalogue":{"updated":"2026-10-15","groups":[{"title":"Task runs","items":3},{"title":"Dedicated compute","items":3},{"title":"Maintained repository","items":3},{"title":"Expert time","items":3}]},"viewport":{"w":1280,"h":900,"dpr":2,"theme":"newsprint","taken":"2026-10-15T16:23:01.435Z"}};
+var Q = new URLSearchParams(location.search), REVIEW = Q.has('review');
+var END = 32, $ = function (id) { return document.getElementById(id); };
+var clamp = function (x, a, b) { return x < a ? a : x > b ? b : x; };
+var seg = function (t, a, b) { return clamp((t - a) / (b - a), 0, 1); };
+var ease = function (x) { return x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; };
+var lerp = function (a, b, k) { return a + (b - a) * k; };
+var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+var FW = 840, FH = 470, IW = 1280, IH = 900;
+
+/* ---------- layout ---------- */
+var cv = $('cv');
+function fit() {
+  var w = innerWidth, h = innerHeight, N = w < 700 || w / h < 0.9;
+  document.body.classList.toggle('narrow', N);
+  var CW = N ? 640 : 1280, CH = N ? 1080 : 600, S = N ? w / CW : Math.min(w / CW, h / CH);
+  cv.style.transform = 'scale(' + S + ')';
+  cv.style.left = Math.max(0, (w - CW * S) / 2) + 'px';
+  cv.style.top = N ? '0px' : Math.max(0, (h - CH * S) / 2) + 'px';
+  document.body.style.height = N ? Math.max(h, CH * S) + 'px' : '';
+}
+addEventListener('resize', fit); fit();
+
+/* ---------- the tour ---------- */
+var SHOTS = [[0, '1-catalogue'], [5.2, '2-option'], [7.6, '3-price'], [11.4, '4-added'], [14.6, '5a-before'], [16.4, '5-cart'], [20.2, '6-checkout'], [23.8, '7-done']];
+var CAMS = [ // [t, shot, keys, max scale]: the camera eases to frame these boxes
+  [0, '1-catalogue', ['how', 'gnav', 'cart'], .7], [5.2, '2-option', ['price', 'key'], 1], [9.9, '3-price', ['key', 'add'], .95],
+  [11.4, '4-added', ['cart'], .95], [14.6, '5a-before', ['card', 'cart'], 1], [16.6, '5-cart', ['cart'], .8],
+  [20.2, '6-checkout', ['form'], .95], [23.8, '7-done', ['id', 'pre'], 1]];
+var PTR = [ // [t arrive, shot, key, fx, fy]
+  [0.6, '1-catalogue', 'cart', .5, .55], [3.0, '1-catalogue', 'gnav', .07, .55], [6.6, '2-option', 'key', .55, .55],
+  [10.6, '3-price', 'add', .5, .55], [13.0, '4-added', 'total', .4, .5], [15.6, '5a-before', 'add', .5, .55], [18.0, '5-cart', 'total', .3, .55],
+  [22.4, '6-checkout', 'send', .5, .55], [25.2, '7-done', 'id', .22, .5]];
+var CLICKS = [7.3, 11.2, 16.2, 23.2];
+var HL = [ // [t0, t1, shot, key, tag]
+  [1.0, 3.0, '1-catalogue', 'how', 'how ordering works'], [3.0, 5.1, '1-catalogue', 'gnav', 'catalogueTag'],
+  [7.8, 10.2, '3-price', 'price', 'priceTag'], [11.9, 14.5, '4-added', 'cart', 'in the cart'],
+  [16.8, 20.1, '5-cart', 'total', 'totalTag'], [20.7, 22.3, '6-checkout', 'what', 'what you want done'],
+  [24.2, 26.4, '7-done', 'id', 'idTag']];
+var nItems = (SH.catalogue.groups || []).reduce(function (s, g) { return s + g.items; }, 0), nGroups = (SH.catalogue.groups || []).length;
+var orderId = (SH.mail.subject.match(/RS-[0-9]+-[A-Z0-9]+/) || ['RS-…'])[0];
+var TAGS = { catalogueTag: nItems + ' items · ' + nGroups + ' groups', priceTag: SH.priceBefore + ' → ' + SH.priceAfter, totalTag: 'total ' + SH.total, idTag: 'order ' + orderId };
+var STEPS = [
+  [0, 'Pick from the catalogue', nItems + ' items in ' + nGroups + ' groups: runs, compute, a subscription, expert time'],
+  [5.2, 'Options change the price', 'Team run, your own model key: <b>' + esc(SH.priceBefore) + ' → ' + esc(SH.priceAfter) + '</b>'],
+  [11.4, 'The order adds up', 'Team run + Team repository + A day: <b>' + esc(SH.total) + '</b>'],
+  [20.2, 'Check out', 'who you are and what you want done'],
+  [23.8, 'It arrives as an email', 'to <b>' + esc(SH.mail.to) + '</b>']];
+var MAIL_IN = 26.4, PUNCH = 29.4;
+
+/* ---------- build ---------- */
+var cam = $('cam'), ov = $('ov'), panel = $('panel'), imgs = {};
+SHOTS.forEach(function (s) { var i = document.createElement('img'); i.alt = ''; i.decoding = 'async'; i.src = '../../../assets/img/talk/shop-' + s[1] + '.webp'; cam.appendChild(i); imgs[s[1]] = i; });
+var hls = HL.map(function (h) {
+  var d = document.createElement('div'); d.className = 'hl'; ov.appendChild(d);
+  var g = document.createElement('div'); g.className = 'tag'; g.textContent = TAGS[h[4]] || h[4]; ov.appendChild(g);
+  return { el: d, tag: g };
+});
+var rips = CLICKS.map(function () { var r = document.createElement('div'); r.className = 'rip'; ov.appendChild(r); return r; });
+panel.innerHTML = STEPS.map(function (s, i) { return '<div class="st" id="st' + i + '"><span class="n">' + (i + 1) + '</span><h3>' + esc(s[1]) + '</h3><p>' + s[2] + '</p></div>'; }).join('') +
+  '<div id="punch"><b>No payment is taken online.</b><span>The order arrives as an email, and a person follows up.</span></div>';
+$('m-to').textContent = SH.mail.to; $('m-sj').textContent = SH.mail.subject;
+$('m-body').innerHTML = esc(SH.mail.body).replace(/^(Total: .*)$/m, '<span class="em">$1</span>').replace(/^(No payment taken.*)$/m, '<span class="em">$1</span>');
+$('ft').textContent = 'Real screenshots of the shop (site/shop), taken with Playwright on ' + SH.viewport.taken.slice(0, 10) + '; an example customer. Prices from data/offers.json (GBP, excl. VAT).';
+
+/* camera for a set of boxes */
+function camFor(shot, keys, maxS) {
+  var x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+  keys.forEach(function (k) { var r = SH[shot][k]; if (!r) return; x0 = Math.min(x0, r.x); y0 = Math.min(y0, r.y); x1 = Math.max(x1, r.x + r.w); y1 = Math.max(y1, r.y + r.h); });
+  var pad = 36, s = Math.min(FW / (x1 - x0 + 2 * pad), FH / (y1 - y0 + 2 * pad), maxS);
+  s = Math.max(s, FW / IW);
+  var cx = clamp((x0 + x1) / 2, FW / 2 / s, IW - FW / 2 / s), cy = clamp((y0 + y1) / 2, FH / 2 / s, IH - FH / 2 / s);
+  return { s: s, cx: cx, cy: cy };
+}
+var CAMV = CAMS.map(function (c) { return { t: c[0], v: camFor(c[1], c[2], c[3]) }; });
+function camAt(t) {
+  var c = CAMV[0].v;
+  for (var i = 1; i < CAMV.length; i++) { if (t < CAMV[i].t) break; var k = ease(seg(t, CAMV[i].t, CAMV[i].t + 1.1)); c = { s: lerp(c.s, CAMV[i].v.s, k), cx: lerp(c.cx, CAMV[i].v.cx, k), cy: lerp(c.cy, CAMV[i].v.cy, k) }; }
+  return c;
+}
+function toScreen(c, x, y) { return [FW / 2 + (x - c.cx) * c.s, FH / 2 + (y - c.cy) * c.s]; }
+function pt(p) { var r = SH[p[1]][p[2]]; return [r.x + r.w * p[3], r.y + r.h * p[4]]; }
+
+/* ---------- render a moment ---------- */
+function render(t) {
+  var c = camAt(t);
+  cam.style.transform = 'translate(' + (FW / 2 - c.cx * c.s) + 'px,' + (FH / 2 - c.cy * c.s) + 'px) scale(' + c.s + ')';
+  // shots: each fades in over the one before
+  SHOTS.forEach(function (s, i) {
+    var a = seg(t, s[0], s[0] + .35), nx = SHOTS[i + 1], gone = nx && t >= nx[0] + .35;
+    imgs[s[1]].style.opacity = gone ? 0 : (i === 0 ? 1 : a);
+  });
+  // highlights
+  HL.forEach(function (h, i) {
+    var r = SH[h[2]][h[3]], a = Math.min(seg(t, h[0], h[0] + .35), 1 - seg(t, h[1] - .3, h[1]));
+    var p0 = toScreen(c, r.x - 6, r.y - 6), p1 = toScreen(c, r.x + r.w + 6, r.y + r.h + 6), E = hls[i];
+    E.el.style.opacity = a; E.el.style.left = p0[0] + 'px'; E.el.style.top = p0[1] + 'px'; E.el.style.width = (p1[0] - p0[0]) + 'px'; E.el.style.height = (p1[1] - p0[1]) + 'px';
+    E.tag.style.opacity = a;
+    var tw = E.tag.offsetWidth || 120, tx = clamp(p1[0] - tw, 8, FW - tw - 8), ty = p0[1] - 40;
+    if (ty < 6) ty = p1[1] + 8; if (ty > FH - 42) ty = Math.max(6, p0[1] + 8);
+    E.tag.style.left = tx + 'px'; E.tag.style.top = (ty + (1 - a) * 6) + 'px';
+  });
+  // pointer: glides between targets, in screenshot coordinates
+  var P = PTR.map(pt), x = P[0][0], y = P[0][1];
+  for (var i = 1; i < PTR.length; i++) { var k = ease(seg(t, PTR[i][0] - 1.0, PTR[i][0])); x = lerp(x, P[i][0], k); y = lerp(y, P[i][1], k); }
+  var sp = toScreen(c, x, y), press = 0;
+  CLICKS.forEach(function (ct, j) { var q = seg(t, ct, ct + .6); rips[j].style.opacity = q > 0 && q < 1 ? (1 - q) : 0; rips[j].style.left = sp[0] + 'px'; rips[j].style.top = sp[1] + 'px'; rips[j].style.transform = 'scale(' + (.4 + q * 1.1) + ')'; if (t >= ct - .12 && t < ct + .15) press = 1; });
+  var ptr = $('ptr'); ptr.style.opacity = Math.min(seg(t, .2, .6), 1 - seg(t, MAIL_IN - .4, MAIL_IN));
+  ptr.style.transform = 'translate(' + (sp[0] - 3) + 'px,' + (sp[1] - 2) + 'px) scale(' + (press ? .86 : 1) + ')';
+  // the email
+  var m = ease(seg(t, MAIL_IN, MAIL_IN + .9)), mail = $('mail');
+  mail.style.opacity = m; mail.style.transform = 'translateY(' + ((1 - m) * 40) + 'px)';
+  $('vp').style.filter = m > 0 ? 'saturate(' + (1 - .5 * m) + ') opacity(' + (1 - .45 * m) + ')' : '';
+  // steps
+  var cur = 0; STEPS.forEach(function (s, i) { if (t >= s[0]) cur = i; });
+  var fin = t >= PUNCH;
+  STEPS.forEach(function (s, i) { var e = $('st' + i); e.className = 'st' + (fin ? ' done' : i === cur ? ' on' : i < cur ? ' done' : ''); });
+  var pu = ease(seg(t, PUNCH, PUNCH + 1)), pe = $('punch');
+  pe.style.opacity = pu; pe.style.transform = 'translateY(' + ((1 - pu) * 12) + 'px)';
+  $('prog').firstChild.style.width = (100 * clamp(t / END, 0, 1)) + '%';
+}
+
+window.RUV_STEPS = [{ t: 0, label: 'the catalogue' }, { t: 5.2, label: 'options change the price' }, { t: 11.4, label: 'the order adds up' }, { t: 20.2, label: 'check out' }, { t: 23.8, label: 'an email, not a payment' }, { t: END, label: 'a person follows up' }];
+function frame() { var t = REVIEW ? END : Math.min(performance.now() / 1000, END); render(t); if (!REVIEW && t < END) requestAnimationFrame(frame); }
+render(REVIEW ? END : 0); requestAnimationFrame(frame);
+addEventListener('resize', function () { render(REVIEW ? END : Math.min(performance.now() / 1000, END)); });
+})();
+</script>
+</body>
+</html>

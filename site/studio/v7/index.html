@@ -38,13 +38,14 @@
 <div id="feed" class="hud"></div>
 <div id="count" class="hud"></div>
 <div id="fade"></div>
+<script src="../../assets/clock.js"></script>
 <script src="../../vendor/three.js-r128.min.js"></script>
 <script>
 (function () {
   'use strict';
   var L = 40;                       // loop length, seconds
   var T0 = performance.now();
-  window.__t = function () { return ((performance.now() - T0) / 1000) % L; };
+  window.__t = function () { return ruvLoop((performance.now() - T0) / 1000, L, L - 1); };
 
   var $ = function (id) { return document.getElementById(id); };
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }

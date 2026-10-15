@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where to find it</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../../assets/themes.css">
+<script src="../../../assets/theme.js"></script>
+<script src="../../../assets/clock.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{overflow:hidden;position:relative;width:100vw;height:100vh;height:100dvh}
+body.narrow{overflow-x:hidden;overflow-y:auto}
+#cv{position:absolute;left:0;top:0;width:1280px;height:600px;transform-origin:0 0;overflow:hidden}
+.narrow #cv{width:640px;height:1120px}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
+#hd{position:absolute;left:24px;top:12px;display:flex;align-items:baseline;gap:12px}
+#hd .chip{font:600 15px ui-monospace,SFMono-Regular,Menlo,monospace;padding:3px 11px;border-radius:999px;background:var(--tint-solid);color:var(--accent);border:1px solid var(--line);white-space:nowrap}
+
+.card{position:absolute;left:0;top:0;opacity:0;transform-origin:50% 50%}
+.card .sh{position:absolute;left:0;right:0;top:0;border-radius:10px;overflow:hidden;border:1.5px solid var(--line2);background:var(--panel);box-shadow:var(--shadow)}
+.card .sh i{display:block;height:16px;background:var(--panel2);border-bottom:1px solid var(--line)}
+.card img{display:block;width:100%;height:auto}
+.card .lb{position:absolute;left:0;right:0;font:700 16px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--head);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
+.card .lb u{text-decoration:none}
+.card .lb span{font:500 15px system-ui,sans-serif;color:var(--dim);margin-left:8px}
+.card.on .sh{border-color:var(--accent);box-shadow:var(--shadow-pop)}
+.card.on .lb{color:var(--accent)}
+
+#big{position:absolute;left:0;right:0;top:46px;text-align:center;opacity:0}
+#big b{display:block;font-size:104px;line-height:1;font-weight:800;color:var(--head);letter-spacing:-.03em}
+#big b em{font-style:normal;color:var(--accent)}
+.narrow #big{top:60px}.narrow #big b{font-size:84px}
+#eq{position:absolute;left:0;right:0;top:184px;display:flex;justify-content:center;align-items:flex-start;gap:14px;font-size:32px;font-weight:760;color:var(--head);letter-spacing:-.01em}
+#eq .t{display:flex;flex-direction:column;align-items:center;opacity:0}
+#eq .t small{font:600 15px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--dim);margin-top:4px;letter-spacing:0}
+#eq .t.a span{border-bottom:4px solid var(--accent)}#eq .t.m span{border-bottom:4px solid var(--head)}#eq .t.w span{border-bottom:4px solid var(--warm)}
+#eq .t.r span{color:var(--accent)}
+#eq .op{color:var(--dim);font-weight:600;opacity:0}
+.narrow #eq{top:190px;flex-wrap:wrap;gap:8px 12px;padding:0 24px;font-size:34px}
+#ct{position:absolute;left:0;right:0;top:288px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+.narrow #ct{top:400px;flex-direction:column;align-items:center;gap:12px}
+#ct a{display:inline-flex;align-items:center;gap:10px;padding:8px 18px;border-radius:12px;border:1.5px solid var(--line2);background:var(--panel);color:var(--head);text-decoration:none;font:700 22px ui-monospace,SFMono-Regular,Menlo,monospace;opacity:0;box-shadow:var(--shadow)}
+#ct a small{font:600 15px system-ui,sans-serif;color:var(--dim)}
+#ct a.mail{border-color:var(--accent);color:var(--accent)}
+#ft{position:absolute;left:24px;right:24px;bottom:10px;font-size:14px;color:var(--dim);line-height:1.3;text-align:center;opacity:0}
+.narrow #ft{bottom:18px;font-size:15px}
+#prog{position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--line)}
+#prog i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--accent)}
+</style>
+</head>
+<body>
+<div id="cv">
+  <div id="hd"><span class="chip">where to find it</span></div>
+  <div id="cards"></div>
+  <div id="big"><b>ruv<em>.</em>sgit<em>.</em>ai</b></div>
+  <div id="eq">
+    <div class="t a"><span>many hands</span><small>a Ruflo hive</small></div><div class="op">+</div>
+    <div class="t m"><span>memory</span><small>sgit vaults</small></div><div class="op">+</div>
+    <div class="t w"><span>a mandate</span><small>Agent Behaviour Policies</small></div><div class="op">=</div>
+    <div class="t r"><span>ruv.sgit</span><small>rUv + sgit</small></div>
+  </div>
+  <div id="ct"><a class="mail" href="mailto:agent@riskmandate.ai">agent@riskmandate.ai</a><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">github.com/SGit-AI/SGit-AI__Website__Ruv</a></div>
+  <div id="ft">Screenshots taken with Playwright on 15 Oct 2026: four ruv.sgit.ai pages from this repository, and sgit.ai and newsroom.sgit.ai live. Ruflo is MIT, by rUv / ruvnet.</div>
+  <div id="prog"><i></i></div>
+</div>
+<script>
+(function () {
+'use strict';
+var Q = new URLSearchParams(location.search), REVIEW = Q.has('review');
+var END = 22, $ = function (id) { return document.getElementById(id); };
+var clamp = function (x, a, b) { return x < a ? a : x > b ? b : x; };
+var seg = function (t, a, b) { return clamp((t - a) / (b - a), 0, 1); };
+var ease = function (x) { return x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; };
+var lerp = function (a, b, k) { return a + (b - a) * k; };
+
+var SITES = [
+  ['home', 'ruv.sgit.ai', 'the home page', 'ruv.sgit.ai'],
+  ['business', 'ruv.sgit.ai/business', 'for business', '/business'],
+  ['shop', 'ruv.sgit.ai/shop', 'the shop', '/shop'],
+  ['ledger', 'ruv.sgit.ai/ruv-sgit/ledger', 'the vault ledger', '/ruv-sgit/ledger'],
+  ['sgit', 'sgit.ai', 'sgit', 'sgit.ai'],
+  ['newsroom', 'newsroom.sgit.ai', 'the newsroom', 'newsroom.sgit.ai']];
+var IN0 = .4, IN_GAP = .55, SPOT0 = 4.0, SPOT = 1.6, SETTLE = SPOT0 + SITES.length * SPOT + .2;   // 13.8
+var BIG = SETTLE + 1.0, EQ = BIG + 1.6, CT = EQ + 3.4;
+
+/* ---------- layout ---------- */
+var cv = $('cv'), N = false;
+function fit() {
+  var w = innerWidth, h = innerHeight; N = w < 700 || w / h < 0.9;
+  document.body.classList.toggle('narrow', N);
+  var CW = N ? 640 : 1280, CH = N ? 1120 : 600, S = N ? w / CW : Math.min(w / CW, h / CH);
+  cv.style.transform = 'scale(' + S + ')';
+  cv.style.left = Math.max(0, (w - CW * S) / 2) + 'px';
+  cv.style.top = N ? '0px' : Math.max(0, (h - CH * S) / 2) + 'px';
+  document.body.style.height = N ? Math.max(h, CH * S) + 'px' : '';
+}
+addEventListener('resize', function () { fit(); render(now()); }); fit();
+// a card is a 16:10 screenshot under a 16 px window bar, with its label below
+var AR = 10 / 16, BAR = 16;
+function grid(i) {   // the gallery
+  if (N) { var w = 288, c = i % 2, r = Math.floor(i / 2); return { x: 24 + c * (w + 16), y: 60 + r * (w * AR + BAR + 46), w: w }; }
+  var W = 330, cc = i % 3, rr = Math.floor(i / 3); return { x: 115 + cc * (W + 30), y: 52 + rr * (W * AR + BAR + 40), w: W };
+}
+function strip(i) {  // the final frame
+  if (N) { var w = 182, c = i % 3, r = Math.floor(i / 3); return { x: 24 + c * (w + 23), y: 610 + r * (w * AR + BAR + 44), w: w }; }
+  var W = 178, G = (1280 - 2 * 44 - 6 * W) / 5; return { x: 44 + i * (W + G), y: 392, w: W };
+}
+
+/* ---------- build ---------- */
+var cards = SITES.map(function (s) {
+  var d = document.createElement('div'); d.className = 'card';
+  d.innerHTML = '<div class="sh"><i></i><img alt="" decoding="async" src="../../../assets/img/talk/visit-' + s[0] + '.webp"></div><div class="lb"><u>' + s[1] + '</u><span>' + s[2] + '</span></div>';
+  d.dataset.short = s[3]; d.dataset.long = s[1];
+  $('cards').appendChild(d); return d;
+});
+
+function render(t) {
+  var k = ease(seg(t, SETTLE, SETTLE + 1.4));
+  cards.forEach(function (c, i) {
+    var a = grid(i), b = strip(i), x = lerp(a.x, b.x, k), y = lerp(a.y, b.y, k), w = lerp(a.w, b.w, k), h = w * AR + BAR;
+    var appear = ease(seg(t, IN0 + i * IN_GAP, IN0 + i * IN_GAP + .6));
+    var s0 = SPOT0 + i * SPOT, spot = t < SETTLE ? Math.min(seg(t, s0, s0 + .35), 1 - seg(t, s0 + SPOT - .2, s0 + SPOT + .15)) : 0;
+    var anySpot = t >= SPOT0 && t < SETTLE - .1;
+    var sc = 1 + .07 * ease(spot);
+    c.style.left = x + 'px'; c.style.top = y + 'px'; c.style.width = w + 'px'; c.style.height = (h + 30) + 'px';
+    c.querySelector('.sh').style.height = h + 'px';
+    var lb = c.querySelector('.lb'); lb.style.top = (h + 8) + 'px';
+    lb.style.fontSize = (N ? 14 : lerp(16, 14, k)) + 'px';
+    lb.querySelector('span').style.display = k > .5 ? 'none' : '';
+    lb.querySelector('u').textContent = k > .5 ? c.dataset.short : c.dataset.long;
+    c.style.opacity = appear * (anySpot ? (.45 + .55 * spot) : 1);
+    c.style.transform = 'translateY(' + ((1 - appear) * 18) + 'px) scale(' + sc + ')';
+    c.style.zIndex = spot > 0 ? 2 : 1;
+    c.classList.toggle('on', spot > .5);
+  });
+  var bg = ease(seg(t, BIG, BIG + 1.1)), B = $('big');
+  B.style.opacity = bg; B.style.transform = 'scale(' + (.92 + .08 * bg) + ')';
+  var terms = document.querySelectorAll('#eq .t'), ops = document.querySelectorAll('#eq .op');
+  terms.forEach(function (e, i) { var q = ease(seg(t, EQ + i * .8, EQ + i * .8 + .5)); e.style.opacity = q; e.style.transform = 'translateY(' + ((1 - q) * 10) + 'px)'; });
+  ops.forEach(function (e, i) { e.style.opacity = ease(seg(t, EQ + i * .8 + .45, EQ + i * .8 + .8)); });
+  document.querySelectorAll('#ct a').forEach(function (e, i) { var q = ease(seg(t, CT + i * .5, CT + i * .5 + .6)); e.style.opacity = q; e.style.transform = 'translateY(' + ((1 - q) * 10) + 'px)'; });
+  $('ft').style.opacity = ease(seg(t, CT + 1, CT + 1.8));
+  $('prog').firstChild.style.width = (100 * clamp(t / END, 0, 1)) + '%';
+}
+window.RUV_STEPS = [{ t: 0, label: 'the sites' }, { t: SPOT0, label: 'one at a time' }, { t: Math.round(SETTLE * 10) / 10, label: 'ruv.sgit.ai' }, { t: Math.round(EQ * 10) / 10, label: 'the equation' }, { t: END, label: 'get in touch' }];
+function now() { return REVIEW ? END : Math.min(performance.now() / 1000, END); }
+function frame() { var t = now(); render(t); if (!REVIEW && t < END) requestAnimationFrame(frame); }
+render(now()); requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

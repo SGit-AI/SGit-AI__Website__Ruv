@@ -6,6 +6,7 @@
 <title>One Ephemeral Vault</title>
 <meta name="description" content="Case study: the life of one ruv.sgit vault in six steps, open to delete, with every number read from data/vaults.json.">
 <link rel="stylesheet" href="../../assets/themes.css">
+<script src="../../assets/clock.js"></script>
 <script src="../../assets/theme.js"></script>
 <style>
 /* Case study: one ephemeral vault. Colours only through the theme tokens of assets/themes.css. */
@@ -132,7 +133,7 @@ body.review .stat{background:var(--bg)}
   var REVIEW = Q.has('review');
   if (REVIEW) document.body.classList.add('review');
   var t0 = performance.now(), cur = -1, V = null;
-  window.__t = function () { return REVIEW ? 0 : ((performance.now() - t0) / 1000) % LOOP; };
+  window.__t = function () { return REVIEW ? 0 : ruvLoop((performance.now() - t0) / 1000, LOOP, LOOP - 0.01); };
 
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   var num = function (n) { return n == null ? 'n/a' : Number(n).toLocaleString('en-GB'); };

@@ -53,6 +53,7 @@ text{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-se
   <div id="strip"><span class="lbl">server sees: ciphertext</span><div id="ticker"></div></div>
   <footer><span>v3 · Vault lanes · made in the ruv.sgit.ai studio run</span><a href="../index.html">← back to the studio</a></footer>
 </div>
+<script src="../../assets/clock.js"></script>
 <script>
 (function(){
 'use strict';
@@ -290,7 +291,7 @@ function apply(part, head){
   });
 }
 function frame(now){
-  tNow = ((now - t0)/1000) % LOOP;
+  tNow = ruvLoop((now - t0)/1000, LOOP, LOOP - 0.9);
   var t = tNow;
   if(!built || !D){ requestAnimationFrame(frame); return; }
   var partIdx = t < P1_END ? 0 : 1;

@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Four ways to work with us</title>
+<link rel="stylesheet" href="../../../assets/themes.css">
+<script src="../../../assets/theme.js"></script>
+<script src="../../../assets/clock.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{overflow:hidden;position:relative;width:100vw;height:100vh;height:100dvh}
+body.narrow{overflow-x:hidden;overflow-y:auto}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+#cv{position:absolute;left:0;top:0;width:1280px;height:600px;transform-origin:0 0;overflow:hidden}
+.narrow #cv{width:640px;height:1180px}
+
+/* header: one small line, the player has the title */
+#hd{position:absolute;left:28px;right:28px;top:14px;display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap}
+#hd h1{margin:0;font-size:22px;font-weight:760;color:var(--head);letter-spacing:-.01em;margin-right:auto}
+#hd h1 b{color:var(--accent)}
+.rail{display:flex;gap:6px}
+.rail span{font:650 14px/1 system-ui,sans-serif;padding:6px 11px;border-radius:999px;border:1px solid var(--line);color:var(--dim);background:var(--panel);transition:none}
+.rail span.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.rail span.done{color:var(--accent);border-color:var(--tint-line)}
+.narrow #hd h1{flex-basis:100%;font-size:28px}
+
+/* an act: diagram on the left, the price card on the right */
+.act{position:absolute;left:0;top:0;width:1280px;height:600px;opacity:0;pointer-events:none}
+.narrow .act{width:640px;height:1180px}
+.act h2{position:absolute;left:28px;top:62px;margin:0;font-size:27px;font-weight:770;color:var(--head);letter-spacing:-.01em}
+.act h2 em{font-style:normal;font:800 22px ui-monospace,monospace;color:var(--accent);margin-right:10px}
+.act h2 small{font-size:18px;font-weight:550;color:var(--dim);margin-left:10px}
+.narrow .act h2{top:130px;font-size:28px;left:24px;right:24px}
+.narrow .act h2 small{display:block;margin:4px 0 0}
+.stage{position:absolute;left:28px;top:102px;width:780px;height:400px;overflow:visible}
+.narrow .stage{left:20px;top:215px;transform:scale(.769);transform-origin:0 0}
+.cap{position:absolute;left:28px;top:508px;width:780px;font-size:18px;line-height:1.38;color:var(--text)}
+.cap b{color:var(--head)}
+.narrow .cap{left:24px;top:535px;width:592px;font-size:20px}
+
+.side{position:absolute;left:836px;top:62px;width:416px;height:500px;background:var(--panel);border:1.5px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:6px}
+.narrow .side{left:24px;top:665px;width:592px;height:auto}
+.side .gt{font-size:24px;font-weight:770;color:var(--head)}
+.side .gu{font:600 15px ui-monospace,monospace;color:var(--dim);margin-top:-4px}
+.prow{display:grid;grid-template-columns:1fr auto;gap:2px 12px;align-items:baseline;padding:10px 0 9px;border-top:1px solid var(--line)}
+.prow:first-of-type{margin-top:6px}
+.prow .n{font-size:19px;font-weight:700;color:var(--head)}
+.prow .p{font:800 30px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent);text-align:right;white-space:nowrap}
+.prow .d{font-size:15px;color:var(--dim);line-height:1.3}
+.prow .b{font:650 15px ui-monospace,monospace;color:var(--warm);text-align:right;white-space:nowrap}
+.side .who{margin-top:auto;font-size:15px;color:var(--text);border-left:3px solid var(--accent);padding-left:10px;line-height:1.35}
+
+/* SVG diagram styles: tokens through CSS, never presentation attributes */
+svg text{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.f-panel{fill:var(--panel)} .f-panel2{fill:var(--panel2)} .f-tint{fill:var(--tint-solid)} .f-bg{fill:var(--bg)}
+.f-acc{fill:var(--accent)} .f-warm{fill:var(--warm)} .f-head{fill:var(--head)} .f-dim{fill:var(--dim)} .f-text{fill:var(--text)} .f-red{fill:var(--red)} .f-on{fill:var(--on-accent)} .f-line{fill:var(--line)}
+.s-line{stroke:var(--line2);fill:none;stroke-width:2} .s-acc{stroke:var(--accent)} .s-warm{stroke:var(--warm)} .s-head{stroke:var(--head)} .s-dim{stroke:var(--dim)} .s-red{stroke:var(--red)}
+.box{fill:var(--panel);stroke:var(--line2);stroke-width:2}
+.vault{fill:var(--tint);stroke:var(--accent);stroke-width:2.5;stroke-dasharray:9 6}
+.wire{stroke:var(--line2);stroke-width:2;fill:none}
+.arrow{stroke:var(--dim);stroke-width:2.5;fill:none}
+.t14{font-size:14px} .t15{font-size:15px} .t16{font-size:16px} .t17{font-size:17px} .t18{font-size:18px} .t20{font-size:20px} .t22{font-size:22px}
+.b6{font-weight:600} .b7{font-weight:700} .b8{font-weight:800}
+.mono-t{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
+/* mix and match */
+#mix .eq{position:absolute;left:28px;right:28px;top:118px;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+.narrow #mix .eq{top:215px;left:20px;right:20px}
+.chipb{background:var(--panel);border:2px solid var(--line2);border-radius:14px;padding:10px 16px;text-align:center;min-width:190px;box-shadow:var(--shadow)}
+.chipb .k{font:700 14px ui-monospace,monospace;color:var(--dim);text-transform:uppercase;letter-spacing:.05em}
+.chipb .v{font-size:20px;font-weight:720;color:var(--head)}
+.chipb .q{font:800 24px ui-monospace,monospace;color:var(--accent)}
+.op{font:800 30px ui-monospace,monospace;color:var(--dim)}
+.chipb.sum{background:var(--tint-solid);border-color:var(--accent)}
+.chipb.sum .q{font-size:30px}
+#mix .eqnote{position:absolute;left:28px;right:28px;top:236px;text-align:center;font-size:17px;color:var(--dim)}
+.narrow #mix .eqnote{top:480px}
+#mix .aud{position:absolute;left:28px;right:28px;top:282px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.narrow #mix .aud{top:550px;grid-template-columns:1fr;left:24px;right:24px}
+.audc{background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:12px 16px;border-top:5px solid var(--accent)}
+.audc .k{font:700 14px ui-monospace,monospace;color:var(--accent);text-transform:uppercase;letter-spacing:.06em}
+.audc .v{font-size:21px;font-weight:740;color:var(--head);margin:2px 0 4px}
+.audc .d{font-size:16px;color:var(--text);line-height:1.35}
+#mix .msg{position:absolute;left:28px;right:28px;top:480px;text-align:center;font-size:24px;font-weight:720;color:var(--head);line-height:1.3}
+.narrow #mix .msg{top:970px;font-size:24px}
+.msg b{color:var(--accent)}
+
+/* the final frame */
+#fin .cards{position:absolute;left:28px;right:28px;top:62px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.narrow #fin .cards{top:140px;left:20px;right:20px;grid-template-columns:1fr 1fr}
+.card{background:var(--panel);border:1.5px solid var(--line);border-radius:16px;padding:12px 14px 10px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-width:0}
+.card .top{display:flex;align-items:center;gap:10px}
+.card .ic{width:40px;height:40px;flex:none;border-radius:10px;background:var(--tint-solid);display:flex;align-items:center;justify-content:center}
+.card .ic svg{width:28px;height:28px}
+.card .tt{font-size:21px;font-weight:770;color:var(--head);line-height:1.1}
+.card .tt small{display:block;font:600 14px ui-monospace,monospace;color:var(--dim);margin-top:2px}
+.card .hw{font-size:16px;color:var(--text);line-height:1.32;margin:8px 0 4px;min-height:60px}
+.cr{display:flex;justify-content:space-between;align-items:baseline;gap:8px;border-top:1px solid var(--line);padding:8px 0 7px}
+.cr .n{font-size:17px;color:var(--head);font-weight:650;min-width:0}
+.cr .n small{display:block;font-size:14px;color:var(--dim);font-weight:500}
+.cr .p{font:800 24px ui-monospace,monospace;color:var(--accent);white-space:nowrap}
+.cr .p small{display:block;text-align:right;font:650 14px ui-monospace,monospace;color:var(--warm)}
+#fin .msg{position:absolute;left:28px;right:28px;top:446px;text-align:center;font-size:22px;font-weight:720;color:var(--head);line-height:1.3}
+.narrow #fin .msg{top:900px;font-size:24px}
+#fin .ct{position:absolute;left:28px;right:28px;top:496px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.narrow #fin .ct{top:1000px}
+.ct span{font:700 20px ui-monospace,monospace;padding:7px 16px;border-radius:999px;background:var(--tint-solid);color:var(--accent);border:1px solid var(--tint-line)}
+.ct span.m{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+#src{position:absolute;left:28px;right:28px;bottom:8px;font-size:14px;color:var(--dim);text-align:center}
+.narrow #src{bottom:14px}
+
+/* intro */
+#intro .big{position:absolute;left:0;right:0;top:200px;text-align:center;font-size:44px;font-weight:790;color:var(--head);letter-spacing:-.015em}
+#intro .sub{position:absolute;left:0;right:0;top:268px;text-align:center;font-size:22px;color:var(--text)}
+.narrow #intro .big{top:330px;font-size:44px;padding:0 24px}
+.narrow #intro .sub{top:460px;padding:0 24px}
+#intro .four{position:absolute;left:140px;right:140px;top:330px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.narrow #intro .four{top:580px;left:40px;right:40px;grid-template-columns:1fr 1fr}
+#intro .four div{background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:14px;text-align:center;font-size:19px;font-weight:700;color:var(--head)}
+#intro .four div em{display:block;font:800 16px ui-monospace,monospace;color:var(--accent);font-style:normal}
+#err{position:absolute;left:836px;top:520px;font-size:15px;color:var(--red)}
+#bar{position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--line)}
+#bar i{position:absolute;left:0;top:0;bottom:0;background:var(--accent);width:0}
+</style>
+</head>
+<body>
+<div id="cv">
+  <div id="hd"><h1><b>ruv.sgit</b> for business: four ways to work with us</h1>
+    <div class="rail" id="rail"><span>1 Runs</span><span>2 Compute</span><span>3 Repo</span><span>4 Expert</span><span>Mix</span></div></div>
+
+  <section class="act" id="intro">
+    <div class="big">Four offers. Mix and match.</div>
+    <div class="sub">All four are built on one stack: a Ruflo hive + sgit vaults + Agent Behaviour Policies.</div>
+    <div class="four"><div><em>1</em>Task runs</div><div><em>2</em>Dedicated compute</div><div><em>3</em>Maintained repository</div><div><em>4</em>Expert time</div></div>
+  </section>
+
+  <section class="act" id="a-runs">
+    <h2><em>1</em>Task runs<small>on our infrastructure</small></h2>
+    <svg class="stage" viewBox="0 0 780 400" id="sv-runs"></svg>
+    <div class="cap">A brief and your materials go in. A Ruflo queen and her workers, <b>each role under its own behaviour policy</b>, work inside an <b>ephemeral sgit vault</b> with no network. <b>The vault comes back to you.</b></div>
+    <div class="side" data-g="runs"></div>
+  </section>
+
+  <section class="act" id="a-compute">
+    <h2><em>2</em>Dedicated compute<small>one machine per task</small></h2>
+    <svg class="stage" viewBox="0 0 780 400" id="sv-compute"></svg>
+    <div class="cap">An AWS EC2 instance in London is <b>started for your task</b> and <b>stopped after it</b>. The sgit vault is <b>created inside that machine</b>, so nothing is shared with other customers.</div>
+    <div class="side" data-g="compute"></div>
+  </section>
+
+  <section class="act" id="a-repo">
+    <h2><em>3</em>Maintained repository<small>run it yourself</small></h2>
+    <svg class="stage" viewBox="0 0 780 400" id="sv-repo"></svg>
+    <div class="cap">The full ruv.sgit setup in <b>a private repository of your own</b>, kept up to date by us. Run it on Claude Code, on AWS or wherever you run agents; <b>tokens and cloud stay on your accounts</b>.</div>
+    <div class="side" data-g="repo"></div>
+  </section>
+
+  <section class="act" id="a-expert">
+    <h2><em>4</em>Expert time<small>with the people who built it</small></h2>
+    <svg class="stage" viewBox="0 0 780 400" id="sv-expert"></svg>
+    <div class="cap">Scope tasks, steer runs, read the vaults with you. Or design a pilot and its Agent Behaviour Policy, or <b>set ruv.sgit up in your environment and hand it over</b>.</div>
+    <div class="side" data-g="expert"></div>
+  </section>
+
+  <section class="act" id="mix">
+    <h2><em>+</em>Mix and match<small>the four combine</small></h2>
+    <div class="eq" id="eq"></div>
+    <div class="eqnote" id="eqnote"></div>
+    <div class="aud" id="aud">
+      <div class="audc"><div class="k">Consultants</div><div class="v">White label it</div><div class="d">Put your name on it. Your client receives the run's vault.</div></div>
+      <div class="audc"><div class="k">Companies</div><div class="v">Add it to your offering</div><div class="d">From reselling runs to your own deployment. Your clients, your brand, your keys.</div></div>
+      <div class="audc"><div class="k">Internal teams</div><div class="v">Provide it inside</div><div class="d">Agent swarms for your organisation, with the governance already written.</div></div>
+    </div>
+    <div class="msg" id="mixmsg">Anybody who implements this implements <b>sgit vaults</b> and <b>Agent Behaviour Policies</b>.</div>
+  </section>
+
+  <section class="act" id="fin">
+    <div class="cards" id="cards"></div>
+    <div class="msg">Anybody who implements this implements <b>sgit vaults</b> and <b>Agent Behaviour Policies</b>.</div>
+    <div class="ct"><span>ruv.sgit.ai/business</span><span class="m">agent@riskmandate.ai</span></div>
+    <div id="src">Prices in GBP, excluding VAT, from data/offers.json. Built on Ruflo (MIT, by rUv / ruvnet); sgit vaults and ABPs are ours (Apache-2.0).</div>
+  </section>
+  <div id="bar"><i></i></div>
+</div>
+<script>
+(function () {
+'use strict';
+var Q = new URLSearchParams(location.search), REVIEW = Q.has('review');
+var RM = false; try { RM = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+var END = 44.5;
+var FREEZE = Q.has('t') ? Math.max(0, Math.min(END, +Q.get('t') || 0)) : (REVIEW || RM ? END : null);
+window.RUV_STEPS = [
+  { t: 0, label: 'Four offers' },
+  { t: 3, label: 'Task runs' },
+  { t: 13, label: 'Dedicated compute' },
+  { t: 20.5, label: 'Maintained repo' },
+  { t: 28, label: 'Expert time' },
+  { t: 34, label: 'Mix and match' },
+  { t: 44.5, label: 'All four, priced' }
+];
+var ACTS = [['intro', 0, 3], ['a-runs', 3, 13], ['a-compute', 13, 20.5], ['a-repo', 20.5, 28], ['a-expert', 28, 34], ['mix', 34, 41.5], ['fin', 41.5, 999]];
+var $ = function (id) { return document.getElementById(id); };
+var clamp = function (x, a, b) { return x < a ? a : x > b ? b : x; };
+var seg = function (t, a, b) { return clamp((t - a) / (b - a), 0, 1); };
+var ease = function (x) { return x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; };
+var lerp = function (a, b, k) { return a + (b - a) * k; };
+var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+var gbp = function (n) { return '£' + Number(n).toLocaleString('en-GB'); };
+var cv = $('cv'), T0 = performance.now();
+
+/* ---------- layout: a fixed design canvas, scaled to fit ---------- */
+var NARROW = false;
+function fit() {
+  var w = innerWidth, h = innerHeight;
+  NARROW = w < 700 || w / h < 0.9;
+  document.body.classList.toggle('narrow', NARROW);
+  var CW = NARROW ? 640 : 1280, CH = NARROW ? 1180 : 600;
+  var S = NARROW ? w / CW : Math.min(w / CW, h / CH);
+  cv.style.transform = 'scale(' + S + ')';
+  cv.style.left = Math.max(0, (w - CW * S) / 2) + 'px';
+  cv.style.top = NARROW ? '0px' : Math.max(0, (h - CH * S) / 2) + 'px';
+  document.body.style.height = NARROW ? Math.max(h, CH * S) + 'px' : '';
+}
+addEventListener('resize', fit); fit();
+
+/* ---------- SVG helpers ---------- */
+function op(el, v) { if (el) el.style.opacity = v; }
+function tr(el, x, y, s) { if (el) el.setAttribute('transform', 'translate(' + x + ',' + y + ')' + (s != null ? ' scale(' + s + ')' : '')); }
+function q(sv, sel) { return sv.querySelector(sel); }
+function qa(sv, sel) { return Array.prototype.slice.call(sv.querySelectorAll(sel)); }
+var lock = function (x, y, cls) { return '<g transform="translate(' + x + ',' + y + ')"><path d="M4 9V6a5 5 0 0 1 10 0v3" class="' + (cls || 's-acc') + '" style="fill:none;stroke-width:2.4"/><rect x="1" y="9" width="16" height="12" rx="2.5" class="' + (cls ? cls.replace('s-', 'f-') : 'f-acc') + '"/></g>'; };
+var doc = function (x, y, label) { return '<g transform="translate(' + x + ',' + y + ')"><path d="M0 0h52l16 16v64H0z" class="box"/><path d="M52 0v16h16" class="s-line"/><rect x="10" y="26" width="40" height="4" rx="2" class="f-line"/><rect x="10" y="38" width="46" height="4" rx="2" class="f-line"/><rect x="10" y="50" width="32" height="4" rx="2" class="f-line"/><text x="34" y="102" text-anchor="middle" class="t16 b7 f-head">' + label + '</text></g>'; };
+function hive(cx, cy, n, spread, r) {   // a queen and n workers, each worker with its own ABP shield
+  var h = '<g class="hive"><g class="links">';
+  var wy = cy + spread * 0.62, xs = [];
+  for (var i = 0; i < n; i++) xs.push(cx - spread + (2 * spread) * (n === 1 ? .5 : i / (n - 1)));
+  xs.forEach(function (x) { h += '<line x1="' + cx + '" y1="' + cy + '" x2="' + x + '" y2="' + wy + '" class="wire"/>'; });
+  h += '</g><g class="queen"><circle cx="' + cx + '" cy="' + cy + '" r="' + (r + 6) + '" class="f-acc"/><path d="M' + (cx - 10) + ' ' + (cy + 4) + 'l-2 -12 7 6 5 -9 5 9 7 -6 -2 12z" class="f-on"/></g>';
+  xs.forEach(function (x, i) {
+    h += '<g class="wk" data-x="' + x + '" data-y="' + wy + '"><circle cx="' + x + '" cy="' + wy + '" r="' + r + '" class="f-head"/>' +
+      '<g class="abp"><path d="M' + (x + r - 4) + ' ' + (wy - r - 6) + 'h16v8c0 6-4 9-8 11-4-2-8-5-8-11z" class="f-warm"/></g></g>';
+  });
+  xs.forEach(function (x, i) { h += '<circle class="msgdot f-acc" r="4.5" cx="0" cy="0" data-x="' + x + '" data-y="' + wy + '" data-i="' + i + '"/>'; });
+  return h + '</g>';
+}
+function hiveAnim(sv, u, a, cx, cy) {   // workers appear from a, messages flow from a+1.2
+  qa(sv, '.wk').forEach(function (w, i) { op(w, ease(seg(u, a + i * .12, a + .4 + i * .12))); });
+  op(q(sv, '.queen'), ease(seg(u, a - .4, a)));
+  op(q(sv, '.links'), seg(u, a, a + .8));
+  qa(sv, '.msgdot').forEach(function (d, i) {
+    var on = seg(u, a + 1.2, a + 1.5), k = ((u - a - 1.2) * 0.55 + i * 0.37) % 1; if (k < 0) k += 1;
+    var down = ((Math.floor((u - a - 1.2) * 0.55 + i * 0.37)) % 2) === 0, kk = down ? k : 1 - k;
+    d.setAttribute('cx', lerp(cx, +d.dataset.x, kk)); d.setAttribute('cy', lerp(cy, +d.dataset.y, kk));
+    op(d, on * (1 - seg(u, 99, 100)));
+  });
+}
+
+/* ---------- 1: task runs ---------- */
+var RUNS = $('sv-runs');
+RUNS.innerHTML =
+  '<g id="r-in">' + doc(4, 140, 'brief') + doc(96, 140, 'materials') + '<text x="86" y="200" text-anchor="middle" class="t22 b8 f-dim">+</text></g>' +
+  '<path id="r-ar1" d="M172 190 H214" class="arrow"/><path id="r-ar1h" d="M206 182l10 8-10 8" class="arrow"/>' +
+  '<g id="r-vault"><rect x="228" y="30" width="330" height="320" rx="20" class="vault"/>' + lock(244, 44) +
+  '<text x="270" y="62" class="t17 b8 f-acc">ephemeral sgit vault</text>' +
+  '<text x="393" y="334" text-anchor="middle" class="t15 b6 f-dim mono-t">one per run · encrypted</text></g>' +
+  '<g id="r-hive">' + hive(393, 130, 5, 120, 15) + '</g>' +
+  '<g id="r-legend"><path d="M282 278h16v8c0 6-4 9-8 11-4-2-8-5-8-11z" class="f-warm"/><text x="306" y="292" class="t15 b7 f-warm">a behaviour policy per role</text></g>' +
+  '<g id="r-noegress"><rect x="466" y="42" width="80" height="26" rx="13" class="f-panel" style="stroke:var(--red);stroke-width:1.6"/><text x="506" y="60" text-anchor="middle" class="t14 b8 f-red">no net</text></g>' +
+  '<path id="r-ar2" d="M566 190 H612" class="arrow"/><path id="r-ar2h" d="M604 182l10 8-10 8" class="arrow"/>' +
+  '<g id="r-out"><text x="694" y="102" text-anchor="middle" class="t17 b8 f-head">the vault, back to you</text>' +
+  '<g id="r-zip"><rect x="622" y="122" width="144" height="56" rx="12" class="box"/>' + lock(638, 138, 's-head') + '<text x="666" y="156" class="t17 b7 f-head">as a zip</text></g>' +
+  '<g id="r-pub"><rect x="622" y="196" width="144" height="70" rx="12" class="box"/><text x="694" y="226" text-anchor="middle" class="t17 b7 f-head">published</text><text x="694" y="248" text-anchor="middle" class="t15 b6 f-dim">with a read key</text></g>' +
+  '<text x="694" y="300" text-anchor="middle" class="t15 f-dim">every brief, message,</text><text x="694" y="319" text-anchor="middle" class="t15 f-dim">delivery and decision</text></g>' +
+  '<g id="r-tok"><rect x="-14" y="-11" width="28" height="22" rx="5" class="f-acc"/></g>';
+function runsAnim(u) {
+  var sv = RUNS;
+  op($('r-in') , ease(seg(u, 0, .6)));
+  op($('r-vault'), ease(seg(u, .5, 1.2)));
+  op($('r-ar1'), seg(u, 1.0, 1.3)); op($('r-ar1h'), seg(u, 1.0, 1.3));
+  var k = ease(seg(u, 1.2, 2.2)), tok = $('r-tok');
+  tr(tok, lerp(130, 300, k), lerp(190, 90, k), lerp(1, .6, k)); op(tok, seg(u, 1.2, 1.4) * (1 - seg(u, 2.1, 2.4)));
+  hiveAnim(sv, u, 2.4, 393, 130);
+  op($('r-legend'), ease(seg(u, 3.2, 3.7)));
+  op($('r-noegress'), ease(seg(u, 4.0, 4.5)));
+  op($('r-ar2'), seg(u, 6.0, 6.4)); op($('r-ar2h'), seg(u, 6.0, 6.4));
+  op($('r-out'), ease(seg(u, 6.2, 6.8)));
+  op($('r-zip'), ease(seg(u, 6.5, 7))); op($('r-pub'), ease(seg(u, 7, 7.5)));
+}
+
+/* ---------- 2: dedicated compute ---------- */
+var COMP = $('sv-compute');
+COMP.innerHTML =
+  '<g id="c-in">' + doc(10, 140, 'brief') + '</g>' +
+  '<path id="c-ar1" d="M92 190 H150" class="arrow"/><path id="c-ar1h" d="M142 182l10 8-10 8" class="arrow"/>' +
+  '<g id="c-mach"><rect x="160" y="20" width="420" height="300" rx="16" class="f-panel2" style="stroke:var(--head);stroke-width:2.5"/>' +
+  '<rect x="160" y="20" width="420" height="40" rx="16" class="f-head"/><rect x="160" y="44" width="420" height="16" class="f-head"/>' +
+  '<text x="180" y="47" class="t17 b8 f-bg">AWS EC2 · London · your task only</text>' +
+  '<g id="c-st"><rect x="474" y="29" width="94" height="23" rx="11.5" class="f-acc"/><text id="c-stt" x="521" y="46" text-anchor="middle" class="t14 b8 f-on">starting</text></g></g>' +
+  '<g id="c-vault"><rect x="190" y="78" width="360" height="226" rx="16" class="vault"/>' + lock(204, 90) + '<text x="230" y="107" class="t16 b8 f-acc">sgit vault, created inside</text></g>' +
+  '<g id="c-hive">' + hive(370, 150, 4, 100, 13) + '</g>' +
+  '<g id="c-clock"><text x="160" y="352" class="t16 b7 f-head">8-hour block</text><rect x="276" y="338" width="304" height="18" rx="9" class="f-line"/><rect id="c-fill" x="276" y="338" width="0" height="18" rx="9" class="f-acc"/>' +
+  '<text x="580" y="384" text-anchor="end" class="t15 f-dim">stopped when the task ends, or after 8 hours</text></g>' +
+  '<path id="c-ar2" d="M588 170 H640" class="arrow"/><path id="c-ar2h" d="M632 162l10 8-10 8" class="arrow"/>' +
+  '<g id="c-out"><rect x="650" y="132" width="120" height="76" rx="12" class="box"/>' + lock(700, 144, 's-head') + '<text x="710" y="192" text-anchor="middle" class="t16 b7 f-head">your vault</text></g>';
+function compAnim(u) {
+  op($('c-in'), ease(seg(u, 0, .5)));
+  var m = ease(seg(u, .2, 1)); op($('c-mach'), m);
+  op($('c-ar1'), seg(u, .8, 1.1)); op($('c-ar1h'), seg(u, .8, 1.1));
+  op($('c-vault'), ease(seg(u, 1.1, 1.8)));
+  hiveAnim(COMP, u, 2.0, 370, 150);
+  $('c-fill').setAttribute('width', 304 * seg(u, 2.0, 5.6));
+  op($('c-clock'), ease(seg(u, 1.6, 2.0)));
+  var st = u < 1.2 ? 'starting' : u < 5.6 ? 'running' : 'stopped';
+  $('c-stt').textContent = st;
+  q(COMP, '#c-st rect').setAttribute('class', st === 'stopped' ? 'f-dim' : 'f-acc');
+  op(q(COMP, '#c-hive'), 1 - .6 * seg(u, 5.6, 6.2));
+  op($('c-ar2'), seg(u, 5.4, 5.8)); op($('c-ar2h'), seg(u, 5.4, 5.8));
+  op($('c-out'), ease(seg(u, 5.6, 6.2)));
+}
+
+/* ---------- 3: maintained repository ---------- */
+var REPO = $('sv-repo');
+var branch = function (x, y) { return '<g transform="translate(' + x + ',' + y + ')"><circle cx="6" cy="6" r="5" class="f-acc"/><circle cx="6" cy="30" r="5" class="f-acc"/><circle cx="24" cy="14" r="5" class="f-acc"/><path d="M6 11v14M24 19c0 6-10 6-16 9" class="s-acc" style="fill:none;stroke-width:2.6"/></g>'; };
+REPO.innerHTML =
+  '<g id="p-us"><rect x="10" y="130" width="170" height="110" rx="14" class="f-tint" style="stroke:var(--accent);stroke-width:2"/><text x="95" y="178" text-anchor="middle" class="t20 b8 f-acc">ruv.sgit</text><text x="95" y="204" text-anchor="middle" class="t15 b6 f-dim">we maintain it</text></g>' +
+  '<path id="p-pipe" d="M180 185 H300" class="s-line" style="stroke-width:6;stroke-linecap:round"/>' +
+  '<g id="p-rels"></g>' +
+  '<g id="p-you"><rect x="300" y="100" width="230" height="170" rx="16" class="box" style="stroke:var(--head);stroke-width:2.5"/>' + branch(322, 120) + '<text x="362" y="140" class="t18 b8 f-head">your private</text><text x="362" y="162" class="t18 b8 f-head">repository</text>' +
+  '<text x="322" y="204" class="t15 b6 f-dim mono-t">version</text><text id="p-ver" x="400" y="206" class="t20 b8 f-acc mono-t">month 1</text>' +
+  '<text x="322" y="248" class="t15 f-dim">your branding, your keys</text></g>' +
+  '<g id="p-targets"></g>' +
+  '<g id="p-note"><text x="415" y="320" text-anchor="middle" class="t16 b6 f-text">model tokens and cloud costs are on your own accounts</text></g>';
+(function () {
+  var r = '', t = '', T = [['Claude Code', 120], ['AWS', 185], ['anywhere you run agents', 250]];
+  for (var i = 0; i < 3; i++) r += '<g class="rel"><rect x="-26" y="-13" width="52" height="26" rx="13" class="f-acc"/><text x="0" y="5" text-anchor="middle" class="t14 b8 f-on mono-t">new</text></g>';
+  T.forEach(function (a, i) { t += '<g class="tg"><path d="M530 185 C560 185 560 ' + a[1] + ' 590 ' + a[1] + '" class="arrow"/><rect x="592" y="' + (a[1] - 22) + '" width="182" height="44" rx="10" class="box"/><text x="683" y="' + (a[1] + 6) + '" text-anchor="middle" class="t16 b7 f-head">' + a[0] + '</text></g>'; });
+  $('p-rels').innerHTML = r; $('p-targets').innerHTML = t;
+})();
+function repoAnim(u) {
+  op($('p-us'), ease(seg(u, 0, .5))); op($('p-you'), ease(seg(u, .3, .9))); op($('p-pipe'), seg(u, .6, 1));
+  var month = 1;
+  qa(REPO, '.rel').forEach(function (g, i) {
+    var a = 1.2 + i * 1.2, k = ease(seg(u, a, a + .9));
+    tr(g, lerp(206, 274, k), 185); op(g, seg(u, a, a + .15) * (1 - seg(u, a + .8, a + .95)));
+    if (u >= a + .9) month = i + 2;
+  });
+  $('p-ver').textContent = 'month ' + month;
+  qa(REPO, '.tg').forEach(function (g, i) { op(g, ease(seg(u, 4.4 + i * .35, 4.9 + i * .35))); });
+  op($('p-note'), ease(seg(u, 5.5, 6)));
+}
+
+/* ---------- 4: expert time ---------- */
+var EXP = $('sv-expert');
+(function () {
+  var h = '<text x="210" y="22" class="t15 b7 f-dim mono-t">day 1</text><text x="350" y="22" class="t15 b7 f-dim mono-t">day 2</text><text x="490" y="22" class="t15 b7 f-dim mono-t">day 3</text><text x="630" y="22" class="t15 b7 f-dim mono-t">day 4</text>';
+  var R = [['A couple of hours', 'about 2 hours', .25, 'scope · steer runs · review'], ['A day', 'one working day', 1, 'design a pilot and its ABP'], ['Several days', 'four working days', 4, 'set it up in your environment, hand over']];
+  R.forEach(function (r, i) {
+    var y = 44 + i * 112;
+    h += '<g class="xrow"><text x="0" y="' + (y + 30) + '" class="t18 b8 f-head">' + r[0] + '</text><text x="0" y="' + (y + 52) + '" class="t15 f-dim">' + r[1] + '</text>';
+    for (var d = 0; d < 4; d++) h += '<rect x="' + (200 + d * 140) + '" y="' + (y + 8) + '" width="132" height="52" rx="10" class="f-panel2" style="stroke:var(--line);stroke-width:1.5"/>';
+    h += '<rect class="xfill f-acc" x="200" y="' + (y + 8) + '" width="0" height="52" rx="10" data-w="' + (r[2] === 4 ? 552 : r[2] * 132) + '"/>';
+    h += '<text class="xlab t16 b7 ' + (r[2] < 4 ? 'f-text' : 'f-on') + '" x="' + (r[2] < 1 ? 244 : r[2] < 4 ? 346 : 212) + '" y="' + (y + 40) + '">' + r[3] + '</text></g>';
+  });
+  h += '<g id="x-people"><circle cx="300" cy="384" r="9" class="f-head"/><path d="M286 400a14 11 0 0 1 28 0z" class="f-head"/><circle cx="322" cy="384" r="9" class="f-acc"/><path d="M308 400a14 11 0 0 1 28 0z" class="f-acc"/><text x="346" y="398" class="t16 b6 f-text">remote, with the people who built ruv.sgit; pairs well with a pack of runs</text></g>';
+  EXP.innerHTML = h;
+})();
+function expAnim(u) {
+  qa(EXP, '.xrow').forEach(function (g, i) {
+    var a = .2 + i * 1.3;
+    op(g, ease(seg(u, a, a + .4)));
+    var f = g.querySelector('.xfill'); f.setAttribute('width', +f.dataset.w * ease(seg(u, a + .3, a + 1.2)));
+    op(g.querySelector('.xlab'), seg(u, a + 1.0, a + 1.3));
+  });
+  op($('x-people'), ease(seg(u, 4.3, 4.8)));
+}
+
+/* ---------- data: the price list ---------- */
+var G = null;
+var ICON = {
+  runs: '<svg viewBox="0 0 28 28"><circle cx="14" cy="7" r="5" class="f-acc"/><circle cx="5" cy="21" r="4" class="f-head"/><circle cx="14" cy="22" r="4" class="f-head"/><circle cx="23" cy="21" r="4" class="f-head"/></svg>',
+  compute: '<svg viewBox="0 0 28 28"><rect x="3" y="4" width="22" height="8" rx="2" class="f-head"/><rect x="3" y="15" width="22" height="8" rx="2" class="f-acc"/><circle cx="20" cy="8" r="1.6" class="f-bg"/><circle cx="20" cy="19" r="1.6" class="f-bg"/></svg>',
+  repo: '<svg viewBox="0 0 28 28"><circle cx="8" cy="6" r="3.5" class="f-acc"/><circle cx="8" cy="22" r="3.5" class="f-acc"/><circle cx="20" cy="11" r="3.5" class="f-acc"/><path d="M8 9.5v9M20 14.5c0 4-7 4-11 6" class="s-acc" style="fill:none;stroke-width:2.4"/></svg>',
+  expert: '<svg viewBox="0 0 28 28"><circle cx="10" cy="9" r="5" class="f-head"/><path d="M2 25a8 7 0 0 1 16 0z" class="f-head"/><circle cx="20" cy="10" r="4.5" class="f-acc"/><path d="M13 25a7 6 0 0 1 14 0z" class="f-acc"/></svg>'
+};
+var UNIT = { runs: 'per run', compute: 'per 8-hour block', repo: 'per month', expert: 'three sizes' };
+var HOW = {
+  runs: 'A brief goes in; a policy-governed Ruflo hive works in an ephemeral sgit vault; the vault comes back.',
+  compute: 'One EC2 machine in London per task; the vault is created inside it.',
+  repo: 'Your own private repository of the full setup, kept up to date by us.',
+  expert: 'Time with the people who built it: scope, steer, set up.'
+};
+function byok(it) { var o = (it.options || []).filter(function (x) { return x.id === 'key'; })[0]; var c = o && o.choices.filter(function (x) { return x.id === 'byok'; })[0]; return c ? it.price + c.delta : null; }
+function capOf(it, short) {
+  var d = (it.details || []).join(' '), w = /up to (\d+) workers/.exec(d), m = /Stops at (\d+) minutes/.exec(d);
+  return (w ? 'up to ' + w[1] + ' workers' : '') + (m && !short ? ' · ' + m[1] + ' min' : '');
+}
+function rowDesc(gid, it) {
+  if (gid === 'runs') return capOf(it);
+  if (gid === 'compute') return it.summary.replace(/\.$/, '');
+  if (gid === 'repo') return it.summary.replace(/\.$/, '');
+  return it.summary.split(':')[0].replace(/\.$/, '');
+}
+function sideHTML(g) {
+  var h = '<div class="gt">' + esc(g.title) + '</div><div class="gu">' + esc(UNIT[g.id] || '') + '</div>';
+  g.items.forEach(function (it) {
+    var b = g.id === 'runs' ? byok(it) : null;
+    h += '<div class="prow"><div class="n">' + esc(it.name) + '</div><div class="p">' + gbp(it.price) + '</div><div class="d">' + esc(rowDesc(g.id, it)) + '</div>' +
+      '<div class="b">' + (b != null ? gbp(b) + ' own key' : (g.id === 'expert' ? esc(it.unit) : '')) + '</div></div>';
+  });
+  return h + '<div class="who">' + esc(g.who) + '</div>';
+}
+function cardHTML(g) {
+  var h = '<div class="card"><div class="top"><div class="ic">' + ICON[g.id] + '</div><div class="tt">' + esc(g.title) + '<small>' + esc(UNIT[g.id]) + '</small></div></div><div class="hw">' + esc(HOW[g.id]) + '</div>';
+  g.items.forEach(function (it) {
+    var b = g.id === 'runs' ? byok(it) : null;
+    h += '<div class="cr"><div class="n">' + esc(it.name) + '<small>' + esc(g.id === 'runs' ? capOf(it, true) : g.id === 'compute' ? it.summary.split(':')[0] : g.id === 'expert' ? it.unit : '') + '</small></div><div class="p">' + gbp(it.price) + (b != null ? '<small>' + gbp(b) + ' own key</small>' : '') + '</div></div>';
+  });
+  return h + '</div>';
+}
+function build(O) {
+  G = {}; O.groups.forEach(function (g) { G[g.id] = g; });
+  document.querySelectorAll('.side').forEach(function (s) { var g = G[s.dataset.g]; if (g) s.innerHTML = sideHTML(g); });
+  $('cards').innerHTML = ['runs', 'compute', 'repo', 'expert'].map(function (k) { return G[k] ? cardHTML(G[k]) : ''; }).join('');
+  // mix and match: the combination offers.json itself suggests (two hours of expert time to steer ten runs), priced from the list
+  var ex = G.expert.items[0], run = G.runs.items[1], repo = G.repo.items[1], n = 10;
+  $('eq').innerHTML =
+    '<div class="chipb"><div class="k">expert time</div><div class="v">' + esc(ex.name) + '</div><div class="q">' + gbp(ex.price) + '</div></div><div class="op">+</div>' +
+    '<div class="chipb"><div class="k">task runs</div><div class="v">' + n + ' × ' + esc(run.name) + '</div><div class="q">' + gbp(n * run.price) + '</div></div><div class="op">+</div>' +
+    '<div class="chipb"><div class="k">later: a repo</div><div class="v">' + esc(repo.name) + '</div><div class="q">' + gbp(repo.price) + '<span style="font-size:15px"> /month</span></div></div><div class="op">=</div>' +
+    '<div class="chipb sum"><div class="k">a pilot</div><div class="v">steered, then yours</div><div class="q">' + gbp(ex.price + n * run.price) + '<span style="font-size:15px"> + repo</span></div></div>';
+  $('eqnote').textContent = 'One example. Any of the four, in any amount; add dedicated compute when a task needs its own machine.';
+  start();
+}
+function load(u) { return fetch(u, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(u + ': HTTP ' + r.status); return r.json(); }); }
+load('../../../data/offers.json').then(build).catch(function (e) {
+  var d = document.createElement('div'); d.id = 'err'; d.textContent = 'Prices: ruv.sgit.ai/business (' + e.message + ')'; cv.appendChild(d);
+  $('cards').innerHTML = ['runs', 'compute', 'repo', 'expert'].map(function (k) { return '<div class="card"><div class="top"><div class="ic">' + ICON[k] + '</div><div class="tt">' + ({ runs: 'Task runs', compute: 'Dedicated compute', repo: 'Maintained repository', expert: 'Expert time' })[k] + '<small>' + UNIT[k] + '</small></div></div><div class="hw">' + HOW[k] + '</div></div>'; }).join('');
+  $('eq').innerHTML = ''; start();
+});
+
+/* ---------- the timeline ---------- */
+var rail = Array.prototype.slice.call($('rail').children);
+function render(t) {
+  ACTS.forEach(function (a, i) {
+    var el = $(a[0]), last = i === ACTS.length - 1;
+    var o = ease(seg(t, a[1], a[1] + .6)) * (last ? 1 : 1 - seg(t, a[2] - .45, a[2]));
+    if (i === 0) o = t < a[2] - .45 ? 1 : 1 - seg(t, a[2] - .45, a[2]);
+    el.style.opacity = o; el.style.visibility = o > 0.001 ? 'visible' : 'hidden';
+  });
+  var u = function (k) { return t - ACTS[k][1]; };
+  if (t >= 3 && t < 13) runsAnim(u(1));
+  if (t >= 13 && t < 20.5) compAnim(u(2));
+  if (t >= 20.5 && t < 28) repoAnim(u(3));
+  if (t >= 28 && t < 34) expAnim(u(4));
+  // intro: the four offers appear one by one
+  Array.prototype.forEach.call(document.querySelectorAll('#intro .four div'), function (d, i) { d.style.opacity = ease(seg(t, .5 + i * .3, .9 + i * .3)); });
+  // side rows build in
+  document.querySelectorAll('.act').forEach(function (a, ai) {
+    var s = a.querySelector('.side'); if (!s) return;
+    var t0 = ACTS[ai][1];
+    Array.prototype.forEach.call(s.querySelectorAll('.prow,.who'), function (r, i) { r.style.opacity = ease(seg(t, t0 + 1 + i * .5, t0 + 1.5 + i * .5)); });
+  });
+  // mix: chips, then audiences, then the message
+  Array.prototype.forEach.call($('eq').children, function (c, i) { c.style.opacity = ease(seg(t, 34.4 + i * .3, 34.8 + i * .3)); });
+  $('eqnote').style.opacity = ease(seg(t, 37, 37.5));
+  Array.prototype.forEach.call($('aud').children, function (c, i) { c.style.opacity = ease(seg(t, 37.4 + i * .4, 37.9 + i * .4)); c.style.transform = 'translateY(' + (12 * (1 - ease(seg(t, 37.4 + i * .4, 37.9 + i * .4)))) + 'px)'; });
+  $('mixmsg').style.opacity = ease(seg(t, 39, 39.6));
+  // final: the four cards side by side
+  Array.prototype.forEach.call($('cards').children, function (c, i) { var k = ease(seg(t, 41.6 + i * .3, 42.2 + i * .3)); c.style.opacity = k; c.style.transform = 'translateY(' + (16 * (1 - k)) + 'px)'; });
+  var fm = document.querySelectorAll('#fin .msg,#fin .ct,#src');
+  fm[0].style.opacity = ease(seg(t, 43.2, 43.8)); fm[1].style.opacity = ease(seg(t, 43.6, 44.2)); fm[2].style.opacity = ease(seg(t, 43.8, 44.4));
+  // rail
+  var cur = t < 3 ? -1 : t < 13 ? 0 : t < 20.5 ? 1 : t < 28 ? 2 : t < 34 ? 3 : t < 41.5 ? 4 : 5;
+  rail.forEach(function (r, i) { r.className = cur === 5 ? 'done' : i === cur ? 'on' : i < cur ? 'done' : ''; });
+  $('bar').firstChild.style.width = (100 * clamp(t / END, 0, 1)) + '%';
+}
+var started = false, lastT = -1;
+function start() {
+  if (started) return; started = true;
+  if (FREEZE != null) { render(FREEZE); return; }
+  (function frame() {   // the page's clock (clock.js) is the only time source, so the player can pause and seek it
+    var t = Math.min((performance.now() - T0) / 1000, END);
+    if (t !== lastT) { lastT = t; try { render(t); } catch (e) { console.error(e); return; } }
+    requestAnimationFrame(frame);
+  })();
+}
+})();
+</script>
+</body>
+</html>

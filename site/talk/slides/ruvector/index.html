@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RuVector and sgit</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../../assets/themes.css">
+<script src="../../../assets/theme.js"></script>
+<script src="../../../assets/clock.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{overflow:hidden;position:relative;width:100vw;height:100vh;height:100dvh}
+body.narrow{overflow-x:hidden;overflow-y:auto}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+#cv{position:absolute;left:0;top:0;width:1280px;height:600px;transform-origin:0 0;overflow:hidden}
+.narrow #cv{width:640px;height:1380px}
+
+/* header line (the player shows the title) */
+#hd{position:absolute;left:24px;right:24px;top:14px;display:flex;align-items:baseline;gap:6px 14px;flex-wrap:wrap}
+#hd .h{font-size:20px;font-weight:720;color:var(--head);letter-spacing:-.01em}
+#hd .h b{color:var(--accent)}
+.chip{font:600 14px ui-monospace,SFMono-Regular,Menlo,monospace;padding:3px 10px;border-radius:999px;background:var(--tint-solid);color:var(--accent);border:1px solid var(--line);white-space:nowrap}
+#hd .chip{margin-left:auto}
+.narrow #hd .chip{margin-left:0}
+
+/* the README screenshot, in a frame the camera moves inside */
+#shot{position:absolute;left:0;top:0;border-radius:12px;border:1.5px solid var(--line2);background:#fff;overflow:hidden;box-shadow:var(--shadow-pop)}
+#pic{position:absolute;left:0;top:0;width:666px;height:630px;transform-origin:0 0}
+#pic img{display:block;width:666px;height:630px}
+.hl{position:absolute;border-radius:3px;mix-blend-mode:multiply;transform-origin:0 50%;transform:scaleX(0)}
+.hl.cr{background:var(--accent);opacity:.30}
+.hl.bd{background:var(--warm);opacity:.38}
+.tag{position:absolute;font:800 14px/1 system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:4px 7px;border-radius:5px;color:var(--on-accent);opacity:0;white-space:nowrap}
+.tag.cr{background:var(--accent)} .tag.bd{background:var(--warm)}
+#cap{position:absolute;left:0;top:0;font:600 14px/1.3 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--dim)}
+
+/* the big lifted quote */
+#lift{position:absolute;left:0;top:0;width:640px;padding:18px 20px;border-radius:14px;background:var(--panel);border:1.5px solid var(--line);box-shadow:var(--shadow-pop);font-size:31px;line-height:1.22;font-weight:700;color:var(--head);letter-spacing:-.01em;opacity:0;transform-origin:0 0;pointer-events:none}
+#lift .src{display:block;margin-top:12px;font:600 15px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--dim);letter-spacing:0}
+#lift.cr .q{border-left:6px solid var(--accent);padding-left:16px;display:block}
+#lift.bd .q{border-left:6px solid var(--warm);padding-left:16px;display:block}
+
+/* two columns, three rows that pair up */
+#cols{position:absolute;left:540px;top:50px;width:716px;display:grid;grid-template-columns:1fr 1fr;column-gap:20px;row-gap:10px}
+.narrow #cols{left:24px;top:676px;width:592px;column-gap:14px}
+.ch{font:800 14px/1.2 system-ui,sans-serif;letter-spacing:.07em;text-transform:uppercase;padding-bottom:6px;border-bottom:3px solid var(--line);opacity:0}
+.ch.a{color:var(--accent);border-color:var(--accent)} .ch.b{color:var(--head);border-color:var(--head)}
+.ch small{display:block;margin-top:3px;font:600 14px/1.2 system-ui,sans-serif;letter-spacing:0;text-transform:none;color:var(--dim)}
+.cell{position:relative;border-radius:10px;padding:6px 10px;background:var(--panel);border:1.5px solid var(--line);opacity:0;min-width:0}
+.cell.a{border-left:5px solid var(--accent)}
+.cell.b{border-left:5px solid var(--head)}
+.cell .s{font:600 14px/1.25 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--dim)}
+.cell .q{font-size:16.5px;line-height:1.3;color:var(--head);font-weight:650;margin-top:3px}
+.cell .bq{font-size:14.5px;line-height:1.25;color:var(--warm);font-weight:600}
+.cell .add{font-size:16.5px;line-height:1.25;color:var(--head);font-weight:700;margin-top:3px;opacity:0}
+.cell .add i{font-style:normal;color:var(--accent)}
+.cell .ev{font:600 14px/1.25 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent);margin-top:3px;opacity:0}
+.cell .glow{position:absolute;inset:-3px;border-radius:12px;border:3px solid var(--accent);opacity:0;pointer-events:none}
+
+#punch{position:absolute;left:540px;width:716px;top:534px;font-size:20px;font-weight:760;color:var(--head);letter-spacing:-.01em;opacity:0}
+#punch b{color:var(--accent)}
+.narrow #punch{left:24px;width:592px;top:auto;bottom:70px}
+#ft{position:absolute;left:24px;right:24px;bottom:8px;font-size:14px;color:var(--dim);line-height:1.3}
+.narrow #ft{bottom:12px}
+#bar{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--line)}
+#bar i{position:absolute;left:0;top:0;bottom:0;background:var(--accent);width:0}
+</style>
+</head>
+<body>
+<div id="cv">
+  <div id="hd"><span class="h">Memory: what <b>RuVector</b> secures, and where <b>sgit</b> adds</span><span class="chip">RuVector README · Security and governance</span></div>
+
+  <div id="shot"><div id="pic"><img src="../../../assets/img/talk/ruvector-readme-security.webp" width="666" height="630" alt="Screenshot of the RuVector README on github.com: the section Security and governance, items 1 to 7"></div></div>
+  <div id="cap">README.md · github.com/ruvnet/ruvector<br>Security and governance · read 15 Oct 2026</div>
+
+  <div id="cols">
+    <div class="ch a" id="cha">What RuVector secures<small>in its own README, credited first</small></div>
+    <div class="ch b" id="chb">Where sgit adds<small>around the files: an encrypted vault</small></div>
+
+    <div class="cell a" id="a1"><div class="s">Security and governance, 3</div><div class="q">“RVF witnesses and hash linked logs are tamper evident.”</div><span class="glow"></span></div>
+    <div class="cell b" id="b1"><div class="bq">README: “They do not encrypt memory content …”</div><div class="add"><i>+</i> Content encrypted on the client, AES-256-GCM: the server stores ciphertext only</div><div class="ev" id="ev1">&nbsp;</div></div>
+
+    <div class="cell a" id="a2"><div class="s">Library and capability map</div><div class="q">“Full snapshots” and “Copy on write branches”: “Isolated memory experiments without full copies”</div><span class="glow"></span></div>
+    <div class="cell b" id="b2"><div class="s">beside its snapshots and branches</div><div class="add"><i>+</i> A history shared across machines: pushed, merged, cloned</div><div class="ev" id="ev2">&nbsp;</div></div>
+
+    <div class="cell a" id="a3"><div class="s">Security and governance, 4</div><div class="q">“Define retention and erasure across every copy.”</div><span class="glow"></span></div>
+    <div class="cell b" id="b3"><div class="bq">README: “A delete from the live store does not automatically remove copies …”</div><div class="add"><i>+</i> One vault per run, deleted with the run, and the delete checked</div><div class="ev" id="ev3">&nbsp;</div></div>
+  </div>
+
+  <div id="lift"><span class="q"></span><span class="src"></span></div>
+  <div id="punch"><b>RuVector</b> is the memory substrate; <b>sgit</b> wraps the files. rUv + sgit.</div>
+  <div id="ft">Screenshot of README.md on main, 15 Oct 2026; quotes exact. RuVector: MIT, by rUv / ruvnet. sgit figures: data/vaults.json. agent@riskmandate.ai</div>
+  <div id="bar"><i></i></div>
+</div>
+<script>
+(function () {
+'use strict';
+var Q = new URLSearchParams(location.search), REVIEW = Q.has('review');
+var L = 40, END = 33.5;
+var $ = function (id) { return document.getElementById(id); };
+var cv = $('cv'), shot = $('shot'), pic = $('pic'), cap = $('cap'), lift = $('lift');
+var clamp = function (x, a, b) { return x < a ? a : x > b ? b : x; };
+var seg = function (t, a, b) { return clamp((t - a) / (b - a), 0, 1); };
+var ease = function (x) { return x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; };
+var lerp = function (a, b, k) { return a + (b - a) * k; };
+
+window.RUV_STEPS = [
+  { t: 0, label: 'The README' },
+  { t: 4, label: 'What RuVector secures' },
+  { t: 15.5, label: 'sgit: encrypted' },
+  { t: 21, label: 'sgit: shared history' },
+  { t: 24, label: 'sgit: deleted with the run' },
+  { t: END, label: 'Both, together' }
+];
+
+/* sentence boxes in the screenshot (CSS px of the 666x630 capture, measured by the capture script) */
+var R = {
+  tamper: [[48, 248.2, 421.1]],
+  encrypt: [[473.6, 248.2, 153.2], [48, 272.2, 498.6]],
+  del: [[48, 312.2, 599], [48, 336.2, 356.7]],
+  define: [[409.2, 336.2, 215.6], [48, 360.2, 142.8]]
+};
+var HL = {};
+function mkHL(key, cls, label) {
+  HL[key] = { bars: R[key].map(function (r) { var d = document.createElement('div'); d.className = 'hl ' + cls; d.style.left = (r[0] - 2) + 'px'; d.style.top = (r[1] - 1) + 'px'; d.style.width = (r[2] + 4) + 'px'; d.style.height = '22px'; pic.appendChild(d); return { el: d, w: r[2] }; }) };
+  var tg = document.createElement('div'); tg.className = 'tag ' + cls; tg.textContent = label;
+  var last = R[key][R[key].length - 1]; tg.style.left = Math.min(560, last[0] + last[2] + 8) + 'px'; tg.style.top = (last[1] + 2) + 'px';
+  if (key === 'tamper') tg.style.display = 'none';
+  if (key === 'del') { tg.style.left = '318px'; tg.style.top = '360px'; }
+  if (key === 'encrypt') { tg.style.left = '554px'; tg.style.top = '272px'; }
+  if (key === 'define') { tg.style.left = '198px'; tg.style.top = '360px'; }
+  pic.appendChild(tg); HL[key].tag = tg;
+}
+mkHL('tamper', 'cr', 'secures');
+mkHL('define', 'cr', 'governance');
+mkHL('encrypt', 'bd', 'sgit adds');
+mkHL('del', 'bd', 'sgit adds');
+function sweep(key, t0, dur) {   // the highlighter runs along each line in turn
+  var h = HL[key], tot = h.bars.reduce(function (s, b) { return s + b.w; }, 0), acc = 0;
+  h.bars.forEach(function (b) { var a = t0 + dur * acc / tot, z = a + dur * b.w / tot; acc += b.w; b.el.style.transform = 'scaleX(' + seg(T, a, z).toFixed(3) + ')'; });
+  h.tag.style.opacity = seg(T, t0 + dur, t0 + dur + 0.4).toFixed(2);
+}
+
+/* ---------- layout: a fixed canvas scaled to fit ---------- */
+var S = 1, NARROW = false, FR = {};
+function fit() {
+  var w = innerWidth, h = innerHeight;
+  NARROW = w < 700 || w / h < 0.9;
+  document.body.classList.toggle('narrow', NARROW);
+  var CW = NARROW ? 640 : 1280, CH = NARROW ? 1380 : 600;
+  S = NARROW ? w / CW : Math.min(w / CW, h / CH);
+  cv.style.transform = 'scale(' + S + ')';
+  cv.style.left = Math.max(0, (w - CW * S) / 2) + 'px';
+  cv.style.top = NARROW ? '0px' : Math.max(0, (h - CH * S) / 2) + 'px';
+  document.body.style.height = NARROW ? Math.max(h, CH * S) + 'px' : '';
+  // frame rects: the opening (big, centred) and the working one (left)
+  FR.big = NARROW ? { x: 24, y: 96, w: 592, h: 520 } : { x: 330, y: 52, w: 620, h: 456 };
+  FR.left = NARROW ? { x: 24, y: 96, w: 592, h: 520 } : { x: 24, y: 52, w: 500, h: 456 };
+  FR.lift = NARROW ? { x: 30, y: 740, w: 580 } : { x: 556, y: 150, w: 680 };
+  lastT = -1;
+}
+addEventListener('resize', fit);
+
+/* camera: [scale, focus x, focus y] in screenshot px */
+var CAM = {
+  all: [0.74, 333, 315], tamper: [1.0, 262, 262], define: [0.82, 336, 330],
+  encrypt: [0.8, 337, 272], hist: [0.78, 333, 300], del: [0.78, 347, 330], end: [0.75, 336, 300]
+};
+var CAMS = [[0, 'all'], [4.6, 'tamper'], [11.6, 'define'], [15.3, 'encrypt'], [21, 'hist'], [23.8, 'del'], [30.2, 'end']];
+function cam(t) {
+  var a = CAM.all, b = CAM.all, k = 0;
+  for (var i = 0; i < CAMS.length; i++) if (t >= CAMS[i][0]) { a = i ? CAM[CAMS[i - 1][1]] : CAM.all; b = CAM[CAMS[i][1]]; k = ease(seg(t, CAMS[i][0], CAMS[i][0] + 1.3)); }
+  return [lerp(a[0], b[0], k), lerp(a[1], b[1], k), lerp(a[2], b[2], k)];
+}
+
+/* the lifted quotes: shown large beside the screenshot, then settled into their cell */
+var LIFTS = [
+  { t: 5.6, end: 8.6, cls: 'cr', q: '“RVF witnesses and hash linked logs are tamper evident.”', src: 'RuVector README · Security and governance, 3', to: 'a1' },
+  { t: 12.4, end: 14.8, cls: 'cr', q: '“Define retention and erasure across every copy.”', src: 'RuVector README · Security and governance, 4', to: 'a3' },
+  { t: 16.6, end: 19.2, cls: 'bd', q: '“They do not encrypt memory content or prevent an authorized process from reading it.”', src: 'RuVector README · Security and governance, 3', to: 'b1' },
+  { t: 25.2, end: 27.8, cls: 'bd', q: '“A delete from the live store does not automatically remove copies in snapshots, branches, replicas, exports, or hosted memory.”', src: 'RuVector README · Security and governance, 4', to: 'b3' }
+];
+var curLift = -1;
+function cellRect(id) {   // in canvas px
+  var r = $(id).getBoundingClientRect(), c = cv.getBoundingClientRect();
+  return { x: (r.left - c.left) / S, y: (r.top - c.top) / S, w: r.width / S };
+}
+
+/* ---------- data (render without it if it fails) ---------- */
+fetch('../../../data/vaults.json', { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (V) {
+  var runs = (V.vaults || []).filter(function (v) { return v.delete_check; });
+  if (!runs.length) return;
+  var probes = 0, hits = 0, gone = 0;
+  runs.forEach(function (v) {
+    var m = String((v.server_store || {}).probe || '').match(/^(\d+)/); if (m) probes += +m[1];
+    hits += (v.server_store || {}).plaintext_hits || 0;
+    if (v.delete_check.store_paths_left === 0 && v.delete_check.clone_after_delete === 'failed') gone++;
+  });
+  var last = runs[runs.length - 1];
+  $('ev1').textContent = hits + ' of ' + probes + ' probed fragments on the server · ' + runs.length + ' runs';
+  $('ev2').textContent = last.run + ': ' + last.commits + ' commits · a fresh clone, ' + last.clone.files + ' files ' + (last.clone.identical ? 'identical' : 'differ');
+  $('ev3').textContent = '0 store paths left · a clone with the key fails · ' + gone + ' of ' + runs.length + ' runs';
+}).catch(function () {
+  $('ev1').textContent = 'measured per run: see data/vaults.json'; $('ev2').textContent = 'see data/vaults.json'; $('ev3').textContent = 'see data/vaults.json';
+});
+
+/* ---------- the timeline ---------- */
+var T = 0, lastT = -1;
+function show(id, t0, dur) { var e = $(id), k = ease(seg(T, t0, t0 + (dur || 0.6))); e.style.opacity = k.toFixed(2); return k; }
+function render(t) {
+  T = t;
+  // frame: big and centred, then to the left
+  var km = ease(seg(t, 3.8, 5.2)), A = FR.big, B = FR.left;
+  var fx = lerp(A.x, B.x, km), fy = lerp(A.y, B.y, km), fw = lerp(A.w, B.w, km), fh = lerp(A.h, B.h, km);
+  var k0 = ease(seg(t, 0.1, 1.1));
+  shot.style.left = fx + 'px'; shot.style.top = (fy + 16 * (1 - k0)) + 'px'; shot.style.width = fw + 'px'; shot.style.height = fh + 'px';
+  shot.style.opacity = k0.toFixed(2);
+  var c = cam(t), s = c[0];
+  if (t < 4.6) s = Math.min(s, Math.min(fw / 666, fh / 630));
+  var px = fw / 2 - c[1] * s, py = fh / 2 - c[2] * s;
+  px = clamp(px, fw - 666 * s - 4, 4); if (630 * s < fh) py = (fh - 630 * s) / 2; else py = clamp(py, fh - 630 * s, 0);
+  if (666 * s < fw) px = (fw - 666 * s) / 2;
+  pic.style.transform = 'translate(' + px.toFixed(1) + 'px,' + py.toFixed(1) + 'px) scale(' + s.toFixed(4) + ')';
+  cap.style.left = fx + 'px'; cap.style.top = (fy + fh + 7) + 'px'; cap.style.maxWidth = fw + 'px';
+  cap.style.opacity = seg(t, 0.8, 1.6).toFixed(2);
+
+  // highlights, one at a time
+  sweep('tamper', 5.0, 1.2);
+  sweep('define', 11.8, 1.0);
+  sweep('encrypt', 15.8, 1.4);
+  sweep('del', 24.4, 1.4);
+
+  // the columns
+  show('cha', 4.8); show('a1', 8.2); show('a2', 9.6); show('a3', 14.4);
+  show('chb', 15.4); show('b1', 18.8); show('b2', 21.2); show('b3', 27.4);
+  [['b1', 19.4], ['b2', 21.8], ['b3', 28.0]].forEach(function (x) {
+    var e = $(x[0]); e.querySelector('.add').style.opacity = ease(seg(t, x[1], x[1] + 0.7)).toFixed(2);
+    e.querySelector('.ev').style.opacity = ease(seg(t, x[1] + 0.8, x[1] + 1.5)).toFixed(2);
+  });
+  // a cell glows when its sgit partner arrives
+  [['a1', 19.4], ['a2', 21.6], ['a3', 28.0]].forEach(function (x) {
+    var g = $(x[0]).querySelector('.glow'), k = seg(t, x[1], x[1] + 1.8);
+    g.style.opacity = (k > 0 && k < 1 ? Math.sin(k * Math.PI) : 0).toFixed(2);
+  });
+  // the lift
+  var cur = -1; LIFTS.forEach(function (l, i) { if (t >= l.t - 0.1 && t < l.end + 0.9) cur = i; });
+  var dim = 0;
+  if (cur < 0) { lift.style.opacity = 0; }
+  else {
+    var l = LIFTS[cur];
+    if (cur !== curLift) { lift.className = l.cls; lift.firstChild.textContent = l.q; lift.lastChild.textContent = l.src; curLift = cur; }
+    var F = FR.lift, to = cellRect(l.to), ki = ease(seg(t, l.t, l.t + 0.7)), ko = ease(seg(t, l.end, l.end + 0.8));
+    var sc = lerp(1, to.w / F.w, ko);
+    lift.style.width = F.w + 'px';
+    lift.style.transform = 'translate(' + lerp(F.x + 24 * (1 - ki), to.x, ko).toFixed(1) + 'px,' + lerp(F.y, to.y, ko).toFixed(1) + 'px) scale(' + sc.toFixed(3) + ')';
+    lift.style.opacity = (ki * (1 - seg(t, l.end + 0.3, l.end + 0.8))).toFixed(2);
+    dim = ki * (1 - ko);
+  }
+  $('cols').style.opacity = (1 - 0.8 * dim).toFixed(2);
+  show('punch', 31.6, 1.0);
+  // final frame: the README highlights glow once more
+  $('bar').firstChild.style.width = (100 * Math.min(t, END) / END) + '%';
+}
+fit();
+var start = performance.now();
+function frame(now) {
+  var t = REVIEW ? END : Math.min(END, (now - start) / 1000);
+  if (t !== lastT) { try { render(t); } catch (e) { console.error(e); return; } lastT = t; }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

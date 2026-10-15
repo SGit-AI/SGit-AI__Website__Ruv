@@ -10,24 +10,24 @@
  },
  "beats": [
   {
-   "id": "title",
+   "id": "open",
    "at": 0,
-   "dur": 20,
-   "title": "Title",
-   "cue": "7:00 pm, first of three community talks; rUv's keynote was at 6:00. Livestreamed.",
+   "dur": 40,
+   "title": "Many hands + memory + a mandate",
    "slide": {
-    "layout": "title",
-    "kicker": "Agentic Engineering Live · rUv in London",
-    "text": "Autonomy with a mandate and a memory",
-    "sub": "ruv.sgit: a Ruflo hive + sgit vaults + Agent Behaviour Policies",
-    "who": "Dinis Cruz · sgit.ai · ruv.sgit.ai"
+    "layout": "iframe",
+    "src": "../ruv-sgit/define/equation/index.html",
+    "fallback": "../assets/img/talk/equation.webp",
+    "heading": "Autonomy with a mandate and a memory",
+    "sub": "ruv.sgit: a Ruflo hive + sgit vaults + Agent Behaviour Policies · Dinis Cruz · sgit.ai · ruv.sgit.ai"
    },
-   "say": "Hi, I'm Dinis. I build sgit: git for encrypted vaults. Ten minutes on agent memory: where it lives, who can read it, what it remembers, and when it should forget. Every number on screen comes from a recorded run, in files you can open."
+   "say": "Hi, I'm Dinis. I build sgit: git for encrypted vaults. This animation was made by agents: a Ruflo hive whose Claude Code workers shared one ephemeral sgit vault. And it is tonight's equation. Many hands: a Ruflo hive. Plus a memory: sgit vaults. Plus a mandate: Agent Behaviour Policies. Equals ruv.sgit. Every number on screen comes from a recorded run, in files you can open.",
+   "cue": "7:00 pm, first of three community talks; rUv's keynote was at 6:00. Livestreamed. The equation was made by ruv.sgit run r3-define."
   },
   {
    "id": "claim",
-   "at": 20,
-   "dur": 30,
+   "at": 40,
+   "dur": 25,
    "title": "The claim",
    "slide": {
     "layout": "statement",
@@ -52,12 +52,12 @@
     ],
     "sub": "What tonight shows, inside rUv's stack"
    },
-   "say": "rUv's stack lets agents go to town: swarms, consensus, self-learning, speed. To trust that, autonomy needs a memory you can trust. Encrypted before it leaves the agent, so the host never reads it. Versioned, so you know who learned what, and when. Scoped to one run, measured, then deleted. And a written mandate for what each agent may do. Tonight is mostly about the memory."
+   "say": "rUv's stack gives agents swarms, consensus, self-learning and speed. To trust all that, autonomy needs a memory you can trust. Encrypted before it leaves the agent, so the host never reads it. Versioned, so you know who learned what, and when. Scoped to one run, measured, then deleted. And a written mandate for what each agent may do. Tonight is mostly about the memory."
   },
   {
    "id": "stack",
-   "at": 50,
-   "dur": 30,
+   "at": 65,
+   "dur": 25,
    "title": "rUv's stack, one picture",
    "slide": {
     "layout": "image",
@@ -67,37 +67,24 @@
    "say": "Here's his stack, bottom up. RVM, the capability VM. RuVector, the memory. Ruflo, the orchestrator, with queens and workers. MetaHarness, which assembles a harness for a host. And on top, the hosts you already use. It's overwhelming because it's complete, and it's all MIT. I plug into three places: the memory layer, where RuVector lives, Ruflo's hive, and Ruflo's policy engine."
   },
   {
-   "id": "gap",
-   "at": 80,
-   "dur": 35,
-   "title": "Memory: where RuVector says it stops",
+   "id": "ruvector",
+   "at": 90,
+   "dur": 45,
+   "title": "Memory: what RuVector secures, and where sgit adds",
    "slide": {
-    "layout": "statement",
-    "kicker": "RuVector README, \"Security and governance\" (github.com/ruvnet/ruvector, main branch, read 15 Oct 2026)",
-    "text": "In its own README, under “Security and governance”",
-    "builds": [
-     {
-      "at": 5,
-      "text": "“RVF witnesses and hash linked logs are tamper evident. They do not encrypt memory content”"
-     },
-     {
-      "at": 12,
-      "text": "“Collections and metadata filters organize memory; they are not a complete authorization boundary”"
-     },
-     {
-      "at": 19,
-      "text": "“A delete from the live store does not automatically remove copies in snapshots, branches, replicas, exports”"
-     }
-    ]
+    "layout": "iframe",
+    "src": "slides/ruvector/index.html",
+    "fallback": "../assets/img/talk/ruvector.webp",
+    "heading": "RuVector secures the memory; sgit wraps the files",
+    "sub": "RuVector README, \"Security and governance\" (github.com/ruvnet/ruvector, main branch, read 15 Oct 2026) · sgit figures from data/vaults.json"
    },
-   "say": "Start with the memory. RuVector is a remarkable memory substrate: vectors, graphs, snapshots, even copy-on-write branching. And its README is unusually candid about where it stops: its witness logs are tamper evident but do not encrypt memory content; collections are not a complete authorization boundary; and a delete does not automatically reach every snapshot, branch or export. That is the layer an sgit vault adds around those files: encrypted on the client, AES-256-GCM, so the server only ever stores ciphertext, a history shared across machines, and a vault that is deleted with the run."
+   "say": "Start with the memory. RuVector is a remarkable memory substrate: vectors, graphs, full snapshots, even copy-on-write branches. And its README has a clear section on security and governance. Its witness logs are tamper evident, and it says, just as plainly, that they do not encrypt memory content, and that a delete does not automatically reach every snapshot, branch or copy, so define retention and erasure across every copy. That is where sgit adds, around the files: encrypted on the client, AES-256-GCM, so the server only ever stores ciphertext; a history you can clone anywhere; and a vault that is deleted with the run, and checked: no store paths left, and a clone with the key fails."
   },
   {
    "id": "ruv-sgit",
-   "at": 115,
-   "dur": 40,
+   "at": 135,
+   "dur": 50,
    "title": "ruv.sgit: one hive, one vault, one run",
-   "cue": "The animation runs itself: hive on top, the mandate in the middle (POC1 outcomes), the vault below (r2-materials), then the stack lays flat into the tagline.",
    "slide": {
     "layout": "iframe",
     "src": "../ruv-sgit/define/layers/index.html",
@@ -105,42 +92,41 @@
     "sub": "ruv.sgit: a Ruflo hive + sgit vaults + Agent Behaviour Policies",
     "caption": "The layers · made by ruv.sgit run r3-define · policy outcomes from POC1, vault from run r2-materials"
    },
-   "say": "So put the two together. ruv.sgit is a Ruflo hive plus sgit vaults plus Agent Behaviour Policies: a queen and workers in parallel, one ephemeral vault per run, and a written mandate for what each worker may do. Each worker's delivery lands on its own branch; the branches merge; the run is measured into a ledger; and then the vault is deleted. Memory that exists for exactly as long as the work does, with a receipt afterwards. Tonight's three new pages, and this script, were made by one such run: run r2-materials, five workers, on a local vault server."
+   "say": "So put the two together. ruv.sgit is a Ruflo hive plus sgit vaults plus Agent Behaviour Policies: a queen and workers in parallel, one ephemeral vault per run, and a written mandate for what each worker may do. Each worker's delivery lands on its own branch; the branches merge; the run is measured into a ledger; and then the vault is deleted. Memory that exists for exactly as long as the work does, with a receipt afterwards. Tonight's three new pages, and this script, were made by one such run: run r2-materials, five workers, on a local vault server.",
+   "cue": "The animation runs itself: hive on top, the mandate in the middle (POC1 outcomes), the vault below (r2-materials), then the stack lays flat into the tagline."
   },
   {
    "id": "lanes",
-   "at": 155,
-   "dur": 35,
+   "at": 185,
+   "dur": 30,
    "title": "Vault lanes",
-   "cue": "Let the animation run; speak over it, then pause for the fresh clone.",
    "slide": {
     "layout": "iframe",
     "src": "../studio/v3/index.html",
     "fallback": "../studio/posters/v3.webp",
     "caption": "Studio v3 · vault lanes: one lane per agent role, commits, merges, a fresh clone · an illustration built in studio run 1"
    },
-   "say": "Here's the shape of it, as an illustration. One lane per agent role: that lane is a branch of the vault. Each dot is a commit, encrypted before it is uploaded. The lanes merge into the main line, which sgit calls current. And at the end, a fresh clone, into an empty folder, pulls the whole history back. The server held ciphertext throughout. Whoever has the key has the memory, and nobody else does, including the host."
+   "say": "Here's the shape of it, as an illustration. One lane per agent role: that lane is a branch of the vault. Each dot is a commit, encrypted before it is uploaded. The lanes merge into the main line, which sgit calls current. And at the end, a fresh clone, into an empty folder, pulls the whole history back. The server held ciphertext throughout. Whoever has the key has the memory, and nobody else does, including the host.",
+   "cue": "Let the animation run; speak over it, then pause for the fresh clone."
   },
   {
-   "id": "memory",
-   "at": 190,
-   "dur": 40,
-   "title": "Memory with history: POC2",
+   "id": "history",
+   "at": 215,
+   "dur": 45,
+   "title": "Memory with history",
    "slide": {
-    "layout": "terminal",
-    "caption": "POC2, recorded 14 Oct 2026 · ruflo 3.56.10 · sgit-ai 0.21.0 · evidence/poc2-run.txt",
-    "command": "sgit history log --oneline",
-    "small": true,
-    "output": "3bf90dd8d00a (HEAD)  memory: tester learned something in run local-20261014T2132  +5  [blobs:+5 trees:+3]\n8ac2a0e9f200  memory: coder learned something in run local-20261014T2132  +5  [blobs:+5 trees:+4]\n1ac3298a6cc9  init: memory vault  +1  [blobs:+1]\n48aaaee48630  init\n\n# fresh clone, DB files restored, ruflo memory list -n <role>:\n== coder\n| coder/lesson-local-202... | coder     | 72 B |   -    |        0 | 4m ago  |\n[INFO] Showing 1 of 1 entries\n== tester\n| tester/lesson-local-20... | tester    | 72 B |   -    |        0 | 4m ago  |\n[INFO] Showing 1 of 1 entries",
-    "type_ms": 35,
-    "output_at": 3
+    "layout": "iframe",
+    "src": "slides/history/index.html",
+    "fallback": "../assets/img/talk/history.webp",
+    "heading": "One run's vault, commit by commit",
+    "sub": "ruv.sgit run r5-market, 15 Oct 2026 · POC2, 14 Oct 2026 · sgit times as measured"
    },
-   "say": "And it's not only a drawing. This is POC2. Each role writes its Ruflo memory on its own vault branch, and the branches merge. Then the folder is deleted, the vault is cloned fresh, the database files are restored, and Ruflo is asked again: the coder and the tester answer as before. The history says who learned what, and when. This ran locally last night; the CI job is wired and waits for its secrets. Two writers, one fresh clone, the same answers."
+   "say": "This is a real run's vault, from this afternoon. The brief lands on current. Then each worker gets its own branch, commits what it delivered, and merges back: who, what, when, and how long each sgit step took, in milliseconds. Now the flow: six workers, eight commits, encrypted on the client before the push. The server holds ciphertext only: we searched it for forty fragments of the text and found none. A fresh clone came back identical, and then the vault was deleted, with nothing left. Memory works the same way. In POC2, run locally, a coder and a tester each wrote their Ruflo memory to the vault; the folder was deleted, a fresh clone restored it, and Ruflo gave the same answers. Every step is a commit, and it's gone when the run is."
   },
   {
    "id": "hive",
-   "at": 230,
-   "dur": 30,
+   "at": 260,
+   "dur": 25,
    "title": "The hive in 3D",
    "slide": {
     "layout": "iframe",
@@ -152,49 +138,37 @@
   },
   {
    "id": "motion",
-   "at": 260,
+   "at": 285,
    "dur": 50,
    "title": "ruv.sgit in motion",
-   "cue": "Check which run the page shows before naming it.",
    "slide": {
     "layout": "iframe",
     "src": "../ruv-sgit/motion/index.html",
     "fallback": "img/ruv-sgit-motion.webp",
     "caption": "ruv.sgit in motion · a real run, drawn from its entry in data/vaults.json"
    },
-   "say": "This is ruv.sgit in motion, drawn from a real run's entry in the ledger, not a mock-up. The run opens: the hive starts, the vault is created, and the brief is committed. The workers start in parallel. Each delivery lands on its own branch, is pushed, and merges into current. Every sgit call and every Ruflo call is timed and recorded as it happens. Then the close: the vault is measured, cloned fresh, and checked against what the workers delivered. Then it's gone. Watch the branches: the workers work in parallel, nobody writes on anyone else's branch, and the deliveries merge one at a time. The merge is where the work meets, and the history keeps who did what."
+   "say": "This is ruv.sgit in motion, drawn from a real run's entry in the ledger, not a mock-up. The run opens: the hive starts, the vault is created, and the brief is committed. The workers start in parallel. Each delivery lands on its own branch, is pushed, and merges into current. Every sgit call and every Ruflo call is timed and recorded as it happens. Then the close: the vault is measured, cloned fresh, and checked against what the workers delivered. Then it's gone. Watch the branches: the workers work in parallel, nobody writes on anyone else's branch, and the deliveries merge one at a time. The merge is where the work meets, and the history keeps who did what.",
+   "cue": "Check which run the page shows before naming it."
   },
   {
    "id": "ledger",
-   "at": 310,
-   "dur": 45,
-   "title": "The vault ledger",
-   "cue": "Point at the \"plaintext fragments found\" tile.",
+   "at": 335,
+   "dur": 40,
+   "title": "How to read the ledger",
    "slide": {
     "layout": "iframe",
-    "src": "../ruv-sgit/ledger/index.html",
-    "fallback": "img/ruv-sgit-ledger.webp",
-    "caption": "The ledger · every ruv.sgit vault · data/vaults.json, written by poc/ruv-sgit/ruvsgit.py"
+    "src": "slides/ledger/index.html",
+    "fallback": "../assets/img/talk/ledger.webp",
+    "heading": "The vault ledger: one row per run",
+    "sub": "Every number read at load from data/vaults.json, written after each run by poc/ruv-sgit/ruvsgit.py"
    },
-   "say": "Every run leaves one entry in a ledger, and this page shows all of them. Per vault: workers and branches; commits, files and bytes, branch by branch; and, across all vaults, how long each kind of sgit operation took; and what the server actually stored. Then one probe: fragments of the delivered files, searched for in every byte the server stored. The answer we want is zero. The vault ID is recorded. The key never is: it never leaves the machine that ran the hive. These are the stats of every ruv.sgit vault we have run, read straight from that file."
-  },
-  {
-   "id": "case",
-   "at": 355,
-   "dur": 60,
-   "title": "Case study: one ephemeral vault",
-   "slide": {
-    "layout": "iframe",
-    "src": "../ruv-sgit/case/index.html",
-    "fallback": "img/ruv-sgit-case.webp",
-    "caption": "Case study · one ephemeral vault, from creation to deletion, with its recorded numbers"
-   },
-   "say": "Now one vault, start to finish. Open: the hive is initialised, one specialist per worker, and the vault is created with the brief as its first commit. Deliver: each worker's output goes onto its own branch, pushed, then merged. Close: the history, the files, the bytes, the server's store, the plaintext probe, and a fresh clone compared with what was delivered. Then delete: every store path named by the vault's id is removed, the key file and the working copy too, and a clone with the key afterwards fails; the ledger records how many and when. The memory is gone with its key. The record of it stays, and it's the kind of record an auditor, or the next agent, can check. Ephemeral memory, permanent evidence. That is the trade I think agent memory needs."
+   "say": "Every run leaves one row in a ledger. Here's how to read one. The run, and what it was for. The workers, each writing on its own branch. The commits. What they delivered, and what the server held: all ciphertext. Then the probe: fragments of the delivered files, searched for in every byte the server stored. Plaintext found: zero. A fresh clone with the key: identical. Then the vault is deleted, and we check: nothing left in the store, and a clone fails. Now every run, and the totals. Ephemeral: every vault deleted after its numbers were recorded.",
+   "cue": "Point at the plaintext-found cell, then the ephemeral line."
   },
   {
    "id": "city",
-   "at": 415,
-   "dur": 30,
+   "at": 375,
+   "dur": 25,
    "title": "The city of vaults",
    "slide": {
     "layout": "iframe",
@@ -205,26 +179,10 @@
    "say": "Zoom out, and it's a city: each branch a street, each commit a floor, the mandate as the wall, with its gates. Seven of these animations were built in parallel by Claude Code subagents, coordinated by a Ruflo hive, without a vault, in one studio run: about six hundred and thirty thousand tokens, and under ten minutes each. Three of them are in this talk; all seven are on the site. Which brings us to the wall."
   },
   {
-   "id": "default",
-   "at": 445,
-   "dur": 25,
-   "title": "Ruflo's default",
-   "slide": {
-    "layout": "terminal",
-    "caption": "Recorded 14 Oct 2026 · ruflo 3.56.10, fresh project · evidence/ruflo-policy-legacy.json",
-    "command": "npx ruflo policy evaluate '{\"identity\":{\"id\":\"coder-1\",\"type\":\"agent\"},\"action\":{\"type\":\"email.send\"}}'",
-    "output": "{\n  \"outcome\": \"«allowed»\",\n  \"mode\": \"legacy\",\n  \"reason\": \"«legacy-default-allow»\",\n  \"matchedRules\": [],\n  \"receiptId\": \"sha256:aebf8a41ea9e886ba26048d992f9ea17…\"\n}",
-    "type_ms": 18,
-    "output_at": 4
-   },
-   "say": "The wall matters because of Ruflo's default. On a fresh project, its policy mode is legacy. So: may the coder send email? Allowed, legacy-default-allow. Nobody wrote down that it may not, so it may. That is not a bug; it is a default, and defaults are what ship."
-  },
-  {
    "id": "table",
-   "at": 470,
-   "dur": 40,
+   "at": 400,
+   "dur": 35,
    "title": "Same 11 actions, default against the ABP",
-   "cue": "Rows reveal every 3 s; the stopped ones are the point.",
    "slide": {
     "layout": "table",
     "caption": "POC1 · the same trace evaluated twice, recorded 14 Oct 2026 · data/report.json",
@@ -239,12 +197,41 @@
     "reveal_from": 3,
     "reveal_every": 3
    },
-   "say": "So we write it down: an Agent Behaviour Policy, one row per capability, compiled into Ruflo's own engine. The same eleven actions, played twice. On the left, the default: all allowed. On the right, the mandate: email denied, pastebin denied, the tester editing source denied, the researcher reading AWS credentials denied; and the push and the deploy wait for a human. Six of eleven stopped, five allowed, every reason names its row, and every decision is a hash-chained receipt."
+   "say": "So we write it down: an Agent Behaviour Policy, one row per capability, compiled into Ruflo's own engine. The same eleven actions, played twice. On the left, the default: all allowed. On the right, the mandate: email denied, pastebin denied, the tester editing source denied, the researcher reading AWS credentials denied; and the push and the deploy wait for a human. Six of eleven stopped, five allowed, every reason names its row, and every decision is a hash-chained receipt.",
+   "cue": "Rows reveal every 3 s; the stopped ones are the point."
+  },
+  {
+   "id": "services",
+   "at": 435,
+   "dur": 55,
+   "title": "Four ways to work with us",
+   "slide": {
+    "layout": "iframe",
+    "src": "slides/services/index.html",
+    "fallback": "../assets/img/talk/services.webp",
+    "heading": "Four offers. Mix and match.",
+    "sub": "Task runs, dedicated compute, a maintained repository, expert time: all built on a Ruflo hive + sgit vaults + Agent Behaviour Policies"
+   },
+   "say": "If you want to use this, there are four ways. One: a task run on our infrastructure. You send a brief and your materials. A Ruflo queen and her workers do the work inside an ephemeral sgit vault, each role under its own behaviour policy, with no internet, and you get the vault back as a zip or published. Ten, twenty or fifty pounds a run, a bit less with your own model key. Two: dedicated compute, a machine started for your task with the vault created inside it. Three: a private repository of the whole setup, kept up to date by us, from 149 pounds a month up to white label. Four: time with us, from a couple of hours to several days. They mix and match. Consultants can white label it, companies can add it to what they sell, and internal teams can run it inside. Anybody who implements this implements sgit vaults and Agent Behaviour Policies."
+  },
+  {
+   "id": "shop",
+   "at": 490,
+   "dur": 40,
+   "title": "The shop",
+   "slide": {
+    "layout": "iframe",
+    "src": "slides/shop/index.html",
+    "fallback": "../assets/img/talk/shop.webp",
+    "heading": "Buy it like a service, not a SaaS checkout",
+    "sub": "Runs, compute, a subscription and expert time; the order arrives as an email"
+   },
+   "say": "This is the shop on ruv.sgit.ai. Twelve items in four groups: task runs, dedicated compute, a maintained repository and expert time. Options change the price: a Team run with your own model key drops from twenty pounds to seventeen. Add a Team repository subscription and a day of expert time, and the cart says two thousand and sixteen pounds. Check out: who you are and what you want done. Then no card form. The shop writes the order into an email to agent@riskmandate.ai, from your own email app. No payment is taken online. The order arrives as an email, and a person follows up."
   },
   {
    "id": "ask",
-   "at": 510,
-   "dur": 55,
+   "at": 530,
+   "dur": 40,
    "title": "The ask",
    "slide": {
     "layout": "statement",
@@ -272,18 +259,46 @@
    "say": "So, the ask. Pick one, and we build it together. Vault-backed memory for RuVector: encrypted, versioned, a branch per agent. Or ruv.sgit inside Ruflo: a vault per hive run, with the ledger built in. Or Ruflo policy profiles generated from mandates, so a swarm ships with its rules. Whichever you pick, we build it in the open, and we show it back here, at a future Agentics London. rUv, the stack is yours; we would like to bring the memory, and the receipts."
   },
   {
-   "id": "close",
-   "at": 565,
-   "dur": 35,
-   "title": "Close",
+   "id": "visit",
+   "at": 570,
+   "dur": 30,
+   "title": "Where to find it",
    "slide": {
-    "layout": "title",
-    "kicker": "Thank you",
-    "text": "ruv.sgit.ai",
-    "sub": "the POCs · the studio · the vault ledger · the public vault (okbiml09) with its read key",
-    "who": "Our code Apache-2.0 · rUv's projects MIT, by rUv / ruvnet"
+    "layout": "iframe",
+    "src": "slides/visit/index.html",
+    "fallback": "../assets/img/talk/visit.webp",
+    "heading": "ruv.sgit.ai",
+    "sub": "many hands + memory + a mandate = ruv.sgit"
    },
-   "say": "Everything is at ruv.sgit.ai: the POCs, the commands to replicate them, the studio, the vault ledger, and a public vault with its read key. Agents with memory you can trust: encrypted, versioned, and gone when the run is. If you build agents, try a run, and tell me where it breaks. Thank you."
+   "say": "Everything I showed tonight is live. The home page, the business overview, the shop, and the vault ledger with every run. Underneath sits sgit, and the newsroom where we write it up. Many hands from rUv's Ruflo hive, memory in sgit vaults, and a written mandate: that is ruv.sgit. The code is on GitHub, and agent@riskmandate.ai reaches us. Thank you, and thank you rUv. Go to ruv.sgit.ai."
+  }
+ ],
+ "extras": [
+  {
+   "id": "case",
+   "dur": 60,
+   "title": "Case study: one ephemeral vault",
+   "slide": {
+    "layout": "iframe",
+    "src": "../ruv-sgit/case/index.html",
+    "fallback": "img/ruv-sgit-case.webp",
+    "caption": "Case study · one ephemeral vault, from creation to deletion, with its recorded numbers"
+   },
+   "say": "Now one vault, start to finish. Open: the hive is initialised, one specialist per worker, and the vault is created with the brief as its first commit. Deliver: each worker's output goes onto its own branch, pushed, then merged. Close: the history, the files, the bytes, the server's store, the plaintext probe, and a fresh clone compared with what was delivered. Then delete: every store path named by the vault's id is removed, the key file and the working copy too, and a clone with the key afterwards fails; the ledger records how many and when. The memory is gone with its key. The record of it stays, and it's the kind of record an auditor, or the next agent, can check. Ephemeral memory, permanent evidence. That is the trade I think agent memory needs."
+  },
+  {
+   "id": "default",
+   "dur": 25,
+   "title": "Ruflo's default",
+   "slide": {
+    "layout": "terminal",
+    "caption": "Recorded 14 Oct 2026 · ruflo 3.56.10, fresh project · evidence/ruflo-policy-legacy.json",
+    "command": "npx ruflo policy evaluate '{\"identity\":{\"id\":\"coder-1\",\"type\":\"agent\"},\"action\":{\"type\":\"email.send\"}}'",
+    "output": "{\n  \"outcome\": \"«allowed»\",\n  \"mode\": \"legacy\",\n  \"reason\": \"«legacy-default-allow»\",\n  \"matchedRules\": [],\n  \"receiptId\": \"sha256:aebf8a41ea9e886ba26048d992f9ea17…\"\n}",
+    "type_ms": 18,
+    "output_at": 4
+   },
+   "say": "The wall matters because of Ruflo's default. On a fresh project, its policy mode is legacy. So: may the coder send email? Allowed, legacy-default-allow. Nobody wrote down that it may not, so it may. That is not a bug; it is a default, and defaults are what ship."
   }
  ]
 }

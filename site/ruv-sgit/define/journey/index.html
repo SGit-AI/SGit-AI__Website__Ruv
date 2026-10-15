@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>One action's journey</title>
 <link rel="stylesheet" href="../../../assets/themes.css">
+<script src="../../../assets/clock.js"></script>
 <script src="../../../assets/theme.js"></script>
 <style>
 *{box-sizing:border-box}
@@ -301,7 +302,7 @@ function loop(now) {
     [].forEach.call(actsEl.children, function (b) { b.setAttribute('aria-current', 'false'); });
     barEl.style.width = '100%'; return;
   }
-  tNow = ((now - t0) / 1000) % LOOP; if (tNow < 0) tNow += LOOP;
+  tNow = ruvLoop((now - t0) / 1000, LOOP, LOOP - 0.01); if (tNow < 0) tNow += LOOP;
   var ai = Math.floor(tNow / ACT), u = tNow - ai * ACT, R = ROWS[0];
   barEl.style.width = (tNow / LOOP * 100).toFixed(2) + '%';
   if (ai !== lastAct) {

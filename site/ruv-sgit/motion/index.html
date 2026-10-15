@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ruv.sgit in motion</title>
 <link rel="stylesheet" href="../../assets/themes.css">
+<script src="../../assets/clock.js"></script>
 <script src="../../assets/theme.js"></script>
 <style>
 *{box-sizing:border-box}
@@ -385,7 +386,7 @@ function caption(t) {
 /* ---------- loop ---------- */
 var start = performance.now();
 function frame(now) {
-  tNow = REVIEW ? TL.T.fade[0] - 0.01 : ((now - start) / 1000) % TL.LOOP;
+  tNow = REVIEW ? TL.T.fade[0] - 0.01 : ruvLoop((now - start) / 1000, TL.LOOP, TL.T.fade[0] - 0.01);
   render(tNow); drawTiles(tNow); caption(tNow);
   barEl.style.width = (tNow / TL.LOOP * 100).toFixed(2) + '%';
   if (!REVIEW) requestAnimationFrame(frame);

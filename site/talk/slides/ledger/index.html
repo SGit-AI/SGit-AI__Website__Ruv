@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to read the ledger</title>
+<link rel="stylesheet" href="../../../assets/themes.css">
+<script src="../../../assets/theme.js"></script>
+<script src="../../../assets/clock.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{overflow:hidden;position:relative;width:100vw;height:100vh;height:100dvh}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+#cv{position:absolute;left:0;top:0;width:1280px;height:600px;transform-origin:0 0;overflow:hidden}
+
+#hd{position:absolute;left:28px;right:28px;top:12px;display:flex;align-items:baseline;gap:16px}
+#hd h1{margin:0;font-size:22px;font-weight:750;color:var(--head);letter-spacing:-.01em}
+#hd h1 b{color:var(--accent)}
+#hd .act{font-size:17px;color:var(--dim)}
+.chip{font:600 14px ui-monospace,SFMono-Regular,Menlo,monospace;padding:3px 11px;border-radius:999px;background:var(--tint-solid);color:var(--accent);border:1px solid var(--line);white-space:nowrap;margin-left:auto}
+
+/* a row of cells; the featured row and the table rows share the columns */
+.row{position:absolute;left:28px;width:1224px}
+.cell{position:absolute;top:0;bottom:0;overflow:hidden}
+.feat .cell{background:var(--panel);border:2px solid var(--line);border-radius:12px;opacity:0}
+.feat .cell.on{border-color:var(--accent);background:var(--tint-solid)}
+.feat .lb{position:absolute;left:10px;right:8px;top:7px;font:600 14px system-ui,sans-serif;color:var(--dim);white-space:nowrap}
+.feat .bg{position:absolute;left:10px;right:8px;top:28px;font:800 26px/1.1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--head);white-space:nowrap}
+.feat .sb{position:absolute;left:10px;right:8px;top:62px;font:600 14px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--dim);white-space:nowrap}
+.cm{position:absolute;left:10px;right:6px;top:50%;transform:translateY(-50%);font:600 16px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cm i{font-style:normal;color:var(--dim);font-weight:500;font-size:14px}
+.cm .ok,.bg.ok{color:var(--accent)}
+.cm .bad,.bg.bad{color:var(--red)}
+.cm .wait,.bg.wait{color:var(--warm)}
+.cm b{color:var(--head)}
+.tr{opacity:0}
+.tr .cell{border-bottom:1px solid var(--line)}
+.tr.me .cell,.feat.tbl .cell{background:var(--tint-solid)}
+#th .cell{font:600 14px system-ui,sans-serif;color:var(--dim);padding:0 0 0 10px;white-space:nowrap;line-height:24px;border-bottom:2px solid var(--line2)}
+#th{opacity:0}
+
+/* callouts */
+.co{position:absolute;width:220px;opacity:0;background:var(--panel);border:1.5px solid var(--line);border-radius:10px;padding:8px 11px 9px}
+.co h3{margin:0 0 3px;font-size:16px;line-height:1.2;color:var(--head);font-weight:750}
+.co p{margin:0;font-size:15px;line-height:1.33;color:var(--text)}
+.co p b{color:var(--head)}
+.co p .ok{color:var(--accent)}
+.co.new{border-color:var(--accent)}
+.co.new h3{color:var(--accent)}
+.ld{position:absolute;width:2px;background:var(--accent);opacity:0}
+
+/* totals */
+#tot{position:absolute;left:28px;width:1224px;display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.tl{background:var(--panel);border:1.5px solid var(--line);border-radius:12px;padding:8px 12px 9px;opacity:0;min-width:0}
+.tl .v{font:800 38px/1.05 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--head);white-space:nowrap}
+.tl .v small{font-size:20px;color:var(--dim);font-weight:650}
+.tl .l{font-size:15px;color:var(--head);font-weight:650;line-height:1.2;margin-top:2px}
+.tl .s{font-size:14px;color:var(--dim);line-height:1.25;margin-top:2px}
+.tl.a{border-color:var(--accent)} .tl.a .v{color:var(--accent)}
+.tl.w{border-color:var(--warm)} .tl.w .v{color:var(--warm)}
+.tl.r{border-color:var(--red)} .tl.r .v{color:var(--red)}
+#eph{position:absolute;left:28px;right:28px;text-align:center;opacity:0}
+#eph .t{font-size:27px;font-weight:780;color:var(--head);letter-spacing:-.01em}
+#eph .t em{font-style:normal;color:var(--accent)}
+#eph .s{font-size:15px;color:var(--dim);margin-top:4px}
+
+#ft{position:absolute;left:28px;right:28px;bottom:9px;font-size:14px;color:var(--dim);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#bar{position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--line)}
+#bar i{position:absolute;left:0;top:0;bottom:0;background:var(--accent);width:0}
+#err{position:absolute;left:28px;top:120px;font-size:18px;color:var(--red)}
+</style>
+</head>
+<body>
+<div id="cv">
+  <div id="hd"><h1>How to read <b>the ledger</b></h1><span class="act" id="act"></span><span class="chip" id="chip">data/vaults.json</span></div>
+  <div id="stage"></div>
+  <div id="ft">Read at runtime from data/vaults.json, written by poc/ruv-sgit/ruvsgit.py after each run. Ruflo is MIT, by rUv / ruvnet.</div>
+  <div id="bar"><i></i></div>
+</div>
+<script>
+(function () {
+'use strict';
+var Q = new URLSearchParams(location.search), REVIEW = Q.has('review');
+var RM = false; try { RM = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+var $ = function (id) { return document.getElementById(id); };
+var cv = $('cv'), stage = $('stage');
+var clamp = function (x, a, b) { return x < a ? a : x > b ? b : x; };
+var seg = function (t, a, b) { return clamp((t - a) / (b - a), 0, 1); };
+var ease = function (x) { return x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; };
+var lerp = function (a, b, k) { return a + (b - a) * k; };
+var fmt = function (n) { return Number(n).toLocaleString('en-GB'); };
+var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+var kB = function (b) { return b == null ? '–' : (b >= 1e6 ? (b / 1e6).toFixed(2) + ' MB' : b >= 1000 ? (b / 1000).toFixed(1) + ' kB' : b + ' B'); };
+var hm = function (iso, sec) { if (!iso) return ''; var m = /T(\d\d:\d\d)(:\d\d)?/.exec(iso); return m ? m[1] + (sec && m[2] ? m[2] : '') : ''; };
+var day = function (iso) { if (!iso) return ''; var d = new Date(iso); return isNaN(d) ? '' : d.getUTCDate() + ' ' + ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getUTCMonth()]; };
+
+/* ---------- fit a fixed 1280x600 canvas to the viewport ---------- */
+function fit() {
+  var w = innerWidth, h = innerHeight, S = Math.min(w / 1280, h / 600);
+  cv.style.transform = 'scale(' + S + ')';
+  cv.style.left = Math.max(0, (w - 1280 * S) / 2) + 'px';
+  cv.style.top = Math.max(0, (h - 600 * S) / 2) + 'px';
+}
+addEventListener('resize', fit); fit();
+
+/* ---------- columns (x, width inside the 1224 px row) ---------- */
+var COLS = [
+  { k: 'run',  w: 200, lb: 'run' },
+  { k: 'wk',   w: 110, lb: 'workers' },
+  { k: 'cm',   w: 110, lb: 'commits' },
+  { k: 'dl',   w: 140, lb: 'delivered' },
+  { k: 'sv',   w: 150, lb: 'server held' },
+  { k: 'pt',   w: 130, lb: 'plaintext found' },
+  { k: 'cl',   w: 130, lb: 'fresh clone' },
+  { k: 'del',  w: 140, lb: 'deleted' },
+  { k: 'tok',  w: 114, lb: 'worker tokens' }
+];
+var x = 0; COLS.forEach(function (c) { c.x = x; x += c.w; });
+
+/* ---------- timeline (seconds) ---------- */
+var C0 = 1.0, CSTEP = 1.9;                     // act 1: a cell every 1.9 s
+var MORPH = [18.8, 20.6], TH = 20.2, R0 = 20.8, RSTEP = 0.4;
+var TOT0, TSTEP = 0.35, EPH, END;
+window.RUV_STEPS = [];
+
+/* ---------- data ---------- */
+fetch('../../../data/vaults.json', { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+  .then(build).catch(function (e) { var d = document.createElement('div'); d.id = 'err'; d.textContent = 'Could not read data/vaults.json: ' + e.message; cv.appendChild(d); console.warn(e); });
+
+var D = {}, E = {};
+function isSmoke(v) { return /smoke/i.test(v.run || '') || /smoke test/i.test(v.purpose || ''); }
+function probeN(v) { var m = /^(\d+)/.exec(((v.server_store || {}).probe) || ''); return m ? +m[1] : null; }
+function tokens(v) { var s = 0, n = 0, x = 0; (v.workers || []).forEach(function (w) { if (typeof w.tokens === 'number') { s += w.tokens; if (w.tokens > 0) n++; } else x++; }); return { sum: s, n: n, skipped: x }; }
+function verified(v) { var c = v.delete_check; return !!(v.deleted_at && c && c.store_paths_left === 0 && c.clone_after_delete === 'failed'); }
+
+function rowData(v) {
+  var ss = v.server_store, cl = v.clone, pn = probeN(v), tk = tokens(v);
+  var nW = v.hive ? v.hive.workers : (v.workers || []).length, nB = (v.branches || []).length;
+  var fd = v.files_delivered != null ? v.files_delivered : v.files, bd = v.bytes_delivered != null ? v.bytes_delivered : v.bytes_plain;
+  return {
+    v: v, pn: pn, tk: tk, nW: nW, nB: nB, fd: fd, bd: bd,
+    run:  { big: esc(v.run), sub: day(v.created_at) + ' · ' + hm(v.created_at), cm: '<b>' + esc(v.run) + '</b> <i>' + hm(v.created_at) + '</i>' },
+    wk:   { big: nW != null ? nW : '–', sub: nB + ' branch' + (nB === 1 ? '' : 'es'), cm: nW != null ? nW : '–' },
+    cm:   { big: v.commits != null ? v.commits : '–', sub: '', cm: v.commits != null ? v.commits : '–' },
+    dl:   { big: fd != null ? fd + ' files' : '–', sub: bd != null ? fmt(bd) + ' B' : '', cm: fd != null ? fd + ' <i>· ' + kB(bd) + '</i>' : '–' },
+    sv:   ss ? { big: ss.files + ' files', sub: fmt(ss.bytes) + ' B', cm: ss.files + ' <i>· ' + kB(ss.bytes) + '</i>' } : { big: '–', sub: 'not measured yet', cm: '–' },
+    pt:   ss ? { big: ss.plaintext_hits, cls: ss.plaintext_hits === 0 ? 'ok' : 'bad', sub: pn != null ? 'of ' + pn + ' probed' : '', cm: '<span class="' + (ss.plaintext_hits === 0 ? 'ok' : 'bad') + '">' + ss.plaintext_hits + '</span>' + (pn != null ? ' <i>/ ' + pn + '</i>' : '') }
+             : { big: '–', sub: 'not probed yet', cm: '–' },
+    cl:   cl ? { big: cl.identical ? 'identical' : 'differs', cls: cl.identical ? 'ok' : 'bad', sub: fmt(cl.ms) + ' ms', cm: '<span class="' + (cl.identical ? 'ok' : 'bad') + '">' + (cl.identical ? '✓' : '✗') + '</span> ' + fmt(cl.ms) + ' <i>ms</i>' }
+             : { big: '–', sub: 'not cloned yet', cm: '–' },
+    del:  v.deleted_at ? (verified(v) ? { big: hm(v.deleted_at, true), sub: 'verified', cm: '<span class="ok">✓</span> verified' }
+                                      : { big: hm(v.deleted_at, true), sub: 'not checked', cm: '<i>deleted</i>' })
+                       : { big: 'not yet', cls: 'wait', sub: 'still live', cm: '<span class="wait">not yet</span>' },
+    tok:  { big: fmt(tk.sum), sub: tk.n + ' worker' + (tk.n === 1 ? '' : 's'), cm: fmt(tk.sum) }
+  };
+}
+
+function callouts(r) {
+  var v = r.v, ss = v.server_store, cl = v.clone, dc = v.delete_check;
+  var purpose = String(v.purpose || ''); if (purpose.length > 96) { purpose = purpose.slice(0, 96); purpose = purpose.slice(0, purpose.lastIndexOf(' ')).replace(/[,:;]$/, '') + '…'; }
+  var names = (v.branches || []).map(function (b) { return b.name; });
+  var deliveries = (v.history || []).filter(function (h) { return /delivered/.test(h.message || ''); }).length;
+  var other = (v.history || []).filter(function (h) { return !/delivered/.test(h.message || ''); }).map(function (h) { return (h.message || '').split(':')[0]; });
+  var gap = v.closed_at && v.deleted_at ? Math.round((new Date(v.deleted_at) - new Date(v.closed_at)) / 1000) : null;
+  return {
+    run: ['The run, and what it was for', '<b>' + esc(v.run) + '</b>: ' + esc(purpose)],
+    wk:  ['Workers → branches', r.nW + ' workers ran in parallel; each wrote onto its own branch' + (names.length ? ' (' + esc(names.slice(0, 2).join(', ')).replace(/-/g, '\u2011') + (names.length > 2 ? ', …' : '') + ')' : '') + '.'],
+    cm:  ['Commits', '<b>' + v.commits + '</b> commits' + (v.history && v.history.length === v.commits ? ': ' + esc(other.join(', ')) + ', then ' + deliveries + ' deliveries, one per branch merged.' : ' on the vault.')],
+    dl:  ['Delivered', '<b>' + r.fd + ' files</b>, ' + fmt(r.bd) + ' bytes of work, written by the workers.'],
+    sv:  ['What the server held', ss ? '<b>' + ss.files + ' files, ' + fmt(ss.bytes) + ' bytes</b>, all encrypted on the client. The key never left the machine that ran the hive.' : 'Not measured yet.'],
+    pt:  ['Plaintext found: ' + (ss ? ss.plaintext_hits : '–'), ss ? 'The probe: ' + (r.pn != null ? 'up to ' + r.pn : 'some') + ' text fragments from the delivered files, searched for in every byte the server stored. Found: <b class="ok">' + ss.plaintext_hits + '</b>.' : 'Not probed yet.'],
+    cl:  ['Fresh clone: ' + (cl ? (cl.identical ? 'identical' : 'differs') : '–'), cl ? 'Cloned again with the key in <b>' + fmt(cl.ms) + ' ms</b>: ' + cl.files + ' files, identical to what was committed.' : 'Not cloned yet.'],
+    del: ['Deleted', v.deleted_at ? '<b>' + hm(v.deleted_at, true) + '</b>' + (gap != null ? ', ' + gap + ' s after its numbers were recorded' : '') + '. ' + (verified(v) ? 'Verified: store paths left <b>' + dc.store_paths_left + '</b>; a clone with the key afterwards fails.' : 'Not checked afterwards.') : 'Not deleted yet: the vault is still live.'],
+    tok: ['Worker tokens', '<b>' + fmt(r.tk.sum) + '</b> tokens, summed over ' + r.tk.n + ' workers' + (r.tk.skipped ? '; ' + r.tk.skipped + ' host step' + (r.tk.skipped > 1 ? 's' : '') + ' not separable, not counted.' : '.')]
+  };
+}
+
+function el(tag, cls, parent, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; (parent || stage).appendChild(e); return e; }
+
+function build(V) {
+  var all = (V.vaults || []).slice().sort(function (a, b) { return String(a.created_at).localeCompare(String(b.created_at)); });
+  if (!all.length) throw new Error('no runs in the ledger');
+  var cand = all.filter(function (v) { return !isSmoke(v); });
+  var done = cand.filter(function (v) { return v.server_store && v.clone; });
+  var fv = (done.length ? done : cand.length ? cand : all).slice(-1)[0];
+  D.rows = all.map(rowData); D.fi = all.indexOf(fv); D.f = D.rows[D.fi]; D.N = all.length;
+  D.co = callouts(D.f);
+  $('chip').textContent = 'data/vaults.json · ' + D.N + ' run' + (D.N === 1 ? '' : 's') + (V.sample ? ' · SAMPLE' : '');
+
+  // table geometry
+  D.rowH = Math.max(22, Math.min(40, Math.floor(296 / D.N)));
+  D.tTop = 78; D.thTop = 50;
+  D.totTop = Math.max(D.tTop + D.N * D.rowH + 18, 340);
+
+  // totals
+  var T = D.T = { runs: D.N, created: all.filter(function (v) { return v.vault_id; }).length, deleted: all.filter(function (v) { return v.deleted_at; }).length,
+    verified: all.filter(verified).length, commits: 0, hits: 0, probes: 0, measured: 0, clones: 0, same: 0, tok: 0, tokW: 0, tokX: 0, recordedFirst: true };
+  D.rows.forEach(function (r) {
+    var v = r.v; T.commits += v.commits || 0;
+    if (v.server_store) { T.measured++; T.hits += v.server_store.plaintext_hits || 0; T.probes += r.pn || 0; }
+    if (v.clone) { T.clones++; if (v.clone.identical) T.same++; }
+    T.tok += r.tk.sum; T.tokW += r.tk.n; T.tokX += r.tk.skipped;
+    if (v.deleted_at && !(v.closed_at && v.closed_at <= v.deleted_at && v.server_store)) T.recordedFirst = false;
+  });
+
+  // timeline that depends on N
+  var lastRow = R0 + Math.max(0, D.N - 2) * RSTEP;
+  TOT0 = Math.max(25.4, lastRow + 0.9); EPH = TOT0 + 6 * TSTEP + 2.4; END = Math.ceil((EPH + 2.4) * 10) / 10;
+  window.RUV_STEPS = [
+    { t: 0, label: 'one run, cell by cell' },
+    { t: +(C0 + 4 * CSTEP).toFixed(1), label: 'what the server held' },
+    { t: +(C0 + 7 * CSTEP).toFixed(1), label: 'deleted, tokens' },
+    { t: MORPH[0], label: 'every run' },
+    { t: +TOT0.toFixed(1), label: 'totals' },
+    { t: +END.toFixed(1), label: 'ephemeral' }
+  ];
+
+  scene(); start = performance.now(); requestAnimationFrame(frame);
+}
+
+/* ---------- build the DOM ---------- */
+var ROW_TOP = 252, ROW_H = 92;
+function scene() {
+  // column header
+  E.th = el('div', 'row', stage); E.th.id = 'th'; E.th.style.top = D.thTop + 'px'; E.th.style.height = '26px';
+  COLS.forEach(function (c) { var d = el('div', 'cell', E.th, esc(c.lb)); d.style.left = c.x + 'px'; d.style.width = c.w + 'px'; });
+  // table rows (the featured one is drawn by the featured row)
+  E.tr = D.rows.map(function (r, i) {
+    var row = el('div', 'row tr' + (i === D.fi ? ' me' : ''), stage); row.style.top = (D.tTop + i * D.rowH) + 'px'; row.style.height = D.rowH + 'px';
+    COLS.forEach(function (c) { var d = el('div', 'cell', row, '<div class="cm">' + r[c.k].cm + '</div>'); d.style.left = c.x + 'px'; d.style.width = c.w + 'px'; });
+    return row;
+  });
+  // featured row
+  E.f = el('div', 'row feat', stage);
+  E.fc = COLS.map(function (c) {
+    var d = D.f[c.k];
+    var cell = el('div', 'cell', E.f, '<div class="lb">' + esc(c.lb) + '</div><div class="bg ' + (d.cls || '') + '">' + d.big + '</div><div class="sb">' + esc(d.sub) + '</div><div class="cm">' + d.cm + '</div>');
+    cell.style.left = c.x + 'px'; cell.style.width = (c.w - 6) + 'px';
+    var bg = cell.querySelector('.bg'), fs = 26; while (bg.scrollWidth > bg.clientWidth + 1 && fs > 16) { fs -= 1; bg.style.fontSize = fs + 'px'; }
+    return { cell: cell, lb: cell.querySelector('.lb'), bg: bg, sb: cell.querySelector('.sb'), cm: cell.querySelector('.cm') };
+  });
+  // callouts: alternate above / below; lay out so none overlap
+  var up = [], dn = [];
+  COLS.forEach(function (c, i) {
+    var co = el('div', 'co', stage, '<h3>' + D.co[c.k][0] + '</h3><p>' + D.co[c.k][1] + '</p>');
+    var ld = el('div', 'ld', stage);
+    var o = { i: i, el: co, ld: ld, cx: 28 + c.x + c.w / 2, above: i % 2 === 0 };
+    (o.above ? up : dn).push(o);
+  });
+  [up, dn].forEach(function (list) {
+    var W = 220, G = 10, L = 28, R = 1252;
+    list.forEach(function (o, j) { o.l = Math.max(o.cx - W / 2, j ? list[j - 1].l + W + G : L); });
+    for (var j = list.length - 1; j >= 0; j--) o = list[j], o.l = Math.min(o.l, j < list.length - 1 ? list[j + 1].l - W - G : R - W);
+    list.forEach(function (o) {
+      o.el.style.left = o.l + 'px';
+      var h = o.el.offsetHeight;
+      if (o.above) { o.el.style.top = (ROW_TOP - 14 - h) + 'px'; o.ld.style.top = (ROW_TOP - 14) + 'px'; }
+      else { o.el.style.top = (ROW_TOP + ROW_H + 14) + 'px'; o.ld.style.top = (ROW_TOP + ROW_H) + 'px'; }
+      o.ld.style.height = '14px'; o.ld.style.left = (o.cx - 1) + 'px';
+    });
+  });
+  var o; E.co = up.concat(dn).sort(function (a, b) { return a.i - b.i; });
+
+  // totals
+  var T = D.T;
+  E.tot = el('div', '', stage); E.tot.id = 'tot'; E.tot.style.top = D.totTop + 'px';
+  D.tiles = [
+    { v: T.runs, l: 'runs', s: 'in the ledger' },
+    { v: T.created, v2: T.deleted, l: 'vaults created / deleted', s: T.deleted === T.created ? 'one vault per run' : (T.created - T.deleted) + ' still live', c: T.deleted === T.created ? '' : 'w' },
+    { v: T.commits, l: 'commits', s: 'across all vaults' },
+    { v: T.hits, l: 'plaintext found', s: 'of ' + fmt(T.probes) + ' fragments probed', c: T.hits === 0 ? 'a' : 'r' },
+    { v: T.same, v2: T.clones, of: true, l: 'clones identical', s: 'fresh clone with the key', c: T.same === T.clones && T.clones ? 'a' : 'r' },
+    { v: T.tok, l: 'worker tokens', s: T.tokW + ' workers' + (T.tokX ? '; ' + T.tokX + ' host steps not counted' : '') }
+  ];
+  E.tiles = D.tiles.map(function (d) { var t = el('div', 'tl ' + (d.c || ''), E.tot, '<div class="v"></div><div class="l">' + esc(d.l) + '</div><div class="s">' + esc(d.s) + '</div>'); return { el: t, v: t.querySelector('.v') }; });
+
+  // the ephemeral line: only what the data shows
+  E.eph = el('div', '', stage); E.eph.id = 'eph';
+  var all = T.deleted === T.runs, notDel = D.rows.filter(function (r) { return !r.v.deleted_at; }).map(function (r) { return r.v.run; });
+  var unchecked = D.rows.filter(function (r) { return r.v.deleted_at && !verified(r.v); }).map(function (r) { return r.v.run; });
+  var t1 = all && T.recordedFirst ? '<em>ephemeral:</em> every vault deleted after its numbers were recorded'
+         : all ? '<em>ephemeral:</em> every vault deleted'
+         : '<em>ephemeral:</em> ' + T.deleted + ' of ' + T.runs + ' vaults deleted after their numbers were recorded';
+  var s1 = 'Delete verified for ' + T.verified + ' of ' + T.deleted + ': store paths left 0, a clone with the key afterwards fails' +
+           (unchecked.length ? ' · not checked: ' + unchecked.join(', ') : '') + (notDel.length ? ' · still live: ' + notDel.join(', ') : '') + '.';
+  E.eph.innerHTML = '<div class="t">' + t1 + '</div><div class="s">' + esc(s1) + '</div>';
+  E.eph.style.top = (D.totTop + 122) + 'px';
+}
+
+/* ---------- render the scene at time t ---------- */
+function render(t) {
+  var mk = ease(seg(t, MORPH[0], MORPH[1]));
+  var active = -1;
+  // featured row: cells appear one by one, then the row shrinks into its table slot
+  var top = lerp(ROW_TOP, D.tTop + D.fi * D.rowH, mk), h = lerp(ROW_H, D.rowH, mk);
+  E.f.style.top = top + 'px'; E.f.style.height = h + 'px';
+  E.f.classList.toggle('tbl', mk > .5);
+  E.fc.forEach(function (c, i) {
+    var cell = c.cell, a = C0 + i * CSTEP, k = ease(seg(t, a, a + .5));
+    if (t >= a && t < MORPH[0]) active = i;
+    c.cell.style.opacity = k;
+    c.cell.style.transform = 'translateY(' + ((1 - k) * 18) + 'px)';
+    c.cell.classList.toggle('on', i === active && t < a + CSTEP && mk === 0);
+    c.cell.style.borderRadius = lerp(12, 0, mk) + 'px'; cell.style.width = (COLS[i].w - 6 * (1 - mk)) + 'px';
+    c.cell.style.borderWidth = mk > 0 ? '0 0 1px 0' : '';
+    var full = 1 - seg(mk, 0, .5), cmp = seg(mk, .5, 1);
+    c.lb.style.opacity = c.bg.style.opacity = c.sb.style.opacity = full;
+    c.cm.style.opacity = cmp;
+  });
+  // callouts
+  var fade = 1 - seg(t, MORPH[0] - .3, MORPH[0] + .3);
+  E.co.forEach(function (o, i) {
+    var a = C0 + i * CSTEP + .35, k = ease(seg(t, a, a + .5)) * fade;
+    o.el.style.opacity = k; o.ld.style.opacity = k;
+    o.el.style.transform = 'translateY(' + ((o.above ? 1 : -1) * (1 - k) * 10) + 'px)';
+    o.el.classList.toggle('new', i === active);
+  });
+  // table
+  E.th.style.opacity = ease(seg(t, TH, TH + .6));
+  var dim = 1 - .35 * ease(seg(t, EPH - .6, EPH + .4));
+  var j = 0;
+  E.tr.forEach(function (r, i) {
+    if (i === D.fi) { r.style.opacity = 0; return; }
+    var a = R0 + (j++) * RSTEP, k = ease(seg(t, a, a + .5));
+    r.style.opacity = k * dim; r.style.transform = 'translateX(' + ((1 - k) * 40) + 'px)';
+  });
+  E.f.style.opacity = mk > 0 ? dim : 1;
+  E.th.style.opacity = +E.th.style.opacity * dim;
+  // totals: tiles in, numbers count up
+  E.tiles.forEach(function (o, i) {
+    var a = TOT0 + i * TSTEP, k = ease(seg(t, a, a + .5)), n = ease(seg(t, a + .1, a + 1.3)), d = D.tiles[i];
+    o.el.style.opacity = k; o.el.style.transform = 'translateY(' + ((1 - k) * 16) + 'px)';
+    var v = Math.round(d.v * n), v2 = d.v2 != null ? d.v2 : null;   // the denominator is shown as is; only the count rises
+    var html = fmt(v) + (v2 != null ? '<small>' + (d.of ? ' of ' : ' / ') + fmt(v2) + '</small>' : '');
+    if (o.v.innerHTML !== html) { o.v.innerHTML = html; var fs = 38; o.v.style.fontSize = ''; while (o.v.scrollWidth > o.v.clientWidth + 1 && fs > 20) { fs -= 2; o.v.style.fontSize = fs + 'px'; } }
+  });
+  var ke = ease(seg(t, EPH, EPH + .9));
+  E.eph.style.opacity = ke; E.eph.style.transform = 'translateY(' + ((1 - ke) * 12) + 'px)';
+  // header
+  var act = t < MORPH[0] ? 'one run, cell by cell: ' + D.f.v.run : t < TOT0 ? 'every run, one row each' : 'totals, from the data';
+  if ($('act').textContent !== act) $('act').textContent = act;
+  $('bar').firstChild.style.width = (100 * clamp(t / END, 0, 1)) + '%';
+}
+
+var start = 0, FREEZE = null;
+function frame(now) {
+  if (FREEZE == null && (REVIEW || RM)) FREEZE = END;
+  if (Q.has('t')) FREEZE = clamp(+Q.get('t') || 0, 0, END);
+  var t = FREEZE != null ? FREEZE : (now - start) / 1000;
+  try { render(Math.min(t, END)); } catch (e) { console.error(e); return; }
+  if (FREEZE == null && t < END + 0.5) requestAnimationFrame(frame);
+  else if (FREEZE == null) { /* final frame held */ }
+}
+})();
+</script>
+</body>
+</html>

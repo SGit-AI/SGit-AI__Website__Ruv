@@ -1,6 +1,6 @@
 // ruv.sgit.ai: nav, theme, Mermaid, markdown includes, POC data tables. No build step needed for these.
 (() => {
-  const VERSION = 'v0.1.10';   // written by site/build/versions.py from admin/versions.json
+  const VERSION = 'v0.1.11';   // written by site/build/versions.py from admin/versions.json
   // four groups instead of eleven links (the same shape as sgit.ai: brand, version, grouped menus, a Menu button on phones)
   const NAV = [
     ['Tonight', [['talk/index.html', "Tonight's talk"], ['talk/player.html?talk=talk-10.json', 'Present (10 min)'], ['demo.html', 'The five-minute demo script']]],

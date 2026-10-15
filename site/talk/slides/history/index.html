@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A vault's history</title>
+<link rel="stylesheet" href="../../../assets/themes.css">
+<script src="../../../assets/theme.js"></script>
+<script src="../../../assets/clock.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{overflow:hidden;position:relative;width:100vw;height:100vh;height:100dvh}
+body.narrow{overflow-x:hidden;overflow-y:auto}
+.mono,.h,.tk,.lg,.st .k,.hex{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+#cv{position:absolute;left:0;top:0;width:1280px;height:600px;transform-origin:0 0;overflow:hidden}
+.narrow #cv{width:640px;height:1180px}
+
+/* header */
+#hd{position:absolute;left:28px;right:28px;top:12px;display:flex;align-items:baseline;gap:6px 14px;flex-wrap:wrap}
+#hd h1{margin:0;font-size:21px;font-weight:750;color:var(--head);letter-spacing:-.01em}
+.chip{font:600 14px ui-monospace,SFMono-Regular,Menlo,monospace;padding:2px 10px;border-radius:999px;background:var(--tint-solid);color:var(--accent);border:1px solid var(--line);white-space:nowrap}
+#hd .rt{margin-left:auto;font-size:14px;color:var(--dim)}
+.narrow #hd h1{font-size:26px;flex-basis:100%}
+.narrow #hd .rt{margin-left:0}
+
+/* graph */
+#graph{position:absolute;left:28px;top:52px;width:752px;height:372px;background:var(--panel);border:1.5px solid var(--line);border-radius:14px;overflow:hidden}
+.narrow #graph{top:104px;width:584px}
+#graph svg{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible}
+.row{position:absolute;left:100px;right:16px;height:40px;opacity:0}
+.row .l1,.row .l2{display:flex;align-items:baseline;gap:10px;white-space:nowrap}
+.row .l1{font-size:16.5px;color:var(--head)}
+.row .l2{font-size:14px;color:var(--dim);margin-top:1px}
+.row .h{font-size:14px;color:var(--dim)}
+.row .l2>span:first-child{overflow:hidden;text-overflow:ellipsis;min-width:0}
+.row .m{font-weight:650;overflow:hidden;text-overflow:ellipsis}
+.row .tk{margin-left:auto;font-size:14.5px;font-weight:650;color:var(--accent);flex:none}
+.row .l2 .tk{color:var(--warm)}
+.row .tk.done{color:var(--dim)}
+.row.hot .m{color:var(--accent)}
+.narrow .row .h{display:none}
+#gcur{position:absolute;left:12px;top:6px;font:700 14px ui-monospace,monospace;color:var(--head)}
+#stamp{position:absolute;right:12px;top:8px;font:800 14px ui-monospace,monospace;color:var(--red);border:2px solid var(--red);border-radius:8px;padding:2px 9px;background:var(--panel);opacity:0}
+
+/* side cards */
+#side{position:absolute;left:796px;top:52px;width:456px;height:372px}
+.narrow #side{left:28px;top:490px;width:584px;height:360px}
+.card{position:absolute;inset:0;background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:12px 16px;opacity:0;overflow:hidden}
+.card .ct{font-size:17px;font-weight:750;color:var(--head)}
+.card .cs{font-size:14px;color:var(--dim);margin-top:1px}
+/* op log */
+#lgbox{position:absolute;left:16px;right:16px;top:62px;height:252px;overflow:hidden}
+.lg{position:absolute;left:0;right:0;height:28px;display:flex;gap:10px;align-items:baseline;font-size:15px;color:var(--text);white-space:nowrap}
+.lg .o{width:118px;color:var(--head);font-weight:650}
+.lg .c{color:var(--dim);overflow:hidden;text-overflow:ellipsis}
+.lg .v{margin-left:auto;font-weight:650}
+.lg.run .v{color:var(--accent)}
+.lg.push .o{color:var(--warm)}
+#lgtot{position:absolute;left:16px;right:16px;bottom:12px;border-top:1.5px solid var(--line);padding-top:8px;display:flex;justify-content:space-between;font:650 15px ui-monospace,monospace;color:var(--head)}
+/* server view */
+.hex{position:relative;height:118px;margin-top:10px;font-size:14px;line-height:17px;color:var(--dim);opacity:.4;word-break:break-all;overflow:hidden;letter-spacing:.06em}
+.hexcap{font-size:14px;color:var(--dim);margin-top:3px}
+.srow{display:flex;justify-content:space-between;gap:12px;align-items:baseline;border-bottom:1px solid var(--line);padding:5px 0;font-size:15.5px;color:var(--text);opacity:0}
+.srow b{font:800 16px ui-monospace,monospace;color:var(--head);white-space:nowrap}
+.srow b.ok{color:var(--accent)} .srow b.gone{color:var(--red)}
+/* POC2 */
+.pl{position:relative;height:66px;margin-top:20px}
+.pl .ln{position:absolute;left:12%;top:16px;height:3px;background:var(--head);width:0}
+.pl .lb{position:absolute;left:0;top:-22px;font:700 14px ui-monospace,monospace;color:var(--dim)}
+.pd{position:absolute;top:10px;width:15px;height:15px;margin-left:-7.5px;border-radius:50%;background:var(--head);border:2px solid var(--panel);opacity:0}
+.pd.w{background:var(--accent)}
+.pt{position:absolute;top:30px;width:25%;margin-left:-12.5%;text-align:center;font-size:14px;line-height:1.2;color:var(--text);opacity:0}
+.pt .h{display:block;font:600 14px ui-monospace,monospace;color:var(--dim)}
+.wr{position:absolute;top:-30px;margin-left:-40px;width:80px;text-align:center;font:700 14px/24px system-ui,sans-serif;border-radius:999px;background:var(--accent);color:var(--on-accent);opacity:0}
+.fly{position:absolute;width:15px;height:15px;margin-left:-7.5px;border-radius:50%;background:var(--accent);opacity:0}
+.down{margin:2px 0 0;font-size:14px;color:var(--warm);font-weight:650;text-align:center;opacity:0}
+.ans{margin-top:6px;display:flex;flex-direction:column;gap:4px;opacity:0}
+.ans div{display:flex;gap:10px;align-items:baseline;font:600 14.5px ui-monospace,monospace;color:var(--text);white-space:nowrap;overflow:hidden}
+.ans div.aq{font:600 14px system-ui,sans-serif;color:var(--dim)}
+.ans div b{color:var(--accent)}
+.ans div i{font-style:normal;margin-left:auto;color:var(--head)}
+.foot{position:absolute;left:16px;right:16px;bottom:10px;font-size:14px;color:var(--dim);line-height:1.3;opacity:0}
+
+/* flow */
+#flow{position:absolute;left:28px;top:436px;width:1224px;height:90px}
+.narrow #flow{top:866px;width:584px;height:196px}
+.st{position:absolute;top:0;width:191px;height:90px;border:1.5px solid var(--line);border-radius:12px;background:var(--panel);padding:7px 11px;opacity:.28}
+.st .k{font-size:14px;color:var(--dim)}
+.st .n{font-size:20px;font-weight:780;color:var(--head);line-height:1.15;white-space:nowrap}
+.st .s{font-size:14px;color:var(--text);line-height:1.2}
+.st.on{border-color:var(--accent)}
+.st.last.on{border-color:var(--red)} .st.last .n{color:var(--red)}
+.chev{position:absolute;top:34px;width:14px;text-align:center;font:800 18px/20px system-ui,sans-serif;color:var(--accent);opacity:0}
+#pk{position:absolute;top:-6px;width:12px;height:12px;margin-left:-6px;border-radius:3px;background:var(--accent);opacity:0}
+
+/* punchline */
+#punch{position:absolute;left:28px;right:28px;top:536px;text-align:center;font-size:23px;font-weight:780;color:var(--head);letter-spacing:-.01em;line-height:1.25;opacity:0}
+#punch span{color:var(--accent)}
+.narrow #punch{top:1078px;font-size:25px}
+#err{position:absolute;left:28px;top:120px;right:28px;font-size:18px;color:var(--red)}
+</style>
+</head>
+<body>
+<div id="cv">
+  <div id="hd"><h1>One run's vault, commit by commit</h1><span class="chip" id="chip">r5-market</span><span class="rt" id="rt">sgit times as measured, replayed 3× faster</span></div>
+  <div id="graph"><svg id="gsvg" aria-hidden="true"></svg><div id="gcur">current</div><div id="stamp"></div></div>
+  <div id="side">
+    <div class="card" id="c-log"><div class="ct">sgit, op by op</div><div class="cs" id="lgsub">every sgit call in the run, with its time</div><div id="lgbox"></div><div id="lgtot"><span id="lgn"></span><span id="lgs"></span></div></div>
+    <div class="card" id="c-srv"><div class="ct">What the server holds</div><div class="cs" id="srvsub"></div><div class="hex" id="hex"></div><div class="hexcap">ciphertext (an illustration, not the stored bytes)</div><div id="srows"></div></div>
+    <div class="card" id="c-poc"><div class="ct">POC2: Ruflo memory, kept in a vault</div><div class="cs" id="pocsub"></div>
+      <div class="pl" id="pl1" style="margin-top:34px"></div>
+      <div class="down" id="pdown">folder deleted · fresh clone · DB files restored</div>
+      <div class="pl" id="pl2"></div>
+      <div class="ans" id="pans"></div>
+      <div class="foot" id="pfoot"></div>
+    </div>
+  </div>
+  <div id="flow"></div>
+  <div id="punch"></div>
+</div>
+<script>
+(function () {
+'use strict';
+var Q = new URLSearchParams(location.search), REVIEW = Q.has('review');
+var R = 3;                       // replay factor for sgit op times
+var OP0 = 0.8;                   // first op starts here (s)
+var ACT2 = 14.9, STEP = 1.45, ACT3 = 24.0, PUNCH = 32.6, END = 34.5;
+window.RUV_STEPS = [
+  { t: 0, label: 'the brief' },
+  { t: 1.7, label: 'six branches, six deliveries' },
+  { t: ACT2, label: 'the flow, mapped' },
+  { t: ACT3, label: 'POC2: memory, fresh clone' },
+  { t: END, label: 'every step a commit' }
+];
+var $ = function (id) { return document.getElementById(id); };
+var cv = $('cv');
+function clamp(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
+function seg(t, a, b) { return clamp((t - a) / (b - a)); }
+function ease(x) { return x * x * (3 - 2 * x); }
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function n0(x) { return Math.round(x).toLocaleString('en-GB'); }
+function kb(b) { return (b / 1000).toFixed(1) + ' KB'; }
+function hhmmss(iso) { var m = String(iso).match(/T(\d\d:\d\d:\d\d)/); return m ? m[1] : ''; }
+
+var S = 1, NARROW = false;
+function fit() {
+  var w = innerWidth, h = innerHeight;
+  NARROW = w < 700 || w / h < 0.9;
+  document.body.classList.toggle('narrow', NARROW);
+  var CW = NARROW ? 640 : 1280, CH = NARROW ? 1180 : 600;
+  S = NARROW ? w / CW : Math.min(w / CW, h / CH);
+  cv.style.transform = 'scale(' + S + ')';
+  cv.style.left = Math.max(0, (w - CW * S) / 2) + 'px';
+  cv.style.top = NARROW ? '0px' : Math.max(0, (h - CH * S) / 2) + 'px';
+  document.body.style.height = NARROW ? Math.max(h, CH * S) + 'px' : '';
+  layoutFlow();
+}
+
+/* ---------- data ---------- */
+function getJ(u) { return fetch(u, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(u + ': HTTP ' + r.status); return r.json(); }); }
+function getT(u) { return fetch(u, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(u + ': HTTP ' + r.status); return r.text(); }); }
+var D = null, E = {};
+Promise.all([getJ('../../../data/vaults.json'), getJ('../../../data/poc2-history.json'), getT('../../../data/poc2-run.txt').catch(function () { return ''; })])
+  .then(function (a) { build(a[0], a[1], a[2]); addEventListener('resize', fit); fit(); requestAnimationFrame(loop); })
+  .catch(function (e) { var d = document.createElement('div'); d.id = 'err'; d.textContent = 'Could not read the data: ' + e.message; cv.appendChild(d); fit(); });
+
+function build(V, P2, P2txt) {
+  var run = (V.vaults || []).filter(function (v) { return v.run === 'r5-market'; })[0];
+  if (!run) throw new Error('run r5-market not in vaults.json');
+  var ops = run.ops, cum = 0;
+  ops.forEach(function (o) { o.s = OP0 + cum / 1000 / R; o.e = o.s + o.ms / 1000 / R; cum += o.ms; });
+  var opTotal = cum;
+  // ops: init, commit, push (the brief); then per branch: branch-new, commit, push, branch-switch, merge, push; then history, clone
+  var nb = run.branches.length;
+  var grouped = ops.length >= 3 + nb * 6;
+  run.branches.forEach(function (b, i) {
+    var g = grouped ? ops.slice(3 + 6 * i, 9 + 6 * i) : null;
+    b.w = g ? g.slice(0, 3) : []; b.m = g ? g.slice(3, 6) : [];
+    b.id = b.name.replace(/^w-/, '');
+  });
+  ops.forEach(function (o, j) {
+    o.ctx = j < 3 ? 'brief' : j < 3 + nb * 6 ? run.branches[Math.floor((j - 3) / 6)].name : '';
+    if (o.op === 'init') o.ctx = 'vault ' + run.vault_id;
+    if (o.op === 'history') o.ctx = 'log of current';
+    if (o.op === 'clone') o.ctx = 'fresh folder';
+  });
+  var hist = run.history;
+  D = { run: run, ops: ops, opTotal: opTotal, hist: hist, nb: nb, pushes: ops.filter(function (o) { return o.op === 'push'; }).length };
+  var day = new Date(run.created_at);
+  $('chip').textContent = run.run + ' · vault ' + run.vault_id + ' · ' + day.getUTCDate() + ' ' + ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][day.getUTCMonth()] + ' ' + day.getUTCFullYear();
+  $('rt').textContent = 'sgit times as measured, replayed ' + R + '× faster';
+  buildGraph(); buildLog(); buildServer(); buildPoc(P2, P2txt); buildFlow();
+  $('punch').innerHTML = 'Every step is a commit: <span>who, what, when</span>.<br>Encrypted on the client, and gone when the run is.';
+}
+
+/* ---------- Act 1: the graph ---------- */
+var LX = 30, BX = 72;
+function rowY(k) { return 36 + k * 43.5; }
+function buildGraph() {
+  var run = D.run, hist = D.hist, svg = '';
+  var y0 = rowY(0);
+  svg += '<line id="lane" x1="' + LX + '" y1="' + y0 + '" x2="' + LX + '" y2="' + y0 + '" stroke="var(--head)" stroke-width="4" stroke-linecap="round"/>';
+  // rows: hist[0] init, hist[1] brief, hist[2..] deliveries (one per branch, in branch order)
+  E.rows = [];
+  var fy = rowY(1);
+  hist.forEach(function (c, k) {
+    var y = rowY(k), r = { k: k, c: c, y: y };
+    if (k >= 2 && run.branches[k - 2]) {
+      var b = r.b = run.branches[k - 2], my = y + 22;
+      r.fork = 'M' + LX + ',' + fy + ' C' + LX + ',' + (fy + 14) + ' ' + BX + ',' + (y - 20) + ' ' + BX + ',' + y;
+      r.merge = 'M' + BX + ',' + y + ' C' + BX + ',' + (y + 13) + ' ' + LX + ',' + (my - 12) + ' ' + LX + ',' + my;
+      r.my = my; r.fy = fy; fy = my;
+      svg += '<path id="fk' + k + '" d="' + r.fork + '" pathLength="1" fill="none" stroke="var(--accent)" stroke-width="3" stroke-dasharray="1 1" stroke-dashoffset="1"/>' +
+        '<path id="mg' + k + '" d="' + r.merge + '" pathLength="1" fill="none" stroke="var(--accent)" stroke-width="3" stroke-dasharray="1 1" stroke-dashoffset="1"/>' +
+        '<polygon id="ah' + k + '" points="' + (LX - 6) + ',' + (my - 9) + ' ' + (LX + 6) + ',' + (my - 9) + ' ' + LX + ',' + (my + 1) + '" fill="var(--accent)" opacity="0"/>' +
+        '<circle id="pr' + k + '" cx="' + LX + '" cy="' + my + '" r="0" fill="none" stroke="var(--warm)" stroke-width="2.5" opacity="0"/>';
+      r.cx = BX;
+    } else r.cx = LX;
+    svg += '<circle id="pw' + k + '" cx="' + r.cx + '" cy="' + y + '" r="0" fill="none" stroke="var(--warm)" stroke-width="2.5" opacity="0"/>' +
+      '<circle id="cd' + k + '" cx="' + r.cx + '" cy="' + y + '" r="0" fill="' + (k >= 2 ? 'var(--accent)' : 'var(--head)') + '" stroke="var(--panel)" stroke-width="2.5"/>';
+    // timing of the row
+    var o = D.ops;
+    if (k === 0) { r.land = o[0].e; r.tk2 = { lab: 'init', ops: [o[0]], val: o[0].ms }; }
+    else if (k === 1) { r.land = o[1].e; r.tk1 = { lab: 'commit', ops: [o[1]], val: o[1].ms }; r.tk2 = { lab: 'push', ops: [o[2]], val: o[2].ms }; r.push = o[2]; }
+    else if (r.b && r.b.w.length) {
+      r.forkOp = r.b.w[0]; r.land = r.b.w[1].e; r.push = r.b.w[2]; r.mergeOp = r.b.m[1]; r.mpush = r.b.m[2];
+      r.tk1 = { lab: 'write', ops: r.b.w, val: r.b.write_ms }; r.tk2 = { lab: 'merge', ops: r.b.m, val: r.b.merge_ms };
+    } else r.land = 1 + k;
+    var el = document.createElement('div'); el.className = 'row'; el.style.top = (y - 12) + 'px';
+    var l2 = k === 0 ? 'vault created · ' + hhmmss(c.time)
+      : k === 1 ? '+' + c.files_added + ' files · on current · ' + hhmmss(c.time)
+      : r.b ? 'branch ' + esc(r.b.name) + ' · +' + r.b.files + ' files · ' + kb(r.b.bytes) + ' · ' + hhmmss(c.time) : hhmmss(c.time);
+    el.innerHTML = '<div class="l1"><span class="h">' + esc(c.id) + '</span><span class="m">' + esc(c.message) + '</span><span class="tk" id="ta' + k + '"></span></div>' +
+      '<div class="l2"><span>' + l2 + '</span><span class="tk" id="tb' + k + '"></span></div>';
+    $('graph').appendChild(el); r.el = el;
+    E.rows.push(r);
+  });
+  $('gsvg').innerHTML = svg;
+  E.lane = $('lane');
+  E.rows.forEach(function (r) { r.fk = $('fk' + r.k); r.mg = $('mg' + r.k); r.ah = $('ah' + r.k); r.pr = $('pr' + r.k); r.pw = $('pw' + r.k); r.cd = $('cd' + r.k); r.ta = $('ta' + r.k); r.tb = $('tb' + r.k); });
+  E.stamp = $('stamp');
+  E.stamp.textContent = 'vault deleted ' + hhmmss(D.run.deleted_at) + ' UTC';
+}
+function tick(tk, t) {   // running total of a phase's ops, scaled to the recorded phase total
+  if (!tk) return '';
+  var sum = 0, run = 0;
+  tk.ops.forEach(function (o) { sum += o.ms; run += Math.min(o.ms, Math.max(0, (t - o.s) * 1000 * R)); });
+  if (run <= 0) return '';
+  var v = run >= sum ? tk.val : run * tk.val / sum;
+  return tk.lab + ' ' + n0(v) + ' ms';
+}
+function ring(e, t, a, b, r0, r1) {
+  var k = seg(t, a, b);
+  if (k <= 0 || k >= 1) { e.setAttribute('opacity', 0); return; }
+  e.setAttribute('r', (r0 + (r1 - r0) * k).toFixed(1)); e.setAttribute('opacity', (1 - k).toFixed(2));
+}
+function renderGraph(t) {
+  var headY = rowY(0);
+  E.rows.forEach(function (r) {
+    var land = seg(t, r.land - 0.12, r.land + 0.12);
+    r.cd.setAttribute('r', (land > 0 ? 7 * (1 + 0.35 * Math.sin(land * Math.PI)) : 0).toFixed(2));
+    r.el.style.opacity = ease(seg(t, r.land - 0.2, r.land + 0.25));
+    if (r.k <= 1 && t >= r.land) headY = r.y;
+    if (r.forkOp) {
+      var kf = ease(seg(t, r.forkOp.s, r.forkOp.e));
+      r.fk.setAttribute('stroke-dashoffset', (1 - kf).toFixed(3));
+      var km = ease(seg(t, r.mergeOp.s, r.mergeOp.e));
+      r.mg.setAttribute('stroke-dashoffset', (1 - km).toFixed(3));
+      r.ah.setAttribute('opacity', seg(t, r.mergeOp.e - 0.08, r.mergeOp.e).toFixed(2));
+      ring(r.pr, t, r.mpush.s, r.mpush.e + 0.15, 7, 22);
+      if (t >= r.mergeOp.e) headY = r.my;
+      r.el.classList.toggle('hot', t >= r.forkOp.s && t < r.mpush.e && t < ACT2);
+    }
+    if (r.push) ring(r.pw, t, r.push.s, r.push.e + 0.15, 7, 22);
+    var a = tick(r.tk1, t), b = tick(r.tk2, t);
+    if (r.ta.textContent !== a) r.ta.textContent = a;
+    if (r.tb.textContent !== b) r.tb.textContent = b;
+    var done = r.tk2 ? t >= r.tk2.ops[r.tk2.ops.length - 1].e : r.tk1 && t >= r.tk1.ops[0].e;
+    r.ta.classList.toggle('done', !!done); r.tb.classList.toggle('done', !!done);
+  });
+  E.lane.setAttribute('y2', headY);
+  // act 2 echoes on the graph: commit dots pulse with "commit", merge rings with "push"
+  var s1 = ACT2 + STEP, s2 = ACT2 + 2 * STEP;
+  E.rows.forEach(function (r, i) {
+    var p = seg(t, s1 + 0.1 + i * 0.07, s1 + 0.7 + i * 0.07);
+    if (p > 0 && p < 1) r.cd.setAttribute('r', (7 * (1 + 0.45 * Math.sin(p * Math.PI))).toFixed(2));
+    if (t > s2 && t < s2 + 1.2) ring(r.pw, t, s2 + 0.1 + i * 0.06, s2 + 0.8 + i * 0.06, 7, 20);
+  });
+  var kd = ease(seg(t, ACT2 + 5 * STEP + 0.2, ACT2 + 5 * STEP + 0.7));
+  E.stamp.style.opacity = kd; E.stamp.style.transform = 'scale(' + (1.3 - 0.3 * kd) + ')';
+}
+
+/* ---------- side: op log ---------- */
+var LH = 28, NL = 9;
+function buildLog() {
+  E.lg = D.ops.map(function (o) {
+    var e = document.createElement('div'); e.className = 'lg' + (o.op === 'push' ? ' push' : '');
+    e.innerHTML = '<span class="o">' + esc(o.op) + '</span><span class="c">' + esc(o.ctx) + '</span><span class="v"></span>';
+    $('lgbox').appendChild(e); e.style.opacity = 0; return { el: e, v: e.lastChild, o: o };
+  });
+}
+function renderLog(t) {
+  var started = 0, total = 0;
+  D.ops.forEach(function (o) { if (t >= o.s) started++; total += Math.min(o.ms, Math.max(0, (t - o.s) * 1000 * R)); });
+  E.lg.forEach(function (L, j) {
+    var o = L.o;
+    if (t < o.s) { L.el.style.opacity = 0; return; }
+    var pos = j - Math.max(0, started - NL);   // last NL lines, scrolling
+    var fi = seg(t, o.s, o.s + 0.12);
+    L.el.style.transform = 'translateY(' + (pos * LH + (1 - fi) * 8).toFixed(1) + 'px)';
+    L.el.style.opacity = pos < 0 ? 0 : fi;
+    var v = n0(Math.min(o.ms, (t - o.s) * 1000 * R)) + ' ms';
+    if (L.v.textContent !== v) L.v.textContent = v;
+    L.el.classList.toggle('run', t < o.e);
+  });
+  var a = started + ' of ' + D.ops.length + ' ops', b = (total / 1000).toFixed(1) + ' s of sgit time';
+  if ($('lgn').textContent !== a) $('lgn').textContent = a;
+  if ($('lgs').textContent !== b) $('lgs').textContent = b;
+}
+
+/* ---------- side: the server's view ---------- */
+function buildServer() {
+  var run = D.run, ss = run.server_store, s = '', x = 2463534242;
+  for (var i = 0; i < 700; i++) { x ^= x << 13; x ^= x >>> 17; x ^= x << 5; s += '0123456789abcdef'[(x >>> 0) % 16]; }
+  $('hex').textContent = s;
+  $('srvsub').textContent = 'a local SG/Send vault server, measured on close';
+  var probeN = (ss.probe || '').match(/^(\d+)/);
+  var rows = [
+    ['stored', n0(ss.files) + ' files · ' + n0(ss.bytes) + ' bytes', ''],
+    [(probeN ? probeN[1] + ' text fragments of the delivered files, searched for' : 'plaintext searched for'), ss.plaintext_hits + ' found', 'ok'],
+    ['fresh clone: ' + run.clone.files + ' files in ' + (run.clone.ms / 1000).toFixed(2) + ' s', run.clone.identical ? 'identical' : 'differs', run.clone.identical ? 'ok' : 'gone'],
+    ['deleted ' + n0(run.deleted_paths) + ' store paths · clone after delete: ' + run.delete_check.clone_after_delete, run.delete_check.store_paths_left + ' left', 'gone']
+  ];
+  E.srows = rows.map(function (r) {
+    var e = document.createElement('div'); e.className = 'srow';
+    e.innerHTML = '<span>' + esc(r[0]) + '</span><b class="' + r[2] + '">' + esc(r[1]) + '</b>';
+    $('srows').appendChild(e); return e;
+  });
+}
+
+/* ---------- side: POC2 ---------- */
+function buildPoc(P2, txt) {
+  var cs = (P2 && P2.commits) || [];
+  var m = txt.match(/(\d{1,2} \w{3} \d{4}) \(ruflo ([\d.]+), sgit-ai ([\d.]+)/);
+  $('pocsub').textContent = (m ? m[1] + ' · ruflo ' + m[2] + ' · sgit-ai ' + m[3] + ' · ' : '') + 'run locally';
+  function short(c) {
+    var w = c.message.match(/^memory: (\w+) learned/); if (w) return w[1] + ' +' + c.files_added.length;
+    return c.files_added.length === 1 ? c.files_added[0] : c.message;
+  }
+  function line(host, lab, writers) {
+    var h = '<div class="lb">' + lab + '</div><div class="ln"></div>';
+    cs.forEach(function (c, i) {
+      var x = 12 + i * 26, w = /^memory: (\w+)/.exec(c.message);
+      h += '<div class="pd' + (w ? ' w' : '') + '" style="left:' + x + '%"></div>' +
+        '<div class="pt" style="left:' + x + '%"><span class="h">' + esc(c.commit_id.replace(/^obj-cas-imm-/, '')) + '</span>' + esc(short(c)) + '</div>';
+      if (writers && w) h += '<div class="wr" style="left:' + x + '%">' + esc(w[1]) + '</div><div class="fly" style="left:' + x + '%"></div>';
+    });
+    host.innerHTML = h;
+    return { lab: host.querySelector('.lb'), ln: host.querySelector('.ln'), pd: host.querySelectorAll('.pd'), pt: host.querySelectorAll('.pt'), wr: host.querySelectorAll('.wr'), fly: host.querySelectorAll('.fly') };
+  }
+  E.p1 = line($('pl1'), '', true); E.p2 = line($('pl2'), 'fresh clone', false);
+  E.p1.lab.textContent = 'vault';
+  E.pc = cs;
+  // the answers after the fresh clone, from poc2-run.txt
+  var ans = [], re = /== (\w+)\n\| ([^|]+?)\s*\| \w+\s*\| ([^|]+?)\s*\|[\s\S]*?Showing (\d+) of (\d+) entries/g, a;
+  while ((a = re.exec(txt))) ans.push(a);
+  $('pans').innerHTML = ans.map(function (a) {
+    return '<div><span>-n ' + esc(a[1]) + '</span><b>' + esc(a[2]) + '</b><i>' + esc(a[4]) + ' of ' + esc(a[5]) + '</i></div>';
+  }).join('');
+  if (ans.length) $('pans').insertAdjacentHTML('afterbegin', '<div class="aq">$ ruflo memory list, on the fresh clone</div>');
+  $('pfoot').textContent = 'Two writers, two branches, merged. The CI job is wired and waits for its secrets.';
+}
+
+/* ---------- Act 2: the flow ---------- */
+function buildFlow() {
+  var run = D.run, ss = run.server_store, probeN = (ss.probe || '').match(/^(\d+)/);
+  var st = [
+    ['1 · workers', run.hive.workers + ' workers', 'Ruflo hive · a branch each'],
+    ['2 · commit', run.commits + ' commits', 'encrypted on the client'],
+    ['3 · push', D.pushes + ' pushes', D.ops.length + ' sgit ops · ' + (D.opTotal / 1000).toFixed(1) + ' s'],
+    ['4 · server', 'ciphertext only', n0(ss.files) + ' files · ' + ss.plaintext_hits + (probeN ? ' of ' + probeN[1] : '') + ' fragments found'],
+    ['5 · fresh clone', run.clone.identical ? 'identical' : 'differs', run.clone.files + ' files in ' + (run.clone.ms / 1000).toFixed(2) + ' s'],
+    ['6 · delete', run.delete_check.store_paths_left + ' paths left', n0(run.deleted_paths) + ' deleted · ' + hhmmss(run.deleted_at)]
+  ];
+  var f = $('flow');
+  E.st = st.map(function (s, i) {
+    var e = document.createElement('div'); e.className = 'st' + (i === st.length - 1 ? ' last' : '');
+    e.innerHTML = '<div class="k">' + esc(s[0]) + '</div><div class="n">' + esc(s[1]) + '</div><div class="s">' + esc(s[2]) + '</div>';
+    f.appendChild(e); return e;
+  });
+  E.chev = st.slice(1).map(function () { var c = document.createElement('div'); c.className = 'chev'; c.textContent = '›'; f.appendChild(c); return c; });
+  E.pk = document.createElement('div'); E.pk.id = 'pk'; f.appendChild(E.pk);
+}
+var FL = [];
+function layoutFlow() {
+  if (!E.st) return;
+  FL = E.st.map(function (e, i) {
+    var x, y;
+    if (NARROW) { x = (i % 3) * 197; y = Math.floor(i / 3) * 104; } else { x = i * 206.6; y = 0; }
+    e.style.left = x + 'px'; e.style.top = y + 'px';
+    return [x, y];
+  });
+  E.chev.forEach(function (c, i) {
+    var a = FL[i], b = FL[i + 1];
+    if (b[1] !== a[1]) { c.style.left = (a[0] + 191 - 16) + 'px'; c.style.top = (a[1] + 92) + 'px'; c.style.transform = 'rotate(90deg)'; c.style.visibility = 'hidden'; }
+    else { c.style.left = (a[0] + 191) + 'px'; c.style.top = (a[1] + 34) + 'px'; c.style.transform = ''; c.style.visibility = ''; }
+  });
+}
+function renderFlow(t) {
+  E.st.forEach(function (e, i) {
+    var a = ACT2 + i * STEP, k = ease(seg(t, a, a + 0.45));
+    e.style.opacity = (0.28 + 0.72 * k).toFixed(2);
+    e.classList.toggle('on', t >= a && t < a + STEP + 0.2 && t < ACT3);
+    e.style.transform = 'translateY(' + ((1 - k) * 6).toFixed(1) + 'px)';
+    if (i) E.chev[i - 1].style.opacity = k;
+  });
+  // packet rides along the top of the stations
+  var p = (t - ACT2) / STEP, i = Math.floor(p);
+  if (t >= ACT2 && i < E.st.length - 1) {
+    var f = ease(clamp((p - i - 0.55) / 0.45)), a = FL[i], b = FL[i + 1];
+    E.pk.style.opacity = 1;
+    var x = a[0] + 95 + (b[0] - a[0]) * f, y = a[1] + (b[1] - a[1]) * f;
+    E.pk.style.left = x + 'px'; E.pk.style.top = (y - 6) + 'px';
+  } else E.pk.style.opacity = 0;
+}
+
+/* ---------- the side cards ---------- */
+function renderSide(t) {
+  var srvIn = ACT2 + 3 * STEP - 0.2;
+  var kLog = 1 - seg(t, srvIn, srvIn + 0.4), kSrv = seg(t, srvIn, srvIn + 0.4) * (1 - seg(t, ACT3, ACT3 + 0.4)), kPoc = seg(t, ACT3 + 0.2, ACT3 + 0.6);
+  $('c-log').style.opacity = t < 0.3 ? seg(t, 0, 0.3) : kLog;
+  $('c-srv').style.opacity = kSrv; $('c-poc').style.opacity = kPoc;
+  if (kLog > 0) renderLog(t);
+  var s3 = ACT2 + 3 * STEP, sa = [s3, s3 + 0.6, s3 + STEP, s3 + 2 * STEP];
+  E.srows.forEach(function (e, i) { e.style.opacity = ease(seg(t, sa[i], sa[i] + 0.35)); });
+  // POC2: writers push into the vault, then the same history arrives in a fresh clone
+  var t0 = ACT3 + 0.6, n = E.pc.length;
+  E.p1.ln.style.width = (ease(seg(t, t0, t0 + 0.9)) * 78) + '%';
+  var wi = 0;
+  for (var i = 0; i < n; i++) {
+    var c = E.pc[i], w = /^memory: /.test(c.message);
+    var a = t0 + 0.3 + i * 0.9;
+    if (w) {
+      var wr = E.p1.wr[wi], fl = E.p1.fly[wi]; wi++;
+      wr.style.opacity = ease(seg(t, a - 0.6, a - 0.3));
+      var kf = seg(t, a - 0.3, a + 0.1);
+      fl.style.opacity = kf > 0 && kf < 1 ? 1 : 0; fl.style.top = (-10 + kf * 20) + 'px';
+    }
+    E.p1.pd[i].style.opacity = seg(t, a, a + 0.15); E.p1.pt[i].style.opacity = seg(t, a, a + 0.3);
+  }
+  var t1 = t0 + 0.3 + n * 0.9 + 0.2;
+  $('pdown').style.opacity = ease(seg(t, t1, t1 + 0.4));
+  var t2 = t1 + 0.7;
+  E.p2.ln.style.width = (ease(seg(t, t2, t2 + 0.8)) * 78) + '%';
+  E.p2.lab.style.opacity = seg(t, t2, t2 + 0.3);
+  for (i = 0; i < n; i++) { var b = t2 + 0.2 + i * 0.22; E.p2.pd[i].style.opacity = seg(t, b, b + 0.15); E.p2.pt[i].style.opacity = seg(t, b, b + 0.3); }
+  var t3 = t2 + 0.2 + n * 0.22 + 0.3;
+  $('pans').style.opacity = ease(seg(t, t3, t3 + 0.5));
+  $('pfoot').style.opacity = ease(seg(t, t3 + 0.6, t3 + 1.1));
+}
+
+function render(t) {
+  renderGraph(t); renderFlow(t); renderSide(t);
+  var kp = ease(seg(t, PUNCH, PUNCH + 0.9));
+  $('punch').style.opacity = kp; $('punch').style.transform = 'translateY(' + ((1 - kp) * 8).toFixed(1) + 'px)';
+}
+var lastT = -1;
+function loop() {
+  var t = REVIEW ? END : Math.min(performance.now() / 1000, END);
+  if (t !== lastT) { lastT = t; try { render(t); } catch (e) { console.error(e); return; } }
+  if (!REVIEW) requestAnimationFrame(loop);
+}
+})();
+</script>
+</body>
+</html>

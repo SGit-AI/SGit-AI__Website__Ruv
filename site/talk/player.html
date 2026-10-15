@@ -8,10 +8,10 @@
 <link rel="stylesheet" href="../assets/themes.css"><script src="../assets/theme.js"></script>
 <style>
 /* colours come from the site's theme (the five newsroom themes, assets/themes.css): the slides, the site and the live app change together */
-:root { --teal:var(--accent); --amber:var(--warm); --card:var(--panel) }
+:root { --teal:var(--accent); --amber:var(--warm); --card:var(--panel); --barh:104px }
 * { box-sizing:border-box }
 html,body { margin:0; height:100%; background:var(--bg); color:var(--fg); font:18px/1.4 ui-sans-serif,system-ui,sans-serif; overflow:hidden }
-#stage { position:absolute; inset:0 0 56px 0; display:flex; flex-direction:column; overflow:hidden; touch-action:pan-y pinch-zoom }
+#stage { position:absolute; inset:0 0 var(--barh) 0; display:flex; flex-direction:column; overflow:hidden; touch-action:pan-y pinch-zoom }
 /* the frame every slide shares, so nothing moves between slides: a brand strip, then the title, always top left */
 .sbrand { flex:none; display:flex; justify-content:space-between; align-items:center; gap:2vw; padding:2.4vh 4vw 0; font-size:1.6vh; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); white-space:nowrap; overflow:hidden }
 .sbrand .logo { display:inline-flex; align-items:center; gap:.8em; color:var(--head); font-weight:700; letter-spacing:.06em }
@@ -23,14 +23,30 @@ html,body { margin:0; height:100%; background:var(--bg); color:var(--fg); font:1
 .shead .sub { color:var(--dim); font-size:2vh; margin-top:1.4vh; min-height:2.6vh }
 .sbody { flex:1; min-height:0; display:flex; padding:2.4vh 4vw 3.4vh; overflow:auto; -webkit-overflow-scrolling:touch }
 .sbody > .slide { margin:auto 0 }   /* left edge fixed under the title; vertically centred when it fits, scrolls when it does not */
-body.presenter #stage { inset:0 36vw 56px 0 }
-body.audience #stage { inset:0 }
+body.presenter #stage, body.presenter #touch { inset:0 36vw var(--barh) 0 }
+body.audience #stage, body.audience #touch { inset:0 }
 body.audience #bar, body.audience #side { display:none !important }
 #black { position:fixed; inset:0; background:#000; display:none; z-index:50 } body.black #black { display:block }
-#side { display:none; position:absolute; top:0; right:0; bottom:56px; width:36vw; border-left:1px solid var(--line); padding:20px 22px; overflow:auto; background:var(--panel2) }
+#side { display:none; position:absolute; top:0; right:0; bottom:var(--barh); width:36vw; border-left:1px solid var(--line); padding:20px 22px; overflow:auto; background:var(--panel2) }
 body.presenter #side { display:block }
-#bar { position:absolute; left:0; right:0; bottom:0; height:56px; display:flex; align-items:center; gap:14px; padding:0 12px 0 20px; border-top:1px solid var(--line); font-variant-numeric:tabular-nums; background:var(--bg) }
-#bar .clock { font-size:24px; font-weight:700; min-width:6.6em; white-space:nowrap } .dim { color:var(--dim) }
+#bar { position:absolute; left:0; right:0; bottom:0; height:var(--barh); display:flex; flex-direction:column; border-top:1px solid var(--line); font-variant-numeric:tabular-nums; background:var(--bg) }
+#bar .row { flex:1; display:flex; align-items:center; gap:12px; padding:0 12px; min-width:0 }
+#bar .row + .row { border-top:1px solid var(--line); gap:10px }
+#steps { flex:1; min-width:0; height:30px; position:relative; display:flex; gap:3px; cursor:pointer }
+#steps .st { flex:1; min-width:0; position:relative; background:var(--line); border-radius:6px; overflow:hidden }
+#steps .st b { position:absolute; left:0; top:0; bottom:0; width:0; background:var(--tint-solid); border-right:2px solid var(--teal) }
+#steps .st.done b { width:100%; border-right:0 }
+#steps .st span { position:absolute; inset:0; padding:0 8px; display:flex; align-items:center; font:600 12.5px ui-sans-serif,system-ui; color:var(--dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+#steps .st.cur span { color:var(--fg) }
+#count { min-width:9.5em; text-align:right; white-space:nowrap; font:700 17px ui-sans-serif,system-ui; color:var(--teal) }
+#count.soon { color:var(--amber) } #count.now { color:var(--red) } #count .n { font-size:24px }
+#count .ring { display:inline-block; width:20px; height:20px; border-radius:50%; vertical-align:-4px; margin-right:6px; background:conic-gradient(currentColor var(--p,0%), var(--line) 0) }
+#touch { position:absolute; inset:0 0 var(--barh) 0; z-index:5; touch-action:pan-y pinch-zoom; -webkit-tap-highlight-color:transparent }
+body.interactive #touch { display:none }
+#loading { position:absolute; display:none; align-items:center; justify-content:center; gap:12px; color:var(--dim); font:600 2.4vh ui-sans-serif,system-ui; background:var(--bg); border-radius:12px; z-index:3 }
+#loading.on { display:flex } #loading i { width:3vh; height:3vh; border-radius:50%; border:.45vh solid var(--line); border-top-color:var(--teal); animation:spin .8s linear infinite } @keyframes spin { to { transform:rotate(360deg) } }
+#cache { font-size:12px; color:var(--dim); white-space:nowrap }
+#bar .clock { font-size:22px; font-weight:700; min-width:6.4em; white-space:nowrap } .dim { color:var(--dim) }
 #beatno { min-width:3.2em; text-align:right; white-space:nowrap } #state { min-width:8.5em; text-align:right; white-space:nowrap }
 body.review .b, body.review tr.row, body.review ul.bul li, body.review .term .out { transition:none !important } body.review .cursor { display:none }
 #prog { flex:1; height:8px; background:var(--line); border-radius:4px; position:relative; cursor:pointer }
@@ -64,14 +80,18 @@ ul.bul { list-style:none; padding:0; font-size:3.4vh; margin:0 } ul.bul li { mar
 #side .next { color:var(--dim); border-top:1px solid var(--line); padding-top:12px; font-size:16px }
 #side .next b { color:var(--fg) } #side .cue { color:var(--amber); font-size:15px; margin:-8px 0 16px }
 #side .meta { color:var(--dim); font-size:14px; display:flex; justify-content:space-between }
-#ctl { display:flex; gap:6px } #ctl button { min-width:44px; height:44px; border:1px solid var(--line); background:var(--card); color:var(--fg); border-radius:10px; font:600 16px ui-sans-serif,system-ui; cursor:pointer; touch-action:manipulation; padding:0 10px }
-#ctl button:active { background:var(--tint-solid) } #ctl button.on { border-color:var(--teal); color:var(--teal) }
-@media (max-width:900px) { #state { display:none } #bar .clock { font-size:18px } }
+.ctl { display:flex; gap:6px; flex:none } .ctl button { min-width:44px; height:44px; border:1px solid var(--line); background:var(--card); color:var(--fg); border-radius:10px; font:600 16px ui-sans-serif,system-ui; cursor:pointer; touch-action:manipulation; padding:0 10px }
+.ctl button:active { background:var(--tint-solid) } .ctl button.on { border-color:var(--teal); color:var(--teal) }
+.ctl button.nav { font-size:15px; min-width:58px } .ctl button.pp { min-width:64px; font-size:20px; background:var(--teal); color:var(--on-accent); border-color:var(--teal) }
+.ctl.small button { height:34px; min-width:38px; font-size:14px; border-radius:8px }
+.ctl button small { display:block; font:600 9px ui-sans-serif,system-ui; letter-spacing:.06em; text-transform:uppercase; opacity:.7; margin-top:-2px }
+@media (max-width:1100px) { #state, #cache { display:none } #bar .clock { font-size:17px; min-width:5.4em } .ctl button.nav { min-width:46px } }
+@media (max-width:700px) { #steps .st span { font-size:0 } #count { min-width:6em; font-size:14px } #count .n { font-size:18px } }
 @media (orientation:portrait) {   /* iPad upright: the words go under the slide, not beside it */
-  body.presenter #stage { inset:0 0 calc(42vh + 56px) 0 }
-  body.presenter #side { top:auto; left:0; width:auto; height:42vh; border-left:0; border-top:1px solid var(--line) }
+  body.presenter #stage, body.presenter #touch { inset:0 0 calc(42vh + var(--barh)) 0 }
+  body.presenter #side { top:auto; bottom:var(--barh); left:0; width:auto; height:42vh; border-left:0; border-top:1px solid var(--line) }
   .statement h1 { font-size:4.4vh } .shead h2 { font-size:3.6vh } .shead h2.big { font-size:5.4vh } table { font-size:1.7vh } }
-#intro { position:absolute; inset:0 0 56px 0; display:flex; align-items:center; justify-content:center; text-align:center; color:var(--dim); background:var(--bg); z-index:10; padding:20px }
+#intro { position:absolute; inset:0 0 var(--barh) 0; display:flex; align-items:center; justify-content:center; text-align:center; color:var(--dim); background:var(--bg); z-index:10; padding:20px }
 #intro h2 { color:var(--fg); font:600 5vh Georgia,serif; margin:0 0 1vh } #intro kbd, #help kbd { border:1px solid var(--line); border-radius:4px; padding:1px 6px; color:var(--fg); font:14px ui-monospace,monospace }
 #help { position:fixed; inset:10vh 20vw; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:24px 30px; display:none; z-index:40; overflow:auto } body.help #help { display:block }
 #help td { font-size:16px; padding:6px 10px }
@@ -81,20 +101,28 @@ ul.bul { list-style:none; padding:0; font-size:3.4vh; margin:0 } ul.bul li { mar
 <body>
 <div id="stage"></div>
 <aside id="side"></aside>
-<div id="bar"><div id="ctl"><button data-k="x" id="ex" aria-label="leave the presentation" title="leave (X)">✕</button><button data-k="ArrowLeft" aria-label="previous beat">◀</button><button data-k=" " id="pp" aria-label="play or pause">▶</button><button data-k="ArrowRight" aria-label="next beat">▶︎▶︎</button><button data-k="v" id="rv" aria-label="review mode: everything at once, no animation">review</button><button data-k="p" id="nb" aria-label="speaker notes">notes</button><button data-k="t" id="th" aria-label="next theme" title="theme (the site's five)">◐</button><button data-k="f" aria-label="fullscreen">⛶</button></div><span class="clock" id="clock">0:00</span><span class="dim" id="beatno"></span><div id="prog" title="click to seek"><b id="progb"></b></div><span class="dim" id="state">paused</span></div>
-<div id="intro"><div><h2 id="ttl">Talk player</h2><p id="sub"></p><p>Tap ▶ or press <kbd>Space</kbd> to start · swipe left or right between beats · <b>review</b> or <kbd>V</kbd> to see everything at once · <b>notes</b> or <kbd>P</kbd> for the words · <kbd>A</kbd> audience window · <kbd>?</kbd> all keys</p></div></div>
+<div id="touch" aria-hidden="true"></div>
+<div id="loading"><i></i>loading the live page…</div>
+<div id="bar">
+ <div class="row"><div class="ctl"><button data-k=" " id="pp" class="pp" aria-label="play or pause" title="play / pause (Space)">▶</button></div><span class="clock" id="clock">0:00</span><span class="dim" id="beatno"></span><div id="prog" title="click to seek"><b id="progb"></b></div><span class="dim" id="state">paused</span>
+  <div class="ctl"><button class="nav" data-k="PageUp" aria-label="previous slide" title="previous slide (↑ or PageUp)">«<small>slide</small></button><button class="nav" data-k="ArrowLeft" aria-label="previous step" title="previous step (←)">‹<small>step</small></button><button class="nav" data-k="ArrowRight" aria-label="next step" title="next step (→, or tap the slide)">›<small>step</small></button><button class="nav" data-k="PageDown" aria-label="next slide" title="next slide (↓ or PageDown, or swipe)">»<small>slide</small></button><button data-k="s" id="sp" aria-label="speed" title="speed (S)">1×</button></div></div>
+ <div class="row"><div class="ctl small"><button data-k="x" id="ex" aria-label="leave the presentation" title="leave (X)">✕</button><button data-k="h" id="hd" aria-label="hold at the end of each slide" title="hold at the end of each slide (H)">hold</button><button data-k="v" id="rv" aria-label="review mode: everything at once, no animation" title="review (V)">review</button><button data-k="p" id="nb" aria-label="speaker notes" title="notes (P)">notes</button><button data-k="t" id="th" aria-label="next theme" title="theme (T)">◐</button><button data-k="f" aria-label="fullscreen" title="fullscreen (F)">⛶</button></div><div id="steps" title="this slide's steps: click to jump"></div><span id="cache"></span><span id="count"></span></div>
+</div>
+<div id="intro"><div><h2 id="ttl">Talk player</h2><p id="sub"></p><p>Tap ▶ or press <kbd>Space</kbd> to start · tap the slide for the next step, swipe for the next slide · <b>‹ ›</b> steps, <b>« »</b> slides · <b>1×</b> speed · <b>hold</b> stops at the end of each slide · <b>review</b> everything at once · <b>notes</b> the words · <kbd>?</kbd> all keys</p></div></div>
 <div id="black"></div>
 <div id="err"></div>
 <div id="help"><h3 style="margin-top:0;font-family:Georgia,serif">Keys</h3><table>
-<tr><td><kbd>Space</kbd> <kbd>K</kbd></td><td>play / pause the clock</td></tr>
-<tr><td><kbd>→</kbd> <kbd>PageDown</kbd> <kbd>N</kbd></td><td>next beat (clickers send PageDown)</td></tr>
-<tr><td><kbd>←</kbd> <kbd>PageUp</kbd></td><td>start of this beat; twice quickly: previous beat</td></tr>
+<tr><td><kbd>Space</kbd> <kbd>K</kbd></td><td>play / pause (the live pages pause too)</td></tr>
+<tr><td><kbd>→</kbd> <kbd>←</kbd> · tap</td><td>next / previous step of this slide (the steps are under the timeline)</td></tr>
+<tr><td><kbd>PageDown</kbd> <kbd>PageUp</kbd> <kbd>↓</kbd> <kbd>↑</kbd> <kbd>N</kbd> · swipe</td><td>next / previous slide (clickers send PageDown)</td></tr>
+<tr><td><kbd>S</kbd> or <b>1×</b></td><td>speed: 0.75×, 1×, 1.25×, 1.5×, 2× (the live pages follow)</td></tr>
+<tr><td><kbd>H</kbd> or <b>hold</b></td><td>hold at the end of each slide until you move on</td></tr>
 <tr><td><kbd>P</kbd></td><td>presenter view: the words, seconds left, what comes next</td></tr>
 <tr><td><kbd>A</kbd></td><td>open the audience window (drag it to the projector, press F there); both stay in sync</td></tr>
 <tr><td><kbd>F</kbd></td><td>fullscreen</td></tr>
 <tr><td><kbd>B</kbd> <kbd>.</kbd></td><td>black screen (also on the audience window)</td></tr>
 <tr><td><kbd>T</kbd> or <b>◐</b></td><td>next theme: the site's five (Newsprint, Night, Paper, Blueprint, Ember), shared with the website and the audience window</td></tr>
-<tr><td><kbd>V</kbd> or <b>review</b></td><td>review mode: every beat as it looks at its end, no animation, the clock stopped; step with → ← or swipe (or open player.html?review)</td></tr>
+<tr><td><kbd>V</kbd> or <b>review</b></td><td>review mode: every slide as it looks at its end, no animation, the clock stopped; move with the slide buttons or swipe (or open player.html?review)</td></tr>
 <tr><td><kbd>R</kbd></td><td>rehearsal: records when each beat actually started; press again to save rehearsal.json</td></tr>
 <tr><td><kbd>0</kbd> <kbd>Home</kbd></td><td>back to 0:00</td></tr>
 <tr><td><kbd>X</kbd> or <b>✕</b></td><td>leave the presentation (out of fullscreen first, then back to the talk page); embedded in a page, ⤢ opens it in its own window</td></tr>
@@ -102,7 +130,8 @@ ul.bul { list-style:none; padding:0; font-size:3.4vh; margin:0 } ul.bul li { mar
 </table></div>
 <script>
 // Talk player for ruv.sgit.ai. A talk is a JSON timeline of beats; each beat has a start, a duration, a slide and the words to say.
-// The clock drives everything. Table rows can come from the site's own data (rows_from), so the numbers on screen are the recorded ones.
+// The clock drives everything: builds, table rows, typing, and the live pages inside the slides (they load assets/clock.js, so
+// the player pauses them, sets their speed and moves them step by step). Extras (talk.extras) follow the timed talk, untimed.
 // Based on the prototype in newsroom.sgit.ai/articles/the-scripted-talk; Apache-2.0.
 const fmt = s => { const neg = s < 0; s = Math.abs(Math.floor(s)); return `${neg ? '-' : ''}${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}` }
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))
@@ -110,7 +139,9 @@ const $ = id => document.getElementById(id)
 const qs = new URLSearchParams(location.search)
 const VIEW = qs.get('view') || 'main', ME = Math.random().toString(36).slice(2)
 const EMBED = qs.has('embed') || window.top !== window.self   // inside the talk page: ✕ becomes 'open full window'
-let talk, data = {}, t = 0, playing = false, last = 0, beatIx = -1, rehearse = false, log = [], wall0 = 0, leader = VIEW !== 'audience', lastBack = 0, lastSend = 0, black = false, review = qs.has('review')
+const RATES = [0.75, 1, 1.25, 1.5, 2]
+let talk, data = {}, B = [], MAIN = 0, TOTAL = 0, t = 0, playing = false, last = 0, beatIx = -1, rehearse = false, log = [], wall0 = 0, leader = VIEW !== 'audience', lastSend = 0, black = false, review = qs.has('review')
+let rate = +(qs.get('rate') || 1), hold = qs.has('hold'), held = false, frameReady = false, stepCache = null
 const chan = 'BroadcastChannel' in window ? new BroadcastChannel('ruv-talk:' + (qs.get('talk') || 'talk-10.json') + (window.TALK ? ':offline' : '')) : null   // one channel per timeline
 if (VIEW === 'audience') document.body.classList.add('audience')
 if (qs.has('review')) document.body.classList.add('review')
@@ -126,14 +157,19 @@ async function load() {
     for (const [k, path] of Object.entries(talk.data || {})) if (!data[k]) data[k] = await (await fetch(path)).json()
   } catch (e) { fail(`Could not load ${src} or its data (${e}). Serve the site (npm run site:serve) or use the offline file.`); return }
   document.title = talk.title
+  MAIN = talk.duration_s
+  B = talk.beats.slice(); let at = MAIN
+  for (const x of talk.extras || []) { B.push({ ...x, at, extra: true }); at += x.dur }
+  TOTAL = at
   $('ttl').textContent = talk.title
-  $('sub').textContent = `${talk.event} · ${fmt(talk.duration_s)} · ${talk.beats.length} beats`
-  talk.beats.forEach(b => { const i = document.createElement('i'); i.style.left = (100 * b.at / talk.duration_s) + '%'; $('prog').appendChild(i) })
+  $('sub').textContent = `${talk.event} · ${fmt(MAIN)} · ${talk.beats.length} slides` + (talk.extras?.length ? ` + ${talk.extras.length} extras` : '')
+  B.forEach(b => { const i = document.createElement('i'); i.style.left = (100 * b.at / TOTAL) + '%'; if (b.extra) i.style.background = 'var(--warm)'; $('prog').appendChild(i) })
   check()
   if (qs.has('t')) t = +qs.get('t')
   if (VIEW === 'audience' || qs.has('t')) $('intro').style.display = 'none'
   if (qs.has('presenter')) document.body.classList.add('presenter')
   requestAnimationFrame(tick)
+  warm()
 }
 
 // beats must tile the talk: each starts where the previous ended, the last ends at duration_s
@@ -143,7 +179,7 @@ function check() {
   if (bad.length) fail('Timeline does not add up: ' + bad.join(', '))
 }
 
-function beatAt(s) { let ix = 0; talk.beats.forEach((b, i) => { if (s >= b.at) ix = i }); return ix }
+function beatAt(s) { let ix = 0; B.forEach((b, i) => { if (s >= b.at) ix = i }); return ix }
 
 // table rows from the site's data, so the slide shows what the run produced
 function rowsFrom(spec) {
@@ -158,13 +194,18 @@ function tableFoot(spec, foot) {
   return foot || ''
 }
 const cellClass = c => ['allowed', 'denied', 'approval_required', 'yes', 'no', 'approval'].includes(c) ? c : ''
+const frameEl = () => document.querySelector('#stage iframe')
+const clockOf = () => { try { const f = frameEl(); return frameReady && f?.contentWindow?.RuvClock || null } catch { return null } }
 
 function render(b) {
-  const s = b.slide, st = $('stage'), n = talk.beats.indexOf(b) + 1
+  const s = b.slide, st = $('stage'), n = B.indexOf(b) + 1
+  frameReady = false; stepCache = null; $('loading').classList.remove('on')
+  document.body.classList.toggle('interactive', !!b.interactive)
   // the frame: brand strip, then the title top left (the beat's title, or the big title on a title slide), then a subtitle line
   const head = s.layout === 'title' ? s.text : (s.heading || b.title)
   const sub = s.layout === 'title' ? (s.kicker || '') : (s.sub || s.caption || s.kicker || '')
-  st.innerHTML = `<div class="sbrand"><span class="logo"><i>r</i>ruv.sgit.ai <b>·</b> rUv + sgit</span><span>${esc(talk.event || '')}</span><span>${n} / ${talk.beats.length}</span></div>` +
+  const no = b.extra ? `extra ${n - talk.beats.length} / ${B.length - talk.beats.length}` : `${n} / ${talk.beats.length}`
+  st.innerHTML = `<div class="sbrand"><span class="logo"><i>r</i>ruv.sgit.ai <b>·</b> rUv + sgit</span><span>${esc(talk.event || '')}</span><span>${no}</span></div>` +
     `<div class="shead"><h2${s.layout === 'title' ? ' class="big"' : ''}>${head}</h2><div class="sub">${sub}</div></div><div class="sbody"></div>`
   const el = document.createElement('div'); el.className = 'slide ' + s.layout; st.querySelector('.sbody').appendChild(el)
   const builds = (s.builds || []).map(x => `<div class="b" data-at="${x.at}">${x.text}</div>`).join('')
@@ -191,17 +232,67 @@ function render(b) {
       const src = window.TALK_IMAGES?.[s.fallback] || s.fallback
       el.className = 'slide image'; el.innerHTML = `<img src="${src}" alt="${esc(s.caption || '')}">`; st.querySelector('.shead .sub').textContent += ' (screenshot: the offline file cannot run the live page)'
     } else {
-      el.innerHTML = `<iframe src="${s.src}${s.src.includes('?') ? '&' : '?'}theme=${window.RuvTheme ? RuvTheme.current() : ''}${review ? '&review' : ''}" tabindex="-1"></iframe>`   // the live app wears the slides' theme
+      // once: a looping page plays once and holds; ruvt: start it where the talk is (it fast-forwards); ruvpaused: paused if the talk is
+      const local = Math.max(0, t - b.at)
+      const q = `theme=${window.RuvTheme ? RuvTheme.current() : ''}&once${review ? '&review' : `&ruvt=${local.toFixed(2)}${playing ? '' : '&ruvpaused'}`}`
+      el.innerHTML = `<iframe src="${s.src}${s.src.includes('?') ? '&' : '?'}${q}" tabindex="-1"></iframe>`   // the live app wears the slides' theme
       const f = el.querySelector('iframe')
-      f.addEventListener('load', () => { try { f.contentDocument.activeElement?.blur(); f.blur(); f.contentWindow.addEventListener('keydown', e => { if (['PageDown', 'PageUp', 'Escape'].includes(e.key) || (['ArrowRight', 'ArrowLeft'].includes(e.key) && e.target.tagName !== 'INPUT')) { window.focus(); onKey(e) } }) } catch {} window.focus() })
+      requestAnimationFrame(() => { if (frameReady || frameEl() !== f) return; const r = f.getBoundingClientRect(), L = $('loading'); Object.assign(L.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' }); L.classList.add('on') })
+      f.addEventListener('load', () => {
+        $('loading').classList.remove('on'); frameReady = true; stepCache = null
+        try { f.contentDocument.activeElement?.blur(); f.blur(); f.contentWindow.addEventListener('keydown', e => { if (['PageDown', 'PageUp', 'Escape', 'ArrowUp', 'ArrowDown'].includes(e.key) || (['ArrowRight', 'ArrowLeft', ' '].includes(e.key) && e.target.tagName !== 'INPUT')) { e.preventDefault(); window.focus(); onKey(e) } }) } catch {}
+        window.focus()
+      })
     }
   } else if (s.layout === 'video') {
     el.innerHTML = `<video src="${s.src}" muted playsinline style="max-width:100%;max-height:80vh"></video>`
   }
-  const nx = talk.beats[talk.beats.indexOf(b) + 1]
-  $('side').innerHTML = `<div class="meta"><span>${beatIx + 1}/${talk.beats.length} · ${fmt(b.at)} to ${fmt(b.at + b.dur)} · ${b.dur} s</span><span id="wall"></span></div><h3>${b.title}</h3>` +
+  const nx = B[B.indexOf(b) + 1]
+  $('side').innerHTML = `<div class="meta"><span>${no} · ${b.extra ? 'extra, untimed' : `${fmt(b.at)} to ${fmt(b.at + b.dur)}`} · ${b.dur} s</span><span id="wall"></span></div><h3>${b.title}</h3>` +
     `<div class="left" id="left"></div>${b.cue ? `<div class="cue">${b.cue}</div>` : ''}<div class="say">${b.say || ''}</div>` +
-    (nx ? `<p class="next">Next at ${fmt(nx.at)}: <b>${nx.title}</b><br>${((nx.say || '').match(/^[\s\S]*?[.!?](?=\s|$)/) || [nx.say || ''])[0]}</p>` : '<p class="next">Last beat.</p>')
+    (nx ? `<p class="next">Next${nx.extra ? ' (extra)' : ''} at ${fmt(nx.at)}: <b>${nx.title}</b><br>${((nx.say || '').match(/^[\s\S]*?[.!?](?=\s|$)/) || [nx.say || ''])[0]}</p>` : '<p class="next">Last slide.</p>')
+  drawSteps(b)
+}
+
+// the steps of a slide: from the timeline (beat.steps), from the live page (window.RUV_STEPS), or from its builds
+function stepsOf(b) {
+  if (stepCache) return stepCache
+  const end = Math.max(0.5, b.dur - 0.4), s = b.slide
+  let st = null
+  if (b.steps) st = b.steps.map(x => typeof x === 'number' ? { t: x } : x)
+  else if (s.layout === 'iframe') { try { const w = frameEl()?.contentWindow; if (frameReady && Array.isArray(w?.RUV_STEPS) && w.RUV_STEPS.length) { st = w.RUV_STEPS.map(x => ({ t: +x.t, label: x.label })); var fromPage = true } } catch {} }
+  if (!st) {
+    const ats = new Set([0])
+    document.querySelectorAll('#stage [data-at]').forEach(e => ats.add(+e.dataset.at))
+    if (s.layout === 'terminal') { ats.add(s.output_at || 0) }
+    if (s.layout === 'iframe' && s.type) ats.add(s.type.at)
+    st = [...ats].sort((x, y) => x - y).map(x => ({ t: x }))
+    const lastAt = st[st.length - 1].t
+    if (s.layout === 'iframe') st.push({ t: end, label: 'the end of the slide' })
+    else if (lastAt + 0.8 < end) st.push({ t: Math.min(end, lastAt + 0.8), label: 'all shown' })
+  }
+  st = st.filter(x => x.t >= 0 && x.t <= b.dur).sort((x, y) => x.t - y.t)
+  if (!st.length || st[0].t > 0.05) st.unshift({ t: 0, label: 'start' })
+  st.forEach((x, i) => { x.label = x.label || (i === 0 ? 'start' : `step ${i + 1}`) })
+  if (s.layout !== 'iframe' || b.steps || fromPage) stepCache = st
+  return st
+}
+let stepsKey = ''
+function drawSteps(b) {
+  const st = stepsOf(b), key = b.id + ':' + st.map(x => x.t).join(',')
+  if (key === stepsKey) return; stepsKey = key
+  const end = b.dur
+  $('steps').innerHTML = st.map((x, i) => { const w = ((i + 1 < st.length ? st[i + 1].t : end) - x.t) / end * 100; return `<div class="st" data-i="${i}" style="flex:${Math.max(w, 4).toFixed(2)}" title="${esc(x.label)}"><b></b><span>${i + 1}. ${esc(x.label)}</span></div>` }).join('')
+}
+function paintSteps(b, local) {
+  const st = stepsOf(b); drawSteps(b)
+  const els = $('steps').children
+  st.forEach((x, i) => {
+    const e = els[i]; if (!e) return
+    const nxt = i + 1 < st.length ? st[i + 1].t : b.dur, done = local >= nxt, cur = local >= x.t && !done
+    e.classList.toggle('done', done); e.classList.toggle('cur', cur)
+    e.firstChild.style.width = cur ? (100 * (local - x.t) / Math.max(0.01, nxt - x.t)).toFixed(1) + '%' : ''
+  })
 }
 
 // builds, rows and typing follow the clock inside the beat
@@ -216,48 +307,88 @@ function update(b, local) {
   }
   if (s.layout === 'iframe' && s.type) {   // type a question into the live page, like the terminal types a command
     try {
-      const doc = document.querySelector('#stage iframe').contentDocument, inp = doc?.querySelector(s.type.selector)
+      const doc = frameEl().contentDocument, inp = doc?.querySelector(s.type.selector)
       const n = Math.min(s.type.text.length, Math.max(0, Math.floor((local - s.type.at) * 1000 / (s.type.ms || 70))))
       if (inp && inp.value !== s.type.text.slice(0, n) && local >= s.type.at) { inp.value = s.type.text.slice(0, n); inp.dispatchEvent(new Event('input')) }
     } catch {}
   }
-  const v = document.querySelector('#stage video'); if (v) { if (playing && v.paused) v.play(); if (!playing && !v.paused) v.pause() }
+  const v = document.querySelector('#stage video'); if (v) { v.playbackRate = rate; if (playing && v.paused) v.play(); if (!playing && !v.paused) v.pause() }
+  // the live page follows the talk's clock: paused with it, at its speed, and moved when the talk is moved
+  const C = !review && clockOf()
+  if (C) {
+    try {
+      if (C.rate !== rate) C.setRate(rate)
+      const d = local - C.elapsed()
+      const ahead = d < -0.3 && d > -3   // the page is a little ahead (it started while loading): let the talk catch up
+      if (playing && !held && !ahead && C.paused) C.play(); else if ((!playing || held || ahead) && !C.paused) C.pause()
+      if (d > 0.6) C.seek(local)
+      else if (d <= -3) { C.seek(Math.max(0, local)); frameReady = false }   // moved back: the page reloads at that time
+    } catch {}
+  }
 }
 
 function tick(now) {
-  if (playing) t = Math.min(talk.duration_s, t + (now - last) / 1000)
-  last = now
-  const ix = beatAt(t), b = talk.beats[ix]
-  if (ix !== beatIx) { beatIx = ix; render(b); if (rehearse) log.push({ beat: b.id, planned_s: b.at, actual_s: +((performance.now() - wall0) / 1000).toFixed(1) }) }
-  update(b, t - b.at)
-  $('clock').textContent = `${fmt(t)} / ${fmt(talk.duration_s)}`
-  $('beatno').textContent = `${ix + 1}/${talk.beats.length}`
-  $('progb').style.width = (100 * t / talk.duration_s) + '%'
-  $('state').textContent = (review ? 'review' : playing ? 'playing' : 'paused') + (rehearse ? ' · rehearsing' : '') + (VIEW === 'audience' ? ' · audience' : '')
-  $('pp').textContent = playing ? '❚❚' : '▶'; $('nb').classList.toggle('on', document.body.classList.contains('presenter')); $('rv').classList.toggle('on', review)
-  const left = b.at + b.dur - t, L = $('left')
-  if (L) { L.textContent = `${Math.ceil(left)} s left`; L.className = 'left ' + (left < 5 ? 'behind' : 'ok') }
+  const dt = (now - last) / 1000; last = now
+  if (playing && !held) {
+    const ix0 = beatAt(t), b0 = B[ix0], end = b0.at + b0.dur
+    let nt = t + dt * rate
+    if (hold && nt >= end - 0.05 && t < end - 0.05) { nt = end - 0.05; held = true }    // hold at the end of the slide
+    if (!b0.extra && nt >= MAIN) { nt = MAIN - 0.05; playing = false }                   // the timed talk ends; extras wait for a push
+    if (b0.extra && nt >= end) { nt = end - 0.05; held = true }                          // extras always hold
+    t = Math.min(TOTAL, nt)
+  }
+  const ix = beatAt(t), b = B[ix]
+  if (ix !== beatIx) { beatIx = ix; held = false; render(b); if (rehearse) log.push({ beat: b.id, planned_s: b.at, actual_s: +((performance.now() - wall0) / 1000).toFixed(1) }) }
+  const local = t - b.at
+  update(b, local)
+  paintSteps(b, review ? b.dur : local)
+  $('clock').textContent = b.extra ? `extra · ${fmt(MAIN)}` : `${fmt(t)} / ${fmt(MAIN)}`
+  $('beatno').textContent = b.extra ? `+${ix + 1 - talk.beats.length}` : `${ix + 1}/${talk.beats.length}`
+  $('progb').style.width = (100 * t / TOTAL) + '%'
+  $('state').textContent = (review ? 'review' : held ? 'holding' : playing ? 'playing' : 'paused') + (rate !== 1 ? ` · ${rate}×` : '') + (rehearse ? ' · rehearsing' : '') + (VIEW === 'audience' ? ' · audience' : '')
+  $('pp').textContent = playing && !held ? '❚❚' : '▶'; $('nb').classList.toggle('on', document.body.classList.contains('presenter')); $('rv').classList.toggle('on', review); $('hd').classList.toggle('on', hold); $('sp').textContent = rate + '×'
+  // how long until the next slide, in talk seconds and at the current speed
+  const left = b.at + b.dur - t, secs = left / rate, c = $('count')
+  if (review) { c.className = ''; c.textContent = 'review' }
+  else if (held) { c.className = 'now'; c.innerHTML = 'holding · <b>»</b> for next' }
+  else if (!playing) { c.className = ''; c.innerHTML = `<span class="n">${Math.ceil(secs)}</span> s on this slide` }
+  else { c.className = secs < 5 ? 'now' : secs < 10 ? 'soon' : ''; c.style.setProperty('--p', (100 * (1 - left / b.dur)).toFixed(1) + '%'); c.innerHTML = `<span class="ring"></span>next in <span class="n">${Math.ceil(secs)}</span> s` }
+  const L = $('left')
+  if (L) { L.textContent = `${Math.ceil(secs)} s left`; L.className = 'left ' + (secs < 5 ? 'behind' : 'ok') }
   const w = $('wall'); if (w) w.textContent = new Date().toTimeString().slice(0, 5) + (rehearse ? ` · rehearsal ${fmt((performance.now() - wall0) / 1000)}` : '')
-  if (t >= talk.duration_s) playing = false
   if (leader && chan && now - lastSend > 400) { lastSend = now; send() }
   requestAnimationFrame(tick)
 }
 
 // two windows (presenter laptop + projector) share one clock; whoever was last pressed leads
-function send() { chan?.postMessage({ from: ME, t, playing, black }) }
-chan && (chan.onmessage = e => { const m = e.data; if (m.from === ME) return; if (m.hello) { if (leader) send(); return } leader = false; t = m.t; playing = m.playing; black = m.black; document.body.classList.toggle('black', black); $('intro').style.display = 'none' })
+function send() { chan?.postMessage({ from: ME, t, playing, black, rate, held }) }
+chan && (chan.onmessage = e => { const m = e.data; if (m.from === ME) return; if (m.hello) { if (leader) send(); return } leader = false; t = m.t; playing = m.playing; black = m.black; rate = m.rate || 1; held = !!m.held; document.body.classList.toggle('black', black); $('intro').style.display = 'none' })
 chan?.postMessage({ from: ME, hello: true })
 
-function seekBeat(ix) { const b = talk.beats[Math.max(0, Math.min(talk.beats.length - 1, ix))]; t = b.at }
+function goBeat(ix) { ix = Math.max(0, Math.min(B.length - 1, ix)); t = B[ix].at; held = false; if (ix !== beatIx) beatIx = -1 }
+function step(dir) {
+  const ix = beatAt(t), b = B[ix], local = t - b.at, st = stepsOf(b)
+  if (review) { goBeat(ix + dir); return }
+  if (dir > 0) { const nx = st.find(x => x.t > local + 0.05); if (nx) { t = b.at + nx.t; held = false } else goBeat(ix + 1) }
+  else {
+    const pv = [...st].reverse().find(x => x.t < local - 0.6)
+    if (pv) t = b.at + pv.t
+    else if (ix > 0) { const pb = B[ix - 1]; beatIx = -1; t = pb.at + Math.max(0, pb.dur - 0.5) }
+    held = false
+  }
+}
 function onKey(e) {
   if (!talk) return
   const k = e.key; let handled = true
   $('intro').style.display = 'none'; leader = true
-  if (k === ' ' || k === 'k' || k === 'K') playing = !playing
-  else if (k === 'ArrowRight' || k === 'PageDown' || k === 'n' || k === 'N') { seekBeat(beatAt(t) + 1) }
-  else if (k === 'swipe-back') seekBeat(beatAt(t) - (t - talk.beats[beatAt(t)].at < 3 ? 1 : 0))
-  else if (k === 'ArrowLeft' || k === 'PageUp') { const nowMs = performance.now(), ix = beatAt(t); if (nowMs - lastBack < 1500 || t - talk.beats[ix].at < 1) seekBeat(ix - 1); else seekBeat(ix); lastBack = nowMs }
-  else if (k === '0' || k === 'Home') { t = 0; beatIx = -1; playing = false }
+  if (k === ' ' || k === 'k' || k === 'K') { if (held) { held = false; step(1); playing = true } else playing = !playing }
+  else if (k === 'ArrowRight' || k === 'tap') step(1)
+  else if (k === 'ArrowLeft') step(-1)
+  else if (k === 'PageDown' || k === 'ArrowDown' || k === 'n' || k === 'N' || k === 'swipe-next') goBeat(beatAt(t) + 1)
+  else if (k === 'PageUp' || k === 'ArrowUp' || k === 'swipe-back') { const ix = beatAt(t); goBeat(t - B[ix].at < 2 ? ix - 1 : ix) }
+  else if (k === 's' || k === 'S') rate = RATES[(RATES.indexOf(rate) + 1) % RATES.length] || 1
+  else if (k === 'h' || k === 'H') { hold = !hold; held = false }
+  else if (k === '0' || k === 'Home') { t = 0; beatIx = -1; playing = false; held = false }
   else if (k === 'p' || k === 'P') document.body.classList.toggle('presenter')
   else if (k === 'a' || k === 'A') { const u = new URL(location.href); u.searchParams.set('view', 'audience'); u.searchParams.delete('presenter'); window.open(u.href, 'ruv-talk-audience', 'width=1280,height=720'); document.body.classList.add('presenter') }
   else if (k === 'f' || k === 'F') { const d = document.documentElement; (d.requestFullscreen || d.webkitRequestFullscreen)?.call(d) }
@@ -283,19 +414,44 @@ function onKey(e) {
   if (handled) { e.preventDefault?.(); send() }
 }
 addEventListener('keydown', onKey)
-window.addEventListener('ruv-theme', e => { try { document.querySelector('#stage iframe')?.contentDocument.documentElement.setAttribute('data-theme', e.detail) } catch {} })
-// touch: on-screen buttons, swipe between beats, tap the intro to start
-document.querySelectorAll('#ctl button').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); onKey({ key: b.dataset.k }); b.blur() }))
+window.addEventListener('ruv-theme', e => { try { frameEl()?.contentDocument.documentElement.setAttribute('data-theme', e.detail) } catch {} })
+// touch: on-screen buttons; on the slide, a tap is the next step and a swipe the next (or previous) slide
+document.querySelectorAll('.ctl button').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); onKey({ key: b.dataset.k }); b.blur() }))
 $('intro').addEventListener('click', () => { $('intro').style.display = 'none' })
 let sw = null
-$('stage').addEventListener('pointerdown', e => { sw = { x: e.clientX, y: e.clientY, t: performance.now() } })
-$('stage').addEventListener('pointercancel', () => { sw = null })
-$('stage').addEventListener('pointerup', e => {
-  if (!sw) return; const dx = e.clientX - sw.x, dy = e.clientY - sw.y, fast = performance.now() - sw.t < 800; sw = null
-  if (fast && Math.abs(dx) > 60 && Math.abs(dx) > 1.5 * Math.abs(dy)) onKey({ key: dx < 0 ? 'ArrowRight' : 'swipe-back' })
+const T = $('touch')
+T.addEventListener('pointerdown', e => { sw = { x: e.clientX, y: e.clientY, t: performance.now() } })
+T.addEventListener('pointercancel', () => { sw = null })
+T.addEventListener('pointerup', e => {
+  if (!sw) return; const dx = e.clientX - sw.x, dy = e.clientY - sw.y, ms = performance.now() - sw.t; sw = null
+  if (ms < 900 && Math.abs(dx) > 50 && Math.abs(dx) > 1.5 * Math.abs(dy)) onKey({ key: dx < 0 ? 'swipe-next' : 'swipe-back' })
+  else if (Math.abs(dx) < 12 && Math.abs(dy) < 12 && ms < 600) onKey({ key: 'tap' })
 })
-$('prog').addEventListener('click', e => { const r = $('prog').getBoundingClientRect(); t = talk.duration_s * (e.clientX - r.left) / r.width; leader = true; send() })
-window.__state = () => ({ t, beat: talk?.beats[beatIx]?.id, playing, log, leader })
+$('prog').addEventListener('click', e => { const r = $('prog').getBoundingClientRect(); t = TOTAL * (e.clientX - r.left) / r.width; held = false; leader = true; send() })
+$('steps').addEventListener('click', e => { const d = e.target.closest('.st'); if (!d) return; const b = B[beatAt(t)]; t = b.at + stepsOf(b)[+d.dataset.i].t; held = false; leader = true; send() })
+
+// ready for a room with bad wifi: a service worker keeps every file the talk has used, and the player loads each live
+// slide once, quietly, in the background, so the next time they come from this machine
+function warm() {
+  if (location.protocol === 'file:' || !('serviceWorker' in navigator) || VIEW === 'audience') return
+  navigator.serviceWorker.register('../sw.js', { scope: '../' }).then(() => navigator.serviceWorker.ready).then(async () => {
+    const pages = [...new Set(B.filter(b => b.slide.layout === 'iframe').map(b => b.slide.src))], imgs = B.flatMap(b => [b.slide.layout === 'image' && b.slide.src, b.slide.fallback]).filter(Boolean)
+    for (const u of imgs) fetch(u).catch(() => {})
+    let n = 0
+    for (const src of pages) {
+      await new Promise(res => {
+        const f = document.createElement('iframe'); f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1
+        Object.assign(f.style, { position: 'fixed', left: '-2000px', top: '0', width: '1280px', height: '600px', visibility: 'hidden' })
+        f.src = src + (src.includes('?') ? '&' : '?') + 'review&once&ruvpaused'
+        const done = () => { setTimeout(() => { f.remove(); res() }, 1500) }
+        f.onload = done; setTimeout(done, 15000); document.body.appendChild(f)
+      })
+      $('cache').textContent = `cached ${++n}/${pages.length} live slides`
+    }
+    $('cache').textContent = `ready offline: ${pages.length} live slides cached`
+  }).catch(() => {})
+}
+window.__state = () => ({ t, beat: B[beatIx]?.id, playing, held, rate, log, leader, steps: B[beatIx] && stepsOf(B[beatIx]) })
 window.__seek = s => { t = s }
 load()
 </script>

@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ruv.sgit, the equation</title>
 <link rel="stylesheet" href="../../../assets/themes.css">
+<script src="../../../assets/clock.js"></script>
 <script src="../../../assets/theme.js"></script>
 <style>
 *{box-sizing:border-box}
@@ -282,7 +283,7 @@ function build(V, A, R) {
 
   if (REVIEW) { tNow = FINAL; frame(FINAL); return; }
   var t0 = performance.now();
-  function tick(now) { tNow = ((now - t0) / 1000) % LOOP; frame(tNow); requestAnimationFrame(tick); }
+  function tick(now) { tNow = ruvLoop((now - t0) / 1000, LOOP, FINAL); frame(tNow); requestAnimationFrame(tick); }
   requestAnimationFrame(tick);
 }
 })();

@@ -58,12 +58,13 @@
 <div id="bar"></div>
 <div id="err"></div>
 
+<script src="../../assets/clock.js"></script>
 <script src="../../vendor/three.js-r128.min.js"></script>
 <script>
 (function () {
   'use strict';
   var LOOP = 40, T0 = 0; // loop clock runs from page navigation
-  window.__t = function () { return ((performance.now() - T0) / 1000) % LOOP; };
+  window.__t = function () { return ruvLoop((performance.now() - T0) / 1000, LOOP, LOOP - 2); };
 
   var ROLES = [
     { id: 'conductor', colour: '#2dd4bf' }, { id: 'librarian', colour: '#a78bfa' },

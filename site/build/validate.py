@@ -25,9 +25,10 @@ for tj in sorted((SITE / 'talk').glob('talk-*.json')):
     for i, b in enumerate(beats):
         end = beats[i + 1]['at'] if i + 1 < len(beats) else talk['duration_s']
         if b['at'] + b['dur'] != end: fails.append(f'{tj.name}: beat {b["id"]} {b["at"]}+{b["dur"]} != {end}')
+    for b in beats + talk.get('extras', []):
         for k in ('src', 'fallback'):
             v = b['slide'].get(k)
-            if v and not (tj.parent / v).exists(): fails.append(f'{tj.name}: beat {b["id"]} {k} {v} missing')
+            if v and not (tj.parent / v.split('?')[0]).exists(): fails.append(f'{tj.name}: beat {b["id"]} {k} {v} missing')
     for k, v in talk.get('data', {}).items():
         if not (tj.parent / v).exists(): fails.append(f'{tj.name}: data {k} {v} missing')
 for f in SITE.rglob('*'):

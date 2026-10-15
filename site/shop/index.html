@@ -52,6 +52,24 @@ button{font:inherit;cursor:pointer}
 .done{border:1px solid var(--line);border-left:4px solid var(--t);background:var(--card);border-radius:14px;padding:18px;box-shadow:var(--shadow);margin-top:18px}
 .done pre{white-space:pre-wrap;max-height:420px;overflow:auto}
 .done .acts{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.how{list-style:none;counter-reset:how;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:22px 0 8px;padding:0;max-width:980px}
+.how li{counter-increment:how;position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px 14px 56px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:3px;min-width:0}
+.how li::before{content:counter(how);position:absolute;left:16px;top:14px;width:28px;height:28px;border-radius:50%;background:var(--t);color:var(--on-accent);font:700 15px/28px Georgia,serif;text-align:center}
+.how b{font-size:16px;color:var(--ink)}.how span{font-size:14px;color:var(--m);line-height:1.4}
+.gnav+.grp>h2{margin-top:0}
+.gnav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px;padding:0;list-style:none}
+.gnav a{display:inline-flex;align-items:center;min-height:36px;padding:4px 14px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);font-size:14px;font-weight:600;text-decoration:none}
+.gnav a:hover{border-color:var(--t);color:var(--t)}
+.gnav small{color:var(--m);font-weight:500;margin-left:6px}
+.item{border-radius:14px;transition:border-color .15s,box-shadow .15s}
+.item:hover{border-color:var(--line2,var(--line));box-shadow:var(--shadow-pop,var(--shadow))}
+.item .price{padding-bottom:8px;border-bottom:1px solid var(--line)}
+.item ul{list-style:none;padding-left:0}.item ul li{position:relative;padding-left:18px}
+.item ul li::before{content:"";position:absolute;left:3px;top:.55em;width:6px;height:6px;border-radius:50%;background:var(--t);opacity:.75}
+.cart h2{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.cart h2 .cnt{font:600 13px ui-sans-serif,system-ui;color:var(--m)}
+.cart .empty{border:1px dashed var(--line);border-radius:10px;padding:14px;margin:6px 0 0;text-align:center}
+.cart .pay{font-size:13px;color:var(--m);margin:10px 0 0;padding-top:10px;border-top:1px solid var(--line)}
 .mbar{display:none}
 #done,#cart,#checkout-sec,.grp{scroll-margin-top:72px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -63,6 +81,7 @@ button{font:inherit;cursor:pointer}
   .mbar span{flex:1;font-weight:600;font-size:15px}
   body.has-bar footer{padding-bottom:96px}
 }
+@media(max-width:760px){.how{grid-template-columns:1fr}}
 @media(max-width:560px){.form{grid-template-columns:1fr}.items{grid-template-columns:1fr}}
 </style>
 </head>
@@ -73,16 +92,21 @@ button{font:inherit;cursor:pointer}
 <p class="k">Work with us · runs, compute, a subscription, expert time</p>
 <h1>Shop</h1>
 <p class="lead">Mix and match: task runs + dedicated compute + a maintained repository subscription + expert time. Put together what you need, tell us what you want done, and send the order.</p>
-<p class="callout"><b>No payment is taken here.</b> Sending the order emails it to <a href="mailto:agent@riskmandate.ai">agent@riskmandate.ai</a>; we follow up by email. Prices are in GBP and exclude VAT.</p>
-<p class="callout warn"><b>Not automated end to end yet.</b> A person on our side starts, watches and hands over every run. Dedicated compute and the materials sandbox for uploads are not built yet, and SG Compute is not connected to runs: when we reply we say what we can do today.</p>
+<ol class="how" aria-label="How ordering works">
+<li><b>Build your order</b><span>Pick runs, compute, a subscription or expert time; choose the options.</span></li>
+<li><b>Send it by email</b><span>The order goes to <a href="mailto:agent@riskmandate.ai">agent@riskmandate.ai</a> from your own email app.</span></li>
+<li><b>A person follows up</b><span>We reply by email to agree the details. No payment is taken here.</span></li>
+</ol>
+<p class="k">Prices are in GBP and exclude VAT.</p>
 <p class="k">Built on rUv's tools: Ruflo, RuVector, AgentDB, MetaHarness and RVM are MIT, by rUv / ruvnet; we build on them, we do not sell or own them. Ours: sgit vaults and Agent Behaviour Policies (Apache-2.0). Anybody who implements this implements sgit and ABPs.</p>
 </div></section>
 
 <section><div class="wrap shop">
 <div id="catalogue" aria-busy="true"><p class="k" id="cat-status">loading the catalogue…</p></div>
 <aside class="cart" id="cart" aria-labelledby="cart-h" tabindex="-1">
-<h2 id="cart-h">Your order</h2>
+<h2 id="cart-h">Your order <span class="cnt" id="cart-cnt"></span></h2>
 <div id="cart-body"><p class="empty">Nothing yet: add something from the catalogue.</p></div>
+<p class="pay">No payment is taken here: the order is emailed to agent@riskmandate.ai and a person follows up.</p>
 </aside>
 </div></section>
 

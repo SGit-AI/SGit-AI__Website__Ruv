@@ -11,7 +11,7 @@ for n in ('10', '5'):
     talk = json.loads((TALK / f'talk-{n}.json').read_text(encoding='utf-8'))
     data = {k: json.loads((TALK / p).read_text(encoding='utf-8')) for k, p in talk.get('data', {}).items()}
     images = {}
-    for b in talk['beats']:
+    for b in talk['beats'] + talk.get('extras', []):
         for key in ('src', 'fallback'):
             src = b['slide'].get(key, '')
             if b['slide']['layout'] in ('image', 'iframe') and src.endswith(('.webp', '.png', '.jpg')):

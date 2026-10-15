@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ruv.sgit, in layers</title>
 <link rel="stylesheet" href="../../../assets/themes.css">
+<script src="../../../assets/clock.js"></script>
 <script src="../../../assets/theme.js"></script>
 <style>
 *{box-sizing:border-box}
@@ -457,7 +458,7 @@ function panelHTML(act, t, gc, commits, merged) {
 
 var start = performance.now();
 function frame(now) {
-  tNow = FREEZE != null ? FREEZE : ((now - start) / 1000) % L;
+  tNow = FREEZE != null ? FREEZE : ruvLoop((now - start) / 1000, L, END);
   if (FREEZE == null && tNow > END) tNow = Math.min(tNow, L);
   try { render(Math.min(tNow, END)); } catch (e) { console.error(e); return; }
   if (FREEZE == null) requestAnimationFrame(frame); else setTimeout(function () { requestAnimationFrame(function () { render(FREEZE); }); }, 100);
