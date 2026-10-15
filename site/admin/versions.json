@@ -5,9 +5,19 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.21",
+   "version": "v0.1.22",
    "date": "2026-10-15",
    "commit": null,
+   "title": "Steps have a start and an end",
+   "changes": "Every step of a slide now has two stops: its start and its end (just before the next step begins, so that part is fully built). › moves start → end → next start → next end; ‹ goes back the same way. Landing on an end pauses there, so you can talk over the finished picture; landing on a start plays on.",
+   "pages": [
+    "talk/player.html"
+   ]
+  },
+  {
+   "version": "v0.1.21",
+   "date": "2026-10-15",
+   "commit": "d80354b",
    "title": "Four more studio animations in the talk",
    "changes": "Studio v1 (the diagram that builds), v2 (messages in flight), v4 (the policy gate) and v5 (the isometric office) now play in the talk before the hive in 3D, 20 s each with their animation compressed to fit (slide.speed 1.4 to 1.74). Each page now runs on assets/clock.js, so the player pauses, speeds and steps it, and with ?once it plays once and holds its final frame (standalone, it still loops). The talk is 10:53 with them; skip any with » if time is short.",
    "pages": [

@@ -130,7 +130,7 @@ ul.bul { list-style:none; padding:0; font-size:3.4vh; margin:0 } ul.bul li { mar
 <div id="pick"><div class="ph"><b>Go to a slide</b><span class="dim">click a slide, or one of its steps · <kbd>G</kbd> or <kbd>Esc</kbd> to close</span></div><div id="picklist"></div></div>
 <div id="help"><h3 style="margin-top:0;font-family:Georgia,serif">Keys</h3><table>
 <tr><td><kbd>Space</kbd> <kbd>K</kbd></td><td>play / pause (the live pages pause too)</td></tr>
-<tr><td><kbd>→</kbd> <kbd>←</kbd> · tap</td><td>next / previous step of this slide (the steps are under the timeline)</td></tr>
+<tr><td><kbd>→</kbd> <kbd>←</kbd> · tap</td><td>next / previous stop: each step has a start (plays on) and an end (fully built, paused); the steps are under the timeline</td></tr>
 <tr><td><kbd>PageDown</kbd> <kbd>PageUp</kbd> <kbd>↓</kbd> <kbd>↑</kbd> <kbd>N</kbd> · swipe</td><td>next / previous slide (clickers send PageDown)</td></tr>
 <tr><td><kbd>S</kbd> or <b>1×</b></td><td>speed: 0.75×, 1×, 1.25×, 1.5×, 2× (the live pages follow)</td></tr>
 <tr><td><kbd>H</kbd> or <b>auto</b></td><td>auto on: the next slide starts when one ends. Off (the default): each slide stops at its end until you press » or tap</td></tr>
@@ -389,16 +389,26 @@ chan && (chan.onmessage = e => { const m = e.data; if (m.from === ME) return; if
 chan?.postMessage({ from: ME, hello: true })
 
 function goBeat(ix) { ix = Math.max(0, Math.min(B.length - 1, ix)); t = B[ix].at; held = false; if (ix !== beatIx) beatIx = -1 }
+// every step has two stops: its start, and its end (just before the next step starts, so its part is fully built).
+// Moving to an end pauses there, so you can talk over the finished picture; moving to a start plays on from there.
+function stops(b) {
+  const st = stepsOf(b), out = []
+  st.forEach((x, i) => {
+    const nxt = i + 1 < st.length ? st[i + 1].t : b.dur, end = Math.max(x.t, nxt - 0.25)
+    out.push({ t: x.t, end: false })
+    if (end - x.t > 0.4) out.push({ t: end, end: true })
+  })
+  return out
+}
 function step(dir) {
-  const ix = beatAt(t), b = B[ix], local = t - b.at, st = stepsOf(b)
+  const ix = beatAt(t), b = B[ix], local = t - b.at, sp = stops(b)
   if (review) { goBeat(ix + dir); return }
-  if (dir > 0) { const nx = st.find(x => x.t > local + 0.05); if (nx) { t = b.at + nx.t; held = false } else goBeat(ix + 1) }
-  else {
-    const pv = [...st].reverse().find(x => x.t < local - 0.6)
-    if (pv) t = b.at + pv.t
-    else if (ix > 0) { const pb = B[ix - 1]; beatIx = -1; t = pb.at + Math.max(0, pb.dur - 0.5) }
-    held = false
-  }
+  let to = null
+  if (dir > 0) to = sp.find(x => x.t > local + 0.05)
+  else to = [...sp].reverse().find(x => x.t < local - 0.15)
+  if (to) { t = b.at + to.t; held = false; playing = !to.end; return }
+  if (dir > 0) { goBeat(ix + 1); playing = true }
+  else if (ix > 0) { const pb = B[ix - 1], ps = stops(pb); beatIx = -1; t = pb.at + ps[ps.length - 1].t; held = false; playing = false }
 }
 function onKey(e) {
   if (!talk) return
