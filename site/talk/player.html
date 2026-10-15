@@ -5,17 +5,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Talk player</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f766e%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Georgia%27%3Er%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/themes.css"><script src="../assets/theme.js"></script>
 <style>
-:root { --bg:#0f1115; --fg:#f4f1ea; --dim:#9a968c; --teal:#2dd4bf; --amber:#f59e0b; --red:#f87171; --line:#2a2d35; --card:#161a20 }
+/* colours come from the site's theme (the five newsroom themes, assets/themes.css): the slides, the site and the live app change together */
+:root { --teal:var(--accent); --amber:var(--warm); --card:var(--panel) }
 * { box-sizing:border-box }
 html,body { margin:0; height:100%; background:var(--bg); color:var(--fg); font:18px/1.4 ui-sans-serif,system-ui,sans-serif; overflow:hidden }
-#stage { position:absolute; inset:0 0 56px 0; display:flex; padding:5vh 6vw; overflow:auto; -webkit-overflow-scrolling:touch; touch-action:pan-y pinch-zoom }
-#stage > .slide { margin:auto }   /* centred when it fits, scrollable from the top when it does not */
-body.presenter #stage { inset:0 36vw 56px 0; padding:4vh 3vw }
+#stage { position:absolute; inset:0 0 56px 0; display:flex; flex-direction:column; overflow:hidden; touch-action:pan-y pinch-zoom }
+/* the frame every slide shares, so nothing moves between slides: a brand strip, then the title, always top left */
+.sbrand { flex:none; display:flex; justify-content:space-between; align-items:center; gap:2vw; padding:2.4vh 4vw 0; font-size:1.6vh; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); white-space:nowrap; overflow:hidden }
+.sbrand .logo { display:inline-flex; align-items:center; gap:.8em; color:var(--head); font-weight:700; letter-spacing:.06em }
+.sbrand .logo i { font:700 1.8vh/1 Georgia,serif; font-style:normal; width:2.8vh; height:2.8vh; border-radius:.6vh; background:var(--accent); color:var(--on-accent); display:inline-flex; align-items:center; justify-content:center; letter-spacing:0; text-transform:none }
+.sbrand .logo b { color:var(--accent); font-weight:700 }
+.shead { flex:none; padding:2.6vh 4vw 0 }
+.shead h2 { margin:0; font:600 4.4vh/1.15 Georgia,serif; color:var(--head) } .shead h2.big { font-size:7.2vh }
+.shead h2::after { content:""; display:block; width:7vh; height:.55vh; border-radius:.3vh; background:var(--accent); margin-top:1.6vh }
+.shead .sub { color:var(--dim); font-size:2vh; margin-top:1.4vh; min-height:2.6vh }
+.sbody { flex:1; min-height:0; display:flex; padding:2.4vh 4vw 3.4vh; overflow:auto; -webkit-overflow-scrolling:touch }
+.sbody > .slide { margin:auto 0 }   /* left edge fixed under the title; vertically centred when it fits, scrolls when it does not */
+body.presenter #stage { inset:0 36vw 56px 0 }
 body.audience #stage { inset:0 }
 body.audience #bar, body.audience #side { display:none !important }
 #black { position:fixed; inset:0; background:#000; display:none; z-index:50 } body.black #black { display:block }
-#side { display:none; position:absolute; top:0; right:0; bottom:56px; width:36vw; border-left:1px solid var(--line); padding:20px 22px; overflow:auto; background:#0b0d11 }
+#side { display:none; position:absolute; top:0; right:0; bottom:56px; width:36vw; border-left:1px solid var(--line); padding:20px 22px; overflow:auto; background:var(--panel2) }
 body.presenter #side { display:block }
 #bar { position:absolute; left:0; right:0; bottom:0; height:56px; display:flex; align-items:center; gap:14px; padding:0 12px 0 20px; border-top:1px solid var(--line); font-variant-numeric:tabular-nums; background:var(--bg) }
 #bar .clock { font-size:24px; font-weight:700; min-width:6.6em; white-space:nowrap } .dim { color:var(--dim) }
@@ -24,53 +36,52 @@ body.review .b, body.review tr.row, body.review ul.bul li, body.review .term .ou
 #prog { flex:1; height:8px; background:var(--line); border-radius:4px; position:relative; cursor:pointer }
 #prog i { position:absolute; top:-4px; width:2px; height:16px; background:var(--dim) }
 #prog b { position:absolute; left:0; top:0; bottom:0; background:var(--teal); border-radius:4px }
-.slide { width:100%; max-width:1300px }
-.kicker { color:var(--teal); text-transform:uppercase; letter-spacing:.12em; font-size:2.2vh; margin-bottom:2vh }
-.statement h1, .title h1 { font:600 6.4vh/1.15 Georgia,serif; margin:0 0 4vh }
-.title h1 { font-size:8vh } .title .sub { font-size:3.4vh; color:var(--dim) } .title .who { font-size:2.8vh; margin-top:5vh }
+.slide { width:100%; max-width:1400px }
+.statement h1 { font:600 5.6vh/1.18 Georgia,serif; margin:0 0 3.4vh; color:var(--head) }
+.title .sub { font-size:3.4vh; color:var(--text) } .title .who { font-size:2.8vh; margin-top:5vh; color:var(--dim) }
 .b { font-size:4vh; margin:1.4vh 0; opacity:0; transform:translateY(1vh); transition:all .5s }
 .b.on { opacity:1; transform:none }
 .big { font:600 5vh/1.2 ui-monospace,monospace; color:var(--teal); word-break:break-all }
-.term { background:#05070a; border:1px solid var(--line); border-radius:12px; padding:3vh 3vw; font:2.5vh/1.5 ui-monospace,monospace; white-space:pre-wrap; word-break:break-all }
+/* a terminal is dark in every theme (the newsroom's one exception), so its colours are its own */
+.term { background:#05070a; color:#e6e8ec; border:1px solid #2a303a; border-radius:12px; padding:3vh 3vw; font:2.5vh/1.5 ui-monospace,monospace; white-space:pre-wrap; word-break:break-all }
 .term.small { font-size:2vh } .term .cap { color:var(--dim); font:2vh ui-sans-serif,system-ui; margin-bottom:1.5vh }
-.term .p { color:var(--teal) } .term .out { color:var(--amber); margin-top:2vh; opacity:0; transition:opacity .4s } .term .out.on { opacity:1 }
-.term .out .hl { color:var(--red); font-weight:700 }
-.cursor { display:inline-block; width:.6em; background:var(--fg); animation:blink 1s steps(1) infinite } @keyframes blink { 50% { opacity:0 } }
-table { border-collapse:collapse; font-size:2.1vh; width:100% } caption { font:600 3.4vh Georgia,serif; margin-bottom:2vh; text-align:left }
+.term .p { color:#2dd4bf } .term .out { color:#f0b45a; margin-top:2vh; opacity:0; transition:opacity .4s } .term .out.on { opacity:1 }
+.term .out .hl { color:#ff7b72; font-weight:700 }
+.cursor { display:inline-block; width:.6em; background:#e6e8ec; animation:blink 1s steps(1) infinite } @keyframes blink { 50% { opacity:0 } }
+table { border-collapse:collapse; font-size:2.1vh; width:100%; color:var(--text) }
 th,td { text-align:left; padding:.8vh 1vw; border-bottom:1px solid var(--line); vertical-align:top } th { color:var(--dim); font-weight:600 }
 tr.row { opacity:.08; transition:opacity .4s } tr.row.on { opacity:1 }
 .allowed,.yes { color:var(--teal) } .denied,.no { color:var(--red) } .approval_required,.approval { color:var(--amber) }
 .foot { color:var(--dim); margin-top:2vh; font-size:2vh }
 ul.bul { list-style:none; padding:0; font-size:3.4vh; margin:0 } ul.bul li { margin:2.2vh 0; opacity:0; transition:opacity .5s } ul.bul li.on { opacity:1 } ul.bul li:before { content:"→ "; color:var(--teal) }
-.image { text-align:center } .image img { max-width:100%; max-height:74vh; border-radius:12px; border:1px solid var(--line) } .image .cap { color:var(--dim); font-size:2.2vh; margin-top:1.6vh }
+.image img { display:block; max-width:100%; max-height:58vh; border-radius:12px; border:1px solid var(--line) }
 .quote blockquote { font:500 4.6vh/1.3 Georgia,serif; margin:0 0 3vh; border-left:6px solid var(--teal); padding-left:3vw }
 .quote blockquote .b { font-size:inherit; margin:0 0 2vh }
 .quote cite { color:var(--dim); font-size:2.3vh; font-style:normal }
-.iframe iframe { width:100%; height:76vh; border:0; border-radius:12px; background:#faf9f5 }
-.iframe .cap { color:var(--dim); font-size:2vh; margin-top:1vh }
+.iframe iframe { display:block; width:100%; height:58vh; border:1px solid var(--line); border-radius:12px; background:var(--bg) }
 #side h3 { margin:.2em 0; font:600 22px Georgia,serif } #side .say { font-size:23px; line-height:1.5; margin:14px 0 22px }
 #side .left { font:700 40px ui-sans-serif,system-ui; font-variant-numeric:tabular-nums } #side .left.behind { color:var(--red) } #side .left.ok { color:var(--teal) }
 #side .next { color:var(--dim); border-top:1px solid var(--line); padding-top:12px; font-size:16px }
 #side .next b { color:var(--fg) } #side .cue { color:var(--amber); font-size:15px; margin:-8px 0 16px }
 #side .meta { color:var(--dim); font-size:14px; display:flex; justify-content:space-between }
 #ctl { display:flex; gap:6px } #ctl button { min-width:44px; height:44px; border:1px solid var(--line); background:var(--card); color:var(--fg); border-radius:10px; font:600 16px ui-sans-serif,system-ui; cursor:pointer; touch-action:manipulation; padding:0 10px }
-#ctl button:active { background:#0d2a26 } #ctl button.on { border-color:var(--teal); color:var(--teal) }
+#ctl button:active { background:var(--tint-solid) } #ctl button.on { border-color:var(--teal); color:var(--teal) }
 @media (max-width:900px) { #state { display:none } #bar .clock { font-size:18px } }
 @media (orientation:portrait) {   /* iPad upright: the words go under the slide, not beside it */
   body.presenter #stage { inset:0 0 calc(42vh + 56px) 0 }
   body.presenter #side { top:auto; left:0; width:auto; height:42vh; border-left:0; border-top:1px solid var(--line) }
-  .statement h1, .title h1 { font-size:5vh } table { font-size:1.7vh } }
+  .statement h1 { font-size:4.4vh } .shead h2 { font-size:3.6vh } .shead h2.big { font-size:5.4vh } table { font-size:1.7vh } }
 #intro { position:absolute; inset:0 0 56px 0; display:flex; align-items:center; justify-content:center; text-align:center; color:var(--dim); background:var(--bg); z-index:10; padding:20px }
 #intro h2 { color:var(--fg); font:600 5vh Georgia,serif; margin:0 0 1vh } #intro kbd, #help kbd { border:1px solid var(--line); border-radius:4px; padding:1px 6px; color:var(--fg); font:14px ui-monospace,monospace }
 #help { position:fixed; inset:10vh 20vw; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:24px 30px; display:none; z-index:40; overflow:auto } body.help #help { display:block }
 #help td { font-size:16px; padding:6px 10px }
-#err { position:fixed; top:10px; left:10px; right:10px; background:#3d1a17; color:#fde4e1; padding:10px 14px; border-radius:8px; display:none; z-index:60 }
+#err { position:fixed; top:10px; left:10px; right:10px; background:var(--danger-bg); color:var(--danger-ink); padding:10px 14px; border-radius:8px; display:none; z-index:60 }
 </style>
 </head>
 <body>
 <div id="stage"></div>
 <aside id="side"></aside>
-<div id="bar"><div id="ctl"><button data-k="ArrowLeft" aria-label="previous beat">◀</button><button data-k=" " id="pp" aria-label="play or pause">▶</button><button data-k="ArrowRight" aria-label="next beat">▶︎▶︎</button><button data-k="v" id="rv" aria-label="review mode: everything at once, no animation">review</button><button data-k="p" id="nb" aria-label="speaker notes">notes</button><button data-k="f" aria-label="fullscreen">⛶</button></div><span class="clock" id="clock">0:00</span><span class="dim" id="beatno"></span><div id="prog" title="click to seek"><b id="progb"></b></div><span class="dim" id="state">paused</span></div>
+<div id="bar"><div id="ctl"><button data-k="ArrowLeft" aria-label="previous beat">◀</button><button data-k=" " id="pp" aria-label="play or pause">▶</button><button data-k="ArrowRight" aria-label="next beat">▶︎▶︎</button><button data-k="v" id="rv" aria-label="review mode: everything at once, no animation">review</button><button data-k="p" id="nb" aria-label="speaker notes">notes</button><button data-k="t" id="th" aria-label="next theme" title="theme (the site's five)">◐</button><button data-k="f" aria-label="fullscreen">⛶</button></div><span class="clock" id="clock">0:00</span><span class="dim" id="beatno"></span><div id="prog" title="click to seek"><b id="progb"></b></div><span class="dim" id="state">paused</span></div>
 <div id="intro"><div><h2 id="ttl">Talk player</h2><p id="sub"></p><p>Tap ▶ or press <kbd>Space</kbd> to start · swipe left or right between beats · <b>review</b> or <kbd>V</kbd> to see everything at once · <b>notes</b> or <kbd>P</kbd> for the words · <kbd>A</kbd> audience window · <kbd>?</kbd> all keys</p></div></div>
 <div id="black"></div>
 <div id="err"></div>
@@ -82,6 +93,7 @@ ul.bul { list-style:none; padding:0; font-size:3.4vh; margin:0 } ul.bul li { mar
 <tr><td><kbd>A</kbd></td><td>open the audience window (drag it to the projector, press F there); both stay in sync</td></tr>
 <tr><td><kbd>F</kbd></td><td>fullscreen</td></tr>
 <tr><td><kbd>B</kbd> <kbd>.</kbd></td><td>black screen (also on the audience window)</td></tr>
+<tr><td><kbd>T</kbd> or <b>◐</b></td><td>next theme: the site's five (Newsprint, Night, Paper, Blueprint, Ember), shared with the website and the audience window</td></tr>
 <tr><td><kbd>V</kbd> or <b>review</b></td><td>review mode: every beat as it looks at its end, no animation, the clock stopped; step with → ← or swipe (or open player.html?review)</td></tr>
 <tr><td><kbd>R</kbd></td><td>rehearsal: records when each beat actually started; press again to save rehearsal.json</td></tr>
 <tr><td><kbd>0</kbd> <kbd>Home</kbd></td><td>back to 0:00</td></tr>
@@ -145,33 +157,38 @@ function tableFoot(spec, foot) {
 const cellClass = c => ['allowed', 'denied', 'approval_required', 'yes', 'no', 'approval'].includes(c) ? c : ''
 
 function render(b) {
-  const s = b.slide, st = $('stage'); st.innerHTML = ''
-  const el = document.createElement('div'); el.className = 'slide ' + s.layout; st.appendChild(el)
+  const s = b.slide, st = $('stage'), n = talk.beats.indexOf(b) + 1
+  // the frame: brand strip, then the title top left (the beat's title, or the big title on a title slide), then a subtitle line
+  const head = s.layout === 'title' ? s.text : (s.heading || b.title)
+  const sub = s.layout === 'title' ? (s.kicker || '') : (s.sub || s.caption || s.kicker || '')
+  st.innerHTML = `<div class="sbrand"><span class="logo"><i>r</i>ruv.sgit.ai <b>·</b> rUv + sgit</span><span>${esc(talk.event || '')}</span><span>${n} / ${talk.beats.length}</span></div>` +
+    `<div class="shead"><h2${s.layout === 'title' ? ' class="big"' : ''}>${head}</h2><div class="sub">${sub}</div></div><div class="sbody"></div>`
+  const el = document.createElement('div'); el.className = 'slide ' + s.layout; st.querySelector('.sbody').appendChild(el)
   const builds = (s.builds || []).map(x => `<div class="b" data-at="${x.at}">${x.text}</div>`).join('')
   if (s.layout === 'title') {
-    el.innerHTML = `${s.kicker ? `<div class="kicker">${s.kicker}</div>` : ''}<h1>${s.text}</h1><div class="sub">${s.sub || ''}</div><div class="who">${s.who || ''}</div>${builds}`
+    el.innerHTML = `<div class="sub">${s.sub || ''}</div><div class="who">${s.who || ''}</div>${builds}`
   } else if (s.layout === 'statement') {
-    el.innerHTML = (s.kicker ? `<div class="kicker">${s.kicker}</div>` : '') + `<h1>${s.text}</h1>` + builds
+    el.innerHTML = `<h1>${s.text}</h1>` + builds
   } else if (s.layout === 'terminal') {
-    el.innerHTML = `<div class="term${s.small ? ' small' : ''}">${s.caption ? `<div class="cap">${s.caption}</div>` : ''}<span class="p">$ </span><span class="cmd"></span><span class="cursor">&nbsp;</span><div class="out">${(s.output || '').split('\n').map(l => esc(l)).join('\n').replace(/«(.+?)»/g, '<span class="hl">$1</span>')}</div></div>`
+    el.innerHTML = `<div class="term${s.small ? ' small' : ''}"><span class="p">$ </span><span class="cmd"></span><span class="cursor">&nbsp;</span><div class="out">${(s.output || '').split('\n').map(l => esc(l)).join('\n').replace(/«(.+?)»/g, '<span class="hl">$1</span>')}</div></div>`
   } else if (s.layout === 'table') {
     const rows = s.rows_from ? rowsFrom(s.rows_from) : s.rows
-    el.innerHTML = `<table><caption>${s.caption}</caption><tr>${s.columns.map(c => `<th>${esc(c)}</th>`).join('')}</tr>` +
+    el.innerHTML = `<table><tr>${s.columns.map(c => `<th>${esc(c)}</th>`).join('')}</tr>` +
       rows.map((r, i) => `<tr class="row" data-at="${(s.reveal_from || 0) + i * (s.reveal_every || 0)}">${r.map(c => `<td class="${cellClass(c)}">${esc(c).replace('_', ' ')}</td>`).join('')}</tr>`).join('') +
       `</table><div class="foot">${tableFoot(s.rows_from, s.footer)}</div>` + builds
   } else if (s.layout === 'bullets') {
-    el.innerHTML = (s.kicker ? `<div class="kicker">${s.kicker}</div>` : '') + `<ul class="bul">${s.items.map((x, i) => `<li data-at="${i * (s.reveal_every || 0)}">${x}</li>`).join('')}</ul>`
+    el.innerHTML = `<ul class="bul">${s.items.map((x, i) => `<li data-at="${i * (s.reveal_every || 0)}">${x}</li>`).join('')}</ul>`
   } else if (s.layout === 'quote') {
-    el.innerHTML = (s.kicker ? `<div class="kicker">${s.kicker}</div>` : '') + `<blockquote>${s.lines.map((x, i) => `<div class="b" data-at="${i * (s.reveal_every || 0)}">${x}</div>`).join('')}</blockquote><cite>${s.cite || ''}</cite>`
+    el.innerHTML = `<blockquote>${s.lines.map((x, i) => `<div class="b" data-at="${i * (s.reveal_every || 0)}">${x}</div>`).join('')}</blockquote><cite>${s.cite || ''}</cite>`
   } else if (s.layout === 'image') {
     const src = window.TALK_IMAGES?.[s.src] || s.src
-    el.innerHTML = `<img src="${src}" alt="${esc(s.alt || s.caption || '')}"><div class="cap">${s.caption || ''}</div>`
+    el.innerHTML = `<img src="${src}" alt="${esc(s.alt || s.caption || '')}">`
   } else if (s.layout === 'iframe') {
     if (location.protocol === 'file:' && s.fallback) {   // a live page cannot load its WASM from file://; show the recorded screenshot
       const src = window.TALK_IMAGES?.[s.fallback] || s.fallback
-      el.className = 'slide image'; el.innerHTML = `<img src="${src}" alt="${esc(s.caption || '')}"><div class="cap">${s.caption || ''} (screenshot: the offline file cannot run the live page)</div>`
+      el.className = 'slide image'; el.innerHTML = `<img src="${src}" alt="${esc(s.caption || '')}">`; st.querySelector('.shead .sub').textContent += ' (screenshot: the offline file cannot run the live page)'
     } else {
-      el.innerHTML = `<iframe src="${s.src}" tabindex="-1"></iframe><div class="cap">${s.caption || ''}</div>`
+      el.innerHTML = `<iframe src="${s.src}${s.src.includes('?') ? '&' : '?'}theme=${window.RuvTheme ? RuvTheme.current() : ''}" tabindex="-1"></iframe>`   // the live app wears the slides' theme
       const f = el.querySelector('iframe')
       f.addEventListener('load', () => { try { f.contentDocument.activeElement?.blur(); f.blur(); f.contentWindow.addEventListener('keydown', e => { if (['PageDown', 'PageUp', 'Escape'].includes(e.key) || (['ArrowRight', 'ArrowLeft'].includes(e.key) && e.target.tagName !== 'INPUT')) { window.focus(); onKey(e) } }) } catch {} window.focus() })
     }
@@ -244,6 +261,7 @@ function onKey(e) {
   else if (k === 'b' || k === 'B' || k === '.') { black = !black; document.body.classList.toggle('black', black) }
   else if (k === '?') document.body.classList.toggle('help')
   else if (k === 'Escape') document.body.classList.remove('help')
+  else if (k === 't' || k === 'T') { if (window.RuvTheme) { const ks = Object.keys(RuvTheme.THEMES); RuvTheme.set(ks[(ks.indexOf(RuvTheme.current()) + 1) % ks.length]); $('th').title = 'theme: ' + RuvTheme.THEMES[RuvTheme.current()][0] } }
   else if (k === 'v' || k === 'V') { review = !review; playing = false; document.body.classList.toggle('review', review); beatIx = -1 }
   else if (k === 'r' || k === 'R') {
     rehearse = !rehearse
@@ -257,6 +275,7 @@ function onKey(e) {
   if (handled) { e.preventDefault?.(); send() }
 }
 addEventListener('keydown', onKey)
+window.addEventListener('ruv-theme', e => { try { document.querySelector('#stage iframe')?.contentDocument.documentElement.setAttribute('data-theme', e.detail) } catch {} })
 // touch: on-screen buttons, swipe between beats, tap the intro to start
 document.querySelectorAll('#ctl button').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); onKey({ key: b.dataset.k }); b.blur() }))
 $('intro').addEventListener('click', () => { $('intro').style.display = 'none' })

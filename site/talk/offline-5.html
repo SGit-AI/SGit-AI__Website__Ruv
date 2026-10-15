@@ -6,16 +6,219 @@
 <title>Talk player</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f766e%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Georgia%27%3Er%3C/text%3E%3C/svg%3E">
 <style>
-:root { --bg:#0f1115; --fg:#f4f1ea; --dim:#9a968c; --teal:#2dd4bf; --amber:#f59e0b; --red:#f87171; --line:#2a2d35; --card:#161a20 }
+/* ruv.sgit.ai: the five themes of newsroom.sgit.ai (Newsprint, Night, Paper, Blueprint, Ember).
+   The token blocks below are copied from https://newsroom.sgit.ai/assets/themes/themes.css (card 036), unchanged,
+   so a theme looks the same on both sites. One attribute on <html> picks it: data-theme="night". Absent or unknown
+   is Newsprint. Set before first paint by assets/theme.js; chosen with the picker in the nav; the talk player and
+   the live app read the same tokens, so the whole site, the slides and the app change together.
+   THE RULE (the newsroom's): a stylesheet names a colour through a token, and a token is defined here in all five
+   themes. Terminal blocks are the one exception: dark in every theme, the way a terminal is. */
+
+/* Newsprint: warm off-white and teal, the look since v0.6.0. The default. */
+:root,
+:root[data-theme="newsprint"] {
+  --bg:#faf9f5; --panel:#ffffff; --panel2:#f2f0e9; --line:#e5e1d5; --line2:#d5d0c2;
+  --fg:#1c1d21; --dim:#5c5f66; --dim2:#8a8d94;
+  --head:#101114; --text:#34363c; --code-ink:#24343f;
+  --accent:#0f766e; --accent-dk:#115e59; --on-accent:#ffffff;
+  --yellow:#a16207; --warm:#b45309; --red:#b91c1c;
+  --tint:rgba(15,118,110,.07); --tint-line:rgba(15,118,110,.35); --tint-solid:#e6f4ee;
+  --mute-bg:#eef1f4; --input-bg:#ffffff; --mark:#fff1c2;
+  --warn-bg:#fff7e6; --warn-line:#f1d7a2; --warn-ink:#5c3d06;
+  --danger-bg:#fdecec; --danger-ink:#8a0a0a;
+  --info-bg:#e8eefc; --info-ink:#1d4ed8;
+  --nav-bg:rgba(250,249,245,.92);
+  --shadow:0 1px 2px rgba(28,29,33,.05),0 4px 14px rgba(28,29,33,.04);
+  --shadow-pop:0 6px 24px rgba(28,29,33,.13);
+  --swatch:#0f766e;
+  color-scheme:light;
+}
+
+/* Night: the dark mode that was asked for. Teal stays the accent, lifted two steps so it
+   holds 4.5:1 on the dark page; links take the lighter teal, because --accent-dk is the
+   LINK colour on this site and "dark" is the wrong direction on a dark page. */
+:root[data-theme="night"] {
+  --bg:#0f1115; --panel:#161a21; --panel2:#1c2129; --line:#2a303a; --line2:#3a4150;
+  --fg:#e6e8ec; --dim:#a3a9b5; --dim2:#7c8391;
+  --head:#f4f5f7; --text:#c9cdd4; --code-ink:#d5d9e0;
+  --accent:#2dd4bf; --accent-dk:#5eead4; --on-accent:#06211d;
+  --yellow:#e3b341; --warm:#f0a35a; --red:#ff7b72;
+  --tint:rgba(45,212,191,.10); --tint-line:rgba(45,212,191,.38); --tint-solid:#163a36;
+  --mute-bg:#242a34; --input-bg:#0f1115; --mark:#4a3c12;
+  --warn-bg:#2f2612; --warn-line:#5c4a1c; --warn-ink:#f1d7a2;
+  --danger-bg:#3a1a1a; --danger-ink:#ffb4ac;
+  --info-bg:#1b2740; --info-ink:#9fb8ff;
+  --nav-bg:rgba(15,17,21,.9);
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.35);
+  --shadow-pop:0 6px 24px rgba(0,0,0,.55);
+  --swatch:#2dd4bf;
+  color-scheme:dark;
+}
+
+/* Paper: warm cream and terracotta. Newsprint with the lights down and the ink browner,
+   for reading long pieces. */
+:root[data-theme="paper"] {
+  --bg:#f7f1e6; --panel:#fffcf6; --panel2:#efe6d6; --line:#e2d6c0; --line2:#cfc0a4;
+  --fg:#221c15; --dim:#655849; --dim2:#8d7f6b;
+  --head:#1d1811; --text:#3d3328; --code-ink:#3b2b22;
+  --accent:#a8442a; --accent-dk:#8e3620; --on-accent:#fff7f2;
+  --yellow:#8a6a18; --warm:#9a5b12; --red:#96271a;
+  --tint:rgba(168,68,42,.08); --tint-line:rgba(168,68,42,.38); --tint-solid:#f6e3da;
+  --mute-bg:#ece3d3; --input-bg:#fffcf6; --mark:#f8e3a8;
+  --warn-bg:#f3ead2; --warn-line:#d9c48e; --warn-ink:#5c4711;
+  --danger-bg:#f6dcd7; --danger-ink:#7a1d12;
+  --info-bg:#e4e6ee; --info-ink:#2b3f8f;
+  --nav-bg:rgba(247,241,230,.92);
+  --shadow:0 1px 2px rgba(70,52,30,.07),0 4px 14px rgba(70,52,30,.06);
+  --shadow-pop:0 6px 24px rgba(70,52,30,.16);
+  --swatch:#a8442a;
+  color-scheme:light;
+}
+
+/* Blueprint: white and electric blue. The cool, high-contrast one. */
+:root[data-theme="blueprint"] {
+  --bg:#ffffff; --panel:#ffffff; --panel2:#f1f3f7; --line:#dde1e9; --line2:#c4cad6;
+  --fg:#101318; --dim:#596270; --dim2:#828c9c;
+  --head:#0b0e13; --text:#2f3744; --code-ink:#1f2a44;
+  --accent:#1b4dff; --accent-dk:#1540d6; --on-accent:#ffffff;
+  --yellow:#946a00; --warm:#b45309; --red:#c81e1e;
+  --tint:rgba(27,77,255,.07); --tint-line:rgba(27,77,255,.35); --tint-solid:#e8edff;
+  --mute-bg:#edeff3; --input-bg:#ffffff; --mark:#fff1a8;
+  --warn-bg:#fdf3e7; --warn-line:#f0cfa0; --warn-ink:#7a3d06;
+  --danger-bg:#fde8e8; --danger-ink:#8f1414;
+  --info-bg:#e8edff; --info-ink:#1540d6;
+  --nav-bg:rgba(255,255,255,.92);
+  --shadow:0 1px 2px rgba(16,19,24,.05),0 4px 14px rgba(16,19,24,.05);
+  --shadow-pop:0 6px 24px rgba(16,19,24,.14);
+  --swatch:#1b4dff;
+  color-scheme:light;
+}
+
+/* Ember: dark and amber. The second dark theme, warm where Night is cool. Amber is light
+   enough that the ink ON it must be dark, which is what --on-accent exists for. */
+:root[data-theme="ember"] {
+  --bg:#16130f; --panel:#1d1914; --panel2:#262019; --line:#352d24; --line2:#4a3f33;
+  --fg:#f1e9dc; --dim:#b3a692; --dim2:#8a7c68;
+  --head:#f7f1e7; --text:#d2c6b3; --code-ink:#e6dbc8;
+  --accent:#e0a22b; --accent-dk:#f0bb56; --on-accent:#231705;
+  --yellow:#e5c565; --warm:#ffb070; --red:#ff8a78;
+  --tint:rgba(224,162,43,.10); --tint-line:rgba(224,162,43,.4); --tint-solid:#3a2d12;
+  --mute-bg:#2e2720; --input-bg:#16130f; --mark:#5a4512;
+  --warn-bg:#2d3a2b; --warn-line:#4d6a48; --warn-ink:#cde0c9;
+  --danger-bg:#3d1f1a; --danger-ink:#ffb9ad;
+  --info-bg:#2b2a40; --info-ink:#b9b8ff;
+  --nav-bg:rgba(22,19,15,.9);
+  --shadow:0 1px 2px rgba(0,0,0,.45),0 4px 14px rgba(0,0,0,.4);
+  --shadow-pop:0 6px 24px rgba(0,0,0,.6);
+  --swatch:#e0a22b;
+  color-scheme:dark;
+}
+
+@media print{
+  :root[data-theme]{
+    --bg:#faf9f5; --panel:#ffffff; --panel2:#f2f0e9; --line:#e5e1d5; --line2:#d5d0c2;
+    --fg:#1c1d21; --dim:#5c5f66; --dim2:#8a8d94;
+    --head:#101114; --text:#34363c; --code-ink:#24343f;
+    --accent:#0f766e; --accent-dk:#115e59; --on-accent:#ffffff;
+    --yellow:#a16207; --warm:#b45309; --red:#b91c1c;
+    --tint:rgba(15,118,110,.07); --tint-line:rgba(15,118,110,.35); --tint-solid:#e6f4ee;
+    --mute-bg:#eef1f4; --input-bg:#ffffff; --mark:#fff1c2;
+    --warn-bg:#fff7e6; --warn-line:#f1d7a2; --warn-ink:#5c3d06;
+    --danger-bg:#fdecec; --danger-ink:#8a0a0a;
+    --info-bg:#e8eefc; --info-ink:#1d4ed8;
+    --nav-bg:rgba(250,249,245,.92);
+    --shadow:none; --shadow-pop:none;
+    color-scheme:light;
+  }
+}
+
+/* ---------- this site's names, mapped onto the newsroom tokens (one place, every page) ---------- */
+:root{
+  --bg2:var(--panel2); --card:var(--panel); --ink:var(--fg); --m:var(--dim);
+  --t:var(--accent); --t2:var(--tint-solid); --a:var(--warm); --a2:var(--warn-bg);
+  --bad:var(--red); --bad2:var(--danger-bg); --code:var(--mute-bg);
+}
+
+/* ---------- the picker (drawn by assets/theme.js), the newsroom's look ---------- */
+.theme-pick{position:relative;flex:none}
+.theme-pick > button{display:inline-flex;align-items:center;gap:.45rem;font:inherit;font-size:13px;padding:4px 10px;border:1px solid var(--line2);border-radius:999px;background:var(--panel);color:var(--fg);cursor:pointer;line-height:1.2;white-space:nowrap}
+.theme-pick > button:hover,.theme-pick > button[aria-expanded="true"]{border-color:var(--accent)}
+.theme-pick .sw{display:inline-block;width:10px;height:10px;border-radius:50%;flex:none;background:var(--sw,var(--accent));box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.theme-pick .caret{font-size:.6em;opacity:.55}
+.theme-pick ul{position:absolute;top:100%;right:0;margin:6px 0 0;padding:6px;min-width:230px;list-style:none;z-index:70;background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow-pop)}
+.theme-pick ul[hidden]{display:none}
+.theme-pick li button{display:flex;align-items:center;gap:10px;width:100%;font:inherit;font-size:14px;text-align:left;padding:7px 10px;border:0;border-radius:6px;background:none;color:var(--fg);cursor:pointer}
+.theme-pick li button:hover{background:var(--panel2)}
+.theme-pick li button[aria-current="true"]{color:var(--accent-dk);font-weight:600}
+.theme-pick li button .n{display:block;font-size:12px;font-weight:400;color:var(--dim)}
+.theme-pick .sw-newsprint{--sw:#0f766e}.theme-pick .sw-night{--sw:#2dd4bf}.theme-pick .sw-paper{--sw:#a8442a}.theme-pick .sw-blueprint{--sw:#1b4dff}.theme-pick .sw-ember{--sw:#e0a22b}
+@media (max-width:520px){.theme-pick > button .name,.theme-pick > button .caret{display:none}}
+
+</style><script>
+/* ruv.sgit.ai: the theme, chosen and remembered. A classic script in <head>, before first paint (the newsroom's
+   themes.js does the same, for the same reason). The stored value is checked against THEMES before it reaches the
+   DOM. Nothing stored: the system preference picks Night or Newsprint. The same key is read by the site, the talk
+   player and the live app (one origin), so they change together; other open windows follow via the storage event. */
+(function () {
+  'use strict';
+  var KEY = 'ruv.theme';
+  var THEMES = { newsprint: ['Newsprint', 'Warm off-white, teal'], night: ['Night', 'Dark, teal'], paper: ['Paper', 'Warm cream, terracotta'],
+                 blueprint: ['Blueprint', 'White, electric blue'], ember: ['Ember', 'Dark, amber'] };
+  var has = function (k) { return Object.prototype.hasOwnProperty.call(THEMES, k); };
+  function stored() { try { var v = localStorage.getItem(KEY); if (has(v)) return v; var old = localStorage.getItem('theme'); return old === 'dark' ? 'night' : old === 'light' ? 'newsprint' : null; } catch (e) { return null; } }
+  function system() { try { return matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'newsprint'; } catch (e) { return 'newsprint'; } }
+  var q = null; try { q = new URLSearchParams(location.search).get('theme'); } catch (e) {}
+  function current() { return has(q) ? q : (stored() || system()); }
+  function apply(n) { document.documentElement.setAttribute('data-theme', n); return n; }
+  function set(n) { if (!has(n)) return current(); q = null; try { localStorage.setItem(KEY, n); } catch (e) {} apply(n); window.dispatchEvent(new CustomEvent('ruv-theme', { detail: n })); return n; }
+  apply(current());
+  window.addEventListener('storage', function (e) { if (e.key === KEY && has(e.newValue)) { apply(e.newValue); window.dispatchEvent(new CustomEvent('ruv-theme', { detail: e.newValue })); } });
+  window.RuvTheme = {
+    THEMES: THEMES, current: current, set: set,
+    isDark: function () { var n = current(); return n === 'night' || n === 'ember'; },
+    picker: function (host) {   // draws the picker into host (a button replaced by it)
+      var wrap = document.createElement('div'); wrap.className = 'theme-pick';
+      var b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-haspopup', 'true'); b.setAttribute('aria-expanded', 'false');
+      var ul = document.createElement('ul'); ul.hidden = true;
+      function label() { var n = current(); b.innerHTML = '<span class="sw sw-' + n + '"></span><span class="name">' + THEMES[n][0] + '</span><span class="caret">▾</span>'; b.title = 'Theme: ' + THEMES[n][0]; }
+      Object.keys(THEMES).forEach(function (k) {
+        var li = document.createElement('li'), x = document.createElement('button'); x.type = 'button';
+        x.innerHTML = '<span class="sw sw-' + k + '"></span><span>' + THEMES[k][0] + '<span class="n">' + THEMES[k][1] + '</span></span>';
+        x.addEventListener('click', function (e) { e.stopPropagation(); set(k); ul.hidden = true; b.setAttribute('aria-expanded', 'false'); });
+        li.appendChild(x); ul.appendChild(li);
+      });
+      function mark() { label(); [].forEach.call(ul.querySelectorAll('li button'), function (x, i) { x.setAttribute('aria-current', Object.keys(THEMES)[i] === current() ? 'true' : 'false'); }); }
+      b.addEventListener('click', function (e) { e.stopPropagation(); ul.hidden = !ul.hidden; b.setAttribute('aria-expanded', String(!ul.hidden)); });
+      document.addEventListener('click', function () { ul.hidden = true; b.setAttribute('aria-expanded', 'false'); });
+      window.addEventListener('ruv-theme', mark);
+      wrap.appendChild(b); wrap.appendChild(ul); mark(); host.replaceWith(wrap); return wrap;
+    }
+  };
+})();
+
+</script>
+<style>
+/* colours come from the site's theme (the five newsroom themes, assets/themes.css): the slides, the site and the live app change together */
+:root { --teal:var(--accent); --amber:var(--warm); --card:var(--panel) }
 * { box-sizing:border-box }
 html,body { margin:0; height:100%; background:var(--bg); color:var(--fg); font:18px/1.4 ui-sans-serif,system-ui,sans-serif; overflow:hidden }
-#stage { position:absolute; inset:0 0 56px 0; display:flex; padding:5vh 6vw; overflow:auto; -webkit-overflow-scrolling:touch; touch-action:pan-y pinch-zoom }
-#stage > .slide { margin:auto }   /* centred when it fits, scrollable from the top when it does not */
-body.presenter #stage { inset:0 36vw 56px 0; padding:4vh 3vw }
+#stage { position:absolute; inset:0 0 56px 0; display:flex; flex-direction:column; overflow:hidden; touch-action:pan-y pinch-zoom }
+/* the frame every slide shares, so nothing moves between slides: a brand strip, then the title, always top left */
+.sbrand { flex:none; display:flex; justify-content:space-between; align-items:center; gap:2vw; padding:2.4vh 4vw 0; font-size:1.6vh; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); white-space:nowrap; overflow:hidden }
+.sbrand .logo { display:inline-flex; align-items:center; gap:.8em; color:var(--head); font-weight:700; letter-spacing:.06em }
+.sbrand .logo i { font:700 1.8vh/1 Georgia,serif; font-style:normal; width:2.8vh; height:2.8vh; border-radius:.6vh; background:var(--accent); color:var(--on-accent); display:inline-flex; align-items:center; justify-content:center; letter-spacing:0; text-transform:none }
+.sbrand .logo b { color:var(--accent); font-weight:700 }
+.shead { flex:none; padding:2.6vh 4vw 0 }
+.shead h2 { margin:0; font:600 4.4vh/1.15 Georgia,serif; color:var(--head) } .shead h2.big { font-size:7.2vh }
+.shead h2::after { content:""; display:block; width:7vh; height:.55vh; border-radius:.3vh; background:var(--accent); margin-top:1.6vh }
+.shead .sub { color:var(--dim); font-size:2vh; margin-top:1.4vh; min-height:2.6vh }
+.sbody { flex:1; min-height:0; display:flex; padding:2.4vh 4vw 3.4vh; overflow:auto; -webkit-overflow-scrolling:touch }
+.sbody > .slide { margin:auto 0 }   /* left edge fixed under the title; vertically centred when it fits, scrolls when it does not */
+body.presenter #stage { inset:0 36vw 56px 0 }
 body.audience #stage { inset:0 }
 body.audience #bar, body.audience #side { display:none !important }
 #black { position:fixed; inset:0; background:#000; display:none; z-index:50 } body.black #black { display:block }
-#side { display:none; position:absolute; top:0; right:0; bottom:56px; width:36vw; border-left:1px solid var(--line); padding:20px 22px; overflow:auto; background:#0b0d11 }
+#side { display:none; position:absolute; top:0; right:0; bottom:56px; width:36vw; border-left:1px solid var(--line); padding:20px 22px; overflow:auto; background:var(--panel2) }
 body.presenter #side { display:block }
 #bar { position:absolute; left:0; right:0; bottom:0; height:56px; display:flex; align-items:center; gap:14px; padding:0 12px 0 20px; border-top:1px solid var(--line); font-variant-numeric:tabular-nums; background:var(--bg) }
 #bar .clock { font-size:24px; font-weight:700; min-width:6.6em; white-space:nowrap } .dim { color:var(--dim) }
@@ -24,53 +227,52 @@ body.review .b, body.review tr.row, body.review ul.bul li, body.review .term .ou
 #prog { flex:1; height:8px; background:var(--line); border-radius:4px; position:relative; cursor:pointer }
 #prog i { position:absolute; top:-4px; width:2px; height:16px; background:var(--dim) }
 #prog b { position:absolute; left:0; top:0; bottom:0; background:var(--teal); border-radius:4px }
-.slide { width:100%; max-width:1300px }
-.kicker { color:var(--teal); text-transform:uppercase; letter-spacing:.12em; font-size:2.2vh; margin-bottom:2vh }
-.statement h1, .title h1 { font:600 6.4vh/1.15 Georgia,serif; margin:0 0 4vh }
-.title h1 { font-size:8vh } .title .sub { font-size:3.4vh; color:var(--dim) } .title .who { font-size:2.8vh; margin-top:5vh }
+.slide { width:100%; max-width:1400px }
+.statement h1 { font:600 5.6vh/1.18 Georgia,serif; margin:0 0 3.4vh; color:var(--head) }
+.title .sub { font-size:3.4vh; color:var(--text) } .title .who { font-size:2.8vh; margin-top:5vh; color:var(--dim) }
 .b { font-size:4vh; margin:1.4vh 0; opacity:0; transform:translateY(1vh); transition:all .5s }
 .b.on { opacity:1; transform:none }
 .big { font:600 5vh/1.2 ui-monospace,monospace; color:var(--teal); word-break:break-all }
-.term { background:#05070a; border:1px solid var(--line); border-radius:12px; padding:3vh 3vw; font:2.5vh/1.5 ui-monospace,monospace; white-space:pre-wrap; word-break:break-all }
+/* a terminal is dark in every theme (the newsroom's one exception), so its colours are its own */
+.term { background:#05070a; color:#e6e8ec; border:1px solid #2a303a; border-radius:12px; padding:3vh 3vw; font:2.5vh/1.5 ui-monospace,monospace; white-space:pre-wrap; word-break:break-all }
 .term.small { font-size:2vh } .term .cap { color:var(--dim); font:2vh ui-sans-serif,system-ui; margin-bottom:1.5vh }
-.term .p { color:var(--teal) } .term .out { color:var(--amber); margin-top:2vh; opacity:0; transition:opacity .4s } .term .out.on { opacity:1 }
-.term .out .hl { color:var(--red); font-weight:700 }
-.cursor { display:inline-block; width:.6em; background:var(--fg); animation:blink 1s steps(1) infinite } @keyframes blink { 50% { opacity:0 } }
-table { border-collapse:collapse; font-size:2.1vh; width:100% } caption { font:600 3.4vh Georgia,serif; margin-bottom:2vh; text-align:left }
+.term .p { color:#2dd4bf } .term .out { color:#f0b45a; margin-top:2vh; opacity:0; transition:opacity .4s } .term .out.on { opacity:1 }
+.term .out .hl { color:#ff7b72; font-weight:700 }
+.cursor { display:inline-block; width:.6em; background:#e6e8ec; animation:blink 1s steps(1) infinite } @keyframes blink { 50% { opacity:0 } }
+table { border-collapse:collapse; font-size:2.1vh; width:100%; color:var(--text) }
 th,td { text-align:left; padding:.8vh 1vw; border-bottom:1px solid var(--line); vertical-align:top } th { color:var(--dim); font-weight:600 }
 tr.row { opacity:.08; transition:opacity .4s } tr.row.on { opacity:1 }
 .allowed,.yes { color:var(--teal) } .denied,.no { color:var(--red) } .approval_required,.approval { color:var(--amber) }
 .foot { color:var(--dim); margin-top:2vh; font-size:2vh }
 ul.bul { list-style:none; padding:0; font-size:3.4vh; margin:0 } ul.bul li { margin:2.2vh 0; opacity:0; transition:opacity .5s } ul.bul li.on { opacity:1 } ul.bul li:before { content:"→ "; color:var(--teal) }
-.image { text-align:center } .image img { max-width:100%; max-height:74vh; border-radius:12px; border:1px solid var(--line) } .image .cap { color:var(--dim); font-size:2.2vh; margin-top:1.6vh }
+.image img { display:block; max-width:100%; max-height:58vh; border-radius:12px; border:1px solid var(--line) }
 .quote blockquote { font:500 4.6vh/1.3 Georgia,serif; margin:0 0 3vh; border-left:6px solid var(--teal); padding-left:3vw }
 .quote blockquote .b { font-size:inherit; margin:0 0 2vh }
 .quote cite { color:var(--dim); font-size:2.3vh; font-style:normal }
-.iframe iframe { width:100%; height:76vh; border:0; border-radius:12px; background:#faf9f5 }
-.iframe .cap { color:var(--dim); font-size:2vh; margin-top:1vh }
+.iframe iframe { display:block; width:100%; height:58vh; border:1px solid var(--line); border-radius:12px; background:var(--bg) }
 #side h3 { margin:.2em 0; font:600 22px Georgia,serif } #side .say { font-size:23px; line-height:1.5; margin:14px 0 22px }
 #side .left { font:700 40px ui-sans-serif,system-ui; font-variant-numeric:tabular-nums } #side .left.behind { color:var(--red) } #side .left.ok { color:var(--teal) }
 #side .next { color:var(--dim); border-top:1px solid var(--line); padding-top:12px; font-size:16px }
 #side .next b { color:var(--fg) } #side .cue { color:var(--amber); font-size:15px; margin:-8px 0 16px }
 #side .meta { color:var(--dim); font-size:14px; display:flex; justify-content:space-between }
 #ctl { display:flex; gap:6px } #ctl button { min-width:44px; height:44px; border:1px solid var(--line); background:var(--card); color:var(--fg); border-radius:10px; font:600 16px ui-sans-serif,system-ui; cursor:pointer; touch-action:manipulation; padding:0 10px }
-#ctl button:active { background:#0d2a26 } #ctl button.on { border-color:var(--teal); color:var(--teal) }
+#ctl button:active { background:var(--tint-solid) } #ctl button.on { border-color:var(--teal); color:var(--teal) }
 @media (max-width:900px) { #state { display:none } #bar .clock { font-size:18px } }
 @media (orientation:portrait) {   /* iPad upright: the words go under the slide, not beside it */
   body.presenter #stage { inset:0 0 calc(42vh + 56px) 0 }
   body.presenter #side { top:auto; left:0; width:auto; height:42vh; border-left:0; border-top:1px solid var(--line) }
-  .statement h1, .title h1 { font-size:5vh } table { font-size:1.7vh } }
+  .statement h1 { font-size:4.4vh } .shead h2 { font-size:3.6vh } .shead h2.big { font-size:5.4vh } table { font-size:1.7vh } }
 #intro { position:absolute; inset:0 0 56px 0; display:flex; align-items:center; justify-content:center; text-align:center; color:var(--dim); background:var(--bg); z-index:10; padding:20px }
 #intro h2 { color:var(--fg); font:600 5vh Georgia,serif; margin:0 0 1vh } #intro kbd, #help kbd { border:1px solid var(--line); border-radius:4px; padding:1px 6px; color:var(--fg); font:14px ui-monospace,monospace }
 #help { position:fixed; inset:10vh 20vw; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:24px 30px; display:none; z-index:40; overflow:auto } body.help #help { display:block }
 #help td { font-size:16px; padding:6px 10px }
-#err { position:fixed; top:10px; left:10px; right:10px; background:#3d1a17; color:#fde4e1; padding:10px 14px; border-radius:8px; display:none; z-index:60 }
+#err { position:fixed; top:10px; left:10px; right:10px; background:var(--danger-bg); color:var(--danger-ink); padding:10px 14px; border-radius:8px; display:none; z-index:60 }
 </style>
 </head>
 <body>
 <div id="stage"></div>
 <aside id="side"></aside>
-<div id="bar"><div id="ctl"><button data-k="ArrowLeft" aria-label="previous beat">◀</button><button data-k=" " id="pp" aria-label="play or pause">▶</button><button data-k="ArrowRight" aria-label="next beat">▶︎▶︎</button><button data-k="v" id="rv" aria-label="review mode: everything at once, no animation">review</button><button data-k="p" id="nb" aria-label="speaker notes">notes</button><button data-k="f" aria-label="fullscreen">⛶</button></div><span class="clock" id="clock">0:00</span><span class="dim" id="beatno"></span><div id="prog" title="click to seek"><b id="progb"></b></div><span class="dim" id="state">paused</span></div>
+<div id="bar"><div id="ctl"><button data-k="ArrowLeft" aria-label="previous beat">◀</button><button data-k=" " id="pp" aria-label="play or pause">▶</button><button data-k="ArrowRight" aria-label="next beat">▶︎▶︎</button><button data-k="v" id="rv" aria-label="review mode: everything at once, no animation">review</button><button data-k="p" id="nb" aria-label="speaker notes">notes</button><button data-k="t" id="th" aria-label="next theme" title="theme (the site's five)">◐</button><button data-k="f" aria-label="fullscreen">⛶</button></div><span class="clock" id="clock">0:00</span><span class="dim" id="beatno"></span><div id="prog" title="click to seek"><b id="progb"></b></div><span class="dim" id="state">paused</span></div>
 <div id="intro"><div><h2 id="ttl">Talk player</h2><p id="sub"></p><p>Tap ▶ or press <kbd>Space</kbd> to start · swipe left or right between beats · <b>review</b> or <kbd>V</kbd> to see everything at once · <b>notes</b> or <kbd>P</kbd> for the words · <kbd>A</kbd> audience window · <kbd>?</kbd> all keys</p></div></div>
 <div id="black"></div>
 <div id="err"></div>
@@ -82,6 +284,7 @@ ul.bul { list-style:none; padding:0; font-size:3.4vh; margin:0 } ul.bul li { mar
 <tr><td><kbd>A</kbd></td><td>open the audience window (drag it to the projector, press F there); both stay in sync</td></tr>
 <tr><td><kbd>F</kbd></td><td>fullscreen</td></tr>
 <tr><td><kbd>B</kbd> <kbd>.</kbd></td><td>black screen (also on the audience window)</td></tr>
+<tr><td><kbd>T</kbd> or <b>◐</b></td><td>next theme: the site's five (Newsprint, Night, Paper, Blueprint, Ember), shared with the website and the audience window</td></tr>
 <tr><td><kbd>V</kbd> or <b>review</b></td><td>review mode: every beat as it looks at its end, no animation, the clock stopped; step with → ← or swipe (or open player.html?review)</td></tr>
 <tr><td><kbd>R</kbd></td><td>rehearsal: records when each beat actually started; press again to save rehearsal.json</td></tr>
 <tr><td><kbd>0</kbd> <kbd>Home</kbd></td><td>back to 0:00</td></tr>
@@ -89,7 +292,7 @@ ul.bul { list-style:none; padding:0; font-size:3.4vh; margin:0 } ul.bul li { mar
 </table></div>
 <script>
 // generated by site/build/talk_offline.py from talk-5.json: do not edit
-window.TALK = {"title": "Autonomy with a mandate and a memory", "event": "Agentic Engineering Live: rUv in London, 15 Oct 2026", "speaker": "Dinis Cruz", "duration_s": 300, "source": "ruv.sgit.ai: every number on screen is read from data/report.json, data/abp.json or a recorded run under evidence/ · the five-minute cut of talk-10.json", "data": {"report": "../data/report.json", "abp": "../data/abp.json"}, "beats": [{"id": "claim", "at": 0, "dur": 30, "title": "The claim", "slide": {"layout": "statement", "kicker": "rUv + sgit.ai", "text": "Autonomy needs two more things to be trusted.", "builds": [{"at": 8, "text": "A written mandate per agent."}, {"at": 16, "text": "Memory with history the host can't read."}]}, "say": "I'm Dinis, sgit.ai. rUv's stack lets agents go to town: swarms, consensus, self-learning. Autonomy needs two more things to be trusted: a written mandate per agent, and memory with history the host can't read. Tonight both run inside his tools."}, {"id": "default", "at": 30, "dur": 45, "title": "Ruflo's default", "slide": {"layout": "terminal", "caption": "Recorded 14 Oct 2026 · ruflo 3.56.10, fresh project · evidence/ruflo-policy-legacy.json", "command": "npx ruflo policy evaluate '{\"identity\":{\"id\":\"coder-1\",\"type\":\"agent\"},\"action\":{\"type\":\"email.send\"}}'", "output": "{\n  \"outcome\": \"«allowed»\",\n  \"mode\": \"legacy\",\n  \"reason\": \"«legacy-default-allow»\",\n  \"matchedRules\": [],\n  \"receiptId\": \"sha256:aebf8a41ea9e886ba26048d992f9ea17…\"\n}", "type_ms": 25, "output_at": 6}, "say": "Ruflo has a real policy engine: rules, budgets, a hash-chained receipt ledger. But on a fresh project its mode is legacy. Ask whether the coder may send email: allowed, legacy-default-allow. Nobody wrote down that it may not, so it may."}, {"id": "table", "at": 75, "dur": 90, "title": "Same 11 actions, default against the ABP", "cue": "Rows reveal every 5 s; the stopped ones are the point.", "slide": {"layout": "table", "caption": "Same 11 actions: Ruflo's default against the ABP", "columns": ["role", "action", "resource", "Ruflo default", "with the ABP"], "rows_from": "report", "reveal_from": 3, "reveal_every": 6}, "say": "Compile the ABP into Ruflo's own engine and play the same eleven actions twice. Left, the default: everything allowed. Right, enforce mode with the ABP: email denied, pastebin denied, the tester editing source denied, the researcher reading AWS credentials denied; the push and the deploy need a named human. Six of eleven stopped, five allowed, and every reason names its ABP row. Your engine enforces it. The ABP is the mandate it enforces. Same mandate, live in the browser at ruv.sgit.ai/app, served from the vault."}, {"id": "memory", "at": 165, "dur": 75, "title": "Memory with history", "slide": {"layout": "terminal", "caption": "POC2, recorded 14 Oct 2026 · ruflo 3.56.10 · sgit-ai 0.21.0 · evidence/poc2-run.txt", "command": "sgit history log --oneline", "small": true, "output": "3bf90dd8d00a (HEAD)  memory: tester learned something in run local-20261014T2132  +5  [blobs:+5 trees:+3]\n8ac2a0e9f200  memory: coder learned something in run local-20261014T2132  +5  [blobs:+5 trees:+4]\n1ac3298a6cc9  init: memory vault  +1  [blobs:+1]\n48aaaee48630  init\n\n# fresh clone, DB files restored, ruflo memory list -n <role>:\n== coder\n| coder/lesson-local-202... | coder     | 72 B |   -    |        0 | 4m ago  |\n[INFO] Showing 1 of 1 entries\n== tester\n| tester/lesson-local-20... | tester    | 72 B |   -    |        0 | 4m ago  |\n[INFO] Showing 1 of 1 entries", "type_ms": 45, "output_at": 3}, "say": "RuVector's own README lists no encryption at rest and no versioning. Each agent role writes its Ruflo memory on its own branch of a vault, encrypted on the client, AES-256-GCM; the server only sees ciphertext. The branches merge. Then the folder is deleted, the vault cloned fresh, the memory restored, and Ruflo asked again: coder and tester answer as before. The history says who learned what, and when."}, {"id": "ask", "at": 240, "dur": 60, "title": "The ask", "slide": {"layout": "statement", "kicker": "The ask", "text": "Pick one, and we build it together.", "builds": [{"at": 8, "text": "Ruflo policy profiles generated from ABPs"}, {"at": 16, "text": "Vault-backed memory for RuVector"}, {"at": 30, "text": "ruv.sgit.ai · public vault okbiml09"}]}, "say": "Tokens compiled from the mandate, with the why kept. Pick one, and we build it together: Ruflo policy profiles generated from ABPs, so a swarm ships with its mandate; or vault-backed memory for RuVector, encrypted, versioned, branch per agent. And we show it back here, at a future Agentics London. Everything is at ruv.sgit.ai. Thank you."}]};
+window.TALK = {"title": "Autonomy with a mandate and a memory", "event": "Agentic Engineering Live: rUv in London, 15 Oct 2026", "speaker": "Dinis Cruz", "duration_s": 300, "source": "ruv.sgit.ai: every number on screen is read from data/report.json, data/abp.json or a recorded run under evidence/ · the five-minute cut of talk-10.json", "data": {"report": "../data/report.json", "abp": "../data/abp.json"}, "beats": [{"id": "claim", "at": 0, "dur": 30, "title": "The claim", "slide": {"layout": "statement", "text": "Autonomy needs two more things to be trusted.", "builds": [{"at": 8, "text": "A written mandate per agent."}, {"at": 16, "text": "Memory with history the host can't read."}], "sub": "What tonight shows, inside rUv's stack"}, "say": "I'm Dinis, sgit.ai. rUv's stack lets agents go to town: swarms, consensus, self-learning. Autonomy needs two more things to be trusted: a written mandate per agent, and memory with history the host can't read. Tonight both run inside his tools."}, {"id": "default", "at": 30, "dur": 45, "title": "Ruflo's default", "slide": {"layout": "terminal", "caption": "Recorded 14 Oct 2026 · ruflo 3.56.10, fresh project · evidence/ruflo-policy-legacy.json", "command": "npx ruflo policy evaluate '{\"identity\":{\"id\":\"coder-1\",\"type\":\"agent\"},\"action\":{\"type\":\"email.send\"}}'", "output": "{\n  \"outcome\": \"«allowed»\",\n  \"mode\": \"legacy\",\n  \"reason\": \"«legacy-default-allow»\",\n  \"matchedRules\": [],\n  \"receiptId\": \"sha256:aebf8a41ea9e886ba26048d992f9ea17…\"\n}", "type_ms": 25, "output_at": 6}, "say": "Ruflo has a real policy engine: rules, budgets, a hash-chained receipt ledger. But on a fresh project its mode is legacy. Ask whether the coder may send email: allowed, legacy-default-allow. Nobody wrote down that it may not, so it may."}, {"id": "table", "at": 75, "dur": 90, "title": "Same 11 actions, default against the ABP", "cue": "Rows reveal every 5 s; the stopped ones are the point.", "slide": {"layout": "table", "caption": "POC1 · the same trace evaluated twice, recorded 14 Oct 2026 · data/report.json", "columns": ["role", "action", "resource", "Ruflo default", "with the ABP"], "rows_from": "report", "reveal_from": 3, "reveal_every": 6}, "say": "Compile the ABP into Ruflo's own engine and play the same eleven actions twice. Left, the default: everything allowed. Right, enforce mode with the ABP: email denied, pastebin denied, the tester editing source denied, the researcher reading AWS credentials denied; the push and the deploy need a named human. Six of eleven stopped, five allowed, and every reason names its ABP row. Your engine enforces it. The ABP is the mandate it enforces. Same mandate, live in the browser at ruv.sgit.ai/app, served from the vault."}, {"id": "memory", "at": 165, "dur": 75, "title": "Memory with history", "slide": {"layout": "terminal", "caption": "POC2, recorded 14 Oct 2026 · ruflo 3.56.10 · sgit-ai 0.21.0 · evidence/poc2-run.txt", "command": "sgit history log --oneline", "small": true, "output": "3bf90dd8d00a (HEAD)  memory: tester learned something in run local-20261014T2132  +5  [blobs:+5 trees:+3]\n8ac2a0e9f200  memory: coder learned something in run local-20261014T2132  +5  [blobs:+5 trees:+4]\n1ac3298a6cc9  init: memory vault  +1  [blobs:+1]\n48aaaee48630  init\n\n# fresh clone, DB files restored, ruflo memory list -n <role>:\n== coder\n| coder/lesson-local-202... | coder     | 72 B |   -    |        0 | 4m ago  |\n[INFO] Showing 1 of 1 entries\n== tester\n| tester/lesson-local-20... | tester    | 72 B |   -    |        0 | 4m ago  |\n[INFO] Showing 1 of 1 entries", "type_ms": 45, "output_at": 3}, "say": "RuVector's own README lists no encryption at rest and no versioning. Each agent role writes its Ruflo memory on its own branch of a vault, encrypted on the client, AES-256-GCM; the server only sees ciphertext. The branches merge. Then the folder is deleted, the vault cloned fresh, the memory restored, and Ruflo asked again: coder and tester answer as before. The history says who learned what, and when."}, {"id": "ask", "at": 240, "dur": 60, "title": "The ask", "slide": {"layout": "statement", "text": "Pick one, and we build it together.", "builds": [{"at": 8, "text": "Ruflo policy profiles generated from ABPs"}, {"at": 16, "text": "Vault-backed memory for RuVector"}, {"at": 30, "text": "ruv.sgit.ai · public vault okbiml09"}], "sub": "Two POCs to build together"}, "say": "Tokens compiled from the mandate, with the why kept. Pick one, and we build it together: Ruflo policy profiles generated from ABPs, so a swarm ships with its mandate; or vault-backed memory for RuVector, encrypted, versioned, branch per agent. And we show it back here, at a future Agentics London. Everything is at ruv.sgit.ai. Thank you."}]};
 window.TALK_DATA = {"report": {"deployment": "Ruflo SPARC swarm (ruflo 3.56.10) on a POC repo, run by Claude Code", "owner": "Dinis Cruz", "rows": [{"who": "coder", "action": "file.write", "resource": "src/**", "legacy": "allowed (legacy-default-allow)", "abp": "allowed (allowed-by:abp:coder:write.file.project)"}, {"who": "coder", "action": "test.run", "resource": "", "legacy": "allowed (legacy-default-allow)", "abp": "allowed (allowed-by:abp:coder:execute.process.self)"}, {"who": "coder", "action": "repo.commit", "resource": "", "legacy": "allowed (legacy-default-allow)", "abp": "allowed (allowed-by:abp:coder:write.repository.project)"}, {"who": "coder", "action": "repo.push", "resource": "origin/feature", "legacy": "allowed (legacy-default-allow)", "abp": "approval_required (approval-required-by:abp:coder:write.repository.tenant)"}, {"who": "coder", "action": "network.fetch", "resource": "registry.npmjs.org", "legacy": "allowed (legacy-default-allow)", "abp": "allowed (allowed-by:abp:coder:send.endpoint.allowed)"}, {"who": "coder", "action": "network.fetch.world", "resource": "pastebin.example", "legacy": "allowed (legacy-default-allow)", "abp": "denied (denied-by:abp:coder:send.endpoint.world)"}, {"who": "coder", "action": "email.send", "resource": "gmail", "legacy": "allowed (legacy-default-allow)", "abp": "denied (denied-by:abp:coder:send.message.world)"}, {"who": "tester", "action": "file.write", "resource": "src/**", "legacy": "allowed (legacy-default-allow)", "abp": "denied (denied-by:abp:tester:write.file.project)"}, {"who": "researcher", "action": "credential.read", "resource": "~/.aws/credentials", "legacy": "allowed (legacy-default-allow)", "abp": "denied (denied-by:abp:researcher:read.credential.host)"}, {"who": "queen-strategic", "action": "model.call", "resource": "", "legacy": "allowed (legacy-default-allow)", "abp": "allowed (allowed-by:abp:queen-strategic:write.budget.tenant)"}, {"who": "documenter", "action": "deploy", "resource": "", "legacy": "allowed (legacy-default-allow)", "abp": "approval_required (approval-required-by:abp:documenter:create.record.world)"}], "gaps": [], "ledger": {"legacy": {"valid": true, "length": 11}, "abp": {"valid": true, "length": 11}}}, "abp": {"abp_version": "0.1-poc", "deployment": "Ruflo SPARC swarm (ruflo 3.56.10) on a POC repo, run by Claude Code", "owner": "Dinis Cruz", "valid_until": "2026-10-31", "roles": [{"id": "queen-strategic", "purpose": "plan the objective, choose topology, assign roles", "rows": [{"capability": "read.file.project", "reach": true, "mandate": "yes", "why": "needs the spec and the code"}, {"capability": "write.budget.tenant", "reach": true, "mandate": "yes", "why": "model calls within budget", "instances": ["daily-model <= $10"]}, {"capability": "send.message.world", "reach": true, "mandate": "no", "why": "agents draft, a person sends", "barrier": "policy deny + no mail credential in the sandbox"}, {"capability": "create.record.world", "reach": true, "mandate": "approval", "why": "publishing or deploying needs a named human", "barrier": "require_approval rule + CI protected environment"}, {"capability": "read.credential.host", "reach": true, "mandate": "no", "why": "secrets are not context", "barrier": "deny rule; secrets only via the supervisor"}]}, {"id": "coder", "purpose": "implement the change, on a branch", "rows": [{"capability": "read.file.project", "reach": true, "mandate": "yes", "why": "read code"}, {"capability": "write.file.project", "reach": true, "mandate": "yes", "why": "edit code", "instances": ["src/**", "tests/**"]}, {"capability": "execute.process.self", "reach": true, "mandate": "yes", "why": "build and test in the sandbox"}, {"capability": "write.repository.project", "reach": true, "mandate": "yes", "why": "commit to its branch"}, {"capability": "write.repository.tenant", "reach": true, "mandate": "approval", "why": "push needs review", "barrier": "require_approval; branch protection"}, {"capability": "send.endpoint.allowed", "reach": true, "mandate": "yes", "why": "package registries only", "instances": ["registry.npmjs.org", "pypi.org"]}, {"capability": "send.endpoint.world", "reach": true, "mandate": "no", "why": "no other hosts", "barrier": "default-deny egress"}, {"capability": "send.message.world", "reach": true, "mandate": "no", "why": "agents draft, a person sends", "barrier": "policy deny + no mail credential in the sandbox"}, {"capability": "create.record.world", "reach": true, "mandate": "approval", "why": "publishing or deploying needs a named human", "barrier": "require_approval rule + CI protected environment"}, {"capability": "read.credential.host", "reach": true, "mandate": "no", "why": "secrets are not context", "barrier": "deny rule; secrets only via the supervisor"}]}, {"id": "tester", "purpose": "run tests, report", "rows": [{"capability": "read.file.project", "reach": true, "mandate": "yes", "why": "read"}, {"capability": "execute.process.self", "reach": true, "mandate": "yes", "why": "run tests"}, {"capability": "write.file.project", "reach": true, "mandate": "no", "why": "testers do not change code", "barrier": "deny rule"}, {"capability": "send.message.world", "reach": true, "mandate": "no", "why": "agents draft, a person sends", "barrier": "policy deny + no mail credential in the sandbox"}, {"capability": "create.record.world", "reach": true, "mandate": "approval", "why": "publishing or deploying needs a named human", "barrier": "require_approval rule + CI protected environment"}, {"capability": "read.credential.host", "reach": true, "mandate": "no", "why": "secrets are not context", "barrier": "deny rule; secrets only via the supervisor"}]}, {"id": "reviewer", "purpose": "review diffs against the mandate", "rows": [{"capability": "read.file.project", "reach": true, "mandate": "yes", "why": "read diffs"}, {"capability": "read.record.history", "reach": true, "mandate": "yes", "why": "see what each turn did"}, {"capability": "send.message.world", "reach": true, "mandate": "no", "why": "agents draft, a person sends", "barrier": "policy deny + no mail credential in the sandbox"}, {"capability": "create.record.world", "reach": true, "mandate": "approval", "why": "publishing or deploying needs a named human", "barrier": "require_approval rule + CI protected environment"}, {"capability": "read.credential.host", "reach": true, "mandate": "no", "why": "secrets are not context", "barrier": "deny rule; secrets only via the supervisor"}]}, {"id": "researcher", "purpose": "fetch public sources", "rows": [{"capability": "send.endpoint.allowed", "reach": true, "mandate": "yes", "why": "public docs only", "instances": ["github.com", "npmjs.com", "docs.*"]}, {"capability": "write.file.project", "reach": true, "mandate": "yes", "why": "notes only", "instances": ["notes/**"]}, {"capability": "send.message.world", "reach": true, "mandate": "no", "why": "agents draft, a person sends", "barrier": "policy deny + no mail credential in the sandbox"}, {"capability": "create.record.world", "reach": true, "mandate": "approval", "why": "publishing or deploying needs a named human", "barrier": "require_approval rule + CI protected environment"}, {"capability": "read.credential.host", "reach": true, "mandate": "no", "why": "secrets are not context", "barrier": "deny rule; secrets only via the supervisor"}]}, {"id": "documenter", "purpose": "write docs", "rows": [{"capability": "read.file.project", "reach": true, "mandate": "yes", "why": "read"}, {"capability": "write.file.project", "reach": true, "mandate": "yes", "why": "docs only", "instances": ["docs/**"]}, {"capability": "send.message.world", "reach": true, "mandate": "no", "why": "agents draft, a person sends", "barrier": "policy deny + no mail credential in the sandbox"}, {"capability": "create.record.world", "reach": true, "mandate": "approval", "why": "publishing or deploying needs a named human", "barrier": "require_approval rule + CI protected environment"}, {"capability": "read.credential.host", "reach": true, "mandate": "no", "why": "secrets are not context", "barrier": "deny rule; secrets only via the supervisor"}]}]}};
 window.TALK_IMAGES = {};
 </script>
@@ -151,33 +354,38 @@ function tableFoot(spec, foot) {
 const cellClass = c => ['allowed', 'denied', 'approval_required', 'yes', 'no', 'approval'].includes(c) ? c : ''
 
 function render(b) {
-  const s = b.slide, st = $('stage'); st.innerHTML = ''
-  const el = document.createElement('div'); el.className = 'slide ' + s.layout; st.appendChild(el)
+  const s = b.slide, st = $('stage'), n = talk.beats.indexOf(b) + 1
+  // the frame: brand strip, then the title top left (the beat's title, or the big title on a title slide), then a subtitle line
+  const head = s.layout === 'title' ? s.text : (s.heading || b.title)
+  const sub = s.layout === 'title' ? (s.kicker || '') : (s.sub || s.caption || s.kicker || '')
+  st.innerHTML = `<div class="sbrand"><span class="logo"><i>r</i>ruv.sgit.ai <b>·</b> rUv + sgit</span><span>${esc(talk.event || '')}</span><span>${n} / ${talk.beats.length}</span></div>` +
+    `<div class="shead"><h2${s.layout === 'title' ? ' class="big"' : ''}>${head}</h2><div class="sub">${sub}</div></div><div class="sbody"></div>`
+  const el = document.createElement('div'); el.className = 'slide ' + s.layout; st.querySelector('.sbody').appendChild(el)
   const builds = (s.builds || []).map(x => `<div class="b" data-at="${x.at}">${x.text}</div>`).join('')
   if (s.layout === 'title') {
-    el.innerHTML = `${s.kicker ? `<div class="kicker">${s.kicker}</div>` : ''}<h1>${s.text}</h1><div class="sub">${s.sub || ''}</div><div class="who">${s.who || ''}</div>${builds}`
+    el.innerHTML = `<div class="sub">${s.sub || ''}</div><div class="who">${s.who || ''}</div>${builds}`
   } else if (s.layout === 'statement') {
-    el.innerHTML = (s.kicker ? `<div class="kicker">${s.kicker}</div>` : '') + `<h1>${s.text}</h1>` + builds
+    el.innerHTML = `<h1>${s.text}</h1>` + builds
   } else if (s.layout === 'terminal') {
-    el.innerHTML = `<div class="term${s.small ? ' small' : ''}">${s.caption ? `<div class="cap">${s.caption}</div>` : ''}<span class="p">$ </span><span class="cmd"></span><span class="cursor">&nbsp;</span><div class="out">${(s.output || '').split('\n').map(l => esc(l)).join('\n').replace(/«(.+?)»/g, '<span class="hl">$1</span>')}</div></div>`
+    el.innerHTML = `<div class="term${s.small ? ' small' : ''}"><span class="p">$ </span><span class="cmd"></span><span class="cursor">&nbsp;</span><div class="out">${(s.output || '').split('\n').map(l => esc(l)).join('\n').replace(/«(.+?)»/g, '<span class="hl">$1</span>')}</div></div>`
   } else if (s.layout === 'table') {
     const rows = s.rows_from ? rowsFrom(s.rows_from) : s.rows
-    el.innerHTML = `<table><caption>${s.caption}</caption><tr>${s.columns.map(c => `<th>${esc(c)}</th>`).join('')}</tr>` +
+    el.innerHTML = `<table><tr>${s.columns.map(c => `<th>${esc(c)}</th>`).join('')}</tr>` +
       rows.map((r, i) => `<tr class="row" data-at="${(s.reveal_from || 0) + i * (s.reveal_every || 0)}">${r.map(c => `<td class="${cellClass(c)}">${esc(c).replace('_', ' ')}</td>`).join('')}</tr>`).join('') +
       `</table><div class="foot">${tableFoot(s.rows_from, s.footer)}</div>` + builds
   } else if (s.layout === 'bullets') {
-    el.innerHTML = (s.kicker ? `<div class="kicker">${s.kicker}</div>` : '') + `<ul class="bul">${s.items.map((x, i) => `<li data-at="${i * (s.reveal_every || 0)}">${x}</li>`).join('')}</ul>`
+    el.innerHTML = `<ul class="bul">${s.items.map((x, i) => `<li data-at="${i * (s.reveal_every || 0)}">${x}</li>`).join('')}</ul>`
   } else if (s.layout === 'quote') {
-    el.innerHTML = (s.kicker ? `<div class="kicker">${s.kicker}</div>` : '') + `<blockquote>${s.lines.map((x, i) => `<div class="b" data-at="${i * (s.reveal_every || 0)}">${x}</div>`).join('')}</blockquote><cite>${s.cite || ''}</cite>`
+    el.innerHTML = `<blockquote>${s.lines.map((x, i) => `<div class="b" data-at="${i * (s.reveal_every || 0)}">${x}</div>`).join('')}</blockquote><cite>${s.cite || ''}</cite>`
   } else if (s.layout === 'image') {
     const src = window.TALK_IMAGES?.[s.src] || s.src
-    el.innerHTML = `<img src="${src}" alt="${esc(s.alt || s.caption || '')}"><div class="cap">${s.caption || ''}</div>`
+    el.innerHTML = `<img src="${src}" alt="${esc(s.alt || s.caption || '')}">`
   } else if (s.layout === 'iframe') {
     if (location.protocol === 'file:' && s.fallback) {   // a live page cannot load its WASM from file://; show the recorded screenshot
       const src = window.TALK_IMAGES?.[s.fallback] || s.fallback
-      el.className = 'slide image'; el.innerHTML = `<img src="${src}" alt="${esc(s.caption || '')}"><div class="cap">${s.caption || ''} (screenshot: the offline file cannot run the live page)</div>`
+      el.className = 'slide image'; el.innerHTML = `<img src="${src}" alt="${esc(s.caption || '')}">`; st.querySelector('.shead .sub').textContent += ' (screenshot: the offline file cannot run the live page)'
     } else {
-      el.innerHTML = `<iframe src="${s.src}" tabindex="-1"></iframe><div class="cap">${s.caption || ''}</div>`
+      el.innerHTML = `<iframe src="${s.src}${s.src.includes('?') ? '&' : '?'}theme=${window.RuvTheme ? RuvTheme.current() : ''}" tabindex="-1"></iframe>`   // the live app wears the slides' theme
       const f = el.querySelector('iframe')
       f.addEventListener('load', () => { try { f.contentDocument.activeElement?.blur(); f.blur(); f.contentWindow.addEventListener('keydown', e => { if (['PageDown', 'PageUp', 'Escape'].includes(e.key) || (['ArrowRight', 'ArrowLeft'].includes(e.key) && e.target.tagName !== 'INPUT')) { window.focus(); onKey(e) } }) } catch {} window.focus() })
     }
@@ -250,6 +458,7 @@ function onKey(e) {
   else if (k === 'b' || k === 'B' || k === '.') { black = !black; document.body.classList.toggle('black', black) }
   else if (k === '?') document.body.classList.toggle('help')
   else if (k === 'Escape') document.body.classList.remove('help')
+  else if (k === 't' || k === 'T') { if (window.RuvTheme) { const ks = Object.keys(RuvTheme.THEMES); RuvTheme.set(ks[(ks.indexOf(RuvTheme.current()) + 1) % ks.length]); $('th').title = 'theme: ' + RuvTheme.THEMES[RuvTheme.current()][0] } }
   else if (k === 'v' || k === 'V') { review = !review; playing = false; document.body.classList.toggle('review', review); beatIx = -1 }
   else if (k === 'r' || k === 'R') {
     rehearse = !rehearse
@@ -263,6 +472,7 @@ function onKey(e) {
   if (handled) { e.preventDefault?.(); send() }
 }
 addEventListener('keydown', onKey)
+window.addEventListener('ruv-theme', e => { try { document.querySelector('#stage iframe')?.contentDocument.documentElement.setAttribute('data-theme', e.detail) } catch {} })
 // touch: on-screen buttons, swipe between beats, tap the intro to start
 document.querySelectorAll('#ctl button').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); onKey({ key: b.dataset.k }); b.blur() }))
 $('intro').addEventListener('click', () => { $('intro').style.display = 'none' })

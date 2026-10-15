@@ -5,9 +5,22 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.6",
+   "version": "v0.1.7",
    "date": "2026-10-15",
    "commit": null,
+   "title": "The newsroom's five themes, and slides that do not move",
+   "changes": "The five themes of newsroom.sgit.ai (Newsprint, Night, Paper, Blueprint, Ember) are now the site's colours: the token blocks are copied from its themes.css, the site's stylesheet names every colour through them, and a picker in the nav replaces the light/dark button. The talk player and the live app read the same tokens, so the slides, the site and the app change together (no more dark slides with a white app); T or the ◐ button picks the next theme in the player; terminals stay dark in every theme, as on the newsroom. Every slide now shares one frame: a brand strip (ruv.sgit.ai · rUv + sgit, the event, the slide number) and the title top left at the same position on all fourteen, with a source line under it; labels and captions that used to sit inside or under the slide moved there. Diagrams take their colours from the theme.",
+   "pages": [
+    "talk/player.html",
+    "app/index.html",
+    "index.html",
+    "assets/themes.css"
+   ]
+  },
+  {
+   "version": "v0.1.6",
+   "date": "2026-10-15",
+   "commit": "23030b3",
    "title": "Review mode, and a bottom bar that does not move",
    "changes": "The talk player has a review mode (the review button, V, or player.html?review): every beat as it looks at its end, all builds, rows, typed commands and outputs at once, no animation, the clock stopped, stepped with the arrows or a swipe. The beat title is gone from the bottom bar (the slide has its own), and the bar's pieces have fixed widths, so nothing in it moves from beat to beat. The live app no longer takes the keyboard when embedded, so the arrows keep working on its beat.",
    "pages": [

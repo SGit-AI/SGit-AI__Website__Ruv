@@ -1,11 +1,13 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ABP + memory, in the browser</title>
-<style>:root{--bg:#faf9f5;--ink:#1a1917;--m:#6b675f;--line:#e5e2d9;--t:#0f766e;--bad:#b42318}
-@media(prefers-color-scheme:dark){:root{--bg:#1a1917;--ink:#efeae0;--m:#a39d90;--line:#3a3833;--t:#4cc1b4;--bad:#f97066}}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,sans-serif;padding:20px 16px}main{max-width:980px;margin:auto}
-h1{font:bold 26px Georgia,serif;margin:0}input{font:inherit;width:100%;box-sizing:border-box;padding:10px;border:1px solid var(--line);border-radius:8px;background:transparent;color:inherit}
-table{width:100%;border-collapse:collapse;font-size:13px}#report{overflow-x:auto}td{overflow-wrap:anywhere}td,th{border-top:1px solid var(--line);padding:6px;text-align:left;vertical-align:top}.k{color:var(--m);font-size:12px}
-.ok{color:var(--t)}.no{color:var(--bad)}.ap{color:#b45309}.card{border:1px solid var(--line);border-radius:10px;padding:12px;margin:12px 0}code{font-size:12px}</style></head>
+<link rel="stylesheet" href="../assets/themes.css"><script src="../assets/theme.js"></script>
+<!-- on ruv.sgit.ai the app takes the site's theme (the five newsroom themes); served alone from the vault, those two files are absent and the fallbacks below apply -->
+<style>:root{--a-bg:var(--bg,#faf9f5);--a-ink:var(--fg,#1a1917);--a-m:var(--dim,#6b675f);--a-line:var(--line,#e5e2d9);--a-t:var(--accent,#0f766e);--a-bad:var(--red,#b42318);--a-ap:var(--warm,#b45309);--a-card:var(--panel,transparent)}
+@media(prefers-color-scheme:dark){html:not([data-theme]){--a-bg:#1a1917;--a-ink:#efeae0;--a-m:#a39d90;--a-line:#3a3833;--a-t:#4cc1b4;--a-bad:#f97066;--a-ap:#f4b942}}
+body{margin:0;background:var(--a-bg);color:var(--a-ink);font:15px/1.5 system-ui,sans-serif;padding:20px 16px}main{max-width:980px;margin:auto}
+h1{font:bold 26px Georgia,serif;margin:0}input{font:inherit;width:100%;box-sizing:border-box;padding:10px;border:1px solid var(--a-line);border-radius:8px;background:transparent;color:inherit}
+table{width:100%;border-collapse:collapse;font-size:13px}#report{overflow-x:auto}td{overflow-wrap:anywhere}td,th{border-top:1px solid var(--a-line);padding:6px;text-align:left;vertical-align:top}.k{color:var(--a-m);font-size:12px}
+.ok{color:var(--a-t)}.no{color:var(--a-bad)}.ap{color:var(--a-ap)}.card{background:var(--a-card);border:1px solid var(--a-line);border-radius:10px;padding:12px;margin:12px 0}code{font-size:12px}</style></head>
 <body><main>
 <p class="k">sgit vault + Agent Behaviour Policy + RuVector WASM · runs in your browser, offline after load</p>
 <h1>What is this swarm allowed to do?</h1>

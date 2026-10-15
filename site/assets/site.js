@@ -1,6 +1,6 @@
 // ruv.sgit.ai: nav, theme, Mermaid, markdown includes, POC data tables. No build step needed for these.
 (() => {
-  const VERSION = 'v0.1.6';   // written by site/build/versions.py from admin/versions.json
+  const VERSION = 'v0.1.7';   // written by site/build/versions.py from admin/versions.json
   // four groups instead of eleven links (the same shape as sgit.ai: brand, version, grouped menus, a Menu button on phones)
   const NAV = [
     ['Tonight', [['talk/index.html', "Tonight's talk"], ['talk/player.html?talk=talk-10.json', 'Present (10 min)'], ['demo.html', 'The five-minute demo script']]],
@@ -25,16 +25,13 @@
     const mb = document.querySelector('.menu-btn');
     if (mb) mb.addEventListener('click', () => { const o = document.body.classList.toggle('nav-open'); mb.setAttribute('aria-expanded', o); mb.textContent = o ? 'Close' : 'Menu'; });
   }
-  // theme
-  const saved = (() => { try { return localStorage.getItem('theme'); } catch { return null; } })();
-  if (saved) document.documentElement.dataset.theme = saved;
-  const btn = document.querySelector('.theme');
-  const isDark = () => (document.documentElement.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark';
-  const label = () => { if (btn) btn.textContent = isDark() ? '☀ light' : '☾ dark'; };
-  label();
-  if (btn) btn.addEventListener('click', () => { const t = isDark() ? 'light' : 'dark'; document.documentElement.dataset.theme = t; try { localStorage.setItem('theme', t); } catch {} label(); location.reload(); });
+  // theme: the five newsroom themes (assets/themes.css), applied before paint by assets/theme.js; the picker replaces the old toggle
+  const btn = document.querySelector('header.top .theme');
+  const isDark = () => window.RuvTheme ? RuvTheme.isDark() : matchMedia('(prefers-color-scheme: dark)').matches;
+  if (btn && window.RuvTheme) RuvTheme.picker(btn);
+  if (document.querySelector('.mermaid')) window.addEventListener('ruv-theme', () => location.reload());   // diagrams are drawn in the theme's colours
   // mermaid
-  if (window.mermaid) mermaid.initialize({ startOnLoad: true, theme: isDark() ? 'dark' : 'neutral', securityLevel: 'loose', flowchart: { curve: 'basis', htmlLabels: true }, themeVariables: isDark() ? { primaryColor: '#163e3a', primaryTextColor: '#efeae0', lineColor: '#a39d90' } : { primaryColor: '#d9f1ee', primaryTextColor: '#1a1917', lineColor: '#6b675f' } });
+  if (window.mermaid) mermaid.initialize({ startOnLoad: true, theme: isDark() ? 'dark' : 'neutral', securityLevel: 'loose', flowchart: { curve: 'basis', htmlLabels: true }, themeVariables: (() => { const v = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim(); return { primaryColor: v('--tint-solid'), primaryTextColor: v('--head'), primaryBorderColor: v('--accent'), lineColor: v('--dim'), background: v('--panel'), mainBkg: v('--tint-solid'), secondaryColor: v('--panel2'), tertiaryColor: v('--panel'), textColor: v('--fg'), fontFamily: 'ui-sans-serif,system-ui,sans-serif' }; })() });
   // copy buttons
   document.querySelectorAll('pre:not(.mermaid)').forEach(pre => { const b = document.createElement('button'); b.className = 'copy'; b.textContent = 'copy'; b.onclick = () => { navigator.clipboard?.writeText(pre.innerText.replace(/copy$/, '').trim()); b.textContent = 'copied'; setTimeout(() => b.textContent = 'copy', 1200); }; pre.appendChild(b); });
   // markdown includes: <div class="md" data-md="data/x.md">
