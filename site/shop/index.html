@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shop · ruv.sgit</title>
+<meta name="description" content="Mix and match task runs, dedicated compute, a maintained repository subscription and expert time. No payment is taken here: the order is emailed to agent@riskmandate.ai and we follow up by email.">
+<link rel="canonical" href="https://ruv.sgit.ai/shop/index.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f766e%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Georgia%27%3Er%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/site.css">
+<script src="../assets/theme.js"></script>
+<style>
+.shop{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:28px;align-items:start}
+.shop>*{min-width:0}
+.grp{margin:0 0 30px}.grp:first-child>h2{margin-top:0}.grp>h2{margin-top:.6em}.grp .who{margin-top:-6px}
+.items{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin:14px 0}
+.item{display:flex;flex-direction:column;gap:8px;scroll-margin-top:80px}
+.item h3{margin:0;font-size:19px}
+.item .price{font:700 20px Georgia,serif;color:var(--t)}.item .price small{font:400 13px ui-sans-serif,system-ui;color:var(--m);margin-left:4px}
+.item .price.req{font-size:17px;color:var(--a)}
+.item p{margin:0}
+.item ul{margin:0;padding-left:18px;font-size:14px;color:var(--m)}.item ul li{margin:2px 0}
+.item .opts{display:flex;flex-direction:column;gap:8px;margin-top:auto;padding-top:6px}
+.fld{display:flex;flex-direction:column;gap:4px;font-size:13.5px}.fld>span{font-weight:600;color:var(--ink)}
+.fld .hint{font-weight:400;color:var(--m)}
+select,input,textarea{font:inherit;font-size:16px;color:var(--ink);background:var(--input-bg,var(--card));border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%;min-height:42px}
+textarea{min-height:110px;resize:vertical}
+select:focus-visible,input:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--t);outline-offset:2px}
+[aria-invalid="true"]{border-color:var(--bad)}
+.err{color:var(--bad);font-size:13px;min-height:0}.err:empty{display:none}
+.addrow{display:flex;gap:8px;align-items:end}.addrow .fld{flex:0 0 92px}
+button{font:inherit;cursor:pointer}
+.b{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:42px;padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-weight:600;font-size:14.5px;touch-action:manipulation}
+.b:hover{border-color:var(--t);color:var(--t)}
+.b.p{background:var(--t);border-color:var(--t);color:var(--on-accent)}.b.p:hover{color:var(--on-accent);filter:brightness(1.08)}
+.b.full{flex:1}.b[disabled]{opacity:.55;cursor:not-allowed}
+.b.sm{min-height:36px;min-width:36px;padding:4px 10px;font-size:14px}
+.b.link{border:0;background:none;color:var(--m);font-weight:500;padding:4px 6px;min-height:36px;text-decoration:underline}.b.link:hover{color:var(--bad)}
+.cart{position:sticky;top:72px;max-height:calc(100vh - 90px);overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:16px}
+.cart h2{margin:0 0 8px;font-size:24px}
+.cart ol{list-style:none;margin:0;padding:0}
+.line{border-top:1px solid var(--line);padding:10px 0;max-width:none}
+.line .nm{font-weight:600}.line .op{font-size:13px;color:var(--m)}
+.line .row{display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap}
+.line .q{min-width:28px;text-align:center;font-variant-numeric:tabular-nums;font-weight:600}
+.line .sub{margin-left:auto;font-variant-numeric:tabular-nums;font-weight:600}
+.tot{border-top:2px solid var(--line);padding-top:10px;margin-top:4px;display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:18px}
+.tot b{font-family:Georgia,serif;font-size:22px;color:var(--t);font-variant-numeric:tabular-nums}
+.empty{color:var(--m);font-size:14.5px}
+.cart .acts{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;max-width:780px}.form .wide{grid-column:1/-1}
+.done{border:1px solid var(--line);border-left:4px solid var(--t);background:var(--card);border-radius:14px;padding:18px;box-shadow:var(--shadow);margin-top:18px}
+.done pre{white-space:pre-wrap;max-height:420px;overflow:auto}
+.done .acts{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.mbar{display:none}
+#done,#cart,#checkout-sec,.grp{scroll-margin-top:72px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media(max-width:900px){
+  .shop{grid-template-columns:1fr}
+  .cart{position:static;max-height:none}
+  .mbar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;align-items:center;gap:10px;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:var(--nav-bg);backdrop-filter:blur(10px);border-top:1px solid var(--line)}
+  .mbar[hidden]{display:none}
+  .mbar span{flex:1;font-weight:600;font-size:15px}
+  body.has-bar footer{padding-bottom:96px}
+}
+@media(max-width:560px){.form{grid-template-columns:1fr}.items{grid-template-columns:1fr}}
+</style>
+</head>
+<body data-root="../">
+<header class="top"><div class="wrap"><a class="brand" href="../index.html">ruv.sgit.ai<small>rUv + sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
+
+<section class="hero"><div class="wrap">
+<p class="k">Work with us · runs, compute, a subscription, expert time</p>
+<h1>Shop</h1>
+<p class="lead">Mix and match: task runs + dedicated compute + a maintained repository subscription + expert time. Put together what you need, tell us what you want done, and send the order.</p>
+<p class="callout"><b>No payment is taken here.</b> Sending the order emails it to <a href="mailto:agent@riskmandate.ai">agent@riskmandate.ai</a>; we follow up by email. Prices are in GBP and exclude VAT.</p>
+</div></section>
+
+<section><div class="wrap shop">
+<div id="catalogue" aria-busy="true"><p class="k" id="cat-status">loading the catalogue…</p></div>
+<aside class="cart" id="cart" aria-labelledby="cart-h" tabindex="-1">
+<h2 id="cart-h">Your order</h2>
+<div id="cart-body"><p class="empty">Nothing yet: add something from the catalogue.</p></div>
+</aside>
+</div></section>
+
+<section class="alt" id="checkout-sec"><div class="wrap">
+<h2 id="checkout-h">Check out</h2>
+<p>Tell us who you are and what you want done. Required fields are marked *. No payment: we follow up by email.</p>
+<form id="checkout" class="form" novalidate aria-labelledby="checkout-h">
+<label class="fld"><span>Name *</span><input id="f-name" name="name" autocomplete="name" required maxlength="120" aria-describedby="e-name"><span class="err" id="e-name"></span></label>
+<label class="fld"><span>Email *</span><input id="f-email" name="email" type="email" autocomplete="email" required maxlength="200" aria-describedby="e-email"><span class="err" id="e-email"></span></label>
+<label class="fld"><span>Organisation</span><input id="f-org" name="organisation" autocomplete="organization" maxlength="160"></label>
+<label class="fld"><span>Preferred start <span class="hint">(e.g. next week)</span></span><input id="f-start" name="start" maxlength="80"></label>
+<label class="fld wide"><span>What you want done * <span class="hint">(one paragraph)</span></span><textarea id="f-what" name="what" required maxlength="2000" aria-describedby="e-what"></textarea><span class="err" id="e-what"></span></label>
+<label class="fld"><span>How you heard about us</span><select id="f-heard" name="heard"><option value="">(choose)</option><option>A talk or demo</option><option>rUv / ruvnet</option><option>sgit.ai or the newsroom</option><option>GitHub</option><option>A colleague</option><option>Search</option><option>Other</option></select></label>
+<div class="fld wide"><span class="err" id="e-cart"></span>
+<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button class="b p" type="submit" id="send">Send order</button><span class="k" id="send-note">Opens your email app with the order to agent@riskmandate.ai.</span></div></div>
+</form>
+<div id="done" class="done" hidden tabindex="-1" aria-labelledby="done-h"></div>
+</div></section>
+
+<div class="mbar" id="mbar" hidden><span id="mbar-t"></span><a class="b p" href="#cart">View order</a></div>
+<p class="sr" aria-live="polite" id="live"></p>
+
+<footer><div class="wrap"><span>ruv.sgit.ai · shop</span><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">source on GitHub</a><a href="https://sgit.ai">sgit.ai</a><a href="https://github.com/ruvnet">github.com/ruvnet</a><span>code Apache-2.0 · rUv's projects MIT, by rUv / ruvnet</span><a href="../llms.txt">llms.txt</a></div></footer>
+<script src="../assets/site.js"></script>
+<script src="shop.js"></script>
+</body>
+</html>
