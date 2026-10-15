@@ -47,6 +47,7 @@ This file is the briefing for agents working on this site. Every page has the si
 - [Replicate](https://ruv.sgit.ai/replicate.html) · [Five-minute demo script](https://ruv.sgit.ai/demo.html)
 
 ## Articles (each has a .md twin)
+- After the talk (run r10-articles): [The talk, slide by slide](https://ruv.sgit.ai/articles/the-talk-long-read.md) (a long read, a screenshot at almost every step) · [The talk, live](https://ruv.sgit.ai/articles/the-talk-live.html) (13 animations embedded with play/pause/step controls, `assets/live-frames.js`) · [How it was made](https://ruv.sgit.ai/articles/how-it-was-made.md) (the history and its numbers, `site/build/history_stats.py` → `data/how-it-was-made-stats.json`) · [The talk player](https://ruv.sgit.ai/articles/the-talk-player.md) (every feature; a business for somebody to build; Claude, speaking for itself) · [Walking backwards](https://ruv.sgit.ai/articles/walking-backwards.md) (the non-linear path to the features, failures and bugs included)
 - [The studio: a Ruflo hive that animates its own explanation](https://ruv.sgit.ai/articles/the-studio.md): plan, architecture, run 1
 - [The business model](https://ruv.sgit.ai/articles/ruv-sgit-business-model.md): four services, prices and their costs, Wardley maps, how to copy it
 - [Set it up: a brief any agent can follow](https://ruv.sgit.ai/articles/studio-setup-brief.md): install, vaults, hive, lanes (append mode), observe, close the run into one evidence vault, a prompt to paste into any agent

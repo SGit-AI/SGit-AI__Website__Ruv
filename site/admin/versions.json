@@ -5,9 +5,23 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.27",
+   "version": "v0.1.28",
    "date": "2026-10-15",
    "commit": null,
+   "title": "Five articles after the talk (run r10-articles)",
+   "changes": "Run r10-articles (5 workers, 7 commits, plaintext found on the server 0, fresh clone identical, vault deleted and verified) wrote five articles while it was fresh: The talk, slide by slide (a long read with 93 screenshots); The talk, live (13 animations embedded with their own controls); How it was made (the history from agents the session ran itself to ruv.sgit runs, with its numbers computed by a script); The talk player (every feature, a business for somebody to build, and Claude speaking for itself); Walking backwards (the non-linear path to the features, failures and bugs included). The Articles menu lists them.",
+   "pages": [
+    "articles/the-talk-long-read.html",
+    "articles/the-talk-live.html",
+    "articles/how-it-was-made.html",
+    "articles/the-talk-player.html",
+    "articles/walking-backwards.html"
+   ]
+  },
+  {
+   "version": "v0.1.27",
+   "date": "2026-10-15",
+   "commit": "158d113",
    "title": "The talk stops at the end of the deck",
    "changes": "In any mode (auto on or off, playing), the talk now stops at the end of its last slide; Space no longer runs on into the extras. Only » or → enters them.",
    "pages": [

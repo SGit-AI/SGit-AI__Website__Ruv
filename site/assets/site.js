@@ -1,13 +1,13 @@
 // ruv.sgit.ai: nav, theme, Mermaid, markdown includes, POC data tables. No build step needed for these.
 (() => {
-  const VERSION = 'v0.1.27';   // written by site/build/versions.py from admin/versions.json
+  const VERSION = 'v0.1.28';   // written by site/build/versions.py from admin/versions.json
   // four groups instead of eleven links (the same shape as sgit.ai: brand, version, grouped menus, a Menu button on phones)
   const NAV = [
     ['Tonight', [['talk/index.html', "Tonight's talk"], ['talk/player.html?talk=talk-10.json', 'Present (10 min)'], ['replicate.html#offline', 'Run it on your laptop, offline'], ['demo.html', 'The five-minute demo script']]],
     ['The idea', [['index.html', 'Overview'], ['ruv-stack.html', "rUv's stack"], ['use-cases.html', 'Use cases'], ['architecture.html', 'Architecture']]],
     ['Proofs', [['ruv-sgit/index.html', 'ruv.sgit runs and vaults'], ['pocs.html', 'The six POCs'], ['app/index.html', 'Live app'], ['studio/index.html', 'The studio'], ['replicate.html', 'Replicate']]],
     ['Work with us', [['business/index.html', 'Overview'], ['business/consultants.html', 'For consultants'], ['business/companies.html', 'For companies'], ['business/teams.html', 'For internal teams'], ['shop/index.html', 'The shop'], ['articles/ruv-sgit-business-model.html', 'The business model'], ['mailto:agent@riskmandate.ai', 'Contact: agent@riskmandate.ai']]],
-    ['Articles', [['articles/index.html', 'All articles'], ['articles/the-studio.html', 'The studio: plan'], ['articles/studio-setup-brief.html', 'Set it up: the brief']]],
+    ['Articles', [['articles/index.html', 'All articles'], ['articles/the-talk-long-read.html', 'The talk, slide by slide'], ['articles/the-talk-live.html', 'The talk, live'], ['articles/how-it-was-made.html', 'How it was made'], ['articles/the-talk-player.html', 'The talk player'], ['articles/walking-backwards.html', 'Walking backwards'], ['articles/the-studio.html', 'The studio: plan'], ['articles/studio-setup-brief.html', 'Set it up: the brief']]],
   ];
   const root = document.body.dataset.root ?? '';
   const segs = location.pathname.split('/'), file = segs.pop() || 'index.html';
