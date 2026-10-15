@@ -1,0 +1,8 @@
+{"purpose": "animations of the definition: ruv.sgit, a Ruflo hive + sgit vaults + Agent Behaviour Policies",
+ "feedback": "Dinis, 15 Oct 2026: let's go with the title and sub heading 'ruv.sgit: a Ruflo hive + sgit vaults + Agent Behaviour Policies'; in fact it needs its own animations.",
+ "workers": [
+  {"id": "equation", "role": "designer", "task": "the equation: three parts arrive, each shows what it brings, they combine into ruv.sgit", "out": "site/ruv-sgit/define/equation/"},
+  {"id": "layers", "role": "developer", "task": "the layers: hive, mandate and vault as three planes, a run falling through all three", "out": "site/ruv-sgit/define/layers/"},
+  {"id": "journey", "role": "developer", "task": "one action's journey: a worker's request goes queen to ABP to vault, with the recorded outcomes", "out": "site/ruv-sgit/define/journey/"},
+  {"id": "editor", "role": "editor", "task": "check every claim and number in the three animations against the data", "out": "out/ruv-sgit/r3-define/editor/"}
+ ]}
