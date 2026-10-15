@@ -41,18 +41,34 @@
   {
    "id": "stack",
    "at": 65,
-   "dur": 25,
-   "title": "rUv's stack, one picture",
+   "dur": 10,
+   "title": "Before ruv.sgit: an AI infographic",
    "slide": {
     "layout": "image",
     "src": "../assets/img/ruv-stack-layers.webp",
-    "caption": "Bottom to top: RVM, RuVector, Ruflo, MetaHarness, the hosts · all MIT, by rUv / ruvnet"
+    "caption": "Bottom to top: RVM, RuVector, Ruflo, MetaHarness, the hosts · all MIT, by rUv / ruvnet",
+    "heading": "Before ruv.sgit: an AI infographic",
+    "sub": "rUv's stack, drawn by an image model: cool, until we had the ruv.sgit workflow (next slide)"
    },
-   "say": "Here's his stack, bottom up. RVM, the capability VM. RuVector, the memory. Ruflo, the orchestrator, with queens and workers. MetaHarness, which assembles a harness for a host. And on top, the hosts you already use. It's overwhelming because it's complete, and it's all MIT. I plug into three places: the memory layer, where RuVector lives, Ruflo's hive, and Ruflo's policy engine."
+   "say": "This is rUv's stack as an AI infographic, made with an image model. It was cool, until we had the ruv.sgit workflow. Here's the same picture, made that way."
+  },
+  {
+   "id": "stack-ruv",
+   "at": 75,
+   "dur": 25,
+   "title": "rUv's stack, one picture",
+   "slide": {
+    "layout": "iframe",
+    "src": "slides/stack/index.html",
+    "fallback": "../assets/img/talk/stack.webp",
+    "heading": "rUv's stack, one picture",
+    "sub": "Bottom to top: RVM, RuVector, Ruflo, MetaHarness, the hosts · all MIT, by rUv / ruvnet · and where sgit plugs in"
+   },
+   "say": "His stack, bottom up: RVM, the capability VM. RuVector, the memory. Ruflo, the orchestrator, with queens and workers. MetaHarness, which assembles a harness for a host. And on top, the hosts you already use. It's overwhelming because it's complete, and it's all MIT. I plug into three places: a vault around the memory, one vault per hive run, and an ABP compiled into Ruflo's policy engine."
   },
   {
    "id": "ruvector",
-   "at": 90,
+   "at": 100,
    "dur": 45,
    "title": "Memory: what RuVector secures, and where sgit adds",
    "slide": {
@@ -66,7 +82,7 @@
   },
   {
    "id": "ruv-sgit",
-   "at": 135,
+   "at": 145,
    "dur": 50,
    "title": "ruv.sgit: one hive, one vault, one run",
    "slide": {
@@ -81,7 +97,7 @@
   },
   {
    "id": "lanes",
-   "at": 185,
+   "at": 195,
    "dur": 30,
    "title": "Vault lanes",
    "slide": {
@@ -95,7 +111,7 @@
   },
   {
    "id": "history",
-   "at": 215,
+   "at": 225,
    "dur": 45,
    "title": "Memory with history",
    "slide": {
@@ -109,7 +125,7 @@
   },
   {
    "id": "hive",
-   "at": 260,
+   "at": 270,
    "dur": 25,
    "title": "The hive in 3D",
    "slide": {
@@ -122,8 +138,8 @@
   },
   {
    "id": "motion",
-   "at": 285,
-   "dur": 50,
+   "at": 295,
+   "dur": 45,
    "title": "ruv.sgit in motion",
    "slide": {
     "layout": "iframe",
@@ -136,7 +152,7 @@
   },
   {
    "id": "ledger",
-   "at": 335,
+   "at": 340,
    "dur": 40,
    "title": "How to read the ledger",
    "slide": {
@@ -151,7 +167,7 @@
   },
   {
    "id": "city",
-   "at": 375,
+   "at": 380,
    "dur": 25,
    "title": "The city of vaults",
    "slide": {
@@ -164,7 +180,7 @@
   },
   {
    "id": "table",
-   "at": 400,
+   "at": 405,
    "dur": 35,
    "title": "Same 11 actions, default against the ABP",
    "slide": {
@@ -186,7 +202,7 @@
   },
   {
    "id": "services",
-   "at": 435,
+   "at": 440,
    "dur": 55,
    "title": "Four ways to work with us",
    "slide": {
@@ -200,7 +216,7 @@
   },
   {
    "id": "shop",
-   "at": 490,
+   "at": 495,
    "dur": 40,
    "title": "The shop",
    "slide": {
@@ -214,8 +230,8 @@
   },
   {
    "id": "ask",
-   "at": 530,
-   "dur": 40,
+   "at": 535,
+   "dur": 35,
    "title": "The ask",
    "slide": {
     "layout": "statement",

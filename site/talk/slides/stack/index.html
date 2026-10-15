@@ -23,10 +23,10 @@ body{overflow:hidden;position:relative;width:100vw;height:100vh;height:100dvh}
 #hd .src{margin-left:auto;font:600 16px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--dim)}
 
 /* the five layers */
-.band{position:absolute;left:24px;width:960px;display:grid;grid-template-columns:200px 1fr;gap:0 14px;padding:9px 16px 9px 18px;background:var(--panel);border:1.5px solid var(--line2);border-left:7px solid var(--accent);border-radius:12px;box-shadow:var(--shadow);opacity:0}
+.band{position:absolute;left:24px;width:960px;display:grid;grid-template-columns:212px 1fr;gap:0 14px;padding:9px 16px 9px 18px;background:var(--panel);border:1.5px solid var(--line2);border-left:7px solid var(--accent);border-radius:12px;box-shadow:var(--shadow);opacity:0}
 .band.host{border-left-color:var(--dim);background:var(--panel2)}
 .nm b{display:block;font-size:27px;font-weight:820;color:var(--head);line-height:1.1;letter-spacing:-.01em}
-.nm .chip{display:inline-block;margin-top:5px;font:700 16px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent);background:var(--tint-solid);border:1px solid var(--tint-line);border-radius:999px;padding:4px 9px}
+.nm .chip{display:inline-block;margin-top:5px;font:700 16px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent);background:var(--tint-solid);border:1px solid var(--tint-line);border-radius:999px;padding:4px 9px;white-space:nowrap}
 .nm .chip+.chip{margin-top:4px}
 .nm .fm{display:block;font-size:16px;color:var(--dim);margin-top:5px}
 .qq{font-size:20px;font-weight:720;color:var(--accent);line-height:1.2;margin:1px 0 7px}
@@ -95,10 +95,10 @@ body{overflow:hidden;position:relative;width:100vw;height:100vh;height:100dvh}
 
   <div id="sg"><div class="h">where sgit plugs in</div><div class="s">additive: rUv's layers stay as they are</div></div>
   <div class="pc" id="c1" style="top:350px"><span class="n">1</span><div class="t">an sgit vault around the memory files</div><div class="u">POC2</div></div>
-  <div class="pc" id="c2" style="top:134px"><span class="n">2</span><div class="t">one ephemeral vault per run, around the hive</div><div class="u">ruv.sgit</div></div>
+  <div class="pc" id="c2" style="top:134px"><span class="n">2</span><div class="t">one ephemeral vault per hive run</div><div class="u">ruv.sgit</div></div>
   <div class="pc" id="c3" style="top:236px"><span class="n">3</span><div class="t">an ABP compiled into enforce mode</div><div class="u">POC1</div></div>
 
-  <div class="ln" id="ln0">Five layers, five questions. Each one is real, shipped and documented.</div>
+  <div class="ln" id="ln0">Five layers, each answering one question.</div>
   <div class="ln" id="ln1">rUv's stack: complete, and all MIT. <b>sgit adds a vault and a written mandate.</b></div>
   <div id="bar"><i></i></div>
 </div>

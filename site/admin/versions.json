@@ -5,9 +5,21 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.15",
+   "version": "v0.1.16",
    "date": "2026-10-15",
    "commit": null,
+   "title": "The claim and rUv's stack, animated (run r7-claim)",
+   "changes": "Run r7-claim (2 workers; vault measured, 0 plaintext found, fresh clone identical, deleted and verified). The claim slide is now an animation: a worker's memory encrypted as it leaves the agent, versioned as a commit, scoped to one run and deleted, and a written mandate, ending on four panels with numbers read from data/vaults.json and data/report.json. rUv's stack: the old AI infographic stays for 10 s, labelled as made before ruv.sgit, followed by the same picture made with ruv.sgit: the five layers built bottom up with their pinned versions, then where sgit plugs in (a vault around the memory, one vault per hive run, an ABP in Ruflo's policy engine). The ask and the motion slide gave 5 s each; the talk is still 600 s.",
+   "pages": [
+    "talk/slides/claim/index.html",
+    "talk/slides/stack/index.html",
+    "talk/player.html"
+   ]
+  },
+  {
+   "version": "v0.1.15",
+   "date": "2026-10-15",
+   "commit": "b30fb3d",
    "title": "Home page alignment; no overflow in the header or the slide strip",
    "changes": "Home: the equation animation sits at the top of the hero beside the headline (it floated in the middle), at its own 1280x600 shape (no empty band), and plays once and holds. Header: the Menu button takes over below 960 px so the nav, GitHub and theme picker never push the page sideways (it overflowed at 828 px). Slides: the brand strip drops the event name below 1150 px and the GitHub address below 760 px instead of cutting it off.",
    "pages": [
