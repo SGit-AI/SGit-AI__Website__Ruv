@@ -32,7 +32,7 @@ body.narrow{overflow-x:hidden;overflow-y:auto}
 .plane,.slab{position:absolute;left:0;top:0;width:400px;height:230px;border-radius:20px}
 .slab{background:var(--line)}
 .plane{background-color:var(--panel);border:2px solid var(--line);overflow:hidden}
-.plane .pt{position:absolute;right:14px;top:10px;font:600 12.5px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--dim);letter-spacing:.02em}
+.plane .pt{position:absolute;right:14px;bottom:9px;font:600 12.5px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--dim);letter-spacing:.02em}
 .cn{position:absolute;width:2px;height:2px}
 .p-hive{background-image:radial-gradient(var(--line) 1.4px,transparent 1.8px);background-size:18px 18px;border-color:var(--accent)}
 .p-abp{background-image:repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px 13px);border-color:var(--warm)}
@@ -45,7 +45,7 @@ body.narrow{overflow-x:hidden;overflow-y:auto}
 .wk i{position:absolute;inset:-9px;border-radius:50%;border:2px solid var(--accent);opacity:0}
 .wl{position:absolute;transform:translate(-50%,0);font:600 12px system-ui,sans-serif;color:var(--dim);white-space:nowrap}
 .ring{position:absolute;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;border:2.5px solid var(--accent);opacity:0}
-.qlab{position:absolute;left:16px;top:12px;font:600 12.5px ui-monospace,monospace;color:var(--dim)}
+.qlab{position:absolute;left:16px;top:10px;font:600 12.5px ui-monospace,monospace;color:var(--dim)}
 /* mandate */
 .gate{position:absolute;width:104px;height:84px;margin:-42px 0 0 -52px;border-radius:14px;border:2.5px solid var(--line);background:var(--panel2);display:flex;flex-direction:column;align-items:center;justify-content:center}
 .gate .g{font:700 13px system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase}
@@ -55,7 +55,7 @@ body.narrow{overflow-x:hidden;overflow-y:auto}
 .g-deny{border-color:var(--red)} .g-deny .g{color:var(--red)}
 /* vault */
 .p-vault svg{position:absolute;inset:0;width:100%;height:100%}
-.lock{position:absolute;left:14px;top:9px;font:700 12.5px ui-monospace,monospace;color:var(--head)}
+.lock{position:absolute;right:14px;bottom:3px;font:700 12.5px ui-monospace,monospace;color:var(--head)}
 #scan{position:absolute;left:0;right:0;height:3px;background:var(--accent);opacity:0}
 #seal{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--panel);opacity:0}
 #seal b{font:800 30px system-ui,sans-serif;color:var(--head);letter-spacing:.12em;text-transform:uppercase;border:3px solid var(--head);border-radius:12px;padding:6px 18px}
@@ -144,7 +144,7 @@ var L = 30, END = 29.5, FREEZE = Q.has('t') ? Math.max(0, Math.min(END, +Q.get('
 var tNow = 0; window.__t = function () { return +tNow.toFixed(2); };
 var $ = function (id) { return document.getElementById(id); };
 var cv = $('cv'), stack = $('stack'), panel = $('panel');
-var W = 400, H = 230, ZG = 165;
+var W = 400, H = 230, ZG = 185;
 var clamp = function (x, a, b) { return x < a ? a : x > b ? b : x; };
 var seg = function (t, a, b) { return clamp((t - a) / (b - a), 0, 1); };
 var ease = function (x) { return x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; };
@@ -198,10 +198,10 @@ function build(V, R) {
 /* ---------- geometry (plane coordinates, px) ---------- */
 var G = {};
 function geometry() {
-  G.queen = [200, 112];
-  G.wk = []; for (var i = 0; i < D.nW; i++) { var a = (-90 + i * 360 / D.nW) * Math.PI / 180; G.wk.push([200 + 140 * Math.cos(a), 108 + 78 * Math.sin(a)]); }
+  G.queen = [200, 104];
+  G.wk = []; for (var i = 0; i < D.nW; i++) { var a = (-90 + i * 360 / D.nW) * Math.PI / 180; G.wk.push([200 + 140 * Math.cos(a), 102 + 72 * Math.sin(a)]); }
   G.queue = []; for (i = 0; i < D.run.hive.tasks; i++) G.queue.push([26 + i * 22, 40]);
-  G.gate = { allowed: [76, 160], approval: [200, 160], denied: [324, 160] };
+  G.gate = { allowed: [76, 148], approval: [200, 148], denied: [324, 148] };
   // POC1 actions: who emits, where it rests
   var k = { allowed: 0, approval: 0, denied: 0 };
   D.rows.forEach(function (r, j) {
@@ -258,8 +258,8 @@ function scene() {
   // vault
   var pv = E.plane.vault;
   el('div', 'hex', pv, hexBlock(900));
-  el('div', 'lock', pv, 'AES-256-GCM · the server holds ciphertext');
-  el('div', 'pt', pv, 'sgit · ' + esc(D.run.run)).style.top = '26px';
+  el('div', 'lock', pv, 'AES-256-GCM · ciphertext only');
+  var vt = el('div', 'pt', pv, 'sgit · ' + esc(D.run.run)); vt.style.top = '9px'; vt.style.bottom = 'auto';
   var svg = '<svg viewBox="0 0 400 230" aria-hidden="true">' +
     '<line x1="16" y1="' + G.trunkY + '" x2="388" y2="' + G.trunkY + '" stroke="var(--head)" stroke-width="4" stroke-linecap="round" id="trunk"/>' +
     '<text x="18" y="' + (G.trunkY + 20) + '" font-size="13" font-weight="700" fill="var(--head)" font-family="ui-monospace,monospace">current</text>';
@@ -300,14 +300,14 @@ function render(t) {
   var act = actAt(t);
   // stack pose: assemble, isometric, then tilt flat
   var kf = ease(seg(t, 25, 27.2));
-  var ax = lerp(60, 0, kf), az = lerp(-38, 0, kf), sc = (NARROW ? 0.9 : 0.92) * lerp(1, 0.8, kf);
+  var ax = lerp(60, 0, kf), az = lerp(-38, 0, kf), sc = (NARROW ? 0.84 : 0.86) * lerp(1, 0.62, kf);
   stack.style.transform = 'scale(' + sc + ') rotateX(' + ax + 'deg) rotateZ(' + az + 'deg)';
   var Z = { hive: ZG, abp: 0, vault: -ZG }, idx = { hive: -1, abp: 0, vault: 1 };
   ['hive', 'abp', 'vault'].forEach(function (n, i) {
     var ka = ease(seg(t, 0.1 + i * 0.25, 0.9 + i * 0.25));
-    var z = lerp(Z[n] + 90, Z[n], ka) * (1 - kf), y = idx[n] * 200 * kf;
-    var o = ka * (1 - seg(t, 26.4, 27.8));
-    if (n === 'abp') o *= 1 - 0.55 * seg(t, 13.4, 14) * (1 - seg(t, 24.6, 25.2));
+    var z = lerp(Z[n] + 90, Z[n], ka) * (1 - kf), y = idx[n] * 262 * kf;
+    var o = ka * (1 - seg(t, 25.5, 26.7));
+    if (n === 'abp') o *= 1 - 0.7 * seg(t, 13.4, 14) * (1 - seg(t, 24.6, 25.2));
     if (n === 'vault') o *= 1 - 0.9 * ease(seg(t, 23.6, 24.6));
     E.plane[n].style.transform = 'translate3d(0,' + y + 'px,' + z + 'px)'; E.plane[n].style.opacity = o;
     E.slab[n].style.transform = 'translate3d(0,' + y + 'px,' + (z - 9 * (1 - kf)) + 'px)'; E.slab[n].style.opacity = o * (1 - kf);
@@ -337,12 +337,13 @@ function render(t) {
   var gc = { allowed: 0, approval: 0, denied: 0 }, glow = { allowed: 0, approval: 0, denied: 0 };
   D.rows.forEach(function (r, j) {
     var e = E.act[j], s = t - r.t0, x, y, z, o = 1, sc = 1, cls = 'tok', txt = '', so = 0, sz = 0;
+    if (s >= 0.85) gc[r.out]++;
     if (s < 0 || t > 25) { e.tok.style.opacity = 0; e.shd.style.opacity = 0; return; }
     var kd = easeIn(seg(s, 0.15, 0.85));
     x = lerp(r.src[0], r.dst[0], kd); y = lerp(r.src[1], r.dst[1], kd); z = lerp(ZG + 4, 4, kd);
     o = seg(s, 0, 0.15); so = 0.25 * kd; sz = 0;
     if (s >= 0.85) {
-      gc[r.out]++; glow[r.out] = Math.max(glow[r.out], 1 - seg(s, 0.85, 1.4));
+      glow[r.out] = Math.max(glow[r.out], 1 - seg(s, 0.85, 1.4));
       if (r.out === 'allowed') {
         var kp = easeIn(seg(s, 0.95, 1.55)); cls += ''; txt = '✓';
         x = lerp(r.dst[0], r.land[0], kp); y = lerp(r.dst[1], r.land[1], kp); z = lerp(4, -ZG + 4, kp);
