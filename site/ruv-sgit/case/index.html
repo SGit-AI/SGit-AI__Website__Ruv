@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One Ephemeral Vault</title>
+<meta name="description" content="Case study: the life of one ruv.sgit vault in six steps, open to delete, with every number read from data/vaults.json.">
+<link rel="stylesheet" href="../../assets/themes.css">
+<script src="../../assets/theme.js"></script>
+<style>
+/* Case study: one ephemeral vault. Colours only through the theme tokens of assets/themes.css. */
+*{box-sizing:border-box}
+html{font-size:clamp(14px,min(1.45vw,3vh),26px)}
+body{margin:0;background:var(--bg);color:var(--text);font:1rem/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{display:flex;flex-direction:column;gap:.55rem;padding:.7rem 1rem .6rem;min-height:100vh}
+header{display:flex;align-items:baseline;gap:.4rem 1rem;flex-wrap:wrap}
+h1{margin:0;font-size:1.45rem;line-height:1.15;color:var(--head);letter-spacing:-.01em}
+.run{color:var(--dim);font-size:.85rem;min-width:0;overflow-wrap:anywhere}
+.run b{color:var(--fg);font-weight:600}
+.run .tag{display:inline-block;padding:0 .4em;border:1px solid var(--line);border-radius:.3em;background:var(--panel2);color:var(--warm);font-size:.78rem;margin-left:.3em}
+.run a{color:var(--accent)}
+nav.steps{display:grid;grid-template-columns:repeat(6,1fr);gap:.35rem}
+nav.steps button{all:unset;cursor:pointer;display:flex;align-items:center;gap:.4rem;padding:.3rem .45rem;border-radius:.4rem;border:1px solid var(--line);background:var(--panel);color:var(--dim);font-size:.82rem;line-height:1.1;position:relative;overflow:hidden;min-width:0}
+nav.steps button .n{flex:none;display:grid;place-items:center;width:1.45rem;height:1.45rem;border-radius:50%;background:var(--panel2);color:var(--fg);font-weight:700;font-size:.8rem}
+nav.steps button .l{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+nav.steps button.done .n{background:var(--tint-solid);color:var(--accent)}
+nav.steps button.on{border-color:var(--accent);color:var(--fg)}
+nav.steps button.on .n{background:var(--accent);color:var(--on-accent)}
+nav.steps button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+nav.steps .bar{position:absolute;left:0;bottom:0;height:3px;width:100%;background:var(--accent);transform-origin:0 50%;transform:scaleX(0)}
+main{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,1fr);gap:1rem}
+.diag{min-height:0;background:var(--panel);border:1px solid var(--line);border-radius:.6rem;padding:.3rem;display:flex}
+.diag svg{width:100%;height:100%;display:block}
+.text{min-height:0;display:flex;flex-direction:column;gap:.5rem}
+.text h2{margin:0;font-size:1.5rem;line-height:1.15;color:var(--head)}
+.text h2 .k{color:var(--accent);margin-right:.25em}
+.text p{margin:0;font-size:1rem;color:var(--text)}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:.5rem;padding:.35rem .6rem;min-width:0}
+.stat .v{display:block;font-size:1.55rem;font-weight:700;color:var(--head);line-height:1.1;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.stat .v.ok{color:var(--accent)}
+.stat .v.bad{color:var(--red)}
+.stat .u{display:block;font-size:.78rem;color:var(--dim);line-height:1.2}
+.bars{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:.2rem .5rem;align-items:center;font-size:.82rem}
+.bars .nm{color:var(--fg);font-weight:600;white-space:nowrap}
+.bars .tr{display:flex;height:.8rem;border-radius:.2rem;overflow:hidden;background:var(--panel2)}
+.bars .w{background:var(--accent)}
+.bars .m{background:var(--warm)}
+.bars .ms{color:var(--dim);font-variant-numeric:tabular-nums;white-space:nowrap}
+.key{display:flex;gap:1rem;font-size:.78rem;color:var(--dim)}
+.key i{display:inline-block;width:.7rem;height:.7rem;border-radius:.15rem;margin-right:.3rem;vertical-align:-.05rem}
+.note{font-size:.78rem;color:var(--dim)}
+.note code,.text code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em;color:var(--fg)}
+aside.else{border:1px dashed var(--line);border-radius:.6rem;padding:.4rem .8rem;display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,1fr);gap:.2rem 1.1rem;align-items:center;background:var(--bg)}
+aside.else h3{margin:0;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--warm);line-height:1.2}
+aside.else h3 span{display:block;text-transform:none;letter-spacing:0;color:var(--dim);font-weight:400}
+aside.else blockquote{margin:0;font-size:.8rem;color:var(--text);border-left:3px solid var(--warm);padding-left:.55rem;line-height:1.3}
+aside.else blockquote b{color:var(--head)}
+aside.else .src{grid-column:2 / -1;font-size:.72rem;color:var(--dim)}
+.msg{padding:2rem;color:var(--dim)}
+/* the diagram */
+svg text{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.g-line{stroke:var(--line);stroke-width:3;fill:none}
+.cur{stroke:var(--accent);stroke-width:5;fill:none;stroke-linecap:round}
+.lane{stroke:var(--accent);stroke-width:3;fill:none;opacity:.75}
+.lane.work{stroke-dasharray:6 8;animation:march 1s linear infinite}
+.mrg{stroke:var(--warm);stroke-width:3;fill:none}
+.dot{fill:var(--panel);stroke:var(--accent);stroke-width:3}
+.dot.m{stroke:var(--warm)}
+.dot.f{fill:var(--accent)}
+.lbl{fill:var(--fg);font-size:17px;font-weight:600}
+.sub{fill:var(--dim);font-size:14px}
+.big{fill:var(--head);font-size:19px;font-weight:700}
+.box{fill:var(--panel2);stroke:var(--line);stroke-width:2}
+.box.hot{stroke:var(--accent)}
+.box.gone{stroke:var(--red);stroke-dasharray:8 6}
+.okt{fill:var(--accent);font-size:16px;font-weight:700}
+.redt{fill:var(--red);font-weight:800}
+.card{fill:var(--panel);stroke:var(--accent);stroke-width:2}
+.graph{transition:opacity .9s ease}
+.graph.ghost{opacity:.18}
+.in{animation:fadein .9s ease both}
+.draw{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:draw 1.1s ease forwards}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes march{to{stroke-dashoffset:-14}}
+@media (prefers-reduced-motion:reduce){.in,.draw,.lane.work{animation:none!important;stroke-dashoffset:0;opacity:1}}
+/* desktop and the talk player's iframe: one screen, no scroll */
+@media (min-width:760px) and (min-height:420px){
+  body:not(.review){height:100vh;overflow:hidden}
+  body:not(.review) .wrap{height:100vh}
+}
+/* review: all six steps at once */
+.reviewgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,26rem),1fr));gap:1rem}
+.reviewgrid section{display:flex;flex-direction:column;gap:.5rem;border:1px solid var(--line);border-radius:.6rem;padding:.6rem;background:var(--panel2)}
+.reviewgrid .diag{height:15rem;flex:none}
+body.review .stat{background:var(--bg)}
+/* phone */
+@media (max-width:759px){
+  html{font-size:15px}
+  .wrap{padding:.7rem 16px}
+  nav.steps{grid-template-columns:repeat(6,1fr)}
+  nav.steps button{justify-content:center;padding:.3rem}
+  nav.steps button .l{display:none}
+  main{grid-template-columns:1fr}
+  .diag{height:16rem}
+  aside.else{grid-template-columns:1fr}
+  aside.else .src{grid-column:auto}
+}
+@media (min-width:760px) and (max-height:419px){ .diag{height:14rem} }
+</style>
+</head>
+<body>
+<div class="wrap" id="app">
+  <header>
+    <h1>Case study: one ephemeral vault</h1>
+    <div class="run" id="run">loading data/vaults.json</div>
+  </header>
+  <div id="body"></div>
+  <aside class="else" id="else" aria-label="Measured elsewhere">
+    <h3>Measured elsewhere<span>not this run, not this site's ledger</span></h3>
+    <blockquote>&ldquo;<b>a hundred writers</b> posting ten entries each landed <b>a thousand entries in an append lane in 4.9 seconds</b>, none lost.&rdquo;</blockquote>
+    <blockquote>&ldquo;<b>Ten scoped clones</b> at once took <b>1.9 seconds</b>; <b>ten full clones, 21.1</b>.&rdquo;</blockquote>
+    <div class="src">Source: &ldquo;Agent workflows on ephemeral vaults&rdquo;, Dinis Cruz, 14 Oct 2026, newsroom.sgit.ai. In-memory storage, one four-core machine, one server process, run once.</div>
+  </aside>
+</div>
+<script>
+(function () {
+  'use strict';
+  var LOOP = 35, N = 6, STEP = LOOP / N;
+  var Q = new URLSearchParams(location.search);
+  var REVIEW = Q.has('review');
+  if (REVIEW) document.body.classList.add('review');
+  var t0 = performance.now(), cur = -1, V = null;
+  window.__t = function () { return REVIEW ? 0 : ((performance.now() - t0) / 1000) % LOOP; };
+
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var num = function (n) { return n == null ? 'n/a' : Number(n).toLocaleString('en-GB'); };
+  var bytes = function (n) { return n == null ? 'n/a' : n < 10000 ? num(n) + ' B' : n < 1e7 ? (n / 1024).toFixed(1) + ' KB' : (n / 1048576).toFixed(1) + ' MB'; };
+  var ms = function (n) { return n == null ? 'n/a' : n < 10000 ? num(n) + ' ms' : (n / 1000).toFixed(1) + ' s'; };
+  var secs = function (a, b) { if (!a || !b) return null; return Math.round((Date.parse(b) - Date.parse(a)) / 1000); };
+  var hhmm = function (s) { return s ? s.slice(11, 19) + ' UTC' : 'n/a'; };
+  var stat = function (v, u, cls) { return '<div class="stat"><span class="v' + (cls ? ' ' + cls : '') + '">' + v + '</span><span class="u">' + u + '</span></div>'; };
+
+  function pick(L) {
+    var vs = (L && L.vaults) || [];
+    var want = Q.get('run');
+    if (want) { var f = vs.filter(function (v) { return v.run === want; })[0]; if (f) return f; }
+    var real = vs.filter(function (v) { return !/^smoke/.test(v.run); });
+    return (real.length ? real : vs).slice(-1)[0] || null;
+  }
+
+  // ---------- the diagram: one SVG, drawn for a step (elements of later steps are absent) ----------
+  function diagram(s, animate) {
+    var B = V.branches || [], n = Math.max(B.length, 1), W = 640, H = 400, Y = 262;
+    var A = function (k) { return animate && s === k; };
+    var o = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="step ' + s + ' of the vault\'s life">';
+    o += '<g class="graph' + (s >= 5 ? ' ghost' : '') + '">';
+    // current
+    o += '<path class="cur' + (A(1) ? ' draw' : '') + '" style="--len:600" d="M30 ' + Y + ' H610"/>';
+    o += '<text class="lbl" x="30" y="' + (Y + 28) + '">current</text>';
+    o += '<circle class="dot f" cx="52" cy="' + Y + '" r="8"/><circle class="dot f' + (A(1) ? ' in' : '') + '" cx="104" cy="' + Y + '" r="8"/>';
+    o += '<text class="sub" x="40" y="' + (Y - 16) + '">init</text><text class="sub" x="92" y="' + (Y - 16) + '">brief</text>';
+    var top = 46, gap = n > 1 ? Math.min(46, 160 / (n - 1)) : 0;
+    B.forEach(function (b, i) {
+      var y = top + i * gap, xf = 128 + i * 10, xw = 380 + i * 34, xm = xw + 46;
+      if (s >= 2) {
+        var d = 'M' + xf + ' ' + Y + ' C' + xf + ' ' + (y + 30) + ' ' + (xf + 10) + ' ' + y + ' ' + (xf + 40) + ' ' + y + ' H' + xw;
+        o += '<path class="lane' + (s === 2 ? ' work' : '') + (A(2) ? ' in' : '') + '" style="animation-delay:' + (i * .15) + 's" d="' + d + '"/>';
+        o += '<text class="lbl' + (A(2) ? ' in' : '') + '" x="' + (xf + 46) + '" y="' + (y - 8) + '">' + esc(b.name) + ' <tspan class="sub">' + esc(b.role) + '</tspan></text>';
+      }
+      if (s >= 3) {
+        var dl = A(3) ? ' style="animation-delay:' + (i * .45) + 's"' : '';
+        o += '<circle class="dot f' + (A(3) ? ' in' : '') + '"' + dl + ' cx="' + xw + '" cy="' + y + '" r="7"/>';
+        o += '<path class="mrg' + (A(3) ? ' in' : '') + '"' + dl + ' d="M' + xw + ' ' + y + ' C' + (xw + 40) + ' ' + y + ' ' + xm + ' ' + (Y - 40) + ' ' + xm + ' ' + Y + '"/>';
+        o += '<circle class="dot m' + (A(3) ? ' in' : '') + '"' + dl + ' cx="' + xm + '" cy="' + Y + '" r="7"/>';
+      }
+    });
+    o += '</g>';
+    if (s === 1) {   // the hive: a queen and its workers
+      var hw = Math.max(1, (V.hive && V.hive.workers) || n), cx = 320, gx = Math.min(70, 420 / hw);
+      o += '<g' + (A(1) ? ' class="in"' : '') + '><circle class="dot f" cx="' + cx + '" cy="62" r="16"/><text class="lbl" x="' + (cx + 26) + '" y="68">queen</text>';
+      for (var j = 0; j < hw; j++) { var wx = cx + (j - (hw - 1) / 2) * gx; o += '<path class="g-line" d="M' + cx + ' 78 L' + wx + ' 150"/><circle class="dot" cx="' + wx + '" cy="158" r="11"/>'; }
+      o += '<text class="sub" x="' + cx + '" y="196" text-anchor="middle">hive: ' + hw + ' specialist' + (hw === 1 ? '' : 's') + ', ' + num(V.hive && V.hive.tasks) + ' task' + ((V.hive && V.hive.tasks) === 1 ? '' : 's') + '</text></g>';
+    }
+    // the server box
+    var ss = V.server_store || {}, bx = 'box' + (s === 4 ? ' hot' : '') + (s >= 5 ? ' gone' : '');
+    o += '<rect class="' + bx + '" x="20" y="312" width="600" height="76" rx="10"/>';
+    o += '<text class="sub" x="38" y="338">vault server (local SG/Send) · vault ' + esc(V.vault_id) + '</text>';
+    if (s <= 3) o += '<text class="big" x="38" y="368">holds ciphertext only; the key stays with the hive</text>';
+    if (s === 4) o += '<text class="big in" x="38" y="368">' + num(ss.files) + ' encrypted files · ' + bytes(ss.bytes) + ' · <tspan class="' + (ss.plaintext_hits === 0 ? 'okt' : 'redt') + '" style="font-size:19px">plaintext found: ' + num(ss.plaintext_hits) + '</tspan></text>';
+    if (s >= 5) o += '<text class="big redt' + (A(5) ? ' in' : '') + '" x="38" y="368">deleted: ' + num(V.deleted_paths) + ' store paths removed, key gone</text>';
+    if (s === 4) {   // the fresh clone
+      o += '<g class="in"><rect class="card" x="470" y="70" width="150" height="74" rx="8"/><text class="sub" x="484" y="96">fresh clone</text><text class="big" x="484" y="122">' + ms(V.clone && V.clone.ms) + '</text><text class="okt" x="484" y="140" style="font-size:13px">' + (V.clone && V.clone.identical ? 'identical' : 'NOT identical') + '</text></g>';
+    }
+    if (s === 5) o += '<text class="redt' + (A(5) ? ' in' : '') + '" x="320" y="170" text-anchor="middle" style="font-size:46px;opacity:.85">DELETED</text>';
+    if (s === 6) {
+      o += '<g class="' + (A(6) ? 'in' : '') + '"><rect class="card" x="70" y="58" width="500" height="80" rx="10"/>';
+      o += '<text class="sub" x="92" y="86">ledger entry</text><text class="big" x="92" y="118">site/data/vaults.json · "' + esc(V.run) + '"</text>';
+      o += '<rect class="card" x="70" y="156" width="500" height="80" rx="10"/>';
+      o += '<text class="sub" x="92" y="184">evidence file</text><text class="big" x="92" y="216">evidence/ruv-sgit/' + esc(V.run) + '.json</text></g>';
+    }
+    return o + '</svg>';
+  }
+
+  // ---------- the words and numbers for a step ----------
+  function firstOp(name, after) { var ops = V.ops || []; for (var i = after || 0; i < ops.length; i++) if (ops[i].op === name) return [ops[i], i]; return [null, -1]; }
+  function step(s) {
+    var B = V.branches || [], H = V.hive || {}, ss = V.server_store || {}, C = V.clone || {}, Wk = V.workers || [];
+    var ini = firstOp('init'), cm = firstOp('commit', ini[1] + 1), pu = firstOp('push', cm[1] + 1);
+    var sum = function (k) { return B.reduce(function (a, b) { return a + (b[k] || 0); }, 0); };
+    if (s === 1) return { t: 'Open', h: 'The queen spawns the hive; the vault is created; the brief is committed',
+      p: 'A Ruflo hive starts (queen + ' + num(H.workers) + ' specialist' + (H.workers === 1 ? '' : 's') + ', ' + num(H.tasks) + ' task' + (H.tasks === 1 ? '' : 's') + '). One new vault on the vault server; its key goes to a 0600 file, never to the screen.',
+      x: stat(ms(ini[0] && ini[0].ms), 'vault created (sgit init)') + stat(ms((cm[0] ? cm[0].ms : 0) + (pu[0] ? pu[0].ms : 0)), 'brief committed + pushed') +
+         stat(num(H.ruflo_calls), 'Ruflo hive calls this run') + stat(hhmm(V.created_at), 'opened ' + esc((V.created_at || '').slice(0, 10))) };
+    if (s === 2) {
+      var tok = Wk.reduce(function (a, w) { return a + (w.tokens || 0); }, 0), wall = Wk.reduce(function (a, w) { return Math.max(a, w.wall_s || 0); }, 0);
+      return { t: 'Workers', h: 'Each worker on its own branch, in parallel',
+        p: 'Every worker gets a branch named for it: ' + B.map(function (b) { return '<code>' + esc(b.name) + '</code>'; }).join(', ') + '. The work runs in parallel; nobody writes over anybody else.',
+        x: stat(num(B.length), 'branches, one per worker') + stat(num(sum('files')), 'files delivered') + stat(bytes(sum('bytes')), 'delivered, plaintext') +
+           (tok ? stat(num(tok), 'model tokens, all workers') : stat(wall ? wall + ' s' : 'not recorded', 'longest worker, wall clock')) };
+    }
+    if (s === 3) {
+      var mx = Math.max.apply(null, B.map(function (b) { return (b.write_ms || 0) + (b.merge_ms || 0); }).concat([1]));
+      var rows = B.map(function (b) {
+        return '<span class="nm">' + esc(b.name) + '</span><span class="tr"><span class="w" style="width:' + (100 * (b.write_ms || 0) / mx) + '%"></span><span class="m" style="width:' + (100 * (b.merge_ms || 0) / mx) + '%"></span></span><span class="ms">' + num(b.write_ms) + ' + ' + num(b.merge_ms) + ' ms</span>';
+      }).join('');
+      return { t: 'Deliver', h: 'Deliver: commit, push, merge into current',
+        p: 'Each delivery is two timed halves: <b>write</b> (new branch, commit, push) then <b>merge</b> (switch to <code>current</code>, merge, push). Deliveries land one at a time in the one working copy.',
+        x: '<div class="bars">' + rows + '</div><div class="key"><span><i style="background:var(--accent)"></i>write</span><span><i style="background:var(--warm)"></i>merge</span><span>total ' + ms(sum('write_ms') + sum('merge_ms')) + '</span></div>' };
+    }
+    if (s === 4) return { t: 'Close', h: 'Close and measure',
+      p: 'The vault: ' + num(V.commits) + ' commits, ' + num(V.files) + ' files, ' + bytes(V.bytes_plain) + ' of plaintext. The server: ' + num(ss.files) + ' encrypted files, ' + bytes(ss.bytes) + '. Probe: ' + esc(ss.probe) + '.',
+      x: stat(num(V.commits) + ' / ' + num(V.files), 'commits / files in the vault') + stat(num(ss.files) + ' · ' + bytes(ss.bytes), 'what the server holds, encrypted') +
+         stat(num(ss.plaintext_hits), 'plaintext found on the server', ss.plaintext_hits === 0 ? 'ok' : 'bad') + stat((C.identical ? 'identical' : 'differs') + ', ' + ms(C.ms), 'a fresh clone of ' + num(C.files) + ' files', C.identical ? 'ok' : 'bad') };
+    if (s === 5) {
+      var life = secs(V.created_at, V.deleted_at);
+      return { t: 'Delete', h: 'Delete: the vault was ephemeral',
+        p: V.deleted_at ? 'The key file is removed, the working copy is removed, and every store path named by the vault id is removed from the server. Nothing is left to decrypt, and nothing left to decrypt it with.' : 'This run has not been deleted yet: the ledger has no deleted_at.',
+        x: stat(num(V.deleted_paths), 'store paths removed', 'bad') + stat(V.deleted_at ? 'gone' : 'still held', 'the vault key') +
+           stat(life != null ? life + ' s' : 'n/a', 'whole life, open to delete') + stat(hhmm(V.deleted_at), 'deleted ' + esc((V.deleted_at || '').slice(0, 10))) };
+    }
+    return { t: 'Remains', h: 'What remains: the record, not the vault',
+      p: 'The ledger entry and the evidence file: timings, counts, the history\'s messages. Never the key, never the content.',
+      x: stat(num((V.history || []).length), 'history messages kept') + stat(num((V.ops || []).length), 'timed sgit ops kept') +
+         '<div class="note" style="grid-column:1/-1">' + (V.history || []).slice(0, 4).map(function (h) { return '<code>' + esc(h.message) + '</code>'; }).join(' · ') + ((V.history || []).length > 4 ? ' · …' : '') + '</div>' };
+  }
+
+  function textHTML(s) {
+    var d = step(s);
+    return '<h2><span class="k">' + s + '</span>' + esc(d.h) + '</h2><p>' + d.p + '</p><div class="' + (s === 3 ? 'deliv' : 'stats') + '">' + d.x + '</div>';
+  }
+  var TITLES = ['Open', 'Workers', 'Deliver', 'Close', 'Delete', 'Remains'];
+
+  function buildPlayer() {
+    var b = document.getElementById('body');
+    var nav = '<nav class="steps" aria-label="steps">' + TITLES.map(function (t, i) { return '<button type="button" data-k="' + i + '" aria-label="step ' + (i + 1) + ': ' + t + '"><span class="n">' + (i + 1) + '</span><span class="l">' + t + '</span><span class="bar"></span></button>'; }).join('') + '</nav>';
+    b.outerHTML = nav + '<main><div class="diag" id="diag"></div><div class="text" id="text" aria-live="polite"></div></main>';
+    [].forEach.call(document.querySelectorAll('nav.steps button'), function (x) {
+      x.addEventListener('click', function () { var k = +x.dataset.k; t0 = performance.now() - k * STEP * 1000; show(k); });
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      var k = (cur + (e.key === 'ArrowRight' ? 1 : N - 1)) % N; t0 = performance.now() - k * STEP * 1000; show(k);
+    });
+    (function tick() {
+      var t = window.__t(), k = Math.min(N - 1, Math.floor(t / STEP));
+      if (k !== cur) show(k);
+      var bar = document.querySelectorAll('nav.steps .bar')[k]; if (bar) bar.style.transform = 'scaleX(' + ((t - k * STEP) / STEP).toFixed(3) + ')';
+      requestAnimationFrame(tick);
+    })();
+  }
+  function show(k) {
+    cur = k;
+    [].forEach.call(document.querySelectorAll('nav.steps button'), function (x, i) {
+      x.classList.toggle('on', i === k); x.classList.toggle('done', i < k);
+      x.querySelector('.bar').style.transform = 'scaleX(0)';
+    });
+    document.getElementById('diag').innerHTML = diagram(k + 1, true);
+    document.getElementById('text').innerHTML = textHTML(k + 1);
+  }
+  function buildReview() {
+    var h = '<div class="reviewgrid">';
+    for (var s = 1; s <= N; s++) h += '<section><div class="diag">' + diagram(s, false) + '</div><div class="text">' + textHTML(s) + '</div></section>';
+    document.getElementById('body').outerHTML = h + '</div>';
+  }
+
+  function header(L) {
+    var all = (L.vaults || []).map(function (v) { return v.run === V.run ? '<b>' + esc(v.run) + '</b>' : '<a href="?run=' + encodeURIComponent(v.run) + (REVIEW ? '&review' : '') + '">' + esc(v.run) + '</a>'; }).join(' · ');
+    document.getElementById('run').innerHTML = 'run <b>' + esc(V.run) + '</b>' + (/^smoke/.test(V.run) ? '<span class="tag">smoke test</span>' : '') +
+      ': ' + esc(V.purpose) + ' · numbers from <code>data/vaults.json</code>' + ((L.vaults || []).length > 1 ? ' · runs: ' + all : '');
+  }
+
+  fetch('../../data/vaults.json', { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function (L) {
+    V = pick(L);
+    if (!V) { document.getElementById('run').textContent = 'data/vaults.json has no runs yet'; return; }
+    header(L);
+    if (REVIEW) buildReview(); else buildPlayer();
+  }).catch(function (e) {
+    document.getElementById('run').textContent = 'could not read data/vaults.json (' + e.message + ')';
+  });
+})();
+</script>
+</body>
+</html>
