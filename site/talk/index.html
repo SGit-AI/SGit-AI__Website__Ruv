@@ -14,6 +14,11 @@
 kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 6px;font:13px ui-monospace,monospace;background:var(--card)}
 .drop{border:2px dashed var(--line);border-radius:12px;padding:18px;text-align:center;color:var(--m);cursor:pointer}.drop.over{border-color:var(--t);color:var(--t)}
 .over10{color:var(--bad);font-weight:600}.under{color:var(--t)}
+.reader{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:4px 2px 16px;overscroll-behavior-x:contain}
+.reader .beat{flex:0 0 min(640px,88%);scroll-snap-align:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;box-shadow:var(--shadow)}
+.reader .beat .t{font:700 14px ui-monospace,monospace;color:var(--a)}.reader .beat h3{margin:.3em 0}.reader .beat .scr{font-size:14px;color:var(--m);border-left:3px solid var(--line);padding-left:10px;margin:10px 0}
+.reader .beat .say{font:19px/1.55 Georgia,serif;margin:0}.rnav{display:flex;gap:10px;align-items:center;margin:4px 0 10px}.rnav button{min-width:44px;height:44px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;font-size:16px;cursor:pointer}
+.evening td:first-child{white-space:nowrap;font-weight:600;color:var(--a)}.evening tr.us td{background:var(--t2)}
 .check li{list-style:none;margin-left:-22px}.check li::before{content:"☐ ";color:var(--t)}
 @media print{header.top,footer,.noprint,.btns,.seg{display:none!important}section{padding:6px 0}body{font-size:12px}.ros td.say{font-size:12px}}
 </style>
@@ -32,6 +37,36 @@ kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;paddi
 <a class="btn" href="offline-5.html" download>Offline file (5 min)</a>
 </div>
 <p class="k">The player needs no build and no network once loaded. The offline files carry the timeline, the data and the images inside one HTML file; the live-app beat shows a recorded screenshot there, because a page opened from a file cannot load WASM.</p>
+</div></section>
+
+<section id="read"><div class="wrap">
+<h2>Read the script</h2>
+<p>One card per beat: swipe sideways with a finger (or use the arrows), and scroll the page as usual. Read from the same timeline the player plays.</p>
+<div class="rnav noprint"><button id="rprev" aria-label="previous beat">◀</button><button id="rnext" aria-label="next beat">▶</button><span class="k" id="rpos"></span><span class="seg" role="group" aria-label="version" style="margin:0 0 0 auto"><button data-r="talk-10.json" aria-pressed="true">10 min</button><button data-r="talk-5.json" aria-pressed="false">5 min</button></span></div>
+<div class="reader" id="reader">loading…</div>
+</div></section>
+
+<section class="alt" id="evening"><div class="wrap">
+<h2>The evening</h2>
+<p>From the organisers' welcome deck for Agentic Engineering Live (Agentics Foundation, London chapter), Thursday 15 October 2026, Westminster Room, Whitehall House, 41 Whitehall, London SW1A 2BX. <b>Livestreamed and recorded for YouTube</b>: nothing on screen that should not be public.</p>
+<div class="two">
+<div><div class="tbl"><table class="evening"><thead><tr><th>time</th><th>what</th></tr></thead><tbody>
+<tr><td>5:30 pm</td><td>Arrivals</td></tr>
+<tr><td>5:45 pm</td><td>Welcome and about the evening</td></tr>
+<tr><td>6:00 pm</td><td>Agentic Engineering, keynote by Reuven Cohen (rUv)</td></tr>
+<tr><td>6:40 pm</td><td>Questions for rUv</td></tr>
+<tr class="us"><td>7:00 pm</td><td><b>Autonomy with a mandate and a memory</b>, Dinis Cruz · 10 minutes, the first of three community presentations</td></tr>
+<tr><td>7:10 pm</td><td>Community presentation 2</td></tr>
+<tr><td>7:20 pm</td><td>Community presentation 3</td></tr>
+<tr><td>7:30 pm</td><td>Networking</td></tr>
+</tbody></table></div>
+<p class="k">How the deck introduces the talk: "Making rUv's agent stack trustworthy: a written mandate for every agent, plus private, verifiable memory, shown across six working proofs of concept."</p></div>
+<div>
+<h3 style="margin-top:0">Who is in the room</h3>
+<div class="stat"><div><b>118</b><span>confirmed guests</span></div><div><b>48</b><span>organisations</span></div><div><b>13+</b><span>sectors</span></div></div>
+<p>Builders first, but far from only builders: software and IT services (13 organisations), AI and agentic start-ups (8), consulting and advisory (7), the Agentics community (4), education and research (3), hardware and manufacturing (3), plus finance, cybersecurity, telecoms, engineering, VC, accessibility and design. Counts as the deck gives them, from the work email addresses on Luma.</p>
+<p><b>What that means for the ten minutes.</b> rUv will have spent forty minutes on his stack just before: skip re-introducing it and point back to his keynote. Half the room does not write code: lead each beat with what changes (a written mandate, evidence you can check) before how. The consultants, the bank and the security people will ask about audit: the receipts and the run vault are the answer.</p>
+</div></div>
 </div></section>
 
 <section class="alt"><div class="wrap">
@@ -94,6 +129,7 @@ kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;paddi
 <div class="card"><h4>"Why not just write Ruflo rules?"</h4><p>You can. The ABP is the layer above: one mandate per deployment with the <i>why</i> and the <i>barrier</i> per row, compiled to Ruflo rules, RVM rights and CI gates. Change the mandate, recompile all three.</p></div>
 <div class="card"><h4>"Does sgit see my agents' memory?"</h4><p>No. sgit encrypts on the client (AES-256-GCM); the server stores ciphertext. The public vault publishes a read key on purpose; the memory vault is private.</p></div>
 <div class="card"><h4>"Did the memory roundtrip run in CI?"</h4><p>It ran locally end to end (two writers, a fresh clone, same answer). The CI jobs are wired on separate runners and need the vault secrets; say so plainly.</p></div>
+<div class="card"><h4>"What does this give a regulated organisation?"</h4><p>A mandate a person can read and sign off per agent, enforced by the engine, and a hash-chained receipt for every decision, kept in a vault the host cannot read. That is evidence for an audit, not a certification.</p></div>
 <div class="card"><h4>"Is this upstream in rUv's projects?"</h4><p>No. These are proofs of concept using pinned npm packages (MIT, by rUv / ruvnet). The ask is to pick one and build it together.</p></div>
 </div>
 </div></section>
@@ -140,6 +176,24 @@ kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;paddi
   }
   document.querySelectorAll('.seg button').forEach(b => b.onclick = () => show(b.dataset.v))
   show('talk-10.json')
+  // the swipe reader: native horizontal scroll with snap points, so a finger on an iPad just works
+  const reader = document.getElementById('reader'), rpos = document.getElementById('rpos')
+  async function readerShow(v) {
+    document.querySelectorAll('[data-r]').forEach(b => b.setAttribute('aria-pressed', b.dataset.r === v))
+    try {
+      const talk = await (await fetch(v)).json()
+      reader.innerHTML = talk.beats.map((b, i) => `<article class="beat"><div class="t">${fmt(b.at)} · ${b.dur} s · ${i + 1}/${talk.beats.length}</div><h3>${esc(b.title)}</h3>${b.cue ? `<p class="k">${esc(b.cue)}</p>` : ''}<div class="scr">${esc(onScreen(b.slide))}</div><p class="say">${esc(b.say)}</p></article>`).join('')
+      reader.scrollLeft = 0; rposUpdate()
+    } catch (e) { reader.textContent = 'could not load ' + v }
+  }
+  const cards = () => [...reader.querySelectorAll('.beat')]
+  const current = () => { const c = cards(), mid = reader.scrollLeft + reader.clientWidth / 2; let ix = 0; c.forEach((el, i) => { if (el.offsetLeft - reader.offsetLeft <= mid) ix = i }); return ix }
+  const rposUpdate = () => { const c = cards(); if (c.length) rpos.textContent = `beat ${current() + 1} of ${c.length}` }
+  const go = d => { const c = cards(), el = c[Math.max(0, Math.min(c.length - 1, current() + d))]; if (el) reader.scrollTo({ left: el.offsetLeft - reader.offsetLeft - (reader.clientWidth - el.clientWidth) / 2, behavior: 'smooth' }) }
+  document.getElementById('rprev').onclick = () => go(-1); document.getElementById('rnext').onclick = () => go(1)
+  reader.addEventListener('scroll', () => requestAnimationFrame(rposUpdate), { passive: true })
+  document.querySelectorAll('[data-r]').forEach(b => b.onclick = () => readerShow(b.dataset.r))
+  readerShow('talk-10.json')
   // rehearsal drift
   const reh = document.getElementById('reh'), drop = document.getElementById('drop'), input = drop.querySelector('input')
   function report(r) {

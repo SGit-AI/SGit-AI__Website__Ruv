@@ -8,6 +8,7 @@
  "beats": [
   {
    "id": "title", "at": 0, "dur": 20, "title": "Title",
+   "cue": "7:00 pm, first of three community talks; rUv's keynote was at 6:00. Livestreamed to YouTube.",
    "slide": { "layout": "title", "kicker": "Agentic Engineering Live · rUv in London", "text": "Autonomy with a mandate and a memory",
      "sub": "sgit vaults and Agent Behaviour Policies, running inside rUv's stack", "who": "Dinis Cruz · sgit.ai · ruv.sgit.ai" },
    "say": "I'm Dinis. I build sgit, git for encrypted vaults, and Agent Behaviour Policies. Ten minutes; everything on screen comes from a recorded run, and the site and the vault are public."
