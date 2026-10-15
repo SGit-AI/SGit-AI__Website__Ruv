@@ -64,6 +64,7 @@ This file is the briefing for agents working on this site. Every page has the si
 - [Release history](https://ruv.sgit.ai/admin/versions.md) ([versions.json](https://ruv.sgit.ai/admin/versions.json)): the site version is in the nav of every page and increments on every push to `dev`; add a release at the top of `site/admin/versions.json` and run `site/build/versions.py`
 
 ## Build and checks
+- Run the website locally: `./run-website-locally.sh [port]` at the repo root (Python 3 only, no network; serves site/ on :8080 and opens the talk)
 - Offline on a laptop: `bash scripts/offline.sh setup` once (online), then `bash scripts/offline.sh all` with no network: doctor, the POCs, sync and validate, one ruv.sgit run on a local vault server (ledger in `out/offline/`, not the public one), then the site on http://localhost:8080. Third-party scripts are in `site/vendor/` (mermaid 11.12.0, three.js r128, marked 15.0.7; MIT).
 - `bash site/build/sync.sh` (POC outputs into the site; then talk_offline.py, articles.py, studio_run.py, versions.py) · `python3 site/build/validate.py` (links, chrome, canonical URLs, secret-shaped strings, the version, timelines that tile) · `npm run site:serve` (http://localhost:8080)
 - CI: `.github/workflows/deploy-pages.yml` (GitHub Pages) and `pocs.yml` (POCs; vault jobs need `SGIT_TOKEN`, `SGIT_VAULT_KEY_*`)

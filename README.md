@@ -21,6 +21,12 @@ rUv's stack (Ruflo, RuVector, RVM, MetaHarness) lets agents go to town. Ours add
 ## Releases
 The site version (in the nav of every page) increments on every push, as on sgit.ai: add a release at the top of `site/admin/versions.json`, then `python3 site/build/versions.py` writes it into `site/assets/site.js` and regenerates `site/admin/versions.html` + `.md`. `validate.py` fails if the two disagree.
 
+## Run the website locally
+
+```bash
+./run-website-locally.sh        # http://localhost:8080 (no setup, no network; Python 3 only); opens tonight's talk
+```
+
 ## Run it offline, on a laptop
 
 ```bash

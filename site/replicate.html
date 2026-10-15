@@ -29,7 +29,7 @@
 <h2>Run it on your laptop, offline</h2>
 <p><b>Just the talk and the site</b> (no setup, no network; Python 3 only):</p>
 <pre><code>git clone https://github.com/SGit-AI/SGit-AI__Website__Ruv && cd SGit-AI__Website__Ruv
-python3 -m http.server -d site 8080
+./run-website-locally.sh          # the same as: python3 -m http.server -d site 8080
 # then open http://localhost:8080/talk/player.html?talk=talk-10.json   (or any page: http://localhost:8080/)</code></pre>
 <p>With no server at all, open <code>site/talk/offline-10.html</code> from the file: the whole talk in one file (live slides show as screenshots).</p>
 <p><b>Everything</b>, the POCs and a ruv.sgit run on a local vault server (set up once while online, then no network):</p>

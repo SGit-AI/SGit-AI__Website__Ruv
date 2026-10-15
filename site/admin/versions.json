@@ -5,9 +5,19 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.13",
+   "version": "v0.1.14",
    "date": "2026-10-15",
    "commit": null,
+   "title": "run-website-locally.sh at the root of the repository",
+   "changes": "./run-website-locally.sh [port] serves the site on http://localhost:8080 with Python 3 only (no setup, no network) and opens tonight's talk; linked from the README, Replicate and llms.txt.",
+   "pages": [
+    "replicate.html"
+   ]
+  },
+  {
+   "version": "v0.1.13",
+   "date": "2026-10-15",
+   "commit": "65dd44f",
    "title": "The GitHub link in the top banner, and how to run it offline",
    "changes": "Every page's top banner links to the source on GitHub, and every slide's brand strip shows github.com/SGit-AI/SGit-AI__Website__Ruv. Replicate opens with 'Run it on your laptop, offline' (just the talk: python3 -m http.server -d site 8080; everything: scripts/offline.sh), linked from the Tonight menu.",
    "pages": [
