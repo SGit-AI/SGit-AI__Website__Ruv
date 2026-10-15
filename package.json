@@ -11,5 +11,6 @@
     "site:sync": "bash site/build/sync.sh",
     "site:validate": "python3 site/build/validate.py",
     "site:serve": "python3 -m http.server -d site 8080",
+    "offline": "bash scripts/offline.sh",
     "cleanup": "npx --no-install ruflo daemon stop || true"
   } }

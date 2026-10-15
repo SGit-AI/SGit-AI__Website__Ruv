@@ -114,8 +114,8 @@
    "id": "v6",
    "title": "The hive in 3D",
    "level": "three.js: queen at the centre, workers orbiting, an encrypted vault cube; decisions pulse along edges",
-   "bytes": 27143,
-   "sha256": "abe0acf419235fa028632f66bf801838e2699af25f4ffcd2fa4257ee12ce4791",
+   "bytes": 27111,
+   "sha256": "cde32243f95454af37cb8a9d66da30eacb667fd97e4fb4083b9026a1f8fc8941",
    "video": "video/v6.mp4",
    "poster": "posters/v6.webp"
   },
@@ -123,8 +123,8 @@
    "id": "v7",
    "title": "The city of vaults",
    "level": "three.js: a city where each vault branch is a street and each commit adds a floor; the ABP is the city wall with gates; receipts are streetlights",
-   "bytes": 31395,
-   "sha256": "ddee45ef84580593cab204f4887d3798342425251d3ca335cc89ff189fb4f407",
+   "bytes": 31363,
+   "sha256": "c1c832bcb0896aeafb5a1e4297d54e6c69ac01c861f41b10575745feee1ed31e",
    "video": "video/v7.mp4",
    "poster": "posters/v7.webp"
   }

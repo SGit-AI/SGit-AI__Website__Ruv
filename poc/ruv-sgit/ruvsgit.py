@@ -21,7 +21,8 @@ PORT = int(os.environ.get('RUVSGIT_PORT', '8080'))
 BASE = f'http://127.0.0.1:{PORT}'
 RUFLO = str(REPO / 'node_modules/.bin/ruflo')
 SGIT = os.environ.get('RUVSGIT_SGIT', 'sgit')
-LEDGER = REPO / 'site/data/vaults.json'
+LEDGER = pathlib.Path(os.environ.get('RUVSGIT_LEDGER', REPO / 'site/data/vaults.json'))      # scripts/offline.sh points these at out/offline/
+EVIDENCE = pathlib.Path(os.environ.get('RUVSGIT_EVIDENCE', REPO / 'evidence/ruv-sgit'))
 now = lambda: datetime.now(timezone.utc).isoformat(timespec='seconds')
 
 def secret(name, value=None):
@@ -168,13 +169,14 @@ def close(run, workers_json):
                               'probe': f'{len(probes)} text fragments from the delivered files, searched for in every byte the server stored'},
              'clone': {'ms': clone_ms, 'files': len(cf), 'identical': cf == plain},
              'ops': st['ops'], 'ruflo': st['ruflo'], 'history': history, 'workers': W}
-    out = REPO / 'evidence/ruv-sgit'; out.mkdir(parents=True, exist_ok=True)
+    out = EVIDENCE; out.mkdir(parents=True, exist_ok=True)
     (out / f'{run}.json').write_text(json.dumps(entry, indent=1))
     ledger(entry); R.save()
     print(f"closed {run}: {entry['commits']} commits, {entry['files']} files, {entry['bytes_plain']} B plaintext; server holds {entry['server_store']['files']} files, plaintext hits {hits}; clone identical {entry['clone']['identical']} in {clone_ms} ms")
 
 def ledger(entry):
     L = json.loads(LEDGER.read_text()) if LEDGER.exists() else {'vaults': []}
+    LEDGER.parent.mkdir(parents=True, exist_ok=True)
     L['sample'] = False; L['updated'] = now()
     L['server'] = 'a local SG/Send vault server (sgraph-ai-app-send, disk storage), one process, on the machine that ran the hive'
     L['vaults'] = [v for v in L['vaults'] if v['run'] != entry['run']] + [{k: v for k, v in entry.items() if k != 'ruflo'}]
@@ -198,7 +200,7 @@ def delete(run):
     shutil.rmtree(R.vault, ignore_errors=True)
     (HOME / 'runs' / run / 'vault.key').unlink(missing_ok=True)
     R.state['deleted_at'] = now(); R.state['deleted_paths'] = gone; R.state['delete_check'] = check; R.save()
-    ev = REPO / f'evidence/ruv-sgit/{run}.json'
+    ev = EVIDENCE / f'{run}.json'
     if ev.exists():
         e = json.loads(ev.read_text()); e['deleted_at'] = R.state['deleted_at']; e['deleted_paths'] = gone; e['delete_check'] = check; ev.write_text(json.dumps(e, indent=1)); ledger(e)
     print(f'{run}: vault {vid} deleted ({gone} store paths named by its id removed, {left} left; a clone with the key afterwards: {check["clone_after_delete"]}; key and working copy gone)')

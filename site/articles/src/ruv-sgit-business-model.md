@@ -41,7 +41,7 @@ Every run: no network access (the run's behaviour policy allows no egress); the 
 
 ### Dedicated compute (an instance per task)
 
-An AWS EC2 instance in London (eu-west-2) started for your task and stopped after it. The vault is created inside that machine, so nothing is shared with other customers. Tokens are bought separately, as a task run.
+An AWS EC2 instance in London (eu-west-2) started for your task and stopped after it. The vault is created inside that machine, so nothing is shared with other customers. Tokens are bought separately, as a task run. **Not built yet:** this offer is designed and priced, but SG Compute (sgraph's ephemeral EC2 tooling) is not connected to ruv.sgit runs.
 
 | Size | Price | Instance | Price arithmetic |
 |---|---|---|---|
@@ -111,7 +111,7 @@ One order can hold any of the above. Some combinations that make sense:
 | A dedicated instance | Dedicated compute | nothing: one EC2 per task, stopped after it | the vault is born inside the instance |
 | The customer's own environment | Maintained repository | nothing of ours at run time | the customer, on their models and their cloud |
 
-What is measured so far (`evidence/ruv-sgit/`, `site/data/vaults.json`): three working runs on 15 October 2026, r2-materials (5 workers), r3-define (4) and r4-hero (3), with vaults open 17.5 to 20.7 minutes and 324,813 to 540,688 workers' tokens each; in every run the server held no plaintext from the sampled delivered text, and a fresh clone matched what the workers delivered. Studio run 1 used 629,857 tokens across 7 builders.
+What is measured so far (`evidence/ruv-sgit/`, `site/data/vaults.json`): three working runs on 15 October 2026, r2-materials (6 workers, 5 with a token count), r3-define (4, all with a count) and r4-hero (5, 3 with a count), with vaults open 17.5 to 20.7 minutes and 324,813 to 540,688 workers' tokens each; in every run the server held no plaintext from the sampled delivered text, and a fresh clone matched what the workers delivered. Studio run 1 used 629,857 tokens across 7 builders.
 
 ## The workflow
 
@@ -121,7 +121,7 @@ What is measured so far (`evidence/ruv-sgit/`, `site/data/vaults.json`): three w
 4. **The vault handed over.** The run closes, is measured, and the vault goes to the customer as a zip, or is published with a read key if they chose that.
 5. **The ledger.** The run's numbers join the ledger: workers, tokens, time, what the server held, whether the clone matched.
 
-**Honestly: this is not automated end to end yet.** A person starts, watches and hands over every run. The materials sandbox for customer uploads is designed, not built; dedicated compute is designed and not yet wired to ruv.sgit runs; and delivery of the vault per order is a manual step today. The prices include that person's time at an assumed £75 an hour.
+**Honestly: this is not automated end to end yet.** A person starts, watches and hands over every run. The materials sandbox for customer uploads is designed, not built; dedicated compute is designed, not built, and SG Compute is not connected to ruv.sgit runs; and delivery of the vault per order is a manual step today. The prices include that person's time at an assumed £75 an hour.
 
 ## The numbers
 
@@ -188,7 +188,7 @@ var I=[
 ['runs','run-s','Small runs',10,1.07,4/60,20],['runs','run-m','Team runs',20,3.10,6/60,10],['runs','run-l','Large runs',50,10.18,12/60,4],
 ['compute','c-s','Small',21,0.54,10/60,0],['compute','c-m','Medium',23,1.68,10/60,4],['compute','c-g','GPU',36,8.11,10/60,0],
 ['repo','r-i','Individual (£149)',149,10,1,2],['repo','r-t','Team (£499)',499,25,3.5,1],['repo','r-w','White-label (£1,500)',1500,50,10,0],
-['expert','e-h','Couple of hours (£500)',500,0,3,2],['expert','e-d','Days (£1,500)',1500,0,9.5,1],['expert','e-e','Several days (£5,000)',5000,0,36,0]];
+['expert','e-h','Couple of hours (£500)',500,0,3,2],['expert','e-d','A day (£1,500)',1500,0,9.5,1],['expert','e-e','Several days (£5,000)',5000,0,36,0]];
 var $=function(id){return document.getElementById(id)};
 I.forEach(function(r){var l=document.createElement('label');l.innerHTML=r[2]+(r[0]==='runs'?' <span>£'+r[3]+'</span>':r[0]==='compute'?' <span>£'+r[3]+'</span>':'')+' <input type="number" min="0" step="1" value="'+r[6]+'" id="q-'+r[1]+'">';$('c-'+r[0]).appendChild(l)});
 var gbp=function(x){return (x<0?'-':'')+'£'+Math.round(Math.abs(x)).toLocaleString('en-GB')};
@@ -222,7 +222,7 @@ Commoditised: the hive (rUv's Ruflo), the workers and the tokens are bought, and
 
 <figure><div class="wmap" data-map="compute" role="img" aria-label="Wardley map: dedicated compute on demand"></div><figcaption>Offer 2: dedicated compute on demand.</figcaption></figure>
 
-Commoditised: EC2 instances by the hour, with GPUs as a scarcer product, passed through at a stated multiple. Custom: the launcher that makes one machine per task and the vault born inside it, which is small, ours, and not yet wired to runs.
+Commoditised: EC2 instances by the hour, with GPUs as a scarcer product, passed through at a stated multiple. Custom: the launcher that makes one machine per task and the vault born inside it, which is small, ours, and not built yet: SG Compute is not connected to runs.
 
 ### Maintained repository
 
@@ -272,16 +272,16 @@ The [business overview](../business/index.html) has the three side by side. Whoe
 
 ## Why we publish it
 
-We are creating the demand: the talk, the site, the runs in the ledger. We want somebody to run with it. So the business model is published, in enough detail to copy, on the same terms as the code. Anybody who implements it is implementing sgit vaults and Agent Behaviour Policies, which is the outcome we want either way. If you take it, tell us what broke: agent@riskmandate.ai.
+We are creating the demand: the talk, the site, the runs in the ledger. We want somebody to run with it. So the business model is published, in enough detail to copy, on the same terms as the code. Anybody who implements this implements sgit vaults and Agent Behaviour Policies, which is the outcome we want either way. If you take it, tell us what broke: agent@riskmandate.ai.
 
 ## What this does not claim
 
 - **No paid run yet.** The prices, margins and volumes are hypotheses; the measured numbers are from this site's own runs on 15 October 2026.
-- **Not automated end to end.** A person starts, watches and hands over every run; the materials sandbox and the dedicated-compute wiring are designed, not built.
+- **Not automated end to end.** A person starts, watches and hands over every run; the materials sandbox and dedicated compute are designed, not built, and SG Compute is not connected to runs.
 - **Some inputs are assumptions.** The token mix, the +25% queen and host overhead, the operator minutes and the £75 an hour are assumed, and the EC2 prices come from aggregators, to be confirmed on AWS's list.
 - **No customer vault has been delivered.** This site's run vaults were measured and then deleted; delivery as a zip or published is how sgit works, not yet a step we have done for a customer.
 - **The maps are judgements**, not measurements.
-- **Nothing here is rUv's offer.** Ruflo, AgentDB, RuVector and MetaHarness are rUv's projects, MIT licensed, by rUv / ruvnet; this business is built on them and is not endorsed by him.
+- **Nothing here is rUv's offer.** Ruflo, AgentDB, RuVector, MetaHarness and RVM are rUv's projects, MIT licensed, by rUv / ruvnet; this business builds on them, does not sell or own them, and is not endorsed by him.
 
 ## Where this comes from
 

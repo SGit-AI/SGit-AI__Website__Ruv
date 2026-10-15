@@ -21,10 +21,10 @@
       "need": "agent work done under a policy, with a record they keep",
       "components": [
         {"id": "offers", "label": "Governed agent work (four offers, mix and match)", "x": 0.26, "y": 0.86, "group": "ours", "note": "What is sold: task runs, dedicated compute, a maintained repository, expert time. Today assembled by hand per order."},
-        {"id": "expert", "label": "Expert time", "x": 0.1, "y": 0.76, "group": "people", "note": "Dinis's judgement: what to run, what to allow, what a run proved. Stays custom on purpose."},
+        {"id": "expert", "label": "Expert time", "x": 0.1, "y": 0.76, "group": "people", "note": "The expert's judgement: what to run, what to allow, what a run proved. Stays custom on purpose."},
         {"id": "runs", "label": "Task runs on a shared hive", "x": 0.3, "y": 0.72, "group": "ours", "note": "A queen and workers, one ephemeral vault per run. Run by hand with ruvsgit.py today; not automated end to end."},
         {"id": "repo", "label": "Maintained repository", "x": 0.47, "y": 0.75, "group": "ours", "note": "This repository: runner, specs, ABPs, site. Already a thing others can clone."},
-        {"id": "compute", "label": "Dedicated compute per task", "x": 0.2, "y": 0.6, "group": "ours", "note": "An EC2 per task. Designed, not yet wired to ruv.sgit runs."},
+        {"id": "compute", "label": "Dedicated compute per task", "x": 0.2, "y": 0.6, "group": "ours", "note": "An EC2 per task. Designed, not built: SG Compute is not connected to ruv.sgit runs yet."},
         {"id": "abp", "label": "Agent Behaviour Policies", "x": 0.23, "y": 0.47, "group": "ours", "note": "What an agent may do. POC1: an ABP compiled into Ruflo's rules stopped 6 of 11 actions in enforce mode."},
         {"id": "ledger", "label": "Ledger and evidence", "x": 0.34, "y": 0.39, "group": "ours", "note": "data/vaults.json and evidence/: every run measured. The record the customer keeps."},
         {"id": "vault", "label": "sgit vaults", "x": 0.5, "y": 0.5, "group": "ours", "note": "Encrypted, versioned, cloneable; the server holds ciphertext only. sgit-ai 0.21.0, a product."},
@@ -52,7 +52,7 @@
         {"id": "abp", "to_x": 0.42, "label": "policy templates"},
         {"id": "vault", "to_x": 0.66, "label": "commoditising storage of work"}
       ],
-      "reading": "The user sees one thing, governed agent work, and it is still custom: every order so far is assembled by hand. Everything heavy under it is bought or borrowed: rUv's Ruflo hive and AgentDB/RuVector are products we build on, the model tokens and AWS are commodities, and sgit vaults are our own product. The move is to productise the middle, so that a task run, an ABP and a delivered vault become things with a price and a size, and to let vault storage drift toward commodity. What stays custom is the expert's judgement and the policy written for one customer; that is where the margin is, because nobody can buy it by the token. Not claimed: runs are not automated end to end yet, and dedicated compute is designed, not wired."
+      "reading": "The user sees one thing, governed agent work, and it is still custom: every run so far is assembled by hand. Everything heavy under it is bought or borrowed: rUv's Ruflo hive and AgentDB/RuVector are products we build on, the model tokens and AWS are commodities, and sgit vaults are our own product. The move is to productise the middle, so that a task run, an ABP and a delivered vault become things with a price and a size, and to let vault storage drift toward commodity. What stays custom is the expert's judgement and the policy written for one customer; that is where the margin is, because nobody can buy it by the token. Not claimed: runs are not automated end to end yet, and dedicated compute is designed, not built (SG Compute is not connected to runs)."
     },
     "runs": {
       "title": "Offer 1: task runs on shared infrastructure",
@@ -60,7 +60,7 @@
       "user_x": 0.38,
       "need": "a task done in minutes, under a policy, with its vault delivered",
       "components": [
-        {"id": "run", "label": "A task run (priced by time and tokens)", "x": 0.28, "y": 0.86, "group": "ours", "note": "A queen plus 10 to 20 agents for about five minutes; tiers like £5, £10, £50 (see the catalogue)."},
+        {"id": "run", "label": "A task run (three fixed sizes)", "x": 0.28, "y": 0.86, "group": "ours", "note": "A queen and up to 5, 10 or 20 workers, stopped at 15, 25 or 45 minutes: £10, £20 or £50 a run (£9, £17 or £40 with your own model key). See the catalogue."},
         {"id": "delivery", "label": "The run's vault, as a zip or published", "x": 0.5, "y": 0.73, "group": "ours", "note": "sgit can export or publish a vault; the delivery step per order is manual today."},
         {"id": "spec", "label": "Run spec (the brief)", "x": 0.3, "y": 0.68, "group": "ours", "note": "poc/ruv-sgit/runs/*.spec.json: the feedback and one task per worker."},
         {"id": "materials", "label": "Materials sandbox (no internet, up to 50-100 MB)", "x": 0.12, "y": 0.56, "group": "ours", "note": "Offline runs with provided materials: designed, not built."},
@@ -70,7 +70,7 @@
         {"id": "vault", "label": "Ephemeral sgit vault", "x": 0.46, "y": 0.34, "group": "ours", "note": "One per run: a branch per worker, merged, measured, deleted."},
         {"id": "ledger", "label": "Ledger entry", "x": 0.3, "y": 0.26, "group": "ours", "note": "Every run's numbers in data/vaults.json and evidence/ruv-sgit/."},
         {"id": "agents", "label": "Claude Code workers", "x": 0.68, "y": 0.4, "group": "model", "note": "Workers so far are Claude Code subagents."},
-        {"id": "tokens", "label": "Model tokens (ours or BYO key)", "x": 0.86, "y": 0.22, "group": "model", "note": "About a million tokens per run at the target size; a commodity priced by the provider."},
+        {"id": "tokens", "label": "Model tokens (ours or BYO key)", "x": 0.86, "y": 0.22, "group": "model", "note": "Up to 1M, 3M or 10M Sonnet-equivalent tokens by run size (our own runs used 324,813 to 540,688 workers' tokens each); a commodity priced by the provider."},
         {"id": "host", "label": "Shared runner", "x": 0.78, "y": 0.08, "group": "cloud", "note": "A machine many runs share; a local SG/Send vault server on it."}
       ],
       "links": [
@@ -86,7 +86,7 @@
         {"id": "automation", "to_x": 0.3, "label": "next to build"},
         {"id": "abp", "to_x": 0.42, "label": "a policy per tier"}
       ],
-      "reading": "This is the offer we are commoditising hardest. The user sees a run with a price; under it, the hive is rUv's product, the workers and the tokens are bought, and the vault is ours. The run itself is custom today because a person drives each one; the arrow is the work of turning it into a product with three sizes and a policy per size. The gap on the far left is the honest one: ordering a run and getting a vault back is not automated end to end, and the offline materials sandbox is not built. The margin is thin per run and comes from the spread between the tier price and the tokens and shared machine time under it."
+      "reading": "This is the offer we are commoditising hardest. The user sees a run with a price; under it, the hive is rUv's product, the workers and the tokens are bought, and the vault is ours. The run itself is custom today because a person drives each one; the arrow is the work of turning it into a product with three sizes and a policy per size. The gap on the far left is the honest one: ordering a run and getting a vault back is not automated end to end, and the offline materials sandbox is not built. At our assumptions the margin is 39% to 50% a run, and the biggest cost under it is the person's time, not the tokens or the shared machine; automation is what widens it."
     },
     "compute": {
       "title": "Offer 2: dedicated compute on demand",
@@ -94,13 +94,13 @@
       "user_x": 0.34,
       "need": "an isolated machine per task, sized to it, gone afterwards",
       "components": [
-        {"id": "dedicated", "label": "A run on its own machine", "x": 0.22, "y": 0.86, "group": "ours", "note": "Small, medium or GPU; the EC2 cost on top of the run price."},
+        {"id": "dedicated", "label": "A run on its own machine", "x": 0.22, "y": 0.86, "group": "ours", "note": "Small, medium or GPU: £21, £23 or £36 per 8-hour block (£20 platform fee + twice the EC2 cost); tokens are bought as a task run. Not built yet."},
         {"id": "sizes", "label": "Sizes: small / medium / GPU", "x": 0.46, "y": 0.72, "group": "ours", "note": "A menu, not a quote: the productising step."},
         {"id": "launcher", "label": "SG Compute (an EC2 per task)", "x": 0.3, "y": 0.6, "group": "ours", "note": "sgraph's ephemeral EC2 tooling; not wired to ruv.sgit runs yet."},
         {"id": "invault", "label": "Vault created inside the machine", "x": 0.2, "y": 0.46, "group": "ours", "note": "Keys born and kept in the environment; the design, not yet run."},
         {"id": "abp", "label": "Behaviour policy (ABP)", "x": 0.26, "y": 0.32, "group": "ours", "note": "The same policies as shared runs."},
         {"id": "hive", "label": "Ruflo hive-mind", "x": 0.52, "y": 0.42, "group": "rUv", "note": "MIT, by rUv / ruvnet; installed on the machine from the pinned version."},
-        {"id": "billing", "label": "EC2 cost passed through", "x": 0.62, "y": 0.8, "group": "ours", "note": "Priced at cost on top: no margin hidden in the machine."},
+        {"id": "billing", "label": "EC2 cost passed through", "x": 0.62, "y": 0.8, "group": "ours", "note": "Passed through at twice the EC2 cost, which covers start-up time, disk and price drift. EC2 prices are from third-party aggregators, to confirm on AWS's price list."},
         {"id": "ec2", "label": "EC2 instances", "x": 0.88, "y": 0.28, "group": "cloud", "note": "A commodity, by the hour."},
         {"id": "gpu", "label": "GPU instances", "x": 0.72, "y": 0.16, "group": "cloud", "note": "A product, scarcer and pricier than general EC2."},
         {"id": "tokens", "label": "Model tokens", "x": 0.88, "y": 0.06, "group": "model", "note": "Ours or the customer's key."}
@@ -116,7 +116,7 @@
         {"id": "dedicated", "to_x": 0.44, "label": "a size menu, not a quote"},
         {"id": "launcher", "to_x": 0.5, "label": "per-task launch as a product"}
       ],
-      "reading": "Here the heavy parts are someone else's commodity: EC2 by the hour, GPUs as a product. What we add is small and sits on the left: a launcher that makes one machine per task, and a vault born inside it so the keys never leave. The arrow is turning \"a machine for your task\" from a quote into a menu of three sizes. The margin is not in the machine, which is passed through at cost; it is in the run on top of it and in the isolation the customer cannot easily build themselves. Not claimed: SG Compute exists as sgraph tooling, but launching a ruv.sgit run on it per order has not been done yet."
+      "reading": "Here the heavy parts are someone else's commodity: EC2 by the hour, GPUs as a product. What we add is small and sits on the left: a launcher that makes one machine per task, and a vault born inside it so the keys never leave. The arrow is turning \"a machine for your task\" from a quote into a menu of three sizes. The price is a £20 platform fee plus twice the EC2 cost per 8-hour block, which pays for the person who starts the machine; the value is in the isolation the customer cannot easily build themselves. Not claimed: dedicated compute is not built, and SG Compute exists as sgraph tooling but is not connected to ruv.sgit runs; no run has been launched on it per order."
     },
     "repo": {
       "title": "Offer 3: a maintained repository subscription",

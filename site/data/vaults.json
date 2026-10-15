@@ -1311,9 +1311,410 @@
     "store_paths_left": 0,
     "clone_after_delete": "failed"
    }
+  },
+  {
+   "run": "r5-market",
+   "purpose": "go to market: four offers that mix and match, a cart that emails the order, pages for three audiences, Wardley maps per service, and a business model somebody else can copy",
+   "feedback": "Dinis, 15 Oct 2026: publish three or four business models without naming the people who inspired them, as a full business plan, structure and architecture for somebody to copy (anybody who implements it implements sgit and ABPs). Offers: (1) task runs priced by time and tokens on shared infrastructure (a queen + 10-20 agents + ~1M tokens in ~5 minutes for ~\u00a35-10; tiers like \u00a35, \u00a310, \u00a350; our key or bring your own; no internet, materials provided up to 50-100 MB, governed by a behaviour policy; the vault of the run delivered as a zip or published); (2) dedicated compute on demand (SG Compute: an EC2 per task, small / medium / GPU, EC2 cost on top; the vault created inside the environment); (3) a maintained repository subscription, monthly (runs on Claude, AWS, anywhere; updates, UI, branding, setup); (4) expert time: \u00a3500 (a couple of hours), \u00a31,500 (a day), \u00a35,000 (several days), mixed and matched with runs; not automated end to end yet. A Wardley map per service. A shopping cart with no payment: the order is emailed to agent@riskmandate.ai. Pages for independent consultants (white label or custom), companies adding this to their offering, and internal teams providing it internally. Every contact goes to agent@riskmandate.ai.",
+   "vault_id": "7qcq6au7",
+   "created_at": "2026-10-15T15:33:20+00:00",
+   "closed_at": "2026-10-15T15:52:40+00:00",
+   "deleted_at": "2026-10-15T15:52:41+00:00",
+   "hive": {
+    "workers": 6,
+    "tasks": 6,
+    "ruflo_calls": 22,
+    "ruflo_ms": 9998
+   },
+   "branches": [
+    {
+     "name": "w-audiences",
+     "role": "writer",
+     "commits": 1,
+     "files": 4,
+     "bytes": 36473,
+     "write_ms": 3178,
+     "merge_ms": 2868
+    },
+    {
+     "name": "w-economist",
+     "role": "analyst",
+     "commits": 1,
+     "files": 3,
+     "bytes": 28669,
+     "write_ms": 2836,
+     "merge_ms": 2829
+    },
+    {
+     "name": "w-cartographer",
+     "role": "strategist",
+     "commits": 1,
+     "files": 2,
+     "bytes": 32896,
+     "write_ms": 3100,
+     "merge_ms": 2768
+    },
+    {
+     "name": "w-shop",
+     "role": "builder",
+     "commits": 1,
+     "files": 2,
+     "bytes": 27828,
+     "write_ms": 2849,
+     "merge_ms": 2998
+    },
+    {
+     "name": "w-plan",
+     "role": "writer",
+     "commits": 1,
+     "files": 3,
+     "bytes": 89362,
+     "write_ms": 3095,
+     "merge_ms": 3300
+    },
+    {
+     "name": "w-editor",
+     "role": "editor",
+     "commits": 1,
+     "files": 12,
+     "bytes": 206660,
+     "write_ms": 2902,
+     "merge_ms": 3291
+    }
+   ],
+   "commits": 8,
+   "files": 28,
+   "bytes_plain": 425632,
+   "files_delivered": 26,
+   "bytes_delivered": 421888,
+   "server_store": {
+    "files": 82,
+    "bytes": 457885,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 1119,
+    "files": 28,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 867,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 797,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 871,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 864,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 915,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1396,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 909,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 960,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 999,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 996,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 859,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 980,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 865,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 880,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1084,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 975,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 1047,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1077,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 912,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 835,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1021,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 888,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 841,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1119,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1024,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 893,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1080,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 1006,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 946,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1140,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1164,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1052,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1084,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 891,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 885,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1124,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 974,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1160,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1156,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 974,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 1118,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "0b2dd74ab287",
+     "message": "init",
+     "time": "2026-10-15T15:33:27Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "3f761b98cff3",
+     "message": "brief: run r5-market",
+     "time": "2026-10-15T15:33:28Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "b6051f4ef537",
+     "message": "writer audiences: delivered 4 files",
+     "time": "2026-10-15T15:36:28Z",
+     "files_added": 4,
+     "parents": 1
+    },
+    {
+     "id": "fbec32158a3a",
+     "message": "analyst economist: delivered 3 files",
+     "time": "2026-10-15T15:38:51Z",
+     "files_added": 3,
+     "parents": 1
+    },
+    {
+     "id": "2875eee6a35e",
+     "message": "strategist cartographer: delivered 2 files",
+     "time": "2026-10-15T15:40:40Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "1b0b1821f333",
+     "message": "builder shop: delivered 2 files",
+     "time": "2026-10-15T15:41:51Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "35184005732f",
+     "message": "writer plan: delivered 3 files",
+     "time": "2026-10-15T15:43:41Z",
+     "files_added": 3,
+     "parents": 1
+    },
+    {
+     "id": "7d05e6232322",
+     "message": "editor editor: delivered 12 files",
+     "time": "2026-10-15T15:48:12Z",
+     "files_added": 12,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "audiences",
+     "role": "writer",
+     "tokens": 85851,
+     "tool_uses": 9,
+     "wall_s": 103
+    },
+    {
+     "id": "economist",
+     "role": "analyst",
+     "tokens": 85469,
+     "tool_uses": 11,
+     "wall_s": 242
+    },
+    {
+     "id": "cartographer",
+     "role": "strategist",
+     "tokens": 105866,
+     "tool_uses": 16,
+     "wall_s": 269
+    },
+    {
+     "id": "shop",
+     "role": "builder",
+     "tokens": 107151,
+     "tool_uses": 31,
+     "wall_s": 425
+    },
+    {
+     "id": "plan",
+     "role": "writer",
+     "tokens": 117508,
+     "tool_uses": 26,
+     "wall_s": 240
+    },
+    {
+     "id": "editor",
+     "role": "editor",
+     "tokens": 138723,
+     "tool_uses": 29,
+     "wall_s": 184
+    }
+   ],
+   "deleted_paths": 169,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
   }
  ],
  "sample": false,
- "updated": "2026-10-15T14:07:49+00:00",
+ "updated": "2026-10-15T15:52:41+00:00",
  "server": "a local SG/Send vault server (sgraph-ai-app-send, disk storage), one process, on the machine that ran the hive"
 }

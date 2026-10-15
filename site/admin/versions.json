@@ -5,9 +5,22 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.9",
+   "version": "v0.1.10",
    "date": "2026-10-15",
    "commit": null,
+   "title": "Work with us: four services, a shop that emails the order, the business model to copy; and an offline mode",
+   "changes": "Run r5-market (6 workers, 8 commits, plaintext found on the server 0, fresh clone identical, vault deleted and verified) wrote four services, mix and match and not automated end to end: task runs on shared infrastructure in three sizes (£10/£20/£50, £9/£17/£40 with your own key), dedicated compute per task (designed, not built), a maintained repo subscription, and expert time (£500/£1,500/£5,000). An economist priced them from a cost model (data/offers.json), a cartographer drew a Wardley map per service (data/maps.json, assets/maps.js), a writer turned both into the business model article, pages for consultants, companies and internal teams, and a shop whose checkout emails the order to agent@riskmandate.ai (no payment). An editor checked every price and claim against the catalogue. New: scripts/offline.sh runs everything on a laptop with no network after one setup (the POCs, the site, and a ruv.sgit run on a local vault server, its ledger kept in out/offline/); mermaid, three.js and marked now load from site/vendor/ instead of a CDN.",
+   "pages": [
+    "business/index.html",
+    "shop/index.html",
+    "articles/ruv-sgit-business-model.html",
+    "ruv-sgit/ledger/index.html"
+   ]
+  },
+  {
+   "version": "v0.1.9",
+   "date": "2026-10-15",
+   "commit": "b142678",
    "title": "A home page for rUv's community, the definition animated, and RuVector quoted in its own words",
    "changes": "Run r4-hero rewrote the home page's main section for Ruflo, AgentDB, RuVector and MetaHarness users: their tools credited in their own READMEs' words (Ruflo's hive-mind, its policy engine with legacy, observe and enforce modes and decision receipts, AgentDB memory), what sgit.ai builds on them, three ways in with the exact commands, and the equation animation in place of the 'Two worlds' image. Its researcher found that 'no encryption at rest' and 'no document versioning' are not in RuVector's README (it has snapshots and copy-on-write branching): corrected on nine pages and in the talk with exact quotes from its 'Security and governance' section, and a generated infographic that marked versioning, branching and cloning as missing was removed. Its editor's 18 line fixes applied (no 'signed' mandate: the ABP is written and owned; Ruflo's legacy mode named, not 'default'). Run r3-define animated the definition 'ruv.sgit: a Ruflo hive + sgit vaults + Agent Behaviour Policies' three ways (equation, layers, journey), with an editor's 13 must-fixes applied in a second round; the layers is now the talk's ruv.sgit slide. Both runs' vaults were measured, deleted and verified; the ledger holds four runs.",
    "pages": [

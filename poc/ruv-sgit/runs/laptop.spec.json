@@ -1,0 +1,9 @@
+{
+ "purpose": "laptop: a ruv.sgit run with no network, the POC outputs as the workers' deliveries",
+ "feedback": "Run the whole thing offline on a laptop: clone the repo, set up once, then everything runs with no network. The workers in this run are the repository's own POC scripts (no model calls), so the run needs nothing outside the laptop.",
+ "workers": [
+  {"id": "policy", "role": "policy", "task": "POC1: compile the swarm's ABP into Ruflo's policy engine and replay the 11-action trace in legacy and enforce mode, with receipts", "out": "out/poc1"},
+  {"id": "rights", "role": "rights", "task": "POC3: map the ABP onto RVM rights", "out": "out/poc3"},
+  {"id": "app", "role": "app", "task": "POC4: build the browser app (RuVector WASM) that answers questions about the ABP", "out": "out/app"}
+ ]
+}

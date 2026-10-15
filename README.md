@@ -21,6 +21,17 @@ rUv's stack (Ruflo, RuVector, RVM, MetaHarness) lets agents go to town. Ours add
 ## Releases
 The site version (in the nav of every page) increments on every push, as on sgit.ai: add a release at the top of `site/admin/versions.json`, then `python3 site/build/versions.py` writes it into `site/assets/site.js` and regenerates `site/admin/versions.html` + `.md`. `validate.py` fails if the two disagree.
 
+## Run it offline, on a laptop
+
+```bash
+git clone https://github.com/SGit-AI/SGit-AI__Website__Ruv && cd SGit-AI__Website__Ruv
+bash scripts/offline.sh setup    # once, online: npm ci (pinned) + .venv with sgit-ai 0.21.0 and the SG/Send vault server 0.34.0
+bash scripts/offline.sh all      # no network from here: doctor, POC1/3/4/5, sync + validate the site,
+                                 # one ruv.sgit run (Ruflo hive + ephemeral vault on a local server: open, deliver, close, delete),
+                                 # then serve the site at http://localhost:8080
+```
+Steps one at a time: `doctor`, `pocs`, `run`, `serve`. The laptop run's workers are the POC scripts (no model calls), so it needs nothing outside the machine; its ledger and evidence go to `out/offline/` (not the public ledger), its keys to `~/.ruv-sgit-offline` (0600), and its vault server listens on 127.0.0.1:8091. Pages load mermaid, three.js and marked from `site/vendor/` (MIT), so the site works with no network too; the talk also runs from the single file `site/talk/offline-10.html`. Needs Node 20+ and Python 3.11+. `pocs` rewrites a few generated files with fresh timestamps (`git checkout site/data` puts them back).
+
 ## Run it
 
 ```bash

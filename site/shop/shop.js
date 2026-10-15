@@ -66,10 +66,15 @@
   const optText = (it, opts) => (it.options || []).map(op => { const c = choice(it, op.id, opts[op.id]); return c ? `${op.label}: ${c.label}` : '' }).filter(Boolean).join(' · ')
 
   // ---- render: catalogue -------------------------------------------------------------------------------------------
+  // honest status per group, shown under its summary (the catalogue holds prices; this holds what is not built yet)
+  const STATUS = {
+    runs: 'Not automated end to end yet: a person on our side starts, watches and hands over every run. The materials sandbox for uploads is not built yet; we agree how materials reach the run when we reply.',
+    compute: 'Not built yet: dedicated compute is designed, and SG Compute is not connected to runs. EC2 prices are on-demand London rates from third-party aggregators, to confirm on AWS\'s price list.'
+  }
   function renderCatalogue () {
     const host = $('catalogue')
     host.innerHTML = (CAT.groups || []).map(g => `<section class="grp" id="g-${esc(g.id)}" aria-labelledby="gh-${esc(g.id)}">
-<h2 id="gh-${esc(g.id)}">${esc(g.title)}</h2>${g.summary ? `<p>${esc(g.summary)}</p>` : ''}${g.who ? `<p class="k who">For: ${esc(g.who)}</p>` : ''}
+<h2 id="gh-${esc(g.id)}">${esc(g.title)}</h2>${g.summary ? `<p>${esc(g.summary)}</p>` : ''}${g.who ? `<p class="k who">For: ${esc(g.who)}</p>` : ''}${STATUS[g.id] ? `<p class="callout warn">${esc(STATUS[g.id])}</p>` : ''}
 <div class="items">${(g.items || []).map(itemCard).join('')}</div></section>`).join('') +
       `<p class="k">Catalogue updated ${esc(CAT.updated || '')}. Prices in ${esc(CAT.currency || 'GBP')}, excluding VAT. An item “on request” can still be ordered: we price it when we follow up.</p>`
     host.removeAttribute('aria-busy')
