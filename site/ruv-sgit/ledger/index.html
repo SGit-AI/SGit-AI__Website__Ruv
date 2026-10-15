@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The vault ledger</title>
+<link rel="stylesheet" href="../../assets/themes.css">
+<script src="../../assets/theme.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font: 15px/1.35 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 1500px; margin: 0 auto; padding: 18px 22px 14px; display: flex; flex-direction: column; gap: 12px; }
+  header { display: flex; align-items: baseline; justify-content: space-between; gap: 6px 20px; flex-wrap: wrap; }
+  h1 { margin: 0; color: var(--head); font-size: 26px; letter-spacing: -.01em; font-weight: 700; }
+  h1 small { font-weight: 400; color: var(--dim); font-size: 15px; letter-spacing: 0; margin-left: 10px; }
+  .src { color: var(--dim); font-size: 13px; }
+  .src code { font: 12.5px ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--fg); background: var(--panel2); padding: 1px 6px; border-radius: 4px; }
+  h2 { margin: 0 0 8px; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--dim); font-weight: 600; }
+
+  /* headline totals */
+  .kpis { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 8px; }
+  .kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px 10px; min-width: 0; }
+  .kpi .v { color: var(--head); font-size: 26px; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .kpi .v .u { font-size: 14px; font-weight: 500; color: var(--dim); margin-left: 2px; }
+  .kpi .l { color: var(--dim); font-size: 12.5px; margin-top: 3px; line-height: 1.25; }
+  .kpi.good { background: var(--tint-solid); border-color: var(--tint-solid); }
+  .kpi.good .v { color: var(--accent); }
+  .kpi.bad .v { color: var(--red); }
+
+  /* main: vault rows + op timings */
+  main { display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr); gap: 12px; min-height: 0; }
+  section.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; min-width: 0; min-height: 0; display: flex; flex-direction: column; }
+  .rows { overflow-y: auto; min-height: 0; display: flex; flex-direction: column; gap: 10px; }
+  .vault { border-top: 1px solid var(--line); padding-top: 10px; }
+  .vault:first-child { border-top: 0; padding-top: 0; }
+  .vhead { display: flex; align-items: baseline; gap: 4px 10px; flex-wrap: wrap; }
+  .vname { color: var(--head); font-weight: 700; font-size: 17px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .tag { font-size: 11.5px; font-weight: 600; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--dim); background: var(--panel2); text-transform: uppercase; letter-spacing: .05em; }
+  .vpurpose { color: var(--dim); font-size: 13.5px; }
+  .life { margin: 8px 0 6px; }
+  .life svg { display: block; width: 100%; height: 30px; overflow: visible; }
+  .life text { font-size: 11.5px; fill: var(--dim); font-variant-numeric: tabular-nums; }
+  .stats { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 13.5px; color: var(--dim); }
+  .stats b { color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .stats .ok b { color: var(--accent); }
+  .stats .no b { color: var(--red); }
+  .branches { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+  .br { font-size: 12.5px; background: var(--panel2); border: 1px solid var(--line); border-radius: 6px; padding: 2px 7px; color: var(--text); }
+  .br code { font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--fg); }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--dim); margin: -2px 0 8px; }
+  .sw { display: inline-block; width: 14px; height: 9px; border-radius: 2px; vertical-align: -1px; margin-right: 5px; }
+
+  /* op timing chart */
+  #ops svg { display: block; width: 100%; overflow: visible; }
+  #ops text { font-size: 13px; fill: var(--text); font-variant-numeric: tabular-nums; }
+  #ops text.n { fill: var(--dim); font-size: 11.5px; }
+  #ops text.val { fill: var(--fg); font-weight: 600; }
+  #ops text.mx { fill: var(--dim); font-weight: 400; }
+  .note { color: var(--dim); font-size: 12px; margin-top: 8px; line-height: 1.4; }
+  .err { color: var(--red); padding: 20px; }
+
+  /* projector / iframe: fit the viewport, no page scroll */
+  @media (min-width: 900px) and (min-height: 520px) {
+    html, body { height: 100%; overflow: hidden; }
+    .page { height: 100%; }
+    main { flex: 1; }
+  }
+  @media (max-width: 1250px) { .kpi .v { font-size: 22px; } .kpi .l { font-size: 11.5px; } .kpi { padding: 8px 9px; } }
+  @media (max-width: 1050px) { .kpis { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+  @media (max-width: 899px) {
+    main { grid-template-columns: 1fr; }
+    .rows { overflow: visible; }
+  }
+  @media (max-width: 600px) {
+    .page { padding: 14px 16px; }
+    h1 { font-size: 22px; } h1 small { display: block; margin: 2px 0 0; }
+    .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .kpi .v { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <h1>The vault ledger<small>every ruv.sgit run is one ephemeral sgit vault: created, filled by the hive, measured, deleted</small></h1>
+    <div class="src" id="src">source: <code>data/vaults.json</code></div>
+  </header>
+  <div class="kpis" id="kpis"></div>
+  <main>
+    <section class="card" aria-labelledby="h-v">
+      <h2 id="h-v">One row per vault</h2>
+      <div class="legend">
+        <span><i class="sw" style="background:var(--accent)"></i>open: the hive writes (created → closed)</span>
+        <span><i class="sw" style="background:var(--dim);opacity:.45"></i>measured, then deleted (closed → deleted)</span>
+      </div>
+      <div class="rows" id="rows"></div>
+    </section>
+    <section class="card" id="ops" aria-labelledby="h-o">
+      <h2 id="h-o">sgit operation timings, all vaults</h2>
+      <div class="legend">
+        <span><i class="sw" style="background:var(--accent)"></i>median</span>
+        <span><i class="sw" style="background:transparent;border:1.5px solid var(--dim)"></i>max</span>
+      </div>
+      <div id="opchart"></div>
+      <div class="note" id="opnote"></div>
+    </section>
+  </main>
+</div>
+<script>
+(function () {
+  'use strict';
+  window.__t = function () { return 0; };   // no animation: the page is static once loaded
+
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var num = function (n) { return (n || 0).toLocaleString('en-GB'); };
+  var sum = function (a, f) { return a.reduce(function (s, x) { return s + (Number(f(x)) || 0); }, 0); };
+  function bytes(n) {
+    n = n || 0;
+    if (n < 1024) return [String(n), 'B'];
+    if (n < 1024 * 1024) return [(n / 1024).toFixed(n < 10240 ? 1 : 0), 'KB'];
+    return [(n / 1048576).toFixed(n < 10485760 ? 1 : 0), 'MB'];
+  }
+  var bstr = function (n) { var b = bytes(n); return b[0] + ' ' + b[1]; };
+  function dur(ms) {
+    if (ms == null || isNaN(ms)) return '?';
+    var s = Math.round(ms / 1000);
+    if (s < 60) return s + ' s';
+    var m = Math.floor(s / 60), r = s % 60;
+    if (m < 60) return m + ' min' + (r ? ' ' + r + ' s' : '');
+    return Math.floor(m / 60) + ' h ' + (m % 60) + ' min';
+  }
+  var t = function (iso) { var d = iso ? Date.parse(iso) : NaN; return isNaN(d) ? null : d; };
+  var hhmm = function (ms) { return new Date(ms).toISOString().slice(11, 16) + ' UTC'; };
+  var isSmoke = function (v) { return /smoke/i.test((v.run || '') + ' ' + (v.purpose || '')); };
+  function median(a) { var s = a.slice().sort(function (x, y) { return x - y; }), m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; }
+
+  function kpi(v, u, l, cls) { return '<div class="kpi ' + (cls || '') + '"><div class="v">' + v + (u ? '<span class="u">' + u + '</span>' : '') + '</div><div class="l">' + l + '</div></div>'; }
+
+  function render(d) {
+    var V = (d.vaults || []).slice().sort(function (a, b) { return (t(a.created_at) || 0) - (t(b.created_at) || 0); });
+    var deleted = V.filter(function (v) { return t(v.deleted_at) != null; }).length;
+    var withClone = V.filter(function (v) { return v.clone; });
+    var identical = withClone.filter(function (v) { return v.clone.identical === true; }).length;
+    var hits = sum(V, function (v) { return v.server_store && v.server_store.plaintext_hits; });
+    var plain = bytes(sum(V, function (v) { return v.bytes_plain; }));
+    var stored = bytes(sum(V, function (v) { return v.server_store && v.server_store.bytes; }));
+    var tokens = sum(V, function (v) { return sum(v.workers || [], function (w) { return w.tokens; }); });
+    var calls = sum(V, function (v) { return v.hive && v.hive.ruflo_calls; });
+    var smokes = V.filter(isSmoke).length;
+
+    document.getElementById('kpis').innerHTML =
+      kpi(num(V.length), '', 'vaults created' + (smokes ? ' (' + smokes + ' smoke test' + (smokes > 1 ? 's' : '') + ')' : '')) +
+      kpi(num(deleted), '', 'deleted after the run: ephemeral', deleted === V.length ? 'good' : '') +
+      kpi(num(sum(V, function (v) { return v.commits; })), '', 'commits') +
+      kpi(num(sum(V, function (v) { return v.files; })), '', 'files delivered') +
+      kpi(plain[0], plain[1], 'plaintext delivered') +
+      kpi(stored[0], stored[1], 'the server stored (ciphertext)') +
+      kpi(num(hits), '', 'plaintext found on any server', hits === 0 ? 'good' : 'bad') +
+      kpi(num(identical) + '<span class="u">of ' + num(withClone.length) + '</span>', '', 'fresh clones identical to delivery', identical === withClone.length ? 'good' : 'bad') +
+      kpi(num(tokens), '', 'worker tokens<br><b style="color:var(--fg)">' + num(calls) + '</b> Ruflo calls');
+
+    var upd = d.updated ? ' · updated ' + esc(d.updated.slice(0, 16).replace('T', ' ')) + ' UTC' : '';
+    document.getElementById('src').innerHTML = 'source: <code>data/vaults.json</code>' + upd + (d.sample ? ' · <b style="color:var(--red)">SAMPLE DATA</b>' : '');
+
+    // lifecycle rows: one shared time scale (longest created→deleted span), so rows compare
+    var spans = V.map(function (v) { var c = t(v.created_at), x = t(v.closed_at), e = t(v.deleted_at); return { c: c, x: x, e: e, end: e || x || c }; });
+    var maxSpan = Math.max.apply(null, spans.map(function (s) { return s.c != null ? s.end - s.c : 0; }).concat([1]));
+    var rows = V.slice().reverse().map(function (v, ri) {
+      var s = spans[V.length - 1 - ri], W = 1000, H = 30, by = 4, bh = 12;
+      var sc = function (ms) { return Math.max(0, ms) / maxSpan * W * 0.86; };
+      var open = s.x != null ? sc(s.x - s.c) : 0, del = s.e != null && s.x != null ? sc(s.e - s.x) : 0;
+      open = Math.max(open, 3); if (s.e != null) del = Math.max(del, 3);
+      var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" role="img" aria-label="' + esc(v.run) + ': open ' + dur(s.x - s.c) + (s.e ? ', deleted ' + dur(s.e - s.x) + ' after close' : ', not deleted') + '">' +
+        '<rect x="0" y="' + by + '" width="' + W * 0.86 + '" height="' + bh + '" rx="2" style="fill:var(--panel2)"/>' +
+        '<rect x="0" y="' + by + '" width="' + open + '" height="' + bh + '" rx="2" style="fill:var(--accent)"/>' +
+        (s.e != null ? '<rect x="' + open + '" y="' + by + '" width="' + del + '" height="' + bh + '" style="fill:var(--dim);opacity:.45"/>' +
+          '<line x1="' + (open + del) + '" x2="' + (open + del) + '" y1="0" y2="' + (by + bh + 4) + '" style="stroke:var(--fg);stroke-width:2" vector-effect="non-scaling-stroke"/>' : '') +
+        '</svg>';
+      // HTML labels under the bar (an SVG with preserveAspectRatio=none would stretch text)
+      var lab = '<div class="stats" style="font-size:12.5px;margin-top:2px">' +
+        '<span>created <b>' + (s.c ? hhmm(s.c) : '?') + '</b></span>' +
+        '<span>open <b>' + dur(s.x - s.c) + '</b></span>' +
+        (s.e != null ? '<span>deleted <b>' + dur(s.e - s.x) + '</b> after close</span>' : '<span class="no"><b>not deleted</b></span>') +
+        '<span>' + (s.c ? new Date(s.c).toISOString().slice(0, 10) : '') + '</span></div>';
+      var ss = v.server_store || {}, cl = v.clone || {};
+      var hitsCls = ss.plaintext_hits === 0 ? 'ok' : 'no';
+      var br = (v.branches || []).map(function (b) {
+        return '<span class="br"><code>' + esc(b.name) + '</code> ' + esc(b.role || '') + ' · ' + num(b.commits) + 'c · ' + num(b.files) + 'f · ' + bstr(b.bytes) + '</span>';
+      }).join('');
+      var h = v.hive || {};
+      return '<article class="vault">' +
+        '<div class="vhead"><span class="vname">' + esc(v.run) + '</span>' + (isSmoke(v) ? '<span class="tag">smoke test</span>' : '') +
+        '<span class="vpurpose">' + esc(v.purpose || '') + '</span></div>' +
+        '<div class="life">' + svg + lab + '</div>' +
+        '<div class="stats">' +
+          '<span><b>' + num(h.workers) + '</b> worker' + (h.workers === 1 ? '' : 's') + ' · <b>' + num((v.branches || []).length) + '</b> branch' + ((v.branches || []).length === 1 ? '' : 'es') + '</span>' +
+          '<span><b>' + num(v.commits) + '</b> commits</span>' +
+          '<span><b>' + num(v.files) + '</b> files</span>' +
+          '<span><b>' + bstr(v.bytes_plain) + '</b> plain → <b>' + bstr(ss.bytes) + '</b> stored (' + num(ss.files) + ' objects)</span>' +
+          '<span class="' + hitsCls + '">plaintext on server <b>' + num(ss.plaintext_hits) + '</b></span>' +
+          '<span class="' + (cl.identical ? 'ok' : 'no') + '">fresh clone <b>' + (cl.identical ? 'identical' : 'DIFFERS') + '</b></span>' +
+          '<span><b>' + num(h.ruflo_calls) + '</b> Ruflo calls · <b>' + num(sum(v.workers || [], function (w) { return w.tokens; })) + '</b> tokens</span>' +
+        '</div>' +
+        (br ? '<div class="branches">' + br + '</div>' : '') +
+        '</article>';
+    });
+    document.getElementById('rows').innerHTML = rows.join('') || '<p class="note">No vaults yet.</p>';
+
+    // op timings: group sgit ops into the six named kinds
+    var KINDS = ['init', 'commit', 'push', 'branch', 'merge', 'clone'];
+    var by = {}; KINDS.forEach(function (k) { by[k] = []; });
+    var nOps = 0;
+    V.forEach(function (v) { (v.ops || []).forEach(function (o) {
+      var k = String(o.op || '').split('-')[0];
+      if (by[k] && typeof o.ms === 'number') { by[k].push(o.ms); nOps++; }
+    }); });
+    var stats = KINDS.map(function (k) { var a = by[k]; return { k: k, n: a.length, med: a.length ? median(a) : null, max: a.length ? Math.max.apply(null, a) : null }; });
+    var top = Math.max.apply(null, stats.map(function (s) { return s.max || 0; }).concat([1]));
+    var LW = 70, VW = 165, W = 480, rowH = 40, bh = 16, plotW = W - LW - VW;
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + (stats.length * rowH + 4) + '" role="img" aria-label="median and max milliseconds per sgit operation">';
+    stats.forEach(function (s, i) {
+      var y = i * rowH + 8;
+      svg += '<text x="0" y="' + (y + bh - 3) + '">' + s.k + '</text>';
+      svg += '<text class="n" x="0" y="' + (y + bh + 12) + '">' + (s.n ? s.n + ' op' + (s.n > 1 ? 's' : '') : 'none yet') + '</text>';
+      if (s.n) {
+        var wm = s.med / top * plotW, wx = s.max / top * plotW;
+        svg += '<rect x="' + LW + '" y="' + y + '" width="' + wx.toFixed(1) + '" height="' + bh + '" rx="2" style="fill:none;stroke:var(--dim);stroke-width:1.5"/>';
+        svg += '<rect x="' + LW + '" y="' + y + '" width="' + wm.toFixed(1) + '" height="' + bh + '" rx="2" style="fill:var(--accent)"/>';
+        svg += '<text class="val" x="' + (LW + wx + 8).toFixed(1) + '" y="' + (y + bh - 3) + '">' + num(Math.round(s.med)) + ' ms' +
+          (s.n > 1 ? '<tspan class="mx" dx="6">max ' + num(s.max) + '</tspan>' : '') + '</text>';
+      } else {
+        svg += '<line x1="' + LW + '" x2="' + (LW + plotW) + '" y1="' + (y + bh / 2) + '" y2="' + (y + bh / 2) + '" style="stroke:var(--line);stroke-dasharray:3 4"/>';
+      }
+    });
+    svg += '</svg>';
+    document.getElementById('opchart').innerHTML = svg;
+    document.getElementById('opnote').innerHTML = num(nOps) + ' timed sgit calls across ' + num(V.length) + ' vault' + (V.length === 1 ? '' : 's') +
+      ' (branch = new + switch). Wall time of each CLI call against ' + esc(d.server || 'the vault server') + '.';
+  }
+
+  fetch('../../data/vaults.json', { cache: 'no-cache' })
+    .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(render)
+    .catch(function (e) {
+      document.getElementById('rows').innerHTML = '<p class="err">Could not load data/vaults.json (' + esc(e.message) + '). Nothing is shown rather than made up.</p>';
+    });
+})();
+</script>
+</body>
+</html>
