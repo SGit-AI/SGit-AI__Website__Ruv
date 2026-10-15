@@ -5,9 +5,19 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.25",
+   "version": "v0.1.26",
    "date": "2026-10-15",
    "commit": null,
+   "title": "Open source: the business model, before the newsroom",
+   "changes": "A new slide before newsroom.sgit.ai: 'Open source is the best business model for a startup', with eight live screenshots of open-source.sgit.ai (the front page, for founders, survivability, the history 1955 to 2026, Apache-2.0 rather than MIT, funding, open core, and a phone). A still, 15 s.",
+   "pages": [
+    "talk/slides/opensource/index.html"
+   ]
+  },
+  {
+   "version": "v0.1.25",
+   "date": "2026-10-15",
+   "commit": "734a1c6",
    "title": "More room for the slide",
    "changes": "The player gives the slide more of the screen: a slimmer brand strip and title, a one-line subtitle, tighter margins, a 90 px control bar, and live slides now fill all the space left (they were fixed at 58% of the height). On a 1280x800 screen the live slide grows from 464 to 575 px tall; on 1000x560 from 325 to 375.",
    "pages": [

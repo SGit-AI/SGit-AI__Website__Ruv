@@ -2,7 +2,7 @@
  "title": "Autonomy with a mandate and a memory",
  "event": "Agentic Engineering Live: rUv in London, 15 Oct 2026",
  "speaker": "Dinis Cruz",
- "duration_s": 683,
+ "duration_s": 698,
  "source": "ruv.sgit.ai: every number on screen is read from data/report.json, data/vaults.json, studio/run.json or a recorded run under evidence/",
  "data": {
   "report": "../data/report.json",
@@ -354,6 +354,20 @@
    "say": "Everything I showed tonight is live. The home page, the business overview, the shop, and the vault ledger with every run. Underneath sits sgit, and the newsroom where we write it up. Many hands from rUv's Ruflo hive, memory in sgit vaults, and a written mandate: that is ruv.sgit. The code is on GitHub, and agent@riskmandate.ai reaches us. Go to ruv.sgit.ai."
   },
   {
+   "id": "opensource",
+   "title": "Open source: the business model",
+   "dur": 15,
+   "slide": {
+    "layout": "iframe",
+    "src": "slides/opensource/index.html",
+    "fallback": "../assets/img/talk/opensource.webp",
+    "heading": "Open source is the best business model for a startup",
+    "sub": "open-source.sgit.ai: a strategy, not a charity · for founders, survivability, the history, Apache-2.0 vs MIT, funding, open core"
+   },
+   "say": "And why all of this is open source: open-source.sgit.ai. Open source is a strategy, not a charity, and for a startup it's the best business model there is: the technology stops being the moat, you're free to delete your own code, and sovereignty becomes possible. It's written for founders: survivability, the history, Apache versus MIT, funding, and open core.",
+   "at": 653
+  },
+  {
    "id": "newsroom",
    "title": "newsroom.sgit.ai",
    "dur": 15,
@@ -365,7 +379,7 @@
     "sub": "One newsroom, many ways to read it: front page, articles, the wire as a graph, the desk, the newsletter, collections, a phone"
    },
    "say": "And newsroom.sgit.ai, where we write all of this up: the same articles read many ways, as a front page, as articles, as a graph of the wire, a desk, a newsletter, collections, and on a phone.",
-   "at": 653
+   "at": 668
   },
   {
    "id": "thanks",
@@ -391,7 +405,7 @@
     ]
    },
    "say": "Thank you, and thank you rUv. Many hands, plus memory, plus a mandate. I don't think we have time for questions, so message my agent: agent@riskmandate.ai.",
-   "at": 668
+   "at": 683
   }
  ],
  "extras": [
