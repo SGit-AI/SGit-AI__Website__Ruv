@@ -1,0 +1,76 @@
+{
+  "schema": "history_log_v1",
+  "from_commit": "",
+  "to_commit": "obj-cas-imm-3bf90dd8d00a",
+  "commit_count": 4,
+  "commits": [
+    {
+      "commit_id": "obj-cas-imm-48aaaee48630",
+      "timestamp_iso": "2026-10-14T21:27:18Z",
+      "message": "init",
+      "branch_id": "branch-clone-845d2043466d5c89",
+      "patch": "",
+      "parent_ids": [],
+      "timestamp_ms": 1792013238947,
+      "files_added": [],
+      "files_modified": [],
+      "files_deleted": []
+    },
+    {
+      "commit_id": "obj-cas-imm-1ac3298a6cc9",
+      "timestamp_iso": "2026-10-14T21:32:32Z",
+      "message": "init: memory vault",
+      "branch_id": "branch-clone-845d2043466d5c89",
+      "patch": "",
+      "parent_ids": [
+        "obj-cas-imm-48aaaee48630"
+      ],
+      "timestamp_ms": 1792013552216,
+      "files_added": [
+        "README.md"
+      ],
+      "files_modified": [],
+      "files_deleted": []
+    },
+    {
+      "commit_id": "obj-cas-imm-8ac2a0e9f200",
+      "timestamp_iso": "2026-10-14T21:32:50Z",
+      "message": "memory: coder learned something in run local-20261014T2132",
+      "branch_id": "branch-clone-b862fd0f0045c920",
+      "patch": "",
+      "parent_ids": [
+        "obj-cas-imm-1ac3298a6cc9"
+      ],
+      "timestamp_ms": 1792013570522,
+      "files_added": [
+        "memory/coder/.claude/memory.db",
+        "memory/coder/.swarm/agentdb-memory.db",
+        "memory/coder/.swarm/memory.db",
+        "memory/coder/memory-list.txt",
+        "memory/coder/ruvector.db"
+      ],
+      "files_modified": [],
+      "files_deleted": []
+    },
+    {
+      "commit_id": "obj-cas-imm-3bf90dd8d00a",
+      "timestamp_iso": "2026-10-14T21:33:04Z",
+      "message": "memory: tester learned something in run local-20261014T2132",
+      "branch_id": "branch-clone-e5155e3f5d681636",
+      "patch": "",
+      "parent_ids": [
+        "obj-cas-imm-8ac2a0e9f200"
+      ],
+      "timestamp_ms": 1792013584830,
+      "files_added": [
+        "memory/tester/.claude/memory.db",
+        "memory/tester/.swarm/agentdb-memory.db",
+        "memory/tester/.swarm/memory.db",
+        "memory/tester/memory-list.txt",
+        "memory/tester/ruvector.db"
+      ],
+      "files_modified": [],
+      "files_deleted": []
+    }
+  ]
+}

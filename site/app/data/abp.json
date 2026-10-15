@@ -1,0 +1,303 @@
+{
+  "abp_version": "0.1-poc",
+  "deployment": "Ruflo SPARC swarm (ruflo 3.56.10) on a POC repo, run by Claude Code",
+  "owner": "Dinis Cruz",
+  "valid_until": "2026-10-31",
+  "roles": [
+    {
+      "id": "queen-strategic",
+      "purpose": "plan the objective, choose topology, assign roles",
+      "rows": [
+        {
+          "capability": "read.file.project",
+          "reach": true,
+          "mandate": "yes",
+          "why": "needs the spec and the code"
+        },
+        {
+          "capability": "write.budget.tenant",
+          "reach": true,
+          "mandate": "yes",
+          "why": "model calls within budget",
+          "instances": [
+            "daily-model <= $10"
+          ]
+        },
+        {
+          "capability": "send.message.world",
+          "reach": true,
+          "mandate": "no",
+          "why": "agents draft, a person sends",
+          "barrier": "policy deny + no mail credential in the sandbox"
+        },
+        {
+          "capability": "create.record.world",
+          "reach": true,
+          "mandate": "approval",
+          "why": "publishing or deploying needs a named human",
+          "barrier": "require_approval rule + CI protected environment"
+        },
+        {
+          "capability": "read.credential.host",
+          "reach": true,
+          "mandate": "no",
+          "why": "secrets are not context",
+          "barrier": "deny rule; secrets only via the supervisor"
+        }
+      ]
+    },
+    {
+      "id": "coder",
+      "purpose": "implement the change, on a branch",
+      "rows": [
+        {
+          "capability": "read.file.project",
+          "reach": true,
+          "mandate": "yes",
+          "why": "read code"
+        },
+        {
+          "capability": "write.file.project",
+          "reach": true,
+          "mandate": "yes",
+          "why": "edit code",
+          "instances": [
+            "src/**",
+            "tests/**"
+          ]
+        },
+        {
+          "capability": "execute.process.self",
+          "reach": true,
+          "mandate": "yes",
+          "why": "build and test in the sandbox"
+        },
+        {
+          "capability": "write.repository.project",
+          "reach": true,
+          "mandate": "yes",
+          "why": "commit to its branch"
+        },
+        {
+          "capability": "write.repository.tenant",
+          "reach": true,
+          "mandate": "approval",
+          "why": "push needs review",
+          "barrier": "require_approval; branch protection"
+        },
+        {
+          "capability": "send.endpoint.allowed",
+          "reach": true,
+          "mandate": "yes",
+          "why": "package registries only",
+          "instances": [
+            "registry.npmjs.org",
+            "pypi.org"
+          ]
+        },
+        {
+          "capability": "send.endpoint.world",
+          "reach": true,
+          "mandate": "no",
+          "why": "no other hosts",
+          "barrier": "default-deny egress"
+        },
+        {
+          "capability": "send.message.world",
+          "reach": true,
+          "mandate": "no",
+          "why": "agents draft, a person sends",
+          "barrier": "policy deny + no mail credential in the sandbox"
+        },
+        {
+          "capability": "create.record.world",
+          "reach": true,
+          "mandate": "approval",
+          "why": "publishing or deploying needs a named human",
+          "barrier": "require_approval rule + CI protected environment"
+        },
+        {
+          "capability": "read.credential.host",
+          "reach": true,
+          "mandate": "no",
+          "why": "secrets are not context",
+          "barrier": "deny rule; secrets only via the supervisor"
+        }
+      ]
+    },
+    {
+      "id": "tester",
+      "purpose": "run tests, report",
+      "rows": [
+        {
+          "capability": "read.file.project",
+          "reach": true,
+          "mandate": "yes",
+          "why": "read"
+        },
+        {
+          "capability": "execute.process.self",
+          "reach": true,
+          "mandate": "yes",
+          "why": "run tests"
+        },
+        {
+          "capability": "write.file.project",
+          "reach": true,
+          "mandate": "no",
+          "why": "testers do not change code",
+          "barrier": "deny rule"
+        },
+        {
+          "capability": "send.message.world",
+          "reach": true,
+          "mandate": "no",
+          "why": "agents draft, a person sends",
+          "barrier": "policy deny + no mail credential in the sandbox"
+        },
+        {
+          "capability": "create.record.world",
+          "reach": true,
+          "mandate": "approval",
+          "why": "publishing or deploying needs a named human",
+          "barrier": "require_approval rule + CI protected environment"
+        },
+        {
+          "capability": "read.credential.host",
+          "reach": true,
+          "mandate": "no",
+          "why": "secrets are not context",
+          "barrier": "deny rule; secrets only via the supervisor"
+        }
+      ]
+    },
+    {
+      "id": "reviewer",
+      "purpose": "review diffs against the mandate",
+      "rows": [
+        {
+          "capability": "read.file.project",
+          "reach": true,
+          "mandate": "yes",
+          "why": "read diffs"
+        },
+        {
+          "capability": "read.record.history",
+          "reach": true,
+          "mandate": "yes",
+          "why": "see what each turn did"
+        },
+        {
+          "capability": "send.message.world",
+          "reach": true,
+          "mandate": "no",
+          "why": "agents draft, a person sends",
+          "barrier": "policy deny + no mail credential in the sandbox"
+        },
+        {
+          "capability": "create.record.world",
+          "reach": true,
+          "mandate": "approval",
+          "why": "publishing or deploying needs a named human",
+          "barrier": "require_approval rule + CI protected environment"
+        },
+        {
+          "capability": "read.credential.host",
+          "reach": true,
+          "mandate": "no",
+          "why": "secrets are not context",
+          "barrier": "deny rule; secrets only via the supervisor"
+        }
+      ]
+    },
+    {
+      "id": "researcher",
+      "purpose": "fetch public sources",
+      "rows": [
+        {
+          "capability": "send.endpoint.allowed",
+          "reach": true,
+          "mandate": "yes",
+          "why": "public docs only",
+          "instances": [
+            "github.com",
+            "npmjs.com",
+            "docs.*"
+          ]
+        },
+        {
+          "capability": "write.file.project",
+          "reach": true,
+          "mandate": "yes",
+          "why": "notes only",
+          "instances": [
+            "notes/**"
+          ]
+        },
+        {
+          "capability": "send.message.world",
+          "reach": true,
+          "mandate": "no",
+          "why": "agents draft, a person sends",
+          "barrier": "policy deny + no mail credential in the sandbox"
+        },
+        {
+          "capability": "create.record.world",
+          "reach": true,
+          "mandate": "approval",
+          "why": "publishing or deploying needs a named human",
+          "barrier": "require_approval rule + CI protected environment"
+        },
+        {
+          "capability": "read.credential.host",
+          "reach": true,
+          "mandate": "no",
+          "why": "secrets are not context",
+          "barrier": "deny rule; secrets only via the supervisor"
+        }
+      ]
+    },
+    {
+      "id": "documenter",
+      "purpose": "write docs",
+      "rows": [
+        {
+          "capability": "read.file.project",
+          "reach": true,
+          "mandate": "yes",
+          "why": "read"
+        },
+        {
+          "capability": "write.file.project",
+          "reach": true,
+          "mandate": "yes",
+          "why": "docs only",
+          "instances": [
+            "docs/**"
+          ]
+        },
+        {
+          "capability": "send.message.world",
+          "reach": true,
+          "mandate": "no",
+          "why": "agents draft, a person sends",
+          "barrier": "policy deny + no mail credential in the sandbox"
+        },
+        {
+          "capability": "create.record.world",
+          "reach": true,
+          "mandate": "approval",
+          "why": "publishing or deploying needs a named human",
+          "barrier": "require_approval rule + CI protected environment"
+        },
+        {
+          "capability": "read.credential.host",
+          "reach": true,
+          "mandate": "no",
+          "why": "secrets are not context",
+          "barrier": "deny rule; secrets only via the supervisor"
+        }
+      ]
+    }
+  ]
+}

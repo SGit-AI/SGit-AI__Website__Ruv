@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Use cases: what to build with rUv's stack and sgit</title>
+<meta name="description" content="Six use cases, each with the problem, which of rUv's tools to use, which of ours, the flow as a diagram, the commands, and the proof of concept that shows it working.">
+<link rel="canonical" href="https://ruv.sgit.ai/use-cases.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f766e%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Georgia%27%3Er%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/site.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.12.0/mermaid.min.js"></script>
+</head>
+<body>
+<header class="top"><div class="wrap"><a class="brand" href="index.html">ruv.sgit.ai<small>rUv x sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
+
+<section class="hero"><div class="wrap">
+<p class="k">Start from what you want to do, not from a repository</p>
+<h1>Six use cases</h1>
+<p class="lead">Each one names the problem, the piece of rUv's stack that does the autonomous part, the piece of ours that does the trust part, the flow, and the proof. The first four are built and run; the last two are designed and partly run.</p>
+<div class="toc"><a href="#govern">1 Govern a swarm</a><a href="#remember">2 Remember across runs</a><a href="#prove">3 Prove what happened</a><a href="#publish">4 Publish only on approval</a><a href="#learn">5 Learn with rollback</a><a href="#anywhere">6 Run anywhere</a></div>
+<figure class="fig half" style="margin-top:24px"><img src="assets/img/use-cases.png" alt="Six use-case tiles"></figure>
+</div></section>
+
+<section id="govern"><div class="wrap">
+<h2>1. Govern a swarm <span class="pill">built · POC1</span></h2>
+<div class="two">
+<div>
+<p><b>Problem.</b> A Ruflo swarm with queens and eight worker roles will do whatever the task needs. By default its policy mode is <code>legacy</code>: ask whether <code>coder-1</code> may <code>email.send</code> and the answer is <code>allowed</code>, reason <code>legacy-default-allow</code>. Nobody wrote down that it may not.</p>
+<p><b>His piece.</b> Ruflo's <code>AgenticPolicyEngine</code> in <code>enforce</code> mode: rules with allow / deny / require_approval, budgets, a hash-chained receipt ledger.</p>
+<p><b>Our piece.</b> One ABP for the deployment, one row set per role: 6 roles, 36 rows, 0 gaps. A compiler turns each row into a rule; <code>mandate: yes</code> becomes allow, <code>no</code> becomes deny, <code>approval</code> becomes require_approval; a <code>write.budget.tenant</code> row with <code>daily-model &lt;= $10</code> becomes <code>setBudget()</code>.</p>
+<p><b>Result.</b> Same 11-action trace evaluated twice: 5 actions that legacy allows are stopped by the ABP (3 denied, 2 sent for approval), 6 are allowed with the rule that allowed them named in the reason. Ledger valid, 11 receipts.</p>
+<p><a href="pocs.html#poc1">POC1: flow, code, outputs →</a></p>
+</div>
+<div>
+<pre class="mermaid">
+sequenceDiagram
+  participant A as ABP (JSON)
+  participant C as compile.mjs
+  participant E as Ruflo engine (enforce)
+  participant L as Ruflo engine (legacy)
+  participant V as public vault
+  A->>C: roles × rows
+  C->>E: upsertRule × 36, setBudget × 1
+  loop each action in trace.json
+    Note over L,E: same request to both
+    L-->>L: allowed (legacy-default-allow)
+    E-->>E: allowed | denied | approval_required
+  end
+  E->>V: report.json + rules.json + state (receipts)
+  V-->>V: verifyLedger() = {valid:true}
+</pre>
+</div>
+</div>
+</div></section>
+
+<section class="alt" id="remember"><div class="wrap">
+<h2>2. Remember across runs, on a machine you do not trust <span class="pill">built · POC2</span></h2>
+<div class="two">
+<div>
+<p><b>Problem.</b> Agents learn things during a run. On an ephemeral runner that memory dies with the job; on a shared server the host can read it. RuVector's README is candid: no encryption at rest, no versioning, replication is simulated, filters are not an authorization boundary.</p>
+<p><b>His piece.</b> Ruflo memory (<code>memory init|store|list</code>, sql.js or better-sqlite3, AgentDB mirror) or RuVector itself.</p>
+<p><b>Our piece.</b> An sgit vault. Each role writes its memory files on its own branch (<code>mem-coder-&lt;run&gt;</code>), pushes, and merges into the default branch. A fresh machine clones the vault with the key and restores the files. Files are encrypted on the client; the server stores ciphertext under opaque ids.</p>
+<p><b>Result.</b> Two roles wrote, a fresh clone restored both, <code>ruflo memory list</code> returned the same entry on the new machine; the vault history shows who learned what and when.</p>
+<p><a href="pocs.html#poc2">POC2: flow, script, history →</a></p>
+</div>
+<div>
+<pre class="mermaid">
+gitGraph
+  commit id: "init: memory vault"
+  branch mem-coder
+  checkout mem-coder
+  commit id: "coder learned (run A)"
+  checkout main
+  merge mem-coder
+  branch mem-tester
+  checkout mem-tester
+  commit id: "tester learned (run A)"
+  checkout main
+  merge mem-tester
+  commit id: "fresh runner: clone + restore" type: HIGHLIGHT
+</pre>
+<figure class="fig"><img src="assets/img/memory-compare.png" alt="RuVector alone vs RuVector plus sgit vault: encryption, versioning, branch and merge, clone anywhere, authorization boundary"></figure>
+</div>
+</div>
+</div></section>
+
+<section id="prove"><div class="wrap">
+<h2>3. Prove what happened <span class="pill">built · POC1 + vault</span></h2>
+<div class="two">
+<div>
+<p><b>Problem.</b> "The agent did not send that email" is a claim. An auditor wants the decision, the rule that made it, the previous decision it chains to, and the mandate it came from, in a place nobody could have edited.</p>
+<p><b>His piece.</b> The engine's receipts: each decision has a <code>receiptId</code> (sha256), the matched rules, and a link to the previous receipt; <code>verifyLedger()</code> walks the chain. RVM's witness log is the bare-metal version of the same idea.</p>
+<p><b>Our piece.</b> Commit the exported engine state next to the ABP that produced it, in a vault. The commit is the timestamp, the history is the chain of custody, the encryption keeps it private until you hand over the read key.</p>
+<p><b>Result.</b> <code>poc1/state-abp.json</code> in the public vault: 11 receipts, ledger valid, every reason names an ABP row id (<code>abp:coder:send.message.world</code>).</p>
+</div>
+<div>
+<pre class="mermaid">
+flowchart LR
+  R1["receipt 1<br/>sha256:…"] --> R2["receipt 2<br/>prev = r1"] --> R3["receipt 3<br/>prev = r2"] --> Rn["receipt 11"]
+  Rn --> X["exportState()"] --> V[("vault commit<br/>poc1/state-abp.json")]
+  ABP["ABP row<br/>abp:coder:send.message.world"] -. "reason in each receipt" .-> R3
+  V --> H["sgit history log --file poc1/state-abp.json"]
+</pre>
+</div>
+</div>
+</div></section>
+
+<section class="alt" id="publish"><div class="wrap">
+<h2>4. Publish only on approval <span class="pill">built · CI</span></h2>
+<div class="two">
+<div>
+<p><b>Problem.</b> Deploying, publishing a package, pushing to a shared branch: the actions that reach the world. An agent should be able to prepare them and a named human should release them.</p>
+<p><b>His piece.</b> Ruflo's <code>require_approval</code> effect and its approvals queue; MetaHarness host settings.</p>
+<p><b>Our piece.</b> An ABP row <code>create.record.world</code> with <code>mandate: approval</code> and barrier "require_approval rule + CI protected environment". The same row appears in two enforcers: in the engine (the trace shows <code>deploy</code> → <code>approval_required</code>) and in GitHub Actions, where the job that writes to the vault and publishes runs in a protected environment named <code>vault</code> that a person approves.</p>
+<p><b>Result.</b> The CI pipeline: build → ABP gate (fails on any row with reach, no mandate and no barrier) → POCs → human approval → write to vault → publish.</p>
+<p><a href="replicate.html#ci">The workflow →</a></p>
+</div>
+<div><figure class="fig"><img src="assets/img/ci-pipeline.png" alt="CI pipeline: build, ABP gate, POC1, POC3, POC4 build, human approval, publish to vault; second row POC2 write coder, write tester, read on fresh runner"></figure></div>
+</div>
+</div></section>
+
+<section id="learn"><div class="wrap">
+<h2>5. Learn with rollback <span class="pill">designed · partly run</span></h2>
+<div class="two">
+<div>
+<p><b>Problem.</b> SONA, ReasoningBank and Darwin mode change what the agents do over time. A learned route that was right in September may be wrong in October, and you need to see what changed and undo it.</p>
+<p><b>His piece.</b> Ruflo hooks (<code>post-task</code>, <code>session-end</code>), ReasoningBank patterns, RuVector snapshots and copy-on-write branches, MetaHarness Darwin mode.</p>
+<p><b>Our piece.</b> Version the learned artefacts in a vault after each session, next to the ABP version in force at the time. <code>sgit history diff</code> shows what a session changed; <code>sgit history revert</code> brings back the pattern set from before; the ABP's <code>valid_until</code> forces a re-sign when behaviour has drifted.</p>
+<p><b>Status.</b> The memory files are versioned (POC2); hooking <code>session-end</code> to a vault write is POC6, which needs an interactive terminal for Ruflo's policy admin and is documented as a runbook.</p>
+</div>
+<div>
+<pre class="mermaid">
+flowchart TB
+  S1["session 1<br/>ruflo hooks session-end"] --> C1["vault commit<br/>memory + patterns + ABP v1"]
+  S2["session 2 (learned a shortcut)"] --> C2["vault commit<br/>memory + patterns + ABP v1"]
+  C1 --> D["sgit history diff c1..c2<br/>what the swarm learned"]
+  C2 --> D
+  D -->|"wrong lesson"| RV["sgit history revert c1<br/>roll the pattern back"]
+  D -->|"good lesson, outside mandate"| AB["bump the ABP: new row, new owner signature, new valid_until"]
+</pre>
+</div>
+</div>
+</div></section>
+
+<section class="alt" id="anywhere"><div class="wrap">
+<h2>6. Run anywhere: CI, browser, Claude Code <span class="pill">built · POC4 + CI · POC6 runbook</span></h2>
+<div class="two">
+<div>
+<p><b>Problem.</b> A policy that only works in one runtime is a policy for one runtime. The same mandate has to hold in a GitHub Actions job, in a page the audience can open, and in a developer's Claude Code session.</p>
+<p><b>His piece.</b> <code>@ruvector/wasm</code> (verified in headless Chromium: <code>VectorDB</code>, insert, search, HNSW), Ruflo as an MCP server inside Claude Code (<code>ruflo mcp start</code>), GitHub Actions as a MetaHarness host.</p>
+<p><b>Our piece.</b> The ABP is JSON, so it goes anywhere; the vault is a static publish target, so the browser app is served from it; the Claude Code session writes its record back to the private vault.</p>
+<p><b>Result.</b> <a href="app/index.html">The live app</a> indexes the 36 ABP rows with RuVector WASM and answers "can the coder send email?" offline, showing the row, the engine's decision and the ledger. It is the same <code>app/</code> folder published in the vault.</p>
+</div>
+<div><figure class="fig"><img src="assets/img/poc4-browser.png" alt="A browser window asking can the coder send email, answer no with barrier, RuVector WASM badge, served from a vault badge"></figure></div>
+</div>
+</div></section>
+
+<footer><div class="wrap"><span>ruv.sgit.ai · built 14 Oct 2026 for Agentics London</span><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">source on GitHub</a><a href="https://sgit.ai">sgit.ai</a><a href="https://ruv.io">ruv.io</a><a href="https://github.com/ruvnet">github.com/ruvnet</a><span>code Apache-2.0 · rUv's projects MIT · "per its README" means we read, not ran, unless a POC says so</span><a href="llms.txt">llms.txt</a></div></footer>
+<script src="assets/site.js"></script>
+</body>
+</html>

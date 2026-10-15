@@ -1,0 +1,21 @@
+# ruv.sgit.ai
+
+> sgit vaults and Agent Behaviour Policies (ABPs) running inside rUv's agentic stack (Ruflo, RuVector, RVM, MetaHarness): six proofs of concept in CI, in a browser and in a Claude Code session, plus a use-case driven guide to the stack. Built 14 Oct 2026 for Agentic Engineering Live: rUv in London.
+
+## Pages
+- [Home](https://ruv.sgit.ai/index.html): the story in one table, where sgit.ai plugs in, six use cases, what was proven
+- [rUv's stack](https://ruv.sgit.ai/ruv-stack.html): Ruflo, RuVector, RVM, MetaHarness and the rest, by use, with the one command to start and what to ignore
+- [Use cases](https://ruv.sgit.ai/use-cases.html): govern a swarm, remember across runs, prove what happened, publish only on approval, learn with rollback, run anywhere
+- [Architecture](https://ruv.sgit.ai/architecture.html): layers, the ABP format and grammar, compile targets, the two vaults, data flow
+- [The POCs](https://ruv.sgit.ai/pocs.html): flows, commands, acceptance criteria and real outputs for all six
+- [Replicate](https://ruv.sgit.ai/replicate.html): install, run, vaults, CI secrets, this site, the infographics, build notes
+- [Demo](https://ruv.sgit.ai/demo.html): the five-minute script
+- [Live app](https://ruv.sgit.ai/app/index.html): ask the ABP in the browser (RuVector WASM)
+
+## Data
+- [POC1 report](https://ruv.sgit.ai/data/report.json), [rules](https://ruv.sgit.ai/data/rules.json), [receipts](https://ruv.sgit.ai/data/state-abp.json)
+- [The ABP](https://ruv.sgit.ai/data/abp.json) · [RVM rights](https://ruv.sgit.ai/data/rvm-caps.md) · [MetaHarness diff](https://ruv.sgit.ai/data/poc5-diff.md) · [build notes](https://ruv.sgit.ai/data/notes.md)
+
+## Source
+- https://github.com/SGit-AI/SGit-AI__Website__Ruv (code Apache-2.0; rUv's projects MIT, by ruvnet)
+- Pinned: ruflo 3.56.10 · @ruvector/wasm 0.2.1 · ruvector 0.3.3 · metaharness 0.4.17 · sgit-ai 0.21.0

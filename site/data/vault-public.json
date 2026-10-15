@@ -1,0 +1,9 @@
+{
+  "name": "ruv-pocs-public",
+  "vault_id": "okbiml09",
+  "read_key": "sgit_public_read_ecd5cb0648617096f427971b285de1cf1a215457f0d04c6bff2afb0200b6e7b5",
+  "server": "https://dev.send.sgraph.ai",
+  "url": "https://dev.vault.sgraph.ai/en-gb/#sgit_public_read_ecd5cb0648617096f427971b285de1cf1a215457f0d04c6bff2afb0200b6e7b5:okbiml09",
+  "clone": "pip install sgit-ai==0.21.0 && sgit clone --read-key sgit_public_read_ecd5cb0648617096f427971b285de1cf1a215457f0d04c6bff2afb0200b6e7b5 okbiml09 ruv-pocs-public",
+  "note": "Read key published on purpose (demo vault). It grants read-only access; the write key stays private."
+}

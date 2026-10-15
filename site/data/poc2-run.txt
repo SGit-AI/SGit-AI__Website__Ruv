@@ -1,0 +1,18 @@
+# POC2 local roundtrip, 14 Oct 2026 (ruflo 3.56.10, sgit-ai 0.21.0, Node 22, better-sqlite3 built by npm install)
+# Phase A: ROLE=coder then ROLE=tester: ruflo memory init/store/list in work-<role>/, DB files copied to vault branch mem-<role>-<run>, pushed,
+#          merged into the default named branch (sgit calls it "current", not "main": fixed in run.sh), pushed.
+# Phase B: fresh clone of ruv-pocs-memory (rm -rf .vault-memory first), DB files restored into restore-<role>/, `ruflo memory list -n <role>`:
+== coder
+| coder/lesson-local-202... | coder     | 72 B |   -    |        0 | 4m ago  |
+[INFO] Showing 1 of 1 entries
+== tester
+| tester/lesson-local-20... | tester    | 72 B |   -    |        0 | 4m ago  |
+[INFO] Showing 1 of 1 entries
+# sgit history log --oneline (the default branch after both merges):
+  3bf90dd8d00a (HEAD)  memory: tester learned something in run local-20261014T2132  +5  [blobs:+5 trees:+3]
+  8ac2a0e9f200  memory: coder learned something in run local-20261014T2132  +5  [blobs:+5 trees:+4]
+  1ac3298a6cc9  init: memory vault  +1  [blobs:+1]
+  48aaaee48630  init
+# sgit ls on the clone: memory/<role>/{.claude/memory.db, .swarm/agentdb-memory.db, .swarm/memory.db, memory-list.txt} (+ ruvector.db for coder)
+# Server side: ciphertext only (sgit encrypts client-side, AES-256-GCM); the vault id is the only thing in the URL.
+# Observed: `sgit clone` of a vault with zero commits fails with "Nothing to clone: this vault has no branch index"; seed a README commit first (done).

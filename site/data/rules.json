@@ -1,0 +1,471 @@
+[
+  {
+    "id": "abp:queen-strategic:read.file.project",
+    "effect": "allow",
+    "actions": [
+      "file.read"
+    ],
+    "principals": [
+      "queen-strategic"
+    ],
+    "priority": 10,
+    "description": "mandate: needs the spec and the code"
+  },
+  {
+    "id": "abp:queen-strategic:write.budget.tenant",
+    "effect": "allow",
+    "actions": [
+      "model.call"
+    ],
+    "principals": [
+      "queen-strategic"
+    ],
+    "priority": 10,
+    "description": "mandate: model calls within budget"
+  },
+  {
+    "id": "abp:queen-strategic:send.message.world",
+    "effect": "deny",
+    "actions": [
+      "email.send",
+      "message.send"
+    ],
+    "principals": [
+      "queen-strategic"
+    ],
+    "priority": 100,
+    "description": "barrier: agents draft, a person sends | policy deny + no mail credential in the sandbox"
+  },
+  {
+    "id": "abp:queen-strategic:create.record.world",
+    "effect": "require_approval",
+    "actions": [
+      "package.publish",
+      "deploy"
+    ],
+    "principals": [
+      "queen-strategic"
+    ],
+    "priority": 90,
+    "description": "barrier: publishing or deploying needs a named human | require_approval rule + CI protected environment"
+  },
+  {
+    "id": "abp:queen-strategic:read.credential.host",
+    "effect": "deny",
+    "actions": [
+      "credential.read"
+    ],
+    "principals": [
+      "queen-strategic"
+    ],
+    "priority": 100,
+    "description": "barrier: secrets are not context | deny rule; secrets only via the supervisor"
+  },
+  {
+    "id": "abp:coder:read.file.project",
+    "effect": "allow",
+    "actions": [
+      "file.read"
+    ],
+    "principals": [
+      "coder"
+    ],
+    "priority": 10,
+    "description": "mandate: read code"
+  },
+  {
+    "id": "abp:coder:write.file.project",
+    "effect": "allow",
+    "actions": [
+      "file.write",
+      "file.edit"
+    ],
+    "principals": [
+      "coder"
+    ],
+    "resources": [
+      "src/**",
+      "tests/**"
+    ],
+    "priority": 10,
+    "description": "mandate: edit code"
+  },
+  {
+    "id": "abp:coder:execute.process.self",
+    "effect": "allow",
+    "actions": [
+      "command.run",
+      "test.run"
+    ],
+    "principals": [
+      "coder"
+    ],
+    "priority": 10,
+    "description": "mandate: build and test in the sandbox"
+  },
+  {
+    "id": "abp:coder:write.repository.project",
+    "effect": "allow",
+    "actions": [
+      "repo.commit"
+    ],
+    "principals": [
+      "coder"
+    ],
+    "priority": 10,
+    "description": "mandate: commit to its branch"
+  },
+  {
+    "id": "abp:coder:write.repository.tenant",
+    "effect": "require_approval",
+    "actions": [
+      "repo.push"
+    ],
+    "principals": [
+      "coder"
+    ],
+    "priority": 90,
+    "description": "barrier: push needs review | require_approval; branch protection"
+  },
+  {
+    "id": "abp:coder:send.endpoint.allowed",
+    "effect": "allow",
+    "actions": [
+      "network.fetch"
+    ],
+    "principals": [
+      "coder"
+    ],
+    "resources": [
+      "registry.npmjs.org",
+      "pypi.org"
+    ],
+    "priority": 10,
+    "description": "mandate: package registries only"
+  },
+  {
+    "id": "abp:coder:send.endpoint.world",
+    "effect": "deny",
+    "actions": [
+      "network.fetch.world"
+    ],
+    "principals": [
+      "coder"
+    ],
+    "priority": 100,
+    "description": "barrier: no other hosts | default-deny egress"
+  },
+  {
+    "id": "abp:coder:send.message.world",
+    "effect": "deny",
+    "actions": [
+      "email.send",
+      "message.send"
+    ],
+    "principals": [
+      "coder"
+    ],
+    "priority": 100,
+    "description": "barrier: agents draft, a person sends | policy deny + no mail credential in the sandbox"
+  },
+  {
+    "id": "abp:coder:create.record.world",
+    "effect": "require_approval",
+    "actions": [
+      "package.publish",
+      "deploy"
+    ],
+    "principals": [
+      "coder"
+    ],
+    "priority": 90,
+    "description": "barrier: publishing or deploying needs a named human | require_approval rule + CI protected environment"
+  },
+  {
+    "id": "abp:coder:read.credential.host",
+    "effect": "deny",
+    "actions": [
+      "credential.read"
+    ],
+    "principals": [
+      "coder"
+    ],
+    "priority": 100,
+    "description": "barrier: secrets are not context | deny rule; secrets only via the supervisor"
+  },
+  {
+    "id": "abp:tester:read.file.project",
+    "effect": "allow",
+    "actions": [
+      "file.read"
+    ],
+    "principals": [
+      "tester"
+    ],
+    "priority": 10,
+    "description": "mandate: read"
+  },
+  {
+    "id": "abp:tester:execute.process.self",
+    "effect": "allow",
+    "actions": [
+      "command.run",
+      "test.run"
+    ],
+    "principals": [
+      "tester"
+    ],
+    "priority": 10,
+    "description": "mandate: run tests"
+  },
+  {
+    "id": "abp:tester:write.file.project",
+    "effect": "deny",
+    "actions": [
+      "file.write",
+      "file.edit"
+    ],
+    "principals": [
+      "tester"
+    ],
+    "priority": 100,
+    "description": "barrier: testers do not change code | deny rule"
+  },
+  {
+    "id": "abp:tester:send.message.world",
+    "effect": "deny",
+    "actions": [
+      "email.send",
+      "message.send"
+    ],
+    "principals": [
+      "tester"
+    ],
+    "priority": 100,
+    "description": "barrier: agents draft, a person sends | policy deny + no mail credential in the sandbox"
+  },
+  {
+    "id": "abp:tester:create.record.world",
+    "effect": "require_approval",
+    "actions": [
+      "package.publish",
+      "deploy"
+    ],
+    "principals": [
+      "tester"
+    ],
+    "priority": 90,
+    "description": "barrier: publishing or deploying needs a named human | require_approval rule + CI protected environment"
+  },
+  {
+    "id": "abp:tester:read.credential.host",
+    "effect": "deny",
+    "actions": [
+      "credential.read"
+    ],
+    "principals": [
+      "tester"
+    ],
+    "priority": 100,
+    "description": "barrier: secrets are not context | deny rule; secrets only via the supervisor"
+  },
+  {
+    "id": "abp:reviewer:read.file.project",
+    "effect": "allow",
+    "actions": [
+      "file.read"
+    ],
+    "principals": [
+      "reviewer"
+    ],
+    "priority": 10,
+    "description": "mandate: read diffs"
+  },
+  {
+    "id": "abp:reviewer:read.record.history",
+    "effect": "allow",
+    "actions": [
+      "history.read"
+    ],
+    "principals": [
+      "reviewer"
+    ],
+    "priority": 10,
+    "description": "mandate: see what each turn did"
+  },
+  {
+    "id": "abp:reviewer:send.message.world",
+    "effect": "deny",
+    "actions": [
+      "email.send",
+      "message.send"
+    ],
+    "principals": [
+      "reviewer"
+    ],
+    "priority": 100,
+    "description": "barrier: agents draft, a person sends | policy deny + no mail credential in the sandbox"
+  },
+  {
+    "id": "abp:reviewer:create.record.world",
+    "effect": "require_approval",
+    "actions": [
+      "package.publish",
+      "deploy"
+    ],
+    "principals": [
+      "reviewer"
+    ],
+    "priority": 90,
+    "description": "barrier: publishing or deploying needs a named human | require_approval rule + CI protected environment"
+  },
+  {
+    "id": "abp:reviewer:read.credential.host",
+    "effect": "deny",
+    "actions": [
+      "credential.read"
+    ],
+    "principals": [
+      "reviewer"
+    ],
+    "priority": 100,
+    "description": "barrier: secrets are not context | deny rule; secrets only via the supervisor"
+  },
+  {
+    "id": "abp:researcher:send.endpoint.allowed",
+    "effect": "allow",
+    "actions": [
+      "network.fetch"
+    ],
+    "principals": [
+      "researcher"
+    ],
+    "resources": [
+      "github.com",
+      "npmjs.com",
+      "docs.*"
+    ],
+    "priority": 10,
+    "description": "mandate: public docs only"
+  },
+  {
+    "id": "abp:researcher:write.file.project",
+    "effect": "allow",
+    "actions": [
+      "file.write",
+      "file.edit"
+    ],
+    "principals": [
+      "researcher"
+    ],
+    "resources": [
+      "notes/**"
+    ],
+    "priority": 10,
+    "description": "mandate: notes only"
+  },
+  {
+    "id": "abp:researcher:send.message.world",
+    "effect": "deny",
+    "actions": [
+      "email.send",
+      "message.send"
+    ],
+    "principals": [
+      "researcher"
+    ],
+    "priority": 100,
+    "description": "barrier: agents draft, a person sends | policy deny + no mail credential in the sandbox"
+  },
+  {
+    "id": "abp:researcher:create.record.world",
+    "effect": "require_approval",
+    "actions": [
+      "package.publish",
+      "deploy"
+    ],
+    "principals": [
+      "researcher"
+    ],
+    "priority": 90,
+    "description": "barrier: publishing or deploying needs a named human | require_approval rule + CI protected environment"
+  },
+  {
+    "id": "abp:researcher:read.credential.host",
+    "effect": "deny",
+    "actions": [
+      "credential.read"
+    ],
+    "principals": [
+      "researcher"
+    ],
+    "priority": 100,
+    "description": "barrier: secrets are not context | deny rule; secrets only via the supervisor"
+  },
+  {
+    "id": "abp:documenter:read.file.project",
+    "effect": "allow",
+    "actions": [
+      "file.read"
+    ],
+    "principals": [
+      "documenter"
+    ],
+    "priority": 10,
+    "description": "mandate: read"
+  },
+  {
+    "id": "abp:documenter:write.file.project",
+    "effect": "allow",
+    "actions": [
+      "file.write",
+      "file.edit"
+    ],
+    "principals": [
+      "documenter"
+    ],
+    "resources": [
+      "docs/**"
+    ],
+    "priority": 10,
+    "description": "mandate: docs only"
+  },
+  {
+    "id": "abp:documenter:send.message.world",
+    "effect": "deny",
+    "actions": [
+      "email.send",
+      "message.send"
+    ],
+    "principals": [
+      "documenter"
+    ],
+    "priority": 100,
+    "description": "barrier: agents draft, a person sends | policy deny + no mail credential in the sandbox"
+  },
+  {
+    "id": "abp:documenter:create.record.world",
+    "effect": "require_approval",
+    "actions": [
+      "package.publish",
+      "deploy"
+    ],
+    "principals": [
+      "documenter"
+    ],
+    "priority": 90,
+    "description": "barrier: publishing or deploying needs a named human | require_approval rule + CI protected environment"
+  },
+  {
+    "id": "abp:documenter:read.credential.host",
+    "effect": "deny",
+    "actions": [
+      "credential.read"
+    ],
+    "principals": [
+      "documenter"
+    ],
+    "priority": 100,
+    "description": "barrier: secrets are not context | deny rule; secrets only via the supervisor"
+  }
+]

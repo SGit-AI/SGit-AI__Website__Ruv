@@ -1,0 +1,884 @@
+{
+  "version": 1,
+  "mode": "enforce",
+  "rules": [
+    {
+      "id": "abp:queen-strategic:read.file.project",
+      "effect": "allow",
+      "actions": [
+        "file.read"
+      ],
+      "principals": [
+        "queen-strategic"
+      ],
+      "priority": 10,
+      "description": "mandate: needs the spec and the code"
+    },
+    {
+      "id": "abp:queen-strategic:write.budget.tenant",
+      "effect": "allow",
+      "actions": [
+        "model.call"
+      ],
+      "principals": [
+        "queen-strategic"
+      ],
+      "priority": 10,
+      "description": "mandate: model calls within budget"
+    },
+    {
+      "id": "abp:queen-strategic:send.message.world",
+      "effect": "deny",
+      "actions": [
+        "email.send",
+        "message.send"
+      ],
+      "principals": [
+        "queen-strategic"
+      ],
+      "priority": 100,
+      "description": "barrier: agents draft, a person sends | policy deny + no mail credential in the sandbox"
+    },
+    {
+      "id": "abp:queen-strategic:create.record.world",
+      "effect": "require_approval",
+      "actions": [
+        "package.publish",
+        "deploy"
+      ],
+      "principals": [
+        "queen-strategic"
+      ],
+      "priority": 90,
+      "description": "barrier: publishing or deploying needs a named human | require_approval rule + CI protected environment"
+    },
+    {
+      "id": "abp:queen-strategic:read.credential.host",
+      "effect": "deny",
+      "actions": [
+        "credential.read"
+      ],
+      "principals": [
+        "queen-strategic"
+      ],
+      "priority": 100,
+      "description": "barrier: secrets are not context | deny rule; secrets only via the supervisor"
+    },
+    {
+      "id": "abp:coder:read.file.project",
+      "effect": "allow",
+      "actions": [
+        "file.read"
+      ],
+      "principals": [
+        "coder"
+      ],
+      "priority": 10,
+      "description": "mandate: read code"
+    },
+    {
+      "id": "abp:coder:write.file.project",
+      "effect": "allow",
+      "actions": [
+        "file.write",
+        "file.edit"
+      ],
+      "principals": [
+        "coder"
+      ],
+      "resources": [
+        "src/**",
+        "tests/**"
+      ],
+      "priority": 10,
+      "description": "mandate: edit code"
+    },
+    {
+      "id": "abp:coder:execute.process.self",
+      "effect": "allow",
+      "actions": [
+        "command.run",
+        "test.run"
+      ],
+      "principals": [
+        "coder"
+      ],
+      "priority": 10,
+      "description": "mandate: build and test in the sandbox"
+    },
+    {
+      "id": "abp:coder:write.repository.project",
+      "effect": "allow",
+      "actions": [
+        "repo.commit"
+      ],
+      "principals": [
+        "coder"
+      ],
+      "priority": 10,
+      "description": "mandate: commit to its branch"
+    },
+    {
+      "id": "abp:coder:write.repository.tenant",
+      "effect": "require_approval",
+      "actions": [
+        "repo.push"
+      ],
+      "principals": [
+        "coder"
+      ],
+      "priority": 90,
+      "description": "barrier: push needs review | require_approval; branch protection"
+    },
+    {
+      "id": "abp:coder:send.endpoint.allowed",
+      "effect": "allow",
+      "actions": [
+        "network.fetch"
+      ],
+      "principals": [
+        "coder"
+      ],
+      "resources": [
+        "registry.npmjs.org",
+        "pypi.org"
+      ],
+      "priority": 10,
+      "description": "mandate: package registries only"
+    },
+    {
+      "id": "abp:coder:send.endpoint.world",
+      "effect": "deny",
+      "actions": [
+        "network.fetch.world"
+      ],
+      "principals": [
+        "coder"
+      ],
+      "priority": 100,
+      "description": "barrier: no other hosts | default-deny egress"
+    },
+    {
+      "id": "abp:coder:send.message.world",
+      "effect": "deny",
+      "actions": [
+        "email.send",
+        "message.send"
+      ],
+      "principals": [
+        "coder"
+      ],
+      "priority": 100,
+      "description": "barrier: agents draft, a person sends | policy deny + no mail credential in the sandbox"
+    },
+    {
+      "id": "abp:coder:create.record.world",
+      "effect": "require_approval",
+      "actions": [
+        "package.publish",
+        "deploy"
+      ],
+      "principals": [
+        "coder"
+      ],
+      "priority": 90,
+      "description": "barrier: publishing or deploying needs a named human | require_approval rule + CI protected environment"
+    },
+    {
+      "id": "abp:coder:read.credential.host",
+      "effect": "deny",
+      "actions": [
+        "credential.read"
+      ],
+      "principals": [
+        "coder"
+      ],
+      "priority": 100,
+      "description": "barrier: secrets are not context | deny rule; secrets only via the supervisor"
+    },
+    {
+      "id": "abp:tester:read.file.project",
+      "effect": "allow",
+      "actions": [
+        "file.read"
+      ],
+      "principals": [
+        "tester"
+      ],
+      "priority": 10,
+      "description": "mandate: read"
+    },
+    {
+      "id": "abp:tester:execute.process.self",
+      "effect": "allow",
+      "actions": [
+        "command.run",
+        "test.run"
+      ],
+      "principals": [
+        "tester"
+      ],
+      "priority": 10,
+      "description": "mandate: run tests"
+    },
+    {
+      "id": "abp:tester:write.file.project",
+      "effect": "deny",
+      "actions": [
+        "file.write",
+        "file.edit"
+      ],
+      "principals": [
+        "tester"
+      ],
+      "priority": 100,
+      "description": "barrier: testers do not change code | deny rule"
+    },
+    {
+      "id": "abp:tester:send.message.world",
+      "effect": "deny",
+      "actions": [
+        "email.send",
+        "message.send"
+      ],
+      "principals": [
+        "tester"
+      ],
+      "priority": 100,
+      "description": "barrier: agents draft, a person sends | policy deny + no mail credential in the sandbox"
+    },
+    {
+      "id": "abp:tester:create.record.world",
+      "effect": "require_approval",
+      "actions": [
+        "package.publish",
+        "deploy"
+      ],
+      "principals": [
+        "tester"
+      ],
+      "priority": 90,
+      "description": "barrier: publishing or deploying needs a named human | require_approval rule + CI protected environment"
+    },
+    {
+      "id": "abp:tester:read.credential.host",
+      "effect": "deny",
+      "actions": [
+        "credential.read"
+      ],
+      "principals": [
+        "tester"
+      ],
+      "priority": 100,
+      "description": "barrier: secrets are not context | deny rule; secrets only via the supervisor"
+    },
+    {
+      "id": "abp:reviewer:read.file.project",
+      "effect": "allow",
+      "actions": [
+        "file.read"
+      ],
+      "principals": [
+        "reviewer"
+      ],
+      "priority": 10,
+      "description": "mandate: read diffs"
+    },
+    {
+      "id": "abp:reviewer:read.record.history",
+      "effect": "allow",
+      "actions": [
+        "history.read"
+      ],
+      "principals": [
+        "reviewer"
+      ],
+      "priority": 10,
+      "description": "mandate: see what each turn did"
+    },
+    {
+      "id": "abp:reviewer:send.message.world",
+      "effect": "deny",
+      "actions": [
+        "email.send",
+        "message.send"
+      ],
+      "principals": [
+        "reviewer"
+      ],
+      "priority": 100,
+      "description": "barrier: agents draft, a person sends | policy deny + no mail credential in the sandbox"
+    },
+    {
+      "id": "abp:reviewer:create.record.world",
+      "effect": "require_approval",
+      "actions": [
+        "package.publish",
+        "deploy"
+      ],
+      "principals": [
+        "reviewer"
+      ],
+      "priority": 90,
+      "description": "barrier: publishing or deploying needs a named human | require_approval rule + CI protected environment"
+    },
+    {
+      "id": "abp:reviewer:read.credential.host",
+      "effect": "deny",
+      "actions": [
+        "credential.read"
+      ],
+      "principals": [
+        "reviewer"
+      ],
+      "priority": 100,
+      "description": "barrier: secrets are not context | deny rule; secrets only via the supervisor"
+    },
+    {
+      "id": "abp:researcher:send.endpoint.allowed",
+      "effect": "allow",
+      "actions": [
+        "network.fetch"
+      ],
+      "principals": [
+        "researcher"
+      ],
+      "resources": [
+        "github.com",
+        "npmjs.com",
+        "docs.*"
+      ],
+      "priority": 10,
+      "description": "mandate: public docs only"
+    },
+    {
+      "id": "abp:researcher:write.file.project",
+      "effect": "allow",
+      "actions": [
+        "file.write",
+        "file.edit"
+      ],
+      "principals": [
+        "researcher"
+      ],
+      "resources": [
+        "notes/**"
+      ],
+      "priority": 10,
+      "description": "mandate: notes only"
+    },
+    {
+      "id": "abp:researcher:send.message.world",
+      "effect": "deny",
+      "actions": [
+        "email.send",
+        "message.send"
+      ],
+      "principals": [
+        "researcher"
+      ],
+      "priority": 100,
+      "description": "barrier: agents draft, a person sends | policy deny + no mail credential in the sandbox"
+    },
+    {
+      "id": "abp:researcher:create.record.world",
+      "effect": "require_approval",
+      "actions": [
+        "package.publish",
+        "deploy"
+      ],
+      "principals": [
+        "researcher"
+      ],
+      "priority": 90,
+      "description": "barrier: publishing or deploying needs a named human | require_approval rule + CI protected environment"
+    },
+    {
+      "id": "abp:researcher:read.credential.host",
+      "effect": "deny",
+      "actions": [
+        "credential.read"
+      ],
+      "principals": [
+        "researcher"
+      ],
+      "priority": 100,
+      "description": "barrier: secrets are not context | deny rule; secrets only via the supervisor"
+    },
+    {
+      "id": "abp:documenter:read.file.project",
+      "effect": "allow",
+      "actions": [
+        "file.read"
+      ],
+      "principals": [
+        "documenter"
+      ],
+      "priority": 10,
+      "description": "mandate: read"
+    },
+    {
+      "id": "abp:documenter:write.file.project",
+      "effect": "allow",
+      "actions": [
+        "file.write",
+        "file.edit"
+      ],
+      "principals": [
+        "documenter"
+      ],
+      "resources": [
+        "docs/**"
+      ],
+      "priority": 10,
+      "description": "mandate: docs only"
+    },
+    {
+      "id": "abp:documenter:send.message.world",
+      "effect": "deny",
+      "actions": [
+        "email.send",
+        "message.send"
+      ],
+      "principals": [
+        "documenter"
+      ],
+      "priority": 100,
+      "description": "barrier: agents draft, a person sends | policy deny + no mail credential in the sandbox"
+    },
+    {
+      "id": "abp:documenter:create.record.world",
+      "effect": "require_approval",
+      "actions": [
+        "package.publish",
+        "deploy"
+      ],
+      "principals": [
+        "documenter"
+      ],
+      "priority": 90,
+      "description": "barrier: publishing or deploying needs a named human | require_approval rule + CI protected environment"
+    },
+    {
+      "id": "abp:documenter:read.credential.host",
+      "effect": "deny",
+      "actions": [
+        "credential.read"
+      ],
+      "principals": [
+        "documenter"
+      ],
+      "priority": 100,
+      "description": "barrier: secrets are not context | deny rule; secrets only via the supervisor"
+    }
+  ],
+  "budgets": [
+    {
+      "id": "abp:queen-strategic:budget",
+      "principal": "queen-strategic",
+      "action": "model.call",
+      "maxCostUsd": 10,
+      "periodMs": 86400000
+    }
+  ],
+  "usage": [
+    {
+      "limitId": "abp:queen-strategic:budget",
+      "windowStartedAt": 1792013232846,
+      "costUsd": 0.4,
+      "tokens": 0
+    }
+  ],
+  "approvals": [],
+  "receipts": [
+    {
+      "payload": {
+        "receiptId": "sha256:1f7ad198c10e004c768c162246044561a4a2288d7875d276d49099c81879ac77",
+        "previousReceiptHash": null,
+        "sequence": 0,
+        "issuedAt": 1792013232839,
+        "request": {
+          "identity": {
+            "id": "coder",
+            "type": "agent"
+          },
+          "action": {
+            "type": "file.write",
+            "resource": "src/**"
+          },
+          "requestId": "88061335-246d-4d42-a449-07fd905642e9",
+          "context": {
+            "now": 1792013232839
+          }
+        },
+        "decision": {
+          "requestId": "88061335-246d-4d42-a449-07fd905642e9",
+          "outcome": "allowed",
+          "enforcedOutcome": "allowed",
+          "mode": "enforce",
+          "reason": "allowed-by:abp:coder:write.file.project",
+          "matchedRules": [
+            "abp:coder:write.file.project"
+          ],
+          "obligations": []
+        },
+        "policyHash": "sha256:722efba2e2e030113885ce85c5f2c121923495425d718f11bceee77063e4b177"
+      },
+      "hash": "sha256:0c46a2e277b3fdd529fa015554c481bc0a67a7a5a04699afb9cba84d9d774b41"
+    },
+    {
+      "payload": {
+        "receiptId": "sha256:f854f92cc78c8e7b4e27ab3cdf61a9dcc5ac8aee99719a56954febe0353649f7",
+        "previousReceiptHash": "sha256:0c46a2e277b3fdd529fa015554c481bc0a67a7a5a04699afb9cba84d9d774b41",
+        "sequence": 1,
+        "issuedAt": 1792013232840,
+        "request": {
+          "identity": {
+            "id": "coder",
+            "type": "agent"
+          },
+          "action": {
+            "type": "test.run"
+          },
+          "requestId": "daee8437-ec7d-45b1-807b-ed3230d778e6",
+          "context": {
+            "now": 1792013232840
+          }
+        },
+        "decision": {
+          "requestId": "daee8437-ec7d-45b1-807b-ed3230d778e6",
+          "outcome": "allowed",
+          "enforcedOutcome": "allowed",
+          "mode": "enforce",
+          "reason": "allowed-by:abp:coder:execute.process.self",
+          "matchedRules": [
+            "abp:coder:execute.process.self"
+          ],
+          "obligations": []
+        },
+        "policyHash": "sha256:722efba2e2e030113885ce85c5f2c121923495425d718f11bceee77063e4b177"
+      },
+      "hash": "sha256:4a9e1ee14328a384054c19ceaf5624b4dddae42ccbd19c5b06c6a61f66f456b4"
+    },
+    {
+      "payload": {
+        "receiptId": "sha256:f0d0fb195a1b848e20e1e38ae769b477e473755c84be3310b48d1164b90cef53",
+        "previousReceiptHash": "sha256:4a9e1ee14328a384054c19ceaf5624b4dddae42ccbd19c5b06c6a61f66f456b4",
+        "sequence": 2,
+        "issuedAt": 1792013232841,
+        "request": {
+          "identity": {
+            "id": "coder",
+            "type": "agent"
+          },
+          "action": {
+            "type": "repo.commit"
+          },
+          "requestId": "fb3fce75-a62f-4628-a283-167826d04ddd",
+          "context": {
+            "now": 1792013232841
+          }
+        },
+        "decision": {
+          "requestId": "fb3fce75-a62f-4628-a283-167826d04ddd",
+          "outcome": "allowed",
+          "enforcedOutcome": "allowed",
+          "mode": "enforce",
+          "reason": "allowed-by:abp:coder:write.repository.project",
+          "matchedRules": [
+            "abp:coder:write.repository.project"
+          ],
+          "obligations": []
+        },
+        "policyHash": "sha256:722efba2e2e030113885ce85c5f2c121923495425d718f11bceee77063e4b177"
+      },
+      "hash": "sha256:b6ea8fdc0489400d7c48cedb3b6955169c0e767d2e4f1afb5c216287819911d9"
+    },
+    {
+      "payload": {
+        "receiptId": "sha256:ac5a29bbf2a9795eaea1fa933d4ed1898c6ab22661bb80de22a138a5f841dc6f",
+        "previousReceiptHash": "sha256:b6ea8fdc0489400d7c48cedb3b6955169c0e767d2e4f1afb5c216287819911d9",
+        "sequence": 3,
+        "issuedAt": 1792013232842,
+        "request": {
+          "identity": {
+            "id": "coder",
+            "type": "agent"
+          },
+          "action": {
+            "type": "repo.push",
+            "resource": "origin/feature"
+          },
+          "requestId": "762b028d-4084-461f-a0b1-6fb719103e9f",
+          "context": {
+            "now": 1792013232842
+          }
+        },
+        "decision": {
+          "requestId": "762b028d-4084-461f-a0b1-6fb719103e9f",
+          "outcome": "approval_required",
+          "enforcedOutcome": "approval_required",
+          "mode": "enforce",
+          "reason": "approval-required-by:abp:coder:write.repository.tenant",
+          "matchedRules": [
+            "abp:coder:write.repository.tenant"
+          ],
+          "obligations": [
+            "valid-human-approval"
+          ]
+        },
+        "policyHash": "sha256:722efba2e2e030113885ce85c5f2c121923495425d718f11bceee77063e4b177"
+      },
+      "hash": "sha256:c7e5c7508ff80b515d08603d19fb1fdb50d3121ff43839c0a99cb464d3f24a9c"
+    },
+    {
+      "payload": {
+        "receiptId": "sha256:491990ee0d57aeb3b4c8ed83983dea16458dd04e9d4f64e40fc845b08e476732",
+        "previousReceiptHash": "sha256:c7e5c7508ff80b515d08603d19fb1fdb50d3121ff43839c0a99cb464d3f24a9c",
+        "sequence": 4,
+        "issuedAt": 1792013232843,
+        "request": {
+          "identity": {
+            "id": "coder",
+            "type": "agent"
+          },
+          "action": {
+            "type": "network.fetch",
+            "resource": "registry.npmjs.org"
+          },
+          "requestId": "cd417c81-bb0c-42e2-8904-e98081730535",
+          "context": {
+            "now": 1792013232843
+          }
+        },
+        "decision": {
+          "requestId": "cd417c81-bb0c-42e2-8904-e98081730535",
+          "outcome": "allowed",
+          "enforcedOutcome": "allowed",
+          "mode": "enforce",
+          "reason": "allowed-by:abp:coder:send.endpoint.allowed",
+          "matchedRules": [
+            "abp:coder:send.endpoint.allowed"
+          ],
+          "obligations": []
+        },
+        "policyHash": "sha256:722efba2e2e030113885ce85c5f2c121923495425d718f11bceee77063e4b177"
+      },
+      "hash": "sha256:f495813c98c96cf024b7c1bf2deb2d7a1e7bc27ff4d7270489f335170f76776b"
+    },
+    {
+      "payload": {
+        "receiptId": "sha256:aef8c843a50f69cfa4c71c404a4dfaf80a3bc55c3b4bc7d6be970662268f0f1f",
+        "previousReceiptHash": "sha256:f495813c98c96cf024b7c1bf2deb2d7a1e7bc27ff4d7270489f335170f76776b",
+        "sequence": 5,
+        "issuedAt": 1792013232843,
+        "request": {
+          "identity": {
+            "id": "coder",
+            "type": "agent"
+          },
+          "action": {
+            "type": "network.fetch.world",
+            "resource": "pastebin.example"
+          },
+          "requestId": "9ddec426-c27a-417b-941f-482764c6501a",
+          "context": {
+            "now": 1792013232843
+          }
+        },
+        "decision": {
+          "requestId": "9ddec426-c27a-417b-941f-482764c6501a",
+          "outcome": "denied",
+          "enforcedOutcome": "denied",
+          "mode": "enforce",
+          "reason": "denied-by:abp:coder:send.endpoint.world",
+          "matchedRules": [
+            "abp:coder:send.endpoint.world"
+          ],
+          "obligations": []
+        },
+        "policyHash": "sha256:722efba2e2e030113885ce85c5f2c121923495425d718f11bceee77063e4b177"
+      },
+      "hash": "sha256:4177ea8073d88093e325aa28d770e658684902d79c1cce649e94a2a88e99076a"
+    },
+    {
+      "payload": {
+        "receiptId": "sha256:0707c8a99199366995cd39860f0491b84bf53ea2241d6ba5c51d1ab81f85edaa",
+        "previousReceiptHash": "sha256:4177ea8073d88093e325aa28d770e658684902d79c1cce649e94a2a88e99076a",
+        "sequence": 6,
+        "issuedAt": 1792013232844,
+        "request": {
+          "identity": {
+            "id": "coder",
+            "type": "agent"
+          },
+          "action": {
+            "type": "email.send",
+            "resource": "gmail"
+          },
+          "requestId": "ed7df76b-f0eb-460c-b35b-82188dd1970f",
+          "context": {
+            "now": 1792013232844
+          }
+        },
+        "decision": {
+          "requestId": "ed7df76b-f0eb-460c-b35b-82188dd1970f",
+          "outcome": "denied",
+          "enforcedOutcome": "denied",
+          "mode": "enforce",
+          "reason": "denied-by:abp:coder:send.message.world",
+          "matchedRules": [
+            "abp:coder:send.message.world"
+          ],
+          "obligations": []
+        },
+        "policyHash": "sha256:722efba2e2e030113885ce85c5f2c121923495425d718f11bceee77063e4b177"
+      },
+      "hash": "sha256:dc0edcd2da6e8ce6adbc9003d22a0aad004fc45fd594790a50e6a3fcd232ecb0"
+    },
+    {
+      "payload": {
+        "receiptId": "sha256:3803230f061b1644179bce18cf7e938d3f23dd9d3d793eed90d4a339a66b29a1",
+        "previousReceiptHash": "sha256:dc0edcd2da6e8ce6adbc9003d22a0aad004fc45fd594790a50e6a3fcd232ecb0",
+        "sequence": 7,
+        "issuedAt": 1792013232845,
+        "request": {
+          "identity": {
+            "id": "tester",
+            "type": "agent"
+          },
+          "action": {
+            "type": "file.write",
+            "resource": "src/**"
+          },
+          "requestId": "c209b41f-ee35-44dc-8a16-6ba942fd4796",
+          "context": {
+            "now": 1792013232845
+          }
+        },
+        "decision": {
+          "requestId": "c209b41f-ee35-44dc-8a16-6ba942fd4796",
+          "outcome": "denied",
+          "enforcedOutcome": "denied",
+          "mode": "enforce",
+          "reason": "denied-by:abp:tester:write.file.project",
+          "matchedRules": [
+            "abp:tester:write.file.project"
+          ],
+          "obligations": []
+        },
+        "policyHash": "sha256:722efba2e2e030113885ce85c5f2c121923495425d718f11bceee77063e4b177"
+      },
+      "hash": "sha256:d2b9417c2ee498c510092e33ee6f9f85d718f5e73eb378bd12e2320f42c27fbd"
+    },
+    {
+      "payload": {
+        "receiptId": "sha256:fe3b95f614620d0a34ae5cabf41be1898f991fdeb2300aec9e68e5cdb14ae930",
+        "previousReceiptHash": "sha256:d2b9417c2ee498c510092e33ee6f9f85d718f5e73eb378bd12e2320f42c27fbd",
+        "sequence": 8,
+        "issuedAt": 1792013232845,
+        "request": {
+          "identity": {
+            "id": "researcher",
+            "type": "agent"
+          },
+          "action": {
+            "type": "credential.read",
+            "resource": "~/.aws/credentials"
+          },
+          "requestId": "fce94b50-cfd7-4168-806d-b8037b3b41e0",
+          "context": {
+            "now": 1792013232845
+          }
+        },
+        "decision": {
+          "requestId": "fce94b50-cfd7-4168-806d-b8037b3b41e0",
+          "outcome": "denied",
+          "enforcedOutcome": "denied",
+          "mode": "enforce",
+          "reason": "denied-by:abp:researcher:read.credential.host",
+          "matchedRules": [
+            "abp:researcher:read.credential.host"
+          ],
+          "obligations": []
+        },
+        "policyHash": "sha256:722efba2e2e030113885ce85c5f2c121923495425d718f11bceee77063e4b177"
+      },
+      "hash": "sha256:cb90db3f4237f16e3133e396a7abd3ee2ba0817595f228efe7ae7d07e5022e67"
+    },
+    {
+      "payload": {
+        "receiptId": "sha256:0d629ae4c989e9dedaf54762b48426542e02b45d73a6615c8b8ae7e092af42c2",
+        "previousReceiptHash": "sha256:cb90db3f4237f16e3133e396a7abd3ee2ba0817595f228efe7ae7d07e5022e67",
+        "sequence": 9,
+        "issuedAt": 1792013232846,
+        "request": {
+          "identity": {
+            "id": "queen-strategic",
+            "type": "agent"
+          },
+          "action": {
+            "type": "model.call",
+            "costUsd": 0.4
+          },
+          "requestId": "11d6f6e1-c47a-440e-9c6b-0fb1bac80062",
+          "context": {
+            "now": 1792013232846
+          }
+        },
+        "decision": {
+          "requestId": "11d6f6e1-c47a-440e-9c6b-0fb1bac80062",
+          "outcome": "allowed",
+          "enforcedOutcome": "allowed",
+          "mode": "enforce",
+          "reason": "allowed-by:abp:queen-strategic:write.budget.tenant",
+          "matchedRules": [
+            "abp:queen-strategic:write.budget.tenant"
+          ],
+          "obligations": []
+        },
+        "policyHash": "sha256:722efba2e2e030113885ce85c5f2c121923495425d718f11bceee77063e4b177"
+      },
+      "hash": "sha256:548901e5e5354549d509f4e91e09f3111d4b2b19eb3f9a309d31bf8d7f3fdc05"
+    },
+    {
+      "payload": {
+        "receiptId": "sha256:c39a93094c4e7e8eb7ca7dfb3375979786898aaeae4e9b2dd6d8b903b90921df",
+        "previousReceiptHash": "sha256:548901e5e5354549d509f4e91e09f3111d4b2b19eb3f9a309d31bf8d7f3fdc05",
+        "sequence": 10,
+        "issuedAt": 1792013232847,
+        "request": {
+          "identity": {
+            "id": "documenter",
+            "type": "agent"
+          },
+          "action": {
+            "type": "deploy",
+            "environment": "production"
+          },
+          "requestId": "f070b3e1-3026-41e4-9de2-d9d7dcdb0dff",
+          "context": {
+            "now": 1792013232847
+          }
+        },
+        "decision": {
+          "requestId": "f070b3e1-3026-41e4-9de2-d9d7dcdb0dff",
+          "outcome": "approval_required",
+          "enforcedOutcome": "approval_required",
+          "mode": "enforce",
+          "reason": "approval-required-by:abp:documenter:create.record.world",
+          "matchedRules": [
+            "abp:documenter:create.record.world"
+          ],
+          "obligations": [
+            "valid-human-approval"
+          ]
+        },
+        "policyHash": "sha256:722efba2e2e030113885ce85c5f2c121923495425d718f11bceee77063e4b177"
+      },
+      "hash": "sha256:44cc2eebec84302f85201901cf04ca397df9417647d98ec513d51ff5306e3baa"
+    }
+  ],
+  "ledgerHead": "sha256:44cc2eebec84302f85201901cf04ca397df9417647d98ec513d51ff5306e3baa",
+  "ledgerLength": 11
+}

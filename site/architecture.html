@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Architecture: layers, the ABP, and the compile targets</title>
+<meta name="description" content="The layered architecture of rUv's stack with sgit vaults and Agent Behaviour Policies: the ABP format and grammar, how it compiles into Ruflo rules, RVM rights and MetaHarness settings, the two vaults, and the data flow.">
+<link rel="canonical" href="https://ruv.sgit.ai/architecture.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f766e%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Georgia%27%3Er%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/site.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.12.0/mermaid.min.js"></script>
+</head>
+<body>
+<header class="top"><div class="wrap"><a class="brand" href="index.html">ruv.sgit.ai<small>rUv x sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
+
+<section class="hero"><div class="wrap">
+<p class="k">The mechanism, with the file names</p>
+<h1>Architecture</h1>
+<p class="lead">One mandate document, several enforcers. One vault model, several writers. Everything on this page maps to a file in the repository.</p>
+<div class="toc"><a href="#layers">Layers</a><a href="#abp">The ABP</a><a href="#grammar">Grammar</a><a href="#compile">Compile targets</a><a href="#vaults">The two vaults</a><a href="#flow">Data flow</a><a href="#builder">The builder's own ABP</a></div>
+</div></section>
+
+<section id="layers"><div class="wrap">
+<h2>Layers, and where we sit</h2>
+<pre class="mermaid">
+flowchart TB
+  subgraph hosts["Hosts: where agents run"]
+    CC["Claude Code<br/>(Ruflo as MCP / plugin)"]
+    GH["GitHub Actions<br/>(.github/workflows/pocs.yml)"]
+    BR["Browser<br/>(site/app, served from the vault)"]
+  end
+  subgraph orch["Orchestration and policy"]
+    RF["Ruflo swarm: queens + workers"]
+    PE["Ruflo AgenticPolicyEngine<br/>@claude-flow/security"]
+    MH["MetaHarness scaffold<br/>.claude/settings.json"]
+  end
+  subgraph mem["Memory"]
+    RV["Ruflo memory / RuVector<br/>.swarm/memory.db, ruvector.db"]
+    WASM["@ruvector/wasm<br/>VectorDB in the page"]
+  end
+  subgraph metal["Below the host"]
+    RVM["RVM: capabilities, 7 rights, witness log"]
+  end
+  subgraph ours["sgit.ai"]
+    ABP["ABP<br/>abp/examples/*.abp.json<br/>abp/schema · abp/vocabulary · abp/mapping.json"]
+    VP[("ruv-pocs-public")]
+    VM[("ruv-pocs-memory")]
+  end
+  CC --> RF --> PE
+  GH --> PE
+  BR --> WASM
+  RF --> RV
+  ABP -- "poc1 compile.mjs" --> PE
+  ABP -- "poc3 abp_to_rvm.py" --> RVM
+  MH -- "poc5 harness-to-abp.mjs" --> ABP
+  PE -- receipts --> VP
+  ABP --> VP
+  VP -- "app/ + data/" --> BR
+  RV -- "poc2 run.sh: branch per role" --> VM
+  CC -- "poc6: session record" --> VM
+  classDef ours fill:#d9f1ee,stroke:#0f766e,color:#1a1917
+  class ABP,VP,VM ours
+</pre>
+</div></section>
+
+<section class="alt" id="abp"><div class="wrap">
+<h2>The Agent Behaviour Policy</h2>
+<div class="two">
+<div>
+<p>An ABP describes one agent system in one deployment. For each <b>role</b> it lists rows, and each row is one <b>capability</b> (a primitive from the vocabulary) with:</p>
+<ul>
+<li><b>reach</b>: can it, technically, today? (boolean)</li>
+<li><b>mandate</b>: is it authorised to? <code>yes</code> · <code>no</code> · <code>approval</code></li>
+<li><b>instances</b>: paths, hosts, repos, budgets: instances of the primitive, never new primitives</li>
+<li><b>barrier</b>: what actually stops it when the mandate is no or approval</li>
+<li><b>why</b>: one line for the reader</li>
+</ul>
+<p>At the top: <b>deployment</b>, <b>owner</b> (the named person who signs), <b>valid_until</b> (a licence to operate expires). A row with reach, a mandate other than yes, and no barrier is a <b>gap</b>; the CI gate fails on gaps.</p>
+<pre><code>{ "capability": "send.message.world",
+  "reach": true, "mandate": "no",
+  "why": "agents draft, a person sends",
+  "barrier": "policy deny + no mail credential in the sandbox" }</code></pre>
+<p class="k">Schema: <code>abp/schema/abp.schema.json</code>. Example: <code>abp/examples/ruflo-sparc-swarm.abp.json</code> (6 roles, 36 rows).</p>
+</div>
+<figure class="fig" style="margin:0"><img src="assets/img/abp-anatomy.png" alt="One ABP row: reach, mandate, gap, barrier, owner"><figcaption>One row, five questions. The grammar is verb.object.reach.</figcaption></figure>
+</div>
+<h3>The whole swarm's ABP</h3>
+<div data-abp="data/abp.json">loading…</div>
+</div></section>
+
+<section id="grammar"><div class="wrap">
+<h2>Grammar: verb . object . reach</h2>
+<p>23 primitives, each with an undo class. A specific path, host or mailbox is an instance of a primitive, never a new one, which is what keeps the document short enough to sign.</p>
+<div class="cards">
+<div class="card"><h4>Verbs</h4><p><code>read write create delete execute send receive authenticate-as grant revoke</code></p></div>
+<div class="card"><h4>Objects</h4><p><code>file process network-endpoint credential message record repository budget schedule</code></p></div>
+<div class="card"><h4>Reaches</h4><p><code>self</code> the agent's own process · <code>project</code> the working tree · <code>host</code> the machine · <code>tenant</code> the organisation's systems · <code>allowed</code> a listed set · <code>world</code> anything else</p></div>
+</div>
+<p class="k">Vocabulary: <code>abp/vocabulary/capabilities.json</code>, promoted from RiskMandate's published capability map without renaming.</p>
+</div></section>
+
+<section class="alt" id="compile"><div class="wrap">
+<h2>Compile targets</h2>
+<p>The same row becomes different things in different enforcers. The mapping lives in <code>abp/mapping.json</code>; the action strings are our convention for the trace, and Ruflo matches rules on whatever strings the caller emits.</p>
+<div class="tbl"><table>
+<thead><tr><th>Target</th><th>rUv surface (verified 14 Oct 2026)</th><th>Our mapping</th><th>POC</th></tr></thead>
+<tbody>
+<tr><td>Ruflo policy engine</td><td><code>AgenticPolicyEngine</code>: modes legacy / observe / enforce; <code>PolicyRule {id, effect, actions[], principals[], resources[], priority, constraints}</code>; <code>setBudget</code>; hash-chained receipts; <code>verifyLedger()</code></td><td>mandate yes → allow; no → deny; approval → require_approval; <code>write.budget.*</code> → setBudget; primitive → action strings</td><td><a href="pocs.html#poc1">1</a></td></tr>
+<tr><td>RVM</td><td>7 rights READ, WRITE, GRANT, REVOKE, EXECUTE, PROVE, GRANT_ONCE; no ambient authority; witness log</td><td>per-role token rights from mandated rows; withheld list from the rest; gaps</td><td><a href="pocs.html#poc3">3</a></td></tr>
+<tr><td>Browser viewer</td><td><code>@ruvector/wasm</code> VectorDB, cosine, HNSW</td><td>each row embedded (bag-of-words hash, no model) and searchable</td><td><a href="pocs.html#poc4">4</a></td></tr>
+<tr><td>MetaHarness</td><td><code>.claude/settings.json</code> permissions allow/deny, mcpServers, CLAUDE.md rules</td><td>each setting → an ABP row; diff both ways</td><td><a href="pocs.html#poc5">5</a></td></tr>
+<tr><td>Ruflo claims</td><td><code>ruflo claims list|check|grant|revoke|roles|policies</code></td><td>roles = ABP roles; claims = allowed primitives (next step)</td><td>next</td></tr>
+<tr><td>Ruflo guidance</td><td><code>ruflo guidance compile</code> (CLAUDE.md → policy bundle), <code>gates</code></td><td>our CLAUDE.md is the builder's ABP in prose; compile it and compare</td><td>next</td></tr>
+<tr><td>RuVector MCP</td><td><code>RUVECTOR_MCP_PROFILE=readonly</code>, <code>RUVECTOR_MCP_ALLOW</code> / <code>_DENY</code></td><td>rows on memory tools → allow/deny lists</td><td>next</td></tr>
+</tbody></table></div>
+<div class="imgrow">
+<figure class="fig"><img src="assets/img/rvm-rights.png" alt="ABP rows for coder compile into a capability token with READ, WRITE, EXECUTE lit and GRANT, REVOKE, PROVE, GRANT_ONCE withheld"><figcaption>POC3: the token says what; the ABP keeps why.</figcaption></figure>
+<figure class="fig"><img src="assets/img/poc1-flow.png" alt="ABP to compile to Ruflo policy engine, legacy lane and enforce lane, receipts, vault"><figcaption>POC1: the same trace through legacy and enforce.</figcaption></figure>
+</div>
+</div></section>
+
+<section id="vaults"><div class="wrap">
+<h2>The two vaults</h2>
+<div class="cards">
+<div class="card"><h3>ruv-pocs-public</h3><p><b>Published with its read key, on purpose.</b> Holds the ABPs, compiled rules, the POC1 report and receipts, the RVM table, the MetaHarness diff, and the browser app under <code>app/</code>. Every CI run adds <code>runs/&lt;run_id&gt;/</code>. Publishing the read key is irreversible; that is why it is a separate, single-purpose vault.</p></div>
+<div class="card"><h3>ruv-pocs-memory</h3><p><b>Private.</b> Agent memory per role under <code>memory/&lt;role&gt;/</code>, written on a branch per role and merged; recorded Claude Code sessions under <code>sessions/&lt;date&gt;/</code>. The key lives only in repository secrets and in the owner's keychain.</p></div>
+<div class="card"><h3>What the server sees</h3><p>Ciphertext under opaque ids. sgit encrypts files client-side with AES-256-GCM before upload; filenames, contents and commit messages are inside the envelope. The vault key is <code>{passphrase}:{vault_id}</code>; there is no reset. Keys are passed to <code>sgit clone</code> on stdin, never as an argument.</p></div>
+</div>
+</div></section>
+
+<section class="alt" id="flow"><div class="wrap">
+<h2>Data flow in one run</h2>
+<pre class="mermaid">
+sequenceDiagram
+  autonumber
+  participant Dev as developer / CI
+  participant G as abp:gate
+  participant P1 as poc1 run.mjs
+  participant P3 as poc3 abp_to_rvm.py
+  participant P4 as poc4:build
+  participant H as human approver (environment vault)
+  participant VP as ruv-pocs-public
+  participant P2 as poc2 run.sh
+  participant VM as ruv-pocs-memory
+  Dev->>G: compile the ABP, count gaps
+  G-->>Dev: 0 gaps
+  Dev->>P1: evaluate trace in legacy and enforce
+  P1-->>Dev: report.json, rules.json, state-abp.json, ledger valid
+  Dev->>P3: rights per role + withheld + gaps
+  Dev->>P4: app/ with vendored WASM + data/
+  Dev->>H: approve publish?
+  H-->>VP: sgit write runs/run_id --push, then sgit publish --visibility public
+  Dev->>P2: write coder → branch, push, merge
+  Dev->>P2: write tester → branch, push, merge
+  P2->>VM: encrypted DB files + memory-list.txt
+  P2->>VM: fresh runner clones, restores, runs ruflo memory list
+  VM-->>P2: same entries
+</pre>
+</div></section>
+
+<section id="builder"><div class="wrap">
+<h2>The builder's own ABP</h2>
+<p>The agent that built this repository (a Claude Code session) had its own ABP: <code>abp/examples/builder-agent.abp.json</code>, in prose as <code>CLAUDE.md</code>. It may write files in this repo, run processes, reach the npm and PyPI registries, GitHub and the sgit server, and push to feature branches. It may not send messages to the world (no emails, issues or comments on rUv's repos), and may not print, log or commit a vault key or token. Where the build hit a limit, the note is in <a href="replicate.html#notes">build notes</a>; where it had to stop (Ruflo's interactive policy admin), it did not work around it.</p>
+<div class="tbl"><table>
+<thead><tr><th>capability</th><th>reach</th><th>mandate</th><th>barrier</th></tr></thead>
+<tbody>
+<tr><td><code>write.file.project</code></td><td>yes</td><td class="ok">yes</td><td>this repo only</td></tr>
+<tr><td><code>execute.process.self</code></td><td>yes</td><td class="ok">yes</td><td>npm, pip, node, python in the repo or runner</td></tr>
+<tr><td><code>send.endpoint.allowed</code></td><td>yes</td><td class="ok">yes</td><td>registries, GitHub, sgit server, rUv's public repos</td></tr>
+<tr><td><code>write.repository.project</code></td><td>yes</td><td class="ok">yes</td><td>feature branches and PRs; never force-push main</td></tr>
+<tr><td><code>authenticate-as.credential.tenant</code></td><td>yes</td><td class="ap">approval</td><td>repo secrets only; masked</td></tr>
+<tr><td><code>send.message.world</code></td><td>yes</td><td class="no">no</td><td>rule in CLAUDE.md: Dinis talks to rUv</td></tr>
+<tr><td><code>read.credential.host</code></td><td>yes</td><td class="no">no</td><td>git diff before every commit; keys only via env</td></tr>
+</tbody></table></div>
+</div></section>
+
+<footer><div class="wrap"><span>ruv.sgit.ai · built 14 Oct 2026 for Agentics London</span><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">source on GitHub</a><a href="https://sgit.ai">sgit.ai</a><a href="https://ruv.io">ruv.io</a><a href="https://github.com/ruvnet">github.com/ruvnet</a><span>code Apache-2.0 · rUv's projects MIT · "per its README" means we read, not ran, unless a POC says so</span><a href="llms.txt">llms.txt</a></div></footer>
+<script src="assets/site.js"></script>
+</body>
+</html>

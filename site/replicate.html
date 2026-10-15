@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Replicate it: install, run, publish</title>
+<meta name="description" content="Step by step: clone the repository, install the pinned versions of ruflo, @ruvector/wasm, metaharness and sgit-ai, run the six POCs, create the two vaults, wire CI with secrets, publish the public vault and serve the browser app. Plus the build notes: what differed from the docs.">
+<link rel="canonical" href="https://ruv.sgit.ai/replicate.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f766e%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Georgia%27%3Er%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/site.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.12.0/mermaid.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/15.0.7/marked.min.js"></script>
+</head>
+<body>
+<header class="top"><div class="wrap"><a class="brand" href="index.html">ruv.sgit.ai<small>rUv x sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
+
+<section class="hero"><div class="wrap"><div class="grid">
+<div>
+<p class="k">About 20 minutes to the first vault commit, on a laptop or a fresh CI runner</p>
+<h1>Replicate it</h1>
+<p class="lead">Everything is pinned and every step was run on 14 Oct 2026. If a command disagrees with this page, trust the tool's <code>--help</code> and read the <a href="#notes">build notes</a>.</p>
+<div class="toc"><a href="#prereq">Prerequisites</a><a href="#steps">Six steps</a><a href="#ci">CI and secrets</a><a href="#site">This website</a><a href="#images">The infographics</a><a href="#notes">Build notes</a><a href="#layout">Repository layout</a></div>
+</div>
+<figure class="fig" style="margin:0"><img src="assets/img/replicate-steps.png" alt="Six steps: clone the repo, npm install, pip install sgit-ai, run the POCs, create two vaults, publish and serve"></figure>
+</div></div></section>
+
+<section id="prereq"><div class="wrap">
+<h2>Prerequisites</h2>
+<div class="tbl"><table>
+<thead><tr><th>Need</th><th>Version used</th><th>Note</th></tr></thead>
+<tbody>
+<tr><td>Node</td><td>20 (CI) · 22 (local)</td><td>Install <b>with</b> scripts so better-sqlite3 compiles; otherwise Ruflo falls back to sql.js and warns that persistence is not guaranteed</td></tr>
+<tr><td>Python</td><td>3.11 (CI) · 3.13 (local)</td><td>sgit-ai needs ≥ 3.11</td></tr>
+<tr><td>ruflo</td><td>3.56.10</td><td>= claude-flow = @claude-flow/cli; the library engine is <code>@claude-flow/security</code></td></tr>
+<tr><td>@ruvector/wasm</td><td>0.2.1</td><td>reports <code>version()</code> 2.3.1 at runtime</td></tr>
+<tr><td>ruvector (native)</td><td>0.3.3</td><td>installed, not required by any POC tonight</td></tr>
+<tr><td>metaharness</td><td>0.4.17</td><td>POC5</td></tr>
+<tr><td>sgit-ai</td><td>0.21.0</td><td><code>pip install sgit-ai==0.21.0</code>; an SG/Send access token for writes</td></tr>
+<tr><td>A browser</td><td>Chromium</td><td>POC4; served over HTTP (a file:// origin cannot load the WASM module)</td></tr>
+</tbody></table></div>
+</div></section>
+
+<section class="alt" id="steps"><div class="wrap">
+<h2>Six steps</h2>
+<ol class="steps">
+<li><h4>Clone the repository</h4><pre><code>git clone https://github.com/SGit-AI/SGit-AI__Website__Ruv.git ruv-x-sgit-pocs
+cd ruv-x-sgit-pocs</code></pre><p class="k">Read <code>CLAUDE.md</code> (the builder's own mandate) and <code>BRIEF.md</code> first.</p></li>
+<li><h4>Install the pinned npm packages, with install scripts</h4><pre><code>npm ci                      # uses package-lock.json; builds better-sqlite3
+npm ls ruflo @ruvector/wasm ruvector metaharness --depth=0</code></pre></li>
+<li><h4>Install sgit</h4><pre><code>pip install sgit-ai==0.21.0
+sgit --version              # sgit-ai v0.21.0
+sgit help all               # the full surface; the commands used here: create clone write commit push publish history branch vault</code></pre></li>
+<li><h4>Run the POCs that need no secrets</h4><pre><code>npm run abp:gate            # ABP gaps: 0  (exit 1 on any gap: the policy is a test)
+npm run poc1                # legacy vs enforce + receipts → out/poc1/
+npm run poc3                # RVM rights per role → out/poc3/rvm-caps.md
+npm run poc4:build          # browser app → out/app/
+npm run poc5                # MetaHarness scaffold → ABP + diff → out/poc5/
+npm run cleanup             # stops the Ruflo daemon it auto-starts</code></pre><p class="k">Outputs under <code>out/</code> are ignored by git; the recorded ones are under <code>evidence/</code>.</p></li>
+<li><h4>Create the two vaults and store the keys</h4><pre><code>export SGIT_TOKEN=…                                   # your SG/Send access token, never in argv of anything you log
+sgit --token "$SGIT_TOKEN" create ruv-pocs-public     # prints the vault key and the read key ONCE
+sgit --token "$SGIT_TOKEN" create ruv-pocs-memory
+# save both vault keys as SGIT_VAULT_KEY_PUBLIC and SGIT_VAULT_KEY_MEMORY (repo secrets, or your keychain)
+# seed each with a first commit: a vault with zero commits cannot be cloned
+cd ruv-pocs-memory && echo "# memory" > README.md && sgit commit -m init && sgit push && cd ..</code></pre>
+<div class="callout warn"><p><b>Keys are secrets.</b> <code>sgit create</code> prints the key once; there is no reset. Pass keys on stdin (<code>printf '%s' "$KEY" | sgit clone - dir</code>), mask them in CI (<code>::add-mask::</code>), and run <code>git diff</code> before every commit. Publishing with <code>--visibility public</code> reveals the <b>read</b> key for ever: only the public vault.</p></div></li>
+<li><h4>Write the outputs to the public vault, publish, serve; run the memory roundtrip</h4><pre><code>VAULT_KEY="$SGIT_VAULT_KEY_PUBLIC" scripts/vault_write.sh out "runs/local-$(date +%Y%m%dT%H%M)" "pocs: local run" .vault-public
+cd .vault-public && sgit publish --visibility public --yes && sgit vault serve --open && cd ..
+
+export VAULT_KEY="$SGIT_VAULT_KEY_MEMORY"
+ROLE=coder  bash poc/poc2-agent-memory-in-vault/run.sh write
+ROLE=tester bash poc/poc2-agent-memory-in-vault/run.sh write
+rm -rf .vault-memory && bash poc/poc2-agent-memory-in-vault/run.sh read</code></pre></li>
+</ol>
+</div></section>
+
+<section id="ci"><div class="wrap">
+<h2>CI and secrets</h2>
+<div class="two">
+<div>
+<p><code>.github/workflows/pocs.yml</code> runs on every push to <code>dev</code> or <code>main</code>, on pull requests (without the vault jobs) and on demand.</p>
+<ul>
+<li><b>build</b>: Node 20, Python 3.11, <code>npm ci</code>, ABP gate, POC1, POC3, POC4 build, POC5, daemon cleanup, upload <code>out/</code>.</li>
+<li><b>publish-to-vault</b>: in the protected environment <code>vault</code> (a named person approves: that is the ABP's <code>approval</code> row for <code>create.record.world</code>), writes <code>out/</code> to <code>ruv-pocs-public</code> under <code>runs/&lt;run_id&gt;/</code>, publishes with the read key.</li>
+<li><b>poc2-write</b> (matrix coder, tester, serial) then <b>poc2-read</b> on a different, fresh runner.</li>
+</ul>
+<p><b>Secrets</b> (Settings → Secrets and variables → Actions): <code>SGIT_TOKEN</code>, <code>SGIT_VAULT_KEY_PUBLIC</code>, <code>SGIT_VAULT_KEY_MEMORY</code>. <b>Environment</b> (Settings → Environments): <code>vault</code>, with a required reviewer.</p>
+<p><code>.github/workflows/deploy-pages.yml</code> builds the POC outputs, copies them into <code>site/data</code>, validates the site and deploys <code>site/</code> to GitHub Pages at <a href="https://ruv.sgit.ai">ruv.sgit.ai</a> (Settings → Pages → Source: GitHub Actions; DNS for the subdomain already points at GitHub).</p>
+</div>
+<div>
+<pre class="mermaid">
+flowchart LR
+  P["push to dev"] --> B["build<br/>npm ci · abp:gate · poc1 · poc3 · poc4 · poc5"]
+  B --> U["upload out/"]
+  U --> H{"environment: vault<br/>human approves"}
+  H --> W["sgit write runs/run_id --push<br/>sgit publish --visibility public"]
+  B --> C1["poc2-write coder"] --> C2["poc2-write tester"] --> C3["poc2-read<br/>fresh runner"]
+  P --> D["deploy-pages<br/>sync data · validate · deploy site/"]
+  classDef h fill:#fdeedb,stroke:#b45309,color:#1a1917
+  class H h
+</pre>
+<figure class="fig"><img src="assets/img/ci-pipeline.png" alt="CI pipeline infographic"></figure>
+</div>
+</div>
+</div></section>
+
+<section class="alt" id="site"><div class="wrap">
+<h2>This website</h2>
+<p>Hand-written static HTML under <code>site/</code>, one stylesheet, one script. No framework, no build step for the pages. Diagrams are Mermaid, rendered in the browser from the page source; tables are rendered from the POC output files in <code>site/data/</code>, which <code>site/build/sync.sh</code> copies from <code>out/</code> and <code>evidence/</code>. <code>site/build/validate.py</code> refuses a broken internal link, a missing image, or anything shaped like a key.</p>
+<pre><code>npm run poc1 && npm run poc3 && npm run poc4:build && npm run poc5
+bash site/build/sync.sh                 # out/ + evidence/ → site/data, out/app → site/app
+python3 site/build/validate.py          # links, images, secrets
+python3 -m http.server -d site 8080     # http://localhost:8080</code></pre>
+</div></section>
+
+<section id="images"><div class="wrap">
+<h2>The infographics</h2>
+<p>Twelve images, generated through OpenRouter's image-output chat models with <code>site/build/gen_infographics.py</code> from the prompts in <code>site/build/infographics.json</code>. Model per job follows <a href="https://newsroom.sgit.ai/articles/the-infographic-bake-off.html">newsroom.sgit.ai's bake-off</a>: labelled diagrams on Gemini 3 Pro Image, concept slides on the cheapest Gemini image model, Nano Banana 2.1 first when it is not rate-limited upstream. Every prompt ends with the aspect ratio and "No other text"; invented values are the known failure mode, which is why the facts are in the tables and the images only illustrate.</p>
+<div class="tbl" id="imglog"><table><thead><tr><th>image</th><th>model</th><th>seconds</th><th>cost</th></tr></thead><tbody id="imgrows"></tbody></table></div>
+<pre><code>export OPENROUTER_API_KEY=sk-or-v1-…
+python3 site/build/gen_infographics.py              # skips images that exist; --force to redo; --only id,id</code></pre>
+</div></section>
+
+<section class="alt" id="notes"><div class="wrap">
+<h2>Build notes: where the tools differed from their docs</h2>
+<div class="md" data-md="data/notes.md">loading…</div>
+<h3>Risks and unknowns we kept in view</h3>
+<ul>
+<li>Third-party versions move fast (14 new rUv repos in Aug and Sep). Pin, and trust <code>--help</code> over any doc, including this page.</li>
+<li>Ruflo auto-starts a background daemon; stop it in every script and CI job.</li>
+<li>Ruflo policy administration requires an interactive terminal by design. Do not bypass it; use the library engine (POC1) or your own terminal (POC6).</li>
+<li>The native <code>ruvector</code> CLI needs platform binaries; POC4 uses the WASM build, which is verified.</li>
+<li>Claims about rUv's projects: "per its README", with a link. Star counts are snapshots.</li>
+</ul>
+</div></section>
+
+<section id="layout"><div class="wrap">
+<h2>Repository layout</h2>
+<pre><code>BRIEF.md · CLAUDE.md · README.md          the brief, the builder's mandate, the pack's readme
+abp/        schema/ vocabulary/ mapping.json examples/{ruflo-sparc-swarm,builder-agent}.abp.json
+poc/        poc1-abp-to-ruflo-policy/ poc2-agent-memory-in-vault/ poc3-abp-to-rvm-caps/
+            poc4-browser/ poc5-metaharness-abp/ poc6-swarm-run-in-vault/
+docs/       00 context · 01 sgit cheatsheet · 02 ABP format · 03 CI · 04 browser · 05 Claude sessions · 06 demo script · 07 risks
+evidence/   recorded outputs of every run (never invented numbers)
+scripts/    vault_write.sh
+site/       this website (index, ruv-stack, use-cases, architecture, pocs, replicate, demo, app/, data/, assets/, build/)
+.github/workflows/  pocs.yml (the POCs + vault) · deploy-pages.yml (this site)</code></pre>
+</div></section>
+
+<footer><div class="wrap"><span>ruv.sgit.ai · built 14 Oct 2026 for Agentics London</span><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">source on GitHub</a><a href="https://sgit.ai">sgit.ai</a><a href="https://ruv.io">ruv.io</a><a href="https://github.com/ruvnet">github.com/ruvnet</a><span>code Apache-2.0 · rUv's projects MIT · "per its README" means we read, not ran, unless a POC says so</span><a href="llms.txt">llms.txt</a></div></footer>
+<script src="assets/site.js"></script>
+<script>
+fetch('build/infographics-log.json').then(r => r.json()).then(d => { let t = 0; document.getElementById('imgrows').innerHTML = Object.entries(d).map(([k, v]) => { t += v.cost_usd || 0; return `<tr><td><code>${k}.png</code></td><td>${v.model}</td><td>${v.duration_s}</td><td>$${(v.cost_usd || 0).toFixed(3)}</td></tr>`; }).join('') + `<tr><th colspan="3">total</th><th>$${t.toFixed(2)}</th></tr>`; }).catch(() => {});
+</script>
+</body>
+</html>

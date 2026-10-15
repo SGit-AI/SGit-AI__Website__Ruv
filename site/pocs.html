@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The six POCs: flows, commands, outputs</title>
+<meta name="description" content="Six proofs of concept of sgit vaults and Agent Behaviour Policies inside rUv's stack: ABP to Ruflo policy with receipts, agent memory in a vault across two runners, ABP to RVM rights, a browser app with RuVector WASM served from a vault, MetaHarness to ABP, and a recorded Claude Code session. Each with its flow, commands, acceptance criteria and real outputs.">
+<link rel="canonical" href="https://ruv.sgit.ai/pocs.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f766e%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Georgia%27%3Er%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/site.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.12.0/mermaid.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/15.0.7/marked.min.js"></script>
+</head>
+<body>
+<header class="top"><div class="wrap"><a class="brand" href="index.html">ruv.sgit.ai<small>rUv x sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
+
+<section class="hero"><div class="wrap">
+<p class="k">Built on 14 Oct 2026 in one Claude Code session, from the pack in the repository</p>
+<h1>The six proofs of concept</h1>
+<p class="lead">Priority order as in the brief. Every table and hash below is loaded from the files the runs produced; the same files are in the public vault.</p>
+<div class="toc"><a href="#poc1">POC1 policy + receipts</a><a href="#poc2">POC2 memory across runners</a><a href="#poc3">POC3 RVM rights</a><a href="#poc4">POC4 browser</a><a href="#poc5">POC5 MetaHarness</a><a href="#poc6">POC6 Claude Code session</a><a href="#vaults">The vaults</a></div>
+<div class="tbl" style="margin-top:20px"><table>
+<thead><tr><th>POC</th><th>Claim</th><th>Status</th><th>Where</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>A Ruflo swarm with an ABP behaves differently from one without; receipts are hash-chained and valid</td><td class="ok">runs, local and CI</td><td><code>poc/poc1-abp-to-ruflo-policy</code></td></tr>
+<tr><td>2</td><td>Agent memory in a vault survives an ephemeral runner, with history per role, encrypted</td><td class="ok">runs locally; CI jobs wired, need secrets</td><td><code>poc/poc2-agent-memory-in-vault</code></td></tr>
+<tr><td>3</td><td>ABP rows compile into RVM capability rights, with the withheld list and gaps</td><td class="ok">runs</td><td><code>poc/poc3-abp-to-rvm-caps</code></td></tr>
+<tr><td>4</td><td>A page served from a vault answers policy questions offline with RuVector WASM</td><td class="ok">runs; in the vault and on this site</td><td><code>poc/poc4-browser</code> · <a href="app/index.html">live</a></td></tr>
+<tr><td>5</td><td>A MetaHarness scaffold's settings render as an ABP and diff against ours</td><td class="ok">runs</td><td><code>poc/poc5-metaharness-abp</code></td></tr>
+<tr><td>6</td><td>A real Ruflo session in Claude Code recorded to the private vault</td><td class="ap">runbook; needs an interactive terminal</td><td><code>poc/poc6-swarm-run-in-vault</code></td></tr>
+</tbody></table></div>
+</div></section>
+
+<section id="poc1"><div class="wrap">
+<h2>POC1 · ABP → Ruflo policy engine, enforced, with receipts <span class="pill">P1</span></h2>
+<div class="two">
+<div>
+<p><b>Input.</b> <code>abp/examples/ruflo-sparc-swarm.abp.json</code>: a queen and five worker roles, 36 rows. <code>trace.json</code>: 11 actions a SPARC swarm would emit (file.write, test.run, repo.push, network.fetch, email.send, credential.read, model.call, deploy).</p>
+<p><b>Compile.</b> <code>compile.mjs</code> maps each row to a <code>PolicyRule</code>: effect from the mandate, actions from <code>abp/mapping.json</code>, principal = role, resources = instances, priority deny 100 / approval 90 / allow 10, and reports gaps.</p>
+<p><b>Run.</b> <code>run.mjs</code> builds two engines, <code>legacy</code> (no rules: what Ruflo does on a fresh project) and <code>enforce</code> (all rules plus one budget), evaluates every trace action in both, exports the enforce engine's state and verifies both ledgers.</p>
+<pre><code>npm run abp:gate     # ABP gaps: 0
+npm run poc1         # → out/poc1/report.{json,md} rules.json state-abp.json</code></pre>
+<p><b>Acceptance.</b> ≥1 action allowed in legacy and denied under the ABP (3: email.send, network.fetch.world, tester's file.write, plus credential.read), ≥1 approval_required (2: repo.push, deploy), ledger valid. All met; outputs in the vault under <code>poc1/</code>.</p>
+</div>
+<div>
+<pre class="mermaid">
+flowchart TB
+  A["abp.json<br/>6 roles · 36 rows"] --> C["compile.mjs"]
+  M["mapping.json<br/>primitive → action strings"] --> C
+  C --> RULES["36 PolicyRule + 1 budget"]
+  RULES --> E["AgenticPolicyEngine<br/>mode: enforce"]
+  T["trace.json · 11 actions"] --> E
+  T --> L["AgenticPolicyEngine<br/>mode: legacy"]
+  E --> R["report.json<br/>side by side"]
+  L --> R
+  E --> S["state-abp.json<br/>receipts, verifyLedger() valid"]
+  R --> V[("ruv-pocs-public/poc1/")]
+  S --> V
+</pre>
+</div>
+</div>
+<h3>Output: the decision table</h3>
+<div data-poc1="data/report.json">loading…</div>
+<h3>Output: the receipt ledger (first rows)</h3>
+<div data-receipts="data/state-abp.json">loading…</div>
+<details><summary>What a compiled rule looks like</summary><pre><code>{ "id": "abp:coder:send.message.world", "effect": "deny",
+  "actions": ["email.send", "message.send"], "principals": ["coder"],
+  "priority": 100,
+  "description": "barrier: agents draft, a person sends | policy deny + no mail credential in the sandbox" }</code></pre><p class="k">All 36: <a href="data/rules.json">rules.json</a>.</p></details>
+<p class="provenance">Evidence: <code>evidence/poc1-run.txt</code>, <code>evidence/ruflo-policy-legacy.json</code> (the CLI's own answer on a fresh project). Engine: <code>@claude-flow/security/policy/index</code> from ruflo 3.56.10.</p>
+</div></section>
+
+<section class="alt" id="poc2"><div class="wrap">
+<h2>POC2 · Agent memory with history, across two runners <span class="pill">P2</span></h2>
+<div class="two">
+<div>
+<p><b>Write phase (per role).</b> <code>ruflo memory init</code>, <code>memory store</code> a lesson in the role's namespace, <code>memory list</code> to a text file. Clone the memory vault (key on stdin), create branch <code>mem-&lt;role&gt;-&lt;run&gt;</code>, copy the durable stores (<code>.swarm/memory.db</code>, <code>.swarm/agentdb-memory.db</code>, <code>.claude/memory.db</code>, <code>ruvector.db</code>) and the list under <code>memory/&lt;role&gt;/</code>, commit, push, switch to the default branch, merge, push.</p>
+<p><b>Read phase (fresh runner).</b> Clone the vault into an empty directory, copy each role's files into a fresh folder, run <code>ruflo memory list -n &lt;role&gt;</code>. Same entries come back.</p>
+<pre><code>ROLE=coder  bash poc/poc2-agent-memory-in-vault/run.sh write
+ROLE=tester bash poc/poc2-agent-memory-in-vault/run.sh write
+rm -rf .vault-memory && bash poc/poc2-agent-memory-in-vault/run.sh read
+sgit history log --oneline -n 10          # inside .vault-memory</code></pre>
+<p><b>Acceptance.</b> Two writers, one fresh reader, same answer; history has a commit per role; the server never sees plaintext (sgit encrypts client-side, AES-256-GCM). Met locally; in CI the <code>poc2-write</code> matrix and <code>poc2-read</code> jobs run on separate runners once the secrets exist.</p>
+<p><b>Why it matters.</b> Per RuVector's README: no encryption at rest or in transit, no document versioning, replication on simulated transport, filters are not an authorization boundary. The vault is that layer.</p>
+</div>
+<div>
+<figure class="fig" style="margin:0 0 12px"><img src="assets/img/poc2-flow.png" alt="coder and tester write memory on their own branches, merged into main inside a padlocked vault, a fresh runner clones and restores"></figure>
+<h4>Output: the fresh runner's answer</h4>
+<pre><code id="poc2out">loading…</code></pre>
+</div>
+</div>
+<h3>Output: vault history (what was learned, when, by whom)</h3>
+<div id="poc2hist">loading…</div>
+<p class="provenance">Evidence: <code>evidence/poc2-run.txt</code>, <code>evidence/poc2-history.json</code>. Two things we learned: a vault with zero commits cannot be cloned (seed it with a README), and sgit's default named branch is called <code>current</code>, not <code>main</code>.</p>
+</div></section>
+
+<section id="poc3"><div class="wrap">
+<h2>POC3 · ABP → RVM capability rights, and the gap report <span class="pill">P4</span></h2>
+<div class="two">
+<div>
+<p><code>abp_to_rvm.py</code> maps each mandated primitive to RVM rights through <code>abp/mapping.json</code> and prints, per role, the token's rights, the rows that are reachable but not mandated (with their barrier), and the gaps. No RVM build is needed: RVM is bare-metal Rust, and the point tonight is the table.</p>
+<pre><code>npm run poc3      # → out/poc3/rvm-caps.md</code></pre>
+<p><b>Reading.</b> RVM rights are coarser than ABP primitives: EXECUTE covers both a sandboxed test run and an email send. The ABP keeps the distinction; the token alone cannot. That is the argument for compiling tokens <i>from</i> a mandate.</p>
+</div>
+<div class="md" data-md="data/rvm-caps.md">loading…</div>
+</div>
+</div></section>
+
+<section class="alt" id="poc4"><div class="wrap">
+<h2>POC4 · The browser: ABP + policy decisions, served from a vault <span class="pill">P3</span></h2>
+<div class="two">
+<div>
+<p><code>poc/poc4-browser/index.html</code> loads the vendored <code>@ruvector/wasm</code> (verified: <code>init()</code>, <code>VectorDB(dim,'cosine',true)</code>, <code>insert</code>, <code>search</code>, <code>hnswAvailable()</code> true, version 2.3.1), embeds every ABP row with a deterministic 128-dimension bag-of-words hash (no model, no network), and answers questions like "can the coder send email?" with the matching rows, their mandate, reason and barrier. Below the search it renders POC1's decision table and the ledger status from <code>data/report.json</code>.</p>
+<pre><code>npm run poc4:build   # out/app/{index.html, vendor/ruvector_wasm*.{js,wasm}, data/{abp,report}.json}
+# in the vault: app/ ; then
+sgit publish --visibility public --yes && sgit vault serve --open</code></pre>
+<p><b>Acceptance.</b> Works offline after load; the numbers and hashes on screen come from POC1's outputs. Met. The same folder is served <a href="app/index.html">on this site</a> and from the vault.</p>
+<p><a class="btn p" href="app/index.html">Open the live app →</a></p>
+</div>
+<div><figure class="fig" style="margin:0"><img src="assets/img/poc4-browser.png" alt="Browser window: can the coder send email? no, barrier: policy deny; RuVector WASM badge; served from a vault badge"></figure></div>
+</div>
+</div></section>
+
+<section id="poc5"><div class="wrap">
+<h2>POC5 · MetaHarness ↔ ABP <span class="pill">P5</span></h2>
+<div class="two">
+<div>
+<p>Scaffold a harness with the agentics template for Claude Code, read what it actually generated, render each permission setting as an ABP row, and diff against our ABP for the <code>coder</code> role, both ways. Then score this repository with MetaHarness's own scorecard.</p>
+<pre><code>npx metaharness rm-agentics --template vertical:agentics --host claude-code --no-darwin --target out/poc5/harness
+node poc/poc5-metaharness-abp/harness-to-abp.mjs out/poc5/harness abp/examples/ruflo-sparc-swarm.abp.json coder out/poc5
+npx metaharness score . --json > out/poc5/score.json</code></pre>
+<p><b>Finding.</b> The scaffold emitted 18 files with a permissions allow/deny list, two MCP servers and prose rules. It did not emit the governance policy document, deny-by-default statement, timeouts, call limits or audit flag that the package README describes for harnesses. The diff shows 8 of our coder rows the harness is silent on (send.message.world, send.endpoint.world, create.record.world among them) and 2 it covers (execute.process.self, read.credential.host).</p>
+<p><b>Scorecard of this repo</b> (<code>metaharness score</code>): <span id="score">loading…</span></p>
+</div>
+<div class="md" data-md="data/poc5-diff.md">loading…</div>
+</div>
+</div></section>
+
+<section class="alt" id="poc6"><div class="wrap">
+<h2>POC6 · A real Ruflo session in Claude Code, recorded in a vault <span class="pill">stretch · runbook</span></h2>
+<p>Ruflo's policy administration (<code>policy init|rule|budget</code>) refuses to run without an interactive terminal, by design. We did not fake a TTY; the brief's rule is that a security control is never weakened to make a demo work. So POC6 is a runbook for a person at a terminal, with every other step automated.</p>
+<ol class="steps">
+<li><h4>Add Ruflo to Claude Code as an MCP server</h4><pre><code>claude mcp add ruflo -- npx -y ruflo@3.56.10 mcp start     # subcommands verified: start|status|tools|exec
+claude mcp list</code></pre><p class="k">Plugin route, from public guides, unverified: <code>/plugin install ruflo-core@ruflo</code>.</p></li>
+<li><h4>Put the policy engine in observe mode and add two or three rules from POC1's output (interactive, in your own terminal)</h4><pre><code>npx ruflo policy init --mode observe
+npx ruflo policy --help           # then add rules from out/poc1/rules.json by hand</code></pre></li>
+<li><h4>Run a tiny SPARC task on this repo</h4><pre><code>npx ruflo swarm start -o "add a unit test for poc/poc1-abp-to-ruflo-policy/compile.mjs" -s development</code></pre></li>
+<li><h4>End the session, export, and record it in the private vault</h4><pre><code>npx ruflo hooks session-end
+mkdir -p out/session && cp -R .claude-flow/policy out/session/policy && cp .swarm/*.db out/session/ 2>/dev/null
+VAULT_KEY="$SGIT_VAULT_KEY_MEMORY" scripts/vault_write.sh out/session "sessions/$(date +%F)" "poc6: recorded session" .vault-memory
+npx ruflo daemon stop</code></pre></li>
+<li><h4>Acceptance</h4><p>One session folder in <code>ruv-pocs-memory</code> with its receipts; <code>npx ruflo policy status</code> shows a valid ledger. Cowork alternative: clone the vault in a Cowork session and read the record there; agents draft, Dinis sends.</p></li>
+</ol>
+</div></section>
+
+<section id="vaults"><div class="wrap">
+<h2>The vaults</h2>
+<div class="cards">
+<div class="card"><h3>ruv-pocs-public</h3><p>Read key published on purpose. Contents: <code>README.md</code>, <code>app/</code> (the browser app), <code>poc1/</code> (report, rules, receipts), <code>runs/&lt;run&gt;/</code> (everything each run produced, including the POC3 table and the POC5 scaffold).</p><p id="vaultpub" class="k">URL: see the repository README once published (the publish step needs the owner's approval; the read key is the only thing it reveals).</p></div>
+<div class="card"><h3>ruv-pocs-memory</h3><p>Private. <code>memory/coder/</code>, <code>memory/tester/</code> with their DB files and list dumps; <code>sessions/</code> for POC6. History: init → coder learned → tester learned.</p></div>
+<div class="card"><h3>Open a published vault yourself</h3><pre><code>pip install sgit-ai==0.21.0
+sgit clone --read-key &lt;hex&gt; &lt;vault_id&gt; ruv-pocs-public
+cd ruv-pocs-public && sgit ls && sgit cat poc1/report.md</code></pre></div>
+</div>
+</div></section>
+
+<footer><div class="wrap"><span>ruv.sgit.ai · built 14 Oct 2026 for Agentics London</span><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">source on GitHub</a><a href="https://sgit.ai">sgit.ai</a><a href="https://ruv.io">ruv.io</a><a href="https://github.com/ruvnet">github.com/ruvnet</a><span>code Apache-2.0 · rUv's projects MIT · "per its README" means we read, not ran, unless a POC says so</span><a href="llms.txt">llms.txt</a></div></footer>
+<script src="assets/site.js"></script>
+<script>
+(async () => {
+  try { const t = await (await fetch('data/poc2-run.txt')).text(); document.getElementById('poc2out').textContent = t.split('\n').filter(l => !l.startsWith('#')).join('\n'); } catch { document.getElementById('poc2out').textContent = 'not run yet'; }
+  try { const h = await (await fetch('data/poc2-history.json')).json(); const cs = (h.commits || []).slice().reverse();
+    document.getElementById('poc2hist').innerHTML = `<div class="tbl"><table><thead><tr><th>commit</th><th>when (UTC)</th><th>message</th><th>files added</th></tr></thead><tbody>${cs.map(c => `<tr><td><code>${c.commit_id.replace('obj-cas-imm-', '')}</code></td><td>${c.timestamp_iso}</td><td>${c.message}</td><td class="k">${(c.files_added || []).join(', ')}</td></tr>`).join('')}</tbody></table></div>`; } catch { document.getElementById('poc2hist').textContent = 'history not exported yet'; }
+  try { const s = await (await fetch('data/score.json')).json(); document.getElementById('score').innerHTML = `harness fit <b>${s.harnessFit}</b> · tool safety <b>${s.toolSafety}</b> · task coverage <b>${s.taskCoverage}</b> · memory usefulness <b>${s.memoryUsefulness}</b> · est. cost per run <b>$${s.estCostPerRunUsd}</b> · recommended mode <b>${s.recommendedMode}</b> (${s.generatedAt.slice(0,10)})`; } catch { document.getElementById('score').textContent = 'score.json not present'; }
+  try { const vr = await fetch('data/vault-public.json'); if (!vr.ok) throw 0; const v = await vr.json(); if (v.vault_id) document.getElementById('vaultpub').innerHTML = `Vault id <code>${v.vault_id}</code> · read key published on purpose: <code style="word-break:break-all">${v.read_key}</code><br><a href="${v.url}">Open in the vault web UI (read-only)</a><pre><code>${v.clone}</code></pre>`; } catch {}
+})();
+</script>
+</body>
+</html>

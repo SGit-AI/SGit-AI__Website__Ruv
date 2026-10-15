@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "repo": "ruv-x-sgit-pocs",
+  "harnessFit": 63,
+  "compileConfidence": 50,
+  "taskCoverage": 86,
+  "toolSafety": 95,
+  "memoryUsefulness": 38,
+  "estCostPerRunUsd": 0.048,
+  "recommendedMode": "CLI + MCP",
+  "archetype": "typescript-sdk-harness",
+  "template": "vertical:coding",
+  "scaffoldReady": true,
+  "hardConstraints": "6/6",
+  "generatedAt": "2026-10-14T21:32:32.250Z"
+}

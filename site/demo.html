@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The five-minute demo</title>
+<meta name="description" content="The script for the five-minute slot at Agentic Engineering Live with rUv in London: what to say, what to type, what to show, and the ask at the end.">
+<link rel="canonical" href="https://ruv.sgit.ai/demo.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f766e%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Georgia%27%3Er%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/site.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.12.0/mermaid.min.js"></script>
+</head>
+<body>
+<header class="top"><div class="wrap"><a class="brand" href="index.html">ruv.sgit.ai<small>rUv x sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
+
+<section class="hero"><div class="wrap">
+<p class="k">Agentic Engineering Live: rUv in London · Thu 15 Oct 2026 · 18:00 to 21:00 BST · Agentics Foundation London chapter · hybrid</p>
+<h1>The five-minute demo</h1>
+<p class="lead">The format is "more than a conventional talk": members show projects and pair on demos. Five minutes, five beats, one terminal, one browser tab.</p>
+</div></section>
+
+<section><div class="wrap">
+<pre class="mermaid">
+timeline
+  title Five beats, 300 seconds
+  0 s : The claim. Autonomy needs a mandate and a memory.
+  30 s : Terminal. Ruflo's default says yes to email.send.
+  90 s : Browser. The vault page. Ask the ABP. Same 11 actions, default vs mandate. Ledger valid.
+  180 s : Memory. Two runners wrote, a fresh one restored. sgit history log.
+  240 s : RVM table. Rights compiled from the mandate. The ask.
+</pre>
+<ol class="steps">
+<li><h4>0:00 · The claim (30 s)</h4><p>"rUv's stack lets agents go to town: swarms, consensus, self-learning. Autonomy needs two more things to be trusted: a written mandate per agent, and memory with history the host can't read. Tonight both run inside his tools."</p></li>
+<li><h4>0:30 · Terminal (60 s)</h4><pre><code>npx ruflo policy evaluate '{"identity":{"id":"coder-1","type":"agent"},"action":{"type":"email.send"}}'</code></pre><p>→ <code>allowed</code>, <code>legacy-default-allow</code>. "That's the default today. Nobody wrote down that the coder may not send email, so it may."</p></li>
+<li><h4>1:30 · Browser: the vault page (90 s)</h4><p>Open <a href="app/index.html">the app</a> (served from the vault). Type <i>can the coder send email?</i> The answer card: <b>no</b>, barrier "policy deny + no mail credential", owner Dinis Cruz, valid until 31 Oct. Scroll: the same 11 actions, Ruflo default on the left, with the ABP on the right: email denied, pastebin denied, tester's edit denied, push and deploy need approval, ledger valid, 11 receipts. "Your engine enforces it. The ABP is the mandate it enforces."</p></li>
+<li><h4>3:00 · Memory (60 s)</h4><p>Show the <a href="pocs.html#poc2">POC2 history table</a>: coder learned, tester learned, a fresh runner restored both. "RuVector's own README lists no encryption at rest and no versioning. This is that layer: encrypted on the client, branch per agent, merged, cloned anywhere."</p></li>
+<li><h4>4:00 · RVM table and the ask (60 s)</h4><p>Show the <a href="pocs.html#poc3">rights per role</a> and the withheld list. "Tokens compiled from the mandate, with the why kept." Then: <b>"Pick one: Ruflo policy profiles generated from ABPs, or vault-backed memory for RuVector. We build it together and show it back here."</b></p></li>
+</ol>
+</div></section>
+
+<section class="alt"><div class="wrap">
+<h2>If something breaks</h2>
+<div class="cards">
+<div class="card"><h4>No network</h4><p>The app works offline after the first load; open it before the slot. The POC pages render from files in the site.</p></div>
+<div class="card"><h4>npx is slow</h4><p>Run the terminal command once beforehand so the package is cached, or show <code>evidence/ruflo-policy-legacy.json</code>.</p></div>
+<div class="card"><h4>Questions about rUv's projects</h4><p>Say "per its README" and point at the link. Star counts are snapshots. The gaps we cite are in RuVector's and Ruflo's own words.</p></div>
+<div class="card"><h4>"Did you fake the policy admin?"</h4><p>No. Ruflo's CLI needs an interactive terminal for policy admin; POC1 uses the library engine, which is its documented programmatic surface. POC6 is the interactive version, as a runbook.</p></div>
+</div>
+</div></section>
+
+<section><div class="wrap">
+<h2>The five slides, if slides are wanted</h2>
+<ol>
+<li><b>Who:</b> sgit (git for encrypted vaults) and RiskMandate (Agent Behaviour Policies). One line each.</li>
+<li><b>Two halves:</b> autonomy (Agentics, Ruflo) and determinism plus memory (ABPs, sgit). Same goal.</li>
+<li><b>The synergy table</b> (seven rows): <a href="index.html">home page</a>.</li>
+<li><b>One live thing:</b> the vault page, or the Licence to Operate / Risk Mandate demo vault.</li>
+<li><b>The ask:</b> pick one POC to build together; a talk or write-up at a future Agentics London meetup.</li>
+</ol>
+<figure class="fig half"><img src="assets/img/hero-two-worlds.png" alt="Two worlds, one stack"></figure>
+</div></section>
+
+<footer><div class="wrap"><span>ruv.sgit.ai · built 14 Oct 2026 for Agentics London</span><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">source on GitHub</a><a href="https://sgit.ai">sgit.ai</a><a href="https://ruv.io">ruv.io</a><a href="https://github.com/ruvnet">github.com/ruvnet</a><span>code Apache-2.0 · rUv's projects MIT · "per its README" means we read, not ran, unless a POC says so</span><a href="llms.txt">llms.txt</a></div></footer>
+<script src="assets/site.js"></script>
+</body>
+</html>

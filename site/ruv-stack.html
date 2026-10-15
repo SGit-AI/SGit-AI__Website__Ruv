@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rUv's stack, explained by use case</title>
+<meta name="description" content="Ruflo, RuVector, RVM, MetaHarness, agentic-flow: what each is for, when to reach for it, how to start in one command, and what to ignore on day one. Written from the READMEs and from running the pinned versions.">
+<link rel="canonical" href="https://ruv.sgit.ai/ruv-stack.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f766e%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Georgia%27%3Er%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/site.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.12.0/mermaid.min.js"></script>
+</head>
+<body>
+<header class="top"><div class="wrap"><a class="brand" href="index.html">ruv.sgit.ai<small>rUv x sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
+
+<section class="hero"><div class="wrap"><div class="grid">
+<div>
+<p class="k">A guide for people who opened github.com/ruvnet and closed it again</p>
+<h1>rUv's stack, one layer at a time</h1>
+<p class="lead">Reuven Cohen (rUv) ships fast: Ruflo alone has dozens of commands, and fourteen new repositories appeared in two months. The repos are overwhelming because they are complete. You do not need all of it. This page says what each piece is <i>for</i>, the one command that gets you started, and what to ignore until you need it.</p>
+<div class="toc"><a href="#who">Who</a><a href="#layers">Five layers</a><a href="#ruflo">Ruflo</a><a href="#ruvector">RuVector</a><a href="#rvm">RVM</a><a href="#metaharness">MetaHarness</a><a href="#rest">The rest</a><a href="#gaps">Where the gaps are</a><a href="#pick">Which one do I need?</a></div>
+</div>
+<figure class="fig" style="margin:0"><img src="assets/img/ruv-stack-layers.png" alt="Five layers: RVM, RuVector, Ruflo, MetaHarness, Hosts"><figcaption>Bottom to top: the capability VM, the memory substrate, the orchestrator, the harness factory, and the hosts you already use.</figcaption></figure>
+</div></div></section>
+
+<section id="who"><div class="wrap">
+<h2>Who he is, in three lines</h2>
+<p>Founder and Chief AI Officer at Cognitum One; creator of the Agentics Foundation (the community that runs the London meetup); earlier founded Enomaly, was Chief Cloud Advocate at Citrix, and an architect of EY.ai. Credited with coining "Agentic Engineer". His positioning: "Sovereign agentic AI, cloud to edge."</p>
+<p class="k">Sources: ruv.io, github.com/ruvnet, LinkedIn. Star counts below are snapshots from Sep and Oct 2026, not live.</p>
+</div></section>
+
+<section class="alt" id="layers"><div class="wrap">
+<h2>The five layers</h2>
+<p>Read the stack bottom-up and each layer answers one question.</p>
+<pre class="mermaid">
+flowchart TB
+  H["<b>Hosts</b><br/>Claude Code · Codex · GitHub Actions · browser<br/><i>where agents run</i>"]
+  M["<b>MetaHarness</b><br/>agents, skills, commands, MCP tools, memory namespace, governance policy<br/><i>how a harness is assembled for a host</i>"]
+  F["<b>Ruflo</b> (formerly Claude Flow)<br/>queens + 8 worker roles, consensus, SPARC, hooks, policy engine, memory<br/><i>how many agents coordinate</i>"]
+  V["<b>RuVector</b><br/>vectors + graph + temporal memory, HNSW, WASM, MCP server, witness logs<br/><i>what agents remember</i>"]
+  R["<b>RVM</b><br/>bare-metal Rust VMM, capabilities with 7 rights, witness chain, replay<br/><i>what an agent can physically touch</i>"]
+  H --> M --> F --> V --> R
+  ABP["ABP: the mandate"] -. compiles into .-> F
+  ABP -. compiles into .-> R
+  ABP -. diffs against .-> M
+  VAULT[("sgit vault")] -. keeps, versioned and encrypted .-> V
+  VAULT -. keeps receipts from .-> F
+</pre>
+</div></section>
+
+<section id="ruflo"><div class="wrap">
+<h2>Ruflo <span class="pill">npm: ruflo 3.56.10 = claude-flow = @claude-flow/cli</span></h2>
+<div class="two">
+<div>
+<h4>What it is for</h4>
+<p>Running many agents against one objective inside Claude Code (or another model host): a queen plans and assigns, workers (coder, tester, reviewer, researcher, documenter, and more) execute, consensus protocols (Raft, BFT, gossip, CRDT, quorum) settle disagreements, hooks learn from outcomes, and a daemon keeps unattended runs going. Per its README: ~71k stars, ~711k npm downloads a month in May.</p>
+<h4>Start here (verified today)</h4>
+<pre><code>npx ruflo@3.56.10 --help                 # 40+ commands; read PRIMARY COMMANDS only
+npx ruflo policy status                  # policy mode: legacy by default (everything allowed)
+npx ruflo policy evaluate '{"identity":{"id":"coder-1","type":"agent"},"action":{"type":"email.send"}}'
+#  → allowed · legacy-default-allow       (this is the gap the ABP closes)
+npx ruflo memory init && npx ruflo memory store -k lesson -v "…" -n coder
+npx ruflo daemon stop                    # it auto-starts a daemon; stop it in every script</code></pre>
+<h4>Ignore on day one</h4>
+<p>neural, performance, hive-mind, autopilot, appliance, plugins (IPFS registry), migrate. They are real, but none is needed to govern or remember.</p>
+<h4>The part we build on</h4>
+<p><code>@claude-flow/security</code> ships <code>AgenticPolicyEngine</code>: modes <code>legacy</code>, <code>observe</code>, <code>enforce</code>; rules with effect allow / deny / require_approval; budgets; a hash-chained receipt ledger with <code>verifyLedger()</code>. The CLI's policy administration needs an interactive terminal by design; the library engine is the documented programmatic surface, which is what <a href="pocs.html#poc1">POC1</a> uses.</p>
+</div>
+<div>
+<div class="card"><h4>When to reach for it</h4><ul><li>You want more than one agent on a task and a defined way to split and merge the work (SPARC).</li><li>You want agents to learn routing from past outcomes (hooks, ReasoningBank).</li><li>You want a policy engine with receipts, without writing one.</li></ul></div>
+<div class="card"><h4>What it does not say</h4><p>No permissions model, RBAC or audit log beyond the policy engine's receipts; anti-drift pins the spec, deviations become votes. That is exactly where a per-role mandate (ABP) fits: the spec becomes a signed document the engine enforces.</p></div>
+<div class="card"><h4>Pitfalls we hit</h4><ul><li><code>memory export</code> returned 0 entries after a successful <code>store</code> (they read different stores); <code>import</code> failed on a fresh project. Copying the DB files works.</li><li>Install <b>with</b> scripts so better-sqlite3 builds; otherwise it falls back to sql.js and warns that persistence is not guaranteed.</li></ul></div>
+</div>
+</div>
+</div></section>
+
+<section class="alt" id="ruvector"><div class="wrap">
+<h2>RuVector <span class="pill">npm: ruvector 0.3.3 · @ruvector/wasm 0.2.1 · @ruvector/cli 0.1.29</span></h2>
+<div class="two">
+<div>
+<h4>What it is for</h4>
+<p>The memory substrate under the agents: vector search (HNSW), graph and hypergraph, temporal memory, GNN re-ranking, self-learning (SONA MicroLoRA), builds for WASM and the edge, an MCP server with allow/deny tool lists, hash-linked witness logs, copy-on-write branches and snapshots. Rust at the core, Node and browser bindings.</p>
+<h4>Start here (verified today, in a browser)</h4>
+<pre><code>import init, { VectorDB, version, hnswAvailable } from './vendor/ruvector_wasm.js';
+await init();
+const db = new VectorDB(128, 'cosine', true);   // dim, metric, hnsw
+db.insert(new Float32Array(128), 'row-1', {});
+db.search(queryVec, 3);                          // → [{id, score}]
+// version() → "2.3.1", hnswAvailable() → true   (evidence/wasm-browser.txt)</code></pre>
+<h4>Ignore on day one</h4>
+<p>The native CLI (platform binaries; untested on the CI runner), GNN re-rank, SONA. The WASM package is enough to show search over a policy or a memory in a page.</p>
+</div>
+<div>
+<div class="card"><h4>When to reach for it</h4><ul><li>You want memory that is more than a key-value store: similarity, graph edges, time.</li><li>You want that memory in a browser or on an edge device.</li><li>You want an MCP server over it with a read-only profile.</li></ul></div>
+<div class="card"><h4>Where its README says it stops</h4><p>In its own words: no encryption at rest or in transit ("witnesses do not encrypt memory content"); no document versioning; replication on "simulated transport", "not a complete production network replication plane"; "collections and metadata filters ... are not a complete authorization boundary"; deletes do not reach snapshots, branches or replicas. <a href="pocs.html#poc2">POC2</a> puts the memory files in an sgit vault: encrypted client-side, versioned, branched per agent, cloned anywhere.</p></div>
+</div>
+</div>
+</div></section>
+
+<section id="rvm"><div class="wrap">
+<h2>RVM <span class="pill">github.com/ruvnet/rvm · early (Apr 2026) · Rust, bare metal</span></h2>
+<div class="two">
+<div>
+<h4>What it is for</h4>
+<p>A virtual machine monitor for agents with no ambient authority: everything an agent touches is a capability with some of seven rights (READ, WRITE, GRANT, REVOKE, EXECUTE, PROVE, GRANT_ONCE), mutations are proof-gated, and a hash-chained, signed witness log allows deterministic replay.</p>
+<h4>Start here</h4>
+<p>Do not build it tonight; it is bare-metal Rust. Read the capability model and map your policy onto the seven rights first. That table is <a href="pocs.html#poc3">POC3</a>, generated from the ABP.</p>
+</div>
+<div>
+<div class="card"><h4>When to reach for it</h4><ul><li>You need enforcement below the host: not "the tool runner denied it" but "the VM has no capability for it".</li><li>You need replayable evidence of what ran.</li></ul></div>
+<div class="card"><h4>The gap, and the fit</h4><p>Rights are coarser than mandates: EXECUTE covers both a sandboxed test run and an email send. The token says <i>what</i>; the ABP keeps <i>why</i>, who signed it and until when. Compile tokens from the mandate, not the other way round.</p></div>
+</div>
+</div>
+</div></section>
+
+<section class="alt" id="metaharness"><div class="wrap">
+<h2>MetaHarness <span class="pill">npm: metaharness 0.4.17</span></h2>
+<div class="two">
+<div>
+<h4>What it is for</h4>
+<p>A factory for agent harnesses: give it a vertical template (agentics, coding, crm, legal, trading, ...) and a host (Claude Code, Codex, GitHub Actions, RVM, ...) and it scaffolds agents, skills, commands, MCP wiring, a memory namespace and host permission settings. It can score a repository (fit, cost, safety), analyse it, and in "Darwin mode" evolve its own configuration.</p>
+<h4>Start here (verified today)</h4>
+<pre><code>npx metaharness@0.4.17 --help
+npx metaharness rm-agentics --template vertical:agentics --host claude-code --no-darwin --target out/poc5/harness
+#  → 18 files: .claude/settings.json (allow/deny), CLAUDE.md, 4 agents, 2 skills, a doctor command, a signed manifest
+npx metaharness score . --json          # this repo: harnessFit 63, toolSafety 95, est. $0.048 per run</code></pre>
+<h4>Ignore on day one</h4>
+<p>Darwin mode, GEPA learning runs, the proxy sidecar, wasm crates. The scaffold and the scorecard are the useful first hour.</p>
+</div>
+<div>
+<div class="card"><h4>When to reach for it</h4><ul><li>You want a consistent harness across several hosts without hand-writing each one.</li><li>You want a number for how harness-ready a repo is.</li></ul></div>
+<div class="card"><h4>What we found</h4><p>The scaffold for this template and host emitted a permission allow/deny list and prose rules; it did not emit the governance policy document, deny-by-default statement, timeouts or audit flag that the package README describes. <a href="pocs.html#poc5">POC5</a> renders what it did emit as an ABP and diffs it against ours, both ways.</p></div>
+</div>
+</div>
+</div></section>
+
+<section id="rest"><div class="wrap">
+<h2>The rest, in one line each</h2>
+<div class="cards">
+<div class="card"><h4>RuView</h4><p>Camera-free WiFi sensing (presence, pose, vital signs). Research; his most-starred repo (~92k). Not part of this story.</p></div>
+<div class="card"><h4>agentic-flow <span class="pill">2.1.4</span></h4><p>Multi-model agent runtime and router; Ruflo's "other models" path.</p></div>
+<div class="card"><h4>agentdb <span class="pill">3.0.0-alpha.20</span></h4><p>The agent database Ruflo's memory sits on (HNSW indexing); you see it as <code>.swarm/agentdb-memory.db</code>.</p></div>
+<div class="card"><h4>sparc</h4><p>Specification, Pseudocode, Architecture, Refinement, Completion: the workflow Ruflo's swarms follow.</p></div>
+<div class="card"><h4>ruv-FANN</h4><p>Neural networks in Rust, the ancestor of the "neural" commands.</p></div>
+<div class="card"><h4>open-claude-code</h4><p>An open harness in the Claude Code shape; one of the hosts MetaHarness targets.</p></div>
+</div>
+<p class="k">Fair note: some of this is now also in Claude Code itself (subagents, plugins, hooks), and Ruflo plugs into Claude Code as a plugin or MCP server. The innovation rate is the point.</p>
+</div></section>
+
+<section class="alt" id="gaps"><div class="wrap">
+<h2>Where his docs leave a gap, and what fills it</h2>
+<div class="tbl"><table>
+<thead><tr><th>Project</th><th>What its own docs say</th><th>What fills it</th><th>Proof</th></tr></thead>
+<tbody>
+<tr><td>RuVector</td><td>No encryption at rest/in transit; no document versioning; simulated replication; filters are not an authorization boundary; deletes do not reach snapshots</td><td>sgit vault: client-side AES-256-GCM, full history, branch and merge, clone anywhere; ABP as the authorization boundary</td><td><a href="pocs.html#poc2">POC2</a></td></tr>
+<tr><td>Ruflo</td><td>Anti-drift pins the spec; deviations become votes; default policy mode is legacy (allow all)</td><td>ABP per queen and worker: reach, mandate, gap, barrier, owner; compiled into the engine's enforce mode</td><td><a href="pocs.html#poc1">POC1</a></td></tr>
+<tr><td>MetaHarness</td><td>Ships "a governance policy" per harness (host settings)</td><td>ABP is that policy as a document a CISO or insurer reads; the harness is one of its enforcers</td><td><a href="pocs.html#poc5">POC5</a></td></tr>
+<tr><td>RVM</td><td>Capabilities and witness logs enforce reach</td><td>ABP says why each right was granted; tokens are the compiled form</td><td><a href="pocs.html#poc3">POC3</a></td></tr>
+<tr><td>Learning loops (SONA, ReasoningBank, Darwin)</td><td>Behaviour changes over time</td><td>Versioned ABPs and vault history show what changed, when; roll back a learned pattern</td><td><a href="use-cases.html#learn">use case 5</a></td></tr>
+</tbody></table></div>
+</div></section>
+
+<section id="pick"><div class="wrap">
+<h2>Which one do I need?</h2>
+<pre class="mermaid">
+flowchart TD
+  Q1{"More than one agent<br/>on one task?"} -- yes --> RF["Ruflo: swarm + SPARC + hooks"]
+  Q1 -- no --> Q2
+  RF --> Q2{"Must it remember<br/>across runs or machines?"}
+  Q2 -- yes --> RV["RuVector or Ruflo memory<br/>+ an sgit vault for history and encryption"]
+  Q2 -- no --> Q3
+  RV --> Q3{"Must you prove<br/>what it was allowed to do?"}
+  Q3 -- yes --> ABP["Write an ABP per role; compile it:<br/>Ruflo policy engine today, RVM rights when you go bare-metal"]
+  Q3 -- no --> Q4
+  ABP --> Q4{"Several hosts<br/>(Claude Code, Codex, CI)?"}
+  Q4 -- yes --> MH["MetaHarness scaffold per host;<br/>diff its settings against the ABP"]
+  Q4 -- no --> DONE["Start with Claude Code + Ruflo as MCP;<br/>add the rest when a use case needs it"]
+  MH --> DONE
+</pre>
+<p><a class="btn p" href="use-cases.html">Go by use case →</a> <a class="btn" href="architecture.html">See the architecture →</a></p>
+</div></section>
+
+<footer><div class="wrap"><span>ruv.sgit.ai · built 14 Oct 2026 for Agentics London</span><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">source on GitHub</a><a href="https://sgit.ai">sgit.ai</a><a href="https://ruv.io">ruv.io</a><a href="https://github.com/ruvnet">github.com/ruvnet</a><span>code Apache-2.0 · rUv's projects MIT · "per its README" means we read, not ran, unless a POC says so</span><a href="llms.txt">llms.txt</a></div></footer>
+<script src="assets/site.js"></script>
+</body>
+</html>
