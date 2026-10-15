@@ -199,22 +199,22 @@
 </script>
 <style>
 /* colours come from the site's theme (the five newsroom themes, assets/themes.css): the slides, the site and the live app change together */
-:root { --teal:var(--accent); --amber:var(--warm); --card:var(--panel); --barh:104px }
+:root { --teal:var(--accent); --amber:var(--warm); --card:var(--panel); --barh:90px }
 * { box-sizing:border-box }
 html,body { margin:0; height:100%; background:var(--bg); color:var(--fg); font:18px/1.4 ui-sans-serif,system-ui,sans-serif; overflow:hidden }
 #stage { position:absolute; inset:0 0 var(--barh) 0; display:flex; flex-direction:column; overflow:hidden; touch-action:pan-y pinch-zoom }
 /* the frame every slide shares, so nothing moves between slides: a brand strip, then the title, always top left */
-.sbrand { flex:none; display:flex; justify-content:space-between; align-items:center; gap:2vw; padding:2.4vh 4vw 0; font-size:1.6vh; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); white-space:nowrap; overflow:hidden }
+.sbrand { flex:none; display:flex; justify-content:space-between; align-items:center; gap:2vw; padding:1.2vh 3vw 0; font-size:1.45vh; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); white-space:nowrap; overflow:hidden }
 .sbrand .logo { display:inline-flex; align-items:center; gap:.8em; color:var(--head); font-weight:700; letter-spacing:.06em }
 .sbrand .logo i { font:700 1.8vh/1 Georgia,serif; font-style:normal; width:2.8vh; height:2.8vh; border-radius:.6vh; background:var(--accent); color:var(--on-accent); display:inline-flex; align-items:center; justify-content:center; letter-spacing:0; text-transform:none }
 .sbrand .logo b { color:var(--accent); font-weight:700 }
 .sbrand > span { min-width:0; overflow:hidden; text-overflow:ellipsis } .sbrand > span:first-child, .sbrand > span:last-child { flex:none }
 .sbrand .gh { text-transform:none; letter-spacing:.02em; font-family:ui-monospace,monospace } @media (max-width:1150px) { .sbrand .ev { display:none } } @media (max-width:760px) { .sbrand .gh { display:none } }
-.shead { flex:none; padding:2.6vh 4vw 0 }
-.shead h2 { margin:0; font:600 4.4vh/1.15 Georgia,serif; color:var(--head) } .shead h2.big { font-size:7.2vh }
-.shead h2::after { content:""; display:block; width:7vh; height:.55vh; border-radius:.3vh; background:var(--accent); margin-top:1.6vh }
-.shead .sub { color:var(--dim); font-size:2vh; margin-top:1.4vh; min-height:2.6vh }
-.sbody { flex:1; min-height:0; display:flex; padding:2.4vh 4vw 3.4vh; overflow:auto; -webkit-overflow-scrolling:touch }
+.shead { flex:none; padding:1.1vh 3vw 0 }
+.shead h2 { margin:0; font:600 3.9vh/1.12 Georgia,serif; color:var(--head) } .shead h2.big { font-size:7.2vh }
+.shead h2::after { content:""; display:block; width:6vh; height:.45vh; border-radius:.3vh; background:var(--accent); margin-top:.9vh }
+.shead .sub { color:var(--dim); font-size:1.85vh; margin-top:.7vh; min-height:2.2vh; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.sbody { flex:1; min-height:0; display:flex; padding:1.4vh 3vw 1.4vh; overflow:auto; -webkit-overflow-scrolling:touch }
 .sbody > .slide { margin:auto 0 }   /* left edge fixed under the title; vertically centred when it fits, scrolls when it does not */
 body.presenter #stage, body.presenter #touch { inset:0 36vw var(--barh) 0 }
 body.audience #stage, body.audience #touch { inset:0 }
@@ -223,7 +223,7 @@ body.audience #bar, body.audience #side { display:none !important }
 #side { display:none; position:absolute; top:0; right:0; bottom:var(--barh); width:36vw; border-left:1px solid var(--line); padding:20px 22px; overflow:auto; background:var(--panel2) }
 body.presenter #side { display:block }
 #bar { position:absolute; left:0; right:0; bottom:0; height:var(--barh); display:flex; flex-direction:column; border-top:1px solid var(--line); font-variant-numeric:tabular-nums; background:var(--bg) }
-#bar .row { flex:1; display:flex; align-items:center; gap:12px; padding:0 12px; min-width:0 }
+#bar .row { flex:1; display:flex; align-items:center; gap:12px; padding:0 10px; min-width:0 }
 #bar .row + .row { border-top:1px solid var(--line); gap:10px }
 #steps { flex:1; min-width:0; height:30px; position:relative; display:flex; gap:3px; cursor:pointer }
 #steps .st { flex:1; min-width:0; position:relative; background:var(--line); border-radius:6px; overflow:hidden }
@@ -277,23 +277,23 @@ tr.row { opacity:.08; transition:opacity .4s } tr.row.on { opacity:1 }
 .allowed,.yes { color:var(--teal) } .denied,.no { color:var(--red) } .approval_required,.approval { color:var(--amber) }
 .foot { color:var(--dim); margin-top:2vh; font-size:2vh }
 ul.bul { list-style:none; padding:0; font-size:3.4vh; margin:0 } ul.bul li { margin:2.2vh 0; opacity:0; transition:opacity .5s } ul.bul li.on { opacity:1 } ul.bul li:before { content:"→ "; color:var(--teal) }
-.image img { display:block; max-width:100%; max-height:58vh; border-radius:12px; border:1px solid var(--line) }
+.image img { display:block; max-width:100%; max-height:calc(100vh - var(--barh) - 22vh); border-radius:12px; border:1px solid var(--line) }
 .image .imgwrap { position:relative; display:inline-block; max-width:100% }
 .image .b.punch { position:absolute; right:-2vw; bottom:-3vh; margin:0; white-space:nowrap; font:600 4.6vh/1.2 Georgia,serif; color:var(--head); background:var(--panel); border:2px solid var(--accent); border-radius:14px; padding:2.2vh 2.4vw; box-shadow:0 12px 40px rgba(0,0,0,.28); transform:translateY(2vh) rotate(-1.5deg) scale(.96) }
 .image .b.punch.on { transform:rotate(-1.5deg) }
 .quote blockquote { font:500 4.6vh/1.3 Georgia,serif; margin:0 0 3vh; border-left:6px solid var(--teal); padding-left:3vw }
 .quote blockquote .b { font-size:inherit; margin:0 0 2vh }
 .quote cite { color:var(--dim); font-size:2.3vh; font-style:normal }
-.iframe iframe { display:block; width:100%; height:58vh; border:1px solid var(--line); border-radius:12px; background:var(--bg) }
+.sbody > .slide.iframe { margin:0; height:100%; max-width:none } .iframe iframe { display:block; width:100%; height:100%; border:1px solid var(--line); border-radius:12px; background:var(--bg) }
 #side h3 { margin:.2em 0; font:600 22px Georgia,serif } #side .say { font-size:23px; line-height:1.5; margin:14px 0 22px }
 #side .left { font:700 40px ui-sans-serif,system-ui; font-variant-numeric:tabular-nums } #side .left.behind { color:var(--red) } #side .left.ok { color:var(--teal) }
 #side .next { color:var(--dim); border-top:1px solid var(--line); padding-top:12px; font-size:16px }
 #side .next b { color:var(--fg) } #side .cue { color:var(--amber); font-size:15px; margin:-8px 0 16px }
 #side .meta { color:var(--dim); font-size:14px; display:flex; justify-content:space-between }
-.ctl { display:flex; gap:6px; flex:none } .ctl button { min-width:44px; height:44px; border:1px solid var(--line); background:var(--card); color:var(--fg); border-radius:10px; font:600 16px ui-sans-serif,system-ui; cursor:pointer; touch-action:manipulation; padding:0 10px }
+.ctl { display:flex; gap:6px; flex:none } .ctl button { min-width:42px; height:40px; border:1px solid var(--line); background:var(--card); color:var(--fg); border-radius:10px; font:600 16px ui-sans-serif,system-ui; cursor:pointer; touch-action:manipulation; padding:0 10px }
 .ctl button:active { background:var(--tint-solid) } .ctl button.on { border-color:var(--teal); color:var(--teal) }
 .ctl button.nav { font-size:15px; min-width:58px } .ctl button.pp { min-width:64px; font-size:20px; background:var(--teal); color:var(--on-accent); border-color:var(--teal) }
-.ctl.small button { height:34px; min-width:38px; font-size:14px; border-radius:8px }
+.ctl.small button { height:32px; min-width:38px; font-size:14px; border-radius:8px }
 .ctl button small { display:block; font:600 9px ui-sans-serif,system-ui; letter-spacing:.06em; text-transform:uppercase; opacity:.7; margin-top:-2px }
 @media (max-width:1100px) { #state, #cache, #beatno { display:none } .ctl button.timer { min-width:7.5em } #bar .clock { font-size:17px; min-width:5.4em } .ctl button.nav { min-width:46px } }
 @media (max-width:700px) { #steps .st span { font-size:0 } #count { min-width:6em; font-size:14px } #count .n { font-size:18px } }
