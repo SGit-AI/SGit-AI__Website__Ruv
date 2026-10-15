@@ -1,7 +1,18 @@
 {
- "purpose": "r7-claim: the claim slide, animated: autonomy needs a memory you can trust (encrypted, versioned, scoped to one run) and a written mandate",
- "feedback": "Dinis, on slide 2 ('The claim'): use ruv.sgit to create a better view and animation for this. Today it is four lines of text.",
+ "purpose": "r7-claim: the claim slide and rUv's stack, animated",
+ "feedback": "Dinis, on slide 2 ('The claim'): use ruv.sgit to create a better view and animation for this. Today it is four lines of text. Then, on slide 3 (rUv's stack, one picture): it no longer looks good; keep it, labelled as an infographic (cool, until we had the ruv.sgit workflow), and follow it with a ruv.sgit-made animated version.",
  "workers": [
-  {"id": "claim", "role": "animator", "task": "slide: the claim, animated: one agent's memory shown encrypted before it leaves, versioned (who learned what, when), scoped to one run and deleted, and the written mandate; numbers from the ledger and POC1", "out": "site/talk/slides/claim/"}
+  {
+   "id": "claim",
+   "role": "animator",
+   "task": "slide: the claim, animated: one agent's memory shown encrypted before it leaves, versioned (who learned what, when), scoped to one run and deleted, and the written mandate; numbers from the ledger and POC1",
+   "out": "site/talk/slides/claim/"
+  },
+  {
+   "id": "stack",
+   "role": "animator",
+   "task": "slide: rUv's stack in five layers, animated and accurate, with where sgit plugs in",
+   "out": "site/talk/slides/stack/"
+  }
  ]
 }
