@@ -2,7 +2,7 @@
  "title": "Autonomy with a mandate and a memory",
  "event": "Agentic Engineering Live: rUv in London, 15 Oct 2026",
  "speaker": "Dinis Cruz",
- "duration_s": 578,
+ "duration_s": 573,
  "source": "ruv.sgit.ai: every number on screen is read from data/report.json, data/vaults.json, studio/run.json or a recorded run under evidence/",
  "data": {
   "report": "../data/report.json",
@@ -262,36 +262,20 @@
   {
    "id": "ask",
    "at": 512,
-   "dur": 40,
-   "title": "The ask: build on it",
+   "dur": 35,
+   "title": "The ask",
    "slide": {
-    "layout": "statement",
-    "sub": "The business plan is written down, to copy · all open source",
-    "text": "Build a company on this, or add it to your services.",
-    "builds": [
-     {
-      "at": 3,
-      "text": "The business plan, in detail: four services, prices, costs, Wardley maps · ruv.sgit.ai/business"
-     },
-     {
-      "at": 10,
-      "text": "Pages for consultants (white label), companies, internal teams, and a shop"
-     },
-     {
-      "at": 17,
-      "text": "All open source: our code Apache-2.0, rUv's projects MIT"
-     },
-     {
-      "at": 24,
-      "text": "Anybody who implements this implements sgit vaults and Agent Behaviour Policies · agent@riskmandate.ai"
-     }
-    ]
+    "layout": "iframe",
+    "src": "slides/ask/index.html",
+    "fallback": "../assets/img/talk/ask.webp",
+    "heading": "Build a company on this",
+    "sub": "or add it to your services: the plan, the prices and the code are open"
    },
-   "say": "So, the ask. The whole business plan is written down, in detail, to be copied: four services with their prices and costs, a Wardley map for each, pages for consultants, for companies and for internal teams, and a shop. And all of it is open source: our code is Apache, rUv's projects are MIT. So build a company on this, or add it to the services you already sell. Anybody who implements this implements sgit vaults and Agent Behaviour Policies, and we'd love to help: agent@riskmandate.ai."
+   "say": "So, the ask. The business plan is written down, in detail, for you to copy. The business model, four services with prices, how a consultant white-labels it, how a company adds it to what it already sells, how an internal team runs it, and a shop. All of it is open source: our code is Apache-2.0 on GitHub, and rUv's projects are MIT. So build a company on this, or add it to your services. Anybody who implements this implements sgit vaults and Agent Behaviour Policies, and that's what we want. Write to agent@riskmandate.ai, or start at ruv.sgit.ai/business."
   },
   {
    "id": "visit",
-   "at": 552,
+   "at": 547,
    "dur": 26,
    "title": "Where to find it",
    "slide": {
