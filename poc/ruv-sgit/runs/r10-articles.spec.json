@@ -1,0 +1,11 @@
+{
+ "purpose": "r10-articles: five articles about the talk and how it was made: the talk as a long read with screenshots; the talk, live (interactive); the history; the talk player as a product; walking backwards through the features",
+ "feedback": "Dinis, after the talk ('one of the smoothest presentations I've done in a long time; I let it run on autopilot and spoke over it'): write at least two, if not more, articles while it is fresh. (1) The whole presentation as text and screenshots, almost every step, with background and the logic of how it fits together. (2) A shorter version with the live animations and play/stop controls, steps that work in isolation. (3) The history: from the first version where the session ran agents itself to ruv.sgit runs, with stats (changes, loops, capabilities). (4) The talk player's features, written as if we were selling it, with a note that there is a business here for somebody to build, and a section in Claude's own voice on why this workflow works. (5) Walking backwards, like a historian: the features arrived non-linearly; the failures, bugs and less optimal tries are what made the product (e.g. the navigation, and the late 'end of each phase, then the start of the next' feature that could not have been specified before using it).",
+ "workers": [
+  {"id": "longread", "role": "writer", "task": "article: the talk as a long read, every step with a screenshot and its story", "out": "site/articles/src/the-talk-long-read.md, site/assets/img/articles/talk/"},
+  {"id": "live", "role": "builder", "task": "article: the talk, live: the animations embedded with play/pause/step controls", "out": "site/articles/the-talk-live.html (+ src)"},
+  {"id": "history", "role": "historian", "task": "article: how the site and the talk were made, from agents run by the session to ruv.sgit runs, with stats", "out": "site/articles/src/how-it-was-made.md"},
+  {"id": "player", "role": "writer", "task": "article: the talk player as a product, with a business for somebody to build, and Claude's own voice", "out": "site/articles/src/the-talk-player.md"},
+  {"id": "backwards", "role": "historian", "task": "article: walking backwards through the features: the non-linear path, failures and bugs included", "out": "site/articles/src/walking-backwards.md"}
+ ]
+}
