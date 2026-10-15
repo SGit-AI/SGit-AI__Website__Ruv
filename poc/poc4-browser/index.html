@@ -10,7 +10,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}#report{overflow-x:auto
 <p class="k">sgit vault + Agent Behaviour Policy + RuVector WASM · runs in your browser, offline after load</p>
 <h1>What is this swarm allowed to do?</h1>
 <p class="k" id="status">loading RuVector WASM…</p>
-<input id="q" placeholder="Ask: can the coder send email? can the tester change code? who may deploy?" autofocus>
+<input id="q" placeholder="Ask: can the coder send email? can the tester change code? who may deploy?">
 <div id="ans"></div>
 <div class="card"><b>Same swarm, same actions: Ruflo default vs with the ABP</b><div id="report" class="k">loading POC1 report…</div></div>
 </main>
@@ -20,6 +20,7 @@ const DIM = 128;
 const embed = s => { const v = new Float32Array(DIM); for (const w of s.toLowerCase().match(/[a-z]+/g) ?? []) { let h = 2166136261; for (const c of w) h = Math.imul(h ^ c.charCodeAt(0), 16777619); v[Math.abs(h) % DIM] += 1; } const n = Math.hypot(...v) || 1; return v.map(x => x / n); };
 const words = { 'send.message.world': 'send email message mail post', 'write.file.project': 'change edit write code files', 'create.record.world': 'deploy publish release production package', 'read.credential.host': 'read secrets credentials keys passwords', 'send.endpoint.world': 'internet any host network fetch', 'send.endpoint.allowed': 'registry allowed hosts network fetch', 'write.repository.tenant': 'push repository branch origin', 'execute.process.self': 'run tests build commands', 'write.budget.tenant': 'spend money model calls budget tokens' };
 const st = document.getElementById('status');
+if (window.top === window.self) document.getElementById('q').focus();   // not when embedded (the talk player keeps the keyboard)
 try {
   const { default: init, VectorDB, version, hnswAvailable } = await import(WASM);
   await init();

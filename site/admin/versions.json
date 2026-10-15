@@ -1,22 +1,87 @@
-{"site": "ruv.sgit.ai", "repo": "https://github.com/SGit-AI/SGit-AI__Website__Ruv", "branch": "dev",
+{
+ "site": "ruv.sgit.ai",
+ "repo": "https://github.com/SGit-AI/SGit-AI__Website__Ruv",
+ "branch": "dev",
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
-  {"version": "v0.1.5", "date": "2026-10-15", "commit": null, "title": "Navigation, version and name",
+  {
+   "version": "v0.1.6",
+   "date": "2026-10-15",
+   "commit": null,
+   "title": "Review mode, and a bottom bar that does not move",
+   "changes": "The talk player has a review mode (the review button, V, or player.html?review): every beat as it looks at its end, all builds, rows, typed commands and outputs at once, no animation, the clock stopped, stepped with the arrows or a swipe. The beat title is gone from the bottom bar (the slide has its own), and the bar's pieces have fixed widths, so nothing in it moves from beat to beat. The live app no longer takes the keyboard when embedded, so the arrows keep working on its beat.",
+   "pages": [
+    "talk/player.html",
+    "talk/index.html",
+    "app/index.html"
+   ]
+  },
+  {
+   "version": "v0.1.5",
+   "date": "2026-10-15",
+   "commit": "de7c6aa",
+   "title": "Navigation, version and name",
    "changes": "The navigation is consolidated into four groups (Tonight, The idea, Proofs, Articles) with dropdowns, and a Menu button on phones; the site version is shown in the nav of every page and links here; this release history is new, with a .md twin; the collaboration is written rUv + sgit instead of rUv x sgit. The studio article and the setup brief are corrected on append lanes: sgit.ai documents a write-only append mode, which the bus protocol now maps onto.",
-   "pages": ["admin/versions.html", "articles/the-studio.html", "articles/studio-setup-brief.html"]},
-  {"version": "v0.1.4", "date": "2026-10-15", "commit": "e2070cf", "title": "The talk works on an iPad",
+   "pages": [
+    "admin/versions.html",
+    "articles/the-studio.html",
+    "articles/studio-setup-brief.html"
+   ]
+  },
+  {
+   "version": "v0.1.4",
+   "date": "2026-10-15",
+   "commit": "e2070cf",
+   "title": "The talk works on an iPad",
    "changes": "Touch controls, swipe between beats, notes under the slide in portrait, a swipeable reader of the script, and the evening from the organisers' welcome deck (agenda, the 7:00 pm slot, who is in the room). Removed a regex lookbehind that older iPad Safari rejects.",
-   "pages": ["talk/index.html", "talk/player.html"]},
-  {"version": "v0.1.3", "date": "2026-10-15", "commit": "b4276b3", "title": "The studio and the articles",
+   "pages": [
+    "talk/index.html",
+    "talk/player.html"
+   ]
+  },
+  {
+   "version": "v0.1.3",
+   "date": "2026-10-15",
+   "commit": "b4276b3",
+   "title": "The studio and the articles",
    "changes": "POC7: a Ruflo hive-mind (queen and eight roles) whose run made seven animations, from a diagram to a 3D city of vaults, with MP4s, the timed trace and the builders' token use. A new articles section in the newsroom's shape: the studio's plan and architecture, and a setup brief any agent can follow.",
-   "pages": ["studio/index.html", "articles/index.html", "articles/the-studio.html", "articles/studio-setup-brief.html"]},
-  {"version": "v0.1.2", "date": "2026-10-15", "commit": "0924c5e", "title": "Tonight's talk as a timeline, and the review fixes",
+   "pages": [
+    "studio/index.html",
+    "articles/index.html",
+    "articles/the-studio.html",
+    "articles/studio-setup-brief.html"
+   ]
+  },
+  {
+   "version": "v0.1.2",
+   "date": "2026-10-15",
+   "commit": "0924c5e",
+   "title": "Tonight's talk as a timeline, and the review fixes",
    "changes": "A scripted ten-minute talk (and a five-minute cut) that plays on a clock, with a presenter view, a synced audience window, rehearsals and offline files. Fixes from an external review: the count of stopped actions (6 of 11: 4 denied, 2 approval), no sideways scrolling on phones, one h1 per page, WebP images.",
-   "pages": ["talk/index.html", "index.html", "use-cases.html", "pocs.html"]},
-  {"version": "v0.1.1", "date": "2026-10-15", "commit": "37e9ee5", "title": "Build scripts in CI",
+   "pages": [
+    "talk/index.html",
+    "index.html",
+    "use-cases.html",
+    "pocs.html"
+   ]
+  },
+  {
+   "version": "v0.1.1",
+   "date": "2026-10-15",
+   "commit": "37e9ee5",
+   "title": "Build scripts in CI",
    "changes": "site/build un-ignored: the Python .gitignore template's build/ rule hid the sync and validate scripts from CI.",
-   "pages": []},
-  {"version": "v0.1.0", "date": "2026-10-15", "commit": "1b33ef1", "title": "First release",
+   "pages": []
+  },
+  {
+   "version": "v0.1.0",
+   "date": "2026-10-15",
+   "commit": "1b33ef1",
+   "title": "First release",
    "changes": "Six proofs of concept of sgit vaults and Agent Behaviour Policies inside rUv's stack, and the website that explains them: home, rUv's stack, use cases, architecture, the POCs, replicate, the demo script and the live app.",
-   "pages": ["index.html"]}
- ]}
+   "pages": [
+    "index.html"
+   ]
+  }
+ ]
+}

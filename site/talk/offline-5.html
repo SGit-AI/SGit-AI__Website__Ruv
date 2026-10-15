@@ -18,7 +18,9 @@ body.audience #bar, body.audience #side { display:none !important }
 #side { display:none; position:absolute; top:0; right:0; bottom:56px; width:36vw; border-left:1px solid var(--line); padding:20px 22px; overflow:auto; background:#0b0d11 }
 body.presenter #side { display:block }
 #bar { position:absolute; left:0; right:0; bottom:0; height:56px; display:flex; align-items:center; gap:14px; padding:0 12px 0 20px; border-top:1px solid var(--line); font-variant-numeric:tabular-nums; background:var(--bg) }
-#bar .clock { font-size:24px; font-weight:700 } .dim { color:var(--dim) }
+#bar .clock { font-size:24px; font-weight:700; min-width:6.6em; white-space:nowrap } .dim { color:var(--dim) }
+#beatno { min-width:3.2em; text-align:right; white-space:nowrap } #state { min-width:8.5em; text-align:right; white-space:nowrap }
+body.review .b, body.review tr.row, body.review ul.bul li, body.review .term .out { transition:none !important } body.review .cursor { display:none }
 #prog { flex:1; height:8px; background:var(--line); border-radius:4px; position:relative; cursor:pointer }
 #prog i { position:absolute; top:-4px; width:2px; height:16px; background:var(--dim) }
 #prog b { position:absolute; left:0; top:0; bottom:0; background:var(--teal); border-radius:4px }
@@ -53,7 +55,7 @@ ul.bul { list-style:none; padding:0; font-size:3.4vh; margin:0 } ul.bul li { mar
 #side .meta { color:var(--dim); font-size:14px; display:flex; justify-content:space-between }
 #ctl { display:flex; gap:6px } #ctl button { min-width:44px; height:44px; border:1px solid var(--line); background:var(--card); color:var(--fg); border-radius:10px; font:600 16px ui-sans-serif,system-ui; cursor:pointer; touch-action:manipulation; padding:0 10px }
 #ctl button:active { background:#0d2a26 } #ctl button.on { border-color:var(--teal); color:var(--teal) }
-@media (max-width:900px) { #beatname, #state { display:none } #bar .clock { font-size:18px } }
+@media (max-width:900px) { #state { display:none } #bar .clock { font-size:18px } }
 @media (orientation:portrait) {   /* iPad upright: the words go under the slide, not beside it */
   body.presenter #stage { inset:0 0 calc(42vh + 56px) 0 }
   body.presenter #side { top:auto; left:0; width:auto; height:42vh; border-left:0; border-top:1px solid var(--line) }
@@ -68,8 +70,8 @@ ul.bul { list-style:none; padding:0; font-size:3.4vh; margin:0 } ul.bul li { mar
 <body>
 <div id="stage"></div>
 <aside id="side"></aside>
-<div id="bar"><div id="ctl"><button data-k="ArrowLeft" aria-label="previous beat">◀</button><button data-k=" " id="pp" aria-label="play or pause">▶</button><button data-k="ArrowRight" aria-label="next beat">▶︎▶︎</button><button data-k="p" id="nb" aria-label="speaker notes">notes</button><button data-k="f" aria-label="fullscreen">⛶</button></div><span class="clock" id="clock">0:00</span><span class="dim" id="beatname"></span><div id="prog" title="click to seek"><b id="progb"></b></div><span class="dim" id="state">paused</span></div>
-<div id="intro"><div><h2 id="ttl">Talk player</h2><p id="sub"></p><p>Tap ▶ or press <kbd>Space</kbd> to start · swipe left or right between beats · <b>notes</b> or <kbd>P</kbd> for the words · <kbd>A</kbd> audience window · <kbd>?</kbd> all keys</p></div></div>
+<div id="bar"><div id="ctl"><button data-k="ArrowLeft" aria-label="previous beat">◀</button><button data-k=" " id="pp" aria-label="play or pause">▶</button><button data-k="ArrowRight" aria-label="next beat">▶︎▶︎</button><button data-k="v" id="rv" aria-label="review mode: everything at once, no animation">review</button><button data-k="p" id="nb" aria-label="speaker notes">notes</button><button data-k="f" aria-label="fullscreen">⛶</button></div><span class="clock" id="clock">0:00</span><span class="dim" id="beatno"></span><div id="prog" title="click to seek"><b id="progb"></b></div><span class="dim" id="state">paused</span></div>
+<div id="intro"><div><h2 id="ttl">Talk player</h2><p id="sub"></p><p>Tap ▶ or press <kbd>Space</kbd> to start · swipe left or right between beats · <b>review</b> or <kbd>V</kbd> to see everything at once · <b>notes</b> or <kbd>P</kbd> for the words · <kbd>A</kbd> audience window · <kbd>?</kbd> all keys</p></div></div>
 <div id="black"></div>
 <div id="err"></div>
 <div id="help"><h3 style="margin-top:0;font-family:Georgia,serif">Keys</h3><table>
@@ -80,6 +82,7 @@ ul.bul { list-style:none; padding:0; font-size:3.4vh; margin:0 } ul.bul li { mar
 <tr><td><kbd>A</kbd></td><td>open the audience window (drag it to the projector, press F there); both stay in sync</td></tr>
 <tr><td><kbd>F</kbd></td><td>fullscreen</td></tr>
 <tr><td><kbd>B</kbd> <kbd>.</kbd></td><td>black screen (also on the audience window)</td></tr>
+<tr><td><kbd>V</kbd> or <b>review</b></td><td>review mode: every beat as it looks at its end, no animation, the clock stopped; step with → ← or swipe (or open player.html?review)</td></tr>
 <tr><td><kbd>R</kbd></td><td>rehearsal: records when each beat actually started; press again to save rehearsal.json</td></tr>
 <tr><td><kbd>0</kbd> <kbd>Home</kbd></td><td>back to 0:00</td></tr>
 <tr><td><kbd>Esc</kbd></td><td>give the keyboard back to the player after typing in a live page</td></tr>
@@ -99,9 +102,10 @@ const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '
 const $ = id => document.getElementById(id)
 const qs = new URLSearchParams(location.search)
 const VIEW = qs.get('view') || 'main', ME = Math.random().toString(36).slice(2)
-let talk, data = {}, t = 0, playing = false, last = 0, beatIx = -1, rehearse = false, log = [], wall0 = 0, leader = VIEW !== 'audience', lastBack = 0, lastSend = 0, black = false
+let talk, data = {}, t = 0, playing = false, last = 0, beatIx = -1, rehearse = false, log = [], wall0 = 0, leader = VIEW !== 'audience', lastBack = 0, lastSend = 0, black = false, review = qs.has('review')
 const chan = 'BroadcastChannel' in window ? new BroadcastChannel('ruv-talk:' + (qs.get('talk') || 'talk-10.json') + (window.TALK ? ':offline' : '')) : null   // one channel per timeline
 if (VIEW === 'audience') document.body.classList.add('audience')
+if (qs.has('review')) document.body.classList.add('review')
 
 function fail(msg) { $('err').textContent = msg; $('err').style.display = 'block' }
 
@@ -175,7 +179,7 @@ function render(b) {
     } else {
       el.innerHTML = `<iframe src="${s.src}" tabindex="-1"></iframe><div class="cap">${s.caption || ''}</div>`
       const f = el.querySelector('iframe')
-      f.addEventListener('load', () => { try { f.contentDocument.activeElement?.blur(); f.contentWindow.addEventListener('keydown', e => { if (['PageDown', 'PageUp', 'Escape'].includes(e.key)) { window.focus(); onKey(e) } }) } catch {} window.focus() })
+      f.addEventListener('load', () => { try { f.contentDocument.activeElement?.blur(); f.blur(); f.contentWindow.addEventListener('keydown', e => { if (['PageDown', 'PageUp', 'Escape'].includes(e.key) || (['ArrowRight', 'ArrowLeft'].includes(e.key) && e.target.tagName !== 'INPUT')) { window.focus(); onKey(e) } }) } catch {} window.focus() })
     }
   } else if (s.layout === 'video') {
     el.innerHTML = `<video src="${s.src}" muted playsinline style="max-width:100%;max-height:80vh"></video>`
@@ -189,6 +193,7 @@ function render(b) {
 // builds, rows and typing follow the clock inside the beat
 function update(b, local) {
   const s = b.slide
+  if (review) local = 1e6   // review mode: the beat as it looks at its end
   document.querySelectorAll('#stage [data-at]').forEach(e => e.classList.toggle('on', local >= +e.dataset.at))
   if (s.layout === 'terminal') {
     const n = Math.min(s.command.length, Math.max(0, Math.floor((local - (s.type_from || 0.5)) * 1000 / (s.type_ms || 30))))
@@ -212,10 +217,10 @@ function tick(now) {
   if (ix !== beatIx) { beatIx = ix; render(b); if (rehearse) log.push({ beat: b.id, planned_s: b.at, actual_s: +((performance.now() - wall0) / 1000).toFixed(1) }) }
   update(b, t - b.at)
   $('clock').textContent = `${fmt(t)} / ${fmt(talk.duration_s)}`
-  $('beatname').textContent = `${ix + 1}/${talk.beats.length} ${b.title}`
+  $('beatno').textContent = `${ix + 1}/${talk.beats.length}`
   $('progb').style.width = (100 * t / talk.duration_s) + '%'
-  $('state').textContent = (playing ? 'playing' : 'paused') + (rehearse ? ' · rehearsing' : '') + (VIEW === 'audience' ? ' · audience' : '')
-  $('pp').textContent = playing ? '❚❚' : '▶'; $('nb').classList.toggle('on', document.body.classList.contains('presenter'))
+  $('state').textContent = (review ? 'review' : playing ? 'playing' : 'paused') + (rehearse ? ' · rehearsing' : '') + (VIEW === 'audience' ? ' · audience' : '')
+  $('pp').textContent = playing ? '❚❚' : '▶'; $('nb').classList.toggle('on', document.body.classList.contains('presenter')); $('rv').classList.toggle('on', review)
   const left = b.at + b.dur - t, L = $('left')
   if (L) { L.textContent = `${Math.ceil(left)} s left`; L.className = 'left ' + (left < 5 ? 'behind' : 'ok') }
   const w = $('wall'); if (w) w.textContent = new Date().toTimeString().slice(0, 5) + (rehearse ? ` · rehearsal ${fmt((performance.now() - wall0) / 1000)}` : '')
@@ -245,6 +250,7 @@ function onKey(e) {
   else if (k === 'b' || k === 'B' || k === '.') { black = !black; document.body.classList.toggle('black', black) }
   else if (k === '?') document.body.classList.toggle('help')
   else if (k === 'Escape') document.body.classList.remove('help')
+  else if (k === 'v' || k === 'V') { review = !review; playing = false; document.body.classList.toggle('review', review); beatIx = -1 }
   else if (k === 'r' || k === 'R') {
     rehearse = !rehearse
     if (rehearse) { wall0 = performance.now(); log = []; beatIx = -1 }
