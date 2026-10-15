@@ -1,0 +1,8 @@
+{
+ "purpose": "r8-explain: two explainer slides, made with ruv.sgit: what an sgit vault is, then what an Agent Behaviour Policy is",
+ "feedback": "Dinis: the RuVector slide and the layers slide are brilliant; what is missing between them is a ruv.sgit-made explanation of first sgit and then ABPs. And make the slides shorter, since I speak fast.",
+ "workers": [
+  {"id": "sgit", "role": "animator", "task": "slide: what an sgit vault is, git for encrypted vaults, with real timings", "out": "site/talk/slides/sgit/"},
+  {"id": "abp", "role": "animator", "task": "slide: what an Agent Behaviour Policy is, a written mandate per role, compiled into Ruflo's policy engine", "out": "site/talk/slides/abp/"}
+ ]
+}

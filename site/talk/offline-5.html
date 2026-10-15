@@ -447,7 +447,7 @@ function render(b) {
       el.className = 'slide image'; el.innerHTML = `<img src="${src}" alt="${esc(s.caption || '')}">`; st.querySelector('.shead .sub').textContent += ' (screenshot: the offline file cannot run the live page)'
     } else {
       // once: a looping page plays once and holds; ruvt: start it where the talk is (it fast-forwards); ruvpaused: paused if the talk is
-      const local = Math.max(0, t - b.at)
+      const local = Math.max(0, t - b.at) * (s.speed || 1)   // slide.speed: the live page runs faster than the talk, to fit a shorter beat
       const q = `theme=${window.RuvTheme ? RuvTheme.current() : ''}&once${review ? '&review' : `&ruvt=${local.toFixed(2)}${playing ? '' : '&ruvpaused'}`}`
       el.innerHTML = `<iframe src="${s.src}${s.src.includes('?') ? '&' : '?'}${q}" tabindex="-1"></iframe>`   // the live app wears the slides' theme
       const f = el.querySelector('iframe')
@@ -474,7 +474,7 @@ function stepsOf(b) {
   const end = Math.max(0.5, b.dur - 0.4), s = b.slide
   let st = null
   if (b.steps) st = b.steps.map(x => typeof x === 'number' ? { t: x } : x)
-  else if (s.layout === 'iframe') { try { const w = frameEl()?.contentWindow; if (frameReady && Array.isArray(w?.RUV_STEPS) && w.RUV_STEPS.length) { st = w.RUV_STEPS.map(x => ({ t: +x.t, label: x.label })); var fromPage = true } } catch {} }
+  else if (s.layout === 'iframe') { try { const w = frameEl()?.contentWindow; if (frameReady && Array.isArray(w?.RUV_STEPS) && w.RUV_STEPS.length) { st = w.RUV_STEPS.map(x => ({ t: +x.t / (s.speed || 1), label: x.label })); var fromPage = true } } catch {} }
   if (!st) {
     const ats = new Set([0])
     document.querySelectorAll('#stage [data-at]').forEach(e => ats.add(+e.dataset.at))
@@ -488,7 +488,7 @@ function stepsOf(b) {
   st = st.filter(x => x.t >= 0 && x.t <= b.dur).sort((x, y) => x.t - y.t)
   if (!st.length || st[0].t > 0.05) st.unshift({ t: 0, label: 'start' })
   st.forEach((x, i) => { x.label = x.label || (i === 0 ? 'start' : `step ${i + 1}`) })
-  if (fromPage) KS[s.src] = st
+  if (fromPage) KS[s.src] = st.map(x => ({ t: x.t * (s.speed || 1), label: x.label }))   // kept in page seconds
   if (s.layout !== 'iframe' || b.steps || fromPage) stepCache = st
   return st
 }
@@ -532,12 +532,13 @@ function update(b, local) {
   const C = !review && clockOf()
   if (C) {
     try {
-      if (C.rate !== rate) C.setRate(rate)
-      const d = local - C.elapsed()
+      const k = s.speed || 1, pl = local * k
+      if (C.rate !== rate * k) C.setRate(rate * k)
+      const d = pl - C.elapsed()
       const ahead = d < -0.3 && d > -3   // the page is a little ahead (it started while loading): let the talk catch up
       if (playing && !held && !ahead && C.paused) C.play(); else if ((!playing || held || ahead) && !C.paused) C.pause()
-      if (d > 0.6) C.seek(local)
-      else if (d <= -3) { C.seek(Math.max(0, local)); frameReady = false }   // moved back: the page reloads at that time
+      if (d > 0.6) C.seek(pl)
+      else if (d <= -3) { C.seek(Math.max(0, pl)); frameReady = false }   // moved back: the page reloads at that time
     } catch {}
   }
 }
@@ -700,7 +701,7 @@ function paintTimer(b) {
 function drawPick() {
   const cur = beatAt(t)
   $('picklist').innerHTML = B.map((b, i) => {
-    let st = []; try { st = i === cur ? stepsOf(b) : b.steps ? b.steps.map(x => typeof x === 'number' ? { t: x } : x) : (KS[b.slide.src] || []) } catch {}
+    let st = []; try { st = i === cur ? stepsOf(b) : b.steps ? b.steps.map(x => typeof x === 'number' ? { t: x } : x) : (KS[b.slide.src] || []).map(x => ({ t: x.t / (b.slide.speed || 1), label: x.label })) } catch {}
     return `<div class="pc${i === cur ? ' cur' : ''}${b.extra ? ' ex' : ''}" data-i="${i}"><div class="n">${b.extra ? 'extra ' + (i + 1 - talk.beats.length) : i + 1} · ${b.extra ? 'untimed' : fmt(b.at)} · ${b.dur} s</div><h4>${esc(b.title)}</h4>` +
       (st.length > 1 ? `<div class="sts">${st.map((x, j) => `<a href="#" data-i="${i}" data-t="${x.t}">${j + 1}. ${esc(x.label || '')}</a>`).join('')}</div>` : '') + '</div>'
   }).join('')
