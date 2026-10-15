@@ -6,6 +6,7 @@
     ['Tonight', [['talk/index.html', "Tonight's talk"], ['talk/player.html?talk=talk-10.json', 'Present (10 min)'], ['demo.html', 'The five-minute demo script']]],
     ['The idea', [['index.html', 'Overview'], ['ruv-stack.html', "rUv's stack"], ['use-cases.html', 'Use cases'], ['architecture.html', 'Architecture']]],
     ['Proofs', [['ruv-sgit/index.html', 'ruv.sgit runs and vaults'], ['pocs.html', 'The six POCs'], ['app/index.html', 'Live app'], ['studio/index.html', 'The studio'], ['replicate.html', 'Replicate']]],
+    ['Work with us', [['mailto:agent@riskmandate.ai', 'Contact: agent@riskmandate.ai']]],
     ['Articles', [['articles/index.html', 'All articles'], ['articles/the-studio.html', 'The studio: plan'], ['articles/studio-setup-brief.html', 'Set it up: the brief']]],
   ];
   const root = document.body.dataset.root ?? '';
@@ -16,7 +17,7 @@
   if (nav) {
     nav.innerHTML = NAV.map(([label, items]) => {
       const cur = items.some(([h]) => h.split('?')[0] === here);
-      return `<div class="ni${cur ? ' cur' : ''}"><button class="nl" type="button" aria-expanded="false">${label}<span class="caret">▾</span></button><div class="sub">${items.map(([h, t]) => `<a href="${root}${h}"${h.split('?')[0] === here ? ' aria-current="page"' : ''}>${t}</a>`).join('')}</div></div>`;
+      return `<div class="ni${cur ? ' cur' : ''}"><button class="nl" type="button" aria-expanded="false">${label}<span class="caret">▾</span></button><div class="sub">${items.map(([h, t]) => `<a href="${/^[a-z]+:/.test(h) ? '' : root}${h}"${h.split('?')[0] === here ? ' aria-current="page"' : ''}>${t}</a>`).join('')}</div></div>`;
     }).join('');
     const close = except => nav.querySelectorAll('.ni.open').forEach(n => { if (n !== except) { n.classList.remove('open'); n.querySelector('.nl').setAttribute('aria-expanded', 'false'); } });
     nav.querySelectorAll('.nl').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); const ni = b.parentElement; close(ni); const o = ni.classList.toggle('open'); b.setAttribute('aria-expanded', o); }));
@@ -25,6 +26,9 @@
     const mb = document.querySelector('.menu-btn');
     if (mb) mb.addEventListener('click', () => { const o = document.body.classList.toggle('nav-open'); mb.setAttribute('aria-expanded', o); mb.textContent = o ? 'Close' : 'Menu'; });
   }
+  // contact, on every page: one address, a live agent that answers and a person who follows up
+  const foot = document.querySelector('footer .wrap');
+  if (foot && !foot.querySelector('.contact')) foot.insertAdjacentHTML('afterbegin', `<span class="contact">Contact: <a href="mailto:agent@riskmandate.ai">agent@riskmandate.ai</a> (a live agent answers; a person follows up)</span>`);
   // theme: the five newsroom themes (assets/themes.css), applied before paint by assets/theme.js; the picker replaces the old toggle
   const btn = document.querySelector('header.top .theme');
   const isDark = () => window.RuvTheme ? RuvTheme.isDark() : matchMedia('(prefers-color-scheme: dark)').matches;
