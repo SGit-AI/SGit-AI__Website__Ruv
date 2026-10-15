@@ -93,7 +93,7 @@ db.search(queryVec, 3);                          // → [{id, score}]
 </div>
 <div>
 <div class="card"><h4>When to reach for it</h4><ul><li>You want memory that is more than a key-value store: similarity, graph edges, time.</li><li>You want that memory in a browser or on an edge device.</li><li>You want an MCP server over it with a read-only profile.</li></ul></div>
-<div class="card"><h4>Where its README says it stops</h4><p>In its own words: no encryption at rest or in transit ("witnesses do not encrypt memory content"); no document versioning; replication on "simulated transport", "not a complete production network replication plane"; "collections and metadata filters ... are not a complete authorization boundary"; deletes do not reach snapshots, branches or replicas. <a href="pocs.html#poc2">POC2</a> puts the memory files in an sgit vault: encrypted client-side, versioned, branched per agent, cloned anywhere.</p></div>
+<div class="card"><h4>Where its README says it stops</h4><p>Its README is candid, in a section called “Security and governance”: witnesses and hash-linked logs “do not encrypt memory content”; “collections and metadata filters organize memory; they are not a complete authorization boundary”; replication “exposes local primitives and simulated transport behavior”; and “a delete from the live store does not automatically remove copies in snapshots, branches, replicas, exports, or hosted memory”. It already has snapshots and copy-on-write branching (<code>rvf derive</code>). <a href="pocs.html#poc2">POC2</a> adds an sgit vault around the memory files: encrypted on the client, a history shared across machines, branched per agent, cloned anywhere.</p></div>
 </div>
 </div>
 </div></section>
@@ -153,7 +153,7 @@ npx metaharness score . --json          # this repo: harnessFit 63, toolSafety 9
 <div class="tbl"><table>
 <thead><tr><th>Project</th><th>What its own docs say</th><th>What fills it</th><th>Proof</th></tr></thead>
 <tbody>
-<tr><td>RuVector</td><td>No encryption at rest/in transit; no document versioning; simulated replication; filters are not an authorization boundary; deletes do not reach snapshots</td><td>sgit vault: client-side AES-256-GCM, full history, branch and merge, clone anywhere; ABP as the authorization boundary</td><td><a href="pocs.html#poc2">POC2</a></td></tr>
+<tr><td>RuVector</td><td>Per its README: witnesses do not encrypt memory content; filters are not a complete authorization boundary; replication on simulated transport; deletes do not reach snapshots, branches or replicas (it has snapshots and copy-on-write branching)</td><td>sgit vault around its files: client-side AES-256-GCM, a history shared across machines, branch and merge, clone anywhere, deleted with the run; an ABP for who may do what</td><td><a href="pocs.html#poc2">POC2</a></td></tr>
 <tr><td>Ruflo</td><td>Anti-drift pins the spec; deviations become votes; default policy mode is legacy (allow all)</td><td>ABP per queen and worker: reach, mandate, gap, barrier, owner; compiled into the engine's enforce mode</td><td><a href="pocs.html#poc1">POC1</a></td></tr>
 <tr><td>MetaHarness</td><td>Ships "a governance policy" per harness (host settings)</td><td>ABP is that policy as a document a CISO or insurer reads; the harness is one of its enforcers</td><td><a href="pocs.html#poc5">POC5</a></td></tr>
 <tr><td>RVM</td><td>Capabilities and witness logs enforce reach</td><td>ABP says why each right was granted; tokens are the compiled form</td><td><a href="pocs.html#poc3">POC3</a></td></tr>

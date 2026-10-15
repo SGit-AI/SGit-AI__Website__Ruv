@@ -1,17 +1,60 @@
 {
   "style": "Style: dark navy background (#0b1b2b), teal (#4ecdc4) and amber (#f4b942) accents, white labels, flat vector icons, generous spacing, clean sans-serif lettering, landscape 16:9. Draw only the labels given here. No other text.",
   "images": [
-    {"id": "hero-two-worlds", "kind": "concept", "prompt": "Concept slide titled \"Two worlds, one stack\". Left half labelled \"AUTONOMY\" with four icons and labels: \"swarms\", \"consensus\", \"self-learning\", \"memory\". Right half labelled \"TRUST\" with two icons and labels: \"a written mandate per agent\", \"memory with history the host cannot read\". The halves overlap in the middle in a lens shape labelled \"the intersection\"."},
-    {"id": "ruv-stack-layers", "kind": "diagram", "prompt": "Layered architecture diagram titled \"rUv's stack, in five layers\". Five horizontal layers stacked bottom to top, each a wide rounded bar with one short label on the left and a one-line description on the right: bottom \"RVM\" - \"bare-metal capability VM, 7 rights, witness log\"; \"RuVector\" - \"memory substrate: vectors, graph, temporal\"; \"Ruflo\" - \"swarm orchestration: queens, workers, consensus, SPARC\"; \"MetaHarness\" - \"harness factory: agents, skills, governance policy\"; top \"Hosts\" - \"Claude Code, Codex, GitHub Actions, browser\". Small flat icons per layer."},
-    {"id": "intersection-map", "kind": "diagram", "prompt": "Hub-and-spoke diagram titled \"Where sgit.ai plugs in\". Centre: two stacked hexagons labelled \"ABP: the mandate\" and \"sgit vault: encrypted history\". Five spokes to boxes around the edge with the arrow label on each spoke: to \"Ruflo policy engine\" labelled \"compiled rules + receipts\"; to \"RVM capabilities\" labelled \"token rights\"; to \"MetaHarness governance\" labelled \"policy as document\"; to \"RuVector memory\" labelled \"encrypted snapshots, branch per agent\"; to \"Claude Code session\" labelled \"session records\"."},
-    {"id": "abp-anatomy", "kind": "diagram", "prompt": "Explainer card titled \"One ABP row\". A single wide card showing the capability \"send.message.world\" in monospace at the top, then five labelled fields in a row with small icons: \"REACH: can it? yes\", \"MANDATE: may it? no\", \"GAP: reach without mandate\", \"BARRIER: policy deny + no mail credential\", \"OWNER: signed, valid until a date\". Below, one small line: \"grammar: verb . object . reach\"."},
-    {"id": "poc1-flow", "kind": "diagram", "prompt": "Process flow titled \"POC1: the mandate becomes enforced policy\". Left to right in five steps connected by arrows: \"ABP (JSON)\" -> \"compile\" -> \"Ruflo policy engine\" -> a split into two parallel lanes: top lane \"legacy mode: everything allowed\" in amber, bottom lane \"enforce mode: allow / deny / approval\" in teal -> \"hash-chained receipts\" -> a padlock labelled \"sgit vault\"."},
-    {"id": "poc2-flow", "kind": "diagram", "prompt": "Process flow titled \"POC2: agent memory with history\". Two agent icons on the left labelled \"coder\" and \"tester\", each with an arrow to its own branch line labelled \"branch per role\"; the branches merge into a line labelled \"main\" inside a vault shape with a padlock labelled \"server sees ciphertext only\". On the right, a fresh server icon labelled \"fresh runner\" with an arrow from the vault labelled \"clone + restore\" and a check mark labelled \"same answer\"."},
-    {"id": "poc4-browser", "kind": "concept", "prompt": "Concept illustration titled \"POC4: ask the policy, in the browser\". A browser window with a search box containing \"can the coder send email?\" and below it an answer card with a red cross and the words \"no - barrier: policy deny\". A small badge in the corner reads \"RuVector WASM\" and a padlock badge reads \"served from a vault\". Works offline icon."},
-    {"id": "use-cases", "kind": "concept", "prompt": "Grid of six tiles titled \"Use cases\". Each tile has one flat icon and one short label: \"Govern a swarm\", \"Remember across runs\", \"Prove what happened\", \"Publish only on approval\", \"Learn with rollback\", \"Run anywhere: CI, browser, Claude Code\"."},
-    {"id": "replicate-steps", "kind": "diagram", "prompt": "Step-by-step strip titled \"Replicate it in six steps\". Six numbered circles connected by a line, each with an icon and a label: 1 \"clone the repo\", 2 \"npm install\", 3 \"pip install sgit-ai\", 4 \"run the POCs\", 5 \"create two vaults\", 6 \"publish and serve\"."},
-    {"id": "rvm-rights", "kind": "diagram", "prompt": "Diagram titled \"POC3: rights compiled from the mandate\". Left: a document icon labelled \"ABP rows for coder\". Arrow labelled \"compile\" to the right: a capability token shaped like a key card with three lit chips \"READ\", \"WRITE\", \"EXECUTE\" and four dimmed chips \"GRANT\", \"REVOKE\", \"PROVE\", \"GRANT_ONCE\" under the heading \"withheld\". Footnote line: \"the token says what; the ABP keeps why\"."},
-    {"id": "memory-compare", "kind": "comparison", "prompt": "Comparison table titled \"Agent memory: alone vs in a vault\". Two columns headed \"RuVector alone\" and \"RuVector + sgit vault\". Five rows with a cross or a tick icon: \"encryption at rest\" cross / tick; \"versioned history\" cross / tick; \"branch and merge per agent\" cross / tick; \"clone to another machine\" cross / tick; \"authorization boundary\" partial / tick with the word \"ABP\"."},
-    {"id": "ci-pipeline", "kind": "diagram", "prompt": "Pipeline diagram titled \"CI: the policy is a test\". A row of stages connected by arrows: \"build\" -> \"ABP gate\" (shield icon) -> \"POC1\" -> \"POC3\" -> \"POC4 build\" -> a person icon labelled \"human approval\" -> a padlock labelled \"publish to vault\". Below, a second row: \"POC2 write: coder\" -> \"POC2 write: tester\" -> \"POC2 read on a fresh runner\"."}
+    {
+      "id": "hero-two-worlds",
+      "kind": "concept",
+      "prompt": "Concept slide titled \"Two worlds, one stack\". Left half labelled \"AUTONOMY\" with four icons and labels: \"swarms\", \"consensus\", \"self-learning\", \"memory\". Right half labelled \"TRUST\" with two icons and labels: \"a written mandate per agent\", \"memory with history the host cannot read\". The halves overlap in the middle in a lens shape labelled \"the intersection\"."
+    },
+    {
+      "id": "ruv-stack-layers",
+      "kind": "diagram",
+      "prompt": "Layered architecture diagram titled \"rUv's stack, in five layers\". Five horizontal layers stacked bottom to top, each a wide rounded bar with one short label on the left and a one-line description on the right: bottom \"RVM\" - \"bare-metal capability VM, 7 rights, witness log\"; \"RuVector\" - \"memory substrate: vectors, graph, temporal\"; \"Ruflo\" - \"swarm orchestration: queens, workers, consensus, SPARC\"; \"MetaHarness\" - \"harness factory: agents, skills, governance policy\"; top \"Hosts\" - \"Claude Code, Codex, GitHub Actions, browser\". Small flat icons per layer."
+    },
+    {
+      "id": "intersection-map",
+      "kind": "diagram",
+      "prompt": "Hub-and-spoke diagram titled \"Where sgit.ai plugs in\". Centre: two stacked hexagons labelled \"ABP: the mandate\" and \"sgit vault: encrypted history\". Five spokes to boxes around the edge with the arrow label on each spoke: to \"Ruflo policy engine\" labelled \"compiled rules + receipts\"; to \"RVM capabilities\" labelled \"token rights\"; to \"MetaHarness governance\" labelled \"policy as document\"; to \"RuVector memory\" labelled \"encrypted snapshots, branch per agent\"; to \"Claude Code session\" labelled \"session records\"."
+    },
+    {
+      "id": "abp-anatomy",
+      "kind": "diagram",
+      "prompt": "Explainer card titled \"One ABP row\". A single wide card showing the capability \"send.message.world\" in monospace at the top, then five labelled fields in a row with small icons: \"REACH: can it? yes\", \"MANDATE: may it? no\", \"GAP: reach without mandate\", \"BARRIER: policy deny + no mail credential\", \"OWNER: signed, valid until a date\". Below, one small line: \"grammar: verb . object . reach\"."
+    },
+    {
+      "id": "poc1-flow",
+      "kind": "diagram",
+      "prompt": "Process flow titled \"POC1: the mandate becomes enforced policy\". Left to right in five steps connected by arrows: \"ABP (JSON)\" -> \"compile\" -> \"Ruflo policy engine\" -> a split into two parallel lanes: top lane \"legacy mode: everything allowed\" in amber, bottom lane \"enforce mode: allow / deny / approval\" in teal -> \"hash-chained receipts\" -> a padlock labelled \"sgit vault\"."
+    },
+    {
+      "id": "poc2-flow",
+      "kind": "diagram",
+      "prompt": "Process flow titled \"POC2: agent memory with history\". Two agent icons on the left labelled \"coder\" and \"tester\", each with an arrow to its own branch line labelled \"branch per role\"; the branches merge into a line labelled \"main\" inside a vault shape with a padlock labelled \"server sees ciphertext only\". On the right, a fresh server icon labelled \"fresh runner\" with an arrow from the vault labelled \"clone + restore\" and a check mark labelled \"same answer\"."
+    },
+    {
+      "id": "poc4-browser",
+      "kind": "concept",
+      "prompt": "Concept illustration titled \"POC4: ask the policy, in the browser\". A browser window with a search box containing \"can the coder send email?\" and below it an answer card with a red cross and the words \"no - barrier: policy deny\". A small badge in the corner reads \"RuVector WASM\" and a padlock badge reads \"served from a vault\". Works offline icon."
+    },
+    {
+      "id": "use-cases",
+      "kind": "concept",
+      "prompt": "Grid of six tiles titled \"Use cases\". Each tile has one flat icon and one short label: \"Govern a swarm\", \"Remember across runs\", \"Prove what happened\", \"Publish only on approval\", \"Learn with rollback\", \"Run anywhere: CI, browser, Claude Code\"."
+    },
+    {
+      "id": "replicate-steps",
+      "kind": "diagram",
+      "prompt": "Step-by-step strip titled \"Replicate it in six steps\". Six numbered circles connected by a line, each with an icon and a label: 1 \"clone the repo\", 2 \"npm install\", 3 \"pip install sgit-ai\", 4 \"run the POCs\", 5 \"create two vaults\", 6 \"publish and serve\"."
+    },
+    {
+      "id": "rvm-rights",
+      "kind": "diagram",
+      "prompt": "Diagram titled \"POC3: rights compiled from the mandate\". Left: a document icon labelled \"ABP rows for coder\". Arrow labelled \"compile\" to the right: a capability token shaped like a key card with three lit chips \"READ\", \"WRITE\", \"EXECUTE\" and four dimmed chips \"GRANT\", \"REVOKE\", \"PROVE\", \"GRANT_ONCE\" under the heading \"withheld\". Footnote line: \"the token says what; the ABP keeps why\"."
+    },
+    {
+      "id": "ci-pipeline",
+      "kind": "diagram",
+      "prompt": "Pipeline diagram titled \"CI: the policy is a test\". A row of stages connected by arrows: \"build\" -> \"ABP gate\" (shield icon) -> \"POC1\" -> \"POC3\" -> \"POC4 build\" -> a person icon labelled \"human approval\" -> a padlock labelled \"publish to vault\". Below, a second row: \"POC2 write: coder\" -> \"POC2 write: tester\" -> \"POC2 read on a fresh runner\"."
+    }
   ]
 }

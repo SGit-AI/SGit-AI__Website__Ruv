@@ -126,7 +126,7 @@ kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;paddi
 <tr><td>Ledger</td><td>valid, 11 receipts each side</td><td><a href="../data/report.json">data/report.json</a> · <a href="../data/state-abp.json">data/state-abp.json</a> · <code>evidence/poc1-run.txt</code></td></tr>
 <tr><td>Memory history and restore</td><td>4 commits; coder and tester entries back after a fresh clone</td><td><a href="../data/poc2-run.txt">data/poc2-run.txt</a> (local roundtrip; the CI jobs are wired and need the secrets)</td></tr>
 <tr><td>RVM rights per role</td><td>6 roles, GRANT never delegated, 0 gaps</td><td><a href="../data/rvm-caps.md">data/rvm-caps.md</a> (POC3)</td></tr>
-<tr><td>RuVector's gaps</td><td>no encryption at rest or in transit, no versioning, not an authorization boundary</td><td>RuVector's README, as read on 14 Oct 2026 ("per its README": read, not run)</td></tr>
+<tr><td>RuVector's own boundaries</td><td>witnesses "do not encrypt memory content"; filters "are not a complete authorization boundary"; a delete "does not automatically remove copies in snapshots, branches, replicas, exports"</td><td>RuVector README, "Security and governance" (github.com/ruvnet/ruvector, main branch, read 15 Oct 2026) (quoted, not run)</td></tr>
 <tr><td>The live app</td><td>RuVector WASM 2.3.1, 36 rows indexed</td><td><a href="../app/index.html">app/</a>, also in the public vault <code>okbiml09</code></td></tr>
 </tbody></table></div>
 </div></section>

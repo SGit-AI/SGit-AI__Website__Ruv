@@ -70,27 +70,27 @@
    "id": "gap",
    "at": 80,
    "dur": 35,
-   "title": "Memory: the gap",
+   "title": "Memory: where RuVector says it stops",
    "slide": {
     "layout": "statement",
-    "kicker": "Memory · per RuVector's own README",
-    "text": "What the memory layer doesn't do yet",
+    "kicker": "RuVector README, \"Security and governance\" (github.com/ruvnet/ruvector, main branch, read 15 Oct 2026)",
+    "text": "In its own README, under “Security and governance”",
     "builds": [
      {
       "at": 5,
-      "text": "no encryption at rest or in transit"
+      "text": "“RVF witnesses and hash linked logs are tamper evident. They do not encrypt memory content”"
      },
      {
-      "at": 11,
-      "text": "no document versioning"
+      "at": 12,
+      "text": "“Collections and metadata filters organize memory; they are not a complete authorization boundary”"
      },
      {
-      "at": 17,
-      "text": "“collections and metadata filters … are not a complete authorization boundary”"
+      "at": 19,
+      "text": "“A delete from the live store does not automatically remove copies in snapshots, branches, replicas, exports”"
      }
     ]
    },
-   "say": "Start with the memory. RuVector is a remarkable memory substrate, and its README is honest about what it doesn't do yet: no encryption at rest or in transit, no document versioning, and collections are not a complete authorization boundary. That is exactly the layer sgit is. Files are encrypted on the client, AES-256-GCM, so the server only ever stores ciphertext, and every change has git-style history and branches, like the code your agents already write."
+   "say": "Start with the memory. RuVector is a remarkable memory substrate: vectors, graphs, snapshots, even copy-on-write branching. And its README is unusually candid about where it stops: its witness logs are tamper evident but do not encrypt memory content; collections are not a complete authorization boundary; and a delete does not automatically reach every snapshot, branch or export. That is the layer an sgit vault adds around those files: encrypted on the client, AES-256-GCM, so the server only ever stores ciphertext, a history shared across machines, and a vault that is deleted with the run."
   },
   {
    "id": "ruv-sgit",

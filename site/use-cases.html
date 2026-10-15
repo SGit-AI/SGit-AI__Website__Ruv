@@ -58,7 +58,7 @@ sequenceDiagram
 <h2>2. Remember across runs, on a machine you do not trust <span class="pill">built · POC2</span></h2>
 <div class="two">
 <div>
-<p><b>Problem.</b> Agents learn things during a run. On an ephemeral runner that memory dies with the job; on a shared server the host can read it. RuVector's README is candid: no encryption at rest, no versioning, replication is simulated, filters are not an authorization boundary.</p>
+<p><b>Problem.</b> Agents learn things during a run. On an ephemeral runner that memory dies with the job; on a shared server the host can read it. RuVector's README is candid about its boundaries: its witness logs “do not encrypt memory content”, filters “are not a complete authorization boundary”, replication runs on “simulated transport”, and a delete “does not automatically remove copies in snapshots, branches, replicas, exports”.</p>
 <p><b>His piece.</b> Ruflo memory (<code>memory init|store|list</code>, sql.js or better-sqlite3, AgentDB mirror) or RuVector itself.</p>
 <p><b>Our piece.</b> An sgit vault. Each role writes its memory files on its own branch (<code>mem-coder-&lt;run&gt;</code>), pushes, and merges into the default branch. A fresh machine clones the vault with the key and restores the files. Files are encrypted on the client; the server stores ciphertext under opaque ids.</p>
 <p><b>Result.</b> Two roles wrote, a fresh clone restored both, <code>ruflo memory list</code> returned the same entry on the new machine; the vault history shows who learned what and when.</p>
@@ -80,7 +80,15 @@ gitGraph
   merge mem-tester
   commit id: "fresh runner: clone + restore" type: HIGHLIGHT
 </pre>
-<figure class="fig"><img src="assets/img/memory-compare.webp" alt="RuVector alone vs RuVector plus sgit vault: encryption, versioning, branch and merge, clone anywhere, authorization boundary"></figure>
+<figure class="fig"><div class="tbl"><table>
+<thead><tr><th></th><th>RuVector, in its own README</th><th>+ an sgit vault around its files</th></tr></thead>
+<tbody>
+<tr><td>Memory content</td><td>witnesses and hash-linked logs “are tamper evident. They do not encrypt memory content”</td><td>encrypted on the client before it leaves the machine (AES-256-GCM); the server stores ciphertext</td></tr>
+<tr><td>History and branches</td><td>snapshots; copy-on-write branching (<code>rvf derive</code>)</td><td>a commit history, branches and merges shared across machines and agents</td></tr>
+<tr><td>Copies elsewhere</td><td>file persistence; backups by file copy</td><td>clone anywhere with the key; a fresh clone checked file by file in every ruv.sgit run</td></tr>
+<tr><td>Deleting</td><td>“a delete from the live store does not automatically remove copies in snapshots, branches, replicas, exports”</td><td>ruv.sgit deletes each run's vault and checks it: 0 store paths left, a clone with the key fails</td></tr>
+<tr><td>Who may do what</td><td>“collections and metadata filters organize memory; they are not a complete authorization boundary”</td><td>an Agent Behaviour Policy per role (in POC1, compiled into Ruflo's own policy engine)</td></tr>
+</tbody></table></div><figcaption>Left: RuVector's README, “Security and governance” and its RVF section (github.com/ruvnet/ruvector, main, read 15 Oct 2026). Right: what this site ran. This table replaces a generated infographic that marked versioning, branching and cloning as missing from RuVector, which its README does not say.</figcaption></figure>
 </div>
 </div>
 </div></section>

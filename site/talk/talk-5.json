@@ -82,7 +82,7 @@
     "type_ms": 45,
     "output_at": 3
    },
-   "say": "RuVector's own README lists no encryption at rest and no versioning. Each agent role writes its Ruflo memory on its own branch of a vault, encrypted on the client, AES-256-GCM; the server only sees ciphertext. The branches merge. Then the folder is deleted, the vault cloned fresh, the memory restored, and Ruflo asked again: coder and tester answer as before. The history says who learned what, and when."
+   "say": "RuVector's README says its witness logs do not encrypt memory content. Each agent role writes its Ruflo memory on its own branch of a vault, encrypted on the client, AES-256-GCM; the server only sees ciphertext. The branches merge. Then the folder is deleted, the vault cloned fresh, the memory restored, and Ruflo asked again: coder and tester answer as before. The history says who learned what, and when."
   },
   {
    "id": "ask",

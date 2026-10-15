@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One action's journey</title>
+<link rel="stylesheet" href="../../../assets/themes.css">
+<script src="../../../assets/theme.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.3 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+#app{display:grid;grid-template-rows:auto auto minmax(0,1fr) auto auto;height:100vh;height:100dvh;overflow:hidden}
+header{padding:10px 20px 6px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;border-bottom:1px solid var(--line)}
+h1{margin:0;font-size:24px;font-weight:700;color:var(--head);letter-spacing:-.01em}
+#acts{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+#acts button{font:600 15px system-ui,sans-serif;padding:4px 12px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--dim);cursor:pointer}
+#acts button[aria-current="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+#acts button .d{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:1px}
+#cap{flex-basis:100%;font-size:22px;color:var(--text);min-height:2.6em;font-weight:500;line-height:1.3}
+#cap b{color:var(--head)}
+#bar{height:3px;background:var(--line);position:relative}
+#bar i{position:absolute;left:0;top:0;bottom:0;background:var(--accent);width:0}
+#stage{position:relative;min-height:0;padding:14px 20px 8px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.row{display:flex;align-items:stretch;transition:opacity .5s}
+.card{flex:1 1 0;min-width:0;background:var(--panel);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px 12px;display:flex;flex-direction:column;gap:5px;transition:border-color .4s,background .4s,box-shadow .4s}
+.card .k{font:700 13px/1.1 system-ui,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:var(--dim)}
+.card .k i{font-style:normal;color:var(--accent)}
+.card .body{display:flex;flex-direction:column;gap:5px;opacity:0;transform:translateY(6px);transition:opacity .45s,transform .45s}
+.card.on .body{opacity:1;transform:none}
+.card .v{font:700 19px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--head);overflow-wrap:anywhere}
+.card .s{font-size:15px;line-height:1.3;color:var(--text);overflow-wrap:anywhere}
+.card .s.dim{color:var(--dim);font-size:14px}
+.card .q{font-size:16px;font-style:italic;color:var(--head)}
+.card.act{box-shadow:0 0 0 3px var(--tint-solid);border-color:var(--accent)}
+.card.ok.on.stamp{border-color:var(--accent);background:var(--tint-solid)}
+.card.no.on.stamp{border-color:var(--red)}
+.card.wait.on.stamp{border-color:var(--warm)}
+.pill{display:inline-block;font:800 17px/1 ui-monospace,SFMono-Regular,Menlo,monospace;padding:5px 9px;border-radius:7px;letter-spacing:.03em;align-self:flex-start}
+.pill.ok{background:var(--accent);color:var(--on-accent)}
+.pill.no{background:var(--red);color:var(--bg)}
+.pill.wait{background:var(--warm);color:var(--bg)}
+.pill.ghost{background:var(--panel2);color:var(--dim);font-weight:700}
+.t-ok{color:var(--accent)!important}.t-no{color:var(--red)!important}.t-wait{color:var(--warm)!important}
+.link{flex:0 0 26px;position:relative;align-self:center;height:4px;margin:0 1px}
+.link::before{content:"";position:absolute;inset:0;background:var(--line);border-radius:2px}
+.link b{position:absolute;left:0;top:0;bottom:0;width:calc(var(--p,0)*100%);background:var(--accent);border-radius:2px}
+.link b::after{content:"";position:absolute;right:-6px;top:-5px;width:14px;height:14px;border-radius:50%;background:var(--accent);opacity:var(--dot,0)}
+.link.no b,.link.no b::after{background:var(--red)}
+.link.wait b,.link.wait b::after{background:var(--warm)}
+.link.cut b{background:repeating-linear-gradient(90deg,var(--red) 0 4px,transparent 4px 8px)}
+svg.mini{width:100%;height:58px;display:block}
+.s-acc{stroke:var(--accent)}.s-line{stroke:var(--line)}.s-red{stroke:var(--red)}.s-warm{stroke:var(--warm)}.s-dim{stroke:var(--dim)}
+.f-acc{fill:var(--accent)}.f-panel{fill:var(--panel)}.f-red{fill:var(--red)}.f-warm{fill:var(--warm)}.f-dim{fill:var(--dim)}.f-head{fill:var(--head)}
+svg text{font:600 12px ui-monospace,SFMono-Regular,Menlo,monospace}
+#out{min-height:30px;font-size:19px;text-align:center;color:var(--text);opacity:0;transition:opacity .5s}
+#out.on{opacity:1}
+#out b{font-weight:800}
+#end{position:absolute;inset:0;padding:14px 20px;display:flex;flex-direction:column;justify-content:center;gap:14px;opacity:0;pointer-events:none;transition:opacity .6s;background:var(--bg)}
+#end.on{opacity:1;pointer-events:auto}
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:stretch}
+.col{background:var(--panel);border:1.5px solid var(--line);border-radius:12px;padding:12px 16px;display:flex;flex-direction:column;gap:6px}
+.col h2{margin:0;font:800 30px/1 system-ui,sans-serif;letter-spacing:.04em;color:var(--accent)}
+.col h3{margin:0;font-size:18px;color:var(--head)}
+.col p{margin:0;font-size:15.5px;color:var(--text)}
+.col .n{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:2px}
+.col .n span{font-size:14px;color:var(--dim)}
+.col .n b{display:block;font:800 26px/1.05 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--head)}
+.plus{display:none}
+.tag{text-align:center;font:800 30px/1.2 system-ui,sans-serif;color:var(--head);letter-spacing:-.01em}
+.tag span{color:var(--accent)}
+.tagsub{text-align:center;font-size:14px;color:var(--dim);margin-top:-6px}
+#chain{padding:6px 20px 8px;display:flex;align-items:center;gap:4px;flex-wrap:wrap;border-top:1px solid var(--line)}
+#chain .lbl{font-size:14px;color:var(--dim);margin-right:6px}
+.rc{font:600 13px ui-monospace,SFMono-Regular,Menlo,monospace;padding:3px 6px;border-radius:6px;border:1px solid var(--line);color:var(--dim);background:var(--panel);transition:all .4s}
+.rc.hit{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.rc.hit.no{background:var(--red);border-color:var(--red);color:var(--bg)}
+.rc.hit.wait{background:var(--warm);border-color:var(--warm);color:var(--bg)}
+.rc.now{box-shadow:0 0 0 3px var(--tint-solid)}
+.ar{color:var(--dim);font-size:12px}
+footer{padding:4px 20px 6px;font-size:13px;color:var(--dim);border-top:1px solid var(--line);display:flex;gap:2px 16px;flex-wrap:wrap}
+footer b{color:var(--text);font-weight:600}
+#msg{display:none;color:var(--red);font-size:20px;text-align:center;padding:20px}
+/* review: the three acts at once */
+body.review #app{height:auto;overflow:visible}
+body.review #stage{gap:8px}
+body.review .rlab{font:700 15px system-ui,sans-serif;color:var(--head);margin:4px 0 -2px}
+body.review #end{position:static;opacity:1;padding:6px 0 0;background:none}
+body.review .card .v{font-size:16px}
+body.review .card .s{font-size:13.5px}
+body.review .card .s.dim,body.review svg.mini,body.review .col p,body.review .tagsub{display:none}
+body.review .card{padding:7px 10px 8px}
+body.review #stage{padding-top:6px}
+body.review .col{padding:8px 14px}
+body.review .tag{font-size:24px}
+@media (min-height:820px) and (min-width:1400px){
+  .col h2{font-size:38px}.col h3{font-size:21px}.col p{font-size:18px}.col .n b{font-size:32px}.col .n span{font-size:16px}.tag{font-size:38px}
+  .card .v{font-size:21px}.card .s{font-size:17px}.card .s.dim{font-size:15.5px}
+}
+@media (max-height:640px) and (min-width:761px){
+  #cap{font-size:20px}
+  .card .s{font-size:14px}.card .s.dim{font-size:13px}
+  .card .v{font-size:17.5px}
+  .col h2{font-size:26px}.col p{font-size:14.5px}.tag{font-size:27px}
+}
+@media (max-width:760px){
+  #app{height:auto;overflow:visible}
+  header{padding:10px 16px 6px}
+  h1{font-size:20px}
+  #acts{margin-left:0}
+  #acts button{font-size:14px;padding:4px 10px}
+  #cap{font-size:17px;min-height:3.9em}
+  #stage{padding:10px 16px;justify-content:flex-start;min-height:720px}
+  body.review #stage{min-height:0}
+  .row{flex-direction:column}
+  .card{flex:none}
+  .card .v{font-size:17px}
+  .link{flex:0 0 18px;width:4px;height:auto;align-self:center;margin:1px 0}
+  .link b{width:auto;right:0;bottom:auto;height:calc(var(--p,0)*100%)}
+  .link b::after{right:-5px;top:auto;bottom:-6px}
+  .link.cut b{background:repeating-linear-gradient(180deg,var(--red) 0 4px,transparent 4px 8px)}
+  #end{padding:10px 16px;justify-content:flex-start}
+  .cols{grid-template-columns:minmax(0,1fr)}
+  .tag{font-size:23px}
+  #chain{padding:8px 16px}
+  footer{padding:6px 16px 12px}
+}
+@media (prefers-reduced-motion:reduce){.card .body,.row,#end,#out{transition:none}}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1>One action's journey</h1>
+    <nav id="acts" aria-label="Acts"></nav>
+    <div id="cap" aria-live="polite">loading the policy decisions…</div>
+  </header>
+  <div id="bar"><i></i></div>
+  <div id="stage"><div id="rows"></div><div id="out"></div><div id="end"></div><div id="msg"></div></div>
+  <div id="chain"></div>
+  <footer><span>policy decisions + receipts: <b>POC1, recorded 14 Oct 2026</b> (data/report.json, data/state-abp.json, rows from data/abp.json)</span><span>vault numbers: <b>ruv.sgit run r2-materials</b> (data/vaults.json)</span><span>ruv.sgit runs so far were not gated by a compiled ABP</span><span>Ruflo: MIT, by rUv / ruvnet</span></footer>
+</div>
+<script>
+(function () {
+'use strict';
+var Q = new URLSearchParams(location.search), REVIEW = Q.has('review');
+var ACT = 10, END = 6, LOOP = 3 * ACT + END;
+var S = [0.6, 1.95, 3.3, 4.65, 6.0, 7.35];       // when each station is reached, inside an act
+var tNow = 0, t0 = performance.now(), D = null, rowsEl = document.getElementById('rows');
+var capEl = document.getElementById('cap'), outEl = document.getElementById('out'), endEl = document.getElementById('end');
+var chainEl = document.getElementById('chain'), barEl = document.querySelector('#bar i'), actsEl = document.getElementById('acts');
+window.__t = function () { return tNow; };
+if (REVIEW) document.body.classList.add('review');
+
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function sh(h) { return h ? String(h).replace(/^sha256:/, '').slice(0, 8) + '…' : 'none (genesis)'; }
+function fmt(n) { return Number(n).toLocaleString('en-GB'); }
+function getJ(p) { return fetch(p, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(p + ': HTTP ' + r.status); return r.json(); }); }
+var KIND = { allowed: 'ok', denied: 'no', approval_required: 'wait' };
+var WORD = { allowed: 'ALLOWED', denied: 'DENIED', approval_required: 'APPROVAL' };
+
+Promise.all([getJ('../../../data/abp.json'), getJ('../../../data/report.json'), getJ('../../../data/state-abp.json'), getJ('../../../data/vaults.json')])
+.then(function (a) { D = model(a[0], a[1], a[2], a[3]); build(); requestAnimationFrame(loop); })
+.catch(function (e) { var m = document.getElementById('msg'); m.style.display = 'block'; m.textContent = 'Could not load the data: ' + e.message; capEl.textContent = ''; });
+
+function model(abp, rep, st, vl) {
+  var role = function (id) { return abp.roles.filter(function (r) { return r.id === id; })[0]; };
+  var rc = st.receipts;
+  function act(who, action) {
+    var rr = rep.rows.filter(function (r) { return r.who === who && r.action === action; })[0];
+    var i = -1; rc.forEach(function (x, j) { var q = x.payload.request; if (i < 0 && q.identity.id === who && q.action.type === action) i = j; });
+    var p = rc[i].payload, dec = p.decision;
+    var cap = dec.reason.split(':').pop();
+    var R = role(who), row = R.rows.filter(function (x) { return x.capability === cap; })[0];
+    var prev = i > 0 ? rc[i - 1].payload.request.action.type : null;
+    return { who: who, action: action, resource: rr.resource || p.request.action.resource || p.request.action.environment || '',
+      env: p.request.action.environment, purpose: R.purpose, row: row, outcome: dec.outcome, reason: dec.reason,
+      legacy: rr.legacy, obligations: dec.obligations || [], seq: p.sequence, idx: i, rid: p.receiptId, prev: p.previousReceiptHash, prevAction: prev, hash: rc[i].hash };
+  }
+  var v = vl.vaults.filter(function (x) { return x.run === 'r2-materials'; })[0];
+  var queen = abp.roles.filter(function (r) { return /^queen/.test(r.id); })[0];
+  var counts = { allowed: 0, denied: 0, approval_required: 0 };
+  rc.forEach(function (x) { counts[x.payload.decision.outcome] = (counts[x.payload.decision.outcome] || 0) + 1; });
+  return { owner: abp.owner, queen: queen, acts: [act('coder', 'file.write'), act('coder', 'email.send'), act('documenter', 'deploy')],
+    rc: rc, ledger: rep.ledger && rep.ledger.abp, head: st.ledgerHead, approvals: st.approvals || [], counts: counts, v: v, roles: abp.roles.length };
+}
+
+/* ---------- one act = six stations ---------- */
+function stations(A, n) {
+  var k = KIND[A.outcome], row = A.row;
+  var ask = { k: 'ask · Ruflo worker', v: A.action + (A.resource ? ' ' + A.resource : ''), s: ['<b>' + esc(A.who) + '</b> asks to act'] };
+  var task = { k: 'the queen\'s task', v: esc(D.queen.id) + ' → ' + esc(A.who), s: ['“' + esc(A.purpose) + '”', '<span class="dim">one worker of the hive; others run in parallel</span>'] };
+  var abp = { k: 'ABP row · ' + esc(A.who), v: esc(row.capability), s: [
+    'mandate: <b class="t-' + k + '">' + esc(row.mandate) + '</b>',
+    '<span class="q">“' + esc(row.why) + '”</span>',
+    row.barrier ? '<span class="dim">barrier: ' + esc(row.barrier) + '</span>' : (row.instances ? '<span class="dim">scope: ' + esc(row.instances.join(', ')) + '</span>' : '')] };
+  var dec = { k: 'Ruflo policy engine', pill: WORD[A.outcome], v: '', s: ['<span class="mono" style="font-size:13.5px">' + esc(A.reason) + '</span>',
+    '<span class="dim">without the ABP: ' + esc(A.legacy) + '</span>'], stamp: true };
+  if (A.obligations.length) dec.s.splice(1, 0, 'obligation: <b class="mono">' + esc(A.obligations.join(', ')) + '</b>');
+  var five;
+  if (k === 'ok') five = { k: 'sgit vault · worker branch', svg: svgCommit(n), s: ['lands as a commit on the worker\'s own branch', '<span class="dim">encrypted on the client; the server holds ciphertext</span>'] };
+  else if (k === 'no') five = { k: 'sgit vault', svg: svgNothing(n), s: ['<b class="t-no">nothing reaches the vault</b>', '<span class="dim">no commit, no file, no branch change</span>'] };
+  else five = { k: 'waits for a named human', v: esc(D.owner), s: ['the ABP\'s owner must approve', D.approvals.length ? '' : '<span class="dim">POC1 recorded no approval: still waiting, nothing deployed</span>'], stamp: true };
+  var rec = { k: 'receipt #' + A.seq, v: sh(A.rid), s: ['<span class="dim">receiptId</span>',
+    '← prev <b class="mono">' + esc(sh(A.prev)) + '</b>' + (A.prevAction ? ' <span class="dim">(' + esc(A.prevAction) + ')</span>' : ''),
+    '→ hash <b class="mono">' + esc(sh(A.hash)) + '</b>'] };
+  return [ask, task, abp, dec, five, rec];
+}
+function svgCommit(n) {
+  return '<svg class="mini" viewBox="0 0 170 58" aria-hidden="true"><path d="M8 44 H162" class="s-line" stroke-width="4" fill="none"/>' +
+    '<text x="8" y="57" class="f-dim">current</text><path d="M30 44 C46 44 46 16 66 16 H150" class="s-acc" stroke-width="3" fill="none"/>' +
+    '<circle cx="30" cy="44" r="5" class="f-dim"/><circle id="cm' + n + '" cx="122" cy="16" r="8" class="f-acc"/>' +
+    '<text x="70" y="34" class="f-head">its branch</text></svg>';
+}
+function svgNothing(n) {
+  return '<svg class="mini" viewBox="0 0 170 58" aria-hidden="true"><path d="M8 44 H162" class="s-line" stroke-width="4" fill="none"/>' +
+    '<text x="8" y="57" class="f-dim">current</text><path d="M30 44 C46 44 46 16 66 16 H150" class="s-red" stroke-width="2.5" stroke-dasharray="5 5" fill="none"/>' +
+    '<circle cx="122" cy="16" r="8" class="f-panel s-red" stroke-width="2.5" stroke-dasharray="3 3"/></svg>';
+}
+var ROWS = [];
+function build() {
+  ['1 · allowed', '2 · denied', '3 · approval', 'the definition'].forEach(function (l, i) {
+    var b = document.createElement('button'); b.type = 'button';
+    var c = ['--accent', '--red', '--warm', '--head'][i];
+    b.innerHTML = '<span class="d" style="background:var(' + c + ')"></span>' + l;
+    b.addEventListener('click', function () { if (REVIEW) return; t0 = performance.now() - (i * ACT + 0.01) * 1000; });
+    actsEl.appendChild(b);
+  });
+  var acts = REVIEW ? [0, 1, 2] : [0];
+  acts.forEach(function (ai) {
+    if (REVIEW) { var lab = document.createElement('div'); lab.className = 'rlab'; lab.textContent = 'Act ' + (ai + 1) + ': ' + D.acts[ai].who + ' · ' + D.acts[ai].action + ' → ' + WORD[D.acts[ai].outcome].toLowerCase(); rowsEl.appendChild(lab); }
+    var r = document.createElement('div'); r.className = 'row'; rowsEl.appendChild(r); ROWS.push({ el: r, act: -1 });
+    if (REVIEW) fill(ROWS[ROWS.length - 1], ai);
+  });
+  // receipt chain strip
+  chainEl.innerHTML = '<span class="lbl">hash chain, POC1 (' + D.rc.length + ' receipts' + (D.ledger && D.ledger.valid ? ', valid' : '') + '):</span>' +
+    D.rc.map(function (x, i) { return (i ? '<span class="ar">→</span>' : '') + '<span class="rc" id="rc' + i + '" title="#' + i + ' ' + esc(x.payload.request.identity.id + ' ' + x.payload.request.action.type + ': ' + x.payload.decision.outcome) + '">#' + i + ' ' + sh(x.hash).slice(0, 4) + '</span>'; }).join('');
+  // end card
+  var v = D.v, ss = v.server_store;
+  endEl.innerHTML = '<div class="cols">' +
+    '<div class="col"><h2>HIVE</h2><h3>a Ruflo hive</h3><p>A queen plans and broadcasts; worker roles take tasks and run in parallel. Above: <b>' + esc(D.acts[0].who) + '</b> and <b>' + esc(D.acts[2].who) + '</b>, two of its workers.</p><div class="n"><span><b>' + v.hive.workers + '</b>workers in r2-materials</span><span><b>' + v.hive.tasks + '</b>tasks</span><span><b>' + v.hive.ruflo_calls + '</b>Ruflo calls</span></div><p style="font-size:13px;color:var(--dim)">Ruflo: MIT, by rUv / ruvnet</p></div>' +
+    '<div class="col"><h2>MANDATE</h2><h3>Agent Behaviour Policies</h3><p>A written mandate per role (' + D.roles + ' roles). Compiled into Ruflo\'s policy engine, POC1 decided ' + D.rc.length + ' actions:</p>' +
+      '<div class="n"><span><b class="t-ok">' + D.counts.allowed + '</b>allowed</span><span><b class="t-no">' + D.counts.denied + '</b>denied</span><span><b class="t-wait">' + D.counts.approval_required + '</b>approval</span><span><b>' + D.rc.length + '</b>receipts chained</span></div></div>' +
+    '<div class="col"><h2>MEMORY</h2><h3>sgit vaults</h3><p>Encrypted on the client, one branch per worker, one ephemeral vault per run. r2-materials closed with:</p>' +
+      '<div class="n"><span><b>' + v.commits + '</b>commits</span><span><b class="t-ok">' + ss.plaintext_hits + '</b>of ' + (ss.probe.match(/^\d+/) || [''])[0] + ' plaintext fragments found</span><span><b>' + (v.clone.identical ? 'yes' : 'no') + '</b>clone identical (' + v.clone.files + ' files)</span><span><b>' + (v.deleted_at ? 'deleted' : 'kept') + '</b>' + fmt(v.deleted_paths) + ' paths, ' + (v.delete_check ? v.delete_check.store_paths_left : '?') + ' left</span></div></div>' +
+    '</div><div class="tag"><span>ruv.sgit</span>: a Ruflo hive + sgit vaults + Agent Behaviour Policies</div>' +
+    '<div class="tagsub">decisions: POC1, recorded 14 Oct 2026 · vault: r2-materials, ' + esc(v.vault_id) + ', created ' + esc(v.created_at.slice(11, 16)) + ', deleted ' + esc(v.deleted_at.slice(11, 16)) + ' UTC, 15 Oct 2026</div>';
+  if (REVIEW) { endEl.classList.add('on'); D.acts.forEach(function (A) { var e = document.getElementById('rc' + A.idx); e.classList.add('hit', KIND[A.outcome]); }); }
+}
+function fill(R, ai) {
+  R.act = ai; var A = D.acts[ai], k = KIND[A.outcome], st = stations(A, ai), h = '';
+  st.forEach(function (c, i) {
+    if (i) h += '<i class="link ' + (i >= 4 ? k : (i === 4 ? k : '')) + (k === 'no' && i === 4 ? ' cut' : '') + '"><b></b></i>';
+    h += '<div class="card ' + k + (c.stamp ? ' stamp' : '') + '"><div class="k"><i>' + (i + 1) + '</i> · ' + c.k + '</div><div class="body">' +
+      (c.pill ? '<span class="pill ' + k + '">' + c.pill + '</span>' : '') + (c.v ? '<div class="v">' + c.v + '</div>' : '') + (c.svg || '') +
+      c.s.filter(Boolean).map(function (x) { return '<div class="s">' + x + '</div>'; }).join('') + '</div></div>';
+  });
+  R.el.innerHTML = h; R.cards = R.el.querySelectorAll('.card'); R.links = R.el.querySelectorAll('.link');
+  if (REVIEW) paint(R, ACT);
+}
+function paint(R, u) {
+  var act = -1;
+  for (var i = 0; i < 6; i++) { var on = u >= S[i]; R.cards[i].classList.toggle('on', on); if (on) act = i; }
+  for (i = 0; i < 6; i++) R.cards[i].classList.toggle('act', !REVIEW && i === act && u < 9.3);
+  for (i = 0; i < 5; i++) {
+    var p = Math.max(0, Math.min(1, (u - S[i] - 0.35) / (S[i + 1] - S[i] - 0.35)));
+    R.links[i].style.setProperty('--p', p.toFixed(3)); R.links[i].style.setProperty('--dot', p > 0 && p < 1 ? 1 : 0);
+  }
+  var cm = R.el.querySelector('circle[id^="cm"]');
+  if (cm) { var q = Math.max(0, Math.min(1, (u - S[4] - 0.2) / 0.8)); cm.setAttribute('r', (q * 8).toFixed(2)); }
+}
+function caps(A, k) {
+  var r = A.row;
+  return [
+    'Act ' + (D.acts.indexOf(A) + 1) + ': follow one action, <b>' + esc(A.who) + ' · ' + esc(A.action) + '</b>.',
+    'The <b>' + esc(A.who) + '</b>, a worker in the Ruflo hive, asks to <b class="mono">' + esc(A.action + (A.resource ? ' ' + A.resource : '')) + '</b>.',
+    'Its task, from the queen: “' + esc(A.purpose) + '”.',
+    'Its ABP row <b class="mono">' + esc(r.capability) + '</b> says <b class="t-' + k + '">' + esc(r.mandate) + '</b>: “' + esc(r.why) + '”.',
+    k === 'ok' ? 'Ruflo\'s own policy engine, with the ABP compiled in, decides: <b class="t-ok">allowed</b>.'
+      : k === 'no' ? 'Ruflo\'s policy engine decides: <b class="t-no">denied</b>. Without the ABP it was allowed.'
+      : 'Ruflo\'s policy engine decides: <b class="t-wait">approval required</b>, with the obligation <b class="mono">' + esc(A.obligations.join(', ')) + '</b>.',
+    k === 'ok' ? 'The write lands as a commit on the worker\'s own branch of the sgit vault, encrypted on the client.'
+      : k === 'no' ? '<b class="t-no">Nothing reaches the vault.</b> Agents draft; a person sends.'
+      : 'It waits for a named human: <b>' + esc(D.owner) + '</b>, the ABP\'s owner.',
+    k === 'no' ? 'The refusal is still a receipt (#' + A.seq + '), chained to the one before it.'
+      : 'The decision becomes receipt <b>#' + A.seq + '</b>, chained to <b class="mono">' + esc(sh(A.prev)) + '</b>.'
+  ];
+}
+function out(A, k) {
+  var c = k === 'ok' ? 't-ok' : k === 'no' ? 't-no' : 't-wait';
+  var what = k === 'ok' ? 'committed to the worker\'s branch' : k === 'no' ? 'nothing reached the vault' : 'waiting for ' + esc(D.owner);
+  return '<b class="' + c + '">' + WORD[A.outcome].toLowerCase() + '</b> by <span class="mono">' + esc(A.row.capability) + '</span> → ' + what + ' → receipt <b class="mono">#' + A.seq + ' ' + esc(sh(A.hash)) + '</b>';
+}
+var lastCap = '', lastAct = -2;
+function loop(now) {
+  if (REVIEW) {
+    tNow = LOOP; capEl.innerHTML = 'Review: all three acts at once. Policy decisions are POC1\'s (recorded 14 Oct 2026); vault numbers are r2-materials\'.';
+    [].forEach.call(actsEl.children, function (b) { b.setAttribute('aria-current', 'false'); });
+    barEl.style.width = '100%'; return;
+  }
+  tNow = ((now - t0) / 1000) % LOOP; if (tNow < 0) tNow += LOOP;
+  var ai = Math.floor(tNow / ACT), u = tNow - ai * ACT, R = ROWS[0];
+  barEl.style.width = (tNow / LOOP * 100).toFixed(2) + '%';
+  if (ai !== lastAct) {
+    [].forEach.call(actsEl.children, function (b, i) { b.setAttribute('aria-current', i === ai ? 'true' : 'false'); });
+    for (var i = 0; i < D.rc.length; i++) { var e = document.getElementById('rc' + i); e.className = 'rc'; }
+    D.acts.forEach(function (A, j) { if (j < ai) document.getElementById('rc' + A.idx).classList.add('hit', KIND[A.outcome]); });
+    lastAct = ai;
+  }
+  var cap;
+  if (ai < 3) {
+    var A = D.acts[ai], k = KIND[A.outcome];
+    if (R.act !== ai) fill(R, ai);
+    paint(R, u);
+    R.el.style.opacity = 1; endEl.classList.remove('on');
+    var cs = caps(A, k), ci = 0; for (var j = 0; j < 6; j++) if (u >= S[j]) ci = j + 1;
+    cap = cs[ci];
+    var re = document.getElementById('rc' + A.idx);
+    re.classList.toggle('hit', u >= S[5]); re.classList.toggle(k, u >= S[5]); re.classList.toggle('now', u >= S[5]);
+    if (u >= 8.6) { if (!outEl.classList.contains('on')) { outEl.innerHTML = out(A, k); outEl.classList.add('on'); } } else outEl.classList.remove('on');
+  } else {
+    R.el.style.opacity = 0; outEl.classList.remove('on'); endEl.classList.add('on');
+    D.acts.forEach(function (A) { var e = document.getElementById('rc' + A.idx); e.classList.add('hit', KIND[A.outcome]); e.classList.remove('now'); });
+    cap = 'Three actions, three outcomes, one chain. That is the definition:';
+  }
+  if (cap !== lastCap) { capEl.innerHTML = cap; lastCap = cap; }
+  requestAnimationFrame(loop);
+}
+})();
+</script>
+</body>
+</html>

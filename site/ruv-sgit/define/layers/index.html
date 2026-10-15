@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ruv.sgit, in layers</title>
+<link rel="stylesheet" href="../../../assets/themes.css">
+<script src="../../../assets/theme.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{overflow:hidden;position:relative;width:100vw;height:100vh;height:100dvh}
+body.narrow{overflow-x:hidden;overflow-y:auto}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+#cv{position:absolute;left:0;top:0;width:1280px;height:600px;transform-origin:0 0;overflow:hidden}
+.narrow #cv{width:640px;height:1120px}
+
+/* header */
+#hd{position:absolute;left:28px;right:28px;top:14px;display:flex;align-items:baseline;gap:6px 16px;flex-wrap:wrap}
+#hd h1{margin:0;font-size:30px;font-weight:750;color:var(--head);letter-spacing:-.015em}
+#hd h1 b{color:var(--accent)}
+.chip{font:600 15px ui-monospace,SFMono-Regular,Menlo,monospace;padding:3px 11px;border-radius:999px;background:var(--tint-solid);color:var(--accent);border:1px solid var(--line);white-space:nowrap}
+#hd .chip{margin-left:auto}
+.narrow #hd{top:18px}
+.narrow #hd h1{font-size:34px;flex-basis:100%}
+.narrow #hd .chip{margin-left:0}
+
+/* scene */
+#scene{position:absolute;left:0;top:70px;width:860px;height:478px}
+.narrow #scene{top:110px;width:640px;height:560px}
+#stack{position:absolute;width:400px;height:230px;transform-style:preserve-3d;transform-origin:50% 50%}
+.plane,.slab{position:absolute;left:0;top:0;width:400px;height:230px;border-radius:20px}
+.slab{background:var(--line)}
+.plane{background-color:var(--panel);border:2px solid var(--line);overflow:hidden}
+.plane .pt{position:absolute;right:14px;top:10px;font:600 12.5px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--dim);letter-spacing:.02em}
+.cn{position:absolute;width:2px;height:2px}
+.p-hive{background-image:radial-gradient(var(--line) 1.4px,transparent 1.8px);background-size:18px 18px;border-color:var(--accent)}
+.p-abp{background-image:repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px 13px);border-color:var(--warm)}
+.p-vault{border-color:var(--head)}
+.hex{position:absolute;inset:34px 12px 40px 12px;font:11px/14px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--dim);opacity:.22;word-break:break-all;overflow:hidden;letter-spacing:.08em}
+/* hive */
+.queen{position:absolute;width:58px;height:52px;margin:-26px 0 0 -29px;clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font:800 13px system-ui,sans-serif;letter-spacing:.04em}
+.wk{position:absolute;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;background:var(--panel2);border:2.5px solid var(--line)}
+.wk.on{background:var(--tint-solid);border-color:var(--accent)}
+.wk i{position:absolute;inset:-9px;border-radius:50%;border:2px solid var(--accent);opacity:0}
+.wl{position:absolute;transform:translate(-50%,0);font:600 12px system-ui,sans-serif;color:var(--dim);white-space:nowrap}
+.ring{position:absolute;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;border:2.5px solid var(--accent);opacity:0}
+.qlab{position:absolute;left:16px;top:12px;font:600 12.5px ui-monospace,monospace;color:var(--dim)}
+/* mandate */
+.gate{position:absolute;width:104px;height:84px;margin:-42px 0 0 -52px;border-radius:14px;border:2.5px solid var(--line);background:var(--panel2);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.gate .g{font:700 13px system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.gate .n{font:800 30px/1 ui-monospace,monospace;color:var(--head)}
+.g-allow{border-color:var(--accent)} .g-allow .g{color:var(--accent)}
+.g-appr{border-color:var(--warm)} .g-appr .g{color:var(--warm)}
+.g-deny{border-color:var(--red)} .g-deny .g{color:var(--red)}
+/* vault */
+.p-vault svg{position:absolute;inset:0;width:100%;height:100%}
+.lock{position:absolute;left:14px;top:9px;font:700 12.5px ui-monospace,monospace;color:var(--head)}
+#scan{position:absolute;left:0;right:0;height:3px;background:var(--accent);opacity:0}
+#seal{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--panel);opacity:0}
+#seal b{font:800 30px system-ui,sans-serif;color:var(--head);letter-spacing:.12em;text-transform:uppercase;border:3px solid var(--head);border-radius:12px;padding:6px 18px}
+#seal span{margin-top:8px;font:600 14px ui-monospace,monospace;color:var(--dim)}
+#ghost{position:absolute;left:0;top:0;width:400px;height:230px;border-radius:20px;border:2.5px dashed var(--red);display:flex;align-items:center;justify-content:center;flex-direction:column;opacity:0}
+#ghost b{font:800 26px system-ui,sans-serif;color:var(--red);letter-spacing:.1em;text-transform:uppercase}
+#ghost span{font:600 14px ui-monospace,monospace;color:var(--red)}
+/* tokens */
+.tok{position:absolute;left:0;top:0;width:20px;height:20px;border-radius:6px;background:var(--accent);color:var(--on-accent);font:800 13px/20px system-ui,sans-serif;text-align:center;opacity:0}
+.tok.task{width:16px;height:16px;border-radius:4px;background:var(--accent)}
+.tok.deny{background:var(--red)} .tok.appr{background:var(--warm)} .tok.parcel{background:var(--head);color:var(--bg)}
+.shd{position:absolute;left:0;top:0;width:22px;height:22px;border-radius:50%;background:var(--fg);opacity:0}
+
+/* labels flying into the tagline */
+.lab{position:absolute;left:0;top:0;text-align:right;pointer-events:none}
+.lab .t{display:inline;font-weight:780;color:var(--head);letter-spacing:-.01em;line-height:1.12;box-decoration-break:clone;-webkit-box-decoration-break:clone;padding-bottom:2px}
+.lab .s{display:block;font:600 14px/1.3 ui-monospace,monospace;color:var(--dim);margin-top:4px}
+#lab-hive .t{border-bottom:4px solid var(--accent)}
+#lab-abp .t{border-bottom:4px solid var(--warm)}
+#lab-vault .t{border-bottom:4px solid var(--head)}
+
+/* panel */
+#panel{position:absolute;left:878px;top:84px;width:378px;height:458px;display:flex;flex-direction:column;gap:12px}
+.narrow #panel{left:24px;top:690px;width:592px;height:350px}
+#panel h2{margin:0;font-size:28px;line-height:1.1;color:var(--head);font-weight:760}
+#panel h2 em{font-style:normal;color:var(--accent);font-family:ui-monospace,monospace;font-size:22px;margin-right:8px}
+#panel p{margin:0;font-size:18px;line-height:1.38;color:var(--text)}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tl{background:var(--panel);border:1.5px solid var(--line);border-radius:12px;padding:8px 10px;min-width:0}
+.tl .v{font:800 32px/1.05 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--head);white-space:nowrap}
+.tl .v small{font-size:17px;color:var(--dim);font-weight:600}
+.tl .l{font-size:14px;color:var(--dim);line-height:1.2}
+.tl.a{border-color:var(--accent)} .tl.a .v{color:var(--accent)}
+.tl.w{border-color:var(--warm)} .tl.w .v{color:var(--warm)}
+.tl.r{border-color:var(--red)} .tl.r .v{color:var(--red)}
+.tick{display:flex;flex-direction:column;gap:5px}
+.tick div{display:flex;gap:8px;align-items:baseline;font:600 15.5px ui-monospace,monospace;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tick div:first-child{color:var(--head)}
+.pill{font:800 12px/1 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.05em;padding:4px 7px;border-radius:6px;color:var(--on-accent);flex:none}
+.pill.allowed{background:var(--accent)} .pill.approval{background:var(--warm)} .pill.denied{background:var(--red)}
+.note{font-size:15px;color:var(--dim);border-left:3px solid var(--warm);padding-left:10px;line-height:1.35}
+.rows{display:flex;flex-direction:column;gap:6px}
+.rows div{display:flex;justify-content:space-between;gap:10px;font-size:18px;color:var(--text);border-bottom:1px solid var(--line);padding:3px 0}
+.rows div b{font:800 19px ui-monospace,monospace;color:var(--head);white-space:nowrap}
+.rows div b.ok{color:var(--accent)}
+.rows div b.gone{color:var(--red)}
+
+/* tagline */
+#tag{position:absolute;left:0;right:0;top:250px;text-align:center;font-size:36px;font-weight:780;color:var(--head);letter-spacing:-.01em;line-height:1.12;pointer-events:none}
+.narrow #tag{top:300px;font-size:40px;line-height:1.5}
+#tag .slot{visibility:hidden}
+#tag .pre{color:var(--accent)}
+#tag .pl{color:var(--dim);font-weight:600}
+.narrow #tag .ln{display:block}
+#tagsub{position:absolute;left:60px;right:60px;top:330px;text-align:center;font-size:19px;color:var(--text);line-height:1.5;opacity:0}
+#tagsub b{color:var(--head)}
+.narrow #tagsub{left:30px;right:30px;top:600px;font-size:22px}
+
+/* footer */
+#ft{position:absolute;left:28px;right:28px;bottom:12px;font-size:13px;color:var(--dim);line-height:1.35}
+.narrow #ft{font-size:15px;bottom:22px}
+#bar{position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--line)}
+#bar i{position:absolute;left:0;top:0;bottom:0;background:var(--accent);width:0}
+#err{position:absolute;left:28px;top:120px;font-size:18px;color:var(--red)}
+</style>
+</head>
+<body>
+<div id="cv">
+  <div id="hd"><h1><b>ruv.sgit</b>, in three layers</h1><span class="chip">define · the layers</span></div>
+  <div id="scene"><div id="stack"></div></div>
+  <div id="panel"></div>
+  <div id="tag"><span class="ln pre" id="tg-pre">ruv.sgit: a </span><span class="ln"><span class="slot" id="slot-hive">Ruflo hive</span></span><span class="ln"><span class="pl"> + </span><span class="slot" id="slot-vault">sgit vaults</span></span><span class="ln"><span class="pl"> + </span><span class="slot" id="slot-abp">Agent Behaviour Policies</span></span></div>
+  <div id="tagsub"></div>
+  <div class="lab" id="lab-hive"><span class="t">Ruflo hive</span><span class="s">queen + workers, in parallel</span></div>
+  <div class="lab" id="lab-abp"><span class="t">Agent Behaviour Policies</span><span class="s">the mandate · POC1</span></div>
+  <div class="lab" id="lab-vault"><span class="t">sgit vaults</span><span class="s">encrypted · one per run</span></div>
+  <div id="ft">An illustration drawn from recorded data. Gates: POC1, 11 actions through Ruflo's policy engine with an ABP compiled (data/report.json). Vault: run r2-materials (data/vaults.json). ruv.sgit runs so far were not gated by a compiled ABP. Ruflo is MIT, by rUv / ruvnet.</div>
+  <div id="bar"><i></i></div>
+</div>
+<script>
+(function () {
+'use strict';
+var Q = new URLSearchParams(location.search), REVIEW = Q.has('review');
+var RM = false; try { RM = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+var L = 30, END = 29.5, FREEZE = Q.has('t') ? Math.max(0, Math.min(END, +Q.get('t') || 0)) : (REVIEW || RM ? END : null);
+var tNow = 0; window.__t = function () { return +tNow.toFixed(2); };
+var $ = function (id) { return document.getElementById(id); };
+var cv = $('cv'), stack = $('stack'), panel = $('panel');
+var W = 400, H = 230, ZG = 165;
+var clamp = function (x, a, b) { return x < a ? a : x > b ? b : x; };
+var seg = function (t, a, b) { return clamp((t - a) / (b - a), 0, 1); };
+var ease = function (x) { return x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; };
+var easeIn = function (x) { return x * x; };
+var lerp = function (a, b, k) { return a + (b - a) * k; };
+var fmt = function (n) { return Number(n).toLocaleString('en-GB'); };
+var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+
+/* ---------- layout: a fixed design canvas, scaled to fit ---------- */
+var S = 1, NARROW = false;
+function fit() {
+  var w = innerWidth, h = innerHeight;
+  NARROW = w < 700 || w / h < 0.9;
+  document.body.classList.toggle('narrow', NARROW);
+  var CW = NARROW ? 640 : 1280, CH = NARROW ? 1120 : 600;
+  S = NARROW ? w / CW : Math.min(w / CW, h / CH);
+  cv.style.transform = 'scale(' + S + ')';
+  cv.style.left = Math.max(0, (w - CW * S) / 2) + 'px';
+  cv.style.top = NARROW ? '0px' : Math.max(0, (h - CH * S) / 2) + 'px';
+  document.body.style.height = NARROW ? Math.max(h, CH * S) + 'px' : '';
+  var sc = $('scene');
+  stack.style.left = ((NARROW ? 420 : 590) - W / 2) + 'px';
+  stack.style.top = ((NARROW ? 280 : 240) - H / 2) + 'px';
+}
+addEventListener('resize', fit); fit();
+
+/* ---------- data ---------- */
+function load(u) { return fetch(u, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(u + ': HTTP ' + r.status); return r.json(); }); }
+Promise.all([load('../../../data/vaults.json'), load('../../../data/report.json')]).then(function (a) { build(a[0], a[1]); })
+  .catch(function (e) { var d = document.createElement('div'); d.id = 'err'; d.textContent = 'Could not read the data: ' + e.message; cv.appendChild(d); });
+
+var D, E = {};
+function build(V, R) {
+  var run = (V.vaults || []).filter(function (v) { return v.run === 'r2-materials'; })[0];
+  if (!run) throw new Error('run r2-materials not in vaults.json');
+  var nW = run.hive.workers;
+  var workers = run.workers.slice(0, nW);
+  var branchCommits = run.branches.reduce(function (s, b) { return s + b.commits; }, 0);
+  var rows = R.rows.map(function (r) {
+    var out = r.abp.split(' ')[0], m = r.abp.match(/:([a-z-]+\.[a-z-]+\.[a-z-]+)\)/);
+    return { who: r.who, action: r.action, resource: r.resource, out: out === 'approval_required' ? 'approval' : out, cap: m ? m[1] : '', legacy: r.legacy.split(' ')[0] };
+  });
+  var cnt = { allowed: 0, approval: 0, denied: 0 }; rows.forEach(function (r) { cnt[r.out]++; });
+  var roles = []; rows.forEach(function (r) { if (r.who.indexOf('queen') !== 0 && roles.indexOf(r.who) < 0) roles.push(r.who); });
+  D = { run: run, nW: nW, workers: workers, rows: rows, cnt: cnt, roles: roles, trunk: Math.max(0, run.commits - branchCommits),
+        defAllowed: rows.filter(function (r) { return r.legacy === 'allowed'; }).length, ledger: R.ledger && R.ledger.abp };
+  var probeN = (run.server_store.probe || '').match(/^(\d+)/); D.probeN = probeN ? +probeN[1] : null;
+  geometry(); scene(); requestAnimationFrame(frame);
+}
+
+/* ---------- geometry (plane coordinates, px) ---------- */
+var G = {};
+function geometry() {
+  G.queen = [200, 112];
+  G.wk = []; for (var i = 0; i < D.nW; i++) { var a = (-90 + i * 360 / D.nW) * Math.PI / 180; G.wk.push([200 + 140 * Math.cos(a), 108 + 78 * Math.sin(a)]); }
+  G.queue = []; for (i = 0; i < D.run.hive.tasks; i++) G.queue.push([26 + i * 22, 40]);
+  G.gate = { allowed: [76, 160], approval: [200, 160], denied: [324, 160] };
+  // POC1 actions: who emits, where it rests
+  var k = { allowed: 0, approval: 0, denied: 0 };
+  D.rows.forEach(function (r, j) {
+    r.src = r.who.indexOf('queen') === 0 ? G.queen : G.wk[D.roles.indexOf(r.who) % D.nW];
+    var g = G.gate[r.out], n = k[r.out]++, off = [-22, 22, 0, -11, 11, 0][n % 6];
+    r.dst = [g[0] + off, g[1] + (n % 2 ? 12 : -12)];
+    r.land = [40 + j * 32, 205];
+    r.t0 = 5.5 + j * 0.62;
+  });
+  // r2-materials branches in the vault plane
+  G.trunkY = 205;
+  D.run.branches.forEach(function (b, i) {
+    var y = 30 + i * 28, xf = 64 + i * 7, cx = 152 + i * 20, mx = 262 + i * 22;
+    var wi = -1; D.workers.forEach(function (w, j) { if ('w-' + w.id === b.name) wi = j; });
+    b.src = wi >= 0 ? G.wk[wi] : G.queen;
+    b.y = y; b.cx = cx; b.mx = mx;
+    b.lane = 'M' + xf + ',' + G.trunkY + ' C' + xf + ',' + y + ' ' + xf + ',' + y + ' ' + (xf + 26) + ',' + y + ' H' + cx;
+    b.merge = 'M' + cx + ',' + y + ' H' + (mx - 28) + ' C' + mx + ',' + y + ' ' + mx + ',' + y + ' ' + mx + ',' + G.trunkY;
+    b.t0 = 13.7 + i * 0.12; b.drop = 14.1 + i * 0.4; b.mt = 17.7 + i * 0.5;
+  });
+}
+
+/* ---------- build the scene ---------- */
+function el(tag, cls, parent, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; (parent || stack).appendChild(e); return e; }
+function hexBlock(n) { var s = '', x = 2463534242; for (var i = 0; i < n; i++) { x ^= x << 13; x ^= x >>> 17; x ^= x << 5; s += '0123456789abcdef'[(x >>> 0) % 16]; } return s; }
+function scene() {
+  var names = ['hive', 'abp', 'vault'];
+  E.slab = {}; E.plane = {}; E.cn = {};
+  names.forEach(function (n) {
+    E.slab[n] = el('div', 'slab');
+    var p = E.plane[n] = el('div', 'plane p-' + n);
+    E.cn[n] = [[0, 0], [W, 0], [W, H], [0, H]].map(function (c) { var a = el('i', 'cn', p); a.style.left = c[0] + 'px'; a.style.top = c[1] + 'px'; return a; });
+  });
+  // hive
+  var ph = E.plane.hive;
+  el('div', 'pt', ph, 'Ruflo · MIT, by rUv / ruvnet');
+  el('div', 'qlab', ph, 'tasks queued');
+  E.rings = [0, 1].map(function () { var r = el('div', 'ring', ph); r.style.left = G.queen[0] + 'px'; r.style.top = G.queen[1] + 'px'; return r; });
+  E.wk = G.wk.map(function (p, i) {
+    var w = el('div', 'wk', ph, '<i></i>'); w.style.left = p[0] + 'px'; w.style.top = p[1] + 'px';
+    var l = el('div', 'wl', ph); l.style.left = p[0] + 'px'; l.style.top = (p[1] + 23) + 'px';
+    return { el: w, ring: w.firstChild, lab: l };
+  });
+  var q = el('div', 'queen', ph, 'QUEEN'); q.style.left = G.queen[0] + 'px'; q.style.top = G.queen[1] + 'px';
+  // mandate
+  var pa = E.plane.abp;
+  el('div', 'pt', pa, 'POC1 · ABP compiled into Ruflo');
+  E.gate = {};
+  [['allowed', 'g-allow', 'allow'], ['approval', 'g-appr', 'approval'], ['denied', 'g-deny', 'deny']].forEach(function (g) {
+    var e = el('div', 'gate ' + g[1], pa, '<span class="g">' + g[2] + '</span><span class="n">0</span>');
+    e.style.left = G.gate[g[0]][0] + 'px'; e.style.top = G.gate[g[0]][1] + 'px';
+    E.gate[g[0]] = { el: e, n: e.lastChild, col: g[0] === 'allowed' ? 'var(--accent)' : g[0] === 'approval' ? 'var(--warm)' : 'var(--red)' };
+  });
+  // vault
+  var pv = E.plane.vault;
+  el('div', 'hex', pv, hexBlock(900));
+  el('div', 'lock', pv, 'AES-256-GCM · the server holds ciphertext');
+  el('div', 'pt', pv, 'sgit · ' + esc(D.run.run)).style.top = '26px';
+  var svg = '<svg viewBox="0 0 400 230" aria-hidden="true">' +
+    '<line x1="16" y1="' + G.trunkY + '" x2="388" y2="' + G.trunkY + '" stroke="var(--head)" stroke-width="4" stroke-linecap="round" id="trunk"/>' +
+    '<text x="18" y="' + (G.trunkY + 20) + '" font-size="13" font-weight="700" fill="var(--head)" font-family="ui-monospace,monospace">current</text>';
+  D.run.branches.forEach(function (b, i) {
+    svg += '<path d="' + b.lane + '" pathLength="1" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="1 1" stroke-dashoffset="1" id="ln' + i + '"/>' +
+      '<path d="' + b.merge + '" pathLength="1" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="1 1" stroke-dashoffset="1" id="mg' + i + '"/>' +
+      '<text x="' + (b.cx - 6) + '" y="' + (b.y - 7) + '" font-size="11.5" font-weight="700" text-anchor="end" fill="var(--text)" font-family="ui-monospace,monospace" opacity="0" id="bt' + i + '">' + esc(b.name) + '</text>' +
+      '<circle cx="' + b.cx + '" cy="' + b.y + '" r="0" fill="var(--accent)" stroke="var(--panel)" stroke-width="2" id="cd' + i + '"/>' +
+      '<circle cx="' + b.mx + '" cy="' + G.trunkY + '" r="0" fill="var(--head)" stroke="var(--panel)" stroke-width="2" id="md' + i + '"/>';
+  });
+  for (var i = 0; i < D.trunk; i++) svg += '<circle cx="' + (26 + i * 16) + '" cy="' + G.trunkY + '" r="0" fill="var(--head)" stroke="var(--panel)" stroke-width="2" id="td' + i + '"/>';
+  pv.insertAdjacentHTML('beforeend', svg + '</svg>');
+  E.scan = el('div', '', pv); E.scan.id = 'scan';
+  E.seal = el('div', '', pv, '<b>sealed</b><span>measured on close</span>'); E.seal.id = 'seal';
+  E.ghost = el('div', ''); E.ghost.id = 'ghost';
+  E.ghost.innerHTML = '<b>deleted</b><span>' + fmt(D.run.deleted_paths) + ' store paths · ' + D.run.delete_check.store_paths_left + ' left</span>';
+  // tokens
+  E.task = G.queue.map(function () { return el('div', 'tok task'); });
+  E.act = D.rows.map(function (r) { return { tok: el('div', 'tok'), shd: el('div', 'shd') }; });
+  E.par = D.run.branches.map(function () { return { tok: el('div', 'tok parcel', null, ''), shd: el('div', 'shd') }; });
+  E.lab = { hive: $('lab-hive'), abp: $('lab-abp'), vault: $('lab-vault') };
+  E.slot = { hive: $('slot-hive'), abp: $('slot-abp'), vault: $('slot-vault') };
+  var ab = D.cnt;
+  $('tagsub').innerHTML = '<b>Ruflo</b>: a queen and ' + D.nW + ' workers in parallel · <b>ABP</b> (POC1): ' + ab.denied + ' denied, ' + ab.approval + ' for approval, ' + ab.allowed + ' allowed · <b>vault</b> ' + esc(D.run.run) + ': ' + D.run.branches.length + ' branches, ' + D.run.commits + ' commits, measured, then deleted';
+}
+
+function place(e, x, y, z, s, o) {
+  e.style.transform = 'translate3d(' + (x - e.offsetWidth / 2).toFixed(1) + 'px,' + (y - e.offsetHeight / 2).toFixed(1) + 'px,' + z.toFixed(1) + 'px) scale(' + s + ')';
+  e.style.opacity = o;
+}
+function shadow(e, x, y, z, o) { e.style.transform = 'translate3d(' + (x - 11) + 'px,' + (y - 11) + 'px,' + (z + 1) + 'px)'; e.style.opacity = o; }
+
+/* ---------- the timeline ---------- */
+var ACTS = [[0, 'hive'], [5, 'mandate'], [13.5, 'vault'], [21, 'close'], [25, 'tagline']];
+function actAt(t) { var a = ACTS[0][1]; ACTS.forEach(function (x) { if (t >= x[0]) a = x[1]; }); return a; }
+var lastPanel = '';
+function render(t) {
+  var act = actAt(t);
+  // stack pose: assemble, isometric, then tilt flat
+  var kf = ease(seg(t, 25, 27.2));
+  var ax = lerp(60, 0, kf), az = lerp(-38, 0, kf), sc = (NARROW ? 0.9 : 0.92) * lerp(1, 0.8, kf);
+  stack.style.transform = 'scale(' + sc + ') rotateX(' + ax + 'deg) rotateZ(' + az + 'deg)';
+  var Z = { hive: ZG, abp: 0, vault: -ZG }, idx = { hive: -1, abp: 0, vault: 1 };
+  ['hive', 'abp', 'vault'].forEach(function (n, i) {
+    var ka = ease(seg(t, 0.1 + i * 0.25, 0.9 + i * 0.25));
+    var z = lerp(Z[n] + 90, Z[n], ka) * (1 - kf), y = idx[n] * 200 * kf;
+    var o = ka * (1 - seg(t, 26.4, 27.8));
+    if (n === 'abp') o *= 1 - 0.55 * seg(t, 13.4, 14) * (1 - seg(t, 24.6, 25.2));
+    if (n === 'vault') o *= 1 - 0.9 * ease(seg(t, 23.6, 24.6));
+    E.plane[n].style.transform = 'translate3d(0,' + y + 'px,' + z + 'px)'; E.plane[n].style.opacity = o;
+    E.slab[n].style.transform = 'translate3d(0,' + y + 'px,' + (z - 9 * (1 - kf)) + 'px)'; E.slab[n].style.opacity = o * (1 - kf);
+  });
+  // hive: tasks queued, assigned, broadcasts, workers in parallel
+  E.task.forEach(function (e, i) {
+    var a = 0.9 + i * 0.16, f = 2.5 + i * 0.28, q = G.queue[i], w = G.wk[i % D.nW];
+    var k = ease(seg(t, f, f + 0.55));
+    var o = seg(t, a, a + 0.2) * (1 - seg(t, f + 0.5, f + 0.7));
+    var hop = Math.sin(k * Math.PI) * 26;
+    place(e, lerp(q[0], w[0], k), lerp(q[1], w[1], k), ZG + 3 + hop, 1, o);
+  });
+  [[1.9, 20.6], [4.3, 13.6]].forEach(function (bs, i) {
+    var k = 0; bs.forEach(function (b) { var x = seg(t, b, b + 1.1); if (x > 0 && x < 1) k = x; });
+    E.rings[i].style.transform = 'scale(' + (1 + k * 4.2) + ')'; E.rings[i].style.opacity = k > 0 ? ((1 - k) * 0.9).toFixed(2) : 0;
+  });
+  var poc = act === 'mandate';
+  E.wk.forEach(function (w, i) {
+    var on = t >= 2.5 + i * 0.28 + 0.55 && t < 21.2;
+    w.el.classList.toggle('on', on);
+    var ph = (t * 1.3 + i * 0.37) % 1;
+    w.ring.style.opacity = on ? (1 - ph) * 0.7 : 0; w.ring.style.transform = 'scale(' + (0.8 + ph * 0.7) + ')';
+    var lab = poc ? (D.roles[i] || '') : D.workers[i].role;
+    if (w.lab.textContent !== lab) w.lab.textContent = lab;
+  });
+  // mandate: POC1's 11 decisions
+  var gc = { allowed: 0, approval: 0, denied: 0 }, glow = { allowed: 0, approval: 0, denied: 0 };
+  D.rows.forEach(function (r, j) {
+    var e = E.act[j], s = t - r.t0, x, y, z, o = 1, sc = 1, cls = 'tok', txt = '', so = 0, sz = 0;
+    if (s < 0 || t > 25) { e.tok.style.opacity = 0; e.shd.style.opacity = 0; return; }
+    var kd = easeIn(seg(s, 0.15, 0.85));
+    x = lerp(r.src[0], r.dst[0], kd); y = lerp(r.src[1], r.dst[1], kd); z = lerp(ZG + 4, 4, kd);
+    o = seg(s, 0, 0.15); so = 0.25 * kd; sz = 0;
+    if (s >= 0.85) {
+      gc[r.out]++; glow[r.out] = Math.max(glow[r.out], 1 - seg(s, 0.85, 1.4));
+      if (r.out === 'allowed') {
+        var kp = easeIn(seg(s, 0.95, 1.55)); cls += ''; txt = '✓';
+        x = lerp(r.dst[0], r.land[0], kp); y = lerp(r.dst[1], r.land[1], kp); z = lerp(4, -ZG + 4, kp);
+        o = 1 - seg(s, 1.6, 2.2); sc = 1 + 0.6 * seg(s, 1.55, 2.2); sz = -ZG; so = 0.25 * kp * o;
+      } else if (r.out === 'approval') {
+        cls += ' appr'; txt = '?'; z = 4 + 6 * Math.abs(Math.sin((s - 0.85) * 3));
+        o = 1 - seg(t, 13.6, 14.3); so = 0;
+      } else {
+        cls += ' deny'; txt = '✕'; var kb = seg(s, 0.85, 1.35); z = 4 + Math.sin(kb * Math.PI) * 34;
+        o = 1 - seg(s, 1.5, 2.1); so = 0;
+      }
+    }
+    if (e.tok.className !== cls) e.tok.className = cls;
+    if (e.tok.textContent !== txt) e.tok.textContent = txt;
+    place(e.tok, x, y, z, sc, o); shadow(e.shd, x, y, sz, so);
+  });
+  Object.keys(E.gate).forEach(function (k) {
+    var g = E.gate[k]; if (g.n.textContent !== String(gc[k])) g.n.textContent = gc[k];
+    g.el.style.boxShadow = glow[k] > 0 ? '0 0 0 ' + (glow[k] * 9).toFixed(1) + 'px ' + g.col : 'none';
+  });
+  // vault: r2-materials branches, deliveries, merges into current
+  var landed = 0, merged = 0;
+  for (var i = 0; i < D.trunk; i++) $('td' + i).setAttribute('r', (6 * ease(seg(t, 13.6 + i * 0.3, 13.9 + i * 0.3))).toFixed(2));
+  D.run.branches.forEach(function (b, i) {
+    $('ln' + i).setAttribute('stroke-dashoffset', (1 - ease(seg(t, b.t0, b.t0 + 0.8))).toFixed(3));
+    $('bt' + i).setAttribute('opacity', seg(t, b.t0 + 0.4, b.t0 + 0.8).toFixed(2));
+    var s = t - b.drop, p = E.par[i];
+    var kd = ease(seg(s, 0.1, 1.2));
+    var po = seg(s, 0, 0.1) * (1 - seg(s, 1.2, 1.5));
+    place(p.tok, lerp(b.src[0], b.cx, kd), lerp(b.src[1], b.y, kd), lerp(ZG + 4, -ZG + 4, kd), 1, s < 0 || t > 25 ? 0 : po);
+    shadow(p.shd, b.cx, b.y, -ZG, s < 0 || t > 25 ? 0 : 0.22 * kd * (1 - seg(s, 1.2, 1.5)));
+    var land = seg(s, 1.15, 1.45); if (s >= 1.2) landed++;
+    $('cd' + i).setAttribute('r', (7 * (land > 0 ? 1 + 0.4 * Math.sin(land * Math.PI) : 0)).toFixed(2));
+    $('mg' + i).setAttribute('stroke-dashoffset', (1 - ease(seg(t, b.mt, b.mt + 0.45))).toFixed(3));
+    var md = seg(t, b.mt + 0.4, b.mt + 0.6); if (md >= 1) merged++;
+    $('md' + i).setAttribute('r', (6 * md).toFixed(2));
+  });
+  var commits = Math.min(D.run.commits, (t >= 13.9 ? D.trunk : t >= 13.6 ? 1 : 0) + landed);
+  // close: measure, seal, delete
+  var ks = seg(t, 21.1, 22.3);
+  E.scan.style.top = (ks * (H - 3)) + 'px'; E.scan.style.opacity = ks > 0 && ks < 1 ? 0.9 : 0;
+  E.seal.style.opacity = (0.92 * ease(seg(t, 22.5, 23.1))).toFixed(2);
+  E.seal.style.transform = 'scale(' + lerp(1.25, 1, ease(seg(t, 22.5, 23.1))) + ')';
+  var kg = ease(seg(t, 23.8, 24.5)) * (1 - seg(t, 25.4, 26.2));
+  E.ghost.style.transform = 'translate3d(0,0,' + (-ZG + 2) + 'px)'; E.ghost.style.opacity = kg;
+  // labels: beside their planes, then into the tagline
+  var cr = cv.getBoundingClientRect(), kl = ease(seg(t, 25.6, 27.9));
+  [['hive', 'Ruflo hive', 'queen + workers, in parallel'], ['abp', 'Agent Behaviour Policies', act === 'vault' || act === 'close' ? 'not compiled in this run' : 'the mandate · POC1 gates'], ['vault', 'sgit vaults', t >= 23.8 ? 'measured, sealed, deleted' : 'encrypted · one per run']].forEach(function (L3) {
+    var n = L3[0], lab = E.lab[n], best = null;
+    E.cn[n].forEach(function (c) { var r = c.getBoundingClientRect(); if (!best || r.left < best.left) best = r; });
+    var cx = (best.left - cr.left) / S, cy = (best.top - cr.top) / S;
+    var slot = E.slot[n].getBoundingClientRect();
+    var sx = (slot.left - cr.left) / S, sy = (slot.top - cr.top) / S, sw = slot.width / S;
+    var f0 = NARROW ? 22 : 24, f1 = parseFloat(getComputedStyle(E.slot[n]).fontSize);
+    var mw0 = NARROW ? 200 : 300;
+    var t1 = lab.firstChild, s1 = lab.lastChild;
+    t1.style.fontSize = lerp(f0, f1, kl) + 'px';
+    lab.style.width = lerp(mw0, sw + 3, kl) + 'px';
+    if (s1.textContent !== L3[2]) s1.textContent = L3[2];
+    s1.style.opacity = 1 - seg(t, 25.2, 25.8);
+    var th = t1.getBoundingClientRect().height / S;
+    var x0 = cx - 16 - mw0, y0 = cy - th / 2 - 4;
+    lab.style.textAlign = kl < 0.5 ? 'right' : 'left';
+    lab.style.transform = 'translate(' + lerp(x0, sx, kl).toFixed(1) + 'px,' + lerp(y0, sy, kl).toFixed(1) + 'px)';
+    lab.style.opacity = seg(t, 0.6, 1.4);
+  });
+  $('tg-pre').style.opacity = seg(t, 27.4, 28.2);
+  [].forEach.call(document.querySelectorAll('#tag .pl'), function (e) { e.style.opacity = seg(t, 27.6, 28.3); });
+  $('tagsub').style.opacity = seg(t, 28.1, 28.9);
+  panel.style.opacity = 1 - seg(t, 25, 25.6);
+  $('bar').firstChild.style.width = (100 * t / L) + '%';
+  // the panel
+  var html = panelHTML(act, t, gc, commits, merged);
+  if (html !== lastPanel) { panel.innerHTML = html; lastPanel = html; }
+}
+
+function tile(v, l, c) { return '<div class="tl ' + (c || '') + '"><div class="v">' + v + '</div><div class="l">' + l + '</div></div>'; }
+function panelHTML(act, t, gc, commits, merged) {
+  var r = D.run, h = '';
+  if (act === 'hive') {
+    var q = 0; D.run.branches.forEach(function () {}); for (var i = 0; i < r.hive.tasks; i++) if (t >= 0.9 + i * 0.16) q++;
+    h = '<h2><em>1</em>The hive</h2><p>Ruflo holds the queen, the worker roles, the queued tasks and the broadcasts. The workers run in parallel; in our runs they are Claude Code subagents.</p>' +
+      '<div class="tiles">' + tile(D.nW, 'workers') + tile(q + '<small>/' + r.hive.tasks + '</small>', 'tasks queued') + tile(r.hive.ruflo_calls, 'Ruflo calls') + '</div>' +
+      '<div class="note">Run ' + esc(r.run) + ', from data/vaults.json</div>';
+  } else if (act === 'mandate') {
+    var seen = D.rows.filter(function (x) { return t >= x.t0 + 0.85; }).reverse().slice(0, 3);
+    h = '<h2><em>2</em>The mandate</h2><p>Each action meets the Agent Behaviour Policy, compiled into Ruflo\'s policy engine. Allowed ones pass; denied ones stop; approvals wait for a human.</p>' +
+      '<div class="tiles">' + tile(gc.allowed, 'allowed', 'a') + tile(gc.approval, 'approval', 'w') + tile(gc.denied, 'denied', 'r') + '</div>' +
+      '<div class="tick">' + seen.map(function (x) { return '<div><span class="pill ' + x.out + '">' + x.out + '</span>' + esc(x.who.replace('-strategic', '')) + ' · ' + esc(x.action) + '</div>'; }).join('') + '</div>' +
+      '<div class="note">POC1: the same ' + D.rows.length + ' actions under Ruflo\'s default: ' + D.defAllowed + ' of ' + D.rows.length + ' allowed.' + (D.ledger ? ' ' + D.ledger.length + ' hash-chained receipts, chain ' + (D.ledger.valid ? 'valid' : 'INVALID') + '.' : '') + '</div>';
+  } else if (act === 'vault') {
+    h = '<h2><em>3</em>The vault</h2><p>Each delivery is encrypted on the client (AES-256-GCM) and lands on its worker\'s branch; the branches merge into current. The server holds ciphertext.</p>' +
+      '<div class="tiles">' + tile(r.branches.length, 'branches') + tile(commits + '<small>/' + r.commits + '</small>', 'commits', 'a') + tile(merged + '<small>/' + r.branches.length + '</small>', 'merged') + '</div>' +
+      '<div class="note">Run ' + esc(r.run) + ': ' + D.nW + ' workers + the conductor\'s fixes branch. This run was not gated by a compiled ABP.</div>';
+  } else if (act === 'close' || act === 'tagline') {
+    var rows = [
+      ['commits · files', r.commits + ' · ' + r.files, ''],
+      ['server stored', r.server_store.files + ' files · ' + fmt(r.server_store.bytes) + ' B', ''],
+      ['plaintext on server', r.server_store.plaintext_hits + (D.probeN ? ' of ' + D.probeN + ' probes' : ''), 'ok'],
+      ['fresh clone', r.clone.files + ' files · ' + (r.clone.identical ? 'identical' : 'differs'), 'ok'],
+      ['deleted', fmt(r.deleted_paths) + ' store paths', 'gone'],
+      ['clone after delete', esc(r.delete_check.clone_after_delete), 'gone']
+    ];
+    var n = Math.floor(seg(t, 21, 21 + rows.length * 0.4) * rows.length + 0.0001);
+    h = '<h2><em>4</em>Close, measure, delete</h2><p>One vault per run: measured on close, sealed, then deleted. The memory goes; the record stays.</p>' +
+      '<div class="rows">' + rows.slice(0, Math.max(1, n)).map(function (x) { return '<div><span>' + x[0] + '</span><b class="' + x[2] + '">' + x[1] + '</b></div>'; }).join('') + '</div>';
+  }
+  return h;
+}
+
+var start = performance.now();
+function frame(now) {
+  tNow = FREEZE != null ? FREEZE : ((now - start) / 1000) % L;
+  if (FREEZE == null && tNow > END) tNow = Math.min(tNow, L);
+  try { render(Math.min(tNow, END)); } catch (e) { console.error(e); return; }
+  if (FREEZE == null) requestAnimationFrame(frame); else setTimeout(function () { requestAnimationFrame(function () { render(FREEZE); }); }, 100);
+}
+})();
+</script>
+</body>
+</html>

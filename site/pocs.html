@@ -82,7 +82,7 @@ ROLE=tester bash poc/poc2-agent-memory-in-vault/run.sh write
 rm -rf .vault-memory && bash poc/poc2-agent-memory-in-vault/run.sh read
 sgit history log --oneline -n 10          # inside .vault-memory</code></pre>
 <p><b>Acceptance.</b> Two writers, one fresh reader, same answer; history has a commit per role; the server never sees plaintext (sgit encrypts client-side, AES-256-GCM). Met locally; in CI the <code>poc2-write</code> matrix and <code>poc2-read</code> jobs run on separate runners once the secrets exist.</p>
-<p><b>Why it matters.</b> Per RuVector's README: no encryption at rest or in transit, no document versioning, replication on simulated transport, filters are not an authorization boundary. The vault is that layer.</p>
+<p><b>Why it matters.</b> Per RuVector's own README (“Security and governance”): its witnesses and hash-linked logs “do not encrypt memory content”; “collections and metadata filters organize memory; they are not a complete authorization boundary”; and “a delete from the live store does not automatically remove copies in snapshots, branches, replicas, exports”. RuVector already has snapshots and copy-on-write branching (<code>rvf derive</code>). The vault complements them: encryption on the client, a history shared across machines, and a vault that is deleted with the run.</p>
 </div>
 <div>
 <figure class="fig" style="margin:0 0 12px"><img src="assets/img/poc2-flow.webp" alt="coder and tester write memory on their own branches, merged into main inside a padlocked vault, a fresh runner clones and restores"></figure>
