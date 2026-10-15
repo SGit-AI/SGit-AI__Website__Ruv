@@ -2341,9 +2341,244 @@
     "store_paths_left": 0,
     "clone_after_delete": "failed"
    }
+  },
+  {
+   "run": "r8-explain",
+   "purpose": "r8-explain: two explainer slides, made with ruv.sgit: what an sgit vault is, then what an Agent Behaviour Policy is",
+   "feedback": "Dinis: the RuVector slide and the layers slide are brilliant; what is missing between them is a ruv.sgit-made explanation of first sgit and then ABPs. And make the slides shorter, since I speak fast.",
+   "vault_id": "wwc236hg",
+   "created_at": "2026-10-15T17:19:47+00:00",
+   "closed_at": "2026-10-15T17:27:02+00:00",
+   "deleted_at": "2026-10-15T17:27:03+00:00",
+   "hive": {
+    "workers": 2,
+    "tasks": 2,
+    "ruflo_calls": 11,
+    "ruflo_ms": 5310
+   },
+   "branches": [
+    {
+     "name": "w-sgit",
+     "role": "animator",
+     "commits": 1,
+     "files": 2,
+     "bytes": 203855,
+     "write_ms": 2709,
+     "merge_ms": 2665
+    },
+    {
+     "name": "w-abp",
+     "role": "animator",
+     "commits": 1,
+     "files": 2,
+     "bytes": 124686,
+     "write_ms": 2863,
+     "merge_ms": 2884
+    },
+    {
+     "name": "w-conductor",
+     "role": "conductor",
+     "commits": 1,
+     "files": 2,
+     "bytes": 68734,
+     "write_ms": 2916,
+     "merge_ms": 2960
+    }
+   ],
+   "commits": 5,
+   "files": 8,
+   "bytes_plain": 398224,
+   "files_delivered": 6,
+   "bytes_delivered": 397275,
+   "server_store": {
+    "files": 39,
+    "bytes": 411955,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 967,
+    "files": 8,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 880,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 819,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 918,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 868,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 882,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 958,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 905,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 827,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 933,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 885,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 896,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1081,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 921,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 924,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1040,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 861,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 899,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1155,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 966,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 868,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1126,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 1128,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 967,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "83959b8abbe7",
+     "message": "init",
+     "time": "2026-10-15T17:19:51Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "3d197b4762bf",
+     "message": "brief: run r8-explain",
+     "time": "2026-10-15T17:19:52Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "9a961fc035f0",
+     "message": "animator sgit: delivered 2 files",
+     "time": "2026-10-15T17:26:43Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "81c2a557c68b",
+     "message": "animator abp: delivered 2 files",
+     "time": "2026-10-15T17:26:49Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "0b9ad47c7fb3",
+     "message": "conductor conductor: delivered 2 files",
+     "time": "2026-10-15T17:26:55Z",
+     "files_added": 2,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "abp",
+     "role": "animator",
+     "tokens": 90507,
+     "tool_uses": 14,
+     "wall_s": 208
+    },
+    {
+     "id": "sgit",
+     "role": "animator",
+     "tokens": 118409,
+     "tool_uses": 23,
+     "wall_s": 291
+    }
+   ],
+   "deleted_paths": 83,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
   }
  ],
  "sample": false,
- "updated": "2026-10-15T16:53:37+00:00",
+ "updated": "2026-10-15T17:27:03+00:00",
  "server": "a local SG/Send vault server (sgraph-ai-app-send, disk storage), one process, on the machine that ran the hive"
 }

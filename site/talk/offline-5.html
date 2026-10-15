@@ -310,7 +310,7 @@ ul.bul { list-style:none; padding:0; font-size:3.4vh; margin:0 } ul.bul li { mar
 <div id="bar">
  <div class="row"><div class="ctl"><button data-k=" " id="pp" class="pp" aria-label="play or pause" title="play / pause (Space)">▶</button></div><span class="clock" id="clock">0:00</span><span class="dim" id="beatno"></span><div id="prog" title="click to seek"><b id="progb"></b></div><span class="dim" id="state">paused</span>
   <div class="ctl"><button class="nav" data-k="PageUp" aria-label="previous slide" title="previous slide (↑ or PageUp)">«<small>slide</small></button><button class="nav" data-k="ArrowLeft" aria-label="previous step" title="previous step (←)">‹<small>step</small></button><button class="nav" data-k="ArrowRight" aria-label="next step" title="next step (→, or tap the slide)">›<small>step</small></button><button class="nav" data-k="PageDown" aria-label="next slide" title="next slide (↓ or PageDown, or swipe)">»<small>slide</small></button><button data-k="s" id="sp" aria-label="speed" title="speed (S)">1×</button></div></div>
- <div class="row"><div class="ctl small"><button data-k="x" id="ex" aria-label="leave the presentation" title="leave (X)">✕</button><button data-k="g" id="go" aria-label="go to any slide" title="go to any slide or step (G)">☰ slides</button><button data-k="v" id="rv" aria-label="review mode: everything at once, no animation" title="review (V)">review</button><button data-k="p" id="nb" aria-label="speaker notes" title="notes (P)">notes</button><button data-k="t" id="th" aria-label="next theme" title="theme (T)">◐</button><button data-k="f" aria-label="fullscreen" title="fullscreen (F)">⛶</button></div><div id="steps" title="this slide's steps: click to jump"></div><span id="cache"></span><span id="count"></span><div class="ctl small"><button data-k="h" id="hd" aria-label="auto-advance to the next slide" title="auto: move to the next slide when one ends (H); off: stop at the end of each slide">auto</button><button data-k="z" id="tm" class="timer" aria-label="start or stop the talk timer" title="talk timer: start when you start speaking (Z); it keeps running whatever you click, until you stop it">▶ start talk</button></div></div>
+ <div class="row"><div class="ctl small"><button data-k="x" id="ex" aria-label="leave the presentation" title="leave (X)">✕</button><button data-k="g" id="go" aria-label="go to any slide" title="go to any slide or step (G)">☰ slides</button><button data-k="v" id="rv" aria-label="review mode: everything at once, no animation" title="review (V)">review</button><button data-k="p" id="nb" aria-label="speaker notes" title="notes (P)">notes</button><button data-k="t" id="th" aria-label="next theme" title="theme (T)">◐</button><button data-k="f" aria-label="fullscreen" title="fullscreen (F)">⛶</button></div><div id="steps" title="this slide's steps: click to jump"></div><span id="cache"></span><span id="count"></span><div class="ctl small"><button data-k="h" id="hd" aria-label="auto-advance to the next slide" title="auto: move to the next slide when one ends (H); off: stop at the end of each slide">auto</button><button data-k="reset-timer" id="tr" aria-label="reset the talk timer" title="reset the talk timer to 0:00" style="display:none">↺</button><button data-k="z" id="tm" class="timer" aria-label="start or stop the talk timer" title="talk timer: start when you start speaking (Z); it keeps running whatever you click, until you stop it">▶ start talk</button></div></div>
 </div>
 <div id="intro"><div><h2 id="ttl">Talk player</h2><p id="sub"></p><p>Tap ▶ or press <kbd>Space</kbd> to start · tap the slide for the next step, swipe for the next slide · <b>‹ ›</b> steps, <b>« »</b> slides · <b>1×</b> speed · <b>auto</b> moves on when a slide ends (off: it stops) · <b>start talk</b> starts your timer · <b>☰ slides</b> jumps anywhere · <b>review</b> everything at once · <b>notes</b> the words · <kbd>?</kbd> all keys</p></div></div>
 <div id="black"></div>
@@ -535,6 +535,7 @@ function update(b, local) {
       const k = s.speed || 1, pl = local * k
       if (C.rate !== rate * k) C.setRate(rate * k)
       const d = pl - C.elapsed()
+      if (held && playing) { if (C.paused) C.play(); return }   // holding: let the animation finish, it stops on its own final frame
       const ahead = d < -0.3 && d > -3   // the page is a little ahead (it started while loading): let the talk catch up
       if (playing && !held && !ahead && C.paused) C.play(); else if ((!playing || held || ahead) && !C.paused) C.pause()
       if (d > 0.6) C.seek(pl)
@@ -605,6 +606,7 @@ function onKey(e) {
   else if (k === 's' || k === 'S') rate = RATES[(RATES.indexOf(rate) + 1) % RATES.length] || 1
   else if (k === 'h' || k === 'H') { hold = !hold; if (!hold && held) { held = false; step(1) } }
   else if (k === 'z' || k === 'Z') toggleTimer()
+  else if (k === 'reset-timer') { timer = null; saveTimer() }
   else if (k === 'g' || k === 'G') { document.body.classList.toggle('pick'); if (document.body.classList.contains('pick')) drawPick() }
   else if (k === '0' || k === 'Home') { t = 0; beatIx = -1; playing = false; held = false }
   else if (k === 'p' || k === 'P') document.body.classList.toggle('presenter')
@@ -684,7 +686,7 @@ function toggleTimer() {
 let resetAsk = -1e9
 function confirmReset() { const n = performance.now(); if (n - resetAsk < 2500) return true; resetAsk = n; return false }   // press twice within 2.5 s to reset
 function paintTimer(b) {
-  const el = $('tm'), s = timerS()
+  const el = $('tm'), s = timerS(); $('tr').style.display = timer ? '' : 'none'
   if (!timer) { el.className = 'timer'; el.innerHTML = '▶ start talk'; return }
   const stopped = timer.stopped_ms != null
   let cls = 'timer run', note = ''

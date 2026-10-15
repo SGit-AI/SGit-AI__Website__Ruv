@@ -2,7 +2,7 @@
  "title": "Autonomy with a mandate and a memory",
  "event": "Agentic Engineering Live: rUv in London, 15 Oct 2026",
  "speaker": "Dinis Cruz",
- "duration_s": 600,
+ "duration_s": 578,
  "source": "ruv.sgit.ai: every number on screen is read from data/report.json, data/vaults.json, studio/run.json or a recorded run under evidence/",
  "data": {
   "report": "../data/report.json",
@@ -12,7 +12,7 @@
   {
    "id": "open",
    "at": 0,
-   "dur": 40,
+   "dur": 30,
    "title": "Many hands + memory + a mandate",
    "slide": {
     "layout": "iframe",
@@ -26,8 +26,8 @@
   },
   {
    "id": "claim",
-   "at": 40,
-   "dur": 25,
+   "at": 30,
+   "dur": 23,
    "title": "The claim",
    "slide": {
     "layout": "iframe",
@@ -40,8 +40,8 @@
   },
   {
    "id": "stack",
-   "at": 65,
-   "dur": 10,
+   "at": 53,
+   "dur": 8,
    "title": "Before ruv.sgit: an AI infographic",
    "slide": {
     "layout": "image",
@@ -54,8 +54,8 @@
   },
   {
    "id": "stack-ruv",
-   "at": 75,
-   "dur": 25,
+   "at": 61,
+   "dur": 22,
    "title": "rUv's stack, one picture",
    "slide": {
     "layout": "iframe",
@@ -68,8 +68,8 @@
   },
   {
    "id": "ruvector",
-   "at": 100,
-   "dur": 45,
+   "at": 83,
+   "dur": 38,
    "title": "Memory: what RuVector secures, and where sgit adds",
    "slide": {
     "layout": "iframe",
@@ -81,9 +81,37 @@
    "say": "Start with the memory. RuVector is a remarkable memory substrate: vectors, graphs, full snapshots, even copy-on-write branches. And its README has a clear section on security and governance. Its witness logs are tamper evident, and it says, just as plainly, that they do not encrypt memory content, and that a delete does not automatically reach every snapshot, branch or copy, so define retention and erasure across every copy. That is where sgit adds, around the files: encrypted on the client, AES-256-GCM, so the server only ever stores ciphertext; a history you can clone anywhere; and a vault that is deleted with the run, and checked: no store paths left, and a clone with the key fails."
   },
   {
+   "id": "sgit",
+   "at": 121,
+   "dur": 28,
+   "title": "What an sgit vault is",
+   "slide": {
+    "layout": "iframe",
+    "src": "slides/sgit/index.html",
+    "fallback": "../assets/img/talk/sgit.webp",
+    "heading": "What an sgit vault is",
+    "sub": "git for encrypted vaults: encrypted on the client, versioned like git, ephemeral when you want · sgit-ai 0.21.0 · timings from data/vaults.json"
+   },
+   "say": "So what is an sgit vault? It's git for encrypted vaults. A folder on your machine; every file is encrypted on the client, AES-256-GCM, before anything leaves, so the server only ever stores ciphertext. Whoever has the vault key has the memory. And it works like git: commit, branch, merge, push, clone, each about a second against our local vault server. For agents, that's a shared, versioned memory across machines: a fresh clone anywhere gets the whole history back. Or make it ephemeral: one vault per run, deleted at the end, and we check the delete."
+  },
+  {
+   "id": "abp",
+   "at": 149,
+   "dur": 28,
+   "title": "What an Agent Behaviour Policy is",
+   "slide": {
+    "layout": "iframe",
+    "src": "slides/abp/index.html",
+    "fallback": "../assets/img/talk/abp.webp",
+    "heading": "What an Agent Behaviour Policy is",
+    "sub": "A written mandate per role, compiled into Ruflo's own policy engine, with receipts"
+   },
+   "say": "This is an Agent Behaviour Policy: a written mandate, per role, that a person can read. One row per capability, in a small grammar of 23 primitives: verb, object, reach. Each row says yes, no or ask a human, why, and the barrier. It has an owner and an end date. We don't build a new enforcer: it compiles into Ruflo's own policy engine, rUv's, in enforce mode: 36 rules. Then real actions hit it. In POC1, 6 of 11 were stopped: 4 denied, 2 sent to a human. Every decision went into a hash-chained receipt, and the chain is valid."
+  },
+  {
    "id": "ruv-sgit",
-   "at": 145,
-   "dur": 50,
+   "at": 177,
+   "dur": 45,
    "title": "ruv.sgit: one hive, one vault, one run",
    "slide": {
     "layout": "iframe",
@@ -97,22 +125,23 @@
   },
   {
    "id": "lanes",
-   "at": 195,
-   "dur": 30,
+   "at": 222,
+   "dur": 25,
    "title": "Vault lanes",
    "slide": {
     "layout": "iframe",
     "src": "../studio/v3/index.html",
     "fallback": "../studio/posters/v3.webp",
-    "caption": "Studio v3 · vault lanes: one lane per agent role, commits, merges, a fresh clone · an illustration built in studio run 1"
+    "caption": "Studio v3 · vault lanes: one lane per agent role, commits, merges, a fresh clone · an illustration built in studio run 1",
+    "speed": 1.4
    },
    "say": "Here's the shape of it, as an illustration. One lane per agent role: that lane is a branch of the vault. Each dot is a commit, encrypted before it is uploaded. The lanes merge into the main line, which sgit calls current. And at the end, a fresh clone, into an empty folder, pulls the whole history back. The server held ciphertext throughout. Whoever has the key has the memory, and nobody else does, including the host.",
    "cue": "Let the animation run; speak over it, then pause for the fresh clone."
   },
   {
    "id": "history",
-   "at": 225,
-   "dur": 45,
+   "at": 247,
+   "dur": 36,
    "title": "Memory with history",
    "slide": {
     "layout": "iframe",
@@ -125,35 +154,37 @@
   },
   {
    "id": "hive",
-   "at": 270,
+   "at": 283,
    "dur": 25,
    "title": "The hive in 3D",
    "slide": {
     "layout": "iframe",
     "src": "../studio/v6/index.html",
     "fallback": "../studio/posters/v6.webp",
-    "caption": "Studio v6 · the hive in 3D · studio run 1: ruflo hive-mind 3.56.10, 8 specialists, 7 tasks, 31 calls, none failed · evidence/poc7-trace.jsonl"
+    "caption": "Studio v6 · the hive in 3D · studio run 1: ruflo hive-mind 3.56.10, 8 specialists, 7 tasks, 31 calls, none failed · evidence/poc7-trace.jsonl",
+    "speed": 1.3
    },
    "say": "Why give the hive a vault at all? In our first studio run, Ruflo's hive-mind coordinated eight specialists: thirty-one calls, none failed. But its shared memory said OK on set, and key not found on the very next get. Memory was the weak link, and that run had no vault: it passed results along as broadcasts instead. ruv.sgit gives the hive one."
   },
   {
    "id": "motion",
-   "at": 295,
-   "dur": 45,
+   "at": 308,
+   "dur": 40,
    "title": "ruv.sgit in motion",
    "slide": {
     "layout": "iframe",
     "src": "../ruv-sgit/motion/index.html",
     "fallback": "img/ruv-sgit-motion.webp",
-    "caption": "ruv.sgit in motion · a real run, drawn from its entry in data/vaults.json"
+    "caption": "ruv.sgit in motion · a real run, drawn from its entry in data/vaults.json",
+    "speed": 1.2
    },
    "say": "This is ruv.sgit in motion, drawn from a real run's entry in the ledger, not a mock-up. The run opens: the hive starts, the vault is created, and the brief is committed. The workers start in parallel. Each delivery lands on its own branch, is pushed, and merges into current. Every sgit call and every Ruflo call is timed and recorded as it happens. Then the close: the vault is measured, cloned fresh, and checked against what the workers delivered. Then it's gone. Watch the branches: the workers work in parallel, nobody writes on anyone else's branch, and the deliveries merge one at a time. The merge is where the work meets, and the history keeps who did what.",
    "cue": "Check which run the page shows before naming it."
   },
   {
    "id": "ledger",
-   "at": 340,
-   "dur": 40,
+   "at": 348,
+   "dur": 34,
    "title": "How to read the ledger",
    "slide": {
     "layout": "iframe",
@@ -167,8 +198,8 @@
   },
   {
    "id": "city",
-   "at": 380,
-   "dur": 25,
+   "at": 382,
+   "dur": 20,
    "title": "The city of vaults",
    "slide": {
     "layout": "iframe",
@@ -180,8 +211,8 @@
   },
   {
    "id": "table",
-   "at": 405,
-   "dur": 35,
+   "at": 402,
+   "dur": 30,
    "title": "Same 11 actions, default against the ABP",
    "slide": {
     "layout": "table",
@@ -202,8 +233,8 @@
   },
   {
    "id": "services",
-   "at": 440,
-   "dur": 55,
+   "at": 432,
+   "dur": 46,
    "title": "Four ways to work with us",
    "slide": {
     "layout": "iframe",
@@ -216,8 +247,8 @@
   },
   {
    "id": "shop",
-   "at": 495,
-   "dur": 40,
+   "at": 478,
+   "dur": 34,
    "title": "The shop",
    "slide": {
     "layout": "iframe",
@@ -230,8 +261,8 @@
   },
   {
    "id": "ask",
-   "at": 535,
-   "dur": 35,
+   "at": 512,
+   "dur": 40,
    "title": "The ask",
    "slide": {
     "layout": "statement",
@@ -260,8 +291,8 @@
   },
   {
    "id": "visit",
-   "at": 570,
-   "dur": 30,
+   "at": 552,
+   "dur": 26,
    "title": "Where to find it",
    "slide": {
     "layout": "iframe",

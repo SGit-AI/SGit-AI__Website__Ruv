@@ -5,9 +5,21 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.16",
+   "version": "v0.1.17",
    "date": "2026-10-15",
    "commit": null,
+   "title": "sgit and ABPs explained (run r8-explain); a shorter talk; animations finish when a slide holds",
+   "changes": "Run r8-explain (2 workers; vault measured, 0 plaintext found, fresh clone identical, deleted and verified) made two explainers that now follow RuVector: what an sgit vault is (encrypted on the client, versioned like git with measured median timings, ephemeral when you want) and what an Agent Behaviour Policy is (a written mandate per role, compiled into Ruflo's policy engine in enforce mode, POC1's outcomes and receipts). The talk is shorter (9:38, 19 slides): slides that run faster than their animation set slide.speed so the live page fits. When a slide holds at its end (auto off), its animation now plays on to its own final frame instead of stopping with the slide. The talk timer has a ↺ reset button.",
+   "pages": [
+    "talk/slides/sgit/index.html",
+    "talk/slides/abp/index.html",
+    "talk/player.html"
+   ]
+  },
+  {
+   "version": "v0.1.16",
+   "date": "2026-10-15",
+   "commit": "88268de",
    "title": "The claim and rUv's stack, animated (run r7-claim)",
    "changes": "Run r7-claim (2 workers; vault measured, 0 plaintext found, fresh clone identical, deleted and verified). The claim slide is now an animation: a worker's memory encrypted as it leaves the agent, versioned as a commit, scoped to one run and deleted, and a written mandate, ending on four panels with numbers read from data/vaults.json and data/report.json. rUv's stack: the old AI infographic stays for 10 s, labelled as made before ruv.sgit, followed by the same picture made with ruv.sgit: the five layers built bottom up with their pinned versions, then where sgit plugs in (a vault around the memory, one vault per hive run, an ABP in Ruflo's policy engine). The ask and the motion slide gave 5 s each; the talk is still 600 s.",
    "pages": [

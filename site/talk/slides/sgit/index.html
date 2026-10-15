@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What an sgit vault is</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../../assets/themes.css">
+<script src="../../../assets/theme.js"></script>
+<script src="../../../assets/clock.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{overflow:hidden;position:relative;width:100vw;height:100vh;height:100dvh}
+body.narrow{overflow-x:hidden;overflow-y:auto}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+#cv{position:absolute;left:0;top:0;width:1280px;height:600px;transform-origin:0 0;overflow:hidden}
+.narrow #cv{width:640px;height:2010px}
+
+#hd{position:absolute;left:24px;right:24px;top:14px;display:flex;align-items:baseline;gap:6px 14px;flex-wrap:wrap}
+#hd .h{font-size:20px;font-weight:720;color:var(--head);letter-spacing:-.01em}
+#hd .h b{color:var(--accent)}
+.chip{font:600 14px ui-monospace,SFMono-Regular,Menlo,monospace;padding:3px 10px;border-radius:999px;background:var(--tint-solid);color:var(--accent);border:1px solid var(--line);white-space:nowrap}
+#hd .chip{margin-left:auto}
+.narrow #hd .chip{margin-left:0}
+
+/* the three panels: each is drawn large during its act, then settles into its slot */
+.pn{position:absolute;left:0;top:0;width:396px;height:404px;border-radius:14px;background:var(--panel);border:1.5px solid var(--line);box-shadow:var(--shadow-pop);transform-origin:0 0;opacity:0;overflow:hidden}
+.pn .ttl{position:absolute;left:16px;top:12px;right:16px;font-size:21px;font-weight:780;color:var(--head);letter-spacing:-.01em}
+.pn .ttl i{font-style:normal;color:var(--accent)}
+.pn .num{display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--on-accent);font:800 15px/26px system-ui,sans-serif;text-align:center;margin-right:8px;vertical-align:2px}
+.pn .ev{position:absolute;left:16px;right:16px;bottom:10px;font:600 14px/1.3 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent);opacity:0}
+.lbl{position:absolute;font:700 14px/1.2 system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+.box{position:absolute;border-radius:10px;border:1.5px solid var(--line2);background:var(--panel2)}
+.cmd{font:700 15px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--head)}
+
+/* panel 1 */
+#file{left:16px;top:56px;width:364px;height:108px;padding:28px 12px 8px}
+#file .ln{font:600 15px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--head);white-space:nowrap;overflow:hidden}
+#file .ln.x{color:var(--dim)}
+#lock{position:absolute;left:50%;transform:translateX(-50%);top:170px;padding:4px 12px;border-radius:999px;background:var(--accent);color:var(--on-accent);font:800 15px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;opacity:0;white-space:nowrap}
+#srv{left:16px;top:206px;width:364px;height:82px;padding:28px 10px 6px}
+.obj{position:absolute;top:34px;width:80px;height:34px;border-radius:6px;background:var(--tint-solid);border:1.5px solid var(--line);font:600 14px/31px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--dim);text-align:center;opacity:0}
+#key{position:absolute;left:16px;top:298px;right:16px;font-size:16.5px;line-height:1.3;font-weight:700;color:var(--head);opacity:0}
+#key b{color:var(--warm)}
+
+/* panel 2 */
+#g2{position:absolute;left:10px;top:52px;width:376px;height:150px;overflow:visible}
+#cmds{position:absolute;left:16px;top:204px;right:16px}
+.cr{display:flex;align-items:baseline;justify-content:space-between;padding:5px 0;border-top:1px solid var(--line);opacity:0}
+.cr .ms{font:700 16px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent)}
+.cr .ms small{font-size:14px;color:var(--dim);font-weight:600}
+
+/* panel 3 */
+#g3{position:absolute;left:10px;top:50px;width:376px;height:180px;overflow:visible}
+#p3txt{position:absolute;left:16px;right:16px;top:238px}
+.p3l{font-size:16.5px;line-height:1.28;font-weight:700;color:var(--head);margin:0 0 6px;opacity:0}
+.p3l b{color:var(--accent)}
+
+/* the act caption beside the big panel */
+.cap{position:absolute;left:600px;top:110px;width:640px;font-size:34px;line-height:1.2;font-weight:760;color:var(--head);letter-spacing:-.015em;opacity:0}
+.cap b{color:var(--accent)}
+.cap small{display:block;margin-top:16px;font-size:22px;line-height:1.3;font-weight:600;color:var(--dim);letter-spacing:0}
+.narrow .cap{display:none}
+
+#tim{position:absolute;left:24px;right:24px;top:480px;font:700 18px/1.35 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--head);opacity:0}
+#tim b{color:var(--accent)}
+#tim small{display:block;font:600 14px/1.3 system-ui,sans-serif;color:var(--dim);margin-top:2px}
+.narrow #tim{top:1836px;font-size:16px}
+#ft{position:absolute;left:24px;right:24px;bottom:8px;font-size:14px;color:var(--dim);line-height:1.3}
+#bar{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--line)}
+#bar i{position:absolute;left:0;top:0;bottom:0;background:var(--accent);width:0}
+svg text{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+</style>
+</head>
+<body>
+<div id="cv">
+  <div id="hd"><span class="h">What an <b>sgit</b> vault is</span><span class="chip">sgit-ai 0.21.0 · git for encrypted vaults</span></div>
+
+  <!-- 1: encrypted on the client -->
+  <div class="pn" id="p1">
+    <div class="ttl"><span class="num">1</span>Encrypted <i>on the client</i></div>
+    <div class="box" id="file"><span class="lbl" style="left:12px;top:8px">your machine · vault folder</span>
+      <div class="ln" id="l0"></div><div class="ln" id="l1"></div><div class="ln" id="l2"></div></div>
+    <div id="lock">AES-256-GCM on the client</div>
+    <div class="box" id="srv"><span class="lbl" style="left:12px;top:8px">server · ciphertext only</span></div>
+    <div id="key">Whoever has the <b>vault key</b> has the memory. One secret, no reset.</div>
+    <div class="ev" id="ev1">&nbsp;</div>
+  </div>
+
+  <!-- 2: versioned like git -->
+  <div class="pn" id="p2">
+    <div class="ttl"><span class="num">2</span>Versioned <i>like git</i></div>
+    <svg id="g2" viewBox="0 0 376 150"></svg>
+    <div id="cmds">
+      <div class="cr" id="c0"><span class="cmd">sgit commit</span><span class="ms" id="m0">…</span></div>
+      <div class="cr" id="c1"><span class="cmd">sgit branch merge</span><span class="ms" id="m1">…</span></div>
+      <div class="cr" id="c2"><span class="cmd">sgit push</span><span class="ms" id="m2">…</span></div>
+      <div class="cr" id="c3"><span class="cmd">sgit clone</span><span class="ms" id="m3">…</span></div>
+    </div>
+    <div class="ev" id="ev2">&nbsp;</div>
+  </div>
+
+  <!-- 3: shared, then ephemeral -->
+  <div class="pn" id="p3">
+    <div class="ttl"><span class="num">3</span>Ephemeral <i>when you want</i></div>
+    <svg id="g3" viewBox="0 0 376 180"></svg>
+    <div id="p3txt">
+      <div class="p3l" id="t0">One memory, <b>shared</b> by agents</div>
+      <div class="p3l" id="t1">A fresh clone gets <b>the whole history</b></div>
+      <div class="p3l" id="t2">One vault per run: <b>deleted</b>, checked</div>
+    </div>
+    <div class="ev" id="ev3">&nbsp;</div>
+  </div>
+
+  <div class="cap" id="k1">A folder on your machine. Files are <b>encrypted on the client</b> before anything leaves.<small>AES-256-GCM. The server stores ciphertext objects only.</small></div>
+  <div class="cap" id="k2">It works like <b>git</b>: commit, branch, merge, push, clone.<small>Each agent works on its own branch; the branches merge back into main. Timings are medians of real runs.</small></div>
+  <div class="cap" id="k3">Why agents: a <b>shared, versioned memory</b> across machines and agents.<small>A fresh clone anywhere gets the whole history back. Or: one vault per run, deleted at the end, and the delete verified.</small></div>
+
+  <div id="tim">&nbsp;</div>
+  <div id="ft">sgit: Apache-2.0, sgit.ai. Figures: data/vaults.json, recorded runs of the ruv.sgit hive against a local SG/Send vault server. agent@riskmandate.ai</div>
+  <div id="bar"><i></i></div>
+</div>
+<script>
+(function () {
+'use strict';
+var Q = new URLSearchParams(location.search), REVIEW = Q.has('review');
+var END = 25.5;
+var $ = function (id) { return document.getElementById(id); };
+var cv = $('cv');
+var clamp = function (x, a, b) { return x < a ? a : x > b ? b : x; };
+var seg = function (t, a, b) { return clamp((t - a) / (b - a), 0, 1); };
+var ease = function (x) { return x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; };
+var lerp = function (a, b, k) { return a + (b - a) * k; };
+
+window.RUV_STEPS = [
+  { t: 0, label: 'Encrypted on the client' },
+  { t: 8.2, label: 'Works like git' },
+  { t: 15.6, label: 'Why agents: shared, ephemeral' },
+  { t: 22.4, label: 'Into place' },
+  { t: END, label: 'All three + timings' }
+];
+
+/* ---------- acts: [panel, big from, fly start, fly end] ---------- */
+var ACTS = [{ p: 'p1', k: 'k1', a: 0.1, f: 7.3 }, { p: 'p2', k: 'k2', a: 8.2, f: 14.6 }, { p: 'p3', k: 'k3', a: 15.6, f: 22.4 }];
+var FLY = 1.2;
+
+/* ---------- layout ---------- */
+var S = 1, NARROW = false, SLOT = [], BIG = null;
+function fit() {
+  var w = innerWidth, h = innerHeight;
+  NARROW = w < 700 || w / h < 0.9;
+  document.body.classList.toggle('narrow', NARROW);
+  var CW = NARROW ? 640 : 1280, CH = NARROW ? 2010 : 600;
+  S = NARROW ? w / CW : Math.min(w / CW, h / CH);
+  cv.style.transform = 'scale(' + S + ')';
+  cv.style.left = Math.max(0, (w - CW * S) / 2) + 'px';
+  cv.style.top = NARROW ? '0px' : Math.max(0, (h - CH * S) / 2) + 'px';
+  document.body.style.height = NARROW ? Math.max(h, CH * S) + 'px' : '';
+  if (NARROW) { SLOT = [0, 1, 2].map(function (i) { return { x: 44, y: 80 + i * 590, s: 552 / 396 }; }); }
+  else SLOT = [0, 1, 2].map(function (i) { return { x: 24 + i * 418, y: 62, s: 1 }; });
+  BIG = NARROW ? null : { x: 40, y: 62, s: 1.2 };
+  lastT = -1;
+}
+addEventListener('resize', fit);
+
+/* ---------- panel 1: a file, encrypted, sent as ciphertext objects ---------- */
+var PLAIN = ['# notes.md (agent memory)', 'task: draw the stack slide', 'status: merged into main'];
+function hash(n) { n = (n ^ 61) ^ (n >>> 16); n = n + (n << 3); n = n ^ (n >>> 4); n = Math.imul(n, 0x27d4eb2d); return (n ^ (n >>> 15)) >>> 0; }
+function hex(len, seed) { var s = ''; for (var i = 0; i < len; i++) s += (hash(seed * 131 + i) % 16).toString(16); return s; }
+var OBJ = [];
+for (var i = 0; i < 4; i++) { var o = document.createElement('div'); o.className = 'obj'; o.textContent = hex(4, 900 + i) + '…'; $('srv').appendChild(o); OBJ.push(o); }
+function panel1(t) {
+  // type the lines, then scramble them to hex from left to right
+  for (var i = 0; i < 3; i++) {
+    var L = PLAIN[i], el = $('l' + i);
+    var shown = Math.round(L.length * seg(t, 0.6 + i * 0.5, 1.2 + i * 0.5));
+    var enc = Math.round(L.length * seg(t, 2.6 + i * 0.25, 3.8 + i * 0.25));
+    var tick = Math.floor(t * 10), cipher = hex(L.length, i * 97 + (enc < L.length ? tick : 0));
+    el.textContent = (cipher.slice(0, enc) + L.slice(enc, shown)) || ' ';
+    el.className = 'ln' + (enc > 0 ? ' x' : '');
+  }
+  $('lock').style.opacity = ease(seg(t, 2.2, 2.7)).toFixed(2);
+  OBJ.forEach(function (o, j) {
+    var k = ease(seg(t, 4.0 + j * 0.3, 4.7 + j * 0.3));
+    o.style.left = (8 + j * 88) + 'px';
+    o.style.transform = 'translateY(' + (-120 * (1 - k)).toFixed(1) + 'px)';
+    o.style.opacity = k.toFixed(2);
+  });
+  $('key').style.opacity = ease(seg(t, 5.6, 6.3)).toFixed(2);
+  $('ev1').style.opacity = ease(seg(t, 6.4, 7.0)).toFixed(2);
+}
+
+/* ---------- panel 2: a branch graph drawn commit by commit ---------- */
+var NS = 'http://www.w3.org/2000/svg', g2 = $('g2');
+function el(tag, at, parent) { var e = document.createElementNS(NS, tag); for (var k in at) e.setAttribute(k, at[k]); (parent || g2).appendChild(e); return e; }
+// main at y=56, branch at y=112; server rail at y=14
+var MY = 64, BY = 118;
+var main1 = el('line', { x1: 24, y1: MY, x2: 24, y2: MY, stroke: 'var(--head)', 'stroke-width': 4, 'stroke-linecap': 'round' });
+var brPath = el('path', { d: 'M84 ' + MY + ' C 110 ' + MY + ', 110 ' + BY + ', 136 ' + BY + ' L 196 ' + BY + ' C 222 ' + BY + ', 222 ' + MY + ', 248 ' + MY, fill: 'none', stroke: 'var(--accent)', 'stroke-width': 4, 'stroke-linecap': 'round' });
+var brLen = 0;
+var dots = [[24, MY, 'var(--head)', 8.8], [84, MY, 'var(--head)', 9.5], [166, BY, 'var(--accent)', 10.9], [248, MY, 'var(--head)', 11.7]].map(function (d) {
+  var c = el('circle', { cx: d[0], cy: d[1], r: 9, fill: d[2], stroke: 'var(--panel)', 'stroke-width': 3 }); c.t = d[3]; return c;
+});
+var tMain = el('text', { x: 4, y: MY - 16, 'font-size': 14, 'font-weight': 700, fill: 'var(--head)' }); tMain.textContent = 'main';
+var tBr = el('text', { x: 96, y: BY + 28, 'font-size': 14, 'font-weight': 700, fill: 'var(--accent)' }); tBr.textContent = 'branch w-agent';
+// push: up from the merge commit to the server; clone: down to a new machine
+var push = el('path', { d: 'M248 ' + MY + ' L 320 ' + MY, fill: 'none', stroke: 'var(--accent)', 'stroke-width': 3, 'stroke-dasharray': '6 5' });
+var srvBox = el('rect', { x: 320, y: MY - 20, width: 50, height: 40, rx: 7, fill: 'var(--tint-solid)', stroke: 'var(--accent)', 'stroke-width': 1.5 });
+var srvT = el('text', { x: 345, y: MY + 5, 'font-size': 14, 'font-weight': 700, fill: 'var(--accent)', 'text-anchor': 'middle' }); srvT.textContent = 'srv';
+var clone = el('path', { d: 'M345 ' + (MY + 20) + ' L 345 ' + (BY - 8), fill: 'none', stroke: 'var(--head)', 'stroke-width': 3, 'stroke-dasharray': '6 5' });
+var newM = el('text', { x: 345, y: BY + 12, 'font-size': 14, 'font-weight': 700, fill: 'var(--head)', 'text-anchor': 'middle' }); newM.textContent = 'clone';
+function panel2(t) {
+  var x2 = 24 + 224 * seg(t, 8.8, 11.7);
+  main1.setAttribute('x2', x2.toFixed(1));
+  if (!brLen) brLen = brPath.getTotalLength() || 220;
+  brPath.style.strokeDasharray = brLen; brPath.style.strokeDashoffset = (brLen * (1 - seg(t, 10.0, 11.7))).toFixed(1);
+  dots.forEach(function (c) { var k = ease(seg(t, c.t, c.t + 0.35)); c.setAttribute('r', (9 * k).toFixed(2)); });
+  tMain.style.opacity = seg(t, 8.8, 9.3); tBr.style.opacity = seg(t, 10.1, 10.6);
+  var kp = ease(seg(t, 12.0, 12.6)); push.style.opacity = kp; srvBox.style.opacity = kp; srvT.style.opacity = kp;
+  push.style.strokeDashoffset = (-30 * t).toFixed(1);
+  var kc = ease(seg(t, 12.8, 13.4)); clone.style.opacity = kc; newM.style.opacity = kc;
+  clone.style.strokeDashoffset = (-30 * t).toFixed(1);
+  if (t >= 25) { push.style.strokeDashoffset = 0; clone.style.strokeDashoffset = 0; }
+  [9.0, 11.7, 12.1, 12.9].forEach(function (a, i) { $('c' + i).style.opacity = ease(seg(t, a, a + 0.5)).toFixed(2); });
+  $('ev2').style.opacity = ease(seg(t, 13.5, 14.1)).toFixed(2);
+}
+
+/* ---------- panel 3: agents share one vault; then it is deleted ---------- */
+var g3 = $('g3');
+function el3(tag, at) { return el(tag, at, g3); }
+var VX = 188, VY = 84;
+var AG = [[50, 22, 'machine A'], [326, 22, 'machine B'], [50, 146, 'agent C'], [326, 146, 'CI runner']];
+var links = AG.map(function (a) { return el3('line', { x1: a[0], y1: a[1], x2: VX, y2: VY, stroke: 'var(--line2)', 'stroke-width': 3, 'stroke-dasharray': '6 5' }); });
+var agents = AG.map(function (a) {
+  var gg = el3('g', {});
+  el('rect', { x: a[0] - 46, y: a[1] - 17, width: 92, height: 34, rx: 8, fill: 'var(--panel2)', stroke: 'var(--line2)', 'stroke-width': 1.5 }, gg);
+  var tx = el('text', { x: a[0], y: a[1] + 5, 'font-size': 14, 'font-weight': 700, fill: 'var(--head)', 'text-anchor': 'middle' }, gg); tx.textContent = a[2];
+  return gg;
+});
+var vault = el3('g', {});
+var vr = el('rect', { x: VX - 56, y: VY - 26, width: 112, height: 52, rx: 10, fill: 'var(--tint-solid)', stroke: 'var(--accent)', 'stroke-width': 2.5 }, vault);
+var vt = el('text', { x: VX, y: VY - 2, 'font-size': 15, 'font-weight': 800, fill: 'var(--accent)', 'text-anchor': 'middle' }, vault); vt.textContent = 'one vault';
+var vt2 = el('text', { x: VX, y: VY + 16, 'font-size': 14, 'font-weight': 600, fill: 'var(--dim)', 'text-anchor': 'middle' }, vault); vt2.textContent = 'per run';
+var strike = el3('line', { x1: VX - 62, y1: VY + 32, x2: VX + 62, y2: VY - 32, stroke: 'var(--red)', 'stroke-width': 5, 'stroke-linecap': 'round' });
+var del = el3('text', { x: VX, y: VY + 50, 'font-size': 15, 'font-weight': 800, fill: 'var(--red)', 'text-anchor': 'middle' }); del.textContent = 'deleted · checked';
+var pulses = AG.map(function () { return el3('circle', { r: 6, fill: 'var(--accent)' }); });
+function panel3(t) {
+  agents.forEach(function (g, i) { g.style.opacity = ease(seg(t, 16.0 + i * 0.25, 16.5 + i * 0.25)); });
+  vault.style.opacity = ease(seg(t, 15.9, 16.4));
+  links.forEach(function (l, i) { l.style.opacity = ease(seg(t, 16.4 + i * 0.25, 16.9 + i * 0.25)); l.style.strokeDashoffset = t < 25 ? (-24 * t).toFixed(1) : 0; });
+  // pulses: out to the vault (push) then back (clone), twice, between 16.8 and 19.6
+  pulses.forEach(function (p, i) {
+    var a = AG[i], ph = seg(t, 16.8 + i * 0.2, 19.6 + i * 0.2), on = ph > 0 && ph < 1;
+    var u = (ph * 2) % 1, back = ph >= 0.5, k = back ? 1 - u : u;
+    p.setAttribute('cx', lerp(a[0], VX, k).toFixed(1)); p.setAttribute('cy', lerp(a[1], VY, k).toFixed(1));
+    p.style.opacity = on ? 1 : 0;
+  });
+  // deletion at the end of the act
+  var kd = ease(seg(t, 20.0, 20.6));
+  strike.style.opacity = kd; strike.setAttribute('x2', lerp(VX - 62, VX + 62, kd).toFixed(1)); strike.setAttribute('y2', lerp(VY + 32, VY - 32, kd).toFixed(1));
+  del.style.opacity = ease(seg(t, 20.5, 21.0));
+  vr.style.opacity = vt.style.opacity = vt2.style.opacity = (1 - 0.55 * kd).toFixed(2);
+  [16.6, 18.4, 20.4].forEach(function (a, i) { $('t' + i).style.opacity = ease(seg(t, a, a + 0.5)).toFixed(2); });
+  $('ev3').style.opacity = ease(seg(t, 21.2, 21.8)).toFixed(2);
+}
+
+/* ---------- data (render without it if it fails) ---------- */
+function median(xs) { xs = xs.slice().sort(function (a, b) { return a - b; }); var n = xs.length; return n ? (n % 2 ? xs[(n - 1) / 2] : (xs[n / 2 - 1] + xs[n / 2]) / 2) : null; }
+fetch('../../../data/vaults.json', { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (V) {
+  var vs = V.vaults || [], ops = {}, nops = 0;
+  vs.forEach(function (v) { (v.ops || []).forEach(function (o) { if (o.rc === 0 && typeof o.ms === 'number') { (ops[o.op] = ops[o.op] || []).push(o.ms); nops++; } }); });
+  var M = {}; ['commit', 'merge', 'push', 'clone'].forEach(function (k, i) {
+    M[k] = median(ops[k] || []);
+    $('m' + i).innerHTML = M[k] == null ? '–' : Math.round(M[k]) + ' ms <small>median of ' + ops[k].length + '</small>';
+  });
+  var probes = 0, hits = 0;
+  vs.forEach(function (v) { var s = v.server_store || {}, m = String(s.probe || '').match(/^(\d+)/); if (m) { probes += +m[1]; hits += s.plaintext_hits || 0; } });
+  $('ev1').textContent = hits + ' of ' + probes + ' plaintext probes found on server';
+  var last = vs[vs.length - 1];
+  $('ev2').textContent = last.run + ': clone, ' + last.clone.files + ' of ' + last.files + ' files ' + (last.clone.identical ? 'identical' : 'differ');
+  var dc = vs.filter(function (v) { return v.delete_check; }), gone = dc.filter(function (v) { return v.delete_check.store_paths_left === 0 && v.delete_check.clone_after_delete === 'failed'; }).length;
+  $('ev3').textContent = gone + ' of ' + dc.length + ' runs: 0 paths left, clone fails';
+  $('tim').innerHTML = 'Measured: commit <b>' + Math.round(M.commit) + ' ms</b> · push <b>' + Math.round(M.push) + ' ms</b> · merge <b>' + Math.round(M.merge) + ' ms</b> · clone <b>' + Math.round(M.clone) + ' ms</b>' +
+    '<small>medians of ' + nops + ' sgit operations over ' + vs.length + ' recorded runs (sgit-ai 0.21.0, local vault server, data/vaults.json)</small>';
+}).catch(function () {
+  ['m0', 'm1', 'm2', 'm3'].forEach(function (id) { $(id).textContent = 'see data/vaults.json'; });
+  $('ev1').textContent = 'measured per run: data/vaults.json'; $('ev2').textContent = 'data/vaults.json'; $('ev3').textContent = 'data/vaults.json';
+  $('tim').textContent = 'Measured timings per operation: data/vaults.json';
+});
+
+/* ---------- the timeline ---------- */
+var lastT = -1;
+function place(id, a, b, k, op) {
+  var e = $(id), x = lerp(a.x, b.x, k), y = lerp(a.y, b.y, k), s = lerp(a.s, b.s, k);
+  e.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) scale(' + s.toFixed(4) + ')';
+  e.style.opacity = op.toFixed(2);
+}
+function render(t) {
+  var BV = ACTS.map(function (A) { return ease(seg(t, A.a, A.a + 0.6)) * (1 - ease(seg(t, A.f, A.f + FLY * 0.6))); });
+  ACTS.forEach(function (A, i) {
+    var slot = SLOT[i], hide = 0;
+    for (var j = i + 1; j < ACTS.length; j++) hide = Math.max(hide, BV[j]);
+    if (NARROW) { place(A.p, slot, slot, 1, ease(seg(t, A.a, A.a + 0.6))); return; }
+    var kin = ease(seg(t, A.a, A.a + 0.6)), kf = ease(seg(t, A.f, A.f + FLY));
+    var from = { x: BIG.x, y: lerp(BIG.y + 14, BIG.y, kin), s: BIG.s };
+    place(A.p, from, slot, kf, kin * (1 - hide));
+    $(A.p).style.zIndex = kf < 1 ? 5 : 1;
+    $(A.k).style.opacity = (ease(seg(t, A.a + 0.3, A.a + 0.9)) * (1 - ease(seg(t, A.f - 0.2, A.f + 0.4)))).toFixed(2);
+  });
+  panel1(t); panel2(t); panel3(t);
+  $('tim').style.opacity = ease(seg(t, 23.6, 24.6)).toFixed(2);
+  $('bar').firstChild.style.width = (100 * Math.min(t, END) / END) + '%';
+}
+fit();
+var start = performance.now();
+function frame(now) {
+  var t = REVIEW ? END : Math.min(END, (now - start) / 1000);
+  if (t !== lastT) { try { render(t); } catch (e) { console.error(e); return; } lastT = t; }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
