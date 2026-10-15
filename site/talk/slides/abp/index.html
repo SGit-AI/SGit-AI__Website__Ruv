@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Behaviour Policy</title>
+<link rel="stylesheet" href="../../../assets/themes.css">
+<script src="../../../assets/theme.js"></script>
+<script src="../../../assets/clock.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{overflow:hidden;position:relative;width:100vw;height:100vh;height:100dvh}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+#cv{position:absolute;left:0;top:0;width:1280px;height:600px;transform-origin:0 0;overflow:hidden}
+#act{position:absolute;left:24px;right:24px;top:8px;font-size:24px;font-weight:700;color:var(--dim);height:34px;white-space:nowrap}
+#act b{color:var(--accent);font-weight:800}
+
+/* the mandate card */
+#card{position:absolute;left:24px;top:50px;width:620px;height:400px;background:var(--panel);border:3px solid var(--warm);border-radius:14px;padding:10px 16px;opacity:0}
+#card h3{margin:0;font-size:22px;color:var(--warm);font-weight:800;display:flex;justify-content:space-between;align-items:baseline;white-space:nowrap}
+#card h3 span{font-size:18px;color:var(--head)}
+#meta{font-size:15px;color:var(--dim);font-weight:650;margin:2px 0 4px;white-space:nowrap;display:flex;justify-content:space-between}
+#meta b{color:var(--head)}
+#gram{font-size:15px;color:var(--dim);font-weight:650;white-space:nowrap;padding-bottom:5px;border-bottom:2px solid var(--line);margin-bottom:3px}
+#gram .mono{color:var(--accent);font-weight:800;font-size:16px}
+.r{display:grid;grid-template-columns:250px 86px 1fr;gap:8px;align-items:baseline;height:27px;opacity:0;border-radius:6px;padding:0 4px;white-space:nowrap}
+.r .c{font:700 17px/27px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--head)}
+.r .m{font-weight:800;font-size:16px}
+.r .w{font-size:14px;color:var(--dim);overflow:hidden;text-overflow:ellipsis}
+.yes{color:var(--accent)} .no{color:var(--red)} .ap{color:var(--warm)}
+.r.hit{background:var(--tint-solid)}
+#bar1{margin:4px 0 0 4px;font-size:14px;color:var(--text);opacity:0;white-space:nowrap}
+#bar1 b{color:var(--red)}
+
+/* compile arrow + engine */
+#arrow{position:absolute;left:644px;top:94px;width:76px;height:60px;overflow:visible}
+#arrowL{position:absolute;left:640px;top:62px;width:86px;text-align:center;font-size:15px;font-weight:800;color:var(--accent);opacity:0}
+#eng{position:absolute;left:722px;top:50px;width:534px;height:162px;background:var(--panel);border:3px solid var(--accent);border-radius:14px;padding:10px 16px;opacity:0}
+#eng h3{margin:0;font-size:22px;color:var(--head);font-weight:800;white-space:nowrap}
+#eng h3 span{font-size:15px;color:var(--dim);font-weight:650;margin-left:6px}
+#modes{display:flex;gap:8px;margin:7px 0 6px}
+#modes i{font-style:normal;font-size:16px;font-weight:750;padding:2px 12px;border-radius:999px;border:2px solid var(--line);color:var(--dim)}
+#modes i.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+#rules{display:flex;align-items:baseline;gap:12px;white-space:nowrap}
+#rn{font:800 46px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent);min-width:58px}
+#rl{font-size:19px;font-weight:750;color:var(--head)}
+#rb{font-size:15px;color:var(--dim);font-weight:650;margin-top:4px;white-space:nowrap;opacity:0}
+
+/* actions + receipts */
+#feedH{position:absolute;left:722px;top:222px;width:534px;font-size:16px;font-weight:800;color:var(--dim);opacity:0;white-space:nowrap;display:flex;justify-content:space-between}
+#feedW{position:absolute;left:722px;top:248px;width:534px;height:150px;overflow:hidden}
+#feed{position:absolute;left:0;top:0;width:534px}
+.a{display:grid;grid-template-columns:124px 1fr 112px;gap:8px;align-items:baseline;height:30px;padding:0 8px;border-radius:6px;opacity:0;white-space:nowrap}
+.a .who{font-size:14px;color:var(--dim);font-weight:700;overflow:hidden;text-overflow:ellipsis}
+.a .x{font:700 16px/30px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--head);overflow:hidden;text-overflow:ellipsis}
+.a .x small{font-size:14px;color:var(--dim);font-weight:600}
+.a .o{font-weight:800;font-size:16px;text-align:right}
+.a.new{background:var(--tint-solid)}
+#chain{position:absolute;left:722px;top:404px;width:534px;height:46px;opacity:0}
+#chainL{position:absolute;left:0;top:28px;font-size:15px;font-weight:700;color:var(--dim);white-space:nowrap}
+#chainL b{color:var(--accent)}
+
+#tally{position:absolute;left:24px;right:24px;top:462px;text-align:center;font-size:32px;font-weight:800;color:var(--head);opacity:0;white-space:nowrap}
+#tally .no{color:var(--red)} #tally .ap{color:var(--warm)}
+#close{position:absolute;left:24px;right:24px;top:512px;text-align:center;font-size:30px;font-weight:800;color:var(--head);opacity:0;letter-spacing:-.01em;white-space:nowrap}
+#close em{font-style:normal;color:var(--accent)}
+#ft{position:absolute;left:24px;right:24px;bottom:9px;font-size:14px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#pbar{position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--line)}
+#pbar i{position:absolute;left:0;top:0;bottom:0;background:var(--accent);width:0}
+</style>
+</head>
+<body>
+<div id="cv">
+  <div id="act"></div>
+  <div id="card">
+    <h3>Agent Behaviour Policy <span id="role">role: coder</span></h3>
+    <div id="meta"><span>owner <b id="owner">–</b></span><span>valid until <b id="until">–</b></span></div>
+    <div id="gram">one row per capability · grammar <span class="mono">verb.object.reach</span> · <b id="nprim">23</b> primitives</div>
+    <div id="rows"></div>
+    <div id="bar1"></div>
+  </div>
+  <svg id="arrow" viewBox="0 0 76 60"><path id="arp" d="M4 30 H62" style="stroke:var(--accent);stroke-width:5;fill:none;stroke-linecap:round"/><path id="arh" d="M52 16 L70 30 L52 44" style="stroke:var(--accent);stroke-width:5;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:0"/></svg>
+  <div id="arrowL">compiles<br>into</div>
+  <div id="eng">
+    <h3>Ruflo's policy engine<span>by rUv / ruvnet · MIT</span></h3>
+    <div id="modes"><i>legacy</i><i>observe</i><i id="enf">enforce</i></div>
+    <div id="rules"><span id="rn">0</span><span id="rl">rules, compiled from the ABP rows</span></div>
+    <div id="rb"></div>
+  </div>
+  <div id="feedH"><span>POC1: real actions hit the engine</span><span id="fcount"></span></div>
+  <div id="feedW"><div id="feed"></div></div>
+  <div id="chain"><svg id="chs" width="534" height="26" viewBox="0 0 534 26"></svg><div id="chainL"></div></div>
+  <div id="tally"></div>
+  <div id="close">A mandate you can read, <em>enforced by Ruflo's own engine</em>, with receipts.</div>
+  <div id="ft">Read at runtime from data/abp.json, data/rules.json and data/report.json (POC1). 23 primitives: abp/vocabulary/capabilities.json. Ruflo and its policy engine are MIT, by rUv / ruvnet.</div>
+  <div id="pbar"><i></i></div>
+</div>
+<script>
+(function () {
+'use strict';
+var Q = new URLSearchParams(location.search), REVIEW = Q.has('review');
+var RM = false; try { RM = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+var $ = function (id) { return document.getElementById(id); };
+var cv = $('cv');
+var clamp = function (x, a, b) { return x < a ? a : x > b ? b : x; };
+var seg = function (t, a, b) { return clamp((t - a) / (b - a), 0, 1); };
+var ease = function (x) { return x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; };
+var lerp = function (a, b, k) { return a + (b - a) * k; };
+var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+var op = function (el, v) { if (el) el.style.opacity = v; };
+
+function fit() {
+  var w = innerWidth, h = innerHeight, S = Math.min(w / 1280, h / 600);
+  cv.style.transform = 'scale(' + S + ')';
+  cv.style.left = Math.max(0, (w - 1280 * S) / 2) + 'px';
+  cv.style.top = Math.max(0, (h - 600 * S) / 2) + 'px';
+}
+addEventListener('resize', fit); fit();
+
+/* ---------- timeline (seconds) ---------- */
+var A2 = 8.5, A3 = 14.0, STEP = .8, FIN = 24.0, END = 26;
+window.RUV_STEPS = [
+  { t: 0, label: 'a written mandate' },
+  { t: 4.6, label: 'mandate, why, barrier' },
+  { t: A2, label: 'compiled into Ruflo' },
+  { t: A3, label: 'actions hit it' },
+  { t: END, label: 'enforced, with receipts' }
+];
+
+/* ---------- data ---------- */
+var PRIMS = 23; // abp/vocabulary/capabilities.json "count" (not served under site/)
+var D = { rows: [], rules: null, acts: [], ledger: null };
+var get = function (u) { return fetch(u, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(u + ' HTTP ' + r.status); return r.json(); }); };
+var E = {};
+var MAND = { yes: ['yes', 'yes'], no: ['no', 'no'], approval: ['ap', 'approval'] };
+function outc(s) { return /^allowed/.test(s) ? ['yes', '✓ allowed'] : /^denied/.test(s) ? ['no', '✗ denied'] : ['ap', '→ a human']; }
+
+get('../../../data/abp.json').then(function (A) {
+  $('owner').textContent = A.owner || '–'; $('until').textContent = A.valid_until || '–';
+  var role = (A.roles || []).filter(function (r) { return r.id === 'coder'; })[0] || (A.roles || [])[0];
+  if (!role) return;
+  $('role').textContent = 'role: ' + role.id;
+  D.rows = role.rows;
+  $('rows').innerHTML = role.rows.map(function (r) {
+    var m = MAND[r.mandate] || ['ap', r.mandate];
+    return '<div class="r" data-cap="' + esc(r.capability) + '"><span class="c">' + esc(r.capability) + '</span><span class="m ' + m[0] + '">' + esc(m[1]) + '</span><span class="w">' + esc(r.why) + '</span></div>';
+  }).join('');
+  var b = role.rows.filter(function (r) { return r.capability === 'send.message.world' && r.barrier; })[0] || role.rows.filter(function (r) { return r.barrier; })[0];
+  if (b) $('bar1').innerHTML = '<b>barrier</b> on ' + '<span class="mono">' + esc(b.capability) + '</span>: ' + esc(b.barrier);
+  E.rows = Array.prototype.slice.call(document.querySelectorAll('#rows .r'));
+}).catch(function (e) { console.warn(e); $('rows').innerHTML = '<div class="r" style="opacity:1">could not read data/abp.json</div>'; });
+
+get('../../../data/rules.json').then(function (R) {
+  D.rules = R.length;
+  var c = { allow: 0, deny: 0, require_approval: 0 };
+  R.forEach(function (r) { c[r.effect] = (c[r.effect] || 0) + 1; });
+  var roles = {}; R.forEach(function (r) { (r.principals || []).forEach(function (p) { roles[p] = 1; }); });
+  $('rb').textContent = c.allow + ' allow · ' + c.deny + ' deny · ' + c.require_approval + ' require approval · for ' + Object.keys(roles).length + ' roles';
+}).catch(function (e) { console.warn(e); });
+
+get('../../../data/report.json').then(function (R) {
+  D.acts = R.rows || []; D.ledger = (R.ledger || {}).abp || null;
+  $('feed').innerHTML = D.acts.map(function (r) {
+    var o = outc(r.abp);
+    return '<div class="a"><span class="who">' + esc(r.who) + '</span><span class="x">' + esc(r.action) + (r.resource ? ' <small>' + esc(r.resource) + '</small>' : '') + '</span><span class="o ' + o[0] + '">' + o[1] + '</span></div>';
+  }).join('');
+  E.acts = Array.prototype.slice.call(document.querySelectorAll('#feed .a'));
+  var n = D.acts.length, w = 534, gap = n > 1 ? (w - 2 * 12) / (n - 1) : 0, h = '';
+  for (var i = 0; i < n; i++) {
+    var x = 12 + i * gap;
+    if (i) h += '<line class="lk" x1="' + (x - gap + 11) + '" y1="13" x2="' + (x - 11) + '" y2="13" style="stroke:var(--accent);stroke-width:3;opacity:.15"/>';
+    h += '<rect class="rc" x="' + (x - 10) + '" y="3" width="20" height="20" rx="4" style="fill:var(--line);stroke:var(--line);stroke-width:2"/>';
+  }
+  $('chs').innerHTML = h;
+  E.rc = Array.prototype.slice.call(document.querySelectorAll('#chs .rc'));
+  E.lk = Array.prototype.slice.call(document.querySelectorAll('#chs .lk'));
+  var den = D.acts.filter(function (r) { return /^denied/.test(r.abp); }).length;
+  var ap = D.acts.filter(function (r) { return /^approval/.test(r.abp); }).length;
+  $('tally').innerHTML = (den + ap) + ' of ' + n + ' actions stopped: <span class="no">' + den + ' denied</span>, <span class="ap">' + ap + ' sent to a human</span>';
+}).catch(function (e) { console.warn(e); $('tally').textContent = 'could not read data/report.json'; });
+
+/* ---------- render at time t ---------- */
+var ACTS = [[0, '<b>1</b> · An ABP is a written mandate, one row per capability, per role'],
+            [A2, '<b>2</b> · It compiles into Ruflo\'s own policy engine, in enforce mode'],
+            [A3, '<b>3</b> · Then real actions hit it, and every decision leaves a receipt']];
+var arLen = 58;
+function render(t) {
+  var fin = ease(seg(t, FIN, FIN + 1.2));
+  var a = ''; ACTS.forEach(function (x) { if (t >= x[0]) a = x[1]; });
+  if (t >= FIN) a = '';
+  if ($('act').innerHTML !== a) $('act').innerHTML = a;
+  op($('act'), ease(seg(t, .2, .8)) * (1 - fin));
+
+  // act 1: the card and its rows
+  var kc = ease(seg(t, .3, 1.0)); op($('card'), kc); $('card').style.transform = 'translateY(' + (1 - kc) * 14 + 'px)';
+  var nR = E.rows ? E.rows.length : 0;
+  (E.rows || []).forEach(function (r, i) {
+    var a0 = 1.4 + i * .32, k = ease(seg(t, a0, a0 + .35)); op(r, k);
+    r.style.transform = 'translateX(' + (1 - k) * -16 + 'px)';
+    // during the compile, each row pulses as its rule is made
+    var c0 = A2 + 2.2 + i * (2.6 / Math.max(1, nR)), pulse = t >= c0 && t < c0 + .45;
+    // during act 3, the row that decided a coder action lights up
+    var hit = false;
+    if (E.acts && t >= A3 && t < FIN) {
+      var j = Math.floor((t - A3 - .3) / STEP);
+      var ar = D.acts[j];
+      if (ar && t - (A3 + .3 + j * STEP) < STEP * .9 && ar.who === 'coder' && ar.abp.indexOf(':coder:' + r.getAttribute('data-cap') + ')') > 0) hit = true;
+    }
+    r.classList.toggle('hit', pulse || hit);
+  });
+  op($('bar1'), ease(seg(t, 5.0, 5.6)));
+
+  // act 2: compile arrow, engine, modes, rule count
+  var ka = ease(seg(t, A2 + .2, A2 + 1.1));
+  $('arp').style.strokeDasharray = arLen; $('arp').style.strokeDashoffset = arLen * (1 - ka);
+  op($('arh'), ease(seg(t, A2 + .9, A2 + 1.2))); op($('arrowL'), ease(seg(t, A2 + .5, A2 + 1.1)));
+  var ke = ease(seg(t, A2 + .8, A2 + 1.5)); op($('eng'), ke); $('eng').style.transform = 'translateX(' + (1 - ke) * 20 + 'px)';
+  $('enf').classList.toggle('on', t >= A2 + 1.7);
+  var kn = seg(t, A2 + 2.2, A2 + 4.8);
+  var rn = D.rules == null ? '–' : String(Math.round(D.rules * kn));
+  if ($('rn').textContent !== rn) $('rn').textContent = rn;
+  op($('rb'), ease(seg(t, A2 + 4.8, A2 + 5.3)));
+
+  // act 3: actions stream in, receipts chain
+  op($('feedH'), ease(seg(t, A3, A3 + .4)));
+  op($('chain'), ease(seg(t, A3, A3 + .4)));
+  var shown = 0;
+  (E.acts || []).forEach(function (el, i) {
+    var a0 = A3 + .3 + i * STEP, k = ease(seg(t, a0, a0 + .3)); op(el, k);
+    if (t >= a0) shown = i + 1;
+    el.classList.toggle('new', t >= a0 && t < a0 + STEP && t < FIN);
+  });
+  var sc = 0; (E.acts || []).forEach(function (el, i) { sc += 30 * ease(seg(t, A3 + .3 + i * STEP, A3 + .3 + i * STEP + .3)) * (i >= 5 ? 1 : 0); });
+  $('feed').style.transform = 'translateY(' + (-sc) + 'px)';
+  var fc = E.acts ? shown + ' of ' + E.acts.length : '';
+  if ($('fcount').textContent !== fc) $('fcount').textContent = fc;
+  (E.rc || []).forEach(function (r, i) {
+    var on = t >= A3 + .3 + i * STEP + .25;
+    r.style.fill = on ? 'var(--accent)' : 'var(--panel)'; r.style.stroke = on ? 'var(--accent)' : 'var(--line)';
+  });
+  (E.lk || []).forEach(function (l, i) { l.style.opacity = t >= A3 + .3 + (i + 1) * STEP + .25 ? 1 : .15; });
+  var L = D.ledger, nAll = E.rc ? E.rc.length : 0, done = E.acts && t >= A3 + .3 + (nAll - 1) * STEP + .6;
+  var cl = 'decision receipts, hash-chained: <b>' + Math.min(shown, nAll) + '</b>' + (L ? ' · ledger length ' + L.length : '') +
+           (done && L ? ' · chain <b>' + (L.valid ? 'valid ✓' : 'INVALID') + '</b>' : '');
+  if ($('chainL').innerHTML !== cl) $('chainL').innerHTML = cl;
+
+  // final frame
+  var k1 = ease(seg(t, FIN, FIN + .8)), k2 = ease(seg(t, FIN + .7, FIN + 1.6));
+  op($('tally'), k1); $('tally').style.transform = 'translateY(' + (1 - k1) * 12 + 'px)';
+  op($('close'), k2); $('close').style.transform = 'translateY(' + (1 - k2) * 12 + 'px)';
+  $('pbar').firstChild.style.width = (100 * clamp(t / END, 0, 1)) + '%';
+}
+
+var start = performance.now(), FREEZE = null;
+function frame(nowT) {
+  if (FREEZE == null && (REVIEW || RM)) FREEZE = END;
+  if (Q.has('t')) FREEZE = clamp(+Q.get('t') || 0, 0, END);
+  var t = FREEZE != null ? FREEZE : (nowT - start) / 1000;
+  try { render(Math.min(t, END)); } catch (e) { console.error(e); return; }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
