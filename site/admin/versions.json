@@ -5,9 +5,19 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.26",
+   "version": "v0.1.27",
    "date": "2026-10-15",
    "commit": null,
+   "title": "The talk stops at the end of the deck",
+   "changes": "In any mode (auto on or off, playing), the talk now stops at the end of its last slide; Space no longer runs on into the extras. Only » or → enters them.",
+   "pages": [
+    "talk/player.html"
+   ]
+  },
+  {
+   "version": "v0.1.26",
+   "date": "2026-10-15",
+   "commit": "d05cba1",
    "title": "Open source: the business model, before the newsroom",
    "changes": "A new slide before newsroom.sgit.ai: 'Open source is the best business model for a startup', with eight live screenshots of open-source.sgit.ai (the front page, for founders, survivability, the history 1955 to 2026, Apache-2.0 rather than MIT, funding, open core, and a phone). A still, 15 s.",
    "pages": [

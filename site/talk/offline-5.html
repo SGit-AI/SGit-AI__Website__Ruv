@@ -560,8 +560,8 @@ function tick(now) {
   if (playing && !held) {
     const ix0 = beatAt(t), b0 = B[ix0], end = b0.at + b0.dur
     let nt = t + dt * rate
-    if (hold && nt >= end - 0.05 && t < end - 0.05) { nt = end - 0.05; held = true }    // hold at the end of the slide
-    if (!b0.extra && nt >= MAIN) { nt = MAIN - 0.05; playing = false }                   // the timed talk ends; extras wait for a push
+    if (!b0.extra && nt >= MAIN - 0.05) { nt = MAIN - 0.05; playing = false; held = false }   // the end of the deck: stop, in any mode; extras only with » or →
+    else if (hold && nt >= end - 0.05 && t < end - 0.05) { nt = end - 0.05; held = true }    // hold at the end of the slide
     if (b0.extra && nt >= end) { nt = end - 0.05; held = true }                          // extras always hold
     t = Math.min(TOTAL, nt)
   }
@@ -621,7 +621,7 @@ function onKey(e) {
   if (!talk) return
   const k = e.key; let handled = true
   $('intro').style.display = 'none'; leader = true
-  if (k === ' ' || k === 'k' || k === 'K') { if (held) { held = false; step(1); playing = true } else playing = !playing }
+  if (k === ' ' || k === 'k' || k === 'K') { if (held) { held = false; step(1); playing = true } else if (!playing && !B[beatAt(t)].extra && t >= MAIN - 0.1) { /* the end of the deck: Space does not run on into the extras */ } else playing = !playing }
   else if (k === 'ArrowRight' || k === 'tap') step(1)
   else if (k === 'ArrowLeft') step(-1)
   else if (k === 'PageDown' || k === 'ArrowDown' || k === 'n' || k === 'N' || k === 'swipe-next') goBeat(beatAt(t) + 1)
