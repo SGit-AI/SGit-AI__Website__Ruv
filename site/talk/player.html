@@ -64,7 +64,10 @@ body.pick #pick { display:flex } #pick .ph { display:flex; gap:16px; align-items
 body.review .b, body.review tr.row, body.review ul.bul li, body.review .term .out { transition:none !important } body.review .cursor { display:none }
 #prog { flex:1; height:8px; background:var(--line); border-radius:4px; position:relative; cursor:pointer }
 #prog i { position:absolute; top:-4px; width:2px; height:16px; background:var(--dim) }
-#prog b { position:absolute; left:0; top:0; bottom:0; background:var(--teal); border-radius:4px }
+#prog b { position:absolute; left:0; top:0; bottom:0; background:var(--teal); border-radius:4px; z-index:1 }
+#prog u.xseg { position:absolute; top:0; bottom:0; background:var(--warm); opacity:.35; border-radius:4px }
+#prog s.gap { position:absolute; top:-2px; bottom:-2px; background:var(--bg); z-index:2 }
+#prog i { z-index:3 }
 .slide { width:100%; max-width:1400px }
 .statement h1 { font:600 5.6vh/1.18 Georgia,serif; margin:0 0 3.4vh; color:var(--head) }
 .title .sub { font-size:3.4vh; color:var(--text) } .title .who { font-size:2.8vh; margin-top:5vh; color:var(--dim) }
@@ -183,7 +186,8 @@ async function load() {
   TOTAL = at
   $('ttl').textContent = talk.title
   $('sub').textContent = `${talk.event} · ${fmt(MAIN)} · ${talk.beats.length} slides` + (talk.extras?.length ? ` + ${talk.extras.length} extras` : '')
-  B.forEach(b => { const i = document.createElement('i'); i.style.left = (100 * b.at / TOTAL) + '%'; if (b.extra) i.style.background = 'var(--warm)'; $('prog').appendChild(i) })
+  if (TOTAL > MAIN) { const x = document.createElement('u'); x.className = 'xseg'; x.style.left = pos(MAIN) + GAP + '%'; x.style.right = '0'; x.title = 'extras: after the talk, untimed'; $('prog').appendChild(x); const g = document.createElement('s'); g.className = 'gap'; g.style.left = pos(MAIN) + '%'; g.style.width = GAP + '%'; $('prog').appendChild(g) }
+  B.forEach(b => { const i = document.createElement('i'); i.style.left = pos(b.at + (b.extra ? 0.001 : 0)) + '%'; if (b.extra) i.style.background = 'var(--warm)'; $('prog').appendChild(i) })
   check()
   if (qs.has('t')) t = +qs.get('t')
   if (VIEW === 'audience' || qs.has('t')) $('intro').style.display = 'none'
@@ -199,6 +203,10 @@ function check() {
   if (bad.length) fail('Timeline does not add up: ' + bad.join(', '))
 }
 
+// the timeline bar: the timed talk, a small gap, then the extras (shaded) after it
+const GAP = 2.5
+function pos(s) { if (TOTAL <= MAIN) return 100 * s / MAIN; const mw = (100 - GAP) * MAIN / TOTAL; return s <= MAIN ? mw * s / MAIN : mw + GAP + (100 - mw - GAP) * (s - MAIN) / (TOTAL - MAIN) }
+function unpos(p) { if (TOTAL <= MAIN) return MAIN * p / 100; const mw = (100 - GAP) * MAIN / TOTAL; return p <= mw ? MAIN * p / mw : p < mw + GAP ? MAIN : MAIN + (TOTAL - MAIN) * (p - mw - GAP) / (100 - mw - GAP) }
 function beatAt(s) { let ix = 0; B.forEach((b, i) => { if (s >= b.at) ix = i }); return ix }
 
 // table rows from the site's data, so the slide shows what the run produced
@@ -367,7 +375,7 @@ function tick(now) {
   paintSteps(b, review ? b.dur : local)
   $('clock').textContent = b.extra ? `extra · ${fmt(MAIN)}` : `${fmt(t)} / ${fmt(MAIN)}`
   $('beatno').textContent = b.extra ? `+${ix + 1 - talk.beats.length}` : `${ix + 1}/${talk.beats.length}`
-  $('progb').style.width = (100 * t / TOTAL) + '%'
+  $('progb').style.width = pos(t) + '%'
   $('state').textContent = (review ? 'review' : held ? 'holding' : playing ? 'playing' : 'paused') + (rate !== 1 ? ` · ${rate}×` : '') + (rehearse ? ' · rehearsing' : '') + (VIEW === 'audience' ? ' · audience' : '')
   $('pp').textContent = playing && !held ? '❚❚' : '▶'; $('nb').classList.toggle('on', document.body.classList.contains('presenter')); $('rv').classList.toggle('on', review); $('hd').classList.toggle('on', !hold); $('hd').textContent = hold ? 'auto off' : 'auto ▸▸'; $('go').classList.toggle('on', document.body.classList.contains('pick')); paintTimer(b); $('sp').textContent = rate + '×'
   // how long until the next slide, in talk seconds and at the current speed
@@ -390,7 +398,8 @@ chan?.postMessage({ from: ME, hello: true })
 
 function goBeat(ix) { ix = Math.max(0, Math.min(B.length - 1, ix)); t = B[ix].at; held = false; if (ix !== beatIx) beatIx = -1 }
 // every step has two stops: its start, and its end (just before the next step starts, so its part is fully built).
-// Moving to an end pauses there, so you can talk over the finished picture; moving to a start plays on from there.
+// Moving to an end pauses there, so you can talk over the finished picture. Going back always pauses. Nothing here starts
+// playback: only ▶ or Space does.
 function stops(b) {
   const st = stepsOf(b), out = []
   st.forEach((x, i) => {
@@ -407,8 +416,8 @@ function step(dir) {
   let to = null
   if (dir > 0) to = sp.find(x => x.t > local + 0.05)
   else to = [...sp].reverse().find(x => x.t < local - 0.15)
-  if (to) { t = b.at + to.t; held = false; playing = !to.end; return }
-  if (dir > 0) { goBeat(ix + 1); playing = true }
+  if (to) { t = b.at + to.t; held = false; if (to.end || dir < 0) playing = false; return }
+  if (dir > 0) goBeat(ix + 1)
   else if (ix > 0) { const pb = B[ix - 1], ps = stops(pb); beatIx = -1; t = pb.at + ps[ps.length - 1].t; held = false; playing = false }
 }
 function onKey(e) {
@@ -419,7 +428,7 @@ function onKey(e) {
   else if (k === 'ArrowRight' || k === 'tap') step(1)
   else if (k === 'ArrowLeft') step(-1)
   else if (k === 'PageDown' || k === 'ArrowDown' || k === 'n' || k === 'N' || k === 'swipe-next') goBeat(beatAt(t) + 1)
-  else if (k === 'PageUp' || k === 'ArrowUp' || k === 'swipe-back') { const ix = beatAt(t); goBeat(t - B[ix].at < 2 ? ix - 1 : ix) }
+  else if (k === 'PageUp' || k === 'ArrowUp' || k === 'swipe-back') { const ix = beatAt(t); goBeat(t - B[ix].at < 2 ? ix - 1 : ix); playing = false }   // going back pauses
   else if (k === 's' || k === 'S') rate = RATES[(RATES.indexOf(rate) + 1) % RATES.length] || 1
   else if (k === 'h' || k === 'H') { hold = !hold; if (!hold && held) { held = false; step(1) } }
   else if (k === 'z' || k === 'Z') toggleTimer()
@@ -464,7 +473,7 @@ T.addEventListener('pointerup', e => {
   if (ms < 900 && Math.abs(dx) > 50 && Math.abs(dx) > 1.5 * Math.abs(dy)) onKey({ key: dx < 0 ? 'swipe-next' : 'swipe-back' })
   else if (Math.abs(dx) < 12 && Math.abs(dy) < 12 && ms < 600) onKey({ key: 'tap' })
 })
-$('prog').addEventListener('click', e => { const r = $('prog').getBoundingClientRect(); t = TOTAL * (e.clientX - r.left) / r.width; held = false; leader = true; send() })
+$('prog').addEventListener('click', e => { const r = $('prog').getBoundingClientRect(); t = unpos(100 * (e.clientX - r.left) / r.width); held = false; leader = true; send() })
 $('steps').addEventListener('click', e => { const d = e.target.closest('.st'); if (!d) return; const b = B[beatAt(t)]; t = b.at + stepsOf(b)[+d.dataset.i].t; held = false; leader = true; send() })
 
 // ready for a room with bad wifi: a service worker keeps every file the talk has used, and the player loads each live

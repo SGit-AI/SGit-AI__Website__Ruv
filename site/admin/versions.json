@@ -5,9 +5,20 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.23",
+   "version": "v0.1.24",
    "date": "2026-10-15",
    "commit": null,
+   "title": "Nothing plays unless you press play; the newsroom and a thank-you close the talk; extras set apart",
+   "changes": "Fix: stepping and going back no longer start playback; only ▶ or Space do. Going back (‹, «, a swipe back) always pauses; landing on the end of a step pauses. New slides: newsroom.sgit.ai, a still of eight of its views (front page, an article, ways to read one article, the wire as a graph, the desk, the newsletter, collections, a phone), live screenshots; and a closing 'Thank you, and thank you rUv. I don't think we have time for questions 🙂 so message my agent: agent@riskmandate.ai.' The timeline bar shows the extras after a small gap, shaded in the warm colour.",
+   "pages": [
+    "talk/player.html",
+    "talk/slides/newsroom/index.html"
+   ]
+  },
+  {
+   "version": "v0.1.23",
+   "date": "2026-10-15",
+   "commit": "1f5e46e",
    "title": "› on a live slide lands on each part fully built",
    "changes": "On live (animated) slides, › and ‹ now stop only on the end of each step, a second before the next part begins, so every press shows that part fully built and paused (no blank frames at the start of an act, no half-faded frames). Text slides keep start and end stops.",
    "pages": [

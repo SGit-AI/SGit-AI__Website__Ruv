@@ -2,7 +2,7 @@
  "title": "Autonomy with a mandate and a memory",
  "event": "Agentic Engineering Live: rUv in London, 15 Oct 2026",
  "speaker": "Dinis Cruz",
- "duration_s": 653,
+ "duration_s": 683,
  "source": "ruv.sgit.ai: every number on screen is read from data/report.json, data/vaults.json, studio/run.json or a recorded run under evidence/",
  "data": {
   "report": "../data/report.json",
@@ -351,7 +351,47 @@
     "heading": "ruv.sgit.ai",
     "sub": "many hands + memory + a mandate = ruv.sgit"
    },
-   "say": "Everything I showed tonight is live. The home page, the business overview, the shop, and the vault ledger with every run. Underneath sits sgit, and the newsroom where we write it up. Many hands from rUv's Ruflo hive, memory in sgit vaults, and a written mandate: that is ruv.sgit. The code is on GitHub, and agent@riskmandate.ai reaches us. Thank you, and thank you rUv. Go to ruv.sgit.ai."
+   "say": "Everything I showed tonight is live. The home page, the business overview, the shop, and the vault ledger with every run. Underneath sits sgit, and the newsroom where we write it up. Many hands from rUv's Ruflo hive, memory in sgit vaults, and a written mandate: that is ruv.sgit. The code is on GitHub, and agent@riskmandate.ai reaches us. Go to ruv.sgit.ai."
+  },
+  {
+   "id": "newsroom",
+   "title": "newsroom.sgit.ai",
+   "dur": 15,
+   "slide": {
+    "layout": "iframe",
+    "src": "slides/newsroom/index.html",
+    "fallback": "../assets/img/talk/newsroom.webp",
+    "heading": "newsroom.sgit.ai",
+    "sub": "One newsroom, many ways to read it: front page, articles, the wire as a graph, the desk, the newsletter, collections, a phone"
+   },
+   "say": "And newsroom.sgit.ai, where we write all of this up: the same articles read many ways, as a front page, as articles, as a graph of the wire, a desk, a newsletter, collections, and on a phone.",
+   "at": 653
+  },
+  {
+   "id": "thanks",
+   "title": "Thank you",
+   "dur": 15,
+   "slide": {
+    "layout": "statement",
+    "sub": "ruv.sgit.ai · github.com/SGit-AI/SGit-AI__Website__Ruv",
+    "text": "Thank you, and thank you rUv.",
+    "builds": [
+     {
+      "at": 2,
+      "text": "Many hands + memory + a mandate = <b style=\"color:var(--accent)\">ruv.sgit</b>"
+     },
+     {
+      "at": 5,
+      "text": "I don't think we have time for questions 🙂"
+     },
+     {
+      "at": 7,
+      "text": "so message my agent: <b style=\"color:var(--accent)\">agent@riskmandate.ai</b>"
+     }
+    ]
+   },
+   "say": "Thank you, and thank you rUv. Many hands, plus memory, plus a mandate. I don't think we have time for questions, so message my agent: agent@riskmandate.ai.",
+   "at": 668
   }
  ],
  "extras": [
