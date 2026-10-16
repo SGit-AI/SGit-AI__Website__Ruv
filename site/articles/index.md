@@ -1,5 +1,6 @@
 # Articles (ruv.sgit.ai)
 
+- [Getting started with ruv.sgit: a ladder of examples, and run vaults that end sealed and published](getting-started.md) · No. 10 · 2026-10-16
 - [From the talk to the service: the next phase of ruv.sgit.ai (a debrief, and the brief for building it)](next-phase.md) · No. 9 · 2026-10-16
 - [Walking backwards: how the talk player found its features](walking-backwards.md) · No. 8 · 2026-10-15
 - [The talk player: a presentation as a timeline of live web pages](the-talk-player.md) · No. 7 · 2026-10-15
