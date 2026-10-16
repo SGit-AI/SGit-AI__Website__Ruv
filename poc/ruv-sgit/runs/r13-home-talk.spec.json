@@ -1,0 +1,7 @@
+{
+ "purpose": "r13-home-talk: a big section on the home page about the talk of 15 October, with the photo rUv posted to his network and the deck playable from the home page",
+ "feedback": "Dinis, 16 Oct: put on the home page a big section about yesterday using the photo attached (note that this was rUv posting to his network) and the slide deck (playable from the home page). The focus for the site in the next couple of days is my presentation.",
+ "workers": [
+  {"id": "conductor", "role": "conductor", "task": "the home page section: the photo (cropped to the photo only), the embedded player, links to the articles", "out": "site/index.html, site/assets/img/talk/meetup-15-oct.webp"}
+ ]
+}

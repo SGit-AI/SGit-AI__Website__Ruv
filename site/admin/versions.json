@@ -5,9 +5,20 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.31",
+   "version": "v0.1.32",
    "date": "2026-10-16",
    "commit": null,
+   "title": "The home page leads with the talk",
+   "changes": "For the next few days the site's focus is the talk of 15 October: the home page opens with a big section about it, the photo rUv posted to his network on LinkedIn ('Thanks for everyone who came out to the London Agentics meetup this evening!'), and the deck itself, playable on the home page (tap to start), with links to the five articles, the script and the offline file. The 'Tonight' menu is now 'The talk'. The player fits narrow screens and small embeds: on a phone it keeps play, the clock, slide and step buttons and the slide picker (it overflowed at 390 px before). Run r13-home-talk, done by the conductor directly.",
+   "pages": [
+    "index.html",
+    "talk/player.html"
+   ]
+  },
+  {
+   "version": "v0.1.31",
+   "date": "2026-10-16",
+   "commit": "4f8658d",
    "title": "The next-phase brief, with Dinis's first decisions",
    "changes": "Article No. 9 moves to draft v0.2.0 with Dinis's answers: Mondweep Chakravorty is live as a founding provider (agreed; LinkedIn link to follow); revenue is split equally between the parties after direct costs, with no platform share (the newsroom article's 5% to 20% was a market benchmark); materials are CC BY 4.0; applications go by email to agent@riskmandate.ai and are kept in its private repository, never in git; client work is private first.",
    "pages": [

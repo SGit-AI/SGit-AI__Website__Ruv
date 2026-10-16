@@ -1,0 +1,186 @@
+{
+ "run": "r13-home-talk",
+ "purpose": "r13-home-talk: a big section on the home page about the talk of 15 October, with the photo rUv posted to his network and the deck playable from the home page",
+ "feedback": "Dinis, 16 Oct: put on the home page a big section about yesterday using the photo attached (note that this was rUv posting to his network) and the slide deck (playable from the home page). The focus for the site in the next couple of days is my presentation.",
+ "vault_id": "u2tgokkz",
+ "created_at": "2026-10-16T13:34:15+00:00",
+ "closed_at": "2026-10-16T13:36:46+00:00",
+ "deleted_at": "2026-10-16T13:36:47+00:00",
+ "hive": {
+  "workers": 1,
+  "tasks": 1,
+  "ruflo_calls": 7,
+  "ruflo_ms": 3160
+ },
+ "branches": [
+  {
+   "name": "w-conductor",
+   "role": "conductor",
+   "commits": 1,
+   "files": 4,
+   "bytes": 329475,
+   "write_ms": 1524,
+   "merge_ms": 1662
+  }
+ ],
+ "commits": 3,
+ "files": 6,
+ "bytes_plain": 330472,
+ "files_delivered": 4,
+ "bytes_delivered": 329475,
+ "server_store": {
+  "files": 23,
+  "bytes": 337873,
+  "plaintext_hits": 0,
+  "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+ },
+ "clone": {
+  "ms": 503,
+  "files": 6,
+  "identical": true
+ },
+ "ops": [
+  {
+   "op": "init",
+   "ms": 446,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 506,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 559,
+   "rc": 0
+  },
+  {
+   "op": "branch-new",
+   "ms": 476,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 464,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 583,
+   "rc": 0
+  },
+  {
+   "op": "branch-switch",
+   "ms": 565,
+   "rc": 0
+  },
+  {
+   "op": "merge",
+   "ms": 511,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 586,
+   "rc": 0
+  },
+  {
+   "op": "history",
+   "ms": 427,
+   "rc": 0
+  },
+  {
+   "op": "clone",
+   "ms": 503,
+   "rc": 0
+  }
+ ],
+ "ruflo": [
+  {
+   "seq": 1,
+   "actor": "queen",
+   "cmd": "hive-mind init -t hierarchical-mesh -c byzantine -m 12",
+   "rc": 0,
+   "ms": 693
+  },
+  {
+   "seq": 2,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t conductor -r specialist -p conductor",
+   "rc": 0,
+   "ms": 437
+  },
+  {
+   "seq": 3,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d conductor: the home page section: the photo (cropped to the photo only), the embedded player, links to the articles -p high",
+   "rc": 0,
+   "ms": 402
+  },
+  {
+   "seq": 4,
+   "actor": "conductor",
+   "cmd": "hive-mind broadcast -m run r13-home-talk: r13-home-talk: a big section on the home page about the talk of 15 October, with the photo rUv posted to his network and the deck playable from the home page -f conductor",
+   "rc": 0,
+   "ms": 397
+  },
+  {
+   "seq": 5,
+   "actor": "conductor",
+   "cmd": "hive-mind broadcast -m delivered conductor sha256:6e94dcaa42d68e09 files:4 -f conductor",
+   "rc": 0,
+   "ms": 414
+  },
+  {
+   "seq": 6,
+   "actor": "queen",
+   "cmd": "hive-mind status",
+   "rc": 0,
+   "ms": 423
+  },
+  {
+   "seq": 7,
+   "actor": "queen",
+   "cmd": "daemon stop",
+   "rc": 0,
+   "ms": 394
+  }
+ ],
+ "history": [
+  {
+   "id": "8af5c00ad8e7",
+   "message": "init",
+   "time": "2026-10-16T13:34:17Z",
+   "files_added": 0,
+   "parents": 0
+  },
+  {
+   "id": "922ff48806fa",
+   "message": "brief: run r13-home-talk",
+   "time": "2026-10-16T13:34:18Z",
+   "files_added": 2,
+   "parents": 1
+  },
+  {
+   "id": "6d72358e0c3c",
+   "message": "conductor conductor: delivered 4 files",
+   "time": "2026-10-16T13:36:41Z",
+   "files_added": 4,
+   "parents": 1
+  }
+ ],
+ "workers": [
+  {
+   "id": "conductor",
+   "role": "conductor",
+   "tokens": 0,
+   "note": "done by the conductor session directly; no worker"
+  }
+ ],
+ "deleted_paths": 51,
+ "delete_check": {
+  "store_paths_left": 0,
+  "clone_after_delete": "failed"
+ }
+}

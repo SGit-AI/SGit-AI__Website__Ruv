@@ -105,12 +105,17 @@ ul.bul { list-style:none; padding:0; font-size:3.4vh; margin:0 } ul.bul li { mar
 .ctl.small button { height:32px; min-width:38px; font-size:14px; border-radius:8px }
 .ctl button small { display:block; font:600 9px ui-sans-serif,system-ui; letter-spacing:.06em; text-transform:uppercase; opacity:.7; margin-top:-2px }
 @media (max-width:1100px) { #state, #cache, #beatno { display:none } .ctl button.timer { min-width:7.5em } #bar .clock { font-size:17px; min-width:5.4em } .ctl button.nav { min-width:46px } }
+@media (max-width:780px) {   /* a phone or a small embed: the essentials only (play, clock, slide and step, slides, timer hidden) */
+  .ctl.small button:not(#ex):not(#go), #hd, #tm, #tr, #sp, #state, #beatno, #cache { display:none }
+  .ctl button.nav small { display:none } .ctl button.nav { min-width:36px; font-size:18px } .ctl button.pp { min-width:48px }
+  #bar .row { gap:6px; padding:0 6px } #bar .clock { font-size:13px; min-width:0 } #prog { min-width:30px }
+  #intro h2 { font-size:4vh } #intro p { font-size:12px } }
 @media (max-width:700px) { #steps .st span { font-size:0 } #count { min-width:6em; font-size:14px } #count .n { font-size:18px } }
 @media (orientation:portrait) {   /* iPad upright: the words go under the slide, not beside it */
   body.presenter #stage, body.presenter #touch { inset:0 0 calc(42vh + var(--barh)) 0 }
   body.presenter #side { top:auto; bottom:var(--barh); left:0; width:auto; height:42vh; border-left:0; border-top:1px solid var(--line) }
   .statement h1 { font-size:4.4vh } .shead h2 { font-size:3.6vh } .shead h2.big { font-size:5.4vh } table { font-size:1.7vh } }
-#intro { position:absolute; inset:0 0 var(--barh) 0; display:flex; align-items:center; justify-content:center; text-align:center; color:var(--dim); background:var(--bg); z-index:10; padding:20px }
+#intro { position:absolute; inset:0 0 var(--barh) 0; overflow:hidden; cursor:pointer; display:flex; align-items:center; justify-content:center; text-align:center; color:var(--dim); background:var(--bg); z-index:10; padding:20px }
 #intro h2 { color:var(--fg); font:600 5vh Georgia,serif; margin:0 0 1vh } #intro kbd, #help kbd { border:1px solid var(--line); border-radius:4px; padding:1px 6px; color:var(--fg); font:14px ui-monospace,monospace }
 #help { position:fixed; inset:10vh 20vw; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:24px 30px; display:none; z-index:40; overflow:auto } body.help #help { display:block }
 #help td { font-size:16px; padding:6px 10px }
@@ -463,7 +468,7 @@ addEventListener('keydown', onKey)
 window.addEventListener('ruv-theme', e => { try { frameEl()?.contentDocument.documentElement.setAttribute('data-theme', e.detail) } catch {} })
 // touch: on-screen buttons; on the slide, a tap is the next step and a swipe the next (or previous) slide
 document.querySelectorAll('.ctl button').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); onKey({ key: b.dataset.k }); b.blur() }))
-$('intro').addEventListener('click', () => { $('intro').style.display = 'none' })
+$('intro').addEventListener('click', () => { $('intro').style.display = 'none'; if (EMBED && !playing) playing = true })   // embedded in a page: a tap on the intro starts the talk
 let sw = null
 const T = $('touch')
 T.addEventListener('pointerdown', e => { sw = { x: e.clientX, y: e.clientY, t: performance.now() } })
