@@ -1,0 +1,87 @@
+[
+  {
+    "step": "MCP connected",
+    "details": {
+      "tools": [
+        "checkpoint",
+        "inspect",
+        "restore",
+        "close_run"
+      ]
+    }
+  },
+  {
+    "step": "ABP compiled to Ruflo rules",
+    "details": {
+      "profile": "sgit-ruv-memory/v1",
+      "rules": 4,
+      "delete": "approval_required"
+    }
+  },
+  {
+    "step": "Two worker facts stored",
+    "details": {
+      "rows": 2,
+      "backend": "SQLite WAL"
+    }
+  },
+  {
+    "step": "Policy blocks unauthorised namespace",
+    "details": {
+      "blocked": true,
+      "checkpoint_files": 0
+    }
+  },
+  {
+    "step": "Encrypted checkpoint committed",
+    "details": {
+      "id": "299292643ab042a5a2e28047e2e03f8f",
+      "ciphertext_sha256": "0d65c06fb8bc0624445f99aab0fdc4a521977ee18a37986ea89a77082e7e9a50",
+      "policy_sha256": "463d4228d66981dad9c38027e831f9c075d25b7db2e336f0d6f7fedc89df452e",
+      "abp_sha256": "92ca6959ebc6e1b28ece0a3161dc70d7d520bc5feadb8adfd2a2d6a9c25bc2a4"
+    }
+  },
+  {
+    "step": "ABP approval blocks deletion",
+    "details": {
+      "blocked": true,
+      "checkpoint_retained": true
+    }
+  },
+  {
+    "step": "Encrypted store probe",
+    "details": {
+      "plaintext_fragment_hits": 0,
+      "key_marker_hits": 0
+    }
+  },
+  {
+    "step": "Original database removed",
+    "details": {
+      "exists": false
+    }
+  },
+  {
+    "step": "Fresh process restores both facts",
+    "details": {
+      "rows": [
+        [
+          "coder",
+          "Use SQLite backup for consistent snapshots"
+        ],
+        [
+          "tester",
+          "Verify restored memory before promotion"
+        ]
+      ],
+      "sha256_matches": true
+    }
+  },
+  {
+    "step": "Tampered checkpoint rejected",
+    "details": {
+      "blocked": true,
+      "workspace_created": false
+    }
+  }
+]
