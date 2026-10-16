@@ -1,5 +1,6 @@
 # Articles (ruv.sgit.ai)
 
+- [From the talk to the service: the next phase of ruv.sgit.ai (a debrief, and the brief for building it)](next-phase.md) · No. 9 · 2026-10-16
 - [Walking backwards: how the talk player found its features](walking-backwards.md) · No. 8 · 2026-10-15
 - [The talk player: a presentation as a timeline of live web pages](the-talk-player.md) · No. 7 · 2026-10-15
 - [How it was made: from agents the session ran itself to ruv.sgit runs](how-it-was-made.md) · No. 6 · 2026-10-15

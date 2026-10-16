@@ -1,0 +1,261 @@
+{
+ "run": "r12-next-phase",
+ "purpose": "r12-next-phase: the debrief and brief for the next phase: turn ruv.sgit.ai from a site about the talk into the site that offers the service, with a marketplace of providers",
+ "feedback": "Dinis, 16 Oct: move these models into operational next steps: convert this website into the website that offers this service. The first two providers are Dinis and Mondweep (from the Agentics Foundation); add a place for others to join, the rules of engagement, how it will work, and a waiting list to apply; clients already have the emailed order. First write an article debrief that is also the brief for the implementation, so Dinis can check and fine-tune it, then implement. Capture screenshots of the current home page and main areas as a historical record, map every change (URLs, positioning, menu; breaking changes). Read the newsroom article that starts mapping the workflow. Three audiences: people who want to buy the service; consultants and service companies who want to be part of the marketplace; people who want to learn about ruv.sgit (who may become one of the other two). Rules of engagement: everything is open source / Creative Commons, all materials and playbooks published, anybody can do this without us and we encourage it; code created in engagements through us is open, except the client's own code and data; changes are committed back; revenue split equally between the parties (50/50, or a third each with three); billing by whoever has the client; custom arrangements possible.",
+ "vault_id": "sls4vq1c",
+ "created_at": "2026-10-16T11:47:36+00:00",
+ "closed_at": "2026-10-16T11:56:00+00:00",
+ "deleted_at": "2026-10-16T11:56:01+00:00",
+ "hive": {
+  "workers": 2,
+  "tasks": 2,
+  "ruflo_calls": 10,
+  "ruflo_ms": 4469
+ },
+ "branches": [
+  {
+   "name": "w-archivist",
+   "role": "archivist",
+   "commits": 1,
+   "files": 17,
+   "bytes": 1070291,
+   "write_ms": 1519,
+   "merge_ms": 1623
+  },
+  {
+   "name": "w-writer",
+   "role": "writer",
+   "commits": 1,
+   "files": 2,
+   "bytes": 117183,
+   "write_ms": 1490,
+   "merge_ms": 1655
+  }
+ ],
+ "commits": 4,
+ "files": 21,
+ "bytes_plain": 1190825,
+ "files_delivered": 19,
+ "bytes_delivered": 1187474,
+ "server_store": {
+  "files": 45,
+  "bytes": 1206802,
+  "plaintext_hits": 0,
+  "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+ },
+ "clone": {
+  "ms": 600,
+  "files": 21,
+  "identical": true
+ },
+ "ops": [
+  {
+   "op": "init",
+   "ms": 463,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 440,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 604,
+   "rc": 0
+  },
+  {
+   "op": "branch-new",
+   "ms": 436,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 449,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 632,
+   "rc": 0
+  },
+  {
+   "op": "branch-switch",
+   "ms": 512,
+   "rc": 0
+  },
+  {
+   "op": "merge",
+   "ms": 493,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 618,
+   "rc": 0
+  },
+  {
+   "op": "branch-new",
+   "ms": 423,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 450,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 616,
+   "rc": 0
+  },
+  {
+   "op": "branch-switch",
+   "ms": 510,
+   "rc": 0
+  },
+  {
+   "op": "merge",
+   "ms": 525,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 620,
+   "rc": 0
+  },
+  {
+   "op": "history",
+   "ms": 542,
+   "rc": 0
+  },
+  {
+   "op": "clone",
+   "ms": 600,
+   "rc": 0
+  }
+ ],
+ "ruflo": [
+  {
+   "seq": 1,
+   "actor": "queen",
+   "cmd": "hive-mind init -t hierarchical-mesh -c byzantine -m 12",
+   "rc": 0,
+   "ms": 565
+  },
+  {
+   "seq": 2,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t archivist -r specialist -p archivist",
+   "rc": 0,
+   "ms": 409
+  },
+  {
+   "seq": 3,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t writer -r specialist -p writer",
+   "rc": 0,
+   "ms": 458
+  },
+  {
+   "seq": 4,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d archivist: screenshots of the current site's home page and main areas, and an inventory of every URL, page title and the menu, as the historical record before the change -p high",
+   "rc": 0,
+   "ms": 435
+  },
+  {
+   "seq": 5,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d writer: the article debrief that is also the implementation brief for the next phase -p high",
+   "rc": 0,
+   "ms": 450
+  },
+  {
+   "seq": 6,
+   "actor": "conductor",
+   "cmd": "hive-mind broadcast -m run r12-next-phase: r12-next-phase: the debrief and brief for the next phase: turn ruv.sgit.ai from a site about the talk into the site that offers the service, with a marketplace of providers -f conductor",
+   "rc": 0,
+   "ms": 409
+  },
+  {
+   "seq": 7,
+   "actor": "archivist",
+   "cmd": "hive-mind broadcast -m delivered archivist sha256:91dec689139f7ffc files:17 -f archivist",
+   "rc": 0,
+   "ms": 367
+  },
+  {
+   "seq": 8,
+   "actor": "writer",
+   "cmd": "hive-mind broadcast -m delivered writer sha256:54113aa2fc18f704 files:2 -f writer",
+   "rc": 0,
+   "ms": 388
+  },
+  {
+   "seq": 9,
+   "actor": "queen",
+   "cmd": "hive-mind status",
+   "rc": 0,
+   "ms": 485
+  },
+  {
+   "seq": 10,
+   "actor": "queen",
+   "cmd": "daemon stop",
+   "rc": 0,
+   "ms": 503
+  }
+ ],
+ "history": [
+  {
+   "id": "5b95edf7b253",
+   "message": "init",
+   "time": "2026-10-16T11:47:39Z",
+   "files_added": 0,
+   "parents": 0
+  },
+  {
+   "id": "03cd117cb05b",
+   "message": "brief: run r12-next-phase",
+   "time": "2026-10-16T11:47:39Z",
+   "files_added": 2,
+   "parents": 1
+  },
+  {
+   "id": "ca89c5943969",
+   "message": "archivist archivist: delivered 17 files",
+   "time": "2026-10-16T11:55:42Z",
+   "files_added": 17,
+   "parents": 1
+  },
+  {
+   "id": "07cddac035c1",
+   "message": "writer writer: delivered 2 files",
+   "time": "2026-10-16T11:55:45Z",
+   "files_added": 2,
+   "parents": 1
+  }
+ ],
+ "workers": [
+  {
+   "id": "archivist",
+   "role": "archivist",
+   "tokens": 78133,
+   "tool_uses": 14,
+   "wall_s": 129
+  },
+  {
+   "id": "writer",
+   "role": "writer",
+   "tokens": 157959,
+   "tool_uses": 41,
+   "wall_s": 428
+  }
+ ],
+ "deleted_paths": 95,
+ "delete_check": {
+  "store_paths_left": 0,
+  "clone_after_delete": "failed"
+ }
+}
