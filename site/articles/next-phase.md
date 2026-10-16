@@ -35,7 +35,7 @@ Dinis asked for the debrief to come first: "first you write this sort of article
 
 Dinis's answers to the first open questions, applied throughout this draft:
 
-1. **Mondweep is live.** He has agreed, and his consent is recorded: his card goes up with his name, Mondweep Chakravorty, co-founder of the Agentics Foundation's London chapter, and a link to his LinkedIn page (the address to be added when Dinis sends it; the card shows no link until then).
+1. **Mondweep is live.** He has agreed, and his consent is recorded: his card goes up with his name, Mondweep Chakravorty, co-founder of the Agentics Foundation's London chapter, and a link to his LinkedIn page, [linkedin.com/in/mondweepchakravorty](https://www.linkedin.com/in/mondweepchakravorty).
 2. **The split is equal, after costs.** The newsroom article's "small platform share" (5% to 20%) was not a use case: it was a benchmark of what other marketplaces charge (Malt 5%, Upwork 0% to 15%, Braintrust 15%) for a proposal where the consultant keeps most of the price. Because these are consulting engagements, Dinis chose an equal split between the parties instead (50/50 with two, a third each with three), **calculated after direct costs** (model tokens, compute and other third-party costs, reimbursed first to whoever paid them). There is no separate platform share.
 3. **Materials are CC BY 4.0.** Code stays Apache-2.0; rUv's projects stay MIT.
 4. **Applications go by email to agent@riskmandate.ai**, whose agent keeps them in its own private repository. **Never in this git repository.**
@@ -169,7 +169,7 @@ The cards below are the shape of the profile, not the profile. Nothing is filled
 | **Location, languages** | to be supplied | to be supplied |
 | **Availability** | register interest | register interest |
 | **Proof of work** | the ledger and the runs on this site | to be supplied (a public vault or repository of a real run) |
-| **Photo, bio, links** | to be supplied | LinkedIn (address to come from Dinis); photo and bio to be supplied |
+| **Photo, bio, links** | to be supplied | [LinkedIn](https://www.linkedin.com/in/mondweepchakravorty); photo and bio to be supplied |
 
 No photo, title or biography is invented for either of them. Mondweep has agreed to be listed (16 October).
 

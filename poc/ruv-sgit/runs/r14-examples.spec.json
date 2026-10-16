@@ -1,0 +1,8 @@
+{
+ "purpose": "r14-examples: getting started with ruv.sgit: a ladder of examples from hello world up, and run vaults that end sealed (the vault key deleted, so the vault is immutable) and published with a read key on ruv.sgit.ai, each with its brief, its output and its vault",
+ "feedback": "Dinis, 16 Oct (voice memo): create a very simple set of getting-started examples and powerful workflows, so consultants can learn and test and anyone can try it, from very simple hello world examples to more complex ones that leverage vaults. Do runs that use the visualisation of the vaults. Start publishing the vaults: an ephemeral vault represents a run, and once the run has ended it should not be modified, so by design the last step of a run is deleting the vault key, which makes the vault immutable; then publish it (read key) on ruv.sgit.ai as a great example. Have a standard way; list for each example the original brief, the output and the vault, so we can look at it. Reverse-engineer existing examples, create new ones, even a meta one. The killer workflow is the creation of animations to explain things. Look at how sgit.ai and the newsroom publish vaults.",
+ "workers": [
+  {"id": "mechanic", "role": "builder", "task": "the runner's new ending: seal (publish the vault as a static folder with its read key on the site, then delete the vault key) instead of delete; proven by a hello-world run and a clone back from the published folder", "out": "poc/ruv-sgit/ruvsgit.py, site/vaults/"},
+  {"id": "writer", "role": "writer", "task": "the brief article: getting started with ruv.sgit, the example ladder, the sealed-and-published vault lifecycle, the example page format, and the plan", "out": "site/articles/src/getting-started.md"}
+ ]
+}
