@@ -5,9 +5,19 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.30",
+   "version": "v0.1.31",
    "date": "2026-10-16",
    "commit": null,
+   "title": "The next-phase brief, with Dinis's first decisions",
+   "changes": "Article No. 9 moves to draft v0.2.0 with Dinis's answers: Mondweep Chakravorty is live as a founding provider (agreed; LinkedIn link to follow); revenue is split equally between the parties after direct costs, with no platform share (the newsroom article's 5% to 20% was a market benchmark); materials are CC BY 4.0; applications go by email to agent@riskmandate.ai and are kept in its private repository, never in git; client work is private first.",
+   "pages": [
+    "articles/next-phase.html"
+   ]
+  },
+  {
+   "version": "v0.1.30",
+   "date": "2026-10-16",
+   "commit": "a4d2654",
    "title": "The next phase, drafted: from the talk to the service (run r12-next-phase)",
    "changes": "Article No. 9 (DRAFT for Dinis to check and fine-tune): a debrief of where the site is and the brief for turning ruv.sgit.ai into the site that offers the ruv.sgit service through a marketplace of providers: three audiences (buyers, providers, learners), the founding providers (Dinis Cruz and Mondweep, from the Agentics Foundation), the rules of engagement (open source, client code and data stay the client's, changes committed back, revenue split equally between the parties, whoever has the client bills), how an engagement works, the provider application and waiting list, every current page mapped to its new place with the new menu and the breaking changes, a phased plan (runs r13 to r17) and open questions. The historical record of the site before the change: 15 screenshots and data/site-map-2026-10-16.json (site/build/site_map.py).",
    "pages": [

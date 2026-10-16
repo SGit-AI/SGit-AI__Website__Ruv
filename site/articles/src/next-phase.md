@@ -1,9 +1,9 @@
 ---
-{"no": 9, "title": "From the talk to the service: the next phase of ruv.sgit.ai (a debrief, and the brief for building it)", "author": "Dinis Cruz", "date": "2026-10-16", "version": "0.1.0 (DRAFT for review)", "tags": ["draft", "debrief", "brief", "ruv.sgit", "marketplace", "rules of engagement", "information architecture", "providers", "agentics"], "abstract": "DRAFT for Dinis to check and fine-tune before anything is built. On 15 October ruv.sgit.ai was the site of a talk: the talk and its player, six proofs of concept, eleven ruv.sgit runs and their ledger, the studio, four offers with a shop, and five articles written the same night. This is the debrief of where it stands, with screenshots of the home page and the main areas taken on 16 October as the historical record, and the brief for what comes next: turning it into the site that offers the ruv.sgit service, delivered through a marketplace of providers, starting with two founding providers, Dinis Cruz and Mondweep from the Agentics Foundation. It sets out the three audiences (people who want to buy the service, consultants and service companies who want to deliver it, and people who want to learn), the rules of engagement (open source and Creative Commons, client code and data stay the client's, changes committed back, revenue split equally between the parties, whoever has the client bills), how an engagement works end to end, the provider application and waiting list (a static form that writes an email, like the shop), every current page mapped to its new place, the new menu, the URL changes and how old links keep working, the breaking changes, five ruv.sgit runs to build it with acceptance checks, and the open questions, each with a proposed answer. Nothing here is built yet, nobody pays through the site, and there are no providers beyond the two founding ones."}
+{"no": 9, "title": "From the talk to the service: the next phase of ruv.sgit.ai (a debrief, and the brief for building it)", "author": "Dinis Cruz", "date": "2026-10-16", "version": "0.2.0 (DRAFT, decisions of 16 Oct applied)", "tags": ["draft", "debrief", "brief", "ruv.sgit", "marketplace", "rules of engagement", "information architecture", "providers", "agentics"], "abstract": "DRAFT for Dinis to check and fine-tune before anything is built. On 15 October ruv.sgit.ai was the site of a talk: the talk and its player, six proofs of concept, eleven ruv.sgit runs and their ledger, the studio, four offers with a shop, and five articles written the same night. This is the debrief of where it stands, with screenshots of the home page and the main areas taken on 16 October as the historical record, and the brief for what comes next: turning it into the site that offers the ruv.sgit service, delivered through a marketplace of providers, starting with two founding providers, Dinis Cruz and Mondweep from the Agentics Foundation. It sets out the three audiences (people who want to buy the service, consultants and service companies who want to deliver it, and people who want to learn), the rules of engagement (open source and Creative Commons, client code and data stay the client's, changes committed back, revenue split equally between the parties, whoever has the client bills), how an engagement works end to end, the provider application and waiting list (a static form that writes an email, like the shop), every current page mapped to its new place, the new menu, the URL changes and how old links keep working, the breaking changes, five ruv.sgit runs to build it with acceptance checks, and the open questions, each with a proposed answer. Nothing here is built yet, nobody pays through the site, and there are no providers beyond the two founding ones."}
 ---
 *Written by Claude (Claude Code) from Dinis Cruz's brief of 16 October 2026 (a dictated voice note), this site's files and run records, and the newsroom article [Agentics, ready to sell](https://newsroom.sgit.ai/articles/agentics-ready-to-sell.html). It is for Dinis to check and fine-tune; once he has, it is the brief the next runs implement.*
 
-> **DRAFT v0.1.0, for review.** Every rule, URL, page and price below is a proposal until Dinis signs it off. Edit the source (`site/articles/src/next-phase.md`), change anything, and the implementation follows the edited version. The version goes to 1.0.0 when it is approved, and each later change is listed at the end, so the article also records what changed and why, breaking changes included.
+> **DRAFT v0.2.0.** Dinis answered the first open questions on 16 October (see *Decisions, 16 October* below); the rest keep their proposed defaults until he says otherwise. Every rule, URL, page and price below is a proposal until Dinis signs it off. Edit the source (`site/articles/src/next-phase.md`), change anything, and the implementation follows the edited version. The version goes to 1.0.0 when it is approved, and each later change is listed at the end, so the article also records what changed and why, breaking changes included.
 
 ## In short
 
@@ -25,7 +25,17 @@ Dinis asked for the debrief to come first: "first you write this sort of article
 2. **A brief**: what to build, in what order, with what checks.
 3. **A record**: once implemented, the changes list at the end says what was done differently from this draft, and why.
 
-## Where we are: the debrief
+## Decisions, 16 October
+
+Dinis's answers to the first open questions, applied throughout this draft:
+
+1. **Mondweep is live.** He has agreed, and his consent is recorded: his card goes up with his name, Mondweep Chakravorty, co-founder of the Agentics Foundation's London chapter, and a link to his LinkedIn page (the address to be added when Dinis sends it; the card shows no link until then).
+2. **The split is equal, after costs.** The newsroom article's "small platform share" (5% to 20%) was not a use case: it was a benchmark of what other marketplaces charge (Malt 5%, Upwork 0% to 15%, Braintrust 15%) for a proposal where the consultant keeps most of the price. Because these are consulting engagements, Dinis chose an equal split between the parties instead (50/50 with two, a third each with three), **calculated after direct costs** (model tokens, compute and other third-party costs, reimbursed first to whoever paid them). There is no separate platform share.
+3. **Materials are CC BY 4.0.** Code stays Apache-2.0; rUv's projects stay MIT.
+4. **Applications go by email to agent@riskmandate.ai**, whose agent keeps them in its own private repository. **Never in this git repository.**
+5. **Client work is private first.** Everything to do with a client is private by default; anything published (a ledger entry, a case study) comes later and only with the client's agreement.
+
+
 
 ### What the site is today
 
@@ -145,7 +155,7 @@ The cards below are the shape of the profile, not the profile. Nothing is filled
 
 | Field | Dinis Cruz | Mondweep |
 |---|---|---|
-| **Name as shown** | Dinis Cruz | Mondweep (the surname "Chakravorty" appears in the newsroom article; to be confirmed for this site) |
+| **Name as shown** | Dinis Cruz | Mondweep Chakravorty (agreed, 16 October) |
 | **Affiliation** | to be supplied | the Agentics Foundation; the newsroom article describes him as "co-founder of the Agentics Foundation's London chapter" |
 | **Role here** | founding provider; built this site with Claude Code and gave the talk | founding provider |
 | **Project types offered** | to be supplied | to be supplied |
@@ -153,9 +163,9 @@ The cards below are the shape of the profile, not the profile. Nothing is filled
 | **Location, languages** | to be supplied | to be supplied |
 | **Availability** | register interest | register interest |
 | **Proof of work** | the ledger and the runs on this site | to be supplied (a public vault or repository of a real run) |
-| **Photo, bio, links** | to be supplied | to be supplied, only with his consent |
+| **Photo, bio, links** | to be supplied | LinkedIn (address to come from Dinis); photo and bio to be supplied |
 
-No photo, title or biography is invented for either of them, and nothing about Mondweep is published on this site beyond the line above until he has seen and agreed to his card.
+No photo, title or biography is invented for either of them. Mondweep has agreed to be listed (16 October).
 
 ## Rules of engagement
 
@@ -163,15 +173,15 @@ This section is written as the page it will become (`rules/index.html`). Dinis's
 
 ### The rules
 
-1. **Everything here is open.** Everything we do is open source and Creative Commons. We publish all the materials, all the playbooks and how to do it. Our code is Apache-2.0. Our materials and playbooks are Creative Commons (proposed: CC BY 4.0, which lets anyone reuse them, including commercially, as long as they credit the source). rUv's projects, which this builds on, are MIT, by rUv / ruvnet.
+1. **Everything here is open.** Everything we do is open source and Creative Commons. We publish all the materials, all the playbooks and how to do it. Our code is Apache-2.0. Our materials and playbooks are Creative Commons Attribution 4.0 (CC BY 4.0), which lets anyone reuse them, including commercially, as long as they credit the source. rUv's projects, which this builds on, are MIT, by rUv / ruvnet.
 2. **You can do this without us, and we encourage it.** Anybody can take the code, the playbooks and the method and deliver this to their own clients, under their own name, with no permission, no fee and no obligation to tell us. Anybody who implements this implements sgit vaults and Agent Behaviour Policies, and that is the outcome we want either way.
 3. **Code created in engagements through us is open.** When an engagement comes through this marketplace, the code it creates is published under Apache-2.0, so the next client and the next provider start from it.
 4. **The client's code and data are the client's.** The exception to rule 3: the client's own code and data stay proprietary to the client. We do not publish them, reuse them or keep them beyond the engagement. Each job runs in its own encrypted vault, which is handed to the client at the end and deleted from our side.
 5. **Changes are committed back.** Improvements we make to the shared code, playbooks and behaviour policies during an engagement go back to the public repositories. Improvements to rUv's projects are offered to them under their own licence and contribution rules.
-6. **Revenue is split equally between the parties.** Two parties: half each. Three parties: a third each. A party is a provider (a person or a company) that brings the client or delivers part of the work; one provider doing both is one party (proposed; open question 6).
+6. **Revenue is split equally between the parties, after costs.** Direct costs (model tokens, compute, other third-party costs) are first reimbursed to whoever paid them, itemised; what is left is split equally. Two parties: half each. Three parties: a third each. There is no separate platform share. A party is a provider (a person or a company) that brings the client or delivers part of the work; one provider doing both is one party (proposed; open question 6).
 7. **Whoever has the client bills.** If you bring the client, you invoice them and pay the other parties their share. If we bring the client, we invoice and pay you yours.
 8. **Custom arrangements are possible.** Especially for companies that bring the work, and for bringing this into an existing project. They are agreed in writing, before the work starts.
-9. **Every job leaves evidence.** Each job is a ruv.sgit run: a vault per run, a mandate per role, and a ledger entry. The client keeps the vault. The ledger entry is private unless the client agrees to publish it (proposed; open question 9).
+9. **Every job leaves evidence.** Each job is a ruv.sgit run: a vault per run, a mandate per role, and a ledger entry. The client keeps the vault. Everything to do with a client is private first: the ledger entry is private unless the client agrees to publish it, and then only the measurements.
 10. **Credit where it is due.** rUv's projects are named and credited as his (MIT, by rUv / ruvnet). We build on them; we do not sell or own them. This is additive to his stack.
 
 ### Worked examples
@@ -449,15 +459,15 @@ Five ruv.sgit runs, in order, each after the one before is reviewed. Each run ha
 
 Each has a proposed answer. A "yes" accepts it; anything else, write the change in.
 
-1. **Mondweep's details and consent.** Which name, affiliation, project types, offers, location, languages, links, photo and biography does he want shown, and has he agreed to his card? *Proposed:* publish only "Mondweep, from the Agentics Foundation" and the newsroom article's line until he has seen and approved the card; the same for Dinis's own card.
-2. **Which Creative Commons licence.** *Proposed:* CC BY 4.0 for materials and playbooks (reuse for any purpose, with credit). CC BY-SA 4.0 would require derivatives to stay open too.
-3. **Where applications and sign-ups go and are kept.** *Proposed:* by email to agent@riskmandate.ai; kept in a private sgit vault, not in the repository; a short privacy note on the form saying what we keep, why, for how long, and how to ask for it to be deleted.
+1. **Mondweep's details and consent.** *Decided 16 Oct:* agreed; live with his name and LinkedIn.  Which name, affiliation, project types, offers, location, languages, links, photo and biography does he want shown, and has he agreed to his card? *Proposed:* publish only "Mondweep, from the Agentics Foundation" and the newsroom article's line until he has seen and approved the card; the same for Dinis's own card.
+2. **Which Creative Commons licence.** *Decided 16 Oct:* CC BY 4.0.  *Proposed:* CC BY 4.0 for materials and playbooks (reuse for any purpose, with credit). CC BY-SA 4.0 would require derivatives to stay open too.
+3. **Where applications and sign-ups go and are kept.** *Decided 16 Oct:* by email to agent@riskmandate.ai, kept in its private repository, never in git.  *Proposed:* by email to agent@riskmandate.ai; kept in a private sgit vault, not in the repository; a short privacy note on the form saying what we keep, why, for how long, and how to ask for it to be deleted.
 4. **Register interest, or book.** *Proposed:* *register interest* on the founding cards until your and Mondweep's diaries are aligned, as the newsroom article says.
 5. **Do prices stay public and fixed?** *Proposed:* yes: the published prices are the list prices for every provider for now; per-provider price bands within a range come later, once there are more providers.
-6. **Who counts as a party in the split.** *Proposed:* a provider (a person or a company) that brings the client or delivers part of the work; one provider doing both is one party; bringing a client without delivering any of the work still counts as a party. Does this replace the newsroom article's "small platform share" entirely?
-7. **Direct costs before the split.** *Proposed:* third-party costs (model tokens, compute) are reimbursed to whoever paid them before the split, itemised on the invoice.
+6. **Who counts as a party in the split.** *Decided 16 Oct:* an equal split after costs replaces the platform share.  *Proposed:* a provider (a person or a company) that brings the client or delivers part of the work; one provider doing both is one party; bringing a client without delivering any of the work still counts as a party.
+7. **Direct costs before the split.** *Decided 16 Oct:* yes, costs first, then the split.  *Proposed:* third-party costs (model tokens, compute) are reimbursed to whoever paid them before the split, itemised on the invoice.
 8. **Who signs contracts.** *Proposed:* whoever bills signs with the client; providers in an engagement agree the rules of engagement with each other in a short written note (an email is enough to start).
-9. **Ledger entries for client work.** *Proposed:* private by default; published only with the client's written agreement, and then only the measurements, never the content.
+9. **Ledger entries for client work.** *Decided 16 Oct:* private first.  *Proposed:* private by default; published only with the client's written agreement, and then only the measurements, never the content.
 10. **Provider vetting.** *Proposed:* the newsroom article's six steps, with the founders doing the proof-of-work review and the interview until there are at least five providers, then peer review by two members.
 11. **Currency and VAT.** *Proposed:* prices in GBP excluding VAT, as now; the party who bills charges VAT where it applies; other currencies quoted on request.
 12. **The marketplace's name.** *Proposed:* "ruv.sgit providers" on the site, with "agentics engagements" (the newsroom article's term) as the description of what they deliver.
@@ -483,3 +493,4 @@ Dinis Cruz's dictated brief of 16 October 2026 (quoted where his words are used)
 ## Changes
 
 - **v0.1.0 (DRAFT), 16 October 2026.** First draft, for Dinis to review.
+- **v0.2.0 (DRAFT), 16 October 2026.** Dinis's answers applied: Mondweep live (name, LinkedIn); the split is equal after direct costs, with no platform share (the newsroom article's 5% to 20% was a market benchmark, not a use case); CC BY 4.0; applications by email to agent@riskmandate.ai, kept in its private repository, never in git; client work private first. Edited by the conductor directly, not by a run.
