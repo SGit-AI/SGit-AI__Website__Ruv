@@ -1,0 +1,532 @@
+{
+  "version": "v0.1.29",
+  "date": "2026-10-16",
+  "menu": {
+    "Tonight": [
+      [
+        "talk/index.html",
+        "Tonight's talk"
+      ],
+      [
+        "talk/player.html?talk=talk-10.json",
+        "Present (10 min)"
+      ],
+      [
+        "replicate.html#offline",
+        "Run it on your laptop, offline"
+      ],
+      [
+        "demo.html",
+        "The five-minute demo script"
+      ]
+    ],
+    "The idea": [
+      [
+        "index.html",
+        "Overview"
+      ],
+      [
+        "ruv-stack.html",
+        "rUv's stack"
+      ],
+      [
+        "use-cases.html",
+        "Use cases"
+      ],
+      [
+        "architecture.html",
+        "Architecture"
+      ]
+    ],
+    "Proofs": [
+      [
+        "ruv-sgit/index.html",
+        "ruv.sgit runs and vaults"
+      ],
+      [
+        "pocs.html",
+        "The six POCs"
+      ],
+      [
+        "app/index.html",
+        "Live app"
+      ],
+      [
+        "studio/index.html",
+        "The studio"
+      ],
+      [
+        "replicate.html",
+        "Replicate"
+      ]
+    ],
+    "Work with us": [
+      [
+        "business/index.html",
+        "Overview"
+      ],
+      [
+        "business/consultants.html",
+        "For consultants"
+      ],
+      [
+        "business/companies.html",
+        "For companies"
+      ],
+      [
+        "business/teams.html",
+        "For internal teams"
+      ],
+      [
+        "shop/index.html",
+        "The shop"
+      ],
+      [
+        "articles/ruv-sgit-business-model.html",
+        "The business model"
+      ],
+      [
+        "mailto:agent@riskmandate.ai",
+        "Contact: agent@riskmandate.ai"
+      ]
+    ],
+    "Articles": [
+      [
+        "articles/index.html",
+        "All articles"
+      ],
+      [
+        "articles/the-talk-long-read.html",
+        "The talk, slide by slide"
+      ],
+      [
+        "articles/the-talk-live.html",
+        "The talk, live"
+      ],
+      [
+        "articles/how-it-was-made.html",
+        "How it was made"
+      ],
+      [
+        "articles/the-talk-player.html",
+        "The talk player"
+      ],
+      [
+        "articles/walking-backwards.html",
+        "Walking backwards"
+      ],
+      [
+        "articles/the-studio.html",
+        "The studio: plan"
+      ],
+      [
+        "articles/studio-setup-brief.html",
+        "Set it up: the brief"
+      ]
+    ]
+  },
+  "pages": [
+    {
+      "path": "admin/versions.html",
+      "title": "Release history",
+      "h1": "Release history",
+      "group": null,
+      "kind": "admin"
+    },
+    {
+      "path": "app/index.html",
+      "title": "ABP + memory, in the browser",
+      "h1": "What is this swarm allowed to do?",
+      "group": "Proofs",
+      "kind": "page"
+    },
+    {
+      "path": "architecture.html",
+      "title": "Architecture: layers, the ABP, and the compile targets",
+      "h1": "Architecture",
+      "group": "The idea",
+      "kind": "page"
+    },
+    {
+      "path": "articles/how-it-was-made.html",
+      "title": "How it was made: from agents the session ran itself to ruv.sgit runs",
+      "h1": "How it was made: from agents the session ran itself to ruv.sgit runs",
+      "group": "Articles",
+      "kind": "article"
+    },
+    {
+      "path": "articles/index.html",
+      "title": "Articles",
+      "h1": "Articles",
+      "group": "Articles",
+      "kind": "page"
+    },
+    {
+      "path": "articles/ruv-sgit-business-model.html",
+      "title": "ruv.sgit, a business plan for somebody else to run: task runs, dedicated compute, a maintained repository and expert time",
+      "h1": "ruv.sgit, a business plan for somebody else to run: task runs, dedicated compute, a maintained repository and expert time",
+      "group": "Work with us",
+      "kind": "article"
+    },
+    {
+      "path": "articles/studio-setup-brief.html",
+      "title": "Set it up: a brief any agent can follow to run a Ruflo hive with sgit vaults as its bus and its evidence",
+      "h1": "Set it up: a brief any agent can follow to run a Ruflo hive with sgit vaults as its bus and its evidence",
+      "group": "Articles",
+      "kind": "article"
+    },
+    {
+      "path": "articles/the-studio.html",
+      "title": "The studio: a Ruflo hive that animates its own explanation, with sgit vaults as its bus and its evidence",
+      "h1": "The studio: a Ruflo hive that animates its own explanation, with sgit vaults as its bus and its evidence",
+      "group": "Articles",
+      "kind": "article"
+    },
+    {
+      "path": "articles/the-talk-live.html",
+      "title": "The talk, live: thirteen of its animations, each with its own controls",
+      "h1": "The talk, live: thirteen of its animations, each with its own controls",
+      "group": "Articles",
+      "kind": "article"
+    },
+    {
+      "path": "articles/the-talk-long-read.html",
+      "title": "The talk, slide by slide: a long read of \"Autonomy with a mandate and a memory\"",
+      "h1": "The talk, slide by slide: a long read of \"Autonomy with a mandate and a memory\"",
+      "group": "Articles",
+      "kind": "article"
+    },
+    {
+      "path": "articles/the-talk-player.html",
+      "title": "The talk player: a presentation as a timeline of live web pages",
+      "h1": "The talk player: a presentation as a timeline of live web pages",
+      "group": "Articles",
+      "kind": "article"
+    },
+    {
+      "path": "articles/walking-backwards.html",
+      "title": "Walking backwards: how the talk player found its features",
+      "h1": "Walking backwards: how the talk player found its features",
+      "group": "Articles",
+      "kind": "article"
+    },
+    {
+      "path": "business/companies.html",
+      "title": "For companies",
+      "h1": "Add governed agent swarms to what you already sell.",
+      "group": "Work with us",
+      "kind": "page"
+    },
+    {
+      "path": "business/consultants.html",
+      "title": "For consultants",
+      "h1": "Offer governed agent swarms to your clients, without building the plumbing.",
+      "group": "Work with us",
+      "kind": "page"
+    },
+    {
+      "path": "business/index.html",
+      "title": "ruv.sgit for business",
+      "h1": "Governed agent swarms, as something you can buy, resell or run yourself.",
+      "group": "Work with us",
+      "kind": "page"
+    },
+    {
+      "path": "business/teams.html",
+      "title": "For internal teams",
+      "h1": "Provide agent swarms inside your organisation, with the governance already written.",
+      "group": "Work with us",
+      "kind": "page"
+    },
+    {
+      "path": "demo.html",
+      "title": "The five-minute demo",
+      "h1": "The five-minute demo",
+      "group": "Tonight",
+      "kind": "page"
+    },
+    {
+      "path": "index.html",
+      "title": "ruv.sgit: a Ruflo hive + sgit vaults + Agent Behaviour Policies",
+      "h1": "Run your Ruflo hive with a written mandate per role and a vault for what it remembers.",
+      "group": "The idea",
+      "kind": "page"
+    },
+    {
+      "path": "pocs.html",
+      "title": "The six POCs: flows, commands, outputs",
+      "h1": "The six proofs of concept",
+      "group": "Proofs",
+      "kind": "page"
+    },
+    {
+      "path": "replicate.html",
+      "title": "Replicate it: install, run, publish",
+      "h1": "Replicate it",
+      "group": "Proofs",
+      "kind": "page"
+    },
+    {
+      "path": "ruv-sgit/case/index.html",
+      "title": "One Ephemeral Vault",
+      "h1": "Case study: one ephemeral vault",
+      "group": null,
+      "kind": "data"
+    },
+    {
+      "path": "ruv-sgit/define/equation/index.html",
+      "title": "ruv.sgit, the equation",
+      "h1": null,
+      "group": null,
+      "kind": "animation"
+    },
+    {
+      "path": "ruv-sgit/define/journey/index.html",
+      "title": "One action's journey",
+      "h1": "One action's journey",
+      "group": null,
+      "kind": "animation"
+    },
+    {
+      "path": "ruv-sgit/define/layers/index.html",
+      "title": "ruv.sgit, in layers",
+      "h1": "ruv.sgit, in three layers",
+      "group": null,
+      "kind": "animation"
+    },
+    {
+      "path": "ruv-sgit/index.html",
+      "title": "ruv.sgit",
+      "h1": "ruv.sgit",
+      "group": "Proofs",
+      "kind": "page"
+    },
+    {
+      "path": "ruv-sgit/ledger/index.html",
+      "title": "The vault ledger",
+      "h1": "The vault ledger",
+      "group": null,
+      "kind": "data"
+    },
+    {
+      "path": "ruv-sgit/motion/index.html",
+      "title": "ruv.sgit in motion",
+      "h1": "ruv.sgit in motion",
+      "group": null,
+      "kind": "animation"
+    },
+    {
+      "path": "ruv-stack.html",
+      "title": "rUv's stack, explained by use case",
+      "h1": "rUv's stack, one layer at a time",
+      "group": "The idea",
+      "kind": "page"
+    },
+    {
+      "path": "shop/index.html",
+      "title": "Shop · ruv.sgit",
+      "h1": "Shop",
+      "group": "Work with us",
+      "kind": "page"
+    },
+    {
+      "path": "studio/index.html",
+      "title": "The studio",
+      "h1": "The studio",
+      "group": "Proofs",
+      "kind": "page"
+    },
+    {
+      "path": "studio/v1/index.html",
+      "title": "Static diagram that builds",
+      "h1": null,
+      "group": null,
+      "kind": "animation"
+    },
+    {
+      "path": "studio/v2/index.html",
+      "title": "Messages in flight",
+      "h1": "Messages in flight",
+      "group": null,
+      "kind": "animation"
+    },
+    {
+      "path": "studio/v3/index.html",
+      "title": "Vault lanes",
+      "h1": "Vault lanes",
+      "group": null,
+      "kind": "animation"
+    },
+    {
+      "path": "studio/v4/index.html",
+      "title": "The Policy Gate",
+      "h1": null,
+      "group": null,
+      "kind": "animation"
+    },
+    {
+      "path": "studio/v5/index.html",
+      "title": "The Isometric Office",
+      "h1": null,
+      "group": null,
+      "kind": "animation"
+    },
+    {
+      "path": "studio/v6/index.html",
+      "title": "The Hive in 3D",
+      "h1": "The hive in 3D",
+      "group": null,
+      "kind": "animation"
+    },
+    {
+      "path": "studio/v7/index.html",
+      "title": "The city of vaults",
+      "h1": null,
+      "group": null,
+      "kind": "animation"
+    },
+    {
+      "path": "talk/index.html",
+      "title": "Tonight's talk",
+      "h1": "Tonight's talk, as a timeline",
+      "group": "Tonight",
+      "kind": "talk"
+    },
+    {
+      "path": "talk/offline-10.html",
+      "title": "Talk player",
+      "h1": null,
+      "group": null,
+      "kind": "talk"
+    },
+    {
+      "path": "talk/offline-5.html",
+      "title": "Talk player",
+      "h1": null,
+      "group": null,
+      "kind": "talk"
+    },
+    {
+      "path": "talk/player.html",
+      "title": "Talk player",
+      "h1": null,
+      "group": "Tonight",
+      "kind": "talk"
+    },
+    {
+      "path": "talk/slides/abp/index.html",
+      "title": "Agent Behaviour Policy",
+      "h1": null,
+      "group": null,
+      "kind": "slide"
+    },
+    {
+      "path": "talk/slides/ask/index.html",
+      "title": "The ask",
+      "h1": null,
+      "group": null,
+      "kind": "slide"
+    },
+    {
+      "path": "talk/slides/claim/index.html",
+      "title": "A memory and a mandate",
+      "h1": null,
+      "group": null,
+      "kind": "slide"
+    },
+    {
+      "path": "talk/slides/history/index.html",
+      "title": "A vault's history",
+      "h1": "One run's vault, commit by commit",
+      "group": null,
+      "kind": "slide"
+    },
+    {
+      "path": "talk/slides/ledger/index.html",
+      "title": "How to read the ledger",
+      "h1": "How to read the ledger",
+      "group": null,
+      "kind": "slide"
+    },
+    {
+      "path": "talk/slides/newsroom/index.html",
+      "title": "newsroom.sgit.ai, its views",
+      "h1": "newsroom.sgit.ai one newsroom, many ways to read it the same sgit vaults, the same articles",
+      "group": null,
+      "kind": "slide"
+    },
+    {
+      "path": "talk/slides/opensource/index.html",
+      "title": "open-source.sgit.ai",
+      "h1": "Open source is the best business model for a startup open-source.sgit.ai · a strategy, not a charity",
+      "group": null,
+      "kind": "slide"
+    },
+    {
+      "path": "talk/slides/ruvector/index.html",
+      "title": "RuVector and sgit",
+      "h1": null,
+      "group": null,
+      "kind": "slide"
+    },
+    {
+      "path": "talk/slides/services/index.html",
+      "title": "Four ways to work with us",
+      "h1": "ruv.sgit for business: four ways to work with us",
+      "group": null,
+      "kind": "slide"
+    },
+    {
+      "path": "talk/slides/sgit/index.html",
+      "title": "What an sgit vault is",
+      "h1": null,
+      "group": null,
+      "kind": "slide"
+    },
+    {
+      "path": "talk/slides/shop/index.html",
+      "title": "The shop, a guided tour",
+      "h1": null,
+      "group": null,
+      "kind": "slide"
+    },
+    {
+      "path": "talk/slides/stack/index.html",
+      "title": "rUv's stack, five layers",
+      "h1": "rUv's stack, bottom to top",
+      "group": null,
+      "kind": "slide"
+    },
+    {
+      "path": "talk/slides/visit/index.html",
+      "title": "Where to find it",
+      "h1": null,
+      "group": null,
+      "kind": "slide"
+    },
+    {
+      "path": "use-cases.html",
+      "title": "Use cases: what to build with rUv's stack and sgit",
+      "h1": "Six use cases",
+      "group": "The idea",
+      "kind": "page"
+    },
+    {
+      "path": "vault/index.html",
+      "title": "Encrypted vault",
+      "h1": "🔒 Encrypted vault",
+      "group": null,
+      "kind": "data"
+    }
+  ],
+  "counts": {
+    "admin": 1,
+    "animation": 11,
+    "article": 8,
+    "data": 3,
+    "page": 16,
+    "slide": 13,
+    "talk": 4,
+    "total": 56
+  }
+}
