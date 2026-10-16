@@ -5,9 +5,19 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.32",
+   "version": "v0.1.33",
    "date": "2026-10-16",
    "commit": null,
+   "title": "Runs that end sealed and published: example 01 and the run that built it (run r14-examples)",
+   "changes": "Following Dinis's voice memo: a run can now end sealed instead of deleted. `ruvsgit.py seal RUN` publishes the vault as a static folder under site/vaults/<run>/ with its read key, checks that a clone from that folder with the read key alone gets back identical files and that a write is refused, deletes the server copy, then destroys the vault key, so the vault can never change again (it represents a run that has ended). Client runs stay private. Example 01 (hello world) and run r14-examples itself (the meta example: its brief, the article it wrote and the runner change it made) are the first two published vaults; clone commands are in llms.txt. Article No. 10 (draft): Getting started with ruv.sgit, the brief for the example ladder (01 hello world to 07 the meta example), the lifecycle and the standard example page. Also: Mondweep's LinkedIn in the next-phase brief; validate.py refuses private keys and stray files under site/vaults/. Not yet: a browser viewer for these vaults (sgit's published index.html is a placeholder), so for now they are opened with sgit clone.",
+   "pages": [
+    "articles/getting-started.html"
+   ]
+  },
+  {
+   "version": "v0.1.32",
+   "date": "2026-10-16",
+   "commit": "a509316",
    "title": "The home page leads with the talk",
    "changes": "For the next few days the site's focus is the talk of 15 October: the home page opens with a big section about it, the photo rUv posted to his network on LinkedIn ('Thanks for everyone who came out to the London Agentics meetup this evening!'), and the deck itself, playable on the home page (tap to start), with links to the five articles, the script and the offline file. The 'Tonight' menu is now 'The talk'. The player fits narrow screens and small embeds: on a phone it keeps play, the clock, slide and step buttons and the slide picker (it overflowed at 390 px before). Run r13-home-talk, done by the conductor directly.",
    "pages": [

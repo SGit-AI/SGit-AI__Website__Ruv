@@ -1,0 +1,7 @@
+{
+ "purpose": "example-01-hello: the smallest ruv.sgit run: one worker writes one file, the run is closed, sealed (vault key deleted) and published with its read key",
+ "feedback": "Dinis, 16 Oct: start with a very simple hello-world example; an ephemeral vault represents a run, and once the run has ended it should not be modified, so the last step is deleting the vault key, then publishing the vault with its read key on ruv.sgit.ai.",
+ "workers": [
+  {"id": "hello", "role": "writer", "task": "write hello.md saying what this vault is", "out": "hello.md"}
+ ]
+}

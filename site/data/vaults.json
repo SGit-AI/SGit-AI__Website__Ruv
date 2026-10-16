@@ -3566,9 +3566,367 @@
     "store_paths_left": 0,
     "clone_after_delete": "failed"
    }
+  },
+  {
+   "run": "example-01-hello",
+   "purpose": "example-01-hello: the smallest ruv.sgit run: one worker writes one file, the run is closed, sealed (vault key deleted) and published with its read key",
+   "feedback": "Dinis, 16 Oct: start with a very simple hello-world example; an ephemeral vault represents a run, and once the run has ended it should not be modified, so the last step is deleting the vault key, then publishing the vault with its read key on ruv.sgit.ai.",
+   "vault_id": "l2yxakym",
+   "created_at": "2026-10-16T14:39:26+00:00",
+   "closed_at": "2026-10-16T14:39:35+00:00",
+   "deleted_at": null,
+   "hive": {
+    "workers": 1,
+    "tasks": 1,
+    "ruflo_calls": 7,
+    "ruflo_ms": 2770
+   },
+   "branches": [
+    {
+     "name": "w-hello",
+     "role": "writer",
+     "commits": 1,
+     "files": 1,
+     "bytes": 796,
+     "write_ms": 1630,
+     "merge_ms": 1652
+    }
+   ],
+   "commits": 3,
+   "files": 3,
+   "bytes_plain": 1664,
+   "files_delivered": 1,
+   "bytes_delivered": 796,
+   "server_store": {
+    "files": 22,
+    "bytes": 8015,
+    "plaintext_hits": 0,
+    "probe": "18 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 649,
+    "files": 3,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 447,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 462,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 542,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 496,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 517,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 616,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 490,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 525,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 637,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 480,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 649,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "2c90a5ab3dd2",
+     "message": "init",
+     "time": "2026-10-16T14:39:28Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "c43af2644b37",
+     "message": "brief: run example-01-hello",
+     "time": "2026-10-16T14:39:29Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "6c04172cbd71",
+     "message": "writer hello: delivered 1 files",
+     "time": "2026-10-16T14:39:30Z",
+     "files_added": 1,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "hello",
+     "role": "writer",
+     "tokens": 0,
+     "note": "hello.md written by the mechanic worker by hand; no model call"
+    }
+   ],
+   "sealed_at": "2026-10-16T14:39:37+00:00",
+   "published": {
+    "path": "vaults/example-01-hello/",
+    "read_key": "sgit_public_read_e7264f677323fe61cc5ea60beb447089bb5b1b186bc127932f527643fe5626f7:l2yxakym",
+    "vault_id": "l2yxakym",
+    "sealed_at": "2026-10-16T14:39:37+00:00",
+    "files": 25,
+    "objects": 21,
+    "bytes_objects": 8036,
+    "viewer_url": "https://ruv.sgit.ai/vaults/example-01-hello/#sgit_public_read_e7264f677323fe61cc5ea60beb447089bb5b1b186bc127932f527643fe5626f7%3Al2yxakym",
+    "clone": "sgit clone sgit_public_read_e7264f677323fe61cc5ea60beb447089bb5b1b186bc127932f527643fe5626f7:l2yxakym --base-url https://ruv.sgit.ai/vaults/example-01-hello/"
+   },
+   "seal_check": {
+    "clone_static": {
+     "ms": 370,
+     "files": 3,
+     "identical": true
+    },
+    "write_with_read_key": "refused",
+    "server_clone_after_delete": "failed",
+    "vault_key_left": false
+   }
+  },
+  {
+   "run": "r14-examples",
+   "purpose": "r14-examples: getting started with ruv.sgit: a ladder of examples from hello world up, and run vaults that end sealed (the vault key deleted, so the vault is immutable) and published with a read key on ruv.sgit.ai, each with its brief, its output and its vault",
+   "feedback": "Dinis, 16 Oct (voice memo): create a very simple set of getting-started examples and powerful workflows, so consultants can learn and test and anyone can try it, from very simple hello world examples to more complex ones that leverage vaults. Do runs that use the visualisation of the vaults. Start publishing the vaults: an ephemeral vault represents a run, and once the run has ended it should not be modified, so by design the last step of a run is deleting the vault key, which makes the vault immutable; then publish it (read key) on ruv.sgit.ai as a great example. Have a standard way; list for each example the original brief, the output and the vault, so we can look at it. Reverse-engineer existing examples, create new ones, even a meta one. The killer workflow is the creation of animations to explain things. Look at how sgit.ai and the newsroom publish vaults.",
+   "vault_id": "4xaasw4k",
+   "created_at": "2026-10-16T14:31:41+00:00",
+   "closed_at": "2026-10-16T14:41:55+00:00",
+   "deleted_at": null,
+   "hive": {
+    "workers": 2,
+    "tasks": 2,
+    "ruflo_calls": 10,
+    "ruflo_ms": 7379
+   },
+   "branches": [
+    {
+     "name": "w-writer",
+     "role": "writer",
+     "commits": 1,
+     "files": 2,
+     "bytes": 68352,
+     "write_ms": 1498,
+     "merge_ms": 1757
+    },
+    {
+     "name": "w-mechanic",
+     "role": "builder",
+     "commits": 1,
+     "files": 6,
+     "bytes": 43217,
+     "write_ms": 1684,
+     "merge_ms": 1809
+    }
+   ],
+   "commits": 4,
+   "files": 10,
+   "bytes_plain": 114233,
+   "files_delivered": 8,
+   "bytes_delivered": 111569,
+   "server_store": {
+    "files": 33,
+    "bytes": 125672,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 484,
+    "files": 10,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 428,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 478,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 587,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 471,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 463,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 562,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 492,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 512,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 753,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 501,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 449,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 731,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 529,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 583,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 697,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 435,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 484,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "87b9368e4e01",
+     "message": "init",
+     "time": "2026-10-16T14:31:47Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "3163e67ccce7",
+     "message": "brief: run r14-examples",
+     "time": "2026-10-16T14:31:48Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "5c3bf7c99a21",
+     "message": "writer writer: delivered 2 files",
+     "time": "2026-10-16T14:41:42Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "8faf08a0212b",
+     "message": "builder mechanic: delivered 6 files",
+     "time": "2026-10-16T14:41:46Z",
+     "files_added": 6,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "writer",
+     "role": "writer",
+     "tokens": 136390,
+     "tool_uses": 33,
+     "wall_s": 327
+    },
+    {
+     "id": "mechanic",
+     "role": "builder",
+     "tokens": 136578,
+     "tool_uses": 61,
+     "wall_s": 532
+    }
+   ],
+   "sealed_at": "2026-10-16T14:41:59+00:00",
+   "published": {
+    "path": "vaults/r14-examples/",
+    "read_key": "sgit_public_read_e4fecf7a65d3e0107fd84a243fc457f99b3d77aefdfe65a0e6dbf73f1089ee37:4xaasw4k",
+    "vault_id": "4xaasw4k",
+    "sealed_at": "2026-10-16T14:41:59+00:00",
+    "files": 40,
+    "objects": 36,
+    "bytes_objects": 126149,
+    "viewer_url": "https://ruv.sgit.ai/vaults/r14-examples/#sgit_public_read_e4fecf7a65d3e0107fd84a243fc457f99b3d77aefdfe65a0e6dbf73f1089ee37%3A4xaasw4k",
+    "clone": "sgit clone sgit_public_read_e4fecf7a65d3e0107fd84a243fc457f99b3d77aefdfe65a0e6dbf73f1089ee37:4xaasw4k --base-url https://ruv.sgit.ai/vaults/r14-examples/"
+   },
+   "seal_check": {
+    "clone_static": {
+     "ms": 1400,
+     "files": 10,
+     "identical": true
+    },
+    "write_with_read_key": "refused",
+    "server_clone_after_delete": "failed",
+    "vault_key_left": false
+   }
   }
  ],
  "sample": false,
- "updated": "2026-10-16T13:36:47+00:00",
+ "updated": "2026-10-16T14:41:59+00:00",
  "server": "a local SG/Send vault server (sgraph-ai-app-send, disk storage), one process, on the machine that ran the hive"
 }

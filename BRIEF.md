@@ -74,3 +74,9 @@ Jobs: `setup` (Node 20, Python 3.11, `pip install sgit-ai==0.21.0`, `npm ci`) �
 
 ## 5. Definition of done for the demo
 A public vault URL (read key published on purpose) whose page shows: the ABP, the legacy-vs-ABP decision table with receipt hashes, the memory history across two runners, and the RVM gap table; plus the repo link with green CI.
+
+## Public example vaults (16 Oct 2026, Dinis)
+Dinis asked on 16 Oct for the example runs' vaults to be published: an ephemeral vault represents a run; once the run has ended it must not change, so the last step of a run is deleting its vault key (the seal, which makes the vault immutable), then publishing the vault with its read key on ruv.sgit.ai, as sgit.ai and the newsroom do.
+- The example vaults under `site/vaults/<run>/` are **public on purpose**: their READ key (`sgit_public_read_…`) is published in the folder and in `site/data/vaults.json`. That is irreversible (the bytes stay in git history and on every copy), so it is done only for runs made to be examples, with `python3 poc/ruv-sgit/ruvsgit.py seal <run>`.
+- **Client vaults are never published.** Client work stays private first and ends with `ruvsgit.py delete <run>` (objects removed from the server, key destroyed), never `seal`.
+- A vault key (`sgit_private_vault_…`), a private read key or a working copy's `.sg_vault/local/` never goes into the site; `site/build/validate.py` fails the build if one does.

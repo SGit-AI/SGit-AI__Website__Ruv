@@ -13,6 +13,12 @@
     "commits": 9, "files": 14, "bytes_plain": 160000,          // everything in the vault at close, the brief included
     "files_delivered": 12, "bytes_delivered": 150000,        // what the workers delivered (sum of branches)
     "delete_check": { "store_paths_left": 0, "clone_after_delete": "failed" },   // checked before the key is destroyed
+    "sealed_at": "ISO or absent",                             // public example runs only (ruvsgit.py seal); client runs are deleted, never sealed
+    "published": { "path": "vaults/<run>/", "read_key": "sgit_public_read_<hex>:<vault id>", "vault_id": "…", "sealed_at": "ISO",
+                   "files": 25, "objects": 21, "bytes_objects": 8036,
+                   "viewer_url": "https://ruv.sgit.ai/vaults/<run>/#<read key, ':' as %3A>", "clone": "sgit clone <read key> --base-url https://ruv.sgit.ai/vaults/<run>/" },
+    "seal_check": { "clone_static": { "ms": 370, "files": 3, "identical": true }, "write_with_read_key": "refused",
+                    "server_clone_after_delete": "failed", "vault_key_left": false },
     "server_store": { "files": 120, "bytes": 190000, "plaintext_hits": 0, "probe": "what was searched for" },
     "clone": { "ms": 1500, "files": 14, "identical": true },
     "ops": [ { "op": "init", "ms": 800 }, { "op": "push", "ms": 600 } ],

@@ -6,7 +6,9 @@
   deliver RUN WORKER ROLE SRC   a worker's output onto its own vault branch, pushed, merged into `current`
   close   RUN WORKERS.json      measure the vault (history, files, bytes, server store, plaintext probe, fresh clone)
                                 and write the ledger: site/data/vaults.json + evidence/ruv-sgit/RUN.json
-  delete  RUN             ephemeral: the vault's objects are removed from the server store; the ledger records when
+  delete  RUN             ephemeral, private (client work): the vault's objects are removed from the server store; never published
+  seal    RUN [--keep-remote]   public examples only: publish the vault (READ key) to site/vaults/RUN/, clone it back from a
+                                static host, delete it on the server, then DELETE THE VAULT KEY: the vault is immutable
   server-stop
 
 Every sgit and ruflo call is timed into the run's trace. The vault key and the server token live only in
@@ -23,6 +25,8 @@ RUFLO = str(REPO / 'node_modules/.bin/ruflo')
 SGIT = os.environ.get('RUVSGIT_SGIT', 'sgit')
 LEDGER = pathlib.Path(os.environ.get('RUVSGIT_LEDGER', REPO / 'site/data/vaults.json'))      # scripts/offline.sh points these at out/offline/
 EVIDENCE = pathlib.Path(os.environ.get('RUVSGIT_EVIDENCE', REPO / 'evidence/ruv-sgit'))
+SITE = pathlib.Path(os.environ.get('RUVSGIT_SITE', REPO / 'site'))            # seal publishes into SITE/vaults/<run>/
+PUBLIC_BASE = os.environ.get('RUVSGIT_PUBLIC_BASE', 'https://ruv.sgit.ai/')    # where SITE is served
 now = lambda: datetime.now(timezone.utc).isoformat(timespec='seconds')
 
 def secret(name, value=None):
@@ -205,7 +209,92 @@ def delete(run):
         e = json.loads(ev.read_text()); e['deleted_at'] = R.state['deleted_at']; e['deleted_paths'] = gone; e['delete_check'] = check; ev.write_text(json.dumps(e, indent=1)); ledger(e)
     print(f'{run}: vault {vid} deleted ({gone} store paths named by its id removed, {left} left; a clone with the key afterwards: {check["clone_after_delete"]}; key and working copy gone)')
 
+def tree_hashes(root):
+    return {f.relative_to(root).as_posix(): hashlib.sha256(f.read_bytes()).hexdigest() for f in root.rglob('*') if f.is_file() and '.sg_vault' not in f.parts}
+
+def static_server(root):
+    """a throwaway GET-only host for `root` on 127.0.0.1 (a free port), for the clone-back check"""
+    import functools, http.server, threading
+    class Quiet(http.server.SimpleHTTPRequestHandler):
+        def log_message(self, *a): pass
+    srv = http.server.ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(Quiet, directory=str(root)))
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    return srv
+
+def seal(run, keep_remote=False):
+    """the end of a public run: publish the vault as a static folder with its READ key on the site, prove it clones back
+    from a plain GET host, delete it from the vault server, then delete the vault key. No key: no writer, the vault is immutable.
+    Only for runs that are public on purpose (examples); client runs end with `delete` and are never published."""
+    R = Run(run); st = R.state; vid = st.get('vault_id')
+    kf = HOME / 'runs' / run / 'vault.key'
+    if not st.get('closed_at'): raise SystemExit(f'{run}: close the run before sealing it')
+    if st.get('sealed_at') or not kf.exists(): raise SystemExit(f'{run}: already sealed or deleted (no vault key)')
+    ev = EVIDENCE / f'{run}.json'
+    if not ev.exists(): raise SystemExit(f'{run}: no evidence at {ev}; run close first')
+    plain = tree_hashes(R.vault)
+    # (b) the static surface: index.html loader, manifest.json, cover.json and the READ key file (--visibility public: irreversible)
+    R.sgit('publish', ['publish', '--visibility', 'public', '--yes', '.'])
+    pub = R.vault / '.sg_vault' / 'publish'
+    # (a) the READ key: publish names a file after it (sgit_public_read_<64 hex>); kept in the run folder, 0600, like the vault key
+    rk = [p.name for p in pub.iterdir() if re.fullmatch(r'sgit_public_read_[0-9a-f]{64}', p.name)]
+    if len(rk) != 1: raise SystemExit(f'{run}: publish wrote {len(rk)} read-key files; expected 1')
+    read_key = f'{rk[0]}:{vid}'; secret(f'runs/{run}/read.key', read_key)
+    man = json.loads((pub / 'manifest.json').read_text())
+    if man.get('vault_id') != vid or man.get('visibility') != 'public': raise SystemExit(f'{run}: manifest does not match the run')
+    # (c) the deployable folder: the plaintext surface + the objects the manifest lists, at the api-path the manifest declares
+    #     (vaults/<run>/api/vault/read/<vault id>/bare/…), the path `sgit vault serve` and the static SG/Vault transport read.
+    #     Only manifest-listed bare/ objects are copied; .sg_vault/local (vault key, token, PEM) is never touched.
+    dest = SITE / 'vaults' / run
+    if dest.exists(): shutil.rmtree(dest)
+    dest.mkdir(parents=True)
+    for p in pub.iterdir():
+        if p.is_file(): shutil.copy2(p, dest / p.name)
+    obj_root = dest / 'api' / 'vault' / 'read' / vid; nbytes = 0
+    for o in man['objects']:
+        fid = o['file_id']
+        if not fid.startswith('bare/') or '..' in fid: raise SystemExit(f'{run}: manifest lists an unexpected path {fid!r}')
+        src = R.vault / '.sg_vault' / fid; data = src.read_bytes()
+        if hashlib.sha256(data).hexdigest() != o['sha256']: raise SystemExit(f'{run}: {fid} does not match its manifest hash')
+        out = obj_root / fid; out.parent.mkdir(parents=True, exist_ok=True); out.write_bytes(data); nbytes += len(data)
+    # prove it: a fresh clone with only the READ key, from a plain GET host serving the site folder
+    srv = static_server(SITE); url = f'http://127.0.0.1:{srv.server_address[1]}/vaults/{run}/'
+    tmp = pathlib.Path(tempfile.mkdtemp(prefix='ruvsgit-sealed-'))
+    try:
+        t0 = time.time()
+        c = R.sgit('clone-static', ['clone', '--base-url', url, '-', str(tmp / 'c')], cwd=tmp, stdin=read_key, check=False)
+        clone_ms = round((time.time() - t0) * 1000)
+        cf = tree_hashes(tmp / 'c') if c.returncode == 0 else {}
+        (tmp / 'c' / 'write-probe.md').write_text('a write after the seal\n') if c.returncode == 0 else None
+        w = R.sgit('commit-static', ['commit', '-m', 'write after seal'], cwd=tmp / 'c', check=False) if c.returncode == 0 else None
+    finally:
+        srv.shutdown(); shutil.rmtree(tmp, ignore_errors=True)
+    if c.returncode or cf != plain: raise SystemExit(f'{run}: the published folder did not clone back identical; the vault key is kept')
+    check = {'clone_static': {'ms': clone_ms, 'files': len(cf), 'identical': True},
+             'write_with_read_key': 'refused' if w.returncode else 'ACCEPTED (not sealed)'}
+    # (e) the published folder is now the artifact: hard-delete the vault on the server, checked with the key before it goes
+    if not keep_remote:
+        R.sgit('delete-on-remote', ['vault', 'delete-on-remote', '--yes', '--json', '--token', token(), '.'])
+        tmp = pathlib.Path(tempfile.mkdtemp(prefix='ruvsgit-gone-'))
+        r = R.sgit('clone-after-delete', ['clone', '--base-url', BASE, '--token', token(), '-', str(tmp / 'c')], cwd=tmp, stdin=secret(f'runs/{run}/vault.key'), check=False)
+        shutil.rmtree(tmp, ignore_errors=True)
+        check['server_clone_after_delete'] = 'failed' if r.returncode else 'SUCCEEDED (not deleted)'
+    # (d) the seal: the vault key is destroyed (its file, and the working copy whose .sg_vault/local holds it and the token)
+    kf.unlink(); shutil.rmtree(R.vault, ignore_errors=True)
+    check['vault_key_left'] = kf.exists() or R.vault.exists()
+    st['sealed_at'] = now()
+    published = {'path': f'vaults/{run}/', 'read_key': read_key, 'vault_id': vid, 'sealed_at': st['sealed_at'],
+                 'files': sum(1 for p in dest.rglob('*') if p.is_file()), 'objects': len(man['objects']), 'bytes_objects': nbytes,
+                 'viewer_url': f"{PUBLIC_BASE}vaults/{run}/#{rk[0]}%3A{vid}",
+                 'clone': f'sgit clone {read_key} --base-url {PUBLIC_BASE}vaults/{run}/'}
+    st['published'] = published; st['seal_check'] = check; R.save()
+    e = json.loads(ev.read_text()); e.update(sealed_at=st['sealed_at'], published=published, seal_check=check)
+    ev.write_text(json.dumps(e, indent=1)); ledger(e)
+    print(f"{run}: sealed. vault {vid} published at site/vaults/{run}/ ({len(man['objects'])} objects, {nbytes} B); "
+          f"static clone identical ({len(cf)} files, {clone_ms} ms); a write with the read key: {check['write_with_read_key']}; "
+          f"server copy: {check.get('server_clone_after_delete', 'kept')}; vault key destroyed")
+
 if __name__ == '__main__':
     a = sys.argv[1:]
     {'server-start': lambda: server_start(), 'server-stop': lambda: server_stop(), 'open': lambda: open_run(a[1], a[2]),
-     'deliver': lambda: deliver(a[1], a[2], a[3], a[4]), 'close': lambda: close(a[1], a[2]), 'delete': lambda: delete(a[1])}[a[0]]()
+     'deliver': lambda: deliver(a[1], a[2], a[3], a[4]), 'close': lambda: close(a[1], a[2]), 'delete': lambda: delete(a[1]),
+     'seal': lambda: seal(a[1], keep_remote='--keep-remote' in a)}[a[0]]()

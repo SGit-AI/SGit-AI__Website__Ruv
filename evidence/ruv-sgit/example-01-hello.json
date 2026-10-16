@@ -1,0 +1,203 @@
+{
+ "run": "example-01-hello",
+ "purpose": "example-01-hello: the smallest ruv.sgit run: one worker writes one file, the run is closed, sealed (vault key deleted) and published with its read key",
+ "feedback": "Dinis, 16 Oct: start with a very simple hello-world example; an ephemeral vault represents a run, and once the run has ended it should not be modified, so the last step is deleting the vault key, then publishing the vault with its read key on ruv.sgit.ai.",
+ "vault_id": "l2yxakym",
+ "created_at": "2026-10-16T14:39:26+00:00",
+ "closed_at": "2026-10-16T14:39:35+00:00",
+ "deleted_at": null,
+ "hive": {
+  "workers": 1,
+  "tasks": 1,
+  "ruflo_calls": 7,
+  "ruflo_ms": 2770
+ },
+ "branches": [
+  {
+   "name": "w-hello",
+   "role": "writer",
+   "commits": 1,
+   "files": 1,
+   "bytes": 796,
+   "write_ms": 1630,
+   "merge_ms": 1652
+  }
+ ],
+ "commits": 3,
+ "files": 3,
+ "bytes_plain": 1664,
+ "files_delivered": 1,
+ "bytes_delivered": 796,
+ "server_store": {
+  "files": 22,
+  "bytes": 8015,
+  "plaintext_hits": 0,
+  "probe": "18 text fragments from the delivered files, searched for in every byte the server stored"
+ },
+ "clone": {
+  "ms": 649,
+  "files": 3,
+  "identical": true
+ },
+ "ops": [
+  {
+   "op": "init",
+   "ms": 447,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 462,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 542,
+   "rc": 0
+  },
+  {
+   "op": "branch-new",
+   "ms": 496,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 517,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 616,
+   "rc": 0
+  },
+  {
+   "op": "branch-switch",
+   "ms": 490,
+   "rc": 0
+  },
+  {
+   "op": "merge",
+   "ms": 525,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 637,
+   "rc": 0
+  },
+  {
+   "op": "history",
+   "ms": 480,
+   "rc": 0
+  },
+  {
+   "op": "clone",
+   "ms": 649,
+   "rc": 0
+  }
+ ],
+ "ruflo": [
+  {
+   "seq": 1,
+   "actor": "queen",
+   "cmd": "hive-mind init -t hierarchical-mesh -c byzantine -m 12",
+   "rc": 0,
+   "ms": 381
+  },
+  {
+   "seq": 2,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t writer -r specialist -p hello",
+   "rc": 0,
+   "ms": 364
+  },
+  {
+   "seq": 3,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d hello: write hello.md saying what this vault is -p high",
+   "rc": 0,
+   "ms": 462
+  },
+  {
+   "seq": 4,
+   "actor": "conductor",
+   "cmd": "hive-mind broadcast -m run example-01-hello: example-01-hello: the smallest ruv.sgit run: one worker writes one file, the run is closed, sealed (vault key deleted) and published with its read key -f conductor",
+   "rc": 0,
+   "ms": 379
+  },
+  {
+   "seq": 5,
+   "actor": "writer",
+   "cmd": "hive-mind broadcast -m delivered hello sha256:52b5a514f755c93b files:1 -f writer",
+   "rc": 0,
+   "ms": 420
+  },
+  {
+   "seq": 6,
+   "actor": "queen",
+   "cmd": "hive-mind status",
+   "rc": 0,
+   "ms": 410
+  },
+  {
+   "seq": 7,
+   "actor": "queen",
+   "cmd": "daemon stop",
+   "rc": 0,
+   "ms": 354
+  }
+ ],
+ "history": [
+  {
+   "id": "2c90a5ab3dd2",
+   "message": "init",
+   "time": "2026-10-16T14:39:28Z",
+   "files_added": 0,
+   "parents": 0
+  },
+  {
+   "id": "c43af2644b37",
+   "message": "brief: run example-01-hello",
+   "time": "2026-10-16T14:39:29Z",
+   "files_added": 2,
+   "parents": 1
+  },
+  {
+   "id": "6c04172cbd71",
+   "message": "writer hello: delivered 1 files",
+   "time": "2026-10-16T14:39:30Z",
+   "files_added": 1,
+   "parents": 1
+  }
+ ],
+ "workers": [
+  {
+   "id": "hello",
+   "role": "writer",
+   "tokens": 0,
+   "note": "hello.md written by the mechanic worker by hand; no model call"
+  }
+ ],
+ "sealed_at": "2026-10-16T14:39:37+00:00",
+ "published": {
+  "path": "vaults/example-01-hello/",
+  "read_key": "sgit_public_read_e7264f677323fe61cc5ea60beb447089bb5b1b186bc127932f527643fe5626f7:l2yxakym",
+  "vault_id": "l2yxakym",
+  "sealed_at": "2026-10-16T14:39:37+00:00",
+  "files": 25,
+  "objects": 21,
+  "bytes_objects": 8036,
+  "viewer_url": "https://ruv.sgit.ai/vaults/example-01-hello/#sgit_public_read_e7264f677323fe61cc5ea60beb447089bb5b1b186bc127932f527643fe5626f7%3Al2yxakym",
+  "clone": "sgit clone sgit_public_read_e7264f677323fe61cc5ea60beb447089bb5b1b186bc127932f527643fe5626f7:l2yxakym --base-url https://ruv.sgit.ai/vaults/example-01-hello/"
+ },
+ "seal_check": {
+  "clone_static": {
+   "ms": 370,
+   "files": 3,
+   "identical": true
+  },
+  "write_with_read_key": "refused",
+  "server_clone_after_delete": "failed",
+  "vault_key_left": false
+ }
+}

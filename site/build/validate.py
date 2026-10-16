@@ -3,7 +3,7 @@
 Exit 1 on any failure. Usage: python3 site/build/validate.py"""
 import re, sys, pathlib
 SITE = pathlib.Path(__file__).resolve().parents[1]
-SECRET = re.compile(r'(sgit_private_vault_[A-Za-z0-9_]{8,}|sk-or-v1-[0-9a-f]{20,}|ghp_[A-Za-z0-9]{20,})')  # the public vault's READ key (sgit_private_read_…) is published on purpose
+SECRET = re.compile(r'(sgit_private_vault_[A-Za-z0-9_]{8,}|sgit_private_read_[0-9a-f]{16,}|sk-or-v1-[0-9a-f]{20,}|ghp_[A-Za-z0-9]{20,})')  # a READ key declared public (sgit_public_read_…) is published on purpose; a vault key or a private read key never is
 fails = []
 pages = sorted(SITE.glob('*.html')) + [SITE / 'talk' / 'index.html', SITE / 'studio' / 'index.html', SITE / 'admin' / 'versions.html', SITE / 'ruv-sgit' / 'index.html'] + sorted((SITE / 'business').glob('*.html')) + [SITE / 'shop' / 'index.html'] + sorted((SITE / 'articles').glob('*.html'))
 for p in pages:
@@ -35,6 +35,29 @@ for f in SITE.rglob('*'):
     if f.is_file() and f.suffix in {'.html', '.js', '.css', '.json', '.md', '.txt', '.sh', '.py', '.yml'}:
         txt = f.read_text(encoding='utf-8', errors='ignore')
         for m in SECRET.finditer(txt): fails.append(f'{f.relative_to(SITE)}: secret-shaped string {m.group(0)[:12]}…')
+# site/vaults/<run>/: sealed example vaults, public on purpose. Each folder may hold only the publish surface
+# (index.html, manifest.json, cover.json, its sgit_public_read_ key file) and the ciphertext objects its manifest lists,
+# at api/vault/read/<vault id>/bare/…; never a working copy's .sg_vault/local (vault key, token, PEM) or anything else.
+import hashlib
+VKEY = re.compile(rb'sgit_private_vault_[A-Za-z0-9]')
+for vf in sorted(f for f in (SITE / 'vaults').rglob('*') if f.is_file()) if (SITE / 'vaults').exists() else []:
+    rel = vf.relative_to(SITE).as_posix()
+    if VKEY.search(vf.read_bytes()): fails.append(f'{rel}: holds a vault key (sgit_private_vault_…)')
+    if {'local', '.sg_vault'} & set(vf.parts) or vf.name in {'vault_key', 'token', 'base_url'} or vf.suffix in {'.pem', '.key'}:
+        fails.append(f'{rel}: a working-copy key file has no place in a published vault')
+for vd in sorted(d for d in (SITE / 'vaults').iterdir() if d.is_dir()) if (SITE / 'vaults').exists() else []:
+    rel = vd.relative_to(SITE).as_posix()
+    try: man = json.loads((vd / 'manifest.json').read_text())
+    except Exception as e: fails.append(f'{rel}: no readable manifest.json ({e.__class__.__name__})'); continue
+    if man.get('visibility') != 'public': fails.append(f'{rel}: manifest visibility is {man.get("visibility")!r}, not public')
+    allowed = {'index.html', 'manifest.json', 'cover.json'} | {x['path'] for x in man.get('plaintext_surface', []) if x['path'].startswith('sgit_public_read_')}
+    root = vd / 'api' / 'vault' / 'read' / str(man.get('vault_id'))
+    want = {(root / o['file_id']): o['sha256'] for o in man.get('objects', [])}
+    for f, h in want.items():
+        if not f.exists(): fails.append(f'{rel}: object {f.relative_to(vd)} missing')
+        elif hashlib.sha256(f.read_bytes()).hexdigest() != h: fails.append(f'{rel}: object {f.relative_to(vd)} does not match its manifest hash')
+    for f in vd.rglob('*'):
+        if f.is_file() and f not in want and f.relative_to(vd).as_posix() not in allowed: fails.append(f'{rel}: unexpected file {f.relative_to(vd)}')
 print(f'{len(pages)} pages checked')
 for x in fails: print('FAIL', x)
 sys.exit(1 if fails else 0)
