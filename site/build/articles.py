@@ -30,6 +30,9 @@ FOOT = '''<footer><div class="wrap"><span>ruv.sgit.ai · articles</span><a href=
 '''
 
 def inline(s):
+    links = []   # a link whose text is a code span, [`x`](url): kept whole, or the code split breaks it
+    def keep(m): links.append(f'<a href="{m.group(2)}"><code>{html.escape(m.group(1))}</code></a>'); return f'\x00{len(links) - 1}\x00'
+    s = re.sub(r'\[`([^`]+)`\]\(([^)\s]+)\)', keep, s)
     out, parts = [], re.split(r'(`[^`]+`)', s)
     for p in parts:
         if p.startswith('`') and p.endswith('`') and len(p) > 1: out.append('<code>' + html.escape(p[1:-1]) + '</code>'); continue
@@ -38,7 +41,7 @@ def inline(s):
         p = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', p)
         p = re.sub(r'(?<![\w*])\*(?!\s)(.+?)(?<!\s)\*(?![\w*])', r'<i>\1</i>', p)
         out.append(p)
-    return ''.join(out)
+    return re.sub(r'\x00(\d+)\x00', lambda m: links[int(m.group(1))], ''.join(out))
 
 def md_to_html(md):
     lines, out, i = md.split('\n'), [], 0

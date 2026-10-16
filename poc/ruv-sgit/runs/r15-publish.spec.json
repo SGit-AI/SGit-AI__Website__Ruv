@@ -1,0 +1,7 @@
+{
+ "purpose": "r15-publish: sealed run vaults live on the sgraph vault server (dev.send.sgraph.ai), opened in the vault UI (dev.vault.sgraph.ai) like sgit.ai's published vaults; the site keeps only the reference",
+ "feedback": "Dinis, 16 Oct: the getting-started brief is approved. Push all these vaults into dev.vault.sgraph.ai, which is what we usually use (use the access key to push). Do not push the vault files into this repository: keep the reference here, and show all the vaults in the vault UI like we do on sgit.ai; the vault files should all be on our sgraph server. (Also: a link with code text rendered as raw brackets in the getting-started article; fixed by the conductor in site/build/articles.py.)",
+ "workers": [
+  {"id": "publisher", "role": "builder", "task": "seal pushes the run's vault to dev.send.sgraph.ai before destroying the key, verifies a read-only clone and the vault UI, and records only the reference; remove the static copies; re-run example 01; republish r14's content as example 07; a vaults page that opens each in the vault UI", "out": "poc/ruv-sgit/ruvsgit.py, site/data/vaults.json, site/examples/"}
+ ]
+}
