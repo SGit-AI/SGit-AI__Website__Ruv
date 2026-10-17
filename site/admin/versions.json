@@ -5,9 +5,19 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.38",
+   "version": "v0.1.39",
    "date": "2026-10-17",
    "commit": null,
+   "title": "Article No. 11: the talk, narrated, and the browser's own voice (run r20-voice-article)",
+   "changes": "Following Dinis's request: an article on what was built in runs r16 to r19 (three narrations, the layouts, notes, the script, downloads, the pinned ledger, the player bridge) and how the read-aloud works: the Web Speech API, where the voices come from on each platform, local and online voices and the privacy point, why the audio cannot be saved from the page, why Playwright cannot record it and the pipeline that can (TTS engine, Playwright frames, ffmpeg), examples on the web, and the licence point: Apple's macOS licence (section 2.F, checked against the PDF) allows system voices for personal, non-commercial use only, so a published voiceover needs a voice whose licence allows it, while a visitor's browser reading a page aloud is fine. A web search, asked for by Dinis, went beyond CLAUDE.md's host list for this article only (evidence/notes.md); findings with sources in evidence/r20-voice-research.md.",
+   "pages": [
+    "articles/the-talk-narrated.html"
+   ]
+  },
+  {
+   "version": "v0.1.38",
+   "date": "2026-10-17",
+   "commit": "397e43a",
    "title": "The narration as captions on top (run r19-top)",
    "changes": "A fourth layout for talk/narration.html, to try against the others: '⬒ text top' puts the narration above the deck, like captions on top, in a fixed-height box so the deck does not jump as paragraphs change (in 'All three' the box grows to fit). Works on phones too, where text left and right are hidden. Also ?layout=top.",
    "pages": [

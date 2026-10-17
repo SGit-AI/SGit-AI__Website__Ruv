@@ -1,0 +1,263 @@
+{
+ "run": "r20-voice-article",
+ "purpose": "r20-voice-article: article No. 11, the narrated talk: what was built (features, capabilities, the UI and its layouts) and how the browser's own voice works: where the voice comes from, whether it is local, whether it can be saved, whether Playwright can make audio, how common it is on the web and good examples",
+ "feedback": "Dinis, 17 Oct: write an article for our collection that explains what you have done here, the features, capabilities and the UI, and a section that explains how the audio is made; I was not aware that was possible. Can we save it? Can we use it to generate text to audio? Could Playwright create that audio? Is it something that only works on my Mac, or done locally? I want to use it in a lot more places to bring voice to content, for free. Do a quick search of how common it is and good examples on the web.",
+ "vault_id": "k66r6mgf",
+ "created_at": "2026-10-17T21:37:16+00:00",
+ "closed_at": "2026-10-17T21:48:10+00:00",
+ "deleted_at": "2026-10-17T21:48:11+00:00",
+ "hive": {
+  "workers": 2,
+  "tasks": 2,
+  "ruflo_calls": 10,
+  "ruflo_ms": 4683
+ },
+ "branches": [
+  {
+   "name": "w-research",
+   "role": "researcher",
+   "commits": 1,
+   "files": 2,
+   "bytes": 39692,
+   "write_ms": 1720,
+   "merge_ms": 1607
+  },
+  {
+   "name": "w-writer",
+   "role": "writer",
+   "commits": 1,
+   "files": 7,
+   "bytes": 812488,
+   "write_ms": 1555,
+   "merge_ms": 1587
+  }
+ ],
+ "commits": 4,
+ "files": 11,
+ "bytes_plain": 854226,
+ "files_delivered": 9,
+ "bytes_delivered": 852180,
+ "server_store": {
+  "files": 36,
+  "bytes": 866355,
+  "plaintext_hits": 0,
+  "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+ },
+ "clone": {
+  "ms": 531,
+  "files": 11,
+  "identical": true
+ },
+ "ops": [
+  {
+   "op": "init",
+   "ms": 469,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 422,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 579,
+   "rc": 0
+  },
+  {
+   "op": "branch-new",
+   "ms": 575,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 526,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 617,
+   "rc": 0
+  },
+  {
+   "op": "branch-switch",
+   "ms": 520,
+   "rc": 0
+  },
+  {
+   "op": "merge",
+   "ms": 499,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 588,
+   "rc": 0
+  },
+  {
+   "op": "branch-new",
+   "ms": 455,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 493,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 605,
+   "rc": 0
+  },
+  {
+   "op": "branch-switch",
+   "ms": 494,
+   "rc": 0
+  },
+  {
+   "op": "merge",
+   "ms": 495,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 598,
+   "rc": 0
+  },
+  {
+   "op": "history",
+   "ms": 447,
+   "rc": 0
+  },
+  {
+   "op": "clone",
+   "ms": 531,
+   "rc": 0
+  }
+ ],
+ "ruflo": [
+  {
+   "seq": 1,
+   "actor": "queen",
+   "cmd": "hive-mind init -t hierarchical-mesh -c byzantine -m 12",
+   "rc": 0,
+   "ms": 944
+  },
+  {
+   "seq": 2,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t researcher -r specialist -p research",
+   "rc": 0,
+   "ms": 444
+  },
+  {
+   "seq": 3,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t writer -r specialist -p writer",
+   "rc": 0,
+   "ms": 432
+  },
+  {
+   "seq": 4,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d research: a quick web search (asked for by Dinis on 17 Oct): the Web Speech API's speech synthesis, browser support, where voices come from per platform and which are local or online, licensing of system voices, saving to a file, Playwright, adoption and good examples; every claim with its source URL -p high",
+   "rc": 0,
+   "ms": 396
+  },
+  {
+   "seq": 5,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d writer: article No. 11 from the research, the page itself and the runs r16 to r19, with screenshots -p high",
+   "rc": 0,
+   "ms": 435
+  },
+  {
+   "seq": 6,
+   "actor": "conductor",
+   "cmd": "hive-mind broadcast -m run r20-voice-article: r20-voice-article: article No. 11, the narrated talk: what was built (features, capabilities, the UI and its layouts) and how the browser's own voice works: where the voice comes from, whether it is local, whether it can be saved, whether Playwright can make audio, how common it is on the web and good examples -f conductor",
+   "rc": 0,
+   "ms": 374
+  },
+  {
+   "seq": 7,
+   "actor": "researcher",
+   "cmd": "hive-mind broadcast -m delivered research sha256:31616e9efb4d5642 files:2 -f researcher",
+   "rc": 0,
+   "ms": 515
+  },
+  {
+   "seq": 8,
+   "actor": "writer",
+   "cmd": "hive-mind broadcast -m delivered writer sha256:16768868ded79a7d files:7 -f writer",
+   "rc": 0,
+   "ms": 388
+  },
+  {
+   "seq": 9,
+   "actor": "queen",
+   "cmd": "hive-mind status",
+   "rc": 0,
+   "ms": 384
+  },
+  {
+   "seq": 10,
+   "actor": "queen",
+   "cmd": "daemon stop",
+   "rc": 0,
+   "ms": 371
+  }
+ ],
+ "history": [
+  {
+   "id": "5a6355287c28",
+   "message": "init",
+   "time": "2026-10-17T21:37:20Z",
+   "files_added": 0,
+   "parents": 0
+  },
+  {
+   "id": "3d5d26319a9b",
+   "message": "brief: run r20-voice-article",
+   "time": "2026-10-17T21:37:20Z",
+   "files_added": 2,
+   "parents": 1
+  },
+  {
+   "id": "8e95b51f97c4",
+   "message": "researcher research: delivered 2 files",
+   "time": "2026-10-17T21:48:02Z",
+   "files_added": 2,
+   "parents": 1
+  },
+  {
+   "id": "1d5b39fd0211",
+   "message": "writer writer: delivered 7 files",
+   "time": "2026-10-17T21:48:06Z",
+   "files_added": 7,
+   "parents": 1
+  }
+ ],
+ "workers": [
+  {
+   "id": "research",
+   "role": "researcher",
+   "kind": "Claude Code subagent (web search, asked for by Dinis)",
+   "tokens": 106757,
+   "tool_uses": 45,
+   "wall_s": 245
+  },
+  {
+   "id": "writer",
+   "role": "writer",
+   "kind": "Claude Code subagent",
+   "tokens": 142398,
+   "tool_uses": 29,
+   "wall_s": 297
+  }
+ ],
+ "deleted_paths": 75,
+ "delete_check": {
+  "store_paths_left": 0,
+  "clone_after_delete": "failed"
+ }
+}
