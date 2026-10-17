@@ -48,7 +48,7 @@ The runs were ephemeral by design: the point was to show that a vault can carry 
 
 1. **open**, **deliver**, **close**: as today.
 2. **Decide, from the spec.** Each spec gains one field, `"visibility"`, with three values: `"public"`, `"private"` (the default) or `"delete"`.
-3. **Prepare the way in.** For `public`, `sgit publish --visibility public` writes a static folder that includes the read key; it is copied into the site under `site/vaults/<run>/`. For `private`, the read key is written to a 0600 file outside the repository for handing over. For `delete`, today's delete step runs.
+3. **Prepare the way in.** For `public`, `sgit publish --visibility public` writes a static folder that includes the read key; it is pushed to the sgraph vault server and only the reference (server, vault id, read key, viewer URL, clone command) goes into the site. *(Decided 17 Oct: first built as a static folder under `site/vaults/<run>/`, then moved to the server; see the update below.)* For `private`, the read key is written to a 0600 file outside the repository for handing over. For `delete`, today's delete step runs.
 4. **Seal: delete the vault key.** Always the last step. The key file in `~/.ruv-sgit/runs/<run>/`, the working copy (whose `.sg_vault` folder also holds the key) and every temporary clone are removed. The ledger records `sealed_at`.
 
 Dinis put the principle plainly: "the last step of the vault is always the deletion of the vault key, because the vault should not be modified anymore, because the vault represents a run, and the run has ended". The order inside step 3 and 4 matters: publishing needs the key, so the read surface is prepared first and the key is destroyed straight after, in the same step of the runner.
@@ -63,6 +63,8 @@ Dinis put the principle plainly: "the last step of the vault is always the delet
 | How is it passed to the next round? | The next run clones it read-only as an input, with the read key: from the published folder for a public vault, from the server for a private one. The new run has its own vault; the old one is never changed. That is example 04. |
 
 ### How a sealed vault is published (to be confirmed by the mechanic's run)
+
+> **Update, 17 Oct (run r15-publish).** Dinis decided the vaults live on the sgraph vault server, not in the repository. `seal` now pushes the run's vault (every branch, full history) to `https://dev.send.sgraph.ai`, checks a fresh read-only clone and the vault UI at `https://dev.vault.sgraph.ai`, deletes the local copy, then destroys the vault key. The site keeps only the reference, and lists the published vaults, each open in the vault UI, on [the examples page](../examples/index.html). The static folders under `site/vaults/` are removed; `example-01-hello` and `r14-examples` are superseded by `example-01-hello-v2` and `example-07-meta`. The sketch below is the first version, kept as written.
 
 The intended mechanism follows how sgit.ai publishes its [demo vaults](https://sgit.ai/demos/vaults/blackhat-eu-2025/index.html), where each page shows the read key, a link that opens the vault read-only in the official web UI, and a one-line clone command:
 
@@ -91,7 +93,7 @@ Seven rungs. Each one adds one idea to the one before. The times are measured wh
 - **What it shows**: the whole lifecycle with nothing else in the way: open, deliver, close, seal, publish.
 - **The brief**: one worker, `hello`, role `writer`, task "write hello.md: one line saying which run this is and when", `"visibility": "public"`.
 - **Workers**: one, scripted (no model).
-- **What you get**: a vault with 3 commits (init, brief, the delivery), the brief and one file, sealed and published at `vaults/example-01-hello/`, and a ledger entry.
+- **What you get**: a vault with 3 commits (init, brief, the delivery), the brief and one file, sealed and published on the sgraph vault server (now `example-01-hello-v2`, open in the vault UI from [the examples page](../examples/index.html)), and a ledger entry.
 - **How long**: about half a minute. The first run on this site, `smoke-1`, did the same with one 72-byte file: 23 seconds from open to close.
 - **What you learn**: what a run, a branch, a ledger entry, a read key and a seal are.
 - **Reverse-engineers**: `smoke-1` in the [ledger](../ruv-sgit/ledger/index.html). Being built now by the mechanic.
@@ -214,7 +216,7 @@ Four runs, in order, each after the one before is reviewed. Run numbers continue
 
 Each has a proposed answer. A "yes" accepts it.
 
-1. **Where do published vaults live?** *Proposed:* on this site, under `ruv.sgit.ai/vaults/<run>/`, next to their example pages, and listed in sgit.ai's catalogue with a link here, rather than moved to sgit.ai.
+1. **Where do published vaults live?** *Decided 17 Oct:* on the sgraph vault server (dev.send.sgraph.ai), shown in its vault UI; the site keeps only the reference. *First proposal:* on this site, under `ruv.sgit.ai/vaults/<run>/`, next to their example pages, and listed in sgit.ai's catalogue with a link here, rather than moved to sgit.ai.
 2. **Keep a server copy after sealing?** *Proposed:* for public vaults, also push the sealed vault to the hosted sgit server, so the official web UI link works as it does for sgit.ai's demos; the static folder stays the copy we control. For private vaults, keep the server copy until the client has their own, then delete it.
 3. **Naming.** *Proposed:* `example-01-hello` to `example-07-meta` for the example runs; a re-run of an old run keeps its old name with `-rerun` (`r8-explain-rerun`).
 4. **Model or scripted workers?** *Proposed:* scripted for 01 to 04, so anyone can run them with no API key and get the same result each time; a model for 05 and 06, where the work needs one; 07 is whatever r14 was (Claude Code workers).

@@ -1,0 +1,261 @@
+{
+ "run": "example-01-hello-v2",
+ "purpose": "example-01-hello-v2: the smallest ruv.sgit run: one worker writes one file, the run is closed and sealed: the vault (all branches, full history) is pushed to the sgraph vault server (dev.send.sgraph.ai), opened read-only in the vault UI (dev.vault.sgraph.ai) with its published read key, and the vault key is deleted",
+ "feedback": "Dinis, 16 Oct: start with a very simple hello-world example; an ephemeral vault represents a run, and once the run has ended it should not be modified, so the last step is deleting the vault key, then publishing the vault with its read key on ruv.sgit.ai. Dinis, 17 Oct: push the vaults to dev.vault.sgraph.ai, which is what we usually use; keep only the reference in the repository and show the vaults in the vault UI like sgit.ai does. This run re-runs example 01 that way (example-01-hello was sealed as a static folder in the repository; that copy is removed).",
+ "vault_id": "q4hynr3y",
+ "created_at": "2026-10-17T12:26:39+00:00",
+ "closed_at": "2026-10-17T12:26:53+00:00",
+ "deleted_at": null,
+ "hive": {
+  "workers": 1,
+  "tasks": 1,
+  "ruflo_calls": 7,
+  "ruflo_ms": 3470
+ },
+ "branches": [
+  {
+   "name": "w-hello",
+   "role": "writer",
+   "commits": 1,
+   "files": 1,
+   "bytes": 1037,
+   "write_ms": 2968,
+   "merge_ms": 2992
+  }
+ ],
+ "commits": 3,
+ "files": 3,
+ "bytes_plain": 2708,
+ "files_delivered": 1,
+ "bytes_delivered": 1037,
+ "server_store": {
+  "files": 22,
+  "bytes": 9063,
+  "plaintext_hits": 0,
+  "probe": "29 text fragments from the delivered files, searched for in every byte the server stored"
+ },
+ "clone": {
+  "ms": 1257,
+  "files": 3,
+  "identical": true
+ },
+ "ops": [
+  {
+   "op": "init",
+   "ms": 984,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 824,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 959,
+   "rc": 0
+  },
+  {
+   "op": "branch-new",
+   "ms": 1076,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 896,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 996,
+   "rc": 0
+  },
+  {
+   "op": "branch-switch",
+   "ms": 968,
+   "rc": 0
+  },
+  {
+   "op": "merge",
+   "ms": 1010,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 1014,
+   "rc": 0
+  },
+  {
+   "op": "history",
+   "ms": 890,
+   "rc": 0
+  },
+  {
+   "op": "clone",
+   "ms": 1257,
+   "rc": 0
+  },
+  {
+   "op": "remote-add",
+   "ms": 2305,
+   "rc": 0
+  },
+  {
+   "op": "remote-list",
+   "ms": 280,
+   "rc": 0
+  },
+  {
+   "op": "push-publish",
+   "ms": 4413,
+   "rc": 0
+  },
+  {
+   "op": "publish",
+   "ms": 838,
+   "rc": 0
+  },
+  {
+   "op": "clone-published",
+   "ms": 2232,
+   "rc": 0
+  },
+  {
+   "op": "commit-published",
+   "ms": 242,
+   "rc": 1
+  },
+  {
+   "op": "push-published",
+   "ms": 218,
+   "rc": 1
+  },
+  {
+   "op": "delete-local",
+   "ms": 912,
+   "rc": 0
+  },
+  {
+   "op": "clone-after-delete",
+   "ms": 831,
+   "rc": 1
+  }
+ ],
+ "ruflo": [
+  {
+   "seq": 1,
+   "actor": "queen",
+   "cmd": "hive-mind init -t hierarchical-mesh -c byzantine -m 12",
+   "rc": 0,
+   "ms": 482
+  },
+  {
+   "seq": 2,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t writer -r specialist -p hello",
+   "rc": 0,
+   "ms": 481
+  },
+  {
+   "seq": 3,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d hello: write hello.md saying what this vault is -p high",
+   "rc": 0,
+   "ms": 492
+  },
+  {
+   "seq": 4,
+   "actor": "conductor",
+   "cmd": "hive-mind broadcast -m run example-01-hello-v2: example-01-hello-v2: the smallest ruv.sgit run: one worker writes one file, the run is closed and sealed: the vault (all branches, full history) is pushed to the sgraph vault server (dev.send.sgraph.ai), opened read-only in the vault UI (dev.vault.sgraph.ai) with its published read key, and the vault key is deleted -f conductor",
+   "rc": 0,
+   "ms": 465
+  },
+  {
+   "seq": 5,
+   "actor": "writer",
+   "cmd": "hive-mind broadcast -m delivered hello sha256:f4813c127d4fb3e4 files:1 -f writer",
+   "rc": 0,
+   "ms": 505
+  },
+  {
+   "seq": 6,
+   "actor": "queen",
+   "cmd": "hive-mind status",
+   "rc": 0,
+   "ms": 598
+  },
+  {
+   "seq": 7,
+   "actor": "queen",
+   "cmd": "daemon stop",
+   "rc": 0,
+   "ms": 447
+  }
+ ],
+ "history": [
+  {
+   "id": "7acbe10ca4c9",
+   "message": "init",
+   "time": "2026-10-17T12:26:42Z",
+   "files_added": 0,
+   "parents": 0
+  },
+  {
+   "id": "3098970f3cb8",
+   "message": "brief: run example-01-hello-v2",
+   "time": "2026-10-17T12:26:43Z",
+   "files_added": 2,
+   "parents": 1
+  },
+  {
+   "id": "c26cf2ea7c26",
+   "message": "writer hello: delivered 1 files",
+   "time": "2026-10-17T12:26:46Z",
+   "files_added": 1,
+   "parents": 1
+  }
+ ],
+ "workers": [
+  {
+   "id": "hello",
+   "role": "writer",
+   "tokens": 0,
+   "note": "hello.md written by the publisher worker (a script); no model call"
+  }
+ ],
+ "sealed_at": "2026-10-17T12:27:15+00:00",
+ "published": {
+  "server": "https://dev.send.sgraph.ai",
+  "vault_id": "q4hynr3y",
+  "read_key": "sgit_public_read_64e6cbc4b71549d83beb23b2532fe192ed8ec4a66a407cce56e8724e2cccc799:q4hynr3y",
+  "viewer_url": "https://dev.vault.sgraph.ai/en-gb/#sgit_public_read_64e6cbc4b71549d83beb23b2532fe192ed8ec4a66a407cce56e8724e2cccc799:q4hynr3y",
+  "clone": "sgit clone sgit_public_read_64e6cbc4b71549d83beb23b2532fe192ed8ec4a66a407cce56e8724e2cccc799:q4hynr3y",
+  "sealed_at": "2026-10-17T12:27:15+00:00",
+  "files": 3,
+  "bytes": 2708
+ },
+ "seal_check": {
+  "server": "https://dev.send.sgraph.ai",
+  "push_ms": 4413,
+  "clone_published": {
+   "ms": 2232,
+   "files": 3,
+   "identical": true,
+   "store_objects": 21,
+   "store_identical": true,
+   "named_branch_refs": 2
+  },
+  "write_with_read_key": "refused (commit and push)",
+  "vault_ui": {
+   "opened": true,
+   "shows": [
+    "brief",
+    "workers"
+   ],
+   "title": "SG/Vault (v0.2.2) \u2014 Zero-knowledge encrypted vault",
+   "screenshot": "evidence/ruv-sgit/example-01-hello-v2-vault-ui.png"
+  },
+  "local_server_clone_after_delete": "failed",
+  "vault_key_left": false
+ }
+}

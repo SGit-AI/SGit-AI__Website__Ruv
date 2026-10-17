@@ -255,15 +255,12 @@
  ],
  "sealed_at": "2026-10-16T14:41:59+00:00",
  "published": {
-  "path": "vaults/r14-examples/",
   "read_key": "sgit_public_read_e4fecf7a65d3e0107fd84a243fc457f99b3d77aefdfe65a0e6dbf73f1089ee37:4xaasw4k",
   "vault_id": "4xaasw4k",
   "sealed_at": "2026-10-16T14:41:59+00:00",
   "files": 40,
   "objects": 36,
-  "bytes_objects": 126149,
-  "viewer_url": "https://ruv.sgit.ai/vaults/r14-examples/#sgit_public_read_e4fecf7a65d3e0107fd84a243fc457f99b3d77aefdfe65a0e6dbf73f1089ee37%3A4xaasw4k",
-  "clone": "sgit clone sgit_public_read_e4fecf7a65d3e0107fd84a243fc457f99b3d77aefdfe65a0e6dbf73f1089ee37:4xaasw4k --base-url https://ruv.sgit.ai/vaults/r14-examples/"
+  "bytes_objects": 126149
  },
  "seal_check": {
   "clone_static": {
@@ -274,5 +271,10 @@
   "write_with_read_key": "refused",
   "server_clone_after_delete": "failed",
   "vault_key_left": false
+ },
+ "superseded_by": "example-07-meta",
+ "static_copy_removed": {
+  "at": "2026-10-17",
+  "why": "Dinis, 17 Oct: vault files belong on the sgraph vault server, not in the repository. This vault was sealed as a static folder (site/vaults/r14-examples/, now removed; still in git history up to d9b9ab3) and its vault key was destroyed, so it cannot be pushed to a server; example-07-meta republishes it there."
  }
 }

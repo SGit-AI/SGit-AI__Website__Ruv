@@ -1,0 +1,19 @@
+{
+ "purpose": "example-07-meta: the meta example: a run whose deliveries are another run's (r14-examples, the getting-started brief and the seal), republished on the sgraph vault server (dev.send.sgraph.ai) and opened in the vault UI, sealed",
+ "feedback": "This run republishes r14-examples' deliveries on the sgraph vault server, because r14's own vault key was destroyed by the earlier static seal (16 Oct): that vault was published as a static folder inside the repository and can never be pushed anywhere else. Dinis, 17 Oct: push all these vaults into dev.vault.sgraph.ai, which is what we usually use; keep only the reference in the repository and show the vaults in the vault UI like sgit.ai does. The two workers below deliver exactly what r14's workers delivered: their folders were recovered with a read-only clone of r14's static copy (read key only) before that copy was removed, and every file is byte-identical to git commit 1f56515 (r14's ruvsgit.py, BRIEF.md with its 'Public example vaults' section, validate.py, ledger.schema.md, the example-01 spec and evidence; the getting-started article, markdown and HTML). The brief r14 answered, verbatim: Dinis, 16 Oct (voice memo): create a very simple set of getting-started examples and powerful workflows, so consultants can learn and test and anyone can try it, from very simple hello world examples to more complex ones that leverage vaults. Do runs that use the visualisation of the vaults. Start publishing the vaults: an ephemeral vault represents a run, and once the run has ended it should not be modified, so by design the last step of a run is deleting the vault key, which makes the vault immutable; then publish it (read key) on ruv.sgit.ai as a great example. Have a standard way; list for each example the original brief, the output and the vault, so we can look at it. Reverse-engineer existing examples, create new ones, even a meta one. The killer workflow is the creation of animations to explain things. Look at how sgit.ai and the newsroom publish vaults.",
+ "source_run": "r14-examples",
+ "workers": [
+  {
+   "id": "mechanic",
+   "role": "builder",
+   "task": "deliver r14's mechanic output again (the r14 seal: ruvsgit.py, BRIEF.md, validate.py, ledger.schema.md, example-01 spec and evidence), unchanged",
+   "out": "workers/mechanic/"
+  },
+  {
+   "id": "writer",
+   "role": "writer",
+   "task": "deliver r14's writer output again (the getting-started article, markdown and HTML), unchanged",
+   "out": "workers/writer/"
+  }
+ ]
+}

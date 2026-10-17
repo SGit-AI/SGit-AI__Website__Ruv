@@ -1,0 +1,12 @@
+{
+ "purpose": "example-01-hello-v2: the smallest ruv.sgit run: one worker writes one file, the run is closed and sealed: the vault (all branches, full history) is pushed to the sgraph vault server (dev.send.sgraph.ai), opened read-only in the vault UI (dev.vault.sgraph.ai) with its published read key, and the vault key is deleted",
+ "feedback": "Dinis, 16 Oct: start with a very simple hello-world example; an ephemeral vault represents a run, and once the run has ended it should not be modified, so the last step is deleting the vault key, then publishing the vault with its read key on ruv.sgit.ai. Dinis, 17 Oct: push the vaults to dev.vault.sgraph.ai, which is what we usually use; keep only the reference in the repository and show the vaults in the vault UI like sgit.ai does. This run re-runs example 01 that way (example-01-hello was sealed as a static folder in the repository; that copy is removed).",
+ "workers": [
+  {
+   "id": "hello",
+   "role": "writer",
+   "task": "write hello.md saying what this vault is",
+   "out": "hello.md"
+  }
+ ]
+}

@@ -3698,15 +3698,12 @@
    ],
    "sealed_at": "2026-10-16T14:39:37+00:00",
    "published": {
-    "path": "vaults/example-01-hello/",
     "read_key": "sgit_public_read_e7264f677323fe61cc5ea60beb447089bb5b1b186bc127932f527643fe5626f7:l2yxakym",
     "vault_id": "l2yxakym",
     "sealed_at": "2026-10-16T14:39:37+00:00",
     "files": 25,
     "objects": 21,
-    "bytes_objects": 8036,
-    "viewer_url": "https://ruv.sgit.ai/vaults/example-01-hello/#sgit_public_read_e7264f677323fe61cc5ea60beb447089bb5b1b186bc127932f527643fe5626f7%3Al2yxakym",
-    "clone": "sgit clone sgit_public_read_e7264f677323fe61cc5ea60beb447089bb5b1b186bc127932f527643fe5626f7:l2yxakym --base-url https://ruv.sgit.ai/vaults/example-01-hello/"
+    "bytes_objects": 8036
    },
    "seal_check": {
     "clone_static": {
@@ -3717,6 +3714,11 @@
     "write_with_read_key": "refused",
     "server_clone_after_delete": "failed",
     "vault_key_left": false
+   },
+   "superseded_by": "example-01-hello-v2",
+   "static_copy_removed": {
+    "at": "2026-10-17",
+    "why": "Dinis, 17 Oct: vault files belong on the sgraph vault server, not in the repository. This vault was sealed as a static folder (site/vaults/example-01-hello/, now removed; still in git history up to d9b9ab3) and its vault key was destroyed, so it cannot be pushed to a server; example-01-hello-v2 republishes it there."
    }
   },
   {
@@ -3904,15 +3906,12 @@
    ],
    "sealed_at": "2026-10-16T14:41:59+00:00",
    "published": {
-    "path": "vaults/r14-examples/",
     "read_key": "sgit_public_read_e4fecf7a65d3e0107fd84a243fc457f99b3d77aefdfe65a0e6dbf73f1089ee37:4xaasw4k",
     "vault_id": "4xaasw4k",
     "sealed_at": "2026-10-16T14:41:59+00:00",
     "files": 40,
     "objects": 36,
-    "bytes_objects": 126149,
-    "viewer_url": "https://ruv.sgit.ai/vaults/r14-examples/#sgit_public_read_e4fecf7a65d3e0107fd84a243fc457f99b3d77aefdfe65a0e6dbf73f1089ee37%3A4xaasw4k",
-    "clone": "sgit clone sgit_public_read_e4fecf7a65d3e0107fd84a243fc457f99b3d77aefdfe65a0e6dbf73f1089ee37:4xaasw4k --base-url https://ruv.sgit.ai/vaults/r14-examples/"
+    "bytes_objects": 126149
    },
    "seal_check": {
     "clone_static": {
@@ -3923,10 +3922,926 @@
     "write_with_read_key": "refused",
     "server_clone_after_delete": "failed",
     "vault_key_left": false
+   },
+   "superseded_by": "example-07-meta",
+   "static_copy_removed": {
+    "at": "2026-10-17",
+    "why": "Dinis, 17 Oct: vault files belong on the sgraph vault server, not in the repository. This vault was sealed as a static folder (site/vaults/r14-examples/, now removed; still in git history up to d9b9ab3) and its vault key was destroyed, so it cannot be pushed to a server; example-07-meta republishes it there."
+   }
+  },
+  {
+   "run": "example-01-hello-v2",
+   "purpose": "example-01-hello-v2: the smallest ruv.sgit run: one worker writes one file, the run is closed and sealed: the vault (all branches, full history) is pushed to the sgraph vault server (dev.send.sgraph.ai), opened read-only in the vault UI (dev.vault.sgraph.ai) with its published read key, and the vault key is deleted",
+   "feedback": "Dinis, 16 Oct: start with a very simple hello-world example; an ephemeral vault represents a run, and once the run has ended it should not be modified, so the last step is deleting the vault key, then publishing the vault with its read key on ruv.sgit.ai. Dinis, 17 Oct: push the vaults to dev.vault.sgraph.ai, which is what we usually use; keep only the reference in the repository and show the vaults in the vault UI like sgit.ai does. This run re-runs example 01 that way (example-01-hello was sealed as a static folder in the repository; that copy is removed).",
+   "vault_id": "q4hynr3y",
+   "created_at": "2026-10-17T12:26:39+00:00",
+   "closed_at": "2026-10-17T12:26:53+00:00",
+   "deleted_at": null,
+   "hive": {
+    "workers": 1,
+    "tasks": 1,
+    "ruflo_calls": 7,
+    "ruflo_ms": 3470
+   },
+   "branches": [
+    {
+     "name": "w-hello",
+     "role": "writer",
+     "commits": 1,
+     "files": 1,
+     "bytes": 1037,
+     "write_ms": 2968,
+     "merge_ms": 2992
+    }
+   ],
+   "commits": 3,
+   "files": 3,
+   "bytes_plain": 2708,
+   "files_delivered": 1,
+   "bytes_delivered": 1037,
+   "server_store": {
+    "files": 22,
+    "bytes": 9063,
+    "plaintext_hits": 0,
+    "probe": "29 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 1257,
+    "files": 3,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 984,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 824,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 959,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 1076,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 896,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 996,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 968,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1010,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1014,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 890,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 1257,
+     "rc": 0
+    },
+    {
+     "op": "remote-add",
+     "ms": 2305,
+     "rc": 0
+    },
+    {
+     "op": "remote-list",
+     "ms": 280,
+     "rc": 0
+    },
+    {
+     "op": "push-publish",
+     "ms": 4413,
+     "rc": 0
+    },
+    {
+     "op": "publish",
+     "ms": 838,
+     "rc": 0
+    },
+    {
+     "op": "clone-published",
+     "ms": 2232,
+     "rc": 0
+    },
+    {
+     "op": "commit-published",
+     "ms": 242,
+     "rc": 1
+    },
+    {
+     "op": "push-published",
+     "ms": 218,
+     "rc": 1
+    },
+    {
+     "op": "delete-local",
+     "ms": 912,
+     "rc": 0
+    },
+    {
+     "op": "clone-after-delete",
+     "ms": 831,
+     "rc": 1
+    }
+   ],
+   "history": [
+    {
+     "id": "7acbe10ca4c9",
+     "message": "init",
+     "time": "2026-10-17T12:26:42Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "3098970f3cb8",
+     "message": "brief: run example-01-hello-v2",
+     "time": "2026-10-17T12:26:43Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "c26cf2ea7c26",
+     "message": "writer hello: delivered 1 files",
+     "time": "2026-10-17T12:26:46Z",
+     "files_added": 1,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "hello",
+     "role": "writer",
+     "tokens": 0,
+     "note": "hello.md written by the publisher worker (a script); no model call"
+    }
+   ],
+   "sealed_at": "2026-10-17T12:27:15+00:00",
+   "published": {
+    "server": "https://dev.send.sgraph.ai",
+    "vault_id": "q4hynr3y",
+    "read_key": "sgit_public_read_64e6cbc4b71549d83beb23b2532fe192ed8ec4a66a407cce56e8724e2cccc799:q4hynr3y",
+    "viewer_url": "https://dev.vault.sgraph.ai/en-gb/#sgit_public_read_64e6cbc4b71549d83beb23b2532fe192ed8ec4a66a407cce56e8724e2cccc799:q4hynr3y",
+    "clone": "sgit clone sgit_public_read_64e6cbc4b71549d83beb23b2532fe192ed8ec4a66a407cce56e8724e2cccc799:q4hynr3y",
+    "sealed_at": "2026-10-17T12:27:15+00:00",
+    "files": 3,
+    "bytes": 2708
+   },
+   "seal_check": {
+    "server": "https://dev.send.sgraph.ai",
+    "push_ms": 4413,
+    "clone_published": {
+     "ms": 2232,
+     "files": 3,
+     "identical": true,
+     "store_objects": 21,
+     "store_identical": true,
+     "named_branch_refs": 2
+    },
+    "write_with_read_key": "refused (commit and push)",
+    "vault_ui": {
+     "opened": true,
+     "shows": [
+      "brief",
+      "workers"
+     ],
+     "title": "SG/Vault (v0.2.2) \u2014 Zero-knowledge encrypted vault",
+     "screenshot": "evidence/ruv-sgit/example-01-hello-v2-vault-ui.png"
+    },
+    "local_server_clone_after_delete": "failed",
+    "vault_key_left": false
+   }
+  },
+  {
+   "run": "example-07-meta",
+   "purpose": "example-07-meta: the meta example: a run whose deliveries are another run's (r14-examples, the getting-started brief and the seal), republished on the sgraph vault server (dev.send.sgraph.ai) and opened in the vault UI, sealed",
+   "feedback": "This run republishes r14-examples' deliveries on the sgraph vault server, because r14's own vault key was destroyed by the earlier static seal (16 Oct): that vault was published as a static folder inside the repository and can never be pushed anywhere else. Dinis, 17 Oct: push all these vaults into dev.vault.sgraph.ai, which is what we usually use; keep only the reference in the repository and show the vaults in the vault UI like sgit.ai does. The two workers below deliver exactly what r14's workers delivered: their folders were recovered with a read-only clone of r14's static copy (read key only) before that copy was removed, and every file is byte-identical to git commit 1f56515 (r14's ruvsgit.py, BRIEF.md with its 'Public example vaults' section, validate.py, ledger.schema.md, the example-01 spec and evidence; the getting-started article, markdown and HTML). The brief r14 answered, verbatim: Dinis, 16 Oct (voice memo): create a very simple set of getting-started examples and powerful workflows, so consultants can learn and test and anyone can try it, from very simple hello world examples to more complex ones that leverage vaults. Do runs that use the visualisation of the vaults. Start publishing the vaults: an ephemeral vault represents a run, and once the run has ended it should not be modified, so by design the last step of a run is deleting the vault key, which makes the vault immutable; then publish it (read key) on ruv.sgit.ai as a great example. Have a standard way; list for each example the original brief, the output and the vault, so we can look at it. Reverse-engineer existing examples, create new ones, even a meta one. The killer workflow is the creation of animations to explain things. Look at how sgit.ai and the newsroom publish vaults.",
+   "vault_id": "nxmykn2w",
+   "created_at": "2026-10-17T12:27:21+00:00",
+   "closed_at": "2026-10-17T12:27:42+00:00",
+   "deleted_at": null,
+   "hive": {
+    "workers": 2,
+    "tasks": 2,
+    "ruflo_calls": 10,
+    "ruflo_ms": 4748
+   },
+   "branches": [
+    {
+     "name": "w-mechanic",
+     "role": "builder",
+     "commits": 1,
+     "files": 6,
+     "bytes": 43217,
+     "write_ms": 2881,
+     "merge_ms": 3280
+    },
+    {
+     "name": "w-writer",
+     "role": "writer",
+     "commits": 1,
+     "files": 2,
+     "bytes": 68352,
+     "write_ms": 2615,
+     "merge_ms": 2889
+    }
+   ],
+   "commits": 4,
+   "files": 10,
+   "bytes_plain": 115913,
+   "files_delivered": 8,
+   "bytes_delivered": 111569,
+   "server_store": {
+    "files": 36,
+    "bytes": 127578,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 905,
+    "files": 10,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 1015,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 980,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1002,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 915,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 961,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1003,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1332,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 985,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 962,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 816,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 847,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 951,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 908,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 962,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1019,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 891,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 905,
+     "rc": 0
+    },
+    {
+     "op": "remote-add",
+     "ms": 2023,
+     "rc": 1
+    },
+    {
+     "op": "remote-list",
+     "ms": 247,
+     "rc": 0
+    },
+    {
+     "op": "push-publish",
+     "ms": 3632,
+     "rc": 0
+    },
+    {
+     "op": "publish",
+     "ms": 771,
+     "rc": 0
+    },
+    {
+     "op": "clone-published",
+     "ms": 3025,
+     "rc": 0
+    },
+    {
+     "op": "commit-published",
+     "ms": 322,
+     "rc": 1
+    },
+    {
+     "op": "push-published",
+     "ms": 267,
+     "rc": 1
+    },
+    {
+     "op": "delete-local",
+     "ms": 942,
+     "rc": 0
+    },
+    {
+     "op": "clone-after-delete",
+     "ms": 907,
+     "rc": 1
+    }
+   ],
+   "history": [
+    {
+     "id": "c93bca571364",
+     "message": "init",
+     "time": "2026-10-17T12:27:25Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "5e7f0bc5b2e0",
+     "message": "brief: run example-07-meta",
+     "time": "2026-10-17T12:27:26Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "1312edfb9ec7",
+     "message": "builder mechanic: delivered 6 files",
+     "time": "2026-10-17T12:27:29Z",
+     "files_added": 6,
+     "parents": 1
+    },
+    {
+     "id": "0b84540be88f",
+     "message": "writer writer: delivered 2 files",
+     "time": "2026-10-17T12:27:35Z",
+     "files_added": 2,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "mechanic",
+     "role": "builder",
+     "tokens": 0,
+     "note": "r14 mechanic delivery, recovered byte-identical (read-only clone of the static copy); no model call in this run"
+    },
+    {
+     "id": "writer",
+     "role": "writer",
+     "tokens": 0,
+     "note": "r14 writer delivery, recovered byte-identical; no model call in this run"
+    }
+   ],
+   "sealed_at": "2026-10-17T12:28:27+00:00",
+   "published": {
+    "server": "https://dev.send.sgraph.ai",
+    "vault_id": "nxmykn2w",
+    "read_key": "sgit_public_read_a8055b9646bba6e6c8d00b623cb85242842569720c28e87746d42c8bee7e368e:nxmykn2w",
+    "viewer_url": "https://dev.vault.sgraph.ai/en-gb/#sgit_public_read_a8055b9646bba6e6c8d00b623cb85242842569720c28e87746d42c8bee7e368e:nxmykn2w",
+    "clone": "sgit clone sgit_public_read_a8055b9646bba6e6c8d00b623cb85242842569720c28e87746d42c8bee7e368e:nxmykn2w",
+    "sealed_at": "2026-10-17T12:28:27+00:00",
+    "files": 10,
+    "bytes": 115913
+   },
+   "seal_check": {
+    "server": "https://dev.send.sgraph.ai",
+    "push_ms": 3632,
+    "clone_published": {
+     "ms": 3025,
+     "files": 10,
+     "identical": true,
+     "store_objects": 36,
+     "store_identical": true,
+     "named_branch_refs": 3
+    },
+    "write_with_read_key": "refused (commit and push)",
+    "vault_ui": {
+     "opened": true,
+     "shows": [
+      "brief",
+      "workers"
+     ],
+     "title": "SG/Vault (v0.2.2) \u2014 Zero-knowledge encrypted vault",
+     "screenshot": "evidence/ruv-sgit/example-07-meta-vault-ui.png"
+    },
+    "local_server_clone_after_delete": "failed",
+    "vault_key_left": false
+   }
+  },
+  {
+   "run": "r15-publish",
+   "purpose": "r15-publish: sealed run vaults live on the sgraph vault server (dev.send.sgraph.ai), opened in the vault UI (dev.vault.sgraph.ai) like sgit.ai's published vaults; the site keeps only the reference",
+   "feedback": "Dinis, 16 Oct: the getting-started brief is approved. Push all these vaults into dev.vault.sgraph.ai, which is what we usually use (use the access key to push). Do not push the vault files into this repository: keep the reference here, and show all the vaults in the vault UI like we do on sgit.ai; the vault files should all be on our sgraph server. (Also: a link with code text rendered as raw brackets in the getting-started article; fixed by the conductor in site/build/articles.py.)",
+   "vault_id": "un46rgr9",
+   "created_at": "2026-10-17T12:18:42+00:00",
+   "closed_at": "2026-10-17T12:33:51+00:00",
+   "deleted_at": "2026-10-17T12:33:59+00:00",
+   "hive": {
+    "workers": 1,
+    "tasks": 1,
+    "ruflo_calls": 7,
+    "ruflo_ms": 12863
+   },
+   "branches": [
+    {
+     "name": "w-publisher",
+     "role": "builder",
+     "commits": 1,
+     "files": 14,
+     "bytes": 291643,
+     "write_ms": 2787,
+     "merge_ms": 2931
+    }
+   ],
+   "commits": 3,
+   "files": 16,
+   "bytes_plain": 293318,
+   "files_delivered": 14,
+   "bytes_delivered": 291643,
+   "server_store": {
+    "files": 83,
+    "bytes": 629978,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 1046,
+    "files": 16,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 1436,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 852,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1125,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 752,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 832,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1200,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 930,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 866,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1134,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 857,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 1046,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "b82d03240472",
+     "message": "init",
+     "time": "2026-10-17T12:18:55Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "949b140b23ab",
+     "message": "brief: run r15-publish",
+     "time": "2026-10-17T12:18:56Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "26b9bbb9ce42",
+     "message": "builder publisher: delivered 14 files",
+     "time": "2026-10-17T12:33:44Z",
+     "files_added": 14,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "publisher",
+     "role": "builder",
+     "kind": "Claude Code subagent",
+     "tokens": 179145,
+     "tool_uses": 74,
+     "wall_s": 820
+    }
+   ],
+   "deleted_paths": 75,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
+  },
+  {
+   "run": "r16-narration",
+   "purpose": "r16-narration: the talk as a text narrative, in three voices (CEO, CTO, developer), each paragraph timed to the slides and shown with the notes it was written from; a page that plays the deck with the narration below it, so it can be watched with no sound, and the script for a voiceover video later",
+   "feedback": "Dinis, 17 Oct (voice memo): create a separate page that is a text narrative of the presentation, because I want to make a video with voiceover of it. First a script: an interesting, step-by-step text transcript. In the UX, like the homepage, the presentation above and the text below being explained; for every paragraph also the notes that created that paragraph. Then later add text to voice. Do it in three personas, executive, strategic, very technical: a CEO, a CTO and a developer. I should be able to watch with no sound: press play and see the text explaining what is happening on screen, synchronised with it, from beginning to end.",
+   "vault_id": "dt335u5w",
+   "created_at": "2026-10-17T12:22:48+00:00",
+   "closed_at": "2026-10-17T12:33:58+00:00",
+   "deleted_at": "2026-10-17T12:34:00+00:00",
+   "hive": {
+    "workers": 4,
+    "tasks": 4,
+    "ruflo_calls": 16,
+    "ruflo_ms": 7307
+   },
+   "branches": [
+    {
+     "name": "w-ceo",
+     "role": "writer",
+     "commits": 1,
+     "files": 1,
+     "bytes": 28233,
+     "write_ms": 3125,
+     "merge_ms": 3098
+    },
+    {
+     "name": "w-cto",
+     "role": "writer",
+     "commits": 1,
+     "files": 1,
+     "bytes": 31167,
+     "write_ms": 3079,
+     "merge_ms": 3058
+    },
+    {
+     "name": "w-dev",
+     "role": "writer",
+     "commits": 1,
+     "files": 1,
+     "bytes": 35173,
+     "write_ms": 2864,
+     "merge_ms": 3352
+    },
+    {
+     "name": "w-page",
+     "role": "builder",
+     "commits": 1,
+     "files": 7,
+     "bytes": 209852,
+     "write_ms": 3606,
+     "merge_ms": 3599
+    }
+   ],
+   "commits": 6,
+   "files": 12,
+   "bytes_plain": 307008,
+   "files_delivered": 10,
+   "bytes_delivered": 304425,
+   "server_store": {
+    "files": 83,
+    "bytes": 629978,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 931,
+    "files": 12,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 1129,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 1235,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1063,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 901,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 914,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1309,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1103,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 855,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1139,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 809,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 931,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1338,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1016,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 857,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1185,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 859,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 905,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1100,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1076,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1045,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1230,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 1020,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 1177,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1408,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1138,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1075,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1386,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 902,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 931,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "c0dcfbe373b2",
+     "message": "init",
+     "time": "2026-10-17T12:22:53Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "fca02d838696",
+     "message": "brief: run r16-narration",
+     "time": "2026-10-17T12:22:54Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "36e65395958d",
+     "message": "writer ceo: delivered 1 files",
+     "time": "2026-10-17T12:32:27Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "2572ee65fa7c",
+     "message": "writer cto: delivered 1 files",
+     "time": "2026-10-17T12:32:34Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "8bfb835118ae",
+     "message": "writer dev: delivered 1 files",
+     "time": "2026-10-17T12:32:41Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "2132a8de9051",
+     "message": "builder page: delivered 7 files",
+     "time": "2026-10-17T12:32:48Z",
+     "files_added": 7,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "ceo",
+     "role": "writer",
+     "kind": "Claude Code subagent",
+     "tokens": 100124,
+     "tool_uses": 10,
+     "wall_s": 173
+    },
+    {
+     "id": "cto",
+     "role": "writer",
+     "kind": "Claude Code subagent",
+     "tokens": 117116,
+     "tool_uses": 11,
+     "wall_s": 205
+    },
+    {
+     "id": "dev",
+     "role": "writer",
+     "kind": "Claude Code subagent",
+     "tokens": 139514,
+     "tool_uses": 22,
+     "wall_s": 304
+    },
+    {
+     "id": "page",
+     "role": "builder",
+     "kind": "the conductor (main Claude Code session), not metered separately",
+     "tokens": null
+    }
+   ],
+   "deleted_paths": 99,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
    }
   }
  ],
  "sample": false,
- "updated": "2026-10-16T14:41:59+00:00",
- "server": "a local SG/Send vault server (sgraph-ai-app-send, disk storage), one process, on the machine that ran the hive"
+ "updated": "2026-10-17T12:34:00+00:00",
+ "server": "a local SG/Send vault server (sgraph-ai-app-send, disk storage), one process, on the machine that ran the hive",
+ "published_on": {
+  "server": "https://dev.send.sgraph.ai",
+  "viewer": "https://dev.vault.sgraph.ai/en-gb/",
+  "note": "sealed example runs only: the vault lives on this SG/Send server and opens in its vault UI with the published read key; the repository holds only the reference"
+ }
 }

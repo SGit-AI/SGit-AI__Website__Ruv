@@ -1,0 +1,188 @@
+{
+ "run": "r15-publish",
+ "purpose": "r15-publish: sealed run vaults live on the sgraph vault server (dev.send.sgraph.ai), opened in the vault UI (dev.vault.sgraph.ai) like sgit.ai's published vaults; the site keeps only the reference",
+ "feedback": "Dinis, 16 Oct: the getting-started brief is approved. Push all these vaults into dev.vault.sgraph.ai, which is what we usually use (use the access key to push). Do not push the vault files into this repository: keep the reference here, and show all the vaults in the vault UI like we do on sgit.ai; the vault files should all be on our sgraph server. (Also: a link with code text rendered as raw brackets in the getting-started article; fixed by the conductor in site/build/articles.py.)",
+ "vault_id": "un46rgr9",
+ "created_at": "2026-10-17T12:18:42+00:00",
+ "closed_at": "2026-10-17T12:33:51+00:00",
+ "deleted_at": "2026-10-17T12:33:59+00:00",
+ "hive": {
+  "workers": 1,
+  "tasks": 1,
+  "ruflo_calls": 7,
+  "ruflo_ms": 12863
+ },
+ "branches": [
+  {
+   "name": "w-publisher",
+   "role": "builder",
+   "commits": 1,
+   "files": 14,
+   "bytes": 291643,
+   "write_ms": 2787,
+   "merge_ms": 2931
+  }
+ ],
+ "commits": 3,
+ "files": 16,
+ "bytes_plain": 293318,
+ "files_delivered": 14,
+ "bytes_delivered": 291643,
+ "server_store": {
+  "files": 83,
+  "bytes": 629978,
+  "plaintext_hits": 0,
+  "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+ },
+ "clone": {
+  "ms": 1046,
+  "files": 16,
+  "identical": true
+ },
+ "ops": [
+  {
+   "op": "init",
+   "ms": 1436,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 852,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 1125,
+   "rc": 0
+  },
+  {
+   "op": "branch-new",
+   "ms": 752,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 832,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 1200,
+   "rc": 0
+  },
+  {
+   "op": "branch-switch",
+   "ms": 930,
+   "rc": 0
+  },
+  {
+   "op": "merge",
+   "ms": 866,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 1134,
+   "rc": 0
+  },
+  {
+   "op": "history",
+   "ms": 857,
+   "rc": 0
+  },
+  {
+   "op": "clone",
+   "ms": 1046,
+   "rc": 0
+  }
+ ],
+ "ruflo": [
+  {
+   "seq": 1,
+   "actor": "queen",
+   "cmd": "hive-mind init -t hierarchical-mesh -c byzantine -m 12",
+   "rc": 0,
+   "ms": 9892
+  },
+  {
+   "seq": 2,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t builder -r specialist -p publisher",
+   "rc": 0,
+   "ms": 494
+  },
+  {
+   "seq": 3,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d publisher: seal pushes the run's vault to dev.send.sgraph.ai before destroying the key, verifies a read-only clone and the vault UI, and records only the reference; remove the static copies; re-run example 01; republish r14's content as example 07; a vaults page that opens each in the vault UI -p high",
+   "rc": 0,
+   "ms": 522
+  },
+  {
+   "seq": 4,
+   "actor": "conductor",
+   "cmd": "hive-mind broadcast -m run r15-publish: r15-publish: sealed run vaults live on the sgraph vault server (dev.send.sgraph.ai), opened in the vault UI (dev.vault.sgraph.ai) like sgit.ai's published vaults; the site keeps only the reference -f conductor",
+   "rc": 0,
+   "ms": 561
+  },
+  {
+   "seq": 5,
+   "actor": "builder",
+   "cmd": "hive-mind broadcast -m delivered publisher sha256:559b701eb375c9cd files:14 -f builder",
+   "rc": 0,
+   "ms": 444
+  },
+  {
+   "seq": 6,
+   "actor": "queen",
+   "cmd": "hive-mind status",
+   "rc": 0,
+   "ms": 533
+  },
+  {
+   "seq": 7,
+   "actor": "queen",
+   "cmd": "daemon stop",
+   "rc": 0,
+   "ms": 417
+  }
+ ],
+ "history": [
+  {
+   "id": "b82d03240472",
+   "message": "init",
+   "time": "2026-10-17T12:18:55Z",
+   "files_added": 0,
+   "parents": 0
+  },
+  {
+   "id": "949b140b23ab",
+   "message": "brief: run r15-publish",
+   "time": "2026-10-17T12:18:56Z",
+   "files_added": 2,
+   "parents": 1
+  },
+  {
+   "id": "26b9bbb9ce42",
+   "message": "builder publisher: delivered 14 files",
+   "time": "2026-10-17T12:33:44Z",
+   "files_added": 14,
+   "parents": 1
+  }
+ ],
+ "workers": [
+  {
+   "id": "publisher",
+   "role": "builder",
+   "kind": "Claude Code subagent",
+   "tokens": 179145,
+   "tool_uses": 74,
+   "wall_s": 820
+  }
+ ],
+ "deleted_paths": 75,
+ "delete_check": {
+  "store_paths_left": 0,
+  "clone_after_delete": "failed"
+ }
+}

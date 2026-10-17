@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Published run vaults · ruv.sgit</title>
+<meta name="description" content="Every sealed example run of ruv.sgit, published on the sgraph vault server with its read key: open each one in the vault UI, browse it embedded here, or clone it with sgit. The repository keeps only the reference.">
+<link rel="canonical" href="https://ruv.sgit.ai/examples/index.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f766e%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Georgia%27%3Er%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/site.css">
+<script src="../assets/theme.js"></script>
+<style>
+main p,main li{overflow-wrap:anywhere}
+.vlist{display:flex;flex-direction:column;gap:26px;margin:18px 0}
+.vx{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:18px 18px 14px;min-width:0}
+.vx h2{margin:0 0 4px;font-size:24px}
+.vx .meta{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13.5px;color:var(--m);margin:4px 0 10px}
+.vx .meta b{color:var(--ink);font-weight:600}
+.vx .purpose{margin:0 0 12px;max-width:80ch}
+.vx .acts{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0}
+.clone{display:flex;gap:8px;align-items:stretch;margin:10px 0;min-width:0}
+.clone code{flex:1;min-width:0;display:block;padding:9px 12px;border:1px solid var(--line);border-radius:8px;overflow-x:auto;white-space:nowrap;font-size:13px}
+.clone button,.vx .load{font:600 13.5px ui-sans-serif,system-ui;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:6px 12px;cursor:pointer;min-height:38px}
+.clone button:hover,.vx .load:hover{border-color:var(--t);color:var(--t)}
+.ui-note{font-size:13px;color:var(--m);margin:8px 0 6px}
+.vframe{display:block;width:100%;height:560px;border:1px solid var(--line);border-radius:10px;background:#1b2440}
+.vframe[hidden]{display:none}
+.old{font-size:14px;color:var(--m)}
+@media (max-width:640px){.vframe{height:440px}.clone{flex-direction:column}}
+</style>
+</head>
+<body data-root="../">
+<header class="top"><div class="wrap"><a class="brand" href="../index.html">ruv.sgit.ai<small>rUv + sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
+<main>
+<section class="hero"><div class="wrap">
+<p class="k">Examples</p>
+<h1>Published run vaults</h1>
+<p class="lead">Each example run of ruv.sgit ends sealed: its vault, every branch and its whole history, is pushed to the sgraph vault server, its read key is published, and its vault key is destroyed, so nobody can write to it again. Open any of them in the vault UI, browse it right here, or clone it with sgit.</p>
+<p>The vault files live on <a href="https://dev.send.sgraph.ai">dev.send.sgraph.ai</a>, the vault server sgit.ai's published vaults use; this site keeps only the reference (server, vault id, read key, viewer URL, clone command) in <a href="../data/vaults.json">data/vaults.json</a>. The read keys below are published on purpose: they open the vault read-only and cannot write. Client runs are never published: they end with <code>delete</code>.</p>
+<p class="k" id="count">Loading the ledger…</p>
+</div></section>
+
+<section><div class="wrap">
+<div class="vlist" id="vaults"></div>
+<p class="old" id="old"></p>
+<div class="callout"><p><b>How a run is sealed.</b> <code>python3 poc/ruv-sgit/ruvsgit.py seal RUN</code> pushes the vault to the server, takes the read key, checks that a fresh read-only clone from the server is identical (files and encrypted store) and refuses a write, opens it in the vault UI, deletes the local copy, then deletes the vault key. The checks and a screenshot of the vault UI are in <code>evidence/ruv-sgit/&lt;run&gt;.json</code>. The brief: <a href="../articles/getting-started.html">Getting started with ruv.sgit</a>.</p></div>
+</div></section>
+</main>
+<footer><div class="wrap"><span>ruv.sgit.ai · examples</span><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">source on GitHub</a><a href="https://sgit.ai">sgit.ai</a><a href="https://github.com/ruvnet">github.com/ruvnet</a><span>code Apache-2.0 · rUv's projects MIT, by rUv / ruvnet</span><a href="../llms.txt">llms.txt</a></div></footer>
+<script src="../assets/site.js"></script>
+<script>
+// Every published vault, read from data/vaults.json at load: nothing on this page is typed by hand.
+// The embed follows sgit.ai's vault-ui-embed.js: load the official vault UI with ?embed=1&parent=<origin>, wait for
+// {sg:'vault-embed-ready'} from that frame, then post {sg:'vault-open', key, mode} pinned to the vault origin (the key never
+// goes in the frame's URL). Frames load lazily, when scrolled near, one at a time.
+(function () {
+  'use strict';
+  var ORIGIN = 'https://dev.vault.sgraph.ai';
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var day = function (iso) { try { return new Date(iso).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) + ' UTC'; } catch (e) { return iso; } };
+  var kb = function (b) { return b == null ? '' : b < 1024 ? b + ' B' : (b / 1024).toFixed(1) + ' KB'; };
+
+  function card(v) {
+    var p = v.published, el = document.createElement('article');
+    el.className = 'vx'; el.id = v.run;
+    el.innerHTML =
+      '<h2>' + esc(v.run) + '</h2>' +
+      '<div class="meta"><span>sealed <b>' + esc(day(p.sealed_at)) + '</b></span><span><b>' + esc(p.files) + '</b> files, ' + esc(kb(p.bytes)) + '</span>' +
+      '<span><b>' + esc(v.commits) + '</b> commits</span><span>vault <code>' + esc(p.vault_id) + '</code> on ' + esc(p.server.replace(/^https:\/\//, '')) + '</span></div>' +
+      '<p class="purpose">' + esc(v.purpose) + '</p>' +
+      '<div class="acts"><a class="btn p open" target="_blank" rel="noopener">Open in the vault UI &#8599;</a>' +
+      '<a class="btn" href="../data/vaults.json">ledger entry</a></div>' +
+      '<div class="clone"><code>' + esc(p.clone) + '</code><button type="button" class="cp">copy</button></div>' +
+      '<p class="ui-note">The vault UI, embedded read-only: <span class="st">loads when you scroll here.</span></p>' +
+      '<iframe class="vframe" hidden loading="lazy" title="The official SG/Vault UI, ' + esc(v.run) + ', read-only" referrerpolicy="no-referrer"></iframe>';
+    el.querySelector('a.open').href = p.viewer_url;
+    el.querySelector('.cp').addEventListener('click', function (e) {
+      var b = e.currentTarget;
+      (navigator.clipboard ? navigator.clipboard.writeText(p.clone) : Promise.reject()).then(function () { b.textContent = 'copied'; }, function () { b.textContent = 'select and copy'; });
+      setTimeout(function () { b.textContent = 'copy'; }, 1600);
+    });
+    var m = /^sgit_public_read_([0-9a-f]{64}):(.+)$/.exec(p.read_key);
+    el._embed = { cred: m ? 'sgit_rk1_' + m[1] + ':' + m[2] : p.read_key, fallback: p.viewer_url,
+                  frame: el.querySelector('iframe'), note: el.querySelector('.st') };
+    return el;
+  }
+
+  // one listener; replies are routed by the frame that sent them
+  var mounts = [];
+  window.addEventListener('message', function (e) {
+    if (e.origin !== ORIGIN) return;
+    for (var i = 0; i < mounts.length; i++) {
+      var s = mounts[i];
+      if (!s.frame.contentWindow || e.source !== s.frame.contentWindow) continue;
+      var d = e.data || {};
+      if (d.sg === 'vault-embed-ready' && s.armed) {
+        s.armed = false; clearTimeout(s.t);
+        e.source.postMessage({ sg: 'vault-open', key: s.cred, mode: 'vault' }, ORIGIN);
+        s.note.textContent = 'handshake done, the read key handed over by postMessage, opening…';
+      } else if (d.sg === 'vault-ready') {
+        s.note.textContent = 'opened read-only over the embed protocol; the read key never went into a URL.';
+        s.done();
+      } else if (d.sg === 'vault-error') {
+        s.note.textContent = 'the vault UI could not open it: ' + (d.message || 'unknown error');
+        s.done();
+      }
+      return;
+    }
+  });
+
+  var queue = [], busy = false;
+  function pump() {
+    if (busy || !queue.length) return;
+    busy = true; var s = queue.shift(), finished = false;
+    s.done = function () { if (!finished) { finished = true; busy = false; pump(); } };
+    setTimeout(s.done, 9000);   // a slow frame never blocks the next
+    s.armed = true; mounts.push(s);
+    s.frame.hidden = false;
+    s.note.textContent = 'handshaking with the vault UI…';
+    s.frame.src = ORIGIN + '/en-gb/vault/?embed=1&parent=' + encodeURIComponent(location.origin);
+    s.t = setTimeout(function () {   // no handshake: the URL-fragment flow (the same URL as the button)
+      s.armed = false; s.frame.src = s.fallback;
+      s.note.textContent = 'opened by its viewer URL (the embed handshake did not answer).';
+      s.done();
+    }, 12000);
+  }
+  function lazy(el) {
+    var go = function () { if (el._queued) return; el._queued = true; queue.push(el._embed); pump(); };
+    if (!('IntersectionObserver' in window)) return go();
+    var io = new IntersectionObserver(function (es) { if (es.some(function (x) { return x.isIntersecting; })) { io.disconnect(); go(); } }, { rootMargin: '300px 0px' });
+    io.observe(el);
+  }
+
+  fetch('../data/vaults.json').then(function (r) { return r.json(); }).then(function (L) {
+    var all = L.vaults || [];
+    var V = all.filter(function (v) { return v.published && v.published.viewer_url && !v.superseded_by; })
+               .sort(function (a, b) { return String(b.published.sealed_at).localeCompare(String(a.published.sealed_at)); });
+    var box = document.getElementById('vaults');
+    V.forEach(function (v) { var el = card(v); box.appendChild(el); lazy(el); });
+    document.getElementById('count').textContent = V.length + ' published vault' + (V.length === 1 ? '' : 's') + ' on ' +
+      ((L.published_on && L.published_on.server) || 'the vault server').replace(/^https:\/\//, '') + ', from data/vaults.json (updated ' + day(L.updated) + ')';
+    var old = all.filter(function (v) { return v.superseded_by; });
+    if (old.length) document.getElementById('old').innerHTML = 'Superseded: ' + old.map(function (v) {
+      return '<code>' + esc(v.run) + '</code> (sealed ' + esc(day(v.sealed_at)) + ' as a static folder in this repository, since removed; its vault key was destroyed, so <a href="#' + esc(v.superseded_by) + '">' + esc(v.superseded_by) + '</a> republishes it on the vault server)';
+    }).join('; ') + '.';
+  }).catch(function () { document.getElementById('count').textContent = 'Could not read data/vaults.json.'; });
+}());
+</script>
+</body>
+</html>

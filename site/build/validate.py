@@ -5,7 +5,7 @@ import re, sys, pathlib
 SITE = pathlib.Path(__file__).resolve().parents[1]
 SECRET = re.compile(r'(sgit_private_vault_[A-Za-z0-9_]{8,}|sgit_private_read_[0-9a-f]{16,}|sk-or-v1-[0-9a-f]{20,}|ghp_[A-Za-z0-9]{20,})')  # a READ key declared public (sgit_public_read_…) is published on purpose; a vault key or a private read key never is
 fails = []
-pages = sorted(SITE.glob('*.html')) + [SITE / 'talk' / 'index.html', SITE / 'studio' / 'index.html', SITE / 'admin' / 'versions.html', SITE / 'ruv-sgit' / 'index.html'] + sorted((SITE / 'business').glob('*.html')) + [SITE / 'shop' / 'index.html'] + sorted((SITE / 'articles').glob('*.html'))
+pages = sorted(SITE.glob('*.html')) + [SITE / 'talk' / 'index.html', SITE / 'studio' / 'index.html', SITE / 'admin' / 'versions.html', SITE / 'ruv-sgit' / 'index.html'] + sorted((SITE / 'business').glob('*.html')) + [SITE / 'shop' / 'index.html', SITE / 'examples' / 'index.html'] + sorted((SITE / 'articles').glob('*.html'))
 for p in pages:
     html = p.read_text(encoding='utf-8'); name = p.relative_to(SITE).as_posix()
     for need in ['<nav class="main">', 'assets/site.js', 'assets/site.css', '<link rel="canonical" href="https://ruv.sgit.ai/' + name + '">']:
@@ -35,29 +35,19 @@ for f in SITE.rglob('*'):
     if f.is_file() and f.suffix in {'.html', '.js', '.css', '.json', '.md', '.txt', '.sh', '.py', '.yml'}:
         txt = f.read_text(encoding='utf-8', errors='ignore')
         for m in SECRET.finditer(txt): fails.append(f'{f.relative_to(SITE)}: secret-shaped string {m.group(0)[:12]}…')
-# site/vaults/<run>/: sealed example vaults, public on purpose. Each folder may hold only the publish surface
-# (index.html, manifest.json, cover.json, its sgit_public_read_ key file) and the ciphertext objects its manifest lists,
-# at api/vault/read/<vault id>/bare/…; never a working copy's .sg_vault/local (vault key, token, PEM) or anything else.
-import hashlib
-VKEY = re.compile(rb'sgit_private_vault_[A-Za-z0-9]')
-for vf in sorted(f for f in (SITE / 'vaults').rglob('*') if f.is_file()) if (SITE / 'vaults').exists() else []:
-    rel = vf.relative_to(SITE).as_posix()
-    if VKEY.search(vf.read_bytes()): fails.append(f'{rel}: holds a vault key (sgit_private_vault_…)')
-    if {'local', '.sg_vault'} & set(vf.parts) or vf.name in {'vault_key', 'token', 'base_url'} or vf.suffix in {'.pem', '.key'}:
-        fails.append(f'{rel}: a working-copy key file has no place in a published vault')
-for vd in sorted(d for d in (SITE / 'vaults').iterdir() if d.is_dir()) if (SITE / 'vaults').exists() else []:
-    rel = vd.relative_to(SITE).as_posix()
-    try: man = json.loads((vd / 'manifest.json').read_text())
-    except Exception as e: fails.append(f'{rel}: no readable manifest.json ({e.__class__.__name__})'); continue
-    if man.get('visibility') != 'public': fails.append(f'{rel}: manifest visibility is {man.get("visibility")!r}, not public')
-    allowed = {'index.html', 'manifest.json', 'cover.json'} | {x['path'] for x in man.get('plaintext_surface', []) if x['path'].startswith('sgit_public_read_')}
-    root = vd / 'api' / 'vault' / 'read' / str(man.get('vault_id'))
-    want = {(root / o['file_id']): o['sha256'] for o in man.get('objects', [])}
-    for f, h in want.items():
-        if not f.exists(): fails.append(f'{rel}: object {f.relative_to(vd)} missing')
-        elif hashlib.sha256(f.read_bytes()).hexdigest() != h: fails.append(f'{rel}: object {f.relative_to(vd)} does not match its manifest hash')
-    for f in vd.rglob('*'):
-        if f.is_file() and f not in want and f.relative_to(vd).as_posix() not in allowed: fails.append(f'{rel}: unexpected file {f.relative_to(vd)}')
+# no vault files in the repository (Dinis, 17 Oct): sealed example vaults live on the sgraph vault server (dev.send.sgraph.ai)
+# and the site keeps only the reference (server, vault id, read key, viewer URL, clone command) in data/vaults.json.
+if (SITE / 'vaults').exists(): fails.append('site/vaults/ exists: vault files do not belong in the repository; seal pushes them to the vault server')
+for f in SITE.rglob('*'):
+    if f.is_dir() and f.name in {'.sg_vault', 'bare'} and 'vendor' not in f.parts: fails.append(f'{f.relative_to(SITE)}: a vault store has no place in the site')
+for v in json.loads((SITE / 'data' / 'vaults.json').read_text())['vaults']:
+    pub = v.get('published')
+    if not pub: continue
+    if 'path' in pub: fails.append(f"vaults.json {v['run']}: published.path points into the repository")
+    if v.get('superseded_by'): continue
+    for k in ('server', 'vault_id', 'read_key', 'viewer_url', 'clone'):
+        if not pub.get(k): fails.append(f"vaults.json {v['run']}: published.{k} missing")
+    if not re.fullmatch(r'sgit_public_read_[0-9a-f]{64}:' + re.escape(str(pub.get('vault_id'))), str(pub.get('read_key'))): fails.append(f"vaults.json {v['run']}: read_key is not sgit_public_read_<hex>:<vault id>")
 print(f'{len(pages)} pages checked')
 for x in fails: print('FAIL', x)
 sys.exit(1 if fails else 0)
