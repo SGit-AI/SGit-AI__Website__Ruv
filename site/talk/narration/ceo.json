@@ -541,10 +541,10 @@
      "text": "Zoom out, and it is a city: each branch a street, each commit a floor, the mandate as the wall. Seven animations, built in one studio run, for about six hundred and thirty thousand tokens.",
      "notes": {
       "screen": "Studio v7: the city of vaults, a street per branch, a floor per commit, the ABP as the city wall.",
-      "from": "Speaker's line: about six hundred and thirty thousand tokens.",
+      "from": "Speaker's line: about six hundred and thirty thousand tokens; the seven builders' tokens in site/studio/run.json add up to 629,857.",
       "sources": [
        "site/talk/talk-10.json",
-       "site/data/offers.json",
+       "site/studio/run.json",
        "evidence/poc7-builders.json"
       ]
      }
