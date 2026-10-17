@@ -1,0 +1,8 @@
+{
+ "purpose": "r20-voice-article: article No. 11, the narrated talk: what was built (features, capabilities, the UI and its layouts) and how the browser's own voice works: where the voice comes from, whether it is local, whether it can be saved, whether Playwright can make audio, how common it is on the web and good examples",
+ "feedback": "Dinis, 17 Oct: write an article for our collection that explains what you have done here, the features, capabilities and the UI, and a section that explains how the audio is made; I was not aware that was possible. Can we save it? Can we use it to generate text to audio? Could Playwright create that audio? Is it something that only works on my Mac, or done locally? I want to use it in a lot more places to bring voice to content, for free. Do a quick search of how common it is and good examples on the web.",
+ "workers": [
+  {"id": "research", "role": "researcher", "task": "a quick web search (asked for by Dinis on 17 Oct): the Web Speech API's speech synthesis, browser support, where voices come from per platform and which are local or online, licensing of system voices, saving to a file, Playwright, adoption and good examples; every claim with its source URL", "out": "evidence/r20-voice-research.md"},
+  {"id": "writer", "role": "writer", "task": "article No. 11 from the research, the page itself and the runs r16 to r19, with screenshots", "out": "site/articles/src/the-talk-narrated.md, site/assets/img/articles/narrated/"}
+ ]
+}
