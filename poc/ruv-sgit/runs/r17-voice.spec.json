@@ -1,0 +1,7 @@
+{
+ "purpose": "r17-voice: read the narration aloud with the browser's own voice, in sync with the deck, as a preview of the pacing before recorded text-to-speech",
+ "feedback": "Dinis, 17 Oct: yes, use the browser built-in voice, I want to see how it works; do that before creating the text to audio.",
+ "workers": [
+  {"id": "voice", "role": "builder", "task": "talk/narration.html: a read-aloud toggle and voice picker (speechSynthesis); each paragraph spoken when it starts, from the word the deck has reached, at a rate fitted to its slot; pause, seek and persona switch handled", "out": "site/talk/narration.html"}
+ ]
+}

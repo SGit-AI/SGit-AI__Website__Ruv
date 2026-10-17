@@ -1,0 +1,186 @@
+{
+ "run": "r17-voice",
+ "purpose": "r17-voice: read the narration aloud with the browser's own voice, in sync with the deck, as a preview of the pacing before recorded text-to-speech",
+ "feedback": "Dinis, 17 Oct: yes, use the browser built-in voice, I want to see how it works; do that before creating the text to audio.",
+ "vault_id": "nr1t1wd1",
+ "created_at": "2026-10-17T14:49:58+00:00",
+ "closed_at": "2026-10-17T14:50:14+00:00",
+ "deleted_at": "2026-10-17T14:50:15+00:00",
+ "hive": {
+  "workers": 1,
+  "tasks": 1,
+  "ruflo_calls": 7,
+  "ruflo_ms": 3889
+ },
+ "branches": [
+  {
+   "name": "w-voice",
+   "role": "builder",
+   "commits": 1,
+   "files": 1,
+   "bytes": 20639,
+   "write_ms": 3360,
+   "merge_ms": 3187
+  }
+ ],
+ "commits": 3,
+ "files": 3,
+ "bytes_plain": 21426,
+ "files_delivered": 1,
+ "bytes_delivered": 20639,
+ "server_store": {
+  "files": 21,
+  "bytes": 27695,
+  "plaintext_hits": 0,
+  "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+ },
+ "clone": {
+  "ms": 987,
+  "files": 3,
+  "identical": true
+ },
+ "ops": [
+  {
+   "op": "init",
+   "ms": 1115,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 995,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 1039,
+   "rc": 0
+  },
+  {
+   "op": "branch-new",
+   "ms": 1239,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 1008,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 1111,
+   "rc": 0
+  },
+  {
+   "op": "branch-switch",
+   "ms": 1007,
+   "rc": 0
+  },
+  {
+   "op": "merge",
+   "ms": 1115,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 1064,
+   "rc": 0
+  },
+  {
+   "op": "history",
+   "ms": 1020,
+   "rc": 0
+  },
+  {
+   "op": "clone",
+   "ms": 986,
+   "rc": 0
+  }
+ ],
+ "ruflo": [
+  {
+   "seq": 1,
+   "actor": "queen",
+   "cmd": "hive-mind init -t hierarchical-mesh -c byzantine -m 12",
+   "rc": 0,
+   "ms": 687
+  },
+  {
+   "seq": 2,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t builder -r specialist -p voice",
+   "rc": 0,
+   "ms": 577
+  },
+  {
+   "seq": 3,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d voice: talk/narration.html: a read-aloud toggle and voice picker (speechSynthesis); each paragraph spoken when it starts, from the word the deck has reached, at a rate fitted to its slot; pause, seek and persona switch handled -p high",
+   "rc": 0,
+   "ms": 513
+  },
+  {
+   "seq": 4,
+   "actor": "conductor",
+   "cmd": "hive-mind broadcast -m run r17-voice: r17-voice: read the narration aloud with the browser's own voice, in sync with the deck, as a preview of the pacing before recorded text-to-speech -f conductor",
+   "rc": 0,
+   "ms": 548
+  },
+  {
+   "seq": 5,
+   "actor": "builder",
+   "cmd": "hive-mind broadcast -m delivered voice sha256:2c5d8718d78d770b files:1 -f builder",
+   "rc": 0,
+   "ms": 474
+  },
+  {
+   "seq": 6,
+   "actor": "queen",
+   "cmd": "hive-mind status",
+   "rc": 0,
+   "ms": 553
+  },
+  {
+   "seq": 7,
+   "actor": "queen",
+   "cmd": "daemon stop",
+   "rc": 0,
+   "ms": 537
+  }
+ ],
+ "history": [
+  {
+   "id": "37830e41179e",
+   "message": "init",
+   "time": "2026-10-17T14:50:02Z",
+   "files_added": 0,
+   "parents": 0
+  },
+  {
+   "id": "6c1cef37254e",
+   "message": "brief: run r17-voice",
+   "time": "2026-10-17T14:50:03Z",
+   "files_added": 2,
+   "parents": 1
+  },
+  {
+   "id": "0ed96c041ec7",
+   "message": "builder voice: delivered 1 files",
+   "time": "2026-10-17T14:50:06Z",
+   "files_added": 1,
+   "parents": 1
+  }
+ ],
+ "workers": [
+  {
+   "id": "voice",
+   "role": "builder",
+   "kind": "the conductor (main Claude Code session), not metered separately",
+   "tokens": null
+  }
+ ],
+ "deleted_paths": 45,
+ "delete_check": {
+  "store_paths_left": 0,
+  "clone_after_delete": "failed"
+ }
+}

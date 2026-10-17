@@ -53,6 +53,8 @@
 .pa .no b{color:var(--ink);font-weight:600}.pa .no code{font-size:12px}
 .miss{color:var(--m);font-style:italic}
 .k{font-size:13.5px;color:var(--m)}
+.voice{display:inline-flex;gap:6px;align-items:center}.voice select{max-width:210px;font:13.5px ui-sans-serif,system-ui;padding:5px 6px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
+.now .col.spk h4::after{content:" · 🔊"}
 </style>
 </head>
 <body data-root="../">
@@ -60,13 +62,14 @@
 <main class="nar"><div class="wrap">
 <p class="k">Agentic Engineering Live · Agentics Foundation London · 15 October 2026 · made by ruv.sgit run r16-narration</p>
 <h1>The talk, narrated</h1>
-<p class="lead">Dinis Cruz's talk <i>Autonomy with a mandate and a memory</i>, told three ways: for a <b>CEO</b>, a <b>CTO</b> and a <b>developer</b>. Press ▶ and the deck plays from beginning to end with the narration running under it, in sync, so it works with no sound. Each paragraph is timed to what is on screen and carries the notes it was written from: what the screen shows, the line from the talk it comes from, and the file behind every number. This is the script for a voiceover video.</p>
+<p class="lead">Dinis Cruz's talk <i>Autonomy with a mandate and a memory</i>, told three ways: for a <b>CEO</b>, a <b>CTO</b> and a <b>developer</b>. Press ▶ and the deck plays from beginning to end with the narration running under it, in sync, so it works with no sound. Each paragraph is timed to what is on screen and carries the notes it was written from: what the screen shows, the line from the talk it comes from, and the file behind every number. This is the script for a voiceover video; tick <b>🔊 read aloud</b> to hear it now in your browser's own voice, a preview of the pacing.</p>
 <div class="bar">
  <div class="seg" id="who" role="group" aria-label="narration for">
   <button data-p="ceo">CEO</button><button data-p="cto">CTO</button><button data-p="dev">Developer</button><button data-p="all">All three</button>
  </div>
  <label class="tg"><input type="checkbox" id="notes"> show notes</label>
  <label class="tg"><input type="checkbox" id="follow" checked> follow the deck</label>
+ <span class="voice" id="voiceBox"><label class="tg" title="read the narration aloud with this browser's own voice (a preview of the pacing; the video will use a recorded voice)"><input type="checkbox" id="speak"> 🔊 read aloud</label><select id="vread" aria-label="which narration to read" hidden><option value="ceo">CEO</option><option value="cto">CTO</option><option value="dev">Developer</option></select><select id="voice" aria-label="voice" hidden></select></span>
  <span class="sp"></span>
  <button class="dl" id="dlmd" title="the script as Markdown, with timings and notes">Script (.md)</button>
  <button class="dl" id="dlvtt" title="captions for a video editor or a text-to-speech tool">Captions (.vtt)</button>
@@ -134,13 +137,13 @@
     cur = {}; paintNow(true)
   }
   $('pane').addEventListener('click', e => { const d = e.target.closest('.pa'); if (d) cmd('seek', { t: +d.dataset.t + 0.05 }) })
-  document.querySelectorAll('#who button').forEach(x => x.onclick = () => { who = x.dataset.p; store('ruv-narration-p', who); paintScript() })
+  document.querySelectorAll('#who button').forEach(x => x.onclick = () => { who = x.dataset.p; store('ruv-narration-p', who); stopVoice(); paintScript() })
   $('notes').onchange = () => { store('ruv-narration-notes', $('notes').checked ? '1' : '0'); document.body.classList.toggle('notes-on', $('notes').checked); paintNow(true) }
 
   // the clock: the player's last report, carried forward between reports
   let T = 0, playing = false, rate = 1, stamp = performance.now(), cur = {}, lastUser = 0
   const now = () => playing ? T + (performance.now() - stamp) / 1000 * rate : T
-  addEventListener('message', e => { if (e.source !== $('deck').contentWindow) return; const m = e.data?.ruvTalk; if (!m) return; T = m.t; playing = m.playing; rate = m.rate || 1; stamp = performance.now() })
+  addEventListener('message', e => { if (e.source !== $('deck').contentWindow) return; const m = e.data?.ruvTalk; if (!m) return; if (Math.abs(m.t - now()) > 1.2) stopVoice(); T = m.t; playing = m.playing; rate = m.rate || 1; stamp = performance.now() })
   function cmd(c, extra) { $('deck').contentWindow.postMessage({ ruvTalkCmd: c, ...extra }, location.origin === 'null' ? '*' : location.origin) }
   $('pp').onclick = () => { if (!playing) { const r = document.querySelector('.stage').getBoundingClientRect(); if (r.top < 0 || r.bottom > innerHeight) document.querySelector('.stage').scrollIntoView({ behavior: 'smooth' }) } cmd(playing ? 'pause' : 'play') }
   addEventListener('keydown', e => { if (e.key === ' ' && !/INPUT|BUTTON|TEXTAREA/.test(document.activeElement?.tagName)) { e.preventDefault(); $('pp').click() } })
@@ -176,7 +179,48 @@
       col.querySelectorAll('.w').forEach((w, i) => w.classList.toggle('f', i >= n))
     }
   }
-  ;(function loop() { paintNow(false); requestAnimationFrame(loop) })()
+  // read aloud, with the browser's own voice (speechSynthesis): each paragraph is spoken when it starts on screen, from the
+  // word the deck has reached; pausing the deck pauses the voice. The voice's real pace is measured as it speaks, and each
+  // paragraph is sped up (or slowed) to fit its slot, so the voice keeps time with the deck. A preview of the pacing only.
+  const TTS = window.speechSynthesis
+  if (!TTS) $('voiceBox').hidden = true
+  let voices = [], spoken = null, wpsVoice = 2.7, spokeAt = 0
+  function loadVoices() {
+    voices = (TTS?.getVoices() || []).filter(v => /^en/i.test(v.lang)); if (!voices.length) voices = TTS?.getVoices() || []
+    const sel = $('voice'), keep = store('ruv-narration-voice')
+    sel.innerHTML = voices.map((v, i) => `<option value="${i}">${esc(v.name)} (${esc(v.lang)})</option>`).join('')
+    const k = voices.findIndex(v => v.name === keep); sel.value = String(k >= 0 ? k : Math.max(0, voices.findIndex(v => v.default)))
+  }
+  if (TTS) { loadVoices(); TTS.onvoiceschanged = loadVoices }
+  $('voice').onchange = () => { store('ruv-narration-voice', voices[+$('voice').value]?.name || ''); stopVoice() }
+  $('vread').value = store('ruv-narration-read') || 'ceo'
+  $('vread').onchange = () => { store('ruv-narration-read', $('vread').value); stopVoice() }
+  $('speak').onchange = () => { const on = $('speak').checked; $('voice').hidden = !on; $('vread').hidden = !on || who !== 'all'; if (!on) stopVoice(); else if (TTS) { const u = new SpeechSynthesisUtterance(''); TTS.speak(u) } }   // an empty utterance inside the click unlocks speech on iOS
+  function stopVoice() { spoken = null; try { TTS?.cancel() } catch { } }
+  const reader = () => who === 'all' ? $('vread').value : who
+  function voiceTick() {
+    if (!TTS || !$('speak').checked) return
+    $('vread').hidden = who !== 'all'
+    const p = reader(); if (!flat[p]) return
+    const t = now(), k = at(p, t); if (k < 0) return
+    const x = flat[p][k], key = p + ':' + k
+    document.querySelectorAll('.now .col').forEach(c => c.classList.toggle('spk', c.dataset.p === p && who === 'all'))
+    if (!playing) { if (TTS.speaking && !TTS.paused) TTS.pause(); return }
+    if (spoken === key) { if (TTS.paused) TTS.resume(); return }
+    // a new paragraph (or a seek): speak from the word the deck has reached, at a rate that fits what is left of the slot
+    TTS.cancel(); spoken = key
+    const words = x.text.split(/\s+/), from = Math.min(words.length - 1, Math.max(0, Math.floor((t - x.start) * WPS)))
+    const text = words.slice(from).join(' '), left = Math.max(1, (x.end - t) / rate - 0.4)
+    const u = new SpeechSynthesisUtterance(text), v = voices[+$('voice').value]
+    if (v) { u.voice = v; u.lang = v.lang }
+    const need = (words.length - from) / left                 // words a second this slot needs
+    u.rate = Math.min(2, Math.max(0.8, need / wpsVoice))
+    u.onstart = () => { spokeAt = performance.now() }
+    u.onend = () => { const s = (performance.now() - spokeAt) / 1000; if (spokeAt && s > 1.5 && words.length - from > 4) wpsVoice = 0.6 * wpsVoice + 0.4 * ((words.length - from) / s / u.rate); spokeAt = 0 }   // learn this voice's own pace
+    TTS.speak(u)
+  }
+  addEventListener('pagehide', stopVoice)
+  ;(function loop() { paintNow(false); voiceTick(); requestAnimationFrame(loop) })()
 
   // downloads: the script as Markdown, and WebVTT captions, for the persona(s) shown
   const save = (name, text, type) => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type })); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000) }
