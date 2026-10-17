@@ -1,0 +1,3932 @@
+{
+ "vaults": [
+  {
+   "run": "smoke-1",
+   "purpose": "smoke test of the ruv.sgit runner",
+   "feedback": "none: a smoke test",
+   "vault_id": "0977t8t6",
+   "created_at": "2026-10-15T13:23:03+00:00",
+   "closed_at": "2026-10-15T13:23:26+00:00",
+   "deleted_at": "2026-10-15T13:23:39+00:00",
+   "hive": {
+    "workers": 1,
+    "tasks": 1,
+    "ruflo_calls": 7,
+    "ruflo_ms": 3372
+   },
+   "branches": [
+    {
+     "name": "w-w1",
+     "role": "developer",
+     "commits": 1,
+     "files": 1,
+     "bytes": 72,
+     "write_ms": 2751,
+     "merge_ms": 2901
+    }
+   ],
+   "commits": 3,
+   "files": 3,
+   "bytes_plain": 285,
+   "server_store": {
+    "files": 20,
+    "bytes": 6458,
+    "plaintext_hits": 0,
+    "probe": "3 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 1061,
+    "files": 3,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 877,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 786,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1401,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 894,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 913,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 944,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 879,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 948,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1075,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 923,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 1061,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "obj-cas-imm-",
+     "message": "init",
+     "time": null
+    },
+    {
+     "id": "obj-cas-imm-",
+     "message": "brief: run smoke-1",
+     "time": null
+    },
+    {
+     "id": "obj-cas-imm-",
+     "message": "developer w1: delivered 1 files",
+     "time": null
+    }
+   ],
+   "workers": [
+    {
+     "id": "w1",
+     "role": "developer",
+     "tokens": 0,
+     "tool_uses": 0,
+     "wall_s": 0
+    }
+   ],
+   "deleted_paths": 45
+  },
+  {
+   "run": "r2-materials",
+   "purpose": "materials for tonight's talk: visualise ruv.sgit runs, the vault ledger and one ephemeral vault, and rework the script around memory and storage",
+   "feedback": "Dinis, 15 Oct 2026: add a lot more animations and explanations; every change made by a ruv.sgit run (a Ruflo queen with workers in parallel, output defined in an ephemeral vault), with the vault tracked and statistics on it; a couple of slides with the stats of all the vaults and a case study of one; visualise how it works; the studio animations belong in the presentation; memory and storage are the story, behaviour policies less so.",
+   "vault_id": "ekpwk059",
+   "created_at": "2026-10-15T13:24:06+00:00",
+   "closed_at": "2026-10-15T13:44:47+00:00",
+   "deleted_at": "2026-10-15T13:44:55+00:00",
+   "hive": {
+    "workers": 5,
+    "tasks": 5,
+    "ruflo_calls": 20,
+    "ruflo_ms": 9663
+   },
+   "branches": [
+    {
+     "name": "w-script",
+     "role": "writer",
+     "commits": 1,
+     "files": 2,
+     "bytes": 17236,
+     "write_ms": 2780,
+     "merge_ms": 2979
+    },
+    {
+     "name": "w-ledger",
+     "role": "developer",
+     "commits": 1,
+     "files": 1,
+     "bytes": 17018,
+     "write_ms": 3091,
+     "merge_ms": 3254
+    },
+    {
+     "name": "w-case",
+     "role": "designer",
+     "commits": 1,
+     "files": 1,
+     "bytes": 23012,
+     "write_ms": 2947,
+     "merge_ms": 3315
+    },
+    {
+     "name": "w-motion",
+     "role": "developer",
+     "commits": 1,
+     "files": 1,
+     "bytes": 29458,
+     "write_ms": 3811,
+     "merge_ms": 3084
+    },
+    {
+     "name": "w-editor",
+     "role": "editor",
+     "commits": 1,
+     "files": 1,
+     "bytes": 15786,
+     "write_ms": 2832,
+     "merge_ms": 3538
+    },
+    {
+     "name": "w-fixes",
+     "role": "conductor",
+     "commits": 1,
+     "files": 6,
+     "bytes": 101069,
+     "write_ms": 3041,
+     "merge_ms": 3189
+    }
+   ],
+   "commits": 8,
+   "files": 14,
+   "bytes_plain": 205538,
+   "files_delivered": 12,
+   "bytes_delivered": 203579,
+   "server_store": {
+    "files": 67,
+    "bytes": 231859,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 915,
+    "files": 14,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 766,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 811,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 944,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 955,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 804,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1021,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 943,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1025,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1011,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 1010,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 889,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1191,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1087,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1056,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1110,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 915,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 834,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1197,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1061,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 990,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1264,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 1143,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 1290,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1376,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 982,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1052,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1050,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 903,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 877,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1051,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1109,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1238,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1191,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 940,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 892,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1207,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 970,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1049,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1170,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 860,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 915,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "5ed4d117c5c0",
+     "message": "init",
+     "time": "2026-10-15T13:24:13Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "0307af7bb50e",
+     "message": "brief: run r2-materials",
+     "time": "2026-10-15T13:24:13Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "84dc8e8bd65e",
+     "message": "writer script: delivered 2 files",
+     "time": "2026-10-15T13:28:46Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "28a9d91f7fbd",
+     "message": "developer ledger: delivered 1 files",
+     "time": "2026-10-15T13:29:11Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "96b0656371da",
+     "message": "designer case: delivered 1 files",
+     "time": "2026-10-15T13:32:29Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "07b7c44c17ca",
+     "message": "developer motion: delivered 1 files",
+     "time": "2026-10-15T13:38:08Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "31f45db61bf3",
+     "message": "editor editor: delivered 1 files",
+     "time": "2026-10-15T13:44:26Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "05690317b8b5",
+     "message": "conductor fixes: delivered 6 files",
+     "time": "2026-10-15T13:44:33Z",
+     "files_added": 6,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "script",
+     "role": "writer",
+     "tokens": 93511,
+     "tool_uses": 14,
+     "wall_s": 199
+    },
+    {
+     "id": "ledger",
+     "role": "developer",
+     "tokens": 75829,
+     "tool_uses": 13,
+     "wall_s": 231
+    },
+    {
+     "id": "case",
+     "role": "designer",
+     "tokens": 106592,
+     "tool_uses": 26,
+     "wall_s": 431
+    },
+    {
+     "id": "motion",
+     "role": "developer",
+     "tokens": 121243,
+     "tool_uses": 28,
+     "wall_s": 769
+    },
+    {
+     "id": "editor",
+     "role": "editor",
+     "tokens": 143513,
+     "tool_uses": 20,
+     "wall_s": 245
+    },
+    {
+     "id": "fixes",
+     "role": "conductor",
+     "tokens": null,
+     "tool_uses": null,
+     "wall_s": null,
+     "note": "the host session applied the editor's fixes; its tokens are not separable"
+    }
+   ],
+   "deleted_paths": 139,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
+  },
+  {
+   "run": "r3-define",
+   "purpose": "animations of the definition: ruv.sgit, a Ruflo hive + sgit vaults + Agent Behaviour Policies",
+   "feedback": "Dinis, 15 Oct 2026: let's go with the title and sub heading 'ruv.sgit: a Ruflo hive + sgit vaults + Agent Behaviour Policies'; in fact it needs its own animations.",
+   "vault_id": "j1pn3zt4",
+   "created_at": "2026-10-15T13:47:11+00:00",
+   "closed_at": "2026-10-15T14:07:44+00:00",
+   "deleted_at": "2026-10-15T14:07:46+00:00",
+   "hive": {
+    "workers": 4,
+    "tasks": 4,
+    "ruflo_calls": 19,
+    "ruflo_ms": 8719
+   },
+   "branches": [
+    {
+     "name": "w-equation",
+     "role": "designer",
+     "commits": 1,
+     "files": 1,
+     "bytes": 22025,
+     "write_ms": 3163,
+     "merge_ms": 3723
+    },
+    {
+     "name": "w-journey",
+     "role": "developer",
+     "commits": 1,
+     "files": 1,
+     "bytes": 25143,
+     "write_ms": 3038,
+     "merge_ms": 3251
+    },
+    {
+     "name": "w-layers",
+     "role": "developer",
+     "commits": 1,
+     "files": 1,
+     "bytes": 32757,
+     "write_ms": 3157,
+     "merge_ms": 3364
+    },
+    {
+     "name": "w-editor",
+     "role": "editor",
+     "commits": 1,
+     "files": 1,
+     "bytes": 15729,
+     "write_ms": 3052,
+     "merge_ms": 3637
+    },
+    {
+     "name": "w-equation-r2",
+     "role": "designer",
+     "commits": 1,
+     "files": 1,
+     "bytes": 23042,
+     "write_ms": 2813,
+     "merge_ms": 2887
+    },
+    {
+     "name": "w-layers-r2",
+     "role": "developer",
+     "commits": 1,
+     "files": 1,
+     "bytes": 33494,
+     "write_ms": 2758,
+     "merge_ms": 3093
+    },
+    {
+     "name": "w-journey-r2",
+     "role": "developer",
+     "commits": 1,
+     "files": 1,
+     "bytes": 26012,
+     "write_ms": 2831,
+     "merge_ms": 3055
+    }
+   ],
+   "commits": 9,
+   "files": 9,
+   "bytes_plain": 179418,
+   "files_delivered": 7,
+   "bytes_delivered": 178202,
+   "server_store": {
+    "files": 136,
+    "bytes": 489791,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 987,
+    "files": 9,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 862,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 978,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1027,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 1081,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 1047,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1033,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1145,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1131,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1446,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 859,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 1034,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1144,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1326,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 963,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 962,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 1038,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 901,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1217,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 990,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1001,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1373,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 960,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 1012,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1079,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1139,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 999,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1499,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 855,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 860,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1096,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 879,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 906,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1102,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 797,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 807,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1154,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 964,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 990,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1138,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 851,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 856,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1122,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 911,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 988,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1156,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 1012,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 986,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "703498811770",
+     "message": "init",
+     "time": "2026-10-15T13:47:17Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "d29d56b52b5a",
+     "message": "brief: run r3-define",
+     "time": "2026-10-15T13:47:18Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "9b527b6d6619",
+     "message": "designer equation: delivered 1 files",
+     "time": "2026-10-15T13:56:33Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "2ce599c42bcf",
+     "message": "developer journey: delivered 1 files",
+     "time": "2026-10-15T13:57:05Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "a6dd77ed8918",
+     "message": "developer layers: delivered 1 files",
+     "time": "2026-10-15T13:58:45Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "3ff3b28c0e83",
+     "message": "editor editor: delivered 1 files",
+     "time": "2026-10-15T14:02:22Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "77a894f5debb",
+     "message": "designer equation-r2: delivered 1 files",
+     "time": "2026-10-15T14:06:14Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "e2f750b9b2b1",
+     "message": "developer layers-r2: delivered 1 files",
+     "time": "2026-10-15T14:06:20Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "7d6f9c8453e1",
+     "message": "developer journey-r2: delivered 1 files",
+     "time": "2026-10-15T14:06:26Z",
+     "files_added": 1,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "equation",
+     "role": "designer",
+     "tokens": 122483,
+     "tool_uses": 35,
+     "wall_s": 660,
+     "note": "two rounds: built, then the editor's fixes"
+    },
+    {
+     "id": "journey",
+     "role": "developer",
+     "tokens": 120731,
+     "tool_uses": 34,
+     "wall_s": 677,
+     "note": "two rounds: built, then the editor's fixes"
+    },
+    {
+     "id": "layers",
+     "role": "developer",
+     "tokens": 151370,
+     "tool_uses": 39,
+     "wall_s": 777,
+     "note": "two rounds: built, then the editor's fixes"
+    },
+    {
+     "id": "editor",
+     "role": "editor",
+     "tokens": 130149,
+     "tool_uses": 11,
+     "wall_s": 197
+    }
+   ],
+   "deleted_paths": 129,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
+  },
+  {
+   "run": "r4-hero",
+   "purpose": "the home page's main section rewritten for rUv's community: accurate, generous to his tools, with a way in",
+   "feedback": "Dinis, 15 Oct 2026: improve the home page's main section ('Let the agents go to town...'): I don't like that line; this site and its materials are now more powerful; a key objective is to reach rUv's community and users (much bigger than mine) and get them using what we created; be 100% accurate and don't diminish or under-represent the Ruflo hive and rUv's other published tools.",
+   "vault_id": "dyqtnecw",
+   "created_at": "2026-10-15T13:50:17+00:00",
+   "closed_at": "2026-10-15T14:07:48+00:00",
+   "deleted_at": "2026-10-15T14:07:49+00:00",
+   "hive": {
+    "workers": 3,
+    "tasks": 3,
+    "ruflo_calls": 15,
+    "ruflo_ms": 7245
+   },
+   "branches": [
+    {
+     "name": "w-facts",
+     "role": "researcher",
+     "commits": 1,
+     "files": 1,
+     "bytes": 8794,
+     "write_ms": 3130,
+     "merge_ms": 3280
+    },
+    {
+     "name": "w-fixes-ruvector",
+     "role": "conductor",
+     "commits": 1,
+     "files": 10,
+     "bytes": 120347,
+     "write_ms": 3193,
+     "merge_ms": 3233
+    },
+    {
+     "name": "w-hero",
+     "role": "writer",
+     "commits": 1,
+     "files": 2,
+     "bytes": 18923,
+     "write_ms": 3288,
+     "merge_ms": 3168
+    },
+    {
+     "name": "w-editor",
+     "role": "editor",
+     "commits": 1,
+     "files": 3,
+     "bytes": 23380,
+     "write_ms": 3185,
+     "merge_ms": 3010
+    },
+    {
+     "name": "w-fixes-site",
+     "role": "conductor",
+     "commits": 1,
+     "files": 7,
+     "bytes": 83074,
+     "write_ms": 2876,
+     "merge_ms": 3346
+    }
+   ],
+   "commits": 7,
+   "files": 25,
+   "bytes_plain": 256079,
+   "files_delivered": 23,
+   "bytes_delivered": 254518,
+   "server_store": {
+    "files": 74,
+    "bytes": 284062,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 990,
+    "files": 25,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 925,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 849,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1191,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 967,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 855,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1308,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1235,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1026,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1018,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 1061,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 909,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1216,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1046,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1124,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1062,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 1070,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 1007,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1209,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1015,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1024,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1128,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 958,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 1103,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1123,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 949,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 963,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1097,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 899,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 883,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1093,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1037,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1042,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1266,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 891,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 990,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "bbb93834818d",
+     "message": "init",
+     "time": "2026-10-15T13:50:22Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "b63ffb51b929",
+     "message": "brief: run r4-hero",
+     "time": "2026-10-15T13:50:23Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "b1d78fdfbe08",
+     "message": "researcher facts: delivered 1 files",
+     "time": "2026-10-15T13:56:05Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "266299129a33",
+     "message": "conductor fixes-ruvector: delivered 10 files",
+     "time": "2026-10-15T13:56:12Z",
+     "files_added": 10,
+     "parents": 1
+    },
+    {
+     "id": "2992406c990b",
+     "message": "writer hero: delivered 2 files",
+     "time": "2026-10-15T13:59:23Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "fa23a9d327fd",
+     "message": "editor editor: delivered 3 files",
+     "time": "2026-10-15T14:05:24Z",
+     "files_added": 3,
+     "parents": 1
+    },
+    {
+     "id": "7fd41f7ff3ba",
+     "message": "conductor fixes-site: delivered 7 files",
+     "time": "2026-10-15T14:05:30Z",
+     "files_added": 7,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "facts",
+     "role": "researcher",
+     "tokens": 104145,
+     "tool_uses": 25,
+     "wall_s": 203
+    },
+    {
+     "id": "fixes-ruvector",
+     "role": "conductor",
+     "tokens": null,
+     "tool_uses": null,
+     "wall_s": null,
+     "note": "the host applied the correction the researcher found"
+    },
+    {
+     "id": "hero",
+     "role": "writer",
+     "tokens": 93486,
+     "tool_uses": 12,
+     "wall_s": 132
+    },
+    {
+     "id": "editor",
+     "role": "editor",
+     "tokens": 127182,
+     "tool_uses": 37,
+     "wall_s": 302
+    },
+    {
+     "id": "fixes-site",
+     "role": "conductor",
+     "tokens": null,
+     "tool_uses": null,
+     "wall_s": null,
+     "note": "the host applied the editor's hero and 18 line fixes"
+    }
+   ],
+   "deleted_paths": 153,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
+  },
+  {
+   "run": "r5-market",
+   "purpose": "go to market: four offers that mix and match, a cart that emails the order, pages for three audiences, Wardley maps per service, and a business model somebody else can copy",
+   "feedback": "Dinis, 15 Oct 2026: publish three or four business models without naming the people who inspired them, as a full business plan, structure and architecture for somebody to copy (anybody who implements it implements sgit and ABPs). Offers: (1) task runs priced by time and tokens on shared infrastructure (a queen + 10-20 agents + ~1M tokens in ~5 minutes for ~\u00a35-10; tiers like \u00a35, \u00a310, \u00a350; our key or bring your own; no internet, materials provided up to 50-100 MB, governed by a behaviour policy; the vault of the run delivered as a zip or published); (2) dedicated compute on demand (SG Compute: an EC2 per task, small / medium / GPU, EC2 cost on top; the vault created inside the environment); (3) a maintained repository subscription, monthly (runs on Claude, AWS, anywhere; updates, UI, branding, setup); (4) expert time: \u00a3500 (a couple of hours), \u00a31,500 (a day), \u00a35,000 (several days), mixed and matched with runs; not automated end to end yet. A Wardley map per service. A shopping cart with no payment: the order is emailed to agent@riskmandate.ai. Pages for independent consultants (white label or custom), companies adding this to their offering, and internal teams providing it internally. Every contact goes to agent@riskmandate.ai.",
+   "vault_id": "7qcq6au7",
+   "created_at": "2026-10-15T15:33:20+00:00",
+   "closed_at": "2026-10-15T15:52:40+00:00",
+   "deleted_at": "2026-10-15T15:52:41+00:00",
+   "hive": {
+    "workers": 6,
+    "tasks": 6,
+    "ruflo_calls": 22,
+    "ruflo_ms": 9998
+   },
+   "branches": [
+    {
+     "name": "w-audiences",
+     "role": "writer",
+     "commits": 1,
+     "files": 4,
+     "bytes": 36473,
+     "write_ms": 3178,
+     "merge_ms": 2868
+    },
+    {
+     "name": "w-economist",
+     "role": "analyst",
+     "commits": 1,
+     "files": 3,
+     "bytes": 28669,
+     "write_ms": 2836,
+     "merge_ms": 2829
+    },
+    {
+     "name": "w-cartographer",
+     "role": "strategist",
+     "commits": 1,
+     "files": 2,
+     "bytes": 32896,
+     "write_ms": 3100,
+     "merge_ms": 2768
+    },
+    {
+     "name": "w-shop",
+     "role": "builder",
+     "commits": 1,
+     "files": 2,
+     "bytes": 27828,
+     "write_ms": 2849,
+     "merge_ms": 2998
+    },
+    {
+     "name": "w-plan",
+     "role": "writer",
+     "commits": 1,
+     "files": 3,
+     "bytes": 89362,
+     "write_ms": 3095,
+     "merge_ms": 3300
+    },
+    {
+     "name": "w-editor",
+     "role": "editor",
+     "commits": 1,
+     "files": 12,
+     "bytes": 206660,
+     "write_ms": 2902,
+     "merge_ms": 3291
+    }
+   ],
+   "commits": 8,
+   "files": 28,
+   "bytes_plain": 425632,
+   "files_delivered": 26,
+   "bytes_delivered": 421888,
+   "server_store": {
+    "files": 82,
+    "bytes": 457885,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 1119,
+    "files": 28,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 867,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 797,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 871,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 864,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 915,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1396,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 909,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 960,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 999,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 996,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 859,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 980,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 865,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 880,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1084,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 975,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 1047,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1077,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 912,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 835,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1021,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 888,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 841,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1119,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1024,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 893,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1080,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 1006,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 946,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1140,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1164,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1052,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1084,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 891,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 885,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1124,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 974,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1160,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1156,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 974,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 1118,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "0b2dd74ab287",
+     "message": "init",
+     "time": "2026-10-15T15:33:27Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "3f761b98cff3",
+     "message": "brief: run r5-market",
+     "time": "2026-10-15T15:33:28Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "b6051f4ef537",
+     "message": "writer audiences: delivered 4 files",
+     "time": "2026-10-15T15:36:28Z",
+     "files_added": 4,
+     "parents": 1
+    },
+    {
+     "id": "fbec32158a3a",
+     "message": "analyst economist: delivered 3 files",
+     "time": "2026-10-15T15:38:51Z",
+     "files_added": 3,
+     "parents": 1
+    },
+    {
+     "id": "2875eee6a35e",
+     "message": "strategist cartographer: delivered 2 files",
+     "time": "2026-10-15T15:40:40Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "1b0b1821f333",
+     "message": "builder shop: delivered 2 files",
+     "time": "2026-10-15T15:41:51Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "35184005732f",
+     "message": "writer plan: delivered 3 files",
+     "time": "2026-10-15T15:43:41Z",
+     "files_added": 3,
+     "parents": 1
+    },
+    {
+     "id": "7d05e6232322",
+     "message": "editor editor: delivered 12 files",
+     "time": "2026-10-15T15:48:12Z",
+     "files_added": 12,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "audiences",
+     "role": "writer",
+     "tokens": 85851,
+     "tool_uses": 9,
+     "wall_s": 103
+    },
+    {
+     "id": "economist",
+     "role": "analyst",
+     "tokens": 85469,
+     "tool_uses": 11,
+     "wall_s": 242
+    },
+    {
+     "id": "cartographer",
+     "role": "strategist",
+     "tokens": 105866,
+     "tool_uses": 16,
+     "wall_s": 269
+    },
+    {
+     "id": "shop",
+     "role": "builder",
+     "tokens": 107151,
+     "tool_uses": 31,
+     "wall_s": 425
+    },
+    {
+     "id": "plan",
+     "role": "writer",
+     "tokens": 117508,
+     "tool_uses": 26,
+     "wall_s": 240
+    },
+    {
+     "id": "editor",
+     "role": "editor",
+     "tokens": 138723,
+     "tool_uses": 29,
+     "wall_s": 184
+    }
+   ],
+   "deleted_paths": 169,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
+  },
+  {
+   "run": "r6-talk",
+   "purpose": "r6-talk: new slides for tonight's talk: RuVector in its own words, a vault's history, how to read the ledger, the four services, the shop, and where to go next",
+   "feedback": "Dinis, reading the presentation: slide 4 should show RuVector's README itself, highlighted, and say what RuVector secures and where sgit adds (not 'where it stops'); slide 7 (history) needs more meat and the flows mapped; the ledger slide needs to say how to read it; the Ruflo default slide and the case study move to extras; the business models need visual explanations, one per service and the shop, with screenshots; end with screenshots of the sites and 'go to ruv.sgit.ai'; open with the equation animation (many hands + memory + mandate = ruv.sgit). Every slide at the quality of the layers animation, no loops, with steps the player can move through.",
+   "vault_id": "7kayvi4j",
+   "created_at": "2026-10-15T16:17:55+00:00",
+   "closed_at": "2026-10-15T16:35:07+00:00",
+   "deleted_at": "2026-10-15T16:35:08+00:00",
+   "hive": {
+    "workers": 5,
+    "tasks": 5,
+    "ruflo_calls": 20,
+    "ruflo_ms": 9960
+   },
+   "branches": [
+    {
+     "name": "w-ruvector",
+     "role": "researcher",
+     "commits": 1,
+     "files": 4,
+     "bytes": 539540,
+     "write_ms": 2849,
+     "merge_ms": 3059
+    },
+    {
+     "name": "w-history",
+     "role": "animator",
+     "commits": 1,
+     "files": 2,
+     "bytes": 151112,
+     "write_ms": 2921,
+     "merge_ms": 2920
+    },
+    {
+     "name": "w-ledger",
+     "role": "animator",
+     "commits": 1,
+     "files": 2,
+     "bytes": 84449,
+     "write_ms": 2883,
+     "merge_ms": 2850
+    },
+    {
+     "name": "w-services",
+     "role": "strategist",
+     "commits": 1,
+     "files": 2,
+     "bytes": 115563,
+     "write_ms": 2816,
+     "merge_ms": 3051
+    },
+    {
+     "name": "w-shop",
+     "role": "builder",
+     "commits": 1,
+     "files": 20,
+     "bytes": 1870273,
+     "write_ms": 2969,
+     "merge_ms": 3308
+    },
+    {
+     "name": "w-conductor",
+     "role": "conductor",
+     "commits": 1,
+     "files": 4,
+     "bytes": 65259,
+     "write_ms": 3002,
+     "merge_ms": 3282
+    }
+   ],
+   "commits": 8,
+   "files": 36,
+   "bytes_plain": 2828720,
+   "files_delivered": 34,
+   "bytes_delivered": 2826196,
+   "server_store": {
+    "files": 100,
+    "bytes": 2866725,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 1051,
+    "files": 36,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 1020,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 846,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 945,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 860,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 943,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1044,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1082,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 874,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1103,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 883,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 934,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1103,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 910,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 928,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1082,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 844,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 871,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1168,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 921,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 878,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1051,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 862,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 835,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1118,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 937,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 957,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1157,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 822,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 906,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1237,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1114,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 980,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1214,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 812,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 914,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1275,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 961,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 1036,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1285,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 1079,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 1051,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "ea2b822f0518",
+     "message": "init",
+     "time": "2026-10-15T16:18:02Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "afc2ba8be945",
+     "message": "brief: run r6-talk",
+     "time": "2026-10-15T16:18:03Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "3d9adeadb997",
+     "message": "researcher ruvector: delivered 4 files",
+     "time": "2026-10-15T16:34:22Z",
+     "files_added": 4,
+     "parents": 1
+    },
+    {
+     "id": "464a18203118",
+     "message": "animator history: delivered 2 files",
+     "time": "2026-10-15T16:34:28Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "188287ea662b",
+     "message": "animator ledger: delivered 2 files",
+     "time": "2026-10-15T16:34:35Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "565637abf88e",
+     "message": "strategist services: delivered 2 files",
+     "time": "2026-10-15T16:34:41Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "1d2d0c8d6bfb",
+     "message": "builder shop: delivered 20 files",
+     "time": "2026-10-15T16:34:47Z",
+     "files_added": 20,
+     "parents": 1
+    },
+    {
+     "id": "adc9a48e561e",
+     "message": "conductor conductor: delivered 4 files",
+     "time": "2026-10-15T16:34:59Z",
+     "files_added": 4,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "ledger",
+     "role": "animator",
+     "tokens": 120568,
+     "tool_uses": 25,
+     "wall_s": 403
+    },
+    {
+     "id": "services",
+     "role": "strategist",
+     "tokens": 132606,
+     "tool_uses": 38,
+     "wall_s": 502
+    },
+    {
+     "id": "history",
+     "role": "animator",
+     "tokens": 142861,
+     "tool_uses": 33,
+     "wall_s": 546
+    },
+    {
+     "id": "ruvector",
+     "role": "researcher",
+     "tokens": 164790,
+     "tool_uses": 41,
+     "wall_s": 629
+    },
+    {
+     "id": "shop",
+     "role": "builder",
+     "tokens": 159083,
+     "tool_uses": 47,
+     "wall_s": 662
+    }
+   ],
+   "deleted_paths": 205,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
+  },
+  {
+   "run": "r7-claim",
+   "purpose": "r7-claim: the claim slide, animated: autonomy needs a memory you can trust (encrypted, versioned, scoped to one run) and a written mandate",
+   "feedback": "Dinis, on slide 2 ('The claim'): use ruv.sgit to create a better view and animation for this. Today it is four lines of text.",
+   "vault_id": "ww0lpk5g",
+   "created_at": "2026-10-15T16:44:49+00:00",
+   "closed_at": "2026-10-15T16:53:36+00:00",
+   "deleted_at": "2026-10-15T16:53:37+00:00",
+   "hive": {
+    "workers": 1,
+    "tasks": 1,
+    "ruflo_calls": 9,
+    "ruflo_ms": 3924
+   },
+   "branches": [
+    {
+     "name": "w-claim",
+     "role": "animator",
+     "commits": 1,
+     "files": 2,
+     "bytes": 77001,
+     "write_ms": 2738,
+     "merge_ms": 2713
+    },
+    {
+     "name": "w-stack",
+     "role": "animator",
+     "commits": 1,
+     "files": 2,
+     "bytes": 114543,
+     "write_ms": 2533,
+     "merge_ms": 2672
+    },
+    {
+     "name": "w-conductor",
+     "role": "conductor",
+     "commits": 1,
+     "files": 1,
+     "bytes": 18770,
+     "write_ms": 2710,
+     "merge_ms": 2915
+    }
+   ],
+   "commits": 5,
+   "files": 7,
+   "bytes_plain": 211084,
+   "files_delivered": 5,
+   "bytes_delivered": 210314,
+   "server_store": {
+    "files": 38,
+    "bytes": 224439,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 940,
+    "files": 7,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 871,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 893,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 945,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 841,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 889,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1007,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 892,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 887,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 934,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 780,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 797,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 955,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 894,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 823,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 955,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 895,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 808,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1006,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 1038,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 884,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 993,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 840,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 940,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "288fdd612e75",
+     "message": "init",
+     "time": "2026-10-15T16:44:51Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "296edeb88227",
+     "message": "brief: run r7-claim",
+     "time": "2026-10-15T16:44:52Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "2fe91000ad0f",
+     "message": "animator claim: delivered 2 files",
+     "time": "2026-10-15T16:53:18Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "33e7582874ac",
+     "message": "animator stack: delivered 2 files",
+     "time": "2026-10-15T16:53:23Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "bd8f3a5ebf05",
+     "message": "conductor conductor: delivered 1 files",
+     "time": "2026-10-15T16:53:29Z",
+     "files_added": 1,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "claim",
+     "role": "animator",
+     "tokens": 112310,
+     "tool_uses": 25,
+     "wall_s": 320
+    },
+    {
+     "id": "stack",
+     "role": "animator",
+     "tokens": 104949,
+     "tool_uses": 20,
+     "wall_s": 290
+    }
+   ],
+   "deleted_paths": 81,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
+  },
+  {
+   "run": "r8-explain",
+   "purpose": "r8-explain: two explainer slides, made with ruv.sgit: what an sgit vault is, then what an Agent Behaviour Policy is",
+   "feedback": "Dinis: the RuVector slide and the layers slide are brilliant; what is missing between them is a ruv.sgit-made explanation of first sgit and then ABPs. And make the slides shorter, since I speak fast.",
+   "vault_id": "wwc236hg",
+   "created_at": "2026-10-15T17:19:47+00:00",
+   "closed_at": "2026-10-15T17:27:02+00:00",
+   "deleted_at": "2026-10-15T17:27:03+00:00",
+   "hive": {
+    "workers": 2,
+    "tasks": 2,
+    "ruflo_calls": 11,
+    "ruflo_ms": 5310
+   },
+   "branches": [
+    {
+     "name": "w-sgit",
+     "role": "animator",
+     "commits": 1,
+     "files": 2,
+     "bytes": 203855,
+     "write_ms": 2709,
+     "merge_ms": 2665
+    },
+    {
+     "name": "w-abp",
+     "role": "animator",
+     "commits": 1,
+     "files": 2,
+     "bytes": 124686,
+     "write_ms": 2863,
+     "merge_ms": 2884
+    },
+    {
+     "name": "w-conductor",
+     "role": "conductor",
+     "commits": 1,
+     "files": 2,
+     "bytes": 68734,
+     "write_ms": 2916,
+     "merge_ms": 2960
+    }
+   ],
+   "commits": 5,
+   "files": 8,
+   "bytes_plain": 398224,
+   "files_delivered": 6,
+   "bytes_delivered": 397275,
+   "server_store": {
+    "files": 39,
+    "bytes": 411955,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 967,
+    "files": 8,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 880,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 819,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 918,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 868,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 882,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 958,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 905,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 827,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 933,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 885,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 896,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1081,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 921,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 924,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1040,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 861,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 899,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1155,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 966,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 868,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1126,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 1128,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 967,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "83959b8abbe7",
+     "message": "init",
+     "time": "2026-10-15T17:19:51Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "3d197b4762bf",
+     "message": "brief: run r8-explain",
+     "time": "2026-10-15T17:19:52Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "9a961fc035f0",
+     "message": "animator sgit: delivered 2 files",
+     "time": "2026-10-15T17:26:43Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "81c2a557c68b",
+     "message": "animator abp: delivered 2 files",
+     "time": "2026-10-15T17:26:49Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "0b9ad47c7fb3",
+     "message": "conductor conductor: delivered 2 files",
+     "time": "2026-10-15T17:26:55Z",
+     "files_added": 2,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "abp",
+     "role": "animator",
+     "tokens": 90507,
+     "tool_uses": 14,
+     "wall_s": 208
+    },
+    {
+     "id": "sgit",
+     "role": "animator",
+     "tokens": 118409,
+     "tool_uses": 23,
+     "wall_s": 291
+    }
+   ],
+   "deleted_paths": 83,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
+  },
+  {
+   "run": "r9-ask",
+   "purpose": "r9-ask: the ask, rewritten: the business plan, open source, build companies on it",
+   "feedback": "Dinis: the ask (pick one of three POCs) doesn't make sense. Mention the detailed business plan documentation, explained visually (pictures of the pages), say that all of this is open source, and that the people in the room should build new companies around it or add it to their own services.",
+   "vault_id": "cizvo8qx",
+   "created_at": "2026-10-15T17:35:13+00:00",
+   "closed_at": "2026-10-15T17:39:36+00:00",
+   "deleted_at": "2026-10-15T17:39:37+00:00",
+   "hive": {
+    "workers": 1,
+    "tasks": 1,
+    "ruflo_calls": 8,
+    "ruflo_ms": 4947
+   },
+   "branches": [
+    {
+     "name": "w-ask",
+     "role": "animator",
+     "commits": 1,
+     "files": 8,
+     "bytes": 401215,
+     "write_ms": 2690,
+     "merge_ms": 2880
+    },
+    {
+     "name": "w-conductor",
+     "role": "conductor",
+     "commits": 1,
+     "files": 4,
+     "bytes": 201069,
+     "write_ms": 2714,
+     "merge_ms": 2753
+    }
+   ],
+   "commits": 4,
+   "files": 14,
+   "bytes_plain": 603204,
+   "files_delivered": 12,
+   "bytes_delivered": 602284,
+   "server_store": {
+    "files": 38,
+    "bytes": 616417,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 1022,
+    "files": 14,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 917,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 772,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 866,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 878,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 794,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1017,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 946,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 959,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 975,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 843,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 833,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1036,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 843,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 861,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 1049,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 835,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 1022,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "4b3e20ca9bdc",
+     "message": "init",
+     "time": "2026-10-15T17:35:17Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "6a200119533a",
+     "message": "brief: run r9-ask",
+     "time": "2026-10-15T17:35:18Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "fdb946815b0e",
+     "message": "animator ask: delivered 8 files",
+     "time": "2026-10-15T17:39:22Z",
+     "files_added": 8,
+     "parents": 1
+    },
+    {
+     "id": "9593964e52d9",
+     "message": "conductor conductor: delivered 4 files",
+     "time": "2026-10-15T17:39:28Z",
+     "files_added": 4,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "ask",
+     "role": "animator",
+     "tokens": 83410,
+     "tool_uses": 18,
+     "wall_s": 174
+    }
+   ],
+   "deleted_paths": 81,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
+  },
+  {
+   "run": "r10-articles",
+   "purpose": "r10-articles: five articles about the talk and how it was made: the talk as a long read with screenshots; the talk, live (interactive); the history; the talk player as a product; walking backwards through the features",
+   "feedback": "Dinis, after the talk ('one of the smoothest presentations I've done in a long time; I let it run on autopilot and spoke over it'): write at least two, if not more, articles while it is fresh. (1) The whole presentation as text and screenshots, almost every step, with background and the logic of how it fits together. (2) A shorter version with the live animations and play/stop controls, steps that work in isolation. (3) The history: from the first version where the session ran agents itself to ruv.sgit runs, with stats (changes, loops, capabilities). (4) The talk player's features, written as if we were selling it, with a note that there is a business here for somebody to build, and a section in Claude's own voice on why this workflow works. (5) Walking backwards, like a historian: the features arrived non-linearly; the failures, bugs and less optimal tries are what made the product (e.g. the navigation, and the late 'end of each phase, then the start of the next' feature that could not have been specified before using it).",
+   "vault_id": "1m7di0m3",
+   "created_at": "2026-10-15T22:09:30+00:00",
+   "closed_at": "2026-10-15T22:43:02+00:00",
+   "deleted_at": "2026-10-15T22:43:03+00:00",
+   "hive": {
+    "workers": 5,
+    "tasks": 5,
+    "ruflo_calls": 19,
+    "ruflo_ms": 6386
+   },
+   "branches": [
+    {
+     "name": "w-longread",
+     "role": "writer",
+     "commits": 1,
+     "files": 95,
+     "bytes": 4449365,
+     "write_ms": 1609,
+     "merge_ms": 1816
+    },
+    {
+     "name": "w-live",
+     "role": "builder",
+     "commits": 1,
+     "files": 3,
+     "bytes": 61888,
+     "write_ms": 1537,
+     "merge_ms": 1766
+    },
+    {
+     "name": "w-history",
+     "role": "historian",
+     "commits": 1,
+     "files": 15,
+     "bytes": 779062,
+     "write_ms": 1689,
+     "merge_ms": 1995
+    },
+    {
+     "name": "w-player",
+     "role": "writer",
+     "commits": 1,
+     "files": 16,
+     "bytes": 955482,
+     "write_ms": 1709,
+     "merge_ms": 1769
+    },
+    {
+     "name": "w-backwards",
+     "role": "historian",
+     "commits": 1,
+     "files": 11,
+     "bytes": 673819,
+     "write_ms": 1716,
+     "merge_ms": 2227
+    }
+   ],
+   "commits": 7,
+   "files": 142,
+   "bytes_plain": 6922999,
+   "files_delivered": 140,
+   "bytes_delivered": 6919616,
+   "server_store": {
+    "files": 187,
+    "bytes": 6995930,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 738,
+    "files": 142,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 398,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 434,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 479,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 448,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 442,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 712,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 519,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 517,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 780,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 395,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 461,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 680,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 508,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 546,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 711,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 401,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 532,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 753,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 579,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 549,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 867,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 403,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 536,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 768,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 513,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 540,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 716,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 409,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 558,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 747,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 641,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 747,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 839,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 664,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 738,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "e7af875782ae",
+     "message": "init",
+     "time": "2026-10-15T22:09:34Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "afed62870897",
+     "message": "brief: run r10-articles",
+     "time": "2026-10-15T22:09:35Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "894e4b6be9cc",
+     "message": "writer longread: delivered 95 files",
+     "time": "2026-10-15T22:42:36Z",
+     "files_added": 95,
+     "parents": 1
+    },
+    {
+     "id": "80ae07fe1e68",
+     "message": "builder live: delivered 3 files",
+     "time": "2026-10-15T22:42:40Z",
+     "files_added": 3,
+     "parents": 1
+    },
+    {
+     "id": "4a85fb13cbe1",
+     "message": "historian history: delivered 15 files",
+     "time": "2026-10-15T22:42:44Z",
+     "files_added": 15,
+     "parents": 1
+    },
+    {
+     "id": "830a96467e7e",
+     "message": "writer player: delivered 16 files",
+     "time": "2026-10-15T22:42:48Z",
+     "files_added": 16,
+     "parents": 1
+    },
+    {
+     "id": "461fbf5ee2d7",
+     "message": "historian backwards: delivered 11 files",
+     "time": "2026-10-15T22:42:52Z",
+     "files_added": 11,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "player",
+     "role": "writer",
+     "tokens": 200705,
+     "tool_uses": 61,
+     "wall_s": 727
+    },
+    {
+     "id": "live",
+     "role": "builder",
+     "tokens": 178910,
+     "tool_uses": 60,
+     "wall_s": 858
+    },
+    {
+     "id": "history",
+     "role": "historian",
+     "tokens": 240151,
+     "tool_uses": 80,
+     "wall_s": 896
+    },
+    {
+     "id": "backwards",
+     "role": "historian",
+     "tokens": 279112,
+     "tool_uses": 109,
+     "wall_s": 1428
+    },
+    {
+     "id": "longread",
+     "role": "writer",
+     "tokens": 301328,
+     "tool_uses": 91,
+     "wall_s": 1863
+    }
+   ],
+   "deleted_paths": 379,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
+  },
+  {
+   "run": "r11-position",
+   "purpose": "r11-position: reposition 'autonomy you can trust' as additive: Ruflo's hive is not untrustworthy without us; sgit vaults and ABPs add a memory with history and a written mandate",
+   "feedback": "Dinis: change the references to 'autonomy you can trust', because that implies that without sgit and ABPs you can't trust it. It's a strong statement, and it's very important that we don't throw Ruflo's hive under the bus; it has a negative connotation. Find a different way to position this. It's fine to change the presentation and the articles.",
+   "vault_id": "s8nw67im",
+   "created_at": "2026-10-15T23:30:12+00:00",
+   "closed_at": "2026-10-15T23:40:01+00:00",
+   "deleted_at": "2026-10-15T23:40:01+00:00",
+   "hive": {
+    "workers": 1,
+    "tasks": 1,
+    "ruflo_calls": 7,
+    "ruflo_ms": 3101
+   },
+   "branches": [
+    {
+     "name": "w-editor",
+     "role": "editor",
+     "commits": 1,
+     "files": 36,
+     "bytes": 4010729,
+     "write_ms": 1597,
+     "merge_ms": 1521
+    }
+   ],
+   "commits": 3,
+   "files": 38,
+   "bytes_plain": 4011990,
+   "files_delivered": 36,
+   "bytes_delivered": 4010729,
+   "server_store": {
+    "files": 71,
+    "bytes": 4036421,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 627,
+    "files": 38,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 457,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 562,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 603,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 463,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 443,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 685,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 477,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 407,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 638,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 414,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 626,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "182596e3a246",
+     "message": "init",
+     "time": "2026-10-15T23:30:14Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "e218b7bfed3f",
+     "message": "brief: run r11-position",
+     "time": "2026-10-15T23:30:15Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "f77fd208cedc",
+     "message": "editor editor: delivered 36 files",
+     "time": "2026-10-15T23:39:46Z",
+     "files_added": 36,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "editor",
+     "role": "editor",
+     "tokens": 193102,
+     "tool_uses": 69,
+     "wall_s": 543
+    }
+   ],
+   "deleted_paths": 147,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
+  },
+  {
+   "run": "r12-next-phase",
+   "purpose": "r12-next-phase: the debrief and brief for the next phase: turn ruv.sgit.ai from a site about the talk into the site that offers the service, with a marketplace of providers",
+   "feedback": "Dinis, 16 Oct: move these models into operational next steps: convert this website into the website that offers this service. The first two providers are Dinis and Mondweep (from the Agentics Foundation); add a place for others to join, the rules of engagement, how it will work, and a waiting list to apply; clients already have the emailed order. First write an article debrief that is also the brief for the implementation, so Dinis can check and fine-tune it, then implement. Capture screenshots of the current home page and main areas as a historical record, map every change (URLs, positioning, menu; breaking changes). Read the newsroom article that starts mapping the workflow. Three audiences: people who want to buy the service; consultants and service companies who want to be part of the marketplace; people who want to learn about ruv.sgit (who may become one of the other two). Rules of engagement: everything is open source / Creative Commons, all materials and playbooks published, anybody can do this without us and we encourage it; code created in engagements through us is open, except the client's own code and data; changes are committed back; revenue split equally between the parties (50/50, or a third each with three); billing by whoever has the client; custom arrangements possible.",
+   "vault_id": "sls4vq1c",
+   "created_at": "2026-10-16T11:47:36+00:00",
+   "closed_at": "2026-10-16T11:56:00+00:00",
+   "deleted_at": "2026-10-16T11:56:01+00:00",
+   "hive": {
+    "workers": 2,
+    "tasks": 2,
+    "ruflo_calls": 10,
+    "ruflo_ms": 4469
+   },
+   "branches": [
+    {
+     "name": "w-archivist",
+     "role": "archivist",
+     "commits": 1,
+     "files": 17,
+     "bytes": 1070291,
+     "write_ms": 1519,
+     "merge_ms": 1623
+    },
+    {
+     "name": "w-writer",
+     "role": "writer",
+     "commits": 1,
+     "files": 2,
+     "bytes": 117183,
+     "write_ms": 1490,
+     "merge_ms": 1655
+    }
+   ],
+   "commits": 4,
+   "files": 21,
+   "bytes_plain": 1190825,
+   "files_delivered": 19,
+   "bytes_delivered": 1187474,
+   "server_store": {
+    "files": 45,
+    "bytes": 1206802,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 600,
+    "files": 21,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 463,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 440,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 604,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 436,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 449,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 632,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 512,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 493,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 618,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 423,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 450,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 616,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 510,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 525,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 620,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 542,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 600,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "5b95edf7b253",
+     "message": "init",
+     "time": "2026-10-16T11:47:39Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "03cd117cb05b",
+     "message": "brief: run r12-next-phase",
+     "time": "2026-10-16T11:47:39Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "ca89c5943969",
+     "message": "archivist archivist: delivered 17 files",
+     "time": "2026-10-16T11:55:42Z",
+     "files_added": 17,
+     "parents": 1
+    },
+    {
+     "id": "07cddac035c1",
+     "message": "writer writer: delivered 2 files",
+     "time": "2026-10-16T11:55:45Z",
+     "files_added": 2,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "archivist",
+     "role": "archivist",
+     "tokens": 78133,
+     "tool_uses": 14,
+     "wall_s": 129
+    },
+    {
+     "id": "writer",
+     "role": "writer",
+     "tokens": 157959,
+     "tool_uses": 41,
+     "wall_s": 428
+    }
+   ],
+   "deleted_paths": 95,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
+  },
+  {
+   "run": "r13-home-talk",
+   "purpose": "r13-home-talk: a big section on the home page about the talk of 15 October, with the photo rUv posted to his network and the deck playable from the home page",
+   "feedback": "Dinis, 16 Oct: put on the home page a big section about yesterday using the photo attached (note that this was rUv posting to his network) and the slide deck (playable from the home page). The focus for the site in the next couple of days is my presentation.",
+   "vault_id": "u2tgokkz",
+   "created_at": "2026-10-16T13:34:15+00:00",
+   "closed_at": "2026-10-16T13:36:46+00:00",
+   "deleted_at": "2026-10-16T13:36:47+00:00",
+   "hive": {
+    "workers": 1,
+    "tasks": 1,
+    "ruflo_calls": 7,
+    "ruflo_ms": 3160
+   },
+   "branches": [
+    {
+     "name": "w-conductor",
+     "role": "conductor",
+     "commits": 1,
+     "files": 4,
+     "bytes": 329475,
+     "write_ms": 1524,
+     "merge_ms": 1662
+    }
+   ],
+   "commits": 3,
+   "files": 6,
+   "bytes_plain": 330472,
+   "files_delivered": 4,
+   "bytes_delivered": 329475,
+   "server_store": {
+    "files": 23,
+    "bytes": 337873,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 503,
+    "files": 6,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 446,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 506,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 559,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 476,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 464,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 583,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 565,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 511,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 586,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 427,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 503,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "8af5c00ad8e7",
+     "message": "init",
+     "time": "2026-10-16T13:34:17Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "922ff48806fa",
+     "message": "brief: run r13-home-talk",
+     "time": "2026-10-16T13:34:18Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "6d72358e0c3c",
+     "message": "conductor conductor: delivered 4 files",
+     "time": "2026-10-16T13:36:41Z",
+     "files_added": 4,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "conductor",
+     "role": "conductor",
+     "tokens": 0,
+     "note": "done by the conductor session directly; no worker"
+    }
+   ],
+   "deleted_paths": 51,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
+  },
+  {
+   "run": "example-01-hello",
+   "purpose": "example-01-hello: the smallest ruv.sgit run: one worker writes one file, the run is closed, sealed (vault key deleted) and published with its read key",
+   "feedback": "Dinis, 16 Oct: start with a very simple hello-world example; an ephemeral vault represents a run, and once the run has ended it should not be modified, so the last step is deleting the vault key, then publishing the vault with its read key on ruv.sgit.ai.",
+   "vault_id": "l2yxakym",
+   "created_at": "2026-10-16T14:39:26+00:00",
+   "closed_at": "2026-10-16T14:39:35+00:00",
+   "deleted_at": null,
+   "hive": {
+    "workers": 1,
+    "tasks": 1,
+    "ruflo_calls": 7,
+    "ruflo_ms": 2770
+   },
+   "branches": [
+    {
+     "name": "w-hello",
+     "role": "writer",
+     "commits": 1,
+     "files": 1,
+     "bytes": 796,
+     "write_ms": 1630,
+     "merge_ms": 1652
+    }
+   ],
+   "commits": 3,
+   "files": 3,
+   "bytes_plain": 1664,
+   "files_delivered": 1,
+   "bytes_delivered": 796,
+   "server_store": {
+    "files": 22,
+    "bytes": 8015,
+    "plaintext_hits": 0,
+    "probe": "18 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 649,
+    "files": 3,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 447,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 462,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 542,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 496,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 517,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 616,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 490,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 525,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 637,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 480,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 649,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "2c90a5ab3dd2",
+     "message": "init",
+     "time": "2026-10-16T14:39:28Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "c43af2644b37",
+     "message": "brief: run example-01-hello",
+     "time": "2026-10-16T14:39:29Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "6c04172cbd71",
+     "message": "writer hello: delivered 1 files",
+     "time": "2026-10-16T14:39:30Z",
+     "files_added": 1,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "hello",
+     "role": "writer",
+     "tokens": 0,
+     "note": "hello.md written by the mechanic worker by hand; no model call"
+    }
+   ],
+   "sealed_at": "2026-10-16T14:39:37+00:00",
+   "published": {
+    "path": "vaults/example-01-hello/",
+    "read_key": "sgit_public_read_e7264f677323fe61cc5ea60beb447089bb5b1b186bc127932f527643fe5626f7:l2yxakym",
+    "vault_id": "l2yxakym",
+    "sealed_at": "2026-10-16T14:39:37+00:00",
+    "files": 25,
+    "objects": 21,
+    "bytes_objects": 8036,
+    "viewer_url": "https://ruv.sgit.ai/vaults/example-01-hello/#sgit_public_read_e7264f677323fe61cc5ea60beb447089bb5b1b186bc127932f527643fe5626f7%3Al2yxakym",
+    "clone": "sgit clone sgit_public_read_e7264f677323fe61cc5ea60beb447089bb5b1b186bc127932f527643fe5626f7:l2yxakym --base-url https://ruv.sgit.ai/vaults/example-01-hello/"
+   },
+   "seal_check": {
+    "clone_static": {
+     "ms": 370,
+     "files": 3,
+     "identical": true
+    },
+    "write_with_read_key": "refused",
+    "server_clone_after_delete": "failed",
+    "vault_key_left": false
+   }
+  },
+  {
+   "run": "r14-examples",
+   "purpose": "r14-examples: getting started with ruv.sgit: a ladder of examples from hello world up, and run vaults that end sealed (the vault key deleted, so the vault is immutable) and published with a read key on ruv.sgit.ai, each with its brief, its output and its vault",
+   "feedback": "Dinis, 16 Oct (voice memo): create a very simple set of getting-started examples and powerful workflows, so consultants can learn and test and anyone can try it, from very simple hello world examples to more complex ones that leverage vaults. Do runs that use the visualisation of the vaults. Start publishing the vaults: an ephemeral vault represents a run, and once the run has ended it should not be modified, so by design the last step of a run is deleting the vault key, which makes the vault immutable; then publish it (read key) on ruv.sgit.ai as a great example. Have a standard way; list for each example the original brief, the output and the vault, so we can look at it. Reverse-engineer existing examples, create new ones, even a meta one. The killer workflow is the creation of animations to explain things. Look at how sgit.ai and the newsroom publish vaults.",
+   "vault_id": "4xaasw4k",
+   "created_at": "2026-10-16T14:31:41+00:00",
+   "closed_at": "2026-10-16T14:41:55+00:00",
+   "deleted_at": null,
+   "hive": {
+    "workers": 2,
+    "tasks": 2,
+    "ruflo_calls": 10,
+    "ruflo_ms": 7379
+   },
+   "branches": [
+    {
+     "name": "w-writer",
+     "role": "writer",
+     "commits": 1,
+     "files": 2,
+     "bytes": 68352,
+     "write_ms": 1498,
+     "merge_ms": 1757
+    },
+    {
+     "name": "w-mechanic",
+     "role": "builder",
+     "commits": 1,
+     "files": 6,
+     "bytes": 43217,
+     "write_ms": 1684,
+     "merge_ms": 1809
+    }
+   ],
+   "commits": 4,
+   "files": 10,
+   "bytes_plain": 114233,
+   "files_delivered": 8,
+   "bytes_delivered": 111569,
+   "server_store": {
+    "files": 33,
+    "bytes": 125672,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 484,
+    "files": 10,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 428,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 478,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 587,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 471,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 463,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 562,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 492,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 512,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 753,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 501,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 449,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 731,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 529,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 583,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 697,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 435,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 484,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "87b9368e4e01",
+     "message": "init",
+     "time": "2026-10-16T14:31:47Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "3163e67ccce7",
+     "message": "brief: run r14-examples",
+     "time": "2026-10-16T14:31:48Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "5c3bf7c99a21",
+     "message": "writer writer: delivered 2 files",
+     "time": "2026-10-16T14:41:42Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "8faf08a0212b",
+     "message": "builder mechanic: delivered 6 files",
+     "time": "2026-10-16T14:41:46Z",
+     "files_added": 6,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "writer",
+     "role": "writer",
+     "tokens": 136390,
+     "tool_uses": 33,
+     "wall_s": 327
+    },
+    {
+     "id": "mechanic",
+     "role": "builder",
+     "tokens": 136578,
+     "tool_uses": 61,
+     "wall_s": 532
+    }
+   ],
+   "sealed_at": "2026-10-16T14:41:59+00:00",
+   "published": {
+    "path": "vaults/r14-examples/",
+    "read_key": "sgit_public_read_e4fecf7a65d3e0107fd84a243fc457f99b3d77aefdfe65a0e6dbf73f1089ee37:4xaasw4k",
+    "vault_id": "4xaasw4k",
+    "sealed_at": "2026-10-16T14:41:59+00:00",
+    "files": 40,
+    "objects": 36,
+    "bytes_objects": 126149,
+    "viewer_url": "https://ruv.sgit.ai/vaults/r14-examples/#sgit_public_read_e4fecf7a65d3e0107fd84a243fc457f99b3d77aefdfe65a0e6dbf73f1089ee37%3A4xaasw4k",
+    "clone": "sgit clone sgit_public_read_e4fecf7a65d3e0107fd84a243fc457f99b3d77aefdfe65a0e6dbf73f1089ee37:4xaasw4k --base-url https://ruv.sgit.ai/vaults/r14-examples/"
+   },
+   "seal_check": {
+    "clone_static": {
+     "ms": 1400,
+     "files": 10,
+     "identical": true
+    },
+    "write_with_read_key": "refused",
+    "server_clone_after_delete": "failed",
+    "vault_key_left": false
+   }
+  }
+ ],
+ "sample": false,
+ "updated": "2026-10-16T14:41:59+00:00",
+ "server": "a local SG/Send vault server (sgraph-ai-app-send, disk storage), one process, on the machine that ran the hive"
+}

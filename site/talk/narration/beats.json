@@ -1,0 +1,638 @@
+{
+ "title": "Autonomy with a mandate and a memory",
+ "event": "Agentic Engineering Live: rUv in London, 15 Oct 2026",
+ "duration_s": 698,
+ "beats": [
+  {
+   "id": "open",
+   "at": 0,
+   "dur": 30,
+   "title": "Many hands + memory + a mandate",
+   "layout": "iframe",
+   "src": "../ruv-sgit/define/equation/index.html",
+   "heading": "Autonomy with a mandate and a memory",
+   "sub": "ruv.sgit: a Ruflo hive + sgit vaults + Agent Behaviour Policies · Dinis Cruz · sgit.ai · ruv.sgit.ai",
+   "say": "Hi, I'm Dinis. I build sgit: git for encrypted vaults. This animation was made by agents: a Ruflo hive whose Claude Code workers shared one ephemeral sgit vault. And it is tonight's equation. Many hands: a Ruflo hive. Plus a memory: sgit vaults. Plus a mandate: Agent Behaviour Policies. Equals ruv.sgit. Every number on screen comes from a recorded run, in files you can open.",
+   "cue": "7:00 pm, first of three community talks; rUv's keynote was at 6:00. Livestreamed. The equation was made by ruv.sgit run r3-define.",
+   "speed": 1,
+   "page_text": "a definition, as an equation:\nruv.sgit\nnumbers: run r2-materials + POC1\n1\nA RUFLO HIVE\nmany hands\nwriter\ndeveloper\ndesigner\ndeveloper\neditor\nqueen\nmany hands, in parallel\n5\nworkers in parallel, one queen\nrun r2-materials: 5 tasks queued, 20 Ruflo calls; the workers were Claude Code subagents, the host delivered each output. Ruflo: MIT, by rUv / ruvnet\n+\n2\nSGIT VAULTS\nmemory\nbrief/feedback.md workers/\ncurrent\ndeleted on close\nmemory with history, encrypted client-side, ephemeral\n0/40\nprobed text fragments found in plaintext in the 67 files the server stored\nrun r2-materials: 8 commits, 6 branches (5 workers + the conductor's fixes), merged one at a time, clone identical, then deleted (0 paths left), clone after delete failed\n+\n3\nAGENT BEHAVIOUR POLICIES · POC1\na mandate\nrole\naction\ndecision\nreceipt\ncoder\nnetwork.fetch\nDENY\ncoder\nfile.write\nALLOW\ncoder\nrepo.push\nAPPROVAL\ncoder\nemail.send\nDENY\ncoder\ntest.run\nALLOW\na mandate, written down, enforced with receipts\n4/11\ndenied in POC1 by an ABP compiled into Ruflo's enforce mode (Ruflo's legacy mode: all 11 allowed)\nPOC1, Ruflo policy engine: 2 for approval, 5 allowed, 11 receipts in Ruflo's ledger (valid). ABP: 6 roles, 36 rows\n=\na Ruflo hive\n5 workers in parallel\n+sgit vaults\n0 of 40 probed fragments in plaintext\n+Agent Behaviour Policies\n4 of 11 denied (POC1)\n=ruv.sgit\nautonomy with a memory and a mandate: many hands, a written mandate (tested in POC1), and a memory encrypted before it leaves the client: the server held 0 of 40 p"
+  },
+  {
+   "id": "claim",
+   "at": 30,
+   "dur": 23,
+   "title": "The claim",
+   "layout": "iframe",
+   "src": "slides/claim/index.html",
+   "heading": "The claim",
+   "sub": "Encrypted · versioned · scoped to one run · a written mandate: each number read from data/vaults.json and data/report.json",
+   "say": "rUv's stack gives agents swarms, consensus, self-learning and speed, with its own policy engine and memory. What we add is a memory with history, and a mandate. Here a worker learns something. It is encrypted before it leaves the agent, so the server only ever holds ciphertext: zero plaintext found, across every run. It is versioned, so you know who learned what, and when. It is scoped to one run: the vault is measured, then deleted. And a mandate, written down, compiled into Ruflo's own policy engine: six of eleven actions stopped. Tonight is mostly about the memory.",
+   "speed": 1,
+   "steps": [
+    {
+     "t": 0,
+     "label": "the claim"
+    },
+    {
+     "t": 2.6,
+     "label": "encrypted"
+    },
+    {
+     "t": 8,
+     "label": "versioned"
+    },
+    {
+     "t": 12.2,
+     "label": "scoped to one run"
+    },
+    {
+     "t": 15.8,
+     "label": "a written mandate"
+    },
+    {
+     "t": 21,
+     "label": "the memory"
+    }
+   ],
+   "page_text": "Autonomy goes further with a memory and a mandate.\nagent\na Ruflo hive\ncoder\nagent boundary: encrypted here\nsgit server\na vault for one run\n9f3a c1e0 77b2 04da\ne81c 5a9f d03b 6e21\n2b7d f4a0 19ce 8853\n06f1 b3c9 ae42 7d10\nc7e2 0b9d 41fa 3e86\nholds ciphertext only\nmeasured\nfiles, bytes, plaintext probe\ndeleted\n0 store paths left\na clone with the key fails\ninit\nbrief\nmain\nw-coder\nmemory item\nplaintext\ncoder learned:\ntests live in /test\nwho\ncoder\non branch w-coder\nwhat\nlearned: tests live in /test\nwhen\n12:22\n· in the vault's history\nAgent Behaviour Policy\nRuflo policy engine, enforce mode\ncoder\nfile.write src/**\n✓ allowed\ncoder\ntest.run\n✓ allowed\ncoder\nrepo.push\n→ a human\ncoder\nemail.send gmail\n✗ denied\nresearcher\ncredential.read\n✗ denied\nENCRYPTED\n0\nplaintext found on the server\n541 fragments probed, 15 runs\nVERSIONED\n81\ncommits: who, what, when\non 51 branches, one per worker\nSCOPED TO ONE RUN\n13 of 15\nvaults measured, then deleted\n12 checked: 0 store paths left\nA WRITTEN MANDATE\n6 of 11\nactions stopped by the policy\n4 denied, 2 sent to a human; in legacy mode, 11 of 11 ran\nTonight is mostly about the memory.\nNumbers read at runtime from data/vaults.json (every run) and data/report.json (POC1). The memory item is an example. Ruflo is MIT, by rUv / ruvnet."
+  },
+  {
+   "id": "stack",
+   "at": 53,
+   "dur": 8,
+   "title": "rUv's stack, as an AI infographic",
+   "layout": "image",
+   "src": "../assets/img/ruv-stack-layers.webp",
+   "heading": "rUv's stack, in one picture",
+   "sub": "An infographic drawn by an image model",
+   "caption": "Bottom to top: RVM, RuVector, Ruflo, MetaHarness, the hosts · all MIT, by rUv / ruvnet",
+   "builds": [
+    {
+     "at": 3.5,
+     "text": "… but that was before we had <b style=\"color:var(--accent)\">ruv.sgit</b> 🙂"
+    }
+   ],
+   "say": "Here's rUv's stack as an infographic, drawn by an image model. Pretty cool. But that was before we had ruv.sgit. Here's the same picture, made that way.",
+   "speed": 1
+  },
+  {
+   "id": "stack-ruv",
+   "at": 61,
+   "dur": 22,
+   "title": "rUv's stack, one picture",
+   "layout": "iframe",
+   "src": "slides/stack/index.html",
+   "heading": "rUv's stack, one picture",
+   "sub": "Bottom to top: RVM, RuVector, Ruflo, MetaHarness, the hosts · all MIT, by rUv / ruvnet · and where sgit plugs in",
+   "say": "His stack, bottom up: RVM, the capability VM. RuVector, the memory. Ruflo, the orchestrator, with queens and workers. MetaHarness, which assembles a harness for a host. And on top, the hosts you already use. It's overwhelming because it's complete, and it's all MIT. I plug into three places: a vault around the memory, one vault per hive run, and an ABP compiled into Ruflo's policy engine.",
+   "speed": 1,
+   "steps": [
+    {
+     "t": 0,
+     "label": "RVM, RuVector"
+    },
+    {
+     "t": 4.6,
+     "label": "Ruflo, MetaHarness, hosts"
+    },
+    {
+     "t": 12,
+     "label": "sgit: the memory vault"
+    },
+    {
+     "t": 15,
+     "label": "The hive, the policy engine"
+    },
+    {
+     "t": 21,
+     "label": "Complete, all MIT"
+    }
+   ],
+   "page_text": "rUv's stack, bottom to top\nall MIT, by rUv / ruvnet\nsource: ruv.sgit.ai/ruv-stack\nThe hosts\nwhere agents run\nClaude Code\nCodex\nGitHub Actions\nthe browser\nMetaHarness\nmetaharness 0.4.17\nhow a harness is assembled for a host\nagents\nskills\ncommands\nMCP tools\nmemory namespace\ngovernance policy\nRuflo\nruflo 3.56.10\nformerly Claude Flow\nhow many agents coordinate\nqueen-led hive-mind\n2\nworker roles\nconsensus\nSPARC\nhooks\nAgentDB memory\n1\npolicy engine: legacy · observe · enforce, decision receipts\n3\nRuVector\nruvector 0.3.3\n@ruvector/wasm 0.2.1\nwhat agents remember\nvectors + graph + temporal memory\nHNSW\nWASM\nMCP server\nwitness logs\nsnapshots\ncopy-on-write branches\nRVM\nearly · Apr 2026\nwhat an agent can physically touch\nbare-metal Rust capability VM\ncapabilities with 7 rights\nwitness chain\nreplay\nsgit vault · encrypted\nwhere sgit plugs in\nadditive: rUv's layers stay as they are\n1\nan sgit vault around the memory files\nPOC2\n2\none ephemeral vault per hive run\nruv.sgit\n3\nan ABP compiled into enforce mode\nPOC1\nFive layers, each answering one question.\nrUv's stack: complete, and all MIT. sgit adds a vault and a written mandate."
+  },
+  {
+   "id": "ruvector",
+   "at": 83,
+   "dur": 38,
+   "title": "Memory: what RuVector secures, and where sgit adds",
+   "layout": "iframe",
+   "src": "slides/ruvector/index.html",
+   "heading": "RuVector secures the memory; sgit wraps the files",
+   "sub": "RuVector README, \"Security and governance\" (github.com/ruvnet/ruvector, main branch, read 15 Oct 2026) · sgit figures from data/vaults.json",
+   "say": "Start with the memory. RuVector is a remarkable memory substrate: vectors, graphs, full snapshots, even copy-on-write branches. And its README has a clear section on security and governance. Its witness logs are tamper evident, and it says, just as plainly, that they do not encrypt memory content, and that a delete does not automatically reach every snapshot, branch or copy, so define retention and erasure across every copy. That is where sgit adds, around the files: encrypted on the client, AES-256-GCM, so the server only ever stores ciphertext; a history you can clone anywhere; and a vault that is deleted with the run, and checked: no store paths left, and a clone with the key fails.",
+   "speed": 1,
+   "steps": [
+    {
+     "t": 0,
+     "label": "The README"
+    },
+    {
+     "t": 4,
+     "label": "What RuVector secures"
+    },
+    {
+     "t": 15.5,
+     "label": "sgit: encrypted"
+    },
+    {
+     "t": 21,
+     "label": "sgit: shared history"
+    },
+    {
+     "t": 24,
+     "label": "sgit: deleted with the run"
+    },
+    {
+     "t": 33.5,
+     "label": "Both, together"
+    }
+   ],
+   "page_text": "Memory: what RuVector secures, and where sgit adds\nRuVector README · Security and governance\nGOVERNANCE\nSGIT ADDS\nSGIT ADDS\nREADME.md · github.com/ruvnet/ruvector\nSecurity and governance · read 15 Oct 2026\nWHAT RUVECTOR SECURES\nin its own README, credited first\nWHERE SGIT ADDS\naround the files: an encrypted vault\nSecurity and governance, 3\n“RVF witnesses and hash linked logs are tamper evident.”\nREADME: “They do not encrypt memory content …”\n+ Content encrypted on the client, AES-256-GCM: the server stores ciphertext only\n0 of 480 probed fragments on the server · 12 runs\nLibrary and capability map\n“Full snapshots” and “Copy on write branches”: “Isolated memory experiments without full copies”\nbeside its snapshots and branches\n+ A history shared across machines: pushed, merged, cloned\nr13-home-talk: 3 commits · a fresh clone, 6 files identical\nSecurity and governance, 4\n“Define retention and erasure across every copy.”\nREADME: “A delete from the live store does not automatically remove copies …”\n+ One vault per run, deleted with the run, and the delete checked\n0 store paths left · a clone with the key fails · 12 of 12 runs\nRuVector is the memory substrate; sgit wraps the files. rUv + sgit.\nScreenshot of README.md on main, 15 Oct 2026; quotes exact. RuVector: MIT, by rUv / ruvnet. sgit figures: data/vaults.json. agent@riskmandate.ai"
+  },
+  {
+   "id": "sgit",
+   "at": 121,
+   "dur": 28,
+   "title": "What an sgit vault is",
+   "layout": "iframe",
+   "src": "slides/sgit/index.html",
+   "heading": "What an sgit vault is",
+   "sub": "git for encrypted vaults: encrypted on the client, versioned like git, ephemeral when you want · sgit-ai 0.21.0 · timings from data/vaults.json",
+   "say": "So what is an sgit vault? It's git for encrypted vaults. A folder on your machine; every file is encrypted on the client, AES-256-GCM, before anything leaves, so the server only ever stores ciphertext. Whoever has the vault key has the memory. And it works like git: commit, branch, merge, push, clone, each about a second against our local vault server. For agents, that's a shared, versioned memory across machines: a fresh clone anywhere gets the whole history back. Or make it ephemeral: one vault per run, deleted at the end, and we check the delete.",
+   "speed": 1,
+   "steps": [
+    {
+     "t": 0,
+     "label": "Encrypted on the client"
+    },
+    {
+     "t": 8.2,
+     "label": "Works like git"
+    },
+    {
+     "t": 15.6,
+     "label": "Why agents: shared, ephemeral"
+    },
+    {
+     "t": 22.4,
+     "label": "Into place"
+    },
+    {
+     "t": 25.5,
+     "label": "All three + timings"
+    }
+   ],
+   "page_text": "What an sgit vault is\nsgit-ai 0.21.0 · git for encrypted vaults\n1Encrypted on the client\nYOUR MACHINE · VAULT FOLDER\n# notes.md (agent memory)\ntask: draw the sta\n \nAES-256-GCM on the client\nSERVER · CIPHERTEXT ONLY\nb226…\ne953…\n46a6…\n3bea…\nWhoever has the vault key has the memory. One secret, no reset.\n0 of 541 plaintext probes found on server\n2Versioned like git\nmain\nbranch w-agent\nsrv\nclone\nsgit commit\n848 ms median of 66\nsgit branch merge\n928 ms median of 51\nsgit push\n1044 ms median of 117\nsgit clone\n940 ms median of 15\nr14-examples: clone, 10 of 10 files identical\n3Ephemeral when you want\nmachine A\nmachine B\nagent C\nCI runner\none vault\nper run\ndeleted · checked\nOne memory, shared by agents\nA fresh clone gets the whole history\nOne vault per run: deleted, checked\n12 of 12 runs: 0 paths left, clone fails\nA folder on your machine. Files are encrypted on the client before anything leaves.\nAES-256-GCM. The server stores ciphertext objects only.\nIt works like git: commit, branch, merge, push, clone.\nEach agent works on its own branch; the branches merge back into main. Timings are medians of real runs.\nWhy agents: a shared, versioned memory across machines and agents.\nA fresh clone anywhere gets the whole history back. Or: one vault per run, deleted at the end, and the delete verified.\nMeasured: commit 848 ms · push 1044 ms · merge 928 ms · clone 940 ms\nmedians of 381 sgit operations over 15 recorded runs (sgit-ai 0.21.0, local vault server, data/vaults.json)\nsgit: Apache-2.0, sg"
+  },
+  {
+   "id": "abp",
+   "at": 149,
+   "dur": 28,
+   "title": "What an Agent Behaviour Policy is",
+   "layout": "iframe",
+   "src": "slides/abp/index.html",
+   "heading": "What an Agent Behaviour Policy is",
+   "sub": "A written mandate per role, compiled into Ruflo's own policy engine, with receipts",
+   "say": "This is an Agent Behaviour Policy: a written mandate, per role, that a person can read. One row per capability, in a small grammar of 23 primitives: verb, object, reach. Each row says yes, no or ask a human, why, and the barrier. It has an owner and an end date. We don't build a new enforcer: it compiles into Ruflo's own policy engine, rUv's, in enforce mode: 36 rules. Then real actions hit it. In POC1, 6 of 11 were stopped: 4 denied, 2 sent to a human. Every decision went into a hash-chained receipt, and the chain is valid.",
+   "speed": 1,
+   "steps": [
+    {
+     "t": 0,
+     "label": "a written mandate"
+    },
+    {
+     "t": 4.6,
+     "label": "mandate, why, barrier"
+    },
+    {
+     "t": 8.5,
+     "label": "compiled into Ruflo"
+    },
+    {
+     "t": 14,
+     "label": "actions hit it"
+    },
+    {
+     "t": 26,
+     "label": "enforced, with receipts"
+    }
+   ],
+   "page_text": "1 · An ABP is a written mandate, one row per capability, per role\nAgent Behaviour Policy\nrole: coder\nowner Dinis Cruz\nvalid until 2026-10-31\none row per capability · grammar verb.object.reach · 23 primitives\nread.file.project\nyes\nread code\nwrite.file.project\nyes\nedit code\nexecute.process.self\nyes\nbuild and test in the sandbox\nwrite.repository.project\nyes\ncommit to its branch\nwrite.repository.tenant\napproval\npush needs review\nsend.endpoint.allowed\nyes\npackage registries only\nsend.endpoint.world\nno\nno other hosts\nsend.message.world\nno\nagents draft, a person sends\ncreate.record.world\napproval\npublishing or deploying needs a named human\nread.credential.host\nno\nsecrets are not context\nbarrier on send.message.world: policy deny + no mail credential in the sandbox\ncompiles\ninto\nRuflo's policy engineby rUv / ruvnet · MIT\nlegacy\nobserve\nenforce\n0\nrules, compiled from the ABP rows\n15 allow · 14 deny · 7 require approval · for 6 roles\nPOC1: real actions hit the engine\n0 of 11\ncoder\nfile.write src/**\n✓ allowed\ncoder\ntest.run\n✓ allowed\ncoder\nrepo.commit\n✓ allowed\ncoder\nrepo.push origin/feature\n→ a human\ncoder\nnetwork.fetch registry.npmjs.org\n✓ allowed\ncoder\nnetwork.fetch.world pastebin.example\n✗ denied\ncoder\nemail.send gmail\n✗ denied\ntester\nfile.write src/**\n✗ denied\nresearcher\ncredential.read ~/.aws/credentials\n✗ denied\nqueen-strategic\nmodel.call\n✓ allowed\ndocumenter\ndeploy\n→ a human\ndecision receipts, hash-chained: 0 · ledger length 11\n6 of 11 actions stopped: 4 denied, 2 sent to a huma"
+  },
+  {
+   "id": "ruv-sgit",
+   "at": 177,
+   "dur": 45,
+   "title": "ruv.sgit: one hive, one vault, one run",
+   "layout": "iframe",
+   "src": "../ruv-sgit/define/layers/index.html",
+   "sub": "ruv.sgit: a Ruflo hive + sgit vaults + Agent Behaviour Policies",
+   "caption": "The layers · made by ruv.sgit run r3-define · policy outcomes from POC1, vault from run r2-materials",
+   "say": "So put the two together. ruv.sgit is a Ruflo hive plus sgit vaults plus Agent Behaviour Policies: a queen and workers in parallel, one ephemeral vault per run, and a written mandate for what each worker may do. Each worker's delivery lands on its own branch; the branches merge; the run is measured into a ledger; and then the vault is deleted. Memory that exists for exactly as long as the work does, with a receipt afterwards. Tonight's three new pages, and this script, were made by one such run: run r2-materials, five workers, on a local vault server.",
+   "cue": "The animation runs itself: hive on top, the mandate in the middle (POC1 outcomes), the vault below (r2-materials), then the stack lays flat into the tagline.",
+   "speed": 1,
+   "page_text": "ruv.sgit, in three layers\ndefine · the layers\nRuflo · MIT, by rUv / ruvnet\ntasks queued\nwriter\ndeveloper\ndesigner\ndeveloper\neditor\nQUEEN\nPOC1 · ABP in Ruflo's enforce mode\nALLOW\n0\nAPPROVAL\n0\nDENY\n0\n3a0e1a2d79dd686052a7eef8c030b6851dd2c035a13367b39d2c9631fd13dc9073180c8304f41af28759e4e0a0853e047d719c6f698bd247c9da47f2b260f4ce6ab47f299bedbd47e0dcffe786e384c1db48dca03306bbbfd235ff050d9f63784fe47a041e016dd275a7ef90893a3722cb3304d341f8ae27816b50dade06116fcdf084ac870738cbc16461b2ba84f3de2876bda06e2f221f1a9435937954fef396d275dfe30e2a3b6677d4bd93d0b24c06545370abaa06127ad76dba1770582343539953d70e9c2cf3e8a9a7a6f995b9ecc4b9e0d9ced2007876b2e07303341a911fc0ddcc6bc80a248615b12038b567c38f177b7e7e1017ab8b27a9da0ead86eed8654fd46a36ebc8bddbfdd45892d93f750f3cbf924a2c1473c93baa50be28455a6d03f74eaf6b32e5e8a4625ba2371d85419d15188121a4b8502a937668fccea353493c2cb04192e12f63ce54f8de197c0a35878280f4a9ea7bdeb76b0b33ffb083c8cd49b75ff11a7a12ff7c605c344796c6962b5ce20b7f0a4826206522c44cd6f47aab7d705318f533ef919ae9efc7758a733b74b28f8a4f71575b2f75a20c9ab01977ba2d70a4b2b63027a6b403136c48793dc5668c8d3a749bb98cbedd81\nAES-256-GCM · probe: 0/40 found\nsgit · r2-materials\ncurrent\nw-script\nw-ledger\nw-case\nw-motion\nw-editor\nw-fixes (conductor)\nMEASURED\non close\nconductor · the host\nDELETED\n139 store paths · 0 left\n1The hive\n\nRuflo holds the queen, the worker roles, the queued tasks and the broadcasts. The workers run in parallel; in our runs they are Claude Code subagents.\n\n5\nworkers\n4/5\ntasks queued\n20\nRuflo calls\nR"
+  },
+  {
+   "id": "lanes",
+   "at": 222,
+   "dur": 25,
+   "title": "Vault lanes",
+   "layout": "iframe",
+   "src": "../studio/v3/index.html",
+   "caption": "Studio v3 · vault lanes: one lane per agent role, commits, merges, a fresh clone · an illustration built in studio run 1",
+   "say": "Here's the shape of it, as an illustration. One lane per agent role: that lane is a branch of the vault. Each dot is a commit, encrypted before it is uploaded. The lanes merge into the main line, which sgit calls current. And at the end, a fresh clone, into an empty folder, pulls the whole history back. The server held ciphertext throughout. Whoever has the key has the memory, and nobody else does, including the host.",
+   "cue": "Let the animation run; speak over it, then pause for the fresh clone.",
+   "speed": 1.4,
+   "page_text": "Vault lanes\nrecorded 14 Oct 2026 · real POC2 history\nsgit init: an empty encrypted vault, default branch \"current\"\ncoder\ntester\ncurrent\n48aaaee48630init\n1ac3298a6cc9init: memory vault\n8ac2a0e9f200coder learned\nbranch mem-coder-local-20261014T2132\n3bf90dd8d00atester learned\nbranch mem-tester-local-20261014T2132\ncurrent (HEAD) = 3bf90ddboth merged\nsgit server\nciphertext\nfresh clone\nruflo memory list -n coder\ncoder\nShowing 1 of 1 entries\nruflo memory list -n tester\ntester\nShowing 1 of 1 entries\nconductor\nlibrarian\narchitect\ndesigner\ndeveloper\neditor\nhistorian\nobserver\ncurrent\nserver sees: ciphertext\nciphertext only (sgit encrypts client-side, AES-256-GCM); the vault id is the only thing in the URL.\nv3 · Vault lanes · made in the ruv.sgit.ai studio run\n← back to the studio"
+  },
+  {
+   "id": "history",
+   "at": 247,
+   "dur": 36,
+   "title": "Memory with history",
+   "layout": "iframe",
+   "src": "slides/history/index.html",
+   "heading": "One run's vault, commit by commit",
+   "sub": "ruv.sgit run r5-market, 15 Oct 2026 · POC2, 14 Oct 2026 · sgit times as measured",
+   "say": "This is a real run's vault, from this afternoon. The brief lands on current. Then each worker gets its own branch, commits what it delivered, and merges back: who, what, when, and how long each sgit step took, in milliseconds. Now the flow: six workers, eight commits, encrypted on the client before the push. The server holds ciphertext only: we searched it for forty fragments of the text and found none. A fresh clone came back identical, and then the vault was deleted, with nothing left. Memory works the same way. In POC2, run locally, a coder and a tester each wrote their Ruflo memory to the vault; the folder was deleted, a fresh clone restored it, and Ruflo gave the same answers. Every step is a commit, and it's gone when the run is.",
+   "speed": 1,
+   "steps": [
+    {
+     "t": 0,
+     "label": "the brief"
+    },
+    {
+     "t": 1.7,
+     "label": "six branches, six deliveries"
+    },
+    {
+     "t": 14.9,
+     "label": "the flow, mapped"
+    },
+    {
+     "t": 24,
+     "label": "POC2: memory, fresh clone"
+    },
+    {
+     "t": 34.5,
+     "label": "every step a commit"
+    }
+   ],
+   "page_text": "One run's vault, commit by commit\nr5-market · vault 7qcq6au7 · 15 Oct 2026\nsgit times as measured, replayed 3× faster\ncurrent\nvault deleted 15:52:41 UTC\n0b2dd74ab287\ninit\nvault created · 15:33:27\ninit 867 ms\n3f761b98cff3\nbrief: run r5-market\ncommit 797 ms\n+2 files · on current · 15:33:28\npush 509 ms\nb6051f4ef537\nwriter audiences: delivered 4 files\nbranch w-audiences · +4 files · 36.5 KB · 15:36:28\nfbec32158a3a\nanalyst economist: delivered 3 files\nbranch w-economist · +3 files · 28.7 KB · 15:38:51\n2875eee6a35e\nstrategist cartographer: delivered 2 files\nbranch w-cartographer · +2 files · 32.9 KB · 15:40:40\n1b0b1821f333\nbuilder shop: delivered 2 files\nbranch w-shop · +2 files · 27.8 KB · 15:41:51\n35184005732f\nwriter plan: delivered 3 files\nbranch w-plan · +3 files · 89.4 KB · 15:43:41\n7d05e6232322\neditor editor: delivered 12 files\nbranch w-editor · +12 files · 206.7 KB · 15:48:12\nsgit, op by op\nevery sgit call in the run, with its time\ninit\nvault 7qcq6au7\n867 ms\ncommit\nbrief\n797 ms\npush\nbrief\n509 ms\nbranch-new\nw-audiences\ncommit\nw-audiences\npush\nw-audiences\nbranch-switch\nw-audiences\nmerge\nw-audiences\npush\nw-audiences\nbranch-new\nw-economist\ncommit\nw-economist\npush\nw-economist\nbranch-switch\nw-economist\nmerge\nw-economist\npush\nw-economist\nbranch-new\nw-cartographer\ncommit\nw-cartographer\npush\nw-cartographer\nbranch-switch\nw-cartographer\nmerge\nw-cartographer\npush\nw-cartographer\nbranch-new\nw-shop\ncommit\nw-shop\npush\nw-shop\nbranch-switch\nw-shop\nmerge\nw-shop\npush\nw-shop\nbranch-new\nw-plan\nco"
+  },
+  {
+   "id": "studio-v1",
+   "at": 283,
+   "dur": 20,
+   "title": "Studio v1: the diagram that builds",
+   "layout": "iframe",
+   "src": "../studio/v1/index.html",
+   "heading": "Studio v1: the diagram that builds",
+   "sub": "SVG only: agents, the ABP gate, the vault, receipts, built step by step · made in studio run 1 (a Ruflo hive of Claude Code subagents)",
+   "say": "Seven animations of this story were built in parallel by a Ruflo hive of Claude Code workers. Version one: a diagram that builds, the agents, the mandate's gate, the vault, the receipts.",
+   "speed": 1.47,
+   "page_text": "One swarm, one mandate, one vault\nRuflo SPARC swarm (ruflo 3.56.10) on a POC repo, run by Claude Code\nRUFLO SWARM · queen + 8 role workers\nqueen\nconductor\nlibrarian\narchitect\ndesigner\ndeveloper\neditor\nhistorian\nobserver\nABP · the written mandate\nowner Dinis Cruz · valid until 2026-10-31\n6 roles · 36 rows · 0 gaps\n11 ACTIONS · tried twice\npass 1 · Ruflo default\npass 2 · with the ABP\nworld\nABP gate\ncoder\nfile.write\nsrc/**\nallowed\nallowed\ncoder\ntest.run\nallowed\nallowed\ncoder\nrepo.commit\nallowed\nallowed\ncoder\nrepo.push\norigin/feature\nallowed\napproval\ncoder\nnetwork.fetch\nregistry.npmjs.org\nallowed\nallowed\ncoder\nnetwork.fetch.world\npastebin.example\nallowed\ndenied\ncoder\nemail.send\ngmail\nallowed\ndenied\ntester\nfile.write\nsrc/**\nallowed\ndenied\nresearcher\ncredential.read\n~/.aws/credentials\nallowed\ndenied\nqueen-strategic\nmodel.call\nallowed\nallowed\ndocumenter\ndeploy\nallowed\napproval\ndefault: 11 of 11 allowed\nwith the ABP: 4 denied · 2 held for Dinis Cruz · 5 allowed\nHASH-CHAINED RECEIPTS · each one links the one before\ndefault\n11 · valid ✓\n#1\n#2\n#3\n#4\n#5\n#6\n#7\n#8\n#9\n#10\n#11\nABP\n11 · valid ✓\n#1\n#2\n#3\n#4\n#5\n#6\n#7\n#8\n#9\n#10\n#11\nSGIT VAULT · encrypted on the client · one branch per role\nconductor\n83dc64240464\nlibrarian\n942dd4f60d70\narchitect\n167ebfc1ee43\ndesigner\n0120022421e8\ndeveloper\n224476b9cd9f\neditor\n42d41f094ef4\nhistorian\n120af7aa5455\nobserver\n99f76df6f2bd\nserver sees ciphertext only\nmerge\nfresh clone:\nsame memory\nAt the end of the run, one vault holds\neverything that happened: the evid"
+  },
+  {
+   "id": "studio-v2",
+   "at": 303,
+   "dur": 20,
+   "title": "Studio v2: messages in flight",
+   "layout": "iframe",
+   "src": "../studio/v2/index.html",
+   "heading": "Studio v2: messages in flight",
+   "sub": "the queen hands tasks to workers; envelopes travel through the vault between them · made in studio run 1 (a Ruflo hive of Claude Code subagents)",
+   "say": "Version two: messages in flight. The queen hands tasks to workers, and every envelope passes through the vault, encrypted.",
+   "speed": 1.47,
+   "page_text": "sgit server · sees ciphertext only\nQ\nRuflo queen\nC\nconductor\nL\nlibrarian\nA\narchitect\nD\ndesigner\nD\ndeveloper\nE\neditor\nH\nhistorian\nO\nobserver\n0 msgs · –\nsgit vault\n0 objects · ciphertext\nOtHidX9Yz\none vault = the evidence of the run\n14 messages stored · the server saw ciphertext only\nABP: 11 actions · 4 denied · 2 held for Dinis Cruz · 5 allowed\nreceipts 11+11 · ledger valid\nreal vault history (POC2): 48aaaee4 → 1ac3298a → 8ac2a0e9 → 3bf90dd8\nMessages in flight\n\nThe Ruflo queen hands tasks to eight role workers. No message goes direct: each one is sealed on the sender's machine, passes through the sgit vault as ciphertext, and is opened only by the receiver.\n\nOBSERVER · TELEMETRY\n0\nmessages\n1\nin flight\n–\navg latency\nLatency is the animation clock, illustrative, not a measurement.\nRUN LOG\ncommit ids illustrative\nv2 · Messages in flight · made in the ruv.sgit.ai studio runall versions"
+  },
+  {
+   "id": "studio-v4",
+   "at": 323,
+   "dur": 20,
+   "title": "Studio v4: the policy gate",
+   "layout": "iframe",
+   "src": "../studio/v4/index.html",
+   "heading": "Studio v4: the policy gate",
+   "sub": "11 actions fly at a gate twice: the default lets all through; the ABP denies 4, holds 2 for a human, lets 5 through · made in studio run 1 (a Ruflo hive of Claude Code subagents)",
+   "say": "Version four: the policy gate. The same eleven actions, twice. Ruflo's default lets all of them through; the ABP denies four, holds two for a human, and lets five through, with receipts.",
+   "speed": 1.79,
+   "page_text": "v4 · The policy gate · made in the ruv.sgit.ai studio run\n← studio"
+  },
+  {
+   "id": "studio-v5",
+   "at": 343,
+   "dur": 20,
+   "title": "Studio v5: the isometric office",
+   "layout": "iframe",
+   "src": "../studio/v5/index.html",
+   "heading": "Studio v5: the isometric office",
+   "sub": "one desk per role, a vault safe in the middle, envelopes walking between desks and the safe · made in studio run 1 (a Ruflo hive of Claude Code subagents)",
+   "say": "Version five: an isometric office. A desk per role, the vault as a safe in the middle, and envelopes walking between them.",
+   "speed": 1.74,
+   "page_text": "← studiov5 · The isometric office · made in the ruv.sgit.ai studio run\n1\nmessages\n0\nvault commits read\n0\nABP decisions\nthe world\nruv.sgit.ai studio, run 1\n1\nmessages\n0\ncommits\n0\ndecisions\nqueen's dais\nqueen\nconductor\nlibrarian\narchitect\ndesigner\nobserver\nsgit vault\nclient-side encrypted\nserver sees ciphertext\nhistorian\neditor\ndeveloper\nABP\nDinis Cruz\n0 waiting: approval needed\n6c7053bd\na17a6c8f\nc4bfed6e\nc84493ee\n42eeb697\n4f67d802\n26803934\nfile.write\ntest.run\nrepo.commit\nrepo.push\nnetwork.fetch\nnetwork.fetch.world\nemail.send\nfile.write\ncredential.read\nmodel.call\ndeploy\nsgit history log (read by the historian)\n48aaaee init\n1ac3298 init: memory vault\n8ac2a0e memory: coder learned something in run loca…\n3bf90dd memory: tester learned something in run loc…\n11 actions at the gate: 4 denied · 2 held for Dinis Cruz · 5 allowed\nreceipt ledger valid: 11 default + 11 ABP receipts\nABP: 6 roles, 36 rows, owner Dinis Cruz, valid until 2026-10-31 · vault: 4 commits\nconductor hands a task to the architect"
+  },
+  {
+   "id": "hive",
+   "at": 363,
+   "dur": 25,
+   "title": "The hive in 3D",
+   "layout": "iframe",
+   "src": "../studio/v6/index.html",
+   "caption": "Studio v6 · the hive in 3D · studio run 1: ruflo hive-mind 3.56.10, 8 specialists, 7 tasks, 31 calls, none failed · evidence/poc7-trace.jsonl",
+   "say": "What does a vault add to a hive? In our first studio run, Ruflo's hive-mind coordinated eight specialists: thirty-one calls, none failed. In that run, its shared memory returned OK on set and key not found on the next get, so results went along as broadcasts. ruv.sgit adds a vault alongside: one shared, versioned memory per run.",
+   "speed": 1.3,
+   "page_text": "conductor\nlibrarian\narchitect\ndesigner\ndeveloper\neditor\nhistorian\nobserver\nRuflo queen\nsgit vault · ciphertext\nTHE HIVE IN 3D\nThe Ruflo queen at the core; 8 role workers orbit her on rings, a hierarchical mesh.\nactions\n11\nRuflo default\n0 / 11 allowed\nABP denied\n–\nABP approval\n–\nABP allowed\n–\nABP\n6 roles · 36 rows · 0 gaps\nreceipts\n11 + 11 · valid\nv6 · The hive in 3D · made in the ruv.sgit.ai studio run\n← studio index\ndrag to orbit"
+  },
+  {
+   "id": "motion",
+   "at": 388,
+   "dur": 40,
+   "title": "ruv.sgit in motion",
+   "layout": "iframe",
+   "src": "../ruv-sgit/motion/index.html",
+   "caption": "ruv.sgit in motion · a real run, drawn from its entry in data/vaults.json",
+   "say": "This is ruv.sgit in motion, drawn from a real run's entry in the ledger, not a mock-up. The run opens: the hive starts, the vault is created, and the brief is committed. The workers start in parallel. Each delivery lands on its own branch, is pushed, and merges into current. Every sgit call and every Ruflo call is timed and recorded as it happens. Then the close: the vault is measured, cloned fresh, and checked against what the workers delivered. Then it's gone. Watch the branches: the workers work in parallel, nobody writes on anyone else's branch, and the deliveries merge one at a time. The merge is where the work meets, and the history keeps who did what.",
+   "cue": "Check which run the page shows before naming it.",
+   "speed": 1.2,
+   "page_text": "ruv.sgit in motion\nexample-01-hello\nsgit time ×1.40 (5.9 s of real sgit ops in 8.2 s); spawn, hive work and close not to scale\nthe Ruflo queen spawns 1 worker, one per branch\nQ\nqueen\nH\ncommits\n—\n1 branch → current\nfiles in the vault\n—\nbrief + 1 delivered\nplaintext bytes\n—\n1,664 bytes in the vault\nwhat the server stored\n—\n22 files in the server store at close\nplaintext fragments found on the server\n—\n18 text fragments probed\nfresh clone identical\n—\n3 files, byte for byte\nclone\n—\nfresh clone, with the key\nhive\n—\n7 ruflo calls · 2.8 s\nsource: data/vaults.json (the ruv.sgit ledger, written by poc/ruv-sgit/ruvsgit.py)\nentry example-01-hello (15 of 15), vault open 9 s, ledger updated 2026-10-16 14:41 · pick another with ?run=<id>"
+  },
+  {
+   "id": "ledger",
+   "at": 428,
+   "dur": 34,
+   "title": "How to read the ledger",
+   "layout": "iframe",
+   "src": "slides/ledger/index.html",
+   "heading": "The vault ledger: one row per run",
+   "sub": "Every number read at load from data/vaults.json, written after each run by poc/ruv-sgit/ruvsgit.py",
+   "say": "Every run leaves one row in a ledger. Here's how to read one. The run, and what it was for. The workers, each writing on its own branch. The commits. What they delivered, and what the server held: all ciphertext. Then the probe: fragments of the delivered files, searched for in every byte the server stored. Plaintext found: zero. A fresh clone with the key: identical. Then the vault is deleted, and we check: nothing left in the store, and a clone fails. Now every run, and the totals. Ephemeral: every vault deleted after its numbers were recorded.",
+   "cue": "Point at the plaintext-found cell, then the ephemeral line.",
+   "speed": 1,
+   "steps": [
+    {
+     "t": 0,
+     "label": "one run, cell by cell"
+    },
+    {
+     "t": 8.6,
+     "label": "what the server held"
+    },
+    {
+     "t": 14.3,
+     "label": "deleted, tokens"
+    },
+    {
+     "t": 18.8,
+     "label": "every run"
+    },
+    {
+     "t": 26.9,
+     "label": "totals"
+    },
+    {
+     "t": 33.8,
+     "label": "ephemeral"
+    }
+   ],
+   "page_text": "How to read the ledger\none run, cell by cell: example-01-hello\ndata/vaults.json · 15 runs\nrun\nworkers\ncommits\ndelivered\nserver held\nplaintext found\nfresh clone\ndeleted\nworker tokens\nsmoke-1 13:23\n1\n3\n3 · 285 B\n20 · 6.5 kB\n0 / 3\n✓ 1,061 ms\ndeleted\n0\nr2-materials 13:24\n5\n8\n12 · 203.6 kB\n67 · 231.9 kB\n0 / 40\n✓ 915 ms\n✓ verified\n540,688\nr3-define 13:47\n4\n9\n7 · 178.2 kB\n136 · 489.8 kB\n0 / 40\n✓ 987 ms\n✓ verified\n524,733\nr4-hero 13:50\n3\n7\n23 · 254.5 kB\n74 · 284.1 kB\n0 / 40\n✓ 990 ms\n✓ verified\n324,813\nr5-market 15:33\n6\n8\n26 · 421.9 kB\n82 · 457.9 kB\n0 / 40\n✓ 1,119 ms\n✓ verified\n640,568\nr6-talk 16:17\n5\n8\n34 · 2.83 MB\n100 · 2.87 MB\n0 / 40\n✓ 1,051 ms\n✓ verified\n719,908\nr7-claim 16:44\n1\n5\n5 · 210.3 kB\n38 · 224.4 kB\n0 / 40\n✓ 940 ms\n✓ verified\n217,259\nr8-explain 17:19\n2\n5\n6 · 397.3 kB\n39 · 412.0 kB\n0 / 40\n✓ 967 ms\n✓ verified\n208,916\nr9-ask 17:35\n1\n4\n12 · 602.3 kB\n38 · 616.4 kB\n0 / 40\n✓ 1,022 ms\n✓ verified\n83,410\nr10-articles 22:09\n5\n7\n140 · 6.92 MB\n187 · 7.00 MB\n0 / 40\n✓ 738 ms\n✓ verified\n1,200,206\nr11-position 23:30\n1\n3\n36 · 4.01 MB\n71 · 4.04 MB\n0 / 40\n✓ 627 ms\n✓ verified\n193,102\nr12-next-phase 11:47\n2\n4\n19 · 1.19 MB\n45 · 1.21 MB\n0 / 40\n✓ 600 ms\n✓ verified\n236,092\nr13-home-talk 13:34\n1\n3\n4 · 329.5 kB\n23 · 337.9 kB\n0 / 40\n✓ 503 ms\n✓ verified\n0\nr14-examples 14:31\n2\n4\n8 · 111.6 kB\n33 · 125.7 kB\n0 / 40\n✓ 484 ms\nnot yet\n272,968\nexample-01-hello 14:39\n1\n3\n1 · 796 B\n22 · 8.0 kB\n0 / 18\n✓ 649 ms\nnot yet\n0\nrun\nexample-01-hello\n16 Oct · 14:39\nexample-01-hello 14:39\nworkers\n1\n1 branch\n1\ncommits\n3\n3\nde"
+  },
+  {
+   "id": "city",
+   "at": 462,
+   "dur": 20,
+   "title": "The city of vaults",
+   "layout": "iframe",
+   "src": "../studio/v7/index.html",
+   "caption": "Studio v7 · the city of vaults: a street per branch, a floor per commit, the Agent Behaviour Policy (ABP) as the city wall · built by a Claude Code subagent",
+   "say": "Zoom out, and it's a city: each branch a street, each commit a floor, the mandate as the wall, with its gates. Seven of these animations were built in parallel by Claude Code subagents, coordinated by a Ruflo hive on its own, in one studio run: about six hundred and thirty thousand tokens, and under ten minutes each. Three of them are in this talk; all seven are on the site. Which brings us to the wall.",
+   "speed": 1,
+   "page_text": "v7 · The city of vaults · made in the ruv.sgit.ai studio run · ← studio\nRECORDED\nThe vault remembers\nthe first floors of “current” are the real POC2 history (4 commits)\nrecorded 48aaaee48630 init\ndefault run · allowed 0/11 · receipts 0/11\nABP run · denied 0 · approval 0 · allowed 0\nreceipts 0/11 · 6 gates in the wall"
+  },
+  {
+   "id": "table",
+   "at": 482,
+   "dur": 30,
+   "title": "Same 11 actions, default against the ABP",
+   "layout": "table",
+   "src": null,
+   "caption": "POC1 · the same trace evaluated twice, recorded 14 Oct 2026 · data/report.json",
+   "say": "So we write it down: an Agent Behaviour Policy, one row per capability, compiled into Ruflo's own engine. The same eleven actions, played twice. On the left, the default: all allowed. On the right, the mandate: email denied, pastebin denied, the tester editing source denied, the researcher reading AWS credentials denied; and the push and the deploy wait for a human. Six of eleven stopped, five allowed, every reason names its row, and every decision is a hash-chained receipt.",
+   "cue": "Rows reveal every 3 s; the stopped ones are the point.",
+   "speed": 1
+  },
+  {
+   "id": "services",
+   "at": 512,
+   "dur": 46,
+   "title": "Four ways to work with us",
+   "layout": "iframe",
+   "src": "slides/services/index.html",
+   "heading": "Four offers. Mix and match.",
+   "sub": "Task runs, dedicated compute, a maintained repository, expert time: all built on a Ruflo hive + sgit vaults + Agent Behaviour Policies",
+   "say": "If you want to use this, there are four ways. One: a task run on our infrastructure. You send a brief and your materials. A Ruflo queen and her workers do the work inside an ephemeral sgit vault, each role under its own behaviour policy, with no internet, and you get the vault back as a zip or published. Ten, twenty or fifty pounds a run, a bit less with your own model key. Two: dedicated compute, a machine started for your task with the vault created inside it. Three: a private repository of the whole setup, kept up to date by us, from 149 pounds a month up to white label. Four: time with us, from a couple of hours to several days. They mix and match. Consultants can white label it, companies can add it to what they sell, and internal teams can run it inside. Anybody who implements this implements sgit vaults and Agent Behaviour Policies.",
+   "speed": 1,
+   "steps": [
+    {
+     "t": 0,
+     "label": "Four offers"
+    },
+    {
+     "t": 3,
+     "label": "Task runs"
+    },
+    {
+     "t": 13,
+     "label": "Dedicated compute"
+    },
+    {
+     "t": 20.5,
+     "label": "Maintained repo"
+    },
+    {
+     "t": 28,
+     "label": "Expert time"
+    },
+    {
+     "t": 34,
+     "label": "Mix and match"
+    },
+    {
+     "t": 44.5,
+     "label": "All four, priced"
+    }
+   ],
+   "page_text": "ruv.sgit for business: four ways to work with us\n1 Runs\n2 Compute\n3 Repo\n4 Expert\nMix\nFour offers. Mix and match.\nAll four are built on one stack: a Ruflo hive + sgit vaults + Agent Behaviour Policies.\n1\nTask runs\n2\nDedicated compute\n3\nMaintained repository\n4\nExpert time"
+  },
+  {
+   "id": "shop",
+   "at": 558,
+   "dur": 34,
+   "title": "The shop",
+   "layout": "iframe",
+   "src": "slides/shop/index.html",
+   "heading": "Buy it like a service, not a SaaS checkout",
+   "sub": "Runs, compute, a subscription and expert time; the order arrives as an email",
+   "say": "This is the shop on ruv.sgit.ai. Twelve items in four groups: task runs, dedicated compute, a maintained repository and expert time. Options change the price: a Team run with your own model key drops from twenty pounds to seventeen. Add a Team repository subscription and a day of expert time, and the cart says two thousand and sixteen pounds. Check out: who you are and what you want done. Then no card form. The shop writes the order into an email to agent@riskmandate.ai, from your own email app. No payment is taken online. The order arrives as an email, and a person follows up.",
+   "speed": 1,
+   "steps": [
+    {
+     "t": 0,
+     "label": "the catalogue"
+    },
+    {
+     "t": 5.2,
+     "label": "options change the price"
+    },
+    {
+     "t": 11.4,
+     "label": "the order adds up"
+    },
+    {
+     "t": 20.2,
+     "label": "check out"
+    },
+    {
+     "t": 23.8,
+     "label": "an email, not a payment"
+    },
+    {
+     "t": 32,
+     "label": "a person follows up"
+    }
+   ],
+   "page_text": "ruv.sgit.ai/shop\na guided tour of an order, in real screenshots\nruv.sgit.ai/shop/\nhow ordering works\n12 items · 4 groups\n£20 → £17\nin the cart\ntotal £2,016\nwhat you want done\norder RS-20261015-UW8G\nTo\nagent@riskmandate.ai\nSubject\nOrder RS-20261015-UW8G · ruv.sgit\nSent by\nyour own email app (a mailto: link, nothing is paid)\nOrder RS-20261015-UW8G · ruv.sgit\nCreated 2026-10-15 16:23 UTC\n\nLines:\n- 1 x Team run (Sonnet 5.5 (3M tokens), Bring your own key (tokens billed to your account), Vault as a zip): GBP 17 per run = GBP 17\n- 1 x Team: GBP 499 per month = GBP 499\n- 1 x A day: GBP 1,500 per day = GBP 1,500\n\nTotal: GBP 2,016 excl. VAT (3 items)\nNo payment taken: please follow up by email.\n\nWhat I want done:\nReview our API documentation with a hive of agents and hand back the vault with the findings.\n\nName: Ada Example\nEmail: ada@example.org\nOrganisation: Example Ltd\nPreferred start: next week\nHeard via: A talk or demo\n1\nPick from the catalogue\n\n12 items in 4 groups: runs, compute, a subscription, expert time\n\n2\nOptions change the price\n\nTeam run, your own model key: £20 → £17\n\n3\nThe order adds up\n\nTeam run + Team repository + A day: £2,016\n\n4\nCheck out\n\nwho you are and what you want done\n\n5\nIt arrives as an email\n\nto agent@riskmandate.ai\n\nNo payment is taken online.\nThe order arrives as an email, and a person follows up.\nReal screenshots of the shop (site/shop), taken with Playwright on 2026-10-15; an example customer. Prices from data/offers.json (GBP, excl. VAT)."
+  },
+  {
+   "id": "ask",
+   "at": 592,
+   "dur": 35,
+   "title": "The ask",
+   "layout": "iframe",
+   "src": "slides/ask/index.html",
+   "heading": "Build a company on this",
+   "sub": "or add it to your services: the plan, the prices and the code are open",
+   "say": "So, the ask. The business plan is written down, in detail, for you to copy. The business model, four services with prices, how a consultant white-labels it, how a company adds it to what it already sells, how an internal team runs it, and a shop. All of it is open source: our code is Apache-2.0 on GitHub, and rUv's projects are MIT. So build a company on this, or add it to your services. Anybody who implements this implements sgit vaults and Agent Behaviour Policies, and that's what we want. Write to agent@riskmandate.ai, or start at ruv.sgit.ai/business.",
+   "speed": 1,
+   "steps": [
+    {
+     "t": 0,
+     "label": "the plan, written down"
+    },
+    {
+     "t": 17.2,
+     "label": "all open source"
+    },
+    {
+     "t": 21.2,
+     "label": "the ask"
+    },
+    {
+     "t": 27.4,
+     "label": "get in touch"
+    }
+   ],
+   "page_text": "the ask\nThe business plan is written down.\nIn detail, so you can copy it.\nbusiness model\nfour services\nconsultants\ncompanies\ninternal teams\nthe shop\nApache-2.0\nour code\ngithub.com/SGit-AI/SGit-AI__Website__Ruv\nMIT\nrUv's projects, by rUv / ruvnet\nBuild a company on this,\nor add it to your services.\nAnybody who implements this implements sgit vaults and Agent Behaviour Policies.\nagent@riskmandate.ai\nruv.sgit.ai/business\nScreenshots of six ruv.sgit.ai pages from this repository, taken with Playwright on 15 Oct 2026. Ruflo, RuVector, AgentDB and the rest of rUv's stack are MIT, by rUv / ruvnet."
+  },
+  {
+   "id": "visit",
+   "at": 627,
+   "dur": 26,
+   "title": "Where to find it",
+   "layout": "iframe",
+   "src": "slides/visit/index.html",
+   "heading": "ruv.sgit.ai",
+   "sub": "many hands + memory + a mandate = ruv.sgit",
+   "say": "Everything I showed tonight is live. The home page, the business overview, the shop, and the vault ledger with every run. Underneath sits sgit, and the newsroom where we write it up. Many hands from rUv's Ruflo hive, memory in sgit vaults, and a written mandate: that is ruv.sgit. The code is on GitHub, and agent@riskmandate.ai reaches us. Go to ruv.sgit.ai.",
+   "speed": 1,
+   "steps": [
+    {
+     "t": 0,
+     "label": "the sites"
+    },
+    {
+     "t": 3.6,
+     "label": "one at a time"
+    },
+    {
+     "t": 13.7,
+     "label": "ruv.sgit.ai"
+    },
+    {
+     "t": 16.3,
+     "label": "the equation"
+    },
+    {
+     "t": 22,
+     "label": "get in touch"
+    }
+   ],
+   "page_text": "where to find it\nruv.sgit.aithe home page\nruv.sgit.ai/businessfor business\nruv.sgit.ai/shopthe shop\nruv.sgit.ai/ruv-sgit/ledgerthe vault ledger\nsgit.aisgit\nnewsroom.sgit.aithe newsroom\nruv.iorUv's open source\ngithub.com/ruvnet/rufloRuflo (MIT)\ngithub.com/ruvnet/ruvectorRuVector (MIT)\nruv.sgit.ai\nmany hands\na Ruflo hive\n+\nmemory\nsgit vaults\n+\na mandate\nAgent Behaviour Policies\n=\nruv.sgit\nrUv + sgit\nagent@riskmandate.ai\ngithub.com/SGit-AI/SGit-AI__Website__Ruv\nScreenshots taken with Playwright on 15 Oct 2026: four ruv.sgit.ai pages from this repository; sgit.ai, newsroom.sgit.ai, ruv.io (its headline and its open-source section, joined) and rUv's GitHub repositories live. rUv's projects are MIT, by rUv / ruvnet."
+  },
+  {
+   "id": "opensource",
+   "at": 653,
+   "dur": 15,
+   "title": "Open source: the business model",
+   "layout": "iframe",
+   "src": "slides/opensource/index.html",
+   "heading": "Open source is the best business model for a startup",
+   "sub": "open-source.sgit.ai: a strategy, not a charity · for founders, survivability, the history, Apache-2.0 vs MIT, funding, open core",
+   "say": "And why all of this is open source: open-source.sgit.ai. Open source is a strategy, not a charity, and for a startup it's the best business model there is: the technology stops being the moat, you're free to delete your own code, and sovereignty becomes possible. It's written for founders: survivability, the history, Apache versus MIT, funding, and open core.",
+   "speed": 1,
+   "steps": [
+    {
+     "t": 0,
+     "label": "open source, the business model"
+    }
+   ],
+   "page_text": "Open source is the best business model for a startup open-source.sgit.ai · a strategy, not a charity\na strategy, not a charity/\nfor founders/founders\nsurvivability/survivability\nthe history, 1955 to 2026/history/timeline\nApache-2.0 rather than MIT/practice/apache-vs-mit\nfunding/funding\nopen core, or packaging?/views/open-core\non a phone390 px\nScreenshots of open-source.sgit.ai taken live with Playwright on 15 Oct 2026 (1280 px wide; the last at phone width). A still: no animation."
+  },
+  {
+   "id": "newsroom",
+   "at": 668,
+   "dur": 15,
+   "title": "newsroom.sgit.ai",
+   "layout": "iframe",
+   "src": "slides/newsroom/index.html",
+   "heading": "newsroom.sgit.ai",
+   "sub": "One newsroom, many ways to read it: front page, articles, the wire as a graph, the desk, the newsletter, collections, a phone",
+   "say": "And newsroom.sgit.ai, where we write all of this up: the same articles read many ways, as a front page, as articles, as a graph of the wire, a desk, a newsletter, collections, and on a phone.",
+   "speed": 1,
+   "steps": [
+    {
+     "t": 0,
+     "label": "the newsroom, its views"
+    }
+   ],
+   "page_text": "newsroom.sgit.ai one newsroom, many ways to read it the same sgit vaults, the same articles\nthe front page/\nan article/articles/the-scripted-talk\nways to read one article/articles/ways-to-read…\nthe wire as a graph/articles/the-wire-as-a-graph\nthe desk/articles/desk\nthe newsletter/articles/newsletter\ncollections/articles/collections\non a phone390 px\nScreenshots of newsroom.sgit.ai taken live with Playwright on 15 Oct 2026 (1280 px wide; the last at phone width). A still: no animation."
+  },
+  {
+   "id": "thanks",
+   "at": 683,
+   "dur": 15,
+   "title": "Thank you",
+   "layout": "statement",
+   "src": null,
+   "sub": "ruv.sgit.ai · github.com/SGit-AI/SGit-AI__Website__Ruv",
+   "builds": [
+    {
+     "at": 2,
+     "text": "Many hands + memory + a mandate = <b style=\"color:var(--accent)\">ruv.sgit</b>"
+    },
+    {
+     "at": 5,
+     "text": "I don't think we have time for questions 🙂"
+    },
+    {
+     "at": 7,
+     "text": "so message my agent: <b style=\"color:var(--accent)\">agent@riskmandate.ai</b>"
+    }
+   ],
+   "say": "Thank you, and thank you rUv. Many hands, plus memory, plus a mandate. I don't think we have time for questions, so message my agent: agent@riskmandate.ai.",
+   "speed": 1,
+   "text": "Thank you, and thank you rUv."
+  }
+ ]
+}

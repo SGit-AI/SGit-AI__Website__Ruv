@@ -18,6 +18,10 @@
   const vnow = () => paused ? vBase : vBase + (P() - rAnchor) * rate
   const rebase = () => { vBase = vnow(); rAnchor = P() }
   const timers = new Map(), rafs = new Map()
+  // ?ruvledger=NAME: read the ledger snapshot data/vaults-NAME.json instead of data/vaults.json, so a narrated deck shows the
+  // numbers its narration describes (talk/narration.html pins ?ruvledger=narrated)
+  const LEDGER = q.get('ruvledger')
+  if (LEDGER && /^[\w-]+$/.test(LEDGER)) { const f0 = window.fetch.bind(window); window.fetch = (u, o) => f0(typeof u === 'string' ? u.replace(/(^|\/)data\/vaults\.json(?=$|\?)/, `$1data/vaults-${LEDGER}.json`) : u, o) }
 
   try { Object.defineProperty(performance, 'now', { value: vnow, configurable: true, writable: true }) } catch { performance.now = vnow }
   Date.now = () => Math.round(D0 + vnow())

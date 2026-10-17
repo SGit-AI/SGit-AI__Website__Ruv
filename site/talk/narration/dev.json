@@ -1,0 +1,1204 @@
+{
+ "persona": "dev",
+ "label": "Developer",
+ "voice": "For developers: plain, exact and mechanical; names the commands, files and keys handling, says what ran and what it printed.",
+ "words_per_minute": 150,
+ "beats": [
+  {
+   "id": "open",
+   "paras": [
+    {
+     "at": 0,
+     "text": "This is Dinis Cruz's talk, retold for developers. The equation on screen was built by agents: run r3-define, a Ruflo hive whose Claude Code workers shared one ephemeral sgit vault.",
+     "notes": {
+      "screen": "The equation page: a Ruflo hive, plus sgit vaults, plus Agent Behaviour Policies, equals ruv.sgit; panels with their numbers.",
+      "from": "speaker's line; cue: made by run r3-define",
+      "sources": [
+       "site/talk/narration/beats.json",
+       "site/talk/talk-10.json",
+       "site/data/vaults.json"
+      ]
+     }
+    },
+    {
+     "at": 15,
+     "text": "Many hands: five workers and a queen. A memory: the server held zero of forty probed fragments. A mandate: four of eleven actions denied in POC1.",
+     "notes": {
+      "screen": "The three panels: 5 workers in parallel; 0/40 probed fragments; 4/11 denied (POC1).",
+      "from": "page text of the equation",
+      "sources": [
+       "site/data/vaults.json",
+       "site/data/report.json",
+       "evidence/poc1-report.md"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "claim",
+   "paras": [
+    {
+     "at": 0,
+     "text": "The claim, in four cells.",
+     "notes": {
+      "screen": "Title: Autonomy goes further with a memory and a mandate.",
+      "from": "step 'the claim'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 2.6,
+     "text": "Encrypted at the agent: zero plaintext found on the server, in fifteen runs.",
+     "notes": {
+      "screen": "ENCRYPTED: 0 plaintext found on the server, 541 fragments probed, 15 runs.",
+      "from": "step 'encrypted'",
+      "sources": [
+       "site/data/vaults.json"
+      ]
+     }
+    },
+    {
+     "at": 8,
+     "text": "Versioned: eighty one commits on fifty one branches, one per worker.",
+     "notes": {
+      "screen": "VERSIONED: 81 commits on 51 branches.",
+      "from": "step 'versioned'",
+      "sources": [
+       "site/data/vaults.json"
+      ]
+     }
+    },
+    {
+     "at": 12.2,
+     "text": "Scoped to one run: thirteen of fifteen vaults deleted.",
+     "notes": {
+      "screen": "SCOPED TO ONE RUN: 13 of 15 vaults measured, then deleted.",
+      "from": "step 'scoped to one run'",
+      "sources": [
+       "site/data/vaults.json"
+      ]
+     }
+    },
+    {
+     "at": 15.8,
+     "text": "A written mandate: six of eleven actions stopped by Ruflo's own engine.",
+     "notes": {
+      "screen": "A WRITTEN MANDATE: 6 of 11 actions stopped; 4 denied, 2 sent to a human.",
+      "from": "step 'a written mandate'",
+      "sources": [
+       "site/data/report.json",
+       "evidence/poc1-report.md"
+      ]
+     }
+    },
+    {
+     "at": 21,
+     "text": "Tonight: mostly the memory.",
+     "notes": {
+      "screen": "Tonight is mostly about the memory.",
+      "from": "step 'the memory'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "stack",
+   "paras": [
+    {
+     "at": 0,
+     "text": "rUv's stack as an image model drew it. Then the same picture, rebuilt the ruv.sgit way.",
+     "notes": {
+      "screen": "An AI infographic of rUv's stack; at 3.5 s the line: but that was before we had ruv.sgit.",
+      "from": "speaker's line and the slide's build",
+      "sources": [
+       "site/talk/talk-10.json"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "stack-ruv",
+   "paras": [
+    {
+     "at": 0,
+     "text": "RVM; then RuVector, which we ran as WASM in a browser.",
+     "notes": {
+      "screen": "The stack, bottom rows: RVM, the capability VM; RuVector 0.3.3 with @ruvector/wasm 0.2.1.",
+      "from": "step 'RVM, RuVector'",
+      "sources": [
+       "site/talk/narration/beats.json",
+       "evidence/wasm-browser.txt",
+       "scripts/offline.sh"
+      ]
+     }
+    },
+    {
+     "at": 4.6,
+     "text": "Then Ruflo, the orchestrator, with its own policy engine; MetaHarness, which assembles a harness; then the hosts.",
+     "notes": {
+      "screen": "Ruflo 3.56.10 (hive-mind, policy engine legacy, observe, enforce), MetaHarness 0.4.17, the hosts.",
+      "from": "step 'Ruflo, MetaHarness, hosts'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 12,
+     "text": "Plug point one: a vault around memory files.",
+     "notes": {
+      "screen": "Marker 1: an sgit vault around the memory files (POC2).",
+      "from": "step 'sgit: the memory vault'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 15,
+     "text": "Two: one ephemeral vault per hive run. Three: an ABP compiled into enforce mode.",
+     "notes": {
+      "screen": "Markers 2 and 3: one ephemeral vault per hive run; an ABP compiled into enforce mode (POC1).",
+      "from": "step 'The hive, the policy engine'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 21,
+     "text": "All MIT.",
+     "notes": {
+      "screen": "rUv's stack: complete, and all MIT.",
+      "from": "step 'Complete, all MIT'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "ruvector",
+   "paras": [
+    {
+     "at": 0,
+     "text": "RuVector's README, read on the fifteenth of October.",
+     "notes": {
+      "screen": "A screenshot of RuVector's README, Security and governance.",
+      "from": "step 'The README'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 4,
+     "text": "Tamper evident witness logs, snapshots, copy-on-write branches. And it states plainly that logs do not encrypt memory content, and a delete does not automatically remove every copy.",
+     "notes": {
+      "screen": "What RuVector secures: the quoted README lines on witness logs, snapshots and branches, retention and erasure.",
+      "from": "step 'What RuVector secures'; the README quotes on screen",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 15.5,
+     "text": "sgit encrypts first, on the client: zero of four hundred and eighty probes found.",
+     "notes": {
+      "screen": "SGIT ADDS: content encrypted on the client, AES-256-GCM; 0 of 480 probed fragments, 12 runs.",
+      "from": "step 'sgit: encrypted'",
+      "sources": [
+       "site/data/vaults.json"
+      ]
+     }
+    },
+    {
+     "at": 21,
+     "text": "A history you push, merge and clone.",
+     "notes": {
+      "screen": "SGIT ADDS: a history shared across machines: pushed, merged, cloned.",
+      "from": "step 'sgit: shared history'",
+      "sources": [
+       "site/data/vaults.json"
+      ]
+     }
+    },
+    {
+     "at": 24,
+     "text": "One vault per run, deleted with it, then checked: no store paths left, a clone with the key fails. Twelve of twelve runs.",
+     "notes": {
+      "screen": "SGIT ADDS: one vault per run, deleted, 0 store paths left, a clone with the key fails, 12 of 12 runs.",
+      "from": "step 'sgit: deleted with the run'",
+      "sources": [
+       "site/data/vaults.json",
+       "poc/ruv-sgit/ruvsgit.py"
+      ]
+     }
+    },
+    {
+     "at": 33.5,
+     "text": "Both together: RuVector stores, sgit wraps.",
+     "notes": {
+      "screen": "RuVector is the memory substrate; sgit wraps the files.",
+      "from": "step 'Both, together'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "sgit",
+   "paras": [
+    {
+     "at": 0,
+     "text": "A vault is a folder, encrypted on the client. Whoever has the key has the memory: one secret, no reset.",
+     "notes": {
+      "screen": "A notes file on the left, AES-256-GCM, ciphertext on the server; 'one secret, no reset'.",
+      "from": "step 'Encrypted on the client'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 8.2,
+     "text": "Then the git verbs: sgit commit, sgit push, sgit branch merge, sgit clone. Medians around a second each.",
+     "notes": {
+      "screen": "Versioned like git: commit 848 ms, merge 928 ms, push 1044 ms, clone 940 ms.",
+      "from": "step 'Works like git'",
+      "sources": [
+       "site/data/vaults.json",
+       "poc/ruv-sgit/ruvsgit.py"
+      ]
+     }
+    },
+    {
+     "at": 15.6,
+     "text": "For agents: a fresh clone anywhere gets the whole history. Or go ephemeral, one vault per run.",
+     "notes": {
+      "screen": "Machines A and B, agent C, a CI runner around one vault; one vault per run, deleted, checked.",
+      "from": "step 'Why agents'",
+      "sources": [
+       "site/data/vaults.json"
+      ]
+     }
+    },
+    {
+     "at": 22.4,
+     "text": "Each agent on its own branch.",
+     "notes": {
+      "screen": "The three panels move into place.",
+      "from": "step 'Into place'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 25.5,
+     "text": "Medians of three hundred eighty one operations.",
+     "notes": {
+      "screen": "All three panels and the timings: medians of 381 sgit operations over 15 runs.",
+      "from": "step 'All three + timings'",
+      "sources": [
+       "site/data/vaults.json"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "abp",
+   "paras": [
+    {
+     "at": 0,
+     "text": "An ABP: one row per capability, per role.",
+     "notes": {
+      "screen": "The coder role's policy card: owner Dinis Cruz, valid until 31 October 2026.",
+      "from": "step 'a written mandate'",
+      "sources": [
+       "site/talk/narration/beats.json",
+       "abp/examples/ruflo-sparc-swarm.abp.json"
+      ]
+     }
+    },
+    {
+     "at": 4.6,
+     "text": "Grammar: verb, object, reach. Twenty three primitives.",
+     "notes": {
+      "screen": "Rows like read.file.project yes, send.message.world no, each with a why and a barrier.",
+      "from": "step 'mandate, why, barrier'",
+      "sources": [
+       "abp/vocabulary/capabilities.json",
+       "abp/mapping.json"
+      ]
+     }
+    },
+    {
+     "at": 8.5,
+     "text": "A compiler maps each row to a rule in Ruflo's AgenticPolicyEngine: thirty six rules.",
+     "notes": {
+      "screen": "Compiles into Ruflo's policy engine, enforce mode: 36 rules, 15 allow, 14 deny, 7 require approval, 6 roles.",
+      "from": "step 'compiled into Ruflo'",
+      "sources": [
+       "poc/poc1-abp-to-ruflo-policy/compile.mjs",
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 14,
+     "text": "Yes becomes allow, no becomes deny, approval becomes require approval; deny rules get priority one hundred, approvals ninety, allows ten. Then eleven actions hit the engine in enforce mode.",
+     "notes": {
+      "screen": "POC1: the eleven actions arrive one by one, allowed, denied or sent to a human.",
+      "from": "step 'actions hit it'",
+      "sources": [
+       "abp/mapping.json",
+       "poc/poc1-abp-to-ruflo-policy/compile.mjs",
+       "poc/poc1-abp-to-ruflo-policy/run.mjs",
+       "evidence/poc1-report.md"
+      ]
+     }
+    },
+    {
+     "at": 26,
+     "text": "Hash-chained receipts: valid.",
+     "notes": {
+      "screen": "Decision receipts, hash-chained, ledger length 11; 6 of 11 stopped.",
+      "from": "step 'enforced, with receipts'",
+      "sources": [
+       "evidence/poc1-report.md",
+       "site/data/report.json"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "ruv-sgit",
+   "paras": [
+    {
+     "at": 0,
+     "text": "Now a run, as the runner script does it. Open: ruflo hive-mind init, a spawn per worker, a task per deliverable, then sgit init on a local vault server, the brief as the first commit.",
+     "notes": {
+      "screen": "The hive layer: queen and five workers, tasks queued, 20 Ruflo calls; then the mandate layer replays POC1's decisions.",
+      "from": "cue: hive on top, mandate in the middle",
+      "sources": [
+       "poc/ruv-sgit/ruvsgit.py",
+       "site/data/vaults.json"
+      ]
+     }
+    },
+    {
+     "at": 13.5,
+     "text": "Deliver: branch new, commit, push; switch to current, merge, push. Six branches, one at a time.",
+     "notes": {
+      "screen": "The vault layer, run r2-materials: branches w-script, w-ledger, w-case, w-motion, w-editor and the conductor's fixes merging into current.",
+      "from": "cue: the vault below (r2-materials)",
+      "sources": [
+       "poc/ruv-sgit/ruvsgit.py",
+       "site/data/vaults.json"
+      ]
+     }
+    },
+    {
+     "at": 21,
+     "text": "Close: zero of forty probes, clone identical. Delete: one hundred thirty nine paths, none left.",
+     "notes": {
+      "screen": "Close, measure, delete: probe 0/40, fresh clone identical, 139 store paths, 0 left, clone after delete failed.",
+      "from": "the page's close panel",
+      "sources": [
+       "site/data/vaults.json",
+       "poc/ruv-sgit/ruvsgit.py"
+      ]
+     }
+    },
+    {
+     "at": 27.4,
+     "text": "The key never reaches the screen. sgit init prints it, the script moves it into a file with mode six hundred, and every clone takes it on standard input. Error messages are scrubbed of anything long enough to be a key.",
+     "notes": {
+      "screen": "The layers lay flat into the tagline: a Ruflo hive + sgit vaults + Agent Behaviour Policies.",
+      "from": "cue: the stack lays flat into the tagline; ruvsgit.py's secret() and scrub()",
+      "sources": [
+       "poc/ruv-sgit/ruvsgit.py"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "lanes",
+   "paras": [
+    {
+     "at": 0,
+     "text": "Studio version three, vault lanes, replaying the real POC2 history: sgit init, a default branch called current, a coder lane and a tester lane, each merged back.",
+     "notes": {
+      "screen": "Vault lanes: coder and tester lanes branching from current, commits 1ac3298a, 8ac2a0e9, 3bf90dd8, both merged.",
+      "from": "caption; page text 'real POC2 history'",
+      "sources": [
+       "evidence/poc2-history.json",
+       "poc/poc2-agent-memory-in-vault/run.sh",
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 13,
+     "text": "Then a fresh clone, and ruflo memory list shows one entry for each role. The server saw only ciphertext; the vault id is the only thing in the URL.",
+     "notes": {
+      "screen": "A fresh clone; terminal lines 'ruflo memory list -n coder' and '-n tester', each showing 1 of 1 entries; 'server sees: ciphertext'.",
+      "from": "cue: pause for the fresh clone; page text",
+      "sources": [
+       "evidence/poc2-run.txt",
+       "site/talk/narration/beats.json"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "history",
+   "paras": [
+    {
+     "at": 0,
+     "text": "Run r5-market's vault.",
+     "notes": {
+      "screen": "One run's vault, commit by commit: r5-market, vault 7qcq6au7.",
+      "from": "step 'the brief'",
+      "sources": [
+       "site/data/vaults.json"
+      ]
+     }
+    },
+    {
+     "at": 1.7,
+     "text": "The brief lands on current: commit seven hundred ninety seven milliseconds, push five hundred and nine. Then six worker branches, from two files up to the editor's twelve.",
+     "notes": {
+      "screen": "Commits appear: brief on current (commit 797 ms, push 509 ms), then w-audiences, w-economist, w-cartographer, w-shop, w-plan, w-editor (12 files).",
+      "from": "step 'six branches, six deliveries'",
+      "sources": [
+       "site/data/vaults.json"
+      ]
+     }
+    },
+    {
+     "at": 14.9,
+     "text": "The flow, mapped: per worker, branch new, commit, push, switch, merge, push. Eight commits, zero of forty fragments on the server.",
+     "notes": {
+      "screen": "sgit, op by op: every sgit call of the run with its time.",
+      "from": "step 'the flow, mapped'",
+      "sources": [
+       "site/data/vaults.json",
+       "poc/ruv-sgit/ruvsgit.py"
+      ]
+     }
+    },
+    {
+     "at": 24,
+     "text": "POC2: a coder and a tester wrote Ruflo memory into the vault; the folder was deleted, a fresh clone restored it, same answers.",
+     "notes": {
+      "screen": "POC2: memory, fresh clone.",
+      "from": "step 'POC2: memory, fresh clone'; speaker's line",
+      "sources": [
+       "evidence/poc2-run.txt",
+       "poc/poc2-agent-memory-in-vault/run.sh"
+      ]
+     }
+    },
+    {
+     "at": 34.5,
+     "text": "Every step, a commit.",
+     "notes": {
+      "screen": "Every step a commit.",
+      "from": "step 'every step a commit'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "studio-v1",
+   "paras": [
+    {
+     "at": 0,
+     "text": "Studio run one: seven animations, built in parallel by a Ruflo hive of Claude Code workers. Version one is plain SVG: agents, the ABP gate, the vault, receipts, building step by step.",
+     "notes": {
+      "screen": "Studio v1: the queen and eight role workers, the ABP gate, 11 actions tried twice, receipts, vault branches per role.",
+      "from": "speaker's line; slide sub",
+      "sources": [
+       "site/talk/narration/beats.json",
+       "site/talk/talk-10.json"
+      ]
+     }
+    },
+    {
+     "at": 14,
+     "text": "Each page loads one clock file first, so the player can pause and step it.",
+     "notes": {
+      "screen": "The diagram keeps building; receipts chain #1 to #11.",
+      "from": "the player's clock (site/assets/clock.js)",
+      "sources": [
+       "site/assets/clock.js",
+       "site/talk/player.html"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "studio-v2",
+   "paras": [
+    {
+     "at": 0,
+     "text": "Version two: messages in flight. Each envelope is sealed on the sender's side and crosses the vault as ciphertext.",
+     "notes": {
+      "screen": "Studio v2: the queen hands tasks to workers; envelopes pass through the sgit vault.",
+      "from": "speaker's line; page text",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 9,
+     "text": "That clock file swaps performance now, timers and requestAnimationFrame for one virtual clock, so this page runs at one point four seven times speed to fit the beat.",
+     "notes": {
+      "screen": "Envelopes in flight; the telemetry panel notes latency is the animation clock, illustrative.",
+      "from": "clock.js header; slide speed in talk-10.json",
+      "sources": [
+       "site/assets/clock.js",
+       "site/talk/talk-10.json"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "studio-v4",
+   "paras": [
+    {
+     "at": 0,
+     "text": "Version four: the policy gate. The same eleven actions, twice: Ruflo's legacy default lets all through; the compiled ABP denies four, holds two for a human, allows five.",
+     "notes": {
+      "screen": "Studio v4: eleven actions fly at a gate twice.",
+      "from": "speaker's line; slide sub",
+      "sources": [
+       "evidence/poc1-report.md",
+       "site/data/report.json"
+      ]
+     }
+    },
+    {
+     "at": 12,
+     "text": "Each outcome names the ABP row that decided it, and lands in a hash-chained receipt.",
+     "notes": {
+      "screen": "The second pass: four denied, two held, five through.",
+      "from": "POC1 reasons, e.g. denied-by:abp:coder:send.message.world",
+      "sources": [
+       "evidence/poc1-report.md"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "studio-v5",
+   "paras": [
+    {
+     "at": 0,
+     "text": "Version five: an isometric office. A desk per role, the vault as a safe in the middle, envelopes walking between them.",
+     "notes": {
+      "screen": "Studio v5: desks per role, the vault safe, envelopes walking.",
+      "from": "speaker's line",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 10,
+     "text": "The historian reads the real sgit history log: four commits from POC2.",
+     "notes": {
+      "screen": "The sgit history log panel: 48aaaee init, 1ac3298, 8ac2a0e, 3bf90dd.",
+      "from": "page text 'sgit history log (read by the historian)'",
+      "sources": [
+       "site/talk/narration/beats.json",
+       "evidence/poc2-history.json"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "hive",
+   "paras": [
+    {
+     "at": 0,
+     "text": "Version six: the hive in 3D, the Ruflo queen at the core, eight role workers in orbit. Studio run one: eight specialists, seven tasks, thirty one calls, none failed.",
+     "notes": {
+      "screen": "Studio v6: the queen at the core, 8 role workers on rings; caption with 8 specialists, 7 tasks, 31 calls.",
+      "from": "caption; speaker's line",
+      "sources": [
+       "evidence/poc7-trace.jsonl",
+       "site/talk/talk-10.json"
+      ]
+     }
+    },
+    {
+     "at": 13,
+     "text": "In ruv.sgit each delivery is also broadcast to the hive, with a sha256 digest, and the vault alongside keeps the run's shared, versioned memory.",
+     "notes": {
+      "screen": "The hive keeps orbiting; the sgit vault, ciphertext.",
+      "from": "ruvsgit.py deliver(); speaker's line",
+      "sources": [
+       "poc/ruv-sgit/ruvsgit.py"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "motion",
+   "paras": [
+    {
+     "at": 0,
+     "text": "ruv.sgit in motion, drawn from one ledger entry: example zero one hello, a single worker. Real sgit timings, replayed one point four times faster; spawn and hive work not to scale.",
+     "notes": {
+      "screen": "ruv.sgit in motion: example-01-hello, sgit time x1.40; the queen spawns 1 worker.",
+      "from": "caption; page text",
+      "sources": [
+       "site/data/vaults.json"
+      ]
+     }
+    },
+    {
+     "at": 15,
+     "text": "Watch the counters: three commits, branch w-hello into current, twenty two files in the server store, eighteen fragments probed, zero found.",
+     "notes": {
+      "screen": "Counters fill: commits, files, plaintext bytes, server store, fragments found.",
+      "from": "page text",
+      "sources": [
+       "site/data/vaults.json"
+      ]
+     }
+    },
+    {
+     "at": 27,
+     "text": "Then a fresh clone with the key: three files, byte for byte. Seven ruflo calls. Add a run parameter to the address to replay any other entry.",
+     "notes": {
+      "screen": "Fresh clone identical, 3 files; hive 7 ruflo calls, 2.8 s; 'pick another with ?run=<id>'.",
+      "from": "page text",
+      "sources": [
+       "site/data/vaults.json"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "ledger",
+   "paras": [
+    {
+     "at": 0,
+     "text": "One row per run, written by the close step of the runner script. Read example zero one hello cell by cell.",
+     "notes": {
+      "screen": "The vault ledger: one run, cell by cell, example-01-hello.",
+      "from": "step 'one run, cell by cell'",
+      "sources": [
+       "site/data/vaults.json",
+       "poc/ruv-sgit/ruvsgit.py"
+      ]
+     }
+    },
+    {
+     "at": 8.6,
+     "text": "Server held: twenty two files. Plaintext found: zero of eighteen. Fresh clone: identical.",
+     "notes": {
+      "screen": "Cells: server held 22 files, plaintext found 0 / 18, fresh clone 649 ms.",
+      "from": "step 'what the server held'",
+      "sources": [
+       "site/data/vaults.json"
+      ]
+     }
+    },
+    {
+     "at": 14.3,
+     "text": "Then the delete check, and worker tokens.",
+     "notes": {
+      "screen": "Cells: deleted, worker tokens.",
+      "from": "step 'deleted, tokens'",
+      "sources": [
+       "site/data/vaults.json"
+      ]
+     }
+    },
+    {
+     "at": 18.8,
+     "text": "Now every run: fifteen rows. From r2-materials on, every probe of forty fragments found zero.",
+     "notes": {
+      "screen": "All fifteen rows, smoke-1 to example-01-hello.",
+      "from": "step 'every run'",
+      "sources": [
+       "site/data/vaults.json"
+      ]
+     }
+    },
+    {
+     "at": 26.9,
+     "text": "The totals are recomputed from the vaults JSON file each time the page loads.",
+     "notes": {
+      "screen": "Totals; then the ephemeral line.",
+      "from": "steps 'totals', 'ephemeral'; slide sub",
+      "sources": [
+       "site/data/vaults.json",
+       "site/talk/talk-10.json"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "city",
+   "paras": [
+    {
+     "at": 0,
+     "text": "Studio version seven: the city of vaults. A street per branch, a floor per commit, the ABP as the wall; the first floors of current are the real POC2 history.",
+     "notes": {
+      "screen": "The city of vaults: streets, floors, a wall with 6 gates.",
+      "from": "caption; page text",
+      "sources": [
+       "site/talk/narration/beats.json",
+       "evidence/poc2-history.json"
+      ]
+     }
+    },
+    {
+     "at": 12,
+     "text": "Seven animations, about six hundred thirty thousand tokens, each under ten minutes.",
+     "notes": {
+      "screen": "The city keeps building; default and ABP runs counting.",
+      "from": "speaker's line",
+      "sources": [
+       "site/talk/narration/beats.json",
+       "evidence/poc7-builders.json",
+       "site/studio/run.json"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "table",
+   "paras": [
+    {
+     "at": 0,
+     "text": "POC1, recorded on the fourteenth of October: the same trace, evaluated twice.",
+     "notes": {
+      "screen": "Table: role, action, resource, Ruflo default, with the ABP.",
+      "from": "caption",
+      "sources": [
+       "site/data/report.json",
+       "evidence/poc1-report.md"
+      ]
+     }
+    },
+    {
+     "at": 5,
+     "text": "Left, Ruflo in legacy mode: every row allowed, legacy default allow. Right, the ABP in enforce mode.",
+     "notes": {
+      "screen": "Rows reveal every 3 seconds.",
+      "from": "cue: rows reveal every 3 s",
+      "sources": [
+       "evidence/poc1-report.md"
+      ]
+     }
+    },
+    {
+     "at": 13,
+     "text": "Email to gmail, pastebin, the tester writing source, the researcher reading AWS credentials: denied. Push and deploy: approval required.",
+     "notes": {
+      "screen": "The stopped rows appear.",
+      "from": "cue: the stopped ones are the point",
+      "sources": [
+       "evidence/poc1-report.md"
+      ]
+     }
+    },
+    {
+     "at": 22,
+     "text": "Gaps: zero. Both receipt ledgers valid, length eleven. You can rerun it with node run dot mjs.",
+     "notes": {
+      "screen": "The last rows; the full table.",
+      "from": "POC1 report and run.mjs usage",
+      "sources": [
+       "evidence/poc1-report.md",
+       "poc/poc1-abp-to-ruflo-policy/run.mjs"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "services",
+   "paras": [
+    {
+     "at": 0,
+     "text": "Four offers.",
+     "notes": {
+      "screen": "Four offers. Mix and match.",
+      "from": "step 'Four offers'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 3,
+     "text": "Task runs: a queen and workers inside an ephemeral vault, each role under its own ABP, no internet; the vault comes back zipped or published.",
+     "notes": {
+      "screen": "1 Task runs.",
+      "from": "step 'Task runs'; speaker's line",
+      "sources": [
+       "site/talk/narration/beats.json",
+       "site/data/offers.json"
+      ]
+     }
+    },
+    {
+     "at": 13,
+     "text": "Dedicated compute: a machine started for your task, with the vault created inside it.",
+     "notes": {
+      "screen": "2 Dedicated compute.",
+      "from": "step 'Dedicated compute'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 20.5,
+     "text": "A maintained repository: this whole setup, kept up to date, from one hundred forty nine pounds a month.",
+     "notes": {
+      "screen": "3 Maintained repository.",
+      "from": "step 'Maintained repo'",
+      "sources": [
+       "site/talk/narration/beats.json",
+       "site/data/offers.json"
+      ]
+     }
+    },
+    {
+     "at": 28,
+     "text": "Expert time: hours to days.",
+     "notes": {
+      "screen": "4 Expert time.",
+      "from": "step 'Expert time'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 34,
+     "text": "They mix and match. Whoever implements this implements the same two pieces: sgit vaults and Agent Behaviour Policies.",
+     "notes": {
+      "screen": "Mix and match.",
+      "from": "step 'Mix and match'; speaker's line",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 44.5,
+     "text": "All four, priced.",
+     "notes": {
+      "screen": "All four, priced.",
+      "from": "step 'All four, priced'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "shop",
+   "paras": [
+    {
+     "at": 0,
+     "text": "The shop: twelve items in four groups.",
+     "notes": {
+      "screen": "ruv.sgit.ai/shop: 12 items, 4 groups.",
+      "from": "step 'the catalogue'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 5.2,
+     "text": "A Team run with your own model key: twenty pounds becomes seventeen.",
+     "notes": {
+      "screen": "£20 → £17.",
+      "from": "step 'options change the price'",
+      "sources": [
+       "site/talk/narration/beats.json",
+       "site/data/offers.json"
+      ]
+     }
+    },
+    {
+     "at": 11.4,
+     "text": "Add a Team repository and a day of expert time: two thousand and sixteen pounds.",
+     "notes": {
+      "screen": "In the cart: total £2,016.",
+      "from": "step 'the order adds up'",
+      "sources": [
+       "site/talk/narration/beats.json",
+       "site/data/offers.json"
+      ]
+     }
+    },
+    {
+     "at": 20.2,
+     "text": "Check out.",
+     "notes": {
+      "screen": "Check out: what you want done.",
+      "from": "step 'check out'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 23.8,
+     "text": "No card form: a mailto link writes the order into an email, from your own mail app. Nothing is paid online.",
+     "notes": {
+      "screen": "The order email, RS-20261015-UW8G, to agent@riskmandate.ai.",
+      "from": "step 'an email, not a payment'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 32,
+     "text": "A person follows up.",
+     "notes": {
+      "screen": "A person follows up.",
+      "from": "step 'a person follows up'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "ask",
+   "paras": [
+    {
+     "at": 0,
+     "text": "The ask. The business plan is written down in detail: the model, four services with prices, white label for consultants, how a company or an internal team adds it, and the shop.",
+     "notes": {
+      "screen": "The business plan is written down: business model, four services, consultants, companies, internal teams, the shop.",
+      "from": "step 'the plan, written down'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 17.2,
+     "text": "Our code: Apache-2.0. rUv's projects: MIT.",
+     "notes": {
+      "screen": "Apache-2.0, our code; MIT, rUv's projects.",
+      "from": "step 'all open source'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 21.2,
+     "text": "Build a company on it, or add it to your services.",
+     "notes": {
+      "screen": "Build a company on this, or add it to your services.",
+      "from": "step 'the ask'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 27.4,
+     "text": "The repository is on GitHub under SGit-AI, and the address on screen reaches the team.",
+     "notes": {
+      "screen": "agent@riskmandate.ai and ruv.sgit.ai/business.",
+      "from": "step 'get in touch'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "visit",
+   "paras": [
+    {
+     "at": 0,
+     "text": "Everything is live.",
+     "notes": {
+      "screen": "Where to find it: the sites.",
+      "from": "step 'the sites'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 3.6,
+     "text": "The home page, the business overview, the shop, the vault ledger with every run, sgit, the newsroom, and rUv's repositories.",
+     "notes": {
+      "screen": "The pages one at a time.",
+      "from": "step 'one at a time'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 13.7,
+     "text": "ruv.sgit.ai.",
+     "notes": {
+      "screen": "ruv.sgit.ai.",
+      "from": "step 'ruv.sgit.ai'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 16.3,
+     "text": "Many hands, plus memory, plus a mandate, equals ruv.sgit.",
+     "notes": {
+      "screen": "The equation.",
+      "from": "step 'the equation'",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    },
+    {
+     "at": 22,
+     "text": "To try it, clone the repo and run the offline script.",
+     "notes": {
+      "screen": "agent@riskmandate.ai and the GitHub repository.",
+      "from": "step 'get in touch'; README offline section",
+      "sources": [
+       "README.md",
+       "scripts/offline.sh"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "opensource",
+   "paras": [
+    {
+     "at": 0,
+     "text": "Why open source: the site argues it is a strategy, not a charity, written for founders: survivability, the history, Apache versus MIT, funding, open core.",
+     "notes": {
+      "screen": "Screenshots of open-source.sgit.ai.",
+      "from": "speaker's line",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "newsroom",
+   "paras": [
+    {
+     "at": 0,
+     "text": "And the newsroom, where it is written up: a front page, articles, the wire as a graph, a desk, a newsletter, collections, and a phone view.",
+     "notes": {
+      "screen": "Screenshots of newsroom.sgit.ai.",
+      "from": "speaker's line",
+      "sources": [
+       "site/talk/narration/beats.json"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "thanks",
+   "paras": [
+    {
+     "at": 0,
+     "text": "Thank you, and thank you rUv.",
+     "notes": {
+      "screen": "Thank you, and thank you rUv.",
+      "from": "the statement",
+      "sources": [
+       "site/talk/talk-10.json"
+      ]
+     }
+    },
+    {
+     "at": 2,
+     "text": "Many hands, memory, a mandate.",
+     "notes": {
+      "screen": "Build: many hands + memory + a mandate = ruv.sgit.",
+      "from": "build at 2 s",
+      "sources": [
+       "site/talk/talk-10.json"
+      ]
+     }
+    },
+    {
+     "at": 5,
+     "text": "No time for questions.",
+     "notes": {
+      "screen": "Build: I don't think we have time for questions.",
+      "from": "build at 5 s",
+      "sources": [
+       "site/talk/talk-10.json"
+      ]
+     }
+    },
+    {
+     "at": 7,
+     "text": "Message the agent, or run it yourself: offline setup once, then offline all, with no network.",
+     "notes": {
+      "screen": "Build: message my agent, agent@riskmandate.ai.",
+      "from": "build at 7 s; scripts/offline.sh usage",
+      "sources": [
+       "scripts/offline.sh",
+       "README.md"
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

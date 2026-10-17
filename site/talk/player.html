@@ -167,6 +167,7 @@ const qs = new URLSearchParams(location.search)
 const VIEW = qs.get('view') || 'main', ME = Math.random().toString(36).slice(2)
 const EMBED = qs.has('embed') || window.top !== window.self   // inside the talk page: ✕ becomes 'open full window'
 const RATES = [0.75, 1, 1.25, 1.5, 2]
+const LEDGER = /^[\w-]+$/.test(qs.get('ruvledger') || '') ? qs.get('ruvledger') : ''   // ?ruvledger=NAME: the deck reads data/vaults-NAME.json (a pinned snapshot)
 let talk, data = {}, B = [], MAIN = 0, TOTAL = 0, t = 0, playing = false, last = 0, beatIx = -1, rehearse = false, log = [], wall0 = 0, leader = VIEW !== 'audience', lastSend = 0, black = false, review = qs.has('review')
 const KS = {}   // steps the live pages have published, by page, for the slide picker
 let rate = +(qs.get('rate') || 1), hold = !qs.has('auto'), held = false, timer = null, frameReady = false, stepCache = null
@@ -182,7 +183,7 @@ async function load() {
   try {
     talk = window.TALK || await (await fetch(src)).json()
     data = window.TALK_DATA || {}
-    for (const [k, path] of Object.entries(talk.data || {})) if (!data[k]) data[k] = await (await fetch(path)).json()
+    for (const [k, path] of Object.entries(talk.data || {})) if (!data[k]) data[k] = await (await fetch(LEDGER ? path.replace(/vaults\.json$/, `vaults-${LEDGER}.json`) : path)).json()
   } catch (e) { fail(`Could not load ${src} or its data (${e}). Serve the site (npm run site:serve) or use the offline file.`); return }
   document.title = talk.title
   MAIN = talk.duration_s
@@ -267,7 +268,7 @@ function render(b) {
     } else {
       // once: a looping page plays once and holds; ruvt: start it where the talk is (it fast-forwards); ruvpaused: paused if the talk is
       const local = Math.max(0, t - b.at) * (s.speed || 1)   // slide.speed: the live page runs faster than the talk, to fit a shorter beat
-      const q = `theme=${window.RuvTheme ? RuvTheme.current() : ''}&once${review ? '&review' : `&ruvt=${local.toFixed(2)}${playing ? '' : '&ruvpaused'}`}`
+      const q = `theme=${window.RuvTheme ? RuvTheme.current() : ''}${LEDGER ? '&ruvledger=' + LEDGER : ''}&once${review ? '&review' : `&ruvt=${local.toFixed(2)}${playing ? '' : '&ruvpaused'}`}`
       el.innerHTML = `<iframe src="${s.src}${s.src.includes('?') ? '&' : '?'}${q}" tabindex="-1"></iframe>`   // the live app wears the slides' theme
       const f = el.querySelector('iframe')
       requestAnimationFrame(() => { if (frameReady || frameEl() !== f) return; const r = f.getBoundingClientRect(), L = $('loading'); Object.assign(L.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' }); L.classList.add('on') })
@@ -510,7 +511,7 @@ function warm() {
       await new Promise(res => {
         const f = document.createElement('iframe'); f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1
         Object.assign(f.style, { position: 'fixed', left: '-2000px', top: '0', width: '1280px', height: '600px', visibility: 'hidden' })
-        f.src = src + (src.includes('?') ? '&' : '?') + 'review&once&ruvpaused'
+        f.src = src + (src.includes('?') ? '&' : '?') + 'review&once&ruvpaused' + (LEDGER ? '&ruvledger=' + LEDGER : '')
         const done = () => { setTimeout(() => { try { const r = f.contentWindow.RUV_STEPS; if (r?.length) KS[src] = r.map(x => ({ t: +x.t, label: x.label })) } catch {} f.remove(); res() }, 1500) }
         f.onload = done; setTimeout(done, 15000); document.body.appendChild(f)
       })

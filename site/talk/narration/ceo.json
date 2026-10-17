@@ -15,7 +15,7 @@
       "from": "Speaker's line: the animation was made by agents; cue: made by run r3-define.",
       "sources": [
        "site/talk/talk-10.json",
-       "out/r16-beats.json"
+       "site/talk/narration/beats.json"
       ]
      }
     },
@@ -27,7 +27,7 @@
       "from": "Speaker's line: many hands plus a memory plus a mandate equals ruv.sgit; every number from a recorded run.",
       "sources": [
        "site/talk/talk-10.json",
-       "out/r16-beats.json",
+       "site/talk/narration/beats.json",
        "site/data/vaults.json",
        "site/data/report.json"
       ]
@@ -46,7 +46,7 @@
       "from": "Speaker's line: rUv's stack gives swarms, consensus, speed, its own policy engine and memory; what we add. Step: encrypted.",
       "sources": [
        "site/talk/talk-10.json",
-       "out/r16-beats.json"
+       "site/talk/narration/beats.json"
       ]
      }
     },
@@ -57,7 +57,7 @@
       "screen": "The memory item's who, what and when in the vault history; the vault measured, then deleted, 0 store paths left.",
       "from": "Steps: versioned, scoped to one run.",
       "sources": [
-       "out/r16-beats.json",
+       "site/talk/narration/beats.json",
        "site/data/vaults.json"
       ]
      }
@@ -69,7 +69,7 @@
       "screen": "The policy panel and the four figures; 6 of 11 actions stopped by the policy; 'Tonight is mostly about the memory.'",
       "from": "Steps: a written mandate, the memory.",
       "sources": [
-       "out/r16-beats.json",
+       "site/talk/narration/beats.json",
        "site/data/report.json"
       ]
      }
@@ -102,7 +102,7 @@
       "screen": "The five layers building bottom to top, each with its version and the question it answers.",
       "from": "Steps: RVM, RuVector; Ruflo, MetaHarness, hosts.",
       "sources": [
-       "out/r16-beats.json"
+       "site/talk/narration/beats.json"
       ]
      }
     },
@@ -113,7 +113,7 @@
       "screen": "The three numbered plug-in points: a vault around the memory, one vault per hive run, an ABP compiled into enforce mode; 'additive: rUv's layers stay as they are'.",
       "from": "Steps: sgit, the memory vault; the hive, the policy engine; complete, all MIT.",
       "sources": [
-       "out/r16-beats.json",
+       "site/talk/narration/beats.json",
        "site/talk/talk-10.json"
       ]
      }
@@ -130,7 +130,7 @@
       "screen": "A screenshot of RuVector's README, Security and governance, with its quotes credited first.",
       "from": "Speaker's line; steps: the README, what RuVector secures.",
       "sources": [
-       "out/r16-beats.json"
+       "site/talk/narration/beats.json"
       ]
      }
     },
@@ -141,7 +141,7 @@
       "screen": "Where sgit adds: AES-256-GCM on the client, 0 of 480 probed fragments on the server; a history shared across machines.",
       "from": "Steps: sgit encrypted, sgit shared history.",
       "sources": [
-       "out/r16-beats.json",
+       "site/talk/narration/beats.json",
        "site/data/vaults.json"
       ]
      }
@@ -153,7 +153,7 @@
       "screen": "One vault per run, deleted with the run: 0 store paths left, a clone with the key fails, 12 of 12 runs.",
       "from": "Step: sgit, deleted with the run.",
       "sources": [
-       "out/r16-beats.json",
+       "site/talk/narration/beats.json",
        "site/data/vaults.json"
       ]
      }
@@ -165,7 +165,7 @@
       "screen": "'RuVector is the memory substrate; sgit wraps the files. rUv + sgit.'",
       "from": "Step: both, together.",
       "sources": [
-       "out/r16-beats.json"
+       "site/talk/narration/beats.json"
       ]
      }
     }
@@ -181,7 +181,7 @@
       "screen": "A vault folder on your machine, encrypted to ciphertext for the server; 'Whoever has the vault key has the memory.'",
       "from": "Step: encrypted on the client.",
       "sources": [
-       "out/r16-beats.json"
+       "site/talk/narration/beats.json"
       ]
      }
     },
@@ -192,7 +192,7 @@
       "screen": "The git operations with their medians: commit 848 ms, merge 928 ms, push 1044 ms, clone 940 ms.",
       "from": "Step: works like git; speaker's line: each about a second.",
       "sources": [
-       "out/r16-beats.json",
+       "site/talk/narration/beats.json",
        "site/data/vaults.json"
       ]
      }
@@ -204,7 +204,7 @@
       "screen": "Machines A and B, an agent and a CI runner sharing one vault; one vault per run, deleted, checked.",
       "from": "Step: why agents, shared, ephemeral.",
       "sources": [
-       "out/r16-beats.json",
+       "site/talk/narration/beats.json",
        "site/data/vaults.json"
       ]
      }
@@ -221,7 +221,7 @@
       "screen": "An ABP for the coder role, owner Dinis Cruz, valid until 2026-10-31, one row per capability.",
       "from": "Steps: a written mandate; mandate, why, barrier.",
       "sources": [
-       "out/r16-beats.json",
+       "site/talk/narration/beats.json",
        "site/data/abp.json"
       ]
      }
@@ -233,7 +233,7 @@
       "screen": "The rows compiling into Ruflo's policy engine, enforce mode: 36 rules, 15 allow, 14 deny, 7 require approval.",
       "from": "Step: compiled into Ruflo.",
       "sources": [
-       "out/r16-beats.json",
+       "site/talk/narration/beats.json",
        "site/data/report.json"
       ]
      }
@@ -245,7 +245,7 @@
       "screen": "POC1's 11 actions resolving to allowed, a human, or denied; decision receipts, hash-chained, ledger length 11.",
       "from": "Steps: actions hit it; enforced, with receipts.",
       "sources": [
-       "out/r16-beats.json",
+       "site/talk/narration/beats.json",
        "site/data/report.json"
       ]
      }
@@ -263,7 +263,7 @@
       "from": "Speaker's line; cue: hive on top, mandate in the middle, vault below.",
       "sources": [
        "site/talk/talk-10.json",
-       "out/r16-beats.json"
+       "site/talk/narration/beats.json"
       ]
      }
     },
@@ -275,7 +275,7 @@
       "from": "Speaker's line.",
       "sources": [
        "site/talk/talk-10.json",
-       "out/r16-beats.json",
+       "site/talk/narration/beats.json",
        "site/data/vaults.json"
       ]
      }
@@ -305,7 +305,7 @@
       "from": "Speaker's line; caption: an illustration built in studio run 1.",
       "sources": [
        "site/talk/talk-10.json",
-       "out/r16-beats.json"
+       "site/talk/narration/beats.json"
       ]
      }
     },
@@ -317,7 +317,7 @@
       "from": "Speaker's line: whoever has the key has the memory, nobody else, including the host.",
       "sources": [
        "site/talk/talk-10.json",
-       "out/r16-beats.json"
+       "site/talk/narration/beats.json"
       ]
      }
     }
@@ -333,7 +333,7 @@
       "screen": "Run r5-market, vault 7qcq6au7, 15 Oct 2026: the brief on current, then six branches with files, sizes and times; every sgit call timed.",
       "from": "Steps: the brief; six branches, six deliveries.",
       "sources": [
-       "out/r16-beats.json",
+       "site/talk/narration/beats.json",
        "site/data/vaults.json"
       ]
      }
@@ -393,7 +393,7 @@
       "from": "Speaker's line; page: each message sealed on the sender's machine.",
       "sources": [
        "site/talk/talk-10.json",
-       "out/r16-beats.json"
+       "site/talk/narration/beats.json"
       ]
      }
     }
@@ -427,7 +427,7 @@
       "from": "Speaker's line; page: 'Dinis Cruz, waiting: approval needed'.",
       "sources": [
        "site/talk/talk-10.json",
-       "out/r16-beats.json"
+       "site/talk/narration/beats.json"
       ]
      }
     }
@@ -461,7 +461,7 @@
       "from": "Speaker's line; cue: check which run the page shows.",
       "sources": [
        "site/talk/talk-10.json",
-       "out/r16-beats.json",
+       "site/talk/narration/beats.json",
        "site/data/vaults.json"
       ]
      }
@@ -485,7 +485,7 @@
       "from": "Speaker's line: measured, cloned fresh, checked.",
       "sources": [
        "site/talk/talk-10.json",
-       "out/r16-beats.json"
+       "site/talk/narration/beats.json"
       ]
      }
     }
@@ -501,7 +501,7 @@
       "screen": "One run, cell by cell: run, workers, commits, delivered.",
       "from": "Step: one run, cell by cell.",
       "sources": [
-       "out/r16-beats.json",
+       "site/talk/narration/beats.json",
        "site/data/vaults.json"
       ]
      }
@@ -525,7 +525,7 @@
       "screen": "The table of all 15 runs, with a worker tokens column, then the totals.",
       "from": "Steps: every run, totals.",
       "sources": [
-       "out/r16-beats.json",
+       "site/talk/narration/beats.json",
        "site/data/vaults.json",
        "site/data/offers.json"
       ]
@@ -677,7 +677,7 @@
       "screen": "Screenshots of the shop: 12 items, 4 groups; a Team run from £20 to £17.",
       "from": "Steps: the catalogue; options change the price.",
       "sources": [
-       "out/r16-beats.json",
+       "site/talk/narration/beats.json",
        "site/data/offers.json"
       ]
      }
@@ -689,7 +689,7 @@
       "screen": "The cart: total £2,016.",
       "from": "Step: the order adds up.",
       "sources": [
-       "out/r16-beats.json",
+       "site/talk/narration/beats.json",
        "site/data/offers.json"
       ]
      }
@@ -701,7 +701,7 @@
       "screen": "Checkout, then the order email to agent@riskmandate.ai.",
       "from": "Steps: check out; an email, not a payment.",
       "sources": [
-       "out/r16-beats.json",
+       "site/talk/narration/beats.json",
        "site/data/offers.json"
       ]
      }
@@ -713,7 +713,7 @@
       "screen": "'The order arrives as an email, and a person follows up.'",
       "from": "Step: a person follows up.",
       "sources": [
-       "out/r16-beats.json"
+       "site/talk/narration/beats.json"
       ]
      }
     }
@@ -730,7 +730,7 @@
       "from": "Step: the plan, written down; speaker's line.",
       "sources": [
        "site/talk/talk-10.json",
-       "out/r16-beats.json"
+       "site/talk/narration/beats.json"
       ]
      }
     },
@@ -742,7 +742,7 @@
       "from": "Steps: all open source; the ask.",
       "sources": [
        "site/talk/talk-10.json",
-       "out/r16-beats.json"
+       "site/talk/narration/beats.json"
       ]
      }
     },
@@ -754,7 +754,7 @@
       "from": "Step: get in touch; speaker's line: anybody who implements this implements sgit vaults and ABPs.",
       "sources": [
        "site/talk/talk-10.json",
-       "out/r16-beats.json"
+       "site/talk/narration/beats.json"
       ]
      }
     }
@@ -771,7 +771,7 @@
       "from": "Steps: the sites; one at a time.",
       "sources": [
        "site/talk/talk-10.json",
-       "out/r16-beats.json"
+       "site/talk/narration/beats.json"
       ]
      }
     },
@@ -783,7 +783,7 @@
       "from": "Steps: ruv.sgit.ai; the equation.",
       "sources": [
        "site/talk/talk-10.json",
-       "out/r16-beats.json"
+       "site/talk/narration/beats.json"
       ]
      }
     },
@@ -794,7 +794,7 @@
       "screen": "The contact address and the GitHub repository.",
       "from": "Step: get in touch.",
       "sources": [
-       "out/r16-beats.json"
+       "site/talk/narration/beats.json"
       ]
      }
     }
@@ -811,7 +811,7 @@
       "from": "Speaker's line.",
       "sources": [
        "site/talk/talk-10.json",
-       "out/r16-beats.json"
+       "site/talk/narration/beats.json"
       ]
      }
     }
@@ -828,7 +828,7 @@
       "from": "Speaker's line.",
       "sources": [
        "site/talk/talk-10.json",
-       "out/r16-beats.json"
+       "site/talk/narration/beats.json"
       ]
      }
     }

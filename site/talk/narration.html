@@ -18,13 +18,14 @@
 .tg{display:inline-flex;gap:6px;align-items:center;font-size:14px;color:var(--m);cursor:pointer;user-select:none}
 .bar .sp{flex:1}
 .bar a.dl,.bar button.dl{font-size:13.5px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);cursor:pointer}
-.stage{max-width:min(1100px,calc((100vh - 230px) * 1.6));min-width:min(100%,560px);margin:0 auto}
+.stage{scroll-margin-top:64px;max-width:min(1100px,calc((100vh - 300px) * 1.6));min-width:min(100%,560px);margin:0 auto}
 .bt .say,.script .k{max-width:none}
 .deck{position:relative;aspect-ratio:16/10;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg);box-shadow:var(--shadow)}
 .deck iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .now{margin-top:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px 12px;box-shadow:var(--shadow);min-height:150px}
 .now .meta{display:flex;gap:10px;align-items:center;font:600 13px ui-monospace,monospace;color:var(--m);margin-bottom:6px}
 .now .meta .who{color:var(--a)}.now .meta .sp{flex:1}
+@media(max-width:600px){.now .meta{flex-wrap:wrap}.now .meta .who{display:none}.now .txt{font-size:18px}}
 .now .pp{border:0;background:var(--t);color:var(--on-accent,#fff);border-radius:999px;width:38px;height:38px;font-size:15px;cursor:pointer;flex:none}
 .now .cols{display:grid;gap:16px}.now .cols.n3{grid-template-columns:repeat(3,minmax(0,1fr))}
 @media(max-width:820px){.now .cols.n3{grid-template-columns:1fr}}
@@ -71,7 +72,7 @@
  <button class="dl" id="dlvtt" title="captions for a video editor or a text-to-speech tool">Captions (.vtt)</button>
 </div>
 <div class="stage">
- <div class="deck"><iframe id="deck" src="player.html?talk=talk-10.json&amp;embed&amp;auto&amp;solo" title="The talk: Autonomy with a mandate and a memory" allow="fullscreen"></iframe></div>
+ <div class="deck"><iframe id="deck" src="player.html?talk=talk-10.json&amp;embed&amp;auto&amp;solo&amp;ruvledger=narrated" title="The talk: Autonomy with a mandate and a memory" allow="fullscreen"></iframe></div>
  <div class="now" aria-live="polite">
   <div class="meta"><button class="pp" id="pp" aria-label="play or pause">▶</button><span id="clock">0:00</span><span id="slide"></span><span class="sp"></span><span class="who" id="whoL"></span></div>
   <div class="cols" id="now"></div>
@@ -79,7 +80,7 @@
 </div>
 <section class="script">
  <h2>The script</h2>
- <p class="k">Click a paragraph to jump the deck there. Timings are in talk time (the deck runs 11 min 38 s); each paragraph fits its slot read aloud at 150 words a minute. The speaker's own words for each slide are in <a href="index.html">the talk's script</a>; the timeline is <a href="talk-10.json">talk-10.json</a>; the narrations are <a href="narration/ceo.json">ceo.json</a>, <a href="narration/cto.json">cto.json</a> and <a href="narration/dev.json">dev.json</a>.</p>
+ <p class="k">Click a paragraph to jump the deck there. Timings are in talk time (the deck runs 11 min 38 s); each paragraph fits its slot read aloud at 150 words a minute. The speaker's own words for each slide are in <a href="index.html">the talk's script</a>; the timeline is <a href="talk-10.json">talk-10.json</a>; the deck here reads <a href="../data/vaults-narrated.json">the ledger as narrated</a> (15 runs), so the screen and the words agree as the live ledger grows; the narrations are <a href="narration/ceo.json">ceo.json</a>, <a href="narration/cto.json">cto.json</a> and <a href="narration/dev.json">dev.json</a>.</p>
  <div class="pane" id="pane"></div>
 </section>
 </div></main>
@@ -141,7 +142,7 @@
   const now = () => playing ? T + (performance.now() - stamp) / 1000 * rate : T
   addEventListener('message', e => { if (e.source !== $('deck').contentWindow) return; const m = e.data?.ruvTalk; if (!m) return; T = m.t; playing = m.playing; rate = m.rate || 1; stamp = performance.now() })
   function cmd(c, extra) { $('deck').contentWindow.postMessage({ ruvTalkCmd: c, ...extra }, location.origin === 'null' ? '*' : location.origin) }
-  $('pp').onclick = () => cmd(playing ? 'pause' : 'play')
+  $('pp').onclick = () => { if (!playing) { const r = document.querySelector('.stage').getBoundingClientRect(); if (r.top < 0 || r.bottom > innerHeight) document.querySelector('.stage').scrollIntoView({ behavior: 'smooth' }) } cmd(playing ? 'pause' : 'play') }
   addEventListener('keydown', e => { if (e.key === ' ' && !/INPUT|BUTTON|TEXTAREA/.test(document.activeElement?.tagName)) { e.preventDefault(); $('pp').click() } })
   $('pane').addEventListener('wheel', () => lastUser = performance.now(), { passive: true })
   $('pane').addEventListener('touchmove', () => lastUser = performance.now(), { passive: true })

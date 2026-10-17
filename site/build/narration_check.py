@@ -42,7 +42,7 @@ def check(path):
                 errs.append(f"{b['id']}[{i}]: {words(text)} words need {need:.1f} s read aloud, the slot is {end - at:.1f} s")
     return errs, warn, total
 
-paths = sys.argv[1:] or sorted(str(p) for p in (SITE / 'talk/narration').glob('*.json') if p.name != 'index.json')
+paths = sys.argv[1:] or sorted(str(p) for p in (SITE / 'talk/narration').glob('*.json') if p.name not in ('index.json', 'beats.json'))
 bad = 0
 for p in paths:
     e, w, total = check(p)
