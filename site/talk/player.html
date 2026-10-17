@@ -170,7 +170,7 @@ const RATES = [0.75, 1, 1.25, 1.5, 2]
 let talk, data = {}, B = [], MAIN = 0, TOTAL = 0, t = 0, playing = false, last = 0, beatIx = -1, rehearse = false, log = [], wall0 = 0, leader = VIEW !== 'audience', lastSend = 0, black = false, review = qs.has('review')
 const KS = {}   // steps the live pages have published, by page, for the slide picker
 let rate = +(qs.get('rate') || 1), hold = !qs.has('auto'), held = false, timer = null, frameReady = false, stepCache = null
-const chan = 'BroadcastChannel' in window ? new BroadcastChannel('ruv-talk:' + (qs.get('talk') || 'talk-10.json') + (window.TALK ? ':offline' : '')) : null   // one channel per timeline
+const chan = 'BroadcastChannel' in window && !qs.has('solo') ? new BroadcastChannel('ruv-talk:' + (qs.get('talk') || 'talk-10.json') + (window.TALK ? ':offline' : '')) : null   // one channel per timeline
 if (VIEW === 'audience') document.body.classList.add('audience')
 if (qs.has('review')) document.body.classList.add('review')
 if (EMBED) { document.addEventListener('DOMContentLoaded', () => { const b = document.getElementById('ex'); if (b) { b.textContent = '⤢'; b.title = 'open in its own window'; b.setAttribute('aria-label', 'open in its own window') } }) }
@@ -365,6 +365,7 @@ function update(b, local) {
 
 function tick(now) {
   const dt = (now - last) / 1000; last = now
+  post(now)
   if (playing && !held) {
     const ix0 = beatAt(t), b0 = B[ix0], end = b0.at + b0.dur
     let nt = t + dt * rate
@@ -400,6 +401,22 @@ function tick(now) {
 function send() { chan?.postMessage({ from: ME, t, playing, black, rate, held }) }
 chan && (chan.onmessage = e => { const m = e.data; if (m.from === ME) return; if (m.hello) { if (leader) send(); return } leader = false; t = m.t; playing = m.playing; black = m.black; rate = m.rate || 1; held = !!m.held; document.body.classList.toggle('black', black); $('intro').style.display = 'none' })
 chan?.postMessage({ from: ME, hello: true })
+
+// embedded in a page that follows the talk (talk/narration.html shows text under it): tell that page the clock ten times a
+// second, and take play, pause and seek from it. Same origin only.
+const PARENT = window.parent !== window ? window.parent : null
+let lastPost = 0
+function post(now) { if (!PARENT || !talk || now - lastPost < 100) return; lastPost = now; try { PARENT.postMessage({ ruvTalk: { t, playing: playing && !held, rate, beat: B[beatAt(t)]?.id } }, location.origin === 'null' ? '*' : location.origin) } catch {} }
+addEventListener('message', e => {
+  const c = e.data?.ruvTalkCmd
+  if (!c || !talk || e.source !== PARENT || (location.origin !== 'null' && e.origin !== location.origin)) return
+  $('intro').style.display = 'none'; leader = true
+  if (c === 'play') { held = false; if (t >= MAIN - 0.1) t = 0; playing = true }
+  else if (c === 'pause') playing = false
+  else if (c === 'seek') { t = Math.max(0, Math.min(MAIN - 0.05, +e.data.t || 0)); held = false; if (e.data.play != null) playing = !!e.data.play }
+  else if (c === 'rate') rate = +e.data.rate || 1
+  send()
+})
 
 function goBeat(ix) { ix = Math.max(0, Math.min(B.length - 1, ix)); t = B[ix].at; held = false; if (ix !== beatIx) beatIx = -1 }
 // every step has two stops: its start, and its end (just before the next step starts, so its part is fully built).

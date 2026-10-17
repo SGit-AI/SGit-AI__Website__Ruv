@@ -1,0 +1,10 @@
+{
+ "purpose": "r16-narration: the talk as a text narrative, in three voices (CEO, CTO, developer), each paragraph timed to the slides and shown with the notes it was written from; a page that plays the deck with the narration below it, so it can be watched with no sound, and the script for a voiceover video later",
+ "feedback": "Dinis, 17 Oct (voice memo): create a separate page that is a text narrative of the presentation, because I want to make a video with voiceover of it. First a script: an interesting, step-by-step text transcript. In the UX, like the homepage, the presentation above and the text below being explained; for every paragraph also the notes that created that paragraph. Then later add text to voice. Do it in three personas, executive, strategic, very technical: a CEO, a CTO and a developer. I should be able to watch with no sound: press play and see the text explaining what is happening on screen, synchronised with it, from beginning to end.",
+ "workers": [
+  {"id": "ceo", "role": "writer", "task": "the narration for a CEO: why it matters, outcomes, risk, trust, cost, the business; timed paragraphs per slide with their notes", "out": "site/talk/narration/ceo.json"},
+  {"id": "cto", "role": "writer", "task": "the narration for a CTO: architecture, governance, how the pieces fit, what to adopt; timed paragraphs per slide with their notes", "out": "site/talk/narration/cto.json"},
+  {"id": "dev", "role": "writer", "task": "the narration for a developer: commands, files, keys, the run lifecycle, what to try tonight; timed paragraphs per slide with their notes", "out": "site/talk/narration/dev.json"},
+  {"id": "page", "role": "builder", "task": "talk/narration.html: the deck above, the narration below, synchronised to the player's clock, persona switch, notes per paragraph, plays end to end", "out": "site/talk/narration.html, site/talk/player.html"}
+ ]
+}
