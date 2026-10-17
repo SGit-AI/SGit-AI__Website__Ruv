@@ -1,0 +1,186 @@
+{
+ "run": "r18-layout",
+ "purpose": "r18-layout: the narration beside the deck (left by default, or right, or below), the same height as the deck, so the eyes move left-right instead of up and down",
+ "feedback": "Dinis, 17 Oct (iPad screenshot): put the narration on the left and the video on the right, and let me swap; at the moment the video is in the middle and the text at the bottom, which does not use the screen well and keeps my eyes moving up and down, shifting context.",
+ "vault_id": "tgs7l6cx",
+ "created_at": "2026-10-17T14:54:34+00:00",
+ "closed_at": "2026-10-17T14:54:51+00:00",
+ "deleted_at": "2026-10-17T14:54:53+00:00",
+ "hive": {
+  "workers": 1,
+  "tasks": 1,
+  "ruflo_calls": 7,
+  "ruflo_ms": 4099
+ },
+ "branches": [
+  {
+   "name": "w-layout",
+   "role": "builder",
+   "commits": 1,
+   "files": 1,
+   "bytes": 22662,
+   "write_ms": 3623,
+   "merge_ms": 3638
+  }
+ ],
+ "commits": 3,
+ "files": 3,
+ "bytes_plain": 23755,
+ "files_delivered": 1,
+ "bytes_delivered": 22662,
+ "server_store": {
+  "files": 21,
+  "bytes": 30038,
+  "plaintext_hits": 0,
+  "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+ },
+ "clone": {
+  "ms": 1329,
+  "files": 3,
+  "identical": true
+ },
+ "ops": [
+  {
+   "op": "init",
+   "ms": 850,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 1118,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 997,
+   "rc": 0
+  },
+  {
+   "op": "branch-new",
+   "ms": 1383,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 958,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 1281,
+   "rc": 0
+  },
+  {
+   "op": "branch-switch",
+   "ms": 1094,
+   "rc": 0
+  },
+  {
+   "op": "merge",
+   "ms": 1095,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 1448,
+   "rc": 0
+  },
+  {
+   "op": "history",
+   "ms": 1300,
+   "rc": 0
+  },
+  {
+   "op": "clone",
+   "ms": 1329,
+   "rc": 0
+  }
+ ],
+ "ruflo": [
+  {
+   "seq": 1,
+   "actor": "queen",
+   "cmd": "hive-mind init -t hierarchical-mesh -c byzantine -m 12",
+   "rc": 0,
+   "ms": 623
+  },
+  {
+   "seq": 2,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t builder -r specialist -p layout",
+   "rc": 0,
+   "ms": 609
+  },
+  {
+   "seq": 3,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d layout: talk/narration.html: a side-by-side layout on screens 900 px and wider, narration left (default), right or below, remembered; the deck sized to the viewport height; checked at iPad landscape, desktop and portrait widths -p high",
+   "rc": 0,
+   "ms": 474
+  },
+  {
+   "seq": 4,
+   "actor": "conductor",
+   "cmd": "hive-mind broadcast -m run r18-layout: r18-layout: the narration beside the deck (left by default, or right, or below), the same height as the deck, so the eyes move left-right instead of up and down -f conductor",
+   "rc": 0,
+   "ms": 502
+  },
+  {
+   "seq": 5,
+   "actor": "builder",
+   "cmd": "hive-mind broadcast -m delivered layout sha256:bf0ea9cde706a1a2 files:1 -f builder",
+   "rc": 0,
+   "ms": 644
+  },
+  {
+   "seq": 6,
+   "actor": "queen",
+   "cmd": "hive-mind status",
+   "rc": 0,
+   "ms": 565
+  },
+  {
+   "seq": 7,
+   "actor": "queen",
+   "cmd": "daemon stop",
+   "rc": 0,
+   "ms": 682
+  }
+ ],
+ "history": [
+  {
+   "id": "6fd610bfe5f4",
+   "message": "init",
+   "time": "2026-10-17T14:54:37Z",
+   "files_added": 0,
+   "parents": 0
+  },
+  {
+   "id": "1502be7dc9bd",
+   "message": "brief: run r18-layout",
+   "time": "2026-10-17T14:54:38Z",
+   "files_added": 2,
+   "parents": 1
+  },
+  {
+   "id": "8ab092dd0ca3",
+   "message": "builder layout: delivered 1 files",
+   "time": "2026-10-17T14:54:41Z",
+   "files_added": 1,
+   "parents": 1
+  }
+ ],
+ "workers": [
+  {
+   "id": "layout",
+   "role": "builder",
+   "kind": "the conductor (main Claude Code session), not metered separately",
+   "tokens": null
+  }
+ ],
+ "deleted_paths": 45,
+ "delete_check": {
+  "store_paths_left": 0,
+  "clone_after_delete": "failed"
+ }
+}

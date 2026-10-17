@@ -28,6 +28,21 @@
 @media(max-width:600px){.now .meta{flex-wrap:wrap}.now .meta .who{display:none}.now .txt{font-size:18px}}
 .now .pp{border:0;background:var(--t);color:var(--on-accent,#fff);border-radius:999px;width:38px;height:38px;font-size:15px;cursor:pointer;flex:none}
 .now .cols{display:grid;gap:16px}.now .cols.n3{grid-template-columns:repeat(3,minmax(0,1fr))}
+/* side by side (wide screens): the narration beside the deck, the same height, so the eyes move left-right, not up-down */
+#lay{display:none}
+@media(min-width:900px){
+ #lay{display:inline-flex}
+ body.lay-left .nar .wrap,body.lay-right .nar .wrap{max-width:1680px}
+ body.lay-left .stage,body.lay-right .stage{max-width:none;min-width:0;display:grid;grid-template-columns:minmax(300px,1fr) auto;gap:16px;align-items:stretch}
+ body.lay-left .deck,body.lay-right .deck{width:min(calc((100vh - 90px) * 1.6),calc(100vw - 380px),1240px)}
+ body.lay-left .now{order:-1}
+ body.lay-right .stage{grid-template-columns:auto minmax(300px,1fr)}
+ body.lay-left .now,body.lay-right .now{margin-top:0;min-height:0;display:flex;flex-direction:column;overflow:auto}
+ body.lay-left .now .cols.n3,body.lay-right .now .cols.n3{grid-template-columns:1fr}
+ body.lay-left .now .meta,body.lay-right .now .meta{flex-wrap:wrap}
+ body.lay-left .now .txt,body.lay-right .now .txt{font-size:clamp(19px,1.8vw,26px)}
+ body.lay-left .now .cols.n3 .txt,body.lay-right .now .cols.n3 .txt{font-size:16px}
+}
 @media(max-width:820px){.now .cols.n3{grid-template-columns:1fr}}
 .now .col h4{margin:0 0 4px;font:700 12px ui-monospace,monospace;color:var(--a);letter-spacing:.06em;text-transform:uppercase}
 .now .txt{font:20px/1.5 Georgia,serif;margin:0}.now .cols.n3 .txt{font-size:16.5px}
@@ -68,6 +83,7 @@
   <button data-p="ceo">CEO</button><button data-p="cto">CTO</button><button data-p="dev">Developer</button><button data-p="all">All three</button>
  </div>
  <label class="tg"><input type="checkbox" id="notes"> show notes</label>
+ <div class="seg" id="lay" role="group" aria-label="where the narration goes"><button data-l="left" title="narration left of the deck">◧ text left</button><button data-l="right" title="narration right of the deck">text right ◨</button><button data-l="below" title="narration under the deck">below</button></div>
  <label class="tg"><input type="checkbox" id="follow" checked> follow the deck</label>
  <span class="voice" id="voiceBox"><label class="tg" title="read the narration aloud with this browser's own voice (a preview of the pacing; the video will use a recorded voice)"><input type="checkbox" id="speak"> 🔊 read aloud</label><select id="vread" aria-label="which narration to read" hidden><option value="ceo">CEO</option><option value="cto">CTO</option><option value="dev">Developer</option></select><select id="voice" aria-label="voice" hidden></select></span>
  <span class="sp"></span>
@@ -104,6 +120,12 @@
   let who = qs.get('p') || store('ruv-narration-p') || 'ceo'
   if (!['all', ...PERSONAS].includes(who)) who = 'ceo'
   $('notes').checked = qs.has('notes') || store('ruv-narration-notes') === '1'
+  // layout: the narration left of the deck (default on wide screens), right of it, or below it
+  let lay = qs.get('layout') || store('ruv-narration-layout') || 'left'
+  if (!['left', 'right', 'below'].includes(lay)) lay = 'left'
+  const paintLay = () => { document.body.classList.remove('lay-left', 'lay-right', 'lay-below'); document.body.classList.add('lay-' + lay); document.querySelectorAll('#lay button').forEach(x => x.setAttribute('aria-pressed', x.dataset.l === lay)) }
+  document.querySelectorAll('#lay button').forEach(x => x.onclick = () => { lay = x.dataset.l; store('ruv-narration-layout', lay); paintLay() })
+  paintLay()
 
   // one flat list per persona: absolute start and end in talk seconds
   const WPS = 150 / 60, flat = {}

@@ -5,9 +5,19 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.36",
+   "version": "v0.1.37",
    "date": "2026-10-17",
    "commit": null,
+   "title": "The narration beside the deck (run r18-layout)",
+   "changes": "After Dinis's iPad screenshot: on screens 900 px and wider, talk/narration.html puts the narration beside the deck, the same height, so the eyes move left and right instead of up and down. Text left (the default), text right, or below, picked from the bar and remembered (or ?layout=left|right|below); the deck is sized to the viewport height; in 'All three' the three narrations stack in the side column. Phones and portrait tablets keep the text below.",
+   "pages": [
+    "talk/narration.html"
+   ]
+  },
+  {
+   "version": "v0.1.36",
+   "date": "2026-10-17",
+   "commit": "9baaf57",
    "title": "The narrated talk, read aloud in the browser's own voice (run r17-voice)",
    "changes": "talk/narration.html gains '🔊 read aloud' and a voice picker: the browser's own speech (speechSynthesis) reads each paragraph when it starts on screen, from the word the deck has reached, at a rate fitted to what is left of its slot (the voice's real pace is measured as it speaks); pausing the deck pauses the voice, a seek restarts it from there; in 'All three' you pick which narration is read. A preview of the pacing before recorded text-to-speech for the video. Voices differ by browser and device.",
    "pages": [

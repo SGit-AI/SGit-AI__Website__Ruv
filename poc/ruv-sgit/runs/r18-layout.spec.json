@@ -1,0 +1,7 @@
+{
+ "purpose": "r18-layout: the narration beside the deck (left by default, or right, or below), the same height as the deck, so the eyes move left-right instead of up and down",
+ "feedback": "Dinis, 17 Oct (iPad screenshot): put the narration on the left and the video on the right, and let me swap; at the moment the video is in the middle and the text at the bottom, which does not use the screen well and keeps my eyes moving up and down, shifting context.",
+ "workers": [
+  {"id": "layout", "role": "builder", "task": "talk/narration.html: a side-by-side layout on screens 900 px and wider, narration left (default), right or below, remembered; the deck sized to the viewport height; checked at iPad landscape, desktop and portrait widths", "out": "site/talk/narration.html"}
+ ]
+}
