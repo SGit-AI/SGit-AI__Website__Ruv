@@ -5,9 +5,19 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
-   "version": "v0.1.37",
+   "version": "v0.1.38",
    "date": "2026-10-17",
    "commit": null,
+   "title": "The narration as captions on top (run r19-top)",
+   "changes": "A fourth layout for talk/narration.html, to try against the others: '⬒ text top' puts the narration above the deck, like captions on top, in a fixed-height box so the deck does not jump as paragraphs change (in 'All three' the box grows to fit). Works on phones too, where text left and right are hidden. Also ?layout=top.",
+   "pages": [
+    "talk/narration.html"
+   ]
+  },
+  {
+   "version": "v0.1.37",
+   "date": "2026-10-17",
+   "commit": "7189f52",
    "title": "The narration beside the deck (run r18-layout)",
    "changes": "After Dinis's iPad screenshot: on screens 900 px and wider, talk/narration.html puts the narration beside the deck, the same height, so the eyes move left and right instead of up and down. Text left (the default), text right, or below, picked from the bar and remembered (or ?layout=left|right|below); the deck is sized to the viewport height; in 'All three' the three narrations stack in the side column. Phones and portrait tablets keep the text below.",
    "pages": [

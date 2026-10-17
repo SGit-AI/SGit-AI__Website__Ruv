@@ -1,0 +1,7 @@
+{
+ "purpose": "r19-top: the narration as captions on top of the deck, a fourth layout to try beside text left, right and below",
+ "feedback": "Dinis, 17 Oct: that worked great; also add the experiment of putting the captions at the top.",
+ "workers": [
+  {"id": "top", "role": "builder", "task": "talk/narration.html: a 'text top' layout, the narration above the deck in a fixed-height box so the deck does not jump; available on phones too; checked at iPad landscape, desktop and phone widths", "out": "site/talk/narration.html"}
+ ]
+}

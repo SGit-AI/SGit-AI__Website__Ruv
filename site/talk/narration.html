@@ -29,9 +29,13 @@
 .now .pp{border:0;background:var(--t);color:var(--on-accent,#fff);border-radius:999px;width:38px;height:38px;font-size:15px;cursor:pointer;flex:none}
 .now .cols{display:grid;gap:16px}.now .cols.n3{grid-template-columns:repeat(3,minmax(0,1fr))}
 /* side by side (wide screens): the narration beside the deck, the same height, so the eyes move left-right, not up-down */
-#lay{display:none}
+/* captions on top: the narration above the deck, a fixed height so the deck does not jump as paragraphs change */
+body.lay-top .stage{display:flex;flex-direction:column;max-width:min(1100px,calc((100vh - 340px) * 1.6))}
+body.lay-top .now{order:-1;margin:0 0 12px;height:200px;min-height:0;overflow:auto}
+body.lay-top .now .txt{font-size:clamp(19px,1.9vw,25px)}body.lay-top .now .cols.n3 .txt{font-size:16.5px}
+body.lay-top .now:has(.cols.n3){height:auto}
+@media(max-width:899px){#lay button[data-l=left],#lay button[data-l=right]{display:none}body.lay-top .now{height:auto;min-height:150px}}
 @media(min-width:900px){
- #lay{display:inline-flex}
  body.lay-left .nar .wrap,body.lay-right .nar .wrap{max-width:1680px}
  body.lay-left .stage,body.lay-right .stage{max-width:none;min-width:0;display:grid;grid-template-columns:minmax(300px,1fr) auto;gap:16px;align-items:stretch}
  body.lay-left .deck,body.lay-right .deck{width:min(calc((100vh - 90px) * 1.6),calc(100vw - 380px),1240px)}
@@ -83,7 +87,7 @@
   <button data-p="ceo">CEO</button><button data-p="cto">CTO</button><button data-p="dev">Developer</button><button data-p="all">All three</button>
  </div>
  <label class="tg"><input type="checkbox" id="notes"> show notes</label>
- <div class="seg" id="lay" role="group" aria-label="where the narration goes"><button data-l="left" title="narration left of the deck">◧ text left</button><button data-l="right" title="narration right of the deck">text right ◨</button><button data-l="below" title="narration under the deck">below</button></div>
+ <div class="seg" id="lay" role="group" aria-label="where the narration goes"><button data-l="top" title="narration above the deck, like captions on top">⬒ text top</button><button data-l="left" title="narration left of the deck">◧ text left</button><button data-l="right" title="narration right of the deck">text right ◨</button><button data-l="below" title="narration under the deck">below</button></div>
  <label class="tg"><input type="checkbox" id="follow" checked> follow the deck</label>
  <span class="voice" id="voiceBox"><label class="tg" title="read the narration aloud with this browser's own voice (a preview of the pacing; the video will use a recorded voice)"><input type="checkbox" id="speak"> 🔊 read aloud</label><select id="vread" aria-label="which narration to read" hidden><option value="ceo">CEO</option><option value="cto">CTO</option><option value="dev">Developer</option></select><select id="voice" aria-label="voice" hidden></select></span>
  <span class="sp"></span>
@@ -122,8 +126,8 @@
   $('notes').checked = qs.has('notes') || store('ruv-narration-notes') === '1'
   // layout: the narration left of the deck (default on wide screens), right of it, or below it
   let lay = qs.get('layout') || store('ruv-narration-layout') || 'left'
-  if (!['left', 'right', 'below'].includes(lay)) lay = 'left'
-  const paintLay = () => { document.body.classList.remove('lay-left', 'lay-right', 'lay-below'); document.body.classList.add('lay-' + lay); document.querySelectorAll('#lay button').forEach(x => x.setAttribute('aria-pressed', x.dataset.l === lay)) }
+  if (!['top', 'left', 'right', 'below'].includes(lay)) lay = 'left'
+  const paintLay = () => { document.body.classList.remove('lay-top', 'lay-left', 'lay-right', 'lay-below'); document.body.classList.add('lay-' + lay); document.querySelectorAll('#lay button').forEach(x => x.setAttribute('aria-pressed', x.dataset.l === lay)) }
   document.querySelectorAll('#lay button').forEach(x => x.onclick = () => { lay = x.dataset.l; store('ruv-narration-layout', lay); paintLay() })
   paintLay()
 

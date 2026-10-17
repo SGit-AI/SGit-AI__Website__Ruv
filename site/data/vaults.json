@@ -5104,10 +5104,145 @@
     "store_paths_left": 0,
     "clone_after_delete": "failed"
    }
+  },
+  {
+   "run": "r19-top",
+   "purpose": "r19-top: the narration as captions on top of the deck, a fourth layout to try beside text left, right and below",
+   "feedback": "Dinis, 17 Oct: that worked great; also add the experiment of putting the captions at the top.",
+   "vault_id": "v5i22rgi",
+   "created_at": "2026-10-17T21:33:40+00:00",
+   "closed_at": "2026-10-17T21:33:56+00:00",
+   "deleted_at": "2026-10-17T21:33:56+00:00",
+   "hive": {
+    "workers": 1,
+    "tasks": 1,
+    "ruflo_calls": 7,
+    "ruflo_ms": 9278
+   },
+   "branches": [
+    {
+     "name": "w-top",
+     "role": "builder",
+     "commits": 1,
+     "files": 1,
+     "bytes": 23324,
+     "write_ms": 1486,
+     "merge_ms": 1544
+    }
+   ],
+   "commits": 3,
+   "files": 3,
+   "bytes_plain": 23991,
+   "files_delivered": 1,
+   "bytes_delivered": 23324,
+   "server_store": {
+    "files": 21,
+    "bytes": 30256,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 510,
+    "files": 3,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 822,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 435,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 657,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 438,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 454,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 594,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 517,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 469,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 558,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 439,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 510,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "20efe4b344b2",
+     "message": "init",
+     "time": "2026-10-17T21:33:49Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "9c2f9082032e",
+     "message": "brief: run r19-top",
+     "time": "2026-10-17T21:33:49Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "672cd770baa9",
+     "message": "builder top: delivered 1 files",
+     "time": "2026-10-17T21:33:51Z",
+     "files_added": 1,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "top",
+     "role": "builder",
+     "kind": "the conductor (main Claude Code session), not metered separately",
+     "tokens": null
+    }
+   ],
+   "deleted_paths": 45,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
   }
  ],
  "sample": false,
- "updated": "2026-10-17T14:54:53+00:00",
+ "updated": "2026-10-17T21:33:56+00:00",
  "server": "a local SG/Send vault server (sgraph-ai-app-send, disk storage), one process, on the machine that ran the hive",
  "published_on": {
   "server": "https://dev.send.sgraph.ai",
