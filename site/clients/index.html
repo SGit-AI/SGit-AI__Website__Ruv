@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>For clients · ruv.sgit</title>
+<meta name="description" content="For clients: agent work done by a Ruflo hive under a written mandate per role, with an sgit vault per job that you keep, delivered by people. The engagement path, the four offers and prices, five project types, the founding providers, what stays yours, and the proof.">
+<link rel="canonical" href="https://ruv.sgit.ai/clients/index.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f766e%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Georgia%27%3Er%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/site.css">
+<script src="../assets/theme.js"></script>
+<style>
+main p,main li{overflow-wrap:anywhere}
+main section[id],main [id].anchor{scroll-margin-top:72px}
+.attr{font-size:14px;color:var(--m)}
+.sub-lead{color:var(--m);max-width:72ch;margin:0 0 6px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--t);outline-offset:2px;border-radius:6px}
+.btn.sm{padding:7px 12px;font-size:13.5px}
+.card.flex{display:flex;flex-direction:column}
+.card.flex .grow{flex:1}
+.card .acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.card .who{font-size:14px;color:var(--m)}
+/* the engagement path */
+.path{list-style:none;padding:0;margin:18px 0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;counter-reset:p}
+.path li{counter-increment:p;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow);min-width:0;max-width:none;display:flex;flex-direction:column}
+.path li::before{content:counter(p);width:30px;height:30px;border-radius:50%;background:var(--t);color:var(--on-accent);font:700 14px ui-sans-serif,system-ui;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.path h3{font-size:18px;margin:0 0 6px}
+.path p{font-size:14.5px;margin:0 0 8px}
+.path .price{font-weight:600;color:var(--t);font-size:14.5px}
+.path .keep{font-size:13.5px;color:var(--m);margin-top:auto;padding-top:8px;border-top:1px dashed var(--line)}
+@media(max-width:1000px){.path{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.path{grid-template-columns:1fr}}
+/* offers */
+.offer h3{margin-bottom:4px}
+.offer .items{list-style:none;padding:0;margin:12px 0 0;border-top:1px solid var(--line)}
+.offer .items li{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:8px 0;border-bottom:1px solid var(--line);max-width:none;font-size:14.5px}
+.offer .items li span{min-width:0}
+.offer .items li b{white-space:nowrap;font-family:Georgia,serif;font-size:17px;color:var(--ink)}
+.offer .items li small{display:block;color:var(--m);font-size:12.5px}
+.offer .items li .u{font:400 12.5px ui-sans-serif,system-ui;color:var(--m);display:block;text-align:right}
+.tag{display:inline-block;font:600 12px ui-sans-serif,system-ui;padding:2px 8px;border-radius:999px;background:var(--a2);color:var(--a);font-weight:600;margin-left:6px;vertical-align:middle}
+/* project types */
+.type .n{display:block;margin-bottom:6px}
+.type .built{font-size:14px;margin:10px 0 0;padding:10px 12px;background:var(--bg2);border-radius:10px}
+.type .built b{display:block;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--m);margin-bottom:2px}
+.type .built ul{margin:0;padding-left:18px}.type .built li{font-size:14px}
+/* providers */
+.prov .head{display:flex;gap:14px;align-items:center;margin-bottom:10px}
+.avatar{flex:0 0 auto;width:64px;height:64px;border-radius:50%;background:var(--t2);color:var(--t);border:2px solid var(--t);display:flex;align-items:center;justify-content:center;font:700 22px Georgia,serif;letter-spacing:.02em}
+.prov h3{margin:0;font-size:21px}.prov h3 a{color:var(--ink)}.prov h3 a:hover{color:var(--t)}
+.prov .meta{font-size:13.5px;color:var(--m);margin:2px 0 0}
+.prov .headline{font-weight:600;font-size:15px;margin:0 0 8px}
+.prov .spec{display:flex;flex-wrap:wrap;gap:6px;list-style:none;padding:0;margin:10px 0 0}
+.prov .spec li{font-size:12.5px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:var(--bg2);color:var(--ink);max-width:none}
+.draft{font-size:13px;color:var(--m)}
+/* keeps, roles, notes */
+.keeps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:18px 0}
+.keeps .card h3{font-size:18px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:16px 0}
+.facts div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;min-width:0}
+.facts b{display:block;font:700 26px Georgia,serif;color:var(--t)}
+.facts span{font-size:13.5px;color:var(--m)}
+.cont{list-style:none;padding:0;margin:16px 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.cont li{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;max-width:none;min-width:0;font-size:14.5px}
+.cont li b{display:block;font-family:Georgia,serif;font-size:17px;margin-bottom:4px}
+@media(max-width:820px){.cont{grid-template-columns:1fr}}
+.contact{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow)}
+.contact .mail{font:600 clamp(17px,4.6vw,22px) Georgia,serif;overflow-wrap:anywhere}
+.tbl table{min-width:540px}
+#offer-cards{grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr))}
+#type-cards{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+#prov-cards{grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))}
+</style>
+</head>
+<body data-root="../">
+<header class="top"><div class="wrap"><a class="brand" href="../index.html">ruv.sgit.ai<small>rUv + sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
+<main>
+
+<section class="hero"><div class="wrap">
+<p class="k">ruv.sgit · for clients</p>
+<h1>Agent work you can check, delivered by people</h1>
+<p class="lead">A Ruflo hive does a real piece of your work: a queen and workers, each under a written mandate for its role, with an encrypted sgit vault per job that you keep. A provider scopes it with you, starts the run, watches it and hands it over. Start with a conversation; every step after that is small enough to say yes to.</p>
+<div class="btns">
+<a class="btn p" href="../shop/index.html">Order in the shop</a>
+<a class="btn" data-enquire="a conversation" href="mailto:agent@riskmandate.ai">Ask for a free conversation</a>
+</div>
+<nav class="toc" aria-label="On this page">
+<a href="#path">The engagement path</a><a href="#offers">Offers and prices</a><a href="#types">Project types</a><a href="#providers">The providers</a><a href="#yours">What stays yours</a><a href="#roles">Who does what</a><a href="#companies">For companies</a><a href="#teams">For internal teams</a><a href="#proof">The proof</a>
+</nav>
+<p class="attr">Built on rUv's open-source projects (Ruflo, RuVector, RVM, MetaHarness): MIT, by rUv / ruvnet. We build on them; we do not sell or own them. Ours: sgit vaults and Agent Behaviour Policies, Apache-2.0. Materials: CC BY 4.0.</p>
+</div></section>
+
+<section id="path" class="alt"><div class="wrap">
+<h2>The engagement path</h2>
+<p class="sub-lead">Five steps. Each ends with something you keep, and you can stop after any of them. Prices are the published list prices in GBP, excluding VAT, the same for every provider.</p>
+<ol class="path">
+<li><h3>A conversation</h3><p>What you want agents to do, and what they must never do.</p><p class="price">Free</p><p class="keep">You keep: notes, and a proposed first run.</p></li>
+<li><h3>A first run</h3><p>A task run on a real problem: a Ruflo queen and up to 5, 10 or 20 workers, no network access, materials provided up front.</p><p class="price" id="p-runs">£10, £20 or £50 a run</p><p class="keep">You keep: the run's vault.</p></li>
+<li><h3>Expert time</h3><p>About two hours to steer it, or a day to write the behaviour policy for one team.</p><p class="price" id="p-expert">£500 or £1,500</p><p class="keep">You keep: the policy and the vault.</p></li>
+<li><h3>A pilot</h3><p>Four working days setting it up in your own environment, with your policies and your first runs.</p><p class="price" id="p-pilot">£5,000</p><p class="keep">You keep: the setup, its policies and vaults.</p></li>
+<li><h3>Run it yourself</h3><p>The maintained repository: the code that runs this, in a private repository of your own, kept current.</p><p class="price" id="p-repo">from £149 a month</p><p class="keep">You keep: the repository.</p></li>
+</ol>
+<p>Dedicated compute can be added to any step; it is designed, not built yet, and the reply to an order says so. The full path, with matching and delivery, is in <a href="../how-it-works/index.html#path">How it works</a>.</p>
+</div></section>
+
+<section id="offers"><div class="wrap">
+<h2>The four offers</h2>
+<p class="sub-lead">Mix and match. Put what fits in the cart and send it: there is no payment step, the order comes to <a href="mailto:agent@riskmandate.ai">agent@riskmandate.ai</a> by email, and a person replies with dates and a quote. Or enquire first.</p>
+<div class="cards" id="offer-cards" aria-live="polite"><p class="k">Reading data/offers.json…</p></div>
+<noscript><p>The offers and prices are in <a href="../shop/index.html">the shop</a>.</p></noscript>
+<p class="k" id="offers-src"></p>
+</div></section>
+
+<section id="types" class="alt"><div class="wrap">
+<h2>Five project types</h2>
+<p class="sub-lead">Most engagements are one of these. Each is a package of the offers above, priced from them; the reply to an enquiry sets out exactly which ones, and the quote.</p>
+<div class="cards" id="type-cards">
+<div class="card flex type"><span class="n">TYPE 1</span><h3>A first run, with a guide</h3><p class="grow">One real task, run by a hive under a written behaviour policy, with a person who has run these hives shaping the brief and reading the vault with you afterwards.</p><div class="built" data-built="run-s,expert-hours"><b>Built from</b>A task run and a couple of hours of expert time.</div><div class="acts"><a class="btn sm p" href="../shop/index.html">Order in the shop</a><a class="btn sm" data-enquire="A first run, with a guide" href="mailto:agent@riskmandate.ai">Enquire to book</a></div></div>
+<div class="card flex type"><span class="n">TYPE 2</span><h3>A behaviour policy for one team's agents</h3><p class="grow">An Agent Behaviour Policy for each role in one team: what it can reach, what it may do, what is stopped, and who owns it. Tested with runs against your own task.</p><div class="built" data-built="expert-day,run-m"><b>Built from</b>A day of expert time, and task runs to test it.</div><div class="acts"><a class="btn sm p" href="../shop/index.html">Order in the shop</a><a class="btn sm" data-enquire="A behaviour policy for one team's agents" href="mailto:agent@riskmandate.ai">Enquire to book</a></div></div>
+<div class="card flex type"><span class="n">TYPE 3</span><h3>A four-day pilot</h3><p class="grow">ruv.sgit set up in your environment (Claude Code, AWS or your own), with your policies and your first runs, then handed over to your team.</p><div class="built" data-built="expert-days"><b>Built from</b>Several days of expert time.</div><div class="acts"><a class="btn sm p" href="../shop/index.html">Order in the shop</a><a class="btn sm" data-enquire="A four-day pilot" href="mailto:agent@riskmandate.ai">Enquire to book</a></div></div>
+<div class="card flex type"><span class="n">TYPE 4</span><h3>A talk or workshop, built the way ours was</h3><p class="grow">The materials for your talk or workshop made by ruv.sgit runs, each run in its own vault with a ledger entry, as <a href="../proof/index.html">the talk of 15 October 2026</a> was. You present with a record of how it was made.</p><div class="built" data-built="expert-day,run-m"><b>Built from</b>Expert time and task runs.</div><div class="acts"><a class="btn sm p" href="../shop/index.html">Order in the shop</a><a class="btn sm" data-enquire="A talk or workshop" href="mailto:agent@riskmandate.ai">Enquire to book</a></div></div>
+<div class="card flex type"><span class="n">TYPE 5</span><h3>A review of an agent that is already running</h3><p class="grow">A provider reads what your agent can reach and what it does, and writes it down as a behaviour policy, so the gap between the two is visible and can be closed.</p><div class="built" data-built="expert-hours,expert-day"><b>Built from</b>A couple of hours, or a day, of expert time.</div><div class="acts"><a class="btn sm p" href="../shop/index.html">Order in the shop</a><a class="btn sm" data-enquire="A review of an agent that is already running" href="mailto:agent@riskmandate.ai">Enquire to book</a></div></div>
+</div>
+</div></section>
+
+<section id="providers"><div class="wrap">
+<h2>The providers</h2>
+<p class="sub-lead">The marketplace starts with two founding providers. Both offer the same four offers at the published list prices. Name one when you enquire or order, or leave it open: for now, enquiries are matched by hand, by project type, language, location and availability, and you choose.</p>
+<div class="cards" id="prov-cards" aria-live="polite"><p class="k">Reading data/providers.json…</p></div>
+<p class="draft" id="prov-note"></p>
+<p>Deliver this yourself? See <a href="../providers/index.html">For providers</a> and <a href="../join/index.html#provider">apply to join</a>.</p>
+</div></section>
+
+<section id="yours" class="alt"><div class="wrap">
+<h2>What stays yours</h2>
+<p class="sub-lead">Everything we publish is open, so anybody can do this without us. Your part of an engagement is not.</p>
+<div class="keeps">
+<div class="card"><h3>Your code and data</h3><p>They stay yours, under your own terms. We do not publish them, reuse them or keep them beyond the engagement.</p></div>
+<div class="card"><h3>The vault</h3><p>Each job runs in its own encrypted sgit vault: a branch per worker, every delivery committed. At the end it is handed to you, as a zip or with a read key only you choose to publish, and deleted from our side, with the delete checked.</p></div>
+<div class="card"><h3>Private first</h3><p>Everything to do with a client is private by default. A ledger entry or a case study is published later, and only with your agreement; then only the measurements.</p></div>
+<div class="card"><h3>What goes back</h3><p>Improvements to the shared code, playbooks and behaviour-policy patterns go back to the public repositories, with your name and data removed. Code created in an engagement is Apache-2.0 unless agreed otherwise in writing.</p></div>
+</div>
+<p>The full terms, with worked examples of who bills and how revenue is split, are in <a href="../rules/index.html">the rules of engagement</a>.</p>
+</div></section>
+
+<section id="roles"><div class="wrap">
+<h2>Who does what</h2>
+<div class="tbl"><table>
+<thead><tr><th scope="col">Who</th><th scope="col">Does</th></tr></thead>
+<tbody>
+<tr><td><b>You, the client</b></td><td>Say what you want done and what must never happen; provide the materials; own your code, your data and the vault.</td></tr>
+<tr><td><b>The provider who has you as a client</b></td><td>Scopes the job, writes the brief with you, bills you, and is your single contact.</td></tr>
+<tr><td><b>The provider(s) who deliver</b></td><td>Write the behaviour policy per role, start the run, watch it to the end, review the output and hand it over.</td></tr>
+<tr><td><b>The agents</b></td><td>A Ruflo queen and workers, each under its role's mandate, delivering into the run's vault.</td></tr>
+<tr><td><b>The marketplace</b> (for now, the two founding providers)</td><td>Matches enquiries to providers, keeps the rules and the playbooks.</td></tr>
+</tbody></table></div>
+<p>Each job is a ruv.sgit run: a run spec, a mandate per role (no network by default), a vault per run, a person watching, a measured close, and a ledger entry. The steps are in <a href="../how-it-works/index.html#delivery">How it works</a>.</p>
+</div></section>
+
+<section id="companies" class="alt"><div class="wrap">
+<p class="k">For consultancies and product companies</p>
+<h2>Add agent work to what you already sell</h2>
+<p class="sub-lead">Your clients are asking what you do with agents, and you cannot hand their data to something you cannot show. Answer with something you can show: a hive with a written mandate per role, an encrypted vault per run, and a ledger with the numbers.</p>
+<div class="two">
+<div><h3>Who this is for</h3><ul>
+<li>Consultancies that want a delivery practice built on agent hives, with evidence a client's risk team will accept.</li>
+<li>Product companies that want agent runs inside their product, under their brand.</li>
+</ul></div>
+<div><h3>What stays with you</h3><ul>
+<li><b>Your clients.</b> The relationship is yours; whoever has the client bills.</li>
+<li><b>Your brand.</b> White label or your own deployment: the offering and the delivered vaults carry your name.</li>
+<li><b>Your keys.</b> Vault keys stay in your secret store, never printed, logged or committed. The vault server holds ciphertext only.</li>
+</ul></div>
+</div>
+<h3>Start cheap, move along as demand is proven</h3>
+<ul class="cont">
+<li><b>Resell runs</b>Buy task runs and sell them on, with your expertise around them. Nothing to deploy.</li>
+<li><b>White label</b>Your brand on the offering and the deliverables, with a provider running the hives behind you; you hand your clients their run vaults.</li>
+<li><b>Your own deployment</b>The maintained repository (the white-label tier is ready to offer under your name), on Claude Code, on AWS or anywhere you choose. Dedicated compute is designed, not built yet.</li>
+</ul>
+<p>Each step uses the same runner, behaviour policies and vaults. Custom arrangements, especially for companies that bring the work or an existing project, are possible and agreed in writing before work starts. rUv's projects stay attributed as their licences require (MIT, by rUv / ruvnet).</p>
+<div class="btns"><a class="btn p" href="../shop/index.html">Order in the shop</a><a class="btn" data-enquire="For companies: reselling, white label or our own deployment" href="mailto:agent@riskmandate.ai">Enquire to book</a></div>
+</div></section>
+
+<section id="teams"><div class="wrap">
+<p class="k">For platform, AI enablement, security and risk teams</p>
+<h2>Agents inside your organisation, with the governance written down</h2>
+<p class="sub-lead">People across the organisation want agents doing real work. Security, risk and legal want to know what those agents can touch, before they say yes. This gives both.</p>
+<div class="cards">
+<div class="card"><h3>A written mandate per role</h3><p>An Agent Behaviour Policy for each role: what it can reach, what it is mandated to do, the barrier between the two, and the person who owns it.</p></div>
+<div class="card"><h3>Enforced, not advised</h3><p>The mandate compiles into Ruflo's own policy engine in enforce mode (on a fresh project it runs in legacy mode; observe sits between). Ruflo writes a hash-chained receipt for every decision. <span id="poc1-line">Reading data/report.json…</span> <a href="../pocs.html">POC1</a></p></div>
+<div class="card"><h3>No network by default</h3><p>Runs get no internet. Materials are provided up front, and the policy denies egress.</p></div>
+<div class="card"><h3>Data with a short life</h3><p>Files are encrypted on the client before upload; the server stores ciphertext under opaque ids. One vault per run holds everything it made; at the close it is measured, handed over and deleted, and the delete is checked.</p></div>
+</div>
+<div class="two">
+<div><h3>Where it runs</h3><ul>
+<li><b>In your own environment:</b> the maintained repository, kept current and set up for your stack, on Claude Code, on AWS or anywhere you run code.</li>
+<li><b>On its own machine:</b> dedicated compute, one AWS EC2 instance per task, with the vault created inside it. Designed, not built yet.</li>
+</ul></div>
+<div><h3>How a provider helps you start</h3><ul>
+<li>A couple of hours to review your first policy.</li>
+<li>A day to run the first hive with your team.</li>
+<li>Four days to set up your deployment and hand it over.</li>
+</ul></div>
+</div>
+<div class="btns"><a class="btn p" href="../shop/index.html">Order in the shop</a><a class="btn" data-enquire="For an internal team" href="mailto:agent@riskmandate.ai">Enquire to book</a></div>
+</div></section>
+
+<section id="proof" class="alt"><div class="wrap">
+<h2>The proof</h2>
+<p class="sub-lead">Every page and talk on this site was made by ruv.sgit runs, and every run is in a public ledger. These numbers are read from <a href="../data/vaults.json">data/vaults.json</a> as the page loads.</p>
+<div class="facts" aria-live="polite">
+<div><b id="f-runs">…</b><span>runs in the ledger</span></div>
+<div><b id="f-commits">…</b><span>vault commits</span></div>
+<div><b id="f-plain">…</b><span>probed text fragments found in what the vault server stored</span></div>
+<div><b id="f-clone">…</b><span>fresh clones identical, file by file</span></div>
+</div>
+<p class="k" id="f-note"></p>
+<div class="btns"><a class="btn p" href="../proof/index.html">See the proof</a><a class="btn" href="../ruv-sgit/ledger/index.html">Open the ledger</a><a class="btn" href="../articles/ruv-sgit-business-model.html">Read the business plan</a></div>
+<p>The business plan sets out the offers, the prices and the arithmetic behind them. Where it differs from the <a href="../rules/index.html">rules of engagement</a> (the revenue split), the rules apply.</p>
+</div></section>
+
+<section><div class="wrap">
+<div class="callout warn">
+<p><b>What this does not claim.</b> Runs are not automated end to end: a person starts each one, watches it and hands it over, and the prices cover that time. The runs on this site used a local vault server on the machine that ran the hive, so their timings are local numbers; they were not policy-gated (enforcement was shown separately, in POC1). Dedicated compute and the materials sandbox for uploads are not built yet. The site takes no payment, and there is no paid engagement yet: the prices are the business plan's starting list prices. This is not rUv's offer and does not speak for him or for the Agentics Foundation.</p>
+</div>
+<div class="contact">
+<h2 style="margin-top:0">Talk to us</h2>
+<p class="mail"><a href="mailto:agent@riskmandate.ai">agent@riskmandate.ai</a></p>
+<p>A live agent answers; a person follows up. Every enquiry and every order from the shop goes to this address.</p>
+<div class="btns"><a class="btn p" href="../shop/index.html">Order in the shop</a><a class="btn" data-enquire="a conversation" href="mailto:agent@riskmandate.ai">Ask for a free conversation</a></div>
+</div>
+</div></section>
+
+</main>
+<footer><div class="wrap"><span>ruv.sgit.ai · for clients</span><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">source on GitHub</a><a href="https://sgit.ai">sgit.ai</a><a href="https://ruv.io">ruv.io</a><a href="https://github.com/ruvnet">github.com/ruvnet</a><span>code Apache-2.0 · rUv's projects MIT, by rUv / ruvnet · materials CC BY 4.0</span><a href="../llms.txt">llms.txt</a></div></footer>
+<script src="../assets/site.js"></script>
+<script>
+// Prices come from data/offers.json, providers from data/providers.json, and every number about runs from data/vaults.json and data/report.json: none is typed in.
+(function () {
+  'use strict';
+  var MAIL = 'agent@riskmandate.ai';
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var gbp = function (x) { return '£' + Number(x).toLocaleString('en-GB', { minimumFractionDigits: x % 1 ? 2 : 0, maximumFractionDigits: 2 }); };
+  var json = function (u) { return fetch(u).then(function (r) { if (!r.ok) throw new Error(u); return r.json(); }); };
+  var list = function (a) { return a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' or ' + a[a.length - 1]; };
+  // Enquire to book: an email with the offer and the provider filled in; a person replies with dates and a quote.
+  var enquire = function (offer, provider) {
+    var what = offer || 'a conversation';
+    var subject = 'Enquiry: ' + what + (provider ? ' with ' + provider : '');
+    var body = [
+      'Hello,', '',
+      'Who it is for: (your name, organisation and role)',
+      'The offer: ' + what,
+      'Preferred provider: ' + (provider || 'none'), '',
+      'What do you want agents to do?', '', '',
+      'What must they never do?', '', '',
+      'When would you like to start?', '', '',
+      '(Sent from ruv.sgit.ai/clients. No payment is taken on the site: a person replies with dates and a quote.)'
+    ].join('\n');
+    return 'mailto:' + MAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  };
+  var wire = function (root) { (root || document).querySelectorAll('[data-enquire]').forEach(function (a) { a.href = enquire(a.getAttribute('data-enquire') === 'a conversation' ? '' : a.getAttribute('data-enquire'), a.getAttribute('data-provider') || ''); }); };
+  wire();
+
+  json('../data/offers.json').then(function (O) {
+    var G = O.groups || [], items = {};
+    G.forEach(function (g) { (g.items || []).forEach(function (it) { it.group = g; items[it.id] = it; }); });
+    var byok = function (it) { var k = (it.options || []).filter(function (o) { return o.id === 'key'; })[0]; var c = k && k.choices.filter(function (x) { return x.id === 'byok'; })[0]; return c ? it.price + c.delta : null; };
+    // the path
+    var runs = (G.filter(function (g) { return g.id === 'runs'; })[0] || {}).items || [];
+    if (runs.length) document.getElementById('p-runs').textContent = list(runs.map(function (i) { return gbp(i.price); })) + ' a run (' + list(runs.map(function (i) { return gbp(byok(i)); })) + ' with your own model key)';
+    if (items['expert-hours'] && items['expert-day']) document.getElementById('p-expert').textContent = gbp(items['expert-hours'].price) + ' (about two hours) or ' + gbp(items['expert-day'].price) + ' (a day)';
+    if (items['expert-days']) document.getElementById('p-pilot').textContent = gbp(items['expert-days'].price);
+    var repo = (G.filter(function (g) { return g.id === 'repo'; })[0] || {}).items || [];
+    if (repo.length) document.getElementById('p-repo').textContent = 'from ' + gbp(repo[0].price) + ' a month (' + list(repo.map(function (i) { return gbp(i.price); })) + ')';
+    // the four offers
+    document.getElementById('offer-cards').innerHTML = G.map(function (g) {
+      var pending = g.id === 'compute' ? '<span class="tag">designed, not built yet</span>' : '';
+      return '<div class="card flex offer" id="offer-' + esc(g.id) + '"><h3>' + esc(g.title) + pending + '</h3><p class="grow">' + esc(g.summary) + '</p><p class="who"><b>For:</b> ' + esc(g.who) + '</p>' +
+        '<ul class="items">' + (g.items || []).map(function (it) { return '<li><span>' + esc(it.name) + '<small>' + esc(it.summary) + '</small></span><b>' + gbp(it.price) + '<span class="u">' + esc(it.unit) + '</span></b></li>'; }).join('') + '</ul>' +
+        '<div class="acts"><a class="btn sm p" href="../shop/index.html">Order in the shop</a><a class="btn sm" data-enquire="' + esc(g.title) + '" href="mailto:' + MAIL + '">Enquire to book</a></div></div>';
+    }).join('');
+    wire(document.getElementById('offer-cards'));
+    document.getElementById('offers-src').textContent = 'Prices in ' + (O.currency || 'GBP') + ', excluding VAT, from data/offers.json (updated ' + O.updated + '). Model tokens are included with our key; dedicated compute adds a task run for the tokens.';
+    // the five project types: name the offers each is built from, with their list prices
+    document.querySelectorAll('[data-built]').forEach(function (el) {
+      var parts = el.getAttribute('data-built').split(',').map(function (id) { var it = items[id]; return it ? '<li>' + esc(it.group.title) + ': ' + esc(it.name) + ', ' + gbp(it.price) + ' ' + esc(it.unit) + '</li>' : ''; }).join('');
+      if (parts) el.innerHTML = '<b>Built from</b><ul>' + parts + '</ul>';
+    });
+  }).catch(function () { document.getElementById('offer-cards').innerHTML = '<p>Could not read data/offers.json. The offers and prices are in <a href="../shop/index.html">the shop</a>.</p>'; });
+
+  json('../data/providers.json').then(function (P) {
+    var L = P.providers || [];
+    document.getElementById('prov-cards').innerHTML = L.map(function (p) {
+      var page = '../' + p.page;
+      return '<article class="card flex prov"><div class="head"><div class="avatar" role="img" aria-label="' + esc(p.name) + ' (initials; photo to come)">' + esc(p.initials) + '</div><div><h3><a ' + 'href' + '="' + esc(page) + '">' + esc(p.name) + '</a></h3><p class="meta">' + (p.founding ? 'Founding provider · ' : '') + esc(p.location) + '</p></div></div>' +
+        '<p class="headline">' + esc(p.headline) + '</p><p class="grow">' + esc(p.bio_short) + '</p>' +
+        '<ul class="spec" aria-label="Specialisms">' + (p.specialisms || []).map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ul>' +
+        '<div class="acts"><a class="btn sm p" data-enquire="a conversation" data-provider="' + esc(p.name) + '" href="mailto:' + MAIL + '">Enquire to book</a><a class="btn sm" href="../shop/index.html?provider=' + encodeURIComponent(p.id) + '">Order with ' + esc(p.name.split(' ')[0]) + '</a><a class="btn sm" ' + 'href' + '="' + esc(page) + '">See the profile</a></div></article>';
+    }).join('');
+    wire(document.getElementById('prov-cards'));
+    document.getElementById('prov-note').textContent = 'Profiles from data/providers.json (updated ' + P.updated + '). The bios are drafted from public pages for each provider to approve; photos are to come from them.';
+  }).catch(function () { document.getElementById('prov-cards').innerHTML = '<p>Could not read data/providers.json. See <a href="../providers/index.html">the providers</a>.</p>'; });
+
+  json('../data/vaults.json').then(function (L) {
+    var V = L.vaults || [];
+    var sum = function (f) { return V.reduce(function (s, v) { return s + (f(v) || 0); }, 0); };
+    document.getElementById('f-runs').textContent = V.length;
+    document.getElementById('f-commits').textContent = sum(function (v) { return v.commits; });
+    document.getElementById('f-plain').textContent = sum(function (v) { return v.server_store && v.server_store.plaintext_hits; });
+    document.getElementById('f-clone').textContent = V.filter(function (v) { return v.clone && v.clone.identical; }).length + ' of ' + V.length;
+    var del = V.filter(function (v) { return v.deleted_at; }).length;
+    document.getElementById('f-note').textContent = del + ' of ' + V.length + ' vaults deleted after their run; the others are example runs kept sealed and published on purpose. Local vault server, local numbers. From data/vaults.json (updated ' + String(L.updated || '').slice(0, 10) + ').';
+  }).catch(function () { document.getElementById('f-note').textContent = 'Could not read data/vaults.json.'; });
+
+  json('../data/report.json').then(function (R) {
+    var rows = R.rows || [];
+    var denied = rows.filter(function (r) { return /^denied/.test(r.abp || ''); }).length;
+    var appr = rows.filter(function (r) { return /^approval/.test(r.abp || ''); }).length;
+    document.getElementById('poc1-line').textContent = 'In our trace, enforce mode stopped ' + (denied + appr) + ' of ' + rows.length + ' actions: ' + denied + ' denied, ' + appr + ' sent to a named person for approval.';
+  }).catch(function () { document.getElementById('poc1-line').textContent = ''; });
+}());
+</script>
+</body>
+</html>

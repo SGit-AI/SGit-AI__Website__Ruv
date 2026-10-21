@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How it works · ruv.sgit</title>
+<meta name="description" content="How a ruv.sgit engagement works: the engagement path with prices, who does what, how a provider is matched, the provider workflow from enquiry to handover, how every job is delivered as a ruv.sgit run, and how changes are committed back.">
+<link rel="canonical" href="https://ruv.sgit.ai/how-it-works/index.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f766e%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Georgia%27%3Er%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/site.css">
+<script src="../assets/theme.js"></script>
+<style>
+main p,main li,main td{overflow-wrap:anywhere}
+.attr{font-size:14px;color:var(--m)}
+.tbl table{min-width:640px;margin:0}
+.tbl.narrow table{min-width:0}
+td.price{white-space:normal}
+.btn:focus-visible,a:focus-visible{outline:2px solid var(--t);outline-offset:2px}
+/* the workflow diagram: theme tokens only, so it follows every theme */
+.diagram{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:18px 0;box-shadow:var(--shadow)}
+.diagram figcaption{color:var(--m);font-size:13px;margin-top:8px}
+.wf{display:block;width:100%;height:auto}
+.wf.narrow{display:none;max-width:420px;margin:0 auto}
+@media(max-width:700px){.wf.wide{display:none}.wf.narrow{display:block}}
+.wf text{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;fill:var(--ink)}
+.wf .tt{font-weight:600}
+.wf .st{font-size:12.5px;fill:var(--m)}
+.wf .ph{font-size:13px;font-weight:600;fill:var(--m);letter-spacing:.02em}
+.wf .num{font-size:13px;font-weight:700;fill:var(--on-accent)}
+.wf .nd rect{fill:var(--bg2);stroke-width:2}
+.wf .nd circle{stroke:none}
+.wf .email rect{stroke:var(--a)}.wf .email circle{fill:var(--a)}
+.wf .vault rect{stroke:var(--t);fill:var(--t2)}.wf .vault circle{fill:var(--t)}
+.wf .pub rect{stroke:var(--ink);stroke-dasharray:6 4}.wf .pub circle{fill:var(--ink)}
+.wf .led rect{stroke:var(--m)}.wf .led circle{fill:var(--m)}
+.wf .ar{stroke:var(--m);stroke-width:2;fill:none}
+.wf .ah{fill:var(--m)}
+/* the workflow steps */
+.flow{list-style:none;counter-reset:w;padding:0;margin:18px 0;display:grid;gap:14px}
+.flow>li{counter-increment:w;position:relative;max-width:none;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px 14px 66px;box-shadow:var(--shadow)}
+.flow>li::before{content:counter(w);position:absolute;left:18px;top:16px;width:34px;height:34px;border-radius:50%;background:var(--t);color:var(--on-accent);font:700 15px ui-sans-serif,system-ui;display:flex;align-items:center;justify-content:center}
+.flow h3{font-size:18px;margin:4px 0 6px}
+.flow p{margin:0 0 8px;max-width:80ch}
+.flow dl{display:grid;grid-template-columns:max-content 1fr;gap:4px 14px;margin:8px 0 0;font-size:14.5px}
+.flow dt{font-weight:600;color:var(--m)}
+.flow dd{margin:0;min-width:0}
+@media(max-width:560px){.flow>li{padding:56px 16px 14px 16px}.flow>li::before{top:14px;left:16px}.flow dl{grid-template-columns:1fr}.flow dd{margin-bottom:6px}}
+.where{display:inline-block;font-size:12px;padding:1px 8px;border-radius:999px;border:1px solid var(--line);background:var(--bg2);color:var(--m);margin-right:4px}
+.where.vault{background:var(--t2);color:var(--t);border-color:transparent}
+.where.email{background:var(--a2);color:var(--a);border-color:transparent}
+</style>
+</head>
+<body data-root="../">
+<header class="top"><div class="wrap"><a class="brand" href="../index.html">ruv.sgit.ai<small>rUv + sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
+<main>
+<section class="hero"><div class="wrap">
+<p class="k">ruv.sgit providers · how it works</p>
+<h1>How it works</h1>
+<p class="lead">From a first conversation to a pilot and a setup you run yourself: who does what, how a provider is matched, the provider workflow from enquiry to handover, how each job is delivered as a ruv.sgit run, and how what we learn goes back to the public repositories.</p>
+<p class="attr">From article No. 9, <a href="../articles/next-phase.html#how-it-works">From the talk to the service</a>, with the decisions of 21 October applied (enquire to book). The money and ownership rules are on <a href="../rules/index.html">Rules of engagement</a>. Built on rUv's open-source projects (Ruflo, RuVector, RVM, MetaHarness): MIT, by rUv / ruvnet.</p>
+<nav class="toc" aria-label="On this page"><a href="#path">The engagement path</a><a href="#roles">Who does what</a><a href="#matching">Matching</a><a href="#workflow">The provider workflow</a><a href="#delivery">How the work is delivered</a><a href="#commit-back">Committing back</a></nav>
+</div></section>
+
+<section id="path"><div class="wrap">
+<h2>The engagement path</h2>
+<p>Five steps, each worth having on its own. Prices are the published list prices for every provider, in GBP excluding VAT, read from <a href="../data/offers.json">data/offers.json</a>.</p>
+<div class="tbl"><table>
+<thead><tr><th scope="col">Step</th><th scope="col">What happens</th><th scope="col">Price today</th><th scope="col">What the client keeps</th></tr></thead>
+<tbody>
+<tr><th scope="row">1. A conversation</th><td>What the client wants agents to do, and what they must never do</td><td class="price">free</td><td>notes, and a proposed first run</td></tr>
+<tr><th scope="row">2. A first run</th><td>A task run on a real problem: a Ruflo queen and up to 5, 10 or 20 workers, no network access, materials provided up front</td><td class="price"><span data-o="run-s">£10</span>, <span data-o="run-m">£20</span> or <span data-o="run-l">£50</span> a run (<span data-byok="run-s">£9</span>, <span data-byok="run-m">£17</span> or <span data-byok="run-l">£40</span> with your own model key)</td><td>the run's vault</td></tr>
+<tr><th scope="row">3. Expert time</th><td>Two hours to steer it, or a day to write the behaviour policy for one team</td><td class="price"><span data-o="expert-hours">£500</span> (about two hours) or <span data-o="expert-day">£1,500</span> (a day)</td><td>the policy and the vault</td></tr>
+<tr><th scope="row">4. A pilot</th><td>Four days setting it up in the client's own environment</td><td class="price"><span data-o="expert-days">£5,000</span></td><td>the setup, its policies and vaults</td></tr>
+<tr><th scope="row">5. Run it yourself</th><td>The maintained repository: the code that runs this, kept current</td><td class="price">from <span data-o="repo-individual">£149</span> a month (<span data-o="repo-individual">£149</span>, <span data-o="repo-team">£499</span>, <span data-o="repo-white-label">£1,500</span>)</td><td>the repository</td></tr>
+</tbody></table></div>
+<p>Dedicated compute (<span data-o="compute-small">£21</span>, <span data-o="compute-medium">£23</span> or <span data-o="compute-gpu">£36</span> per eight-hour block) can be added to any step; it is designed, not built yet, and the reply to an order says so. The five project types (a first run with a guide; a behaviour policy for one team's agents; a four-day pilot; a talk or workshop built the way ours was; a review of an agent that is already running) are packages of these offers, listed on <a href="../clients/index.html#types">For clients</a>.</p>
+<div class="btns"><a class="btn p" id="enquire-btn" href="mailto:agent@riskmandate.ai?subject=Enquiry%3A%20a%20conversation">Enquire to book</a><a class="btn" href="../shop/index.html">See the offers in the shop</a></div>
+<p class="attr">Enquire to book: the button opens an email to agent@riskmandate.ai; a person replies with dates and a quote. The site takes no payment.</p>
+</div></section>
+
+<section id="roles" class="alt"><div class="wrap">
+<h2>Who does what</h2>
+<div class="tbl narrow"><table>
+<thead><tr><th scope="col">Who</th><th scope="col">Does</th></tr></thead>
+<tbody>
+<tr><th scope="row">The client</th><td>Says what they want done and what must never happen; provides the materials; owns their code, data and the vault</td></tr>
+<tr><th scope="row">The provider who has the client</th><td>Scopes the job, writes the brief with the client, bills, and is the client's single contact</td></tr>
+<tr><th scope="row">The provider(s) who deliver</th><td>Write the behaviour policy per role, start the run, watch it, review the output and hand it over</td></tr>
+<tr><th scope="row">The agents</th><td>A Ruflo queen and workers, each under its role's mandate, delivering into the run's vault</td></tr>
+<tr><th scope="row">The marketplace (for now, the two founders)</th><td>Matches enquiries to providers, keeps the rules and the playbooks, reviews applications</td></tr>
+</tbody></table></div>
+</div></section>
+
+<section id="matching"><div class="wrap">
+<h2>How a provider is matched</h2>
+<p>For now, by hand. An order or an enquiry arrives at agent@riskmandate.ai (a live agent answers; a person follows up). If it names a preferred provider, it goes to them. If not, the founders match it by project type, language, location and availability, and reply with one or two names. The client chooses. Nothing is automated.</p>
+<p>A client can name a provider from the start: each provider's page has its own <em>enquire to book</em> button, and the shop has a preferred-provider field (<a href="../shop/index.html?provider=dinis-cruz">with Dinis Cruz</a>, <a href="../shop/index.html?provider=mondweep-chakravorty">with Mondweep Chakravorty</a>). See <a href="../providers/index.html#providers">the providers</a>.</p>
+</div></section>
+
+<section id="workflow" class="alt"><div class="wrap">
+<h2>The provider workflow, from enquiry to handover</h2>
+<p>What a founding provider does with an engagement, step by step: who does it, what it produces, and where that lives. Client material lives in email and in the engagement's private vault, and never in this site's git repository. The only step that touches a public repository is step 8, and it carries no client name or data.</p>
+<figure class="diagram">
+<!--WF--><svg class="wf wide" viewBox="0 0 950 430" role="img" aria-labelledby="wf-t1"><title id="wf-t1">The provider workflow in nine steps</title><defs><marker id="ah-w" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0 0 L10 5 L0 10 z"/></marker></defs><text class="ph" x="20" y="36">Before the work: by email</text><text class="ph" x="20" y="166">The work: in a private vault</text><text class="ph" x="20" y="296">After the work</text><g class="nd email"><rect x="20" y="50" width="270" height="70" rx="12"/><circle cx="44" cy="85.0" r="14"/><text class="num" x="44" y="90.0" text-anchor="middle">1</text><text class="tt" x="68" y="79.0" font-size="15">An enquiry arrives</text><text class="st" x="68" y="99.0">email to agent@riskmandate.ai</text></g><g class="nd email"><rect x="340" y="50" width="270" height="70" rx="12"/><circle cx="364" cy="85.0" r="14"/><text class="num" x="364" y="90.0" text-anchor="middle">2</text><text class="tt" x="388" y="79.0" font-size="15">Triage and match</text><text class="st" x="388" y="99.0">by hand, the two founders</text></g><g class="nd email"><rect x="660" y="50" width="270" height="70" rx="12"/><circle cx="684" cy="85.0" r="14"/><text class="num" x="684" y="90.0" text-anchor="middle">3</text><text class="tt" x="708" y="79.0" font-size="15">The first conversation</text><text class="st" x="708" y="99.0">free; notes by email</text></g><g class="nd email"><rect x="660" y="180" width="270" height="70" rx="12"/><circle cx="684" cy="215.0" r="14"/><text class="num" x="684" y="220.0" text-anchor="middle">4</text><text class="tt" x="708" y="209.0" font-size="15">Quote and written note</text><text class="st" x="708" y="229.0">who bills; split after costs</text></g><g class="nd vault"><rect x="340" y="180" width="270" height="70" rx="12"/><circle cx="364" cy="215.0" r="14"/><text class="num" x="364" y="220.0" text-anchor="middle">5</text><text class="tt" x="388" y="209.0" font-size="15">Run spec and mandates</text><text class="st" x="388" y="229.0">a mandate (ABP) per role</text></g><g class="nd vault"><rect x="20" y="180" width="270" height="70" rx="12"/><circle cx="44" cy="215.0" r="14"/><text class="num" x="44" y="220.0" text-anchor="middle">6</text><text class="tt" x="68" y="209.0" font-size="15">The run</text><text class="st" x="68" y="229.0">open, deliver, close, measured</text></g><g class="nd vault"><rect x="20" y="310" width="270" height="70" rx="12"/><circle cx="44" cy="345.0" r="14"/><text class="num" x="44" y="350.0" text-anchor="middle">7</text><text class="tt" x="68" y="339.0" font-size="15">Review and handover</text><text class="st" x="68" y="359.0">vault to the client; invoice</text></g><g class="nd pub"><rect x="340" y="310" width="270" height="70" rx="12"/><circle cx="364" cy="345.0" r="14"/><text class="num" x="364" y="350.0" text-anchor="middle">8</text><text class="tt" x="388" y="339.0" font-size="15">Commit back</text><text class="st" x="388" y="359.0">PRs, no client data</text></g><g class="nd led"><rect x="660" y="310" width="270" height="70" rx="12"/><circle cx="684" cy="345.0" r="14"/><text class="num" x="684" y="350.0" text-anchor="middle">9</text><text class="tt" x="708" y="339.0" font-size="15">The ledger entry</text><text class="st" x="708" y="359.0">private by default</text></g><path class="ar" d="M294 85.0 L336 85.0" marker-end="url(#ah-w)"/><path class="ar" d="M614 85.0 L656 85.0" marker-end="url(#ah-w)"/><path class="ar" d="M795.0 124 L795.0 154" marker-end="url(#ah-w)"/><path class="ar" d="M656 215.0 L614 215.0" marker-end="url(#ah-w)"/><path class="ar" d="M336 215.0 L294 215.0" marker-end="url(#ah-w)"/><path class="ar" d="M155.0 254 L155.0 284" marker-end="url(#ah-w)"/><path class="ar" d="M294 345.0 L336 345.0" marker-end="url(#ah-w)"/><path class="ar" d="M614 345.0 L656 345.0" marker-end="url(#ah-w)"/><g class="nd email"><rect x="20" y="400" width="22" height="14" rx="4"/></g><text class="st" x="50" y="412">email</text><g class="nd vault"><rect x="112.0" y="400" width="22" height="14" rx="4"/></g><text class="st" x="142.0" y="412">private vault</text><g class="nd pub"><rect x="261.6" y="400" width="22" height="14" rx="4"/></g><text class="st" x="291.6" y="412">public repositories</text><g class="nd led"><rect x="454.40000000000003" y="400" width="22" height="14" rx="4"/></g><text class="st" x="484.40000000000003" y="412">private record</text></svg><svg class="wf narrow" viewBox="0 0 340 854" role="img" aria-labelledby="wf-t2"><title id="wf-t2">The provider workflow in nine steps</title><defs><marker id="ah-n" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0 0 L10 5 L0 10 z"/></marker></defs><g class="nd email"><rect x="10" y="10" width="320" height="62" rx="12"/><circle cx="34" cy="41.0" r="14"/><text class="num" x="34" y="46.0" text-anchor="middle">1</text><text class="tt" x="58" y="35.0" font-size="16">An enquiry arrives</text><text class="st" x="58" y="55.0">email to agent@riskmandate.ai</text></g><path class="ar" d="M170.0 75 L170.0 91" marker-end="url(#ah-n)"/><g class="nd email"><rect x="10" y="94" width="320" height="62" rx="12"/><circle cx="34" cy="125.0" r="14"/><text class="num" x="34" y="130.0" text-anchor="middle">2</text><text class="tt" x="58" y="119.0" font-size="16">Triage and match</text><text class="st" x="58" y="139.0">by hand, the two founders</text></g><path class="ar" d="M170.0 159 L170.0 175" marker-end="url(#ah-n)"/><g class="nd email"><rect x="10" y="178" width="320" height="62" rx="12"/><circle cx="34" cy="209.0" r="14"/><text class="num" x="34" y="214.0" text-anchor="middle">3</text><text class="tt" x="58" y="203.0" font-size="16">The first conversation</text><text class="st" x="58" y="223.0">free; notes by email</text></g><path class="ar" d="M170.0 243 L170.0 259" marker-end="url(#ah-n)"/><g class="nd email"><rect x="10" y="262" width="320" height="62" rx="12"/><circle cx="34" cy="293.0" r="14"/><text class="num" x="34" y="298.0" text-anchor="middle">4</text><text class="tt" x="58" y="287.0" font-size="16">Quote and written note</text><text class="st" x="58" y="307.0">who bills; split after costs</text></g><path class="ar" d="M170.0 327 L170.0 343" marker-end="url(#ah-n)"/><g class="nd vault"><rect x="10" y="346" width="320" height="62" rx="12"/><circle cx="34" cy="377.0" r="14"/><text class="num" x="34" y="382.0" text-anchor="middle">5</text><text class="tt" x="58" y="371.0" font-size="16">Run spec and mandates</text><text class="st" x="58" y="391.0">a mandate (ABP) per role</text></g><path class="ar" d="M170.0 411 L170.0 427" marker-end="url(#ah-n)"/><g class="nd vault"><rect x="10" y="430" width="320" height="62" rx="12"/><circle cx="34" cy="461.0" r="14"/><text class="num" x="34" y="466.0" text-anchor="middle">6</text><text class="tt" x="58" y="455.0" font-size="16">The run</text><text class="st" x="58" y="475.0">open, deliver, close, measured</text></g><path class="ar" d="M170.0 495 L170.0 511" marker-end="url(#ah-n)"/><g class="nd vault"><rect x="10" y="514" width="320" height="62" rx="12"/><circle cx="34" cy="545.0" r="14"/><text class="num" x="34" y="550.0" text-anchor="middle">7</text><text class="tt" x="58" y="539.0" font-size="16">Review and handover</text><text class="st" x="58" y="559.0">vault to the client; invoice</text></g><path class="ar" d="M170.0 579 L170.0 595" marker-end="url(#ah-n)"/><g class="nd pub"><rect x="10" y="598" width="320" height="62" rx="12"/><circle cx="34" cy="629.0" r="14"/><text class="num" x="34" y="634.0" text-anchor="middle">8</text><text class="tt" x="58" y="623.0" font-size="16">Commit back</text><text class="st" x="58" y="643.0">PRs, no client data</text></g><path class="ar" d="M170.0 663 L170.0 679" marker-end="url(#ah-n)"/><g class="nd led"><rect x="10" y="682" width="320" height="62" rx="12"/><circle cx="34" cy="713.0" r="14"/><text class="num" x="34" y="718.0" text-anchor="middle">9</text><text class="tt" x="58" y="707.0" font-size="16">The ledger entry</text><text class="st" x="58" y="727.0">private by default</text></g><g class="nd email"><rect x="10" y="760" width="22" height="14" rx="4"/></g><text class="st" x="40" y="772">email</text><g class="nd vault"><rect x="10" y="782" width="22" height="14" rx="4"/></g><text class="st" x="40" y="794">private vault</text><g class="nd pub"><rect x="10" y="804" width="22" height="14" rx="4"/></g><text class="st" x="40" y="816">public repositories</text><g class="nd led"><rect x="10" y="826" width="22" height="14" rx="4"/></g><text class="st" x="40" y="838">private record</text></svg><!--/WF-->
+<figcaption>Nine steps. The colour says where each step's output lives: email, the engagement's private vault, the public repositories (no client data), or a private record.</figcaption>
+</figure>
+<ol class="flow">
+<li><h3>An enquiry arrives</h3>
+<p>The client writes to agent@riskmandate.ai, from an <em>enquire to book</em> button on this site or from the shop, naming a preferred provider or none. The enquiry says who it is for, the offer, what agents should do, what they must never do, and when to start. A live agent answers; a person follows up.</p>
+<dl><dt>Who</dt><dd>The client; the agent at agent@riskmandate.ai acknowledges</dd><dt>Produces</dt><dd>The enquiry email (or the shop's emailed order)</dd><dt>Lives in</dt><dd><span class="where email">email</span> the mailbox at agent@riskmandate.ai; never this git repository</dd></dl></li>
+<li><h3>Triage and match</h3>
+<p>By hand, by the two founders. A named provider gets the enquiry. Otherwise the founders match by project type, language, location and availability, and reply with one or two names; the client chooses. The time to reply is agreed with the client. From here the provider who has the client is the client's single contact.</p>
+<dl><dt>Who</dt><dd>The two founders</dd><dt>Produces</dt><dd>A reply to the client naming the provider (or two to choose from)</dd><dt>Lives in</dt><dd><span class="where email">email</span></dd></dl></li>
+<li><h3>The first conversation (free)</h3>
+<p>The provider who has the client talks it through: the objective, what must never happen, the materials, and how sensitive the data is. It ends with a proposed first run.</p>
+<dl><dt>Who</dt><dd>The provider who has the client, with the client (and the delivering provider, if another)</dd><dt>Produces</dt><dd>Notes, and a proposed first run, sent to the client</dd><dt>Lives in</dt><dd><span class="where email">email</span> between the client and the provider; the client's materials wait for the run's private vault</dd></dl></li>
+<li><h3>The quote, and the written note between providers</h3>
+<p>Whoever has the client bills, quotes and signs with the client: list prices, GBP excluding VAT, direct costs itemised. When more than one provider is involved, they agree a short written note (an email is enough to start): who bills, who delivers, who the parties are, and that revenue is split equally after direct costs.</p>
+<dl><dt>Who</dt><dd>The provider who has the client; every provider in the engagement for the note</dd><dt>Produces</dt><dd>The quote; the note between providers; the contract, signed by whoever bills</dd><dt>Lives in</dt><dd><span class="where email">email</span> between the parties</dd></dl></li>
+<li><h3>The run spec, and a mandate per role</h3>
+<p>The delivering provider writes the run spec (the client's objective, the materials, one task per worker) and an Agent Behaviour Policy for each role: what it can reach, what it may do, and what is stopped. No network by default.</p>
+<dl><dt>Who</dt><dd>The provider(s) who deliver; the client agrees the objective and the limits</dd><dt>Produces</dt><dd>The run spec and one mandate (ABP) per role</dd><dt>Lives in</dt><dd><span class="where vault">private vault</span> the engagement's vault; never this git repository (the public run specs here are for our own runs)</dd></dl></li>
+<li><h3>The run: open, deliver, close</h3>
+<p>The vault is created when the run opens, with a branch per worker; every delivery is committed and merged, and the server stores ciphertext only. A provider starts the run and watches it to the end. At the close the vault is measured (commits, files, bytes, a plaintext probe of the server's store, a fresh clone compared file by file), then handed to the client as a zip or with a read key they choose to publish, and deleted from our side with the delete checked, or sealed for the client.</p>
+<dl><dt>Who</dt><dd>The provider(s) who deliver; the agents (a Ruflo queen and workers) under their mandates</dd><dt>Produces</dt><dd>The deliveries, the measurements, the vault for the client</dd><dt>Lives in</dt><dd><span class="where vault">private vault</span> until it is handed over and deleted from our side</dd></dl></li>
+<li><h3>Review and handover; the invoice</h3>
+<p>The delivering provider reviews what the run made and hands it over with the vault. Whoever has the client invoices: direct costs are reimbursed first to whoever paid them, itemised; what is left is split equally, and the biller pays the other parties their share. The biller charges VAT where it applies.</p>
+<dl><dt>Who</dt><dd>The delivering provider (review and handover); the provider who has the client (the invoice and the payments)</dd><dt>Produces</dt><dd>The handover to the client; the invoice; the shares paid</dd><dt>Lives in</dt><dd><span class="where vault">private vault</span> with the client; the invoice by <span class="where email">email</span></dd></dl></li>
+<li><h3>Commit back</h3>
+<p>Everything that is not the client's (a better playbook, a fix to the runner, a new behaviour-policy pattern, a reusable worker role) goes back to the public repositories as a pull request, with the client's name and data removed, credited to the provider who made it. Improvements to rUv's projects are offered to them under their own licence and contribution rules.</p>
+<dl><dt>Who</dt><dd>The provider who made the change</dd><dt>Produces</dt><dd>Pull requests to the public repositories</dd><dt>Lives in</dt><dd><span class="where">public repositories</span> code and playbooks only; no client name, code or data</dd></dl></li>
+<li><h3>The ledger entry</h3>
+<p>What ran, how long, and what the checks found. Private by default for client work; published only with the client's written agreement, and then only the measurements, never the content.</p>
+<dl><dt>Who</dt><dd>The delivering provider</dd><dt>Produces</dt><dd>The ledger entry for the run</dd><dt>Lives in</dt><dd><span class="where">private record</span> kept with the engagement; on <a href="../ruv-sgit/ledger/index.html">the public ledger</a> only with the client's agreement</dd></dl></li>
+</ol>
+<p class="attr">Nothing here is automated: a person matches, starts, watches and hands over every run. The rules behind each step are on <a href="../rules/index.html">Rules of engagement</a> (rules 4 to 9, and 11 to 16).</p>
+</div></section>
+
+<section id="delivery"><div class="wrap">
+<h2>How the work is delivered</h2>
+<p>Every job is a ruv.sgit run, the same way every material on this site was made (see <a href="../ruv-sgit/index.html">one run, six steps</a>):</p>
+<ol class="steps">
+<li><h4>A run spec</h4>The client's objective, the materials, and one task per worker.</li>
+<li><h4>A mandate per role</h4>An Agent Behaviour Policy for each worker: what it can reach, what it may do, and what is stopped. No network by default.</li>
+<li><h4>A vault per run</h4>Created when the run opens, a branch per worker, every delivery committed and merged. The server stores ciphertext only.</li>
+<li><h4>A person watches</h4>A provider starts the run, watches it to the end and reviews what it made.</li>
+<li><h4>The close</h4>The vault is measured (commits, files, bytes, a plaintext probe of the server's store, a fresh clone compared file by file), handed to the client as a zip or with a read key they choose to publish, and deleted from our side, with the delete checked.</li>
+<li><h4>A ledger entry</h4>What ran, how long, and what the checks found. Private by default for client work; public with the client's agreement.</li>
+</ol>
+</div></section>
+
+<section id="commit-back" class="alt"><div class="wrap">
+<h2>How changes are committed back</h2>
+<p>During a job, two kinds of change happen. The client's own code and data go into the client's vault and stay there (rule 4). Everything else, a better playbook, a fix to the runner, a new behaviour-policy pattern, a reusable worker role, goes back to the public repositories as a pull request, with the client's name and data removed, and is credited to the provider who made it (rule 5). The changes list of each public repository then shows what the engagements taught us.</p>
+<div class="btns"><a class="btn" href="../rules/index.html">Rules of engagement</a><a class="btn" href="../providers/index.html#providers">The providers</a><a class="btn" href="../join/index.html#provider">Apply to join</a></div>
+<p class="attr">This builds on rUv's open-source projects (MIT, by rUv / ruvnet). It is not rUv's offer, and does not speak for him or for the Agentics Foundation.</p>
+</div></section>
+</main>
+<footer><div class="wrap"><span>ruv.sgit.ai · how it works</span><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">source on GitHub</a><a href="https://sgit.ai">sgit.ai</a><a href="https://ruv.io">ruv.io</a><a href="https://github.com/ruvnet">github.com/ruvnet</a><span>code Apache-2.0 · rUv's projects MIT, by rUv / ruvnet · materials CC BY 4.0</span><a href="../llms.txt">llms.txt</a></div></footer>
+<script src="../assets/site.js"></script>
+<script>
+(() => {
+  // enquire to book: a plain-text email to agent@riskmandate.ai (no provider chosen on this page)
+  const body = ['Hello,', '', 'Who it is for: ', 'Offer: a conversation', 'Preferred provider: none', '',
+    'What do you want agents to do?', '', 'What must they never do?', '', 'When would you like to start?', '',
+    '(I understand the site takes no payment; a person replies with dates and a quote.)'].join('\n');
+  const a = document.getElementById('enquire-btn');
+  if (a) a.href = 'mailto:agent@riskmandate.ai?subject=' + encodeURIComponent('Enquiry: a conversation') + '&body=' + encodeURIComponent(body);
+  // the prices: from data/offers.json when the page loads (the text in the page is the same figures, as a fallback)
+  const gbp = n => '£' + Number(n).toLocaleString('en-GB', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 });
+  fetch('../data/offers.json').then(r => r.json()).then(d => {
+    const items = {};
+    d.groups.forEach(g => g.items.forEach(i => { items[i.id] = i; }));
+    document.querySelectorAll('[data-o]').forEach(el => { const i = items[el.dataset.o]; if (i) el.textContent = gbp(i.price); });
+    document.querySelectorAll('[data-byok]').forEach(el => {
+      const i = items[el.dataset.byok]; if (!i) return;
+      const k = (i.options || []).find(o => o.id === 'key'), c = k && k.choices.find(x => x.id === 'byok');
+      if (c) el.textContent = gbp(i.price + c.delta);
+    });
+  }).catch(() => {});
+})();
+</script>
+</body>
+</html>

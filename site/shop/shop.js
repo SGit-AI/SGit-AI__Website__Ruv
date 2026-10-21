@@ -1,5 +1,6 @@
 // ruv.sgit.ai shop: a mix-and-match cart that emails the order. No payment, no tracking; the only network call is the
-// catalogue (../data/offers.json, or a same-origin ?offers=<url> for testing). The order always goes to CONTACT.
+// catalogue (../data/offers.json, or a same-origin ?offers=<url> for testing) and the providers list (../data/providers.json,
+// for the optional "Preferred provider"; ?provider=<id> pre-selects one). The order always goes to CONTACT.
 (() => {
   'use strict'
   const CONTACT = 'agent@riskmandate.ai'
@@ -10,7 +11,7 @@
   const live = msg => { const l = $('live'); l.textContent = ''; setTimeout(() => { l.textContent = msg }, 30) }
   const params = new URLSearchParams(location.search)
 
-  let CAT = null, ITEMS = new Map(), cart = []
+  let CAT = null, ITEMS = new Map(), cart = [], PROVIDERS = []
   const fmt = (n, cur) => n == null ? 'on request' : new Intl.NumberFormat('en-GB', { style: 'currency', currency: cur || CAT?.currency || 'GBP', minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 }).format(n)
   const plain = n => n == null ? 'on request' : (CAT?.currency || 'GBP') + ' ' + (Number.isInteger(n) ? n.toLocaleString('en-GB') : n.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 }))
 
@@ -155,6 +156,10 @@ ${it.details?.length ? `<ul>${it.details.map(d => `<li>${esc(d)}</li>`).join('')
     try { crypto.getRandomValues(r) } catch (e) { for (let i = 0; i < 4; i++) r[i] = Math.floor(Math.random() * 1e9) }
     return `RS-${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}-${[...r].map(x => A[x % A.length]).join('')}`
   }
+  function preferredProvider () {
+    const id = $('f-provider').value, p = id && PROVIDERS.find(x => x.id === id)
+    return p ? { id: p.id, name: p.name } : null
+  }
   function buildOrder () {
     const t = totals(), f = {}
     for (const [k, id] of Object.entries(FIELDS)) f[k] = $(id).value.trim()
@@ -168,6 +173,7 @@ ${it.details?.length ? `<ul>${it.details.map(d => `<li>${esc(d)}</li>`).join('')
           unit_price: u, qty: l.qty, subtotal: u == null ? null : Math.round(u * l.qty * 100) / 100 }
       }),
       totals: { items: t.n, total: t.sum, lines_on_request: t.onReq },
+      preferred_provider: preferredProvider(),
       customer: f
     }
   }
@@ -175,7 +181,7 @@ ${it.details?.length ? `<ul>${it.details.map(d => `<li>${esc(d)}</li>`).join('')
   function orderText (o, short) {
     const c = o.customer, clip = (s, n) => s.length > n ? s.slice(0, n - 1) + '…' : s
     const head = [`Order ${o.id} · ruv.sgit`, `Created ${o.created.slice(0, 16).replace('T', ' ')} UTC`, '']
-    const who = [`Name: ${c.name}`, `Email: ${c.email}`, c.organisation && `Organisation: ${c.organisation}`, c.start && `Preferred start: ${c.start}`, c.heard && `Heard via: ${c.heard}`].filter(Boolean)
+    const who = [`Name: ${c.name}`, `Email: ${c.email}`, c.organisation && `Organisation: ${c.organisation}`, c.start && `Preferred start: ${c.start}`, c.heard && `Heard via: ${c.heard}`, `Preferred provider: ${o.preferred_provider ? o.preferred_provider.name : 'none'}`].filter(Boolean)
     let lines = o.lines.map(lineTxt)
     const tot = [`Total: ${plain(o.totals.total)} excl. VAT (${o.totals.items} item${o.totals.items === 1 ? '' : 's'})` + (o.totals.lines_on_request ? ` + ${o.totals.lines_on_request} line${o.totals.lines_on_request === 1 ? '' : 's'} priced on request` : ''), 'No payment taken: please follow up by email.']
     let what = c.what
@@ -225,6 +231,23 @@ ${it.details?.length ? `<ul>${it.details.map(d => `<li>${esc(d)}</li>`).join('')
     $('mail-again').click()   // the mailto opens the email app; the page stays put
   })
   $('checkout').addEventListener('input', e => { if (e.target.getAttribute('aria-invalid') === 'true') validate() })
+
+  // ---- preferred provider: names from data/providers.json; ?provider=<id> pre-selects one. Optional: the order is valid without it
+  ;(async () => {
+    const want = params.get('provider')
+    try {
+      const r = await fetch('../data/providers.json', { cache: 'no-cache' })
+      if (!r.ok) throw new Error(r.status)
+      const d = await r.json()
+      PROVIDERS = (Array.isArray(d.providers) ? d.providers : []).filter(p => p && p.id && p.name)
+    } catch (e) { PROVIDERS = [] }
+    const sel = $('f-provider')
+    for (const p of PROVIDERS) { const o = document.createElement('option'); o.value = p.id; o.textContent = p.name; sel.appendChild(o) }
+    if (want) {
+      const o = [...sel.options].find(x => x.value === want)
+      if (o) { o.selected = true; o.defaultSelected = true } else live(`No provider “${want}” in the list; the order will say none.`)
+    }
+  })()
 
   // ---- start -------------------------------------------------------------------------------------------------------
   ;(async () => {

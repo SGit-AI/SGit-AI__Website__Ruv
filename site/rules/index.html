@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rules of engagement · ruv.sgit</title>
+<meta name="description" content="The rules of engagement for ruv.sgit providers: open source and CC BY 4.0, the client's code and data stay the client's, changes committed back, revenue split equally after direct costs, whoever has the client bills. With worked examples and every licence in one place.">
+<link rel="canonical" href="https://ruv.sgit.ai/rules/index.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f766e%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Georgia%27%3Er%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/site.css">
+<script src="../assets/theme.js"></script>
+<style>
+main p,main li,main td{overflow-wrap:anywhere}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
+.rules{list-style:none;counter-reset:r;padding:0;margin:18px 0;display:grid;gap:14px}
+.rules>li{counter-increment:r;position:relative;max-width:none;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px 14px 66px;box-shadow:var(--shadow)}
+.rules>li::before{content:counter(r);position:absolute;left:18px;top:16px;width:34px;height:34px;border-radius:50%;background:var(--t2);color:var(--t);font:700 15px ui-sans-serif,system-ui;display:flex;align-items:center;justify-content:center}
+.rules.more{counter-reset:r 10}
+.rules h3{font-size:18px;margin:4px 0 6px}
+.rules p{margin:0;max-width:78ch}
+.rules .src{display:block;margin-top:8px;font-size:12.5px;color:var(--m)}
+.tbl table{min-width:640px;margin:0}
+td.money,th.money{white-space:nowrap}
+.enq{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px}
+.enq p{margin:0}
+.attr{font-size:14px;color:var(--m)}
+.btn:focus-visible,a:focus-visible{outline:2px solid var(--t);outline-offset:2px}
+@media(max-width:560px){.rules>li{padding:56px 16px 14px 16px}.rules>li::before{top:14px;left:16px}}
+</style>
+</head>
+<body data-root="../">
+<header class="top"><div class="wrap"><a class="brand" href="../index.html">ruv.sgit.ai<small>rUv + sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
+<main>
+<section class="hero"><div class="wrap">
+<p class="k">ruv.sgit providers · rules of engagement</p>
+<h1>Rules of engagement</h1>
+<p class="lead">The rules every engagement through ruv.sgit providers follows: what is open, what stays the client's, how changes come back, how the money is split and who bills. For clients and for providers, in one place.</p>
+<div class="meta">
+<span class="badge t">Version 0.2.0</span>
+<span class="badge">21 October 2026</span>
+<span class="badge">Source: article No. 9</span>
+</div>
+<p class="attr">These rules are taken from article No. 9, <a href="../articles/next-phase.html#rules-of-engagement">From the talk to the service</a> (the rules in Dinis Cruz's words and order), with his decisions of 16 and 21 October applied: the split is equal after direct costs, materials are CC BY 4.0, client work is private first, engagements are <em>enquire to book</em>, and the proposed answers to the article's open questions 5 to 14 are now rules (11 to 16 below). If this page and the article ever differ, the article's approved version is the source, and this page is corrected.</p>
+<nav class="toc" aria-label="On this page"><a href="#rules">The rules</a><a href="#details">The details</a><a href="#examples">Worked examples</a><a href="#licences">Licences</a><a href="#enquire">Enquire to book</a></nav>
+</div></section>
+
+<section id="rules"><div class="wrap">
+<h2>The rules</h2>
+<ol class="rules">
+<li><h3>Everything here is open.</h3><p>Everything we do is open source and Creative Commons. We publish all the materials, all the playbooks and how to do it. Our code is Apache-2.0. Our materials and playbooks are Creative Commons Attribution 4.0 (CC BY 4.0), which lets anyone reuse them, including commercially, as long as they credit the source. rUv's projects, which this builds on, are MIT, by rUv / ruvnet.</p></li>
+<li><h3>You can do this without us, and we encourage it.</h3><p>Anybody can take the code, the playbooks and the method and deliver this to their own clients, under their own name, with no permission, no fee and no obligation to tell us. Anybody who implements this implements sgit vaults and Agent Behaviour Policies, and that is the outcome we want either way.</p></li>
+<li><h3>Code created in engagements through us is open.</h3><p>When an engagement comes through this marketplace, the code it creates is published under Apache-2.0, so the next client and the next provider start from it.</p></li>
+<li><h3>The client's code and data are the client's.</h3><p>The exception to rule 3: the client's own code and data stay proprietary to the client. We do not publish them, reuse them or keep them beyond the engagement. Each job runs in its own encrypted vault, which is handed to the client at the end and deleted from our side.</p></li>
+<li><h3>Changes are committed back.</h3><p>Improvements we make to the shared code, playbooks and behaviour policies during an engagement go back to the public repositories. Improvements to rUv's projects are offered to them under their own licence and contribution rules.</p></li>
+<li><h3>Revenue is split equally between the parties, after costs.</h3><p>Direct costs (model tokens, compute, other third-party costs) are first reimbursed to whoever paid them, itemised; what is left is split equally. Two parties: half each. Three parties: a third each. There is no separate platform share. A party is a provider (a person or a company) that brings the client or delivers part of the work; one provider doing both is one party; bringing a client without delivering any of the work still counts as a party.</p></li>
+<li><h3>Whoever has the client bills.</h3><p>If you bring the client, you invoice them and pay the other parties their share. If we bring the client, we invoice and pay you yours.</p></li>
+<li><h3>Custom arrangements are possible.</h3><p>Especially for companies that bring the work, and for bringing this into an existing project. They are agreed in writing, before the work starts.</p></li>
+<li><h3>Every job leaves evidence.</h3><p>Each job is a ruv.sgit run: a vault per run, a mandate per role, and a ledger entry. The client keeps the vault. Everything to do with a client is private first: the ledger entry is private unless the client agrees in writing to publish it, and then only the measurements, never the content.</p></li>
+<li><h3>Credit where it is due.</h3><p>rUv's projects are named and credited as his (MIT, by rUv / ruvnet). We build on them; we do not sell or own them. This is additive to his stack.</p></li>
+</ol>
+</div></section>
+
+<section id="details" class="alt"><div class="wrap">
+<h2>The details</h2>
+<p>The article's open questions 5 to 14 each had a proposed answer. On 21 October Dinis accepted them; those that are rules are stated here.</p>
+<ol class="rules more">
+<li><h3>Prices are public and fixed, for now.</h3><p>The published prices are the list prices for every provider. Per-provider price bands within a range come later, once there are more providers.</p><span class="src">Open question 5</span></li>
+<li><h3>Prices are in GBP, excluding VAT.</h3><p>The party who bills charges VAT where it applies. Other currencies are quoted on request.</p><span class="src">Open question 11</span></li>
+<li><h3>Direct costs are reimbursed before the split, itemised on the invoice.</h3><p>Third-party costs (model tokens, compute) are reimbursed to whoever paid them before the split, and itemised on the invoice.</p><span class="src">Open question 7, and rule 6</span></li>
+<li><h3>Whoever bills signs.</h3><p>Whoever bills signs the contract with the client. Providers in an engagement agree the rules of engagement with each other in a short written note (an email is enough to start).</p><span class="src">Open question 8, and rule 7</span></li>
+<li><h3>New providers are vetted by the founders, until there are five.</h3><p>Joining takes six steps: apply, proof of work, peer review, an interview, a shadowed first pilot, and standards. The founders do the proof-of-work review and the interview until there are at least five providers; then peer review is by two members.</p><span class="src">Open question 10</span></li>
+<li><h3>A client who wants everything closed has a custom arrangement.</h3><p>When a client wants everything closed, including the code an engagement creates, that is a custom arrangement under rule 8, agreed and priced before the work starts.</p><span class="src">Open question 14, and rule 8</span></li>
+</ol>
+<p class="attr">The other accepted answers are not rules but settle the same picture: who counts as a party (question 6) is in rule 6; ledger entries for client work (question 9) are in rule 9; the marketplace is called "ruv.sgit providers", delivering "agentic engagements" (question 12); and it stays on ruv.sgit.ai, as release v0.2.0 (question 13).</p>
+</div></section>
+
+<section id="examples"><div class="wrap">
+<h2>Worked examples</h2>
+<p>The examples use the published prices in <a href="../data/offers.json">data/offers.json</a> (GBP, excluding VAT). Direct costs paid to third parties (model tokens, compute) come off the top before the split, itemised, and go back to whoever paid them.</p>
+<div class="tbl"><table id="examples-table">
+<thead><tr><th scope="col">Case</th><th scope="col">Who brings the client</th><th scope="col">Who delivers</th><th scope="col">Who bills</th><th scope="col">The split</th></tr></thead>
+<tbody>
+<tr data-case="two-parties"><th scope="row">We bring the client, two parties</th><td>We do (Dinis)</td><td>Mondweep, with Dinis</td><td data-price>We do: £1,500 for a day of expert time</td><td data-split>£750 each</td></tr>
+<tr data-case="provider-brings"><th scope="row">A provider brings the client</th><td>A provider</td><td>The provider, with us on the behaviour policy</td><td data-price>The provider: £5,000 for a four-day pilot</td><td data-split>£2,500 each; the provider pays us our half</td></tr>
+<tr data-case="three-parties"><th scope="row">Three parties</th><td>A provider</td><td>That provider, a second provider, and us</td><td data-price>The provider who brought the client: £5,000 for the pilot</td><td data-split>A third each: £1,666.67, £1,666.67 and £1,666.66 (the odd penny stays with whoever bills)</td></tr>
+<tr data-case="company-project"><th scope="row">A company brings an existing project</th><td>The company</td><td>The company's team, with a provider</td><td>Agreed in writing before the work starts</td><td>Custom (rule 8)</td></tr>
+<tr data-case="without-us"><th scope="row">Somebody does it without us</th><td>Them</td><td>Them</td><td>Them</td><td>Nothing to split, nothing to ask (rule 2)</td></tr>
+</tbody></table></div>
+<p class="attr">The arithmetic is checked by <code>site/build/rules_check.py</code>: each split adds up to the price, less direct costs, to the penny, and each price is the list price in <code>data/offers.json</code>. The figures it reads are below, in the page.</p>
+<script type="application/json" id="worked-examples">
+{
+ "currency": "GBP",
+ "vat": "excluded",
+ "source": "article No. 9, Rules of engagement, Worked examples",
+ "cases": [
+  {"id": "two-parties", "offer": "expert-day", "price": 1500.00, "direct_costs": 0, "shares": [750.00, 750.00]},
+  {"id": "provider-brings", "offer": "expert-days", "price": 5000.00, "direct_costs": 0, "shares": [2500.00, 2500.00]},
+  {"id": "three-parties", "offer": "expert-days", "price": 5000.00, "direct_costs": 0, "shares": [1666.67, 1666.67, 1666.66]},
+  {"id": "company-project", "custom": "rule 8"},
+  {"id": "without-us", "nothing": "rule 2"}
+ ]
+}
+</script>
+</div></section>
+
+<section id="licences" class="alt"><div class="wrap">
+<h2>Licences, in one place</h2>
+<div class="tbl"><table>
+<thead><tr><th scope="col">What</th><th scope="col">Licence</th><th scope="col">Whose</th></tr></thead>
+<tbody>
+<tr><th scope="row">Our code (this site, the runner, the ABP tools)</th><td>Apache-2.0</td><td>ours, open</td></tr>
+<tr><th scope="row">Materials and playbooks (articles, briefs, how-tos)</th><td>Creative Commons Attribution 4.0 (CC BY 4.0)</td><td>ours, open</td></tr>
+<tr><th scope="row">Code created in engagements through us</th><td>Apache-2.0</td><td>open, unless agreed otherwise in writing (rule 8)</td></tr>
+<tr><th scope="row">The client's code and data</th><td>the client's own terms</td><td>the client's, proprietary</td></tr>
+<tr><th scope="row">rUv's projects (Ruflo, RuVector, AgentDB, MetaHarness, RVM)</th><td>MIT</td><td>rUv / ruvnet</td></tr>
+</tbody></table></div>
+<p class="attr">This builds on rUv's open-source projects (MIT, by rUv / ruvnet). It is not rUv's offer, and does not speak for him or for the Agentics Foundation.</p>
+</div></section>
+
+<section id="enquire"><div class="wrap">
+<h2>Enquire to book</h2>
+<div class="callout enq">
+<p>To start an engagement, enquire: the button opens an email to agent@riskmandate.ai, and a person replies with dates and a quote. The site takes no payment.</p>
+<a class="btn p" id="enquire-btn" href="mailto:agent@riskmandate.ai?subject=Enquiry%3A%20a%20conversation">Enquire to book</a>
+</div>
+<div class="btns">
+<a class="btn" href="../how-it-works/index.html">How it works</a>
+<a class="btn" href="../how-it-works/index.html#workflow">The provider workflow</a>
+<a class="btn" href="../providers/index.html#providers">The providers</a>
+<a class="btn" href="../join/index.html#provider">Apply to join</a>
+</div>
+</div></section>
+</main>
+<footer><div class="wrap"><span>ruv.sgit.ai · rules of engagement</span><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">source on GitHub</a><a href="https://sgit.ai">sgit.ai</a><a href="https://ruv.io">ruv.io</a><a href="https://github.com/ruvnet">github.com/ruvnet</a><span>code Apache-2.0 · rUv's projects MIT, by rUv / ruvnet · materials CC BY 4.0</span><a href="../llms.txt">llms.txt</a></div></footer>
+<script src="../assets/site.js"></script>
+<script>
+(() => {
+  // enquire to book: a plain-text email to agent@riskmandate.ai (no provider chosen on this page)
+  const body = ['Hello,', '', 'Who it is for: ', 'Offer: a conversation', 'Preferred provider: none', '',
+    'What do you want agents to do?', '', 'What must they never do?', '', 'When would you like to start?', '',
+    '(I understand the site takes no payment; a person replies with dates and a quote.)'].join('\n');
+  const a = document.getElementById('enquire-btn');
+  if (a) a.href = 'mailto:agent@riskmandate.ai?subject=' + encodeURIComponent('Enquiry: a conversation') + '&body=' + encodeURIComponent(body);
+})();
+</script>
+</body>
+</html>
