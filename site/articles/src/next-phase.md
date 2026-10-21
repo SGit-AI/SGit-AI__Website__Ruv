@@ -1,21 +1,21 @@
 ---
-{"no": 9, "title": "From the talk to the service: the next phase of ruv.sgit.ai (a debrief, and the brief for building it)", "author": "Dinis Cruz", "date": "2026-10-16", "version": "0.2.0 (DRAFT, decisions of 16 Oct applied)", "tags": ["draft", "debrief", "brief", "ruv.sgit", "marketplace", "rules of engagement", "information architecture", "providers", "agentics"], "abstract": "DRAFT for Dinis to check and fine-tune before anything is built. On 15 October ruv.sgit.ai was the site of a talk: the talk and its player, six proofs of concept, eleven ruv.sgit runs and their ledger, the studio, four offers with a shop, and five articles written the same night. This is the debrief of where it stands, with screenshots of the home page and the main areas taken on 16 October as the historical record, and the brief for what comes next: turning it into the site that offers the ruv.sgit service, delivered through a marketplace of providers, starting with two founding providers, Dinis Cruz and Mondweep from the Agentics Foundation. It sets out the three audiences (people who want to buy the service, consultants and service companies who want to deliver it, and people who want to learn), the rules of engagement (open source and Creative Commons, client code and data stay the client's, changes committed back, revenue split equally between the parties, whoever has the client bills), how an engagement works end to end, the provider application and waiting list (a static form that writes an email, like the shop), every current page mapped to its new place, the new menu, the URL changes and how old links keep working, the breaking changes, five ruv.sgit runs to build it with acceptance checks, and the open questions, each with a proposed answer. Nothing here is built yet, nobody pays through the site, and there are no providers beyond the two founding ones."}
+{"no": 9, "title": "From the talk to the service: the next phase of ruv.sgit.ai (a debrief, and the brief for building it)", "author": "Dinis Cruz", "date": "2026-10-21", "version": "1.0.0", "tags": ["debrief", "brief", "ruv.sgit", "marketplace", "rules of engagement", "information architecture", "providers", "agentics"], "abstract": "Approved on 21 October 2026 and built the same day; kept as the record of what was decided. On 15 October ruv.sgit.ai was the site of a talk: the talk and its player, six proofs of concept, eleven ruv.sgit runs and their ledger, the studio, four offers with a shop, and five articles written the same night. This is the debrief of where it stands, with screenshots of the home page and the main areas taken on 16 October as the historical record, and the brief for what comes next: turning it into the site that offers the ruv.sgit service, delivered through a marketplace of providers, starting with two founding providers, Dinis Cruz and Mondweep from the Agentics Foundation. It sets out the three audiences (people who want to buy the service, consultants and service companies who want to deliver it, and people who want to learn), the rules of engagement (open source and Creative Commons, client code and data stay the client's, changes committed back, revenue split equally between the parties, whoever has the client bills), how an engagement works end to end, the provider application and waiting list (a static form that writes an email, like the shop), every current page mapped to its new place, the new menu, the URL changes and how old links keep working, the breaking changes, the five ruv.sgit runs planned to build it with their acceptance checks, and the fourteen open questions with how each was decided (on 16 and 21 October). It ends with what was built on 21 October, by runs r21-bios, r22-ia, r23-service and r24-editor: the new home, For clients, For providers with a profile page for each founding provider, the rules of engagement, how it works, the join page and the Learn and Proof hubs. Nobody pays through the site, matching is by hand, and there are no providers beyond the two founding ones, who now take enquiries to book."}
 ---
-*Written by Claude (Claude Code) from Dinis Cruz's brief of 16 October 2026 (a dictated voice note), this site's files and run records, and the newsroom article [Agentics, ready to sell](https://newsroom.sgit.ai/articles/agentics-ready-to-sell.html). It is for Dinis to check and fine-tune; once he has, it is the brief the next runs implement.*
+*Written by Claude (Claude Code) from Dinis Cruz's brief of 16 October 2026 (a dictated voice note), this site's files and run records, and the newsroom article [Agentics, ready to sell](https://newsroom.sgit.ai/articles/agentics-ready-to-sell.html). Dinis checked and fine-tuned it on 16 and 21 October, approved it on 21 October, and it is the brief that runs r21-bios to r24-editor implemented.*
 
-> **DRAFT v0.2.0.** Dinis answered the first open questions on 16 October (see *Decisions, 16 October* below); the rest keep their proposed defaults until he says otherwise. Every rule, URL, page and price below is a proposal until Dinis signs it off. Edit the source (`site/articles/src/next-phase.md`), change anything, and the implementation follows the edited version. The version goes to 1.0.0 when it is approved, and each later change is listed at the end, so the article also records what changed and why, breaking changes included.
+> **v1.0.0, approved and built, 21 October 2026.** This was a draft brief; Dinis answered its open questions on 16 and 21 October (see *Decisions, 16 October* and *Decisions, 21 October* below) and the site was built from it the same day (see *What was built (21 October)*). The text is kept as the record of what was decided, with each later change listed at the end, breaking changes included.
 
 ## In short
 
-- **Where we are.** ruv.sgit.ai is a site about a talk and the proof behind it: the talk and its player, six proofs of concept, eleven ruv.sgit runs in a public ledger (38 workers, 67 vault commits, no plaintext found in anything the server stored, every fresh clone identical, every vault deleted), the studio, four offers and a shop, and eight articles. Its menu still opens with "Tonight".
+- **Where we were, on 16 October.** ruv.sgit.ai was a site about a talk and the proof behind it: the talk and its player, six proofs of concept, eleven ruv.sgit runs in a public ledger (38 workers, 67 vault commits, no plaintext found in anything the server stored, every fresh clone identical, every vault deleted), the studio, four offers and a shop, and eight articles. Its menu still opened with "Tonight".
 - **Where we go.** The same site becomes the site that offers the service. In Dinis's words: "change the website from being a website about the presentation to be a website about providing the services". The proof stays; it moves from the front of the site to the back, where buyers check it.
 - **Three audiences.** People who want to buy the service; consultants and service companies who want to deliver it as part of the marketplace; and people who want to learn, who may later become one of the other two. Each gets its own door on the home page and its own call to action.
 - **Two founding providers.** Dinis Cruz and Mondweep, from the Agentics Foundation. Others apply to join through a waiting list.
 - **Rules of engagement, stated plainly.** Everything is open source and Creative Commons, so anybody can do this without us, and we encourage it. Code created in engagements through us is open, except the client's own code and data, which stay the client's. Changes are committed back. Revenue is split equally between the parties. Whoever has the client bills. Custom arrangements are possible.
 - **No backend, no payment.** Clients order through the shop as today; providers apply through a static form that writes an email to agent@riskmandate.ai, with a "copy as JSON" button. The same route serves a light "keep me posted" sign-up.
 - **Old links keep working.** The talk, the articles, the ledger and the shop keep their URLs. The business pages become short redirect pages, because the talk told people to "start at ruv.sgit.ai/business".
-- **Five runs to build it** (r13 to r17), each with named workers and acceptance checks, after Dinis has edited this brief.
-- **Fourteen open questions** at the end, each with a proposed answer, so a "yes" is enough to move.
+- **Built on 21 October.** Planned as five runs (r13 to r17), each with named workers and acceptance checks; renumbered and run as r21-bios, r22-ia, r23-service and r24-editor (see *What was built (21 October)*).
+- **Fourteen open questions**, each with a proposed answer, all now decided: the first on 16 October, the rest on 21 October, when question 4 became *enquire to book*.
 
 ## Why this is an article, and a brief
 
@@ -23,11 +23,11 @@ Dinis asked for the debrief to come first: "first you write this sort of article
 
 1. **A debrief**: what the site is on 16 October 2026, with screenshots, before anything moves.
 2. **A brief**: what to build, in what order, with what checks.
-3. **A record**: once implemented, the changes list at the end says what was done differently from this draft, and why.
+3. **A record**: now that it is implemented, the changes list at the end says what was done differently from the draft, and why.
 
 ## Decisions, 16 October
 
-Dinis's answers to the first open questions, applied throughout this draft:
+Dinis's answers to the first open questions, applied throughout:
 
 1. **Mondweep is live.** He has agreed, and his consent is recorded: his card goes up with his name, Mondweep Chakravorty, co-founder of the Agentics Foundation's London chapter, and a link to his LinkedIn page, [linkedin.com/in/mondweepchakravorty](https://www.linkedin.com/in/mondweepchakravorty).
 2. **The split is equal, after costs.** The newsroom article's "small platform share" (5% to 20%) was not a use case: it was a benchmark of what other marketplaces charge (Malt 5%, Upwork 0% to 15%, Braintrust 15%) for a proposal where the consultant keeps most of the price. Because these are consulting engagements, Dinis chose an equal split between the parties instead (50/50 with two, a third each with three), **calculated after direct costs** (model tokens, compute and other third-party costs, reimbursed first to whoever paid them). There is no separate platform share.
@@ -46,13 +46,11 @@ Dinis said go on 21 October: "make that consulting official", starting with the 
 10. **The version.** This change is v0.2.0; later releases are v0.2.x.
 11. **The runs are renumbered.** r13 to r17 were used for other work; the build runs are r21-bios, r22-ia, then the pages, the forms and the editor pass, each in the ledger.
 
+### What the site was on 16 October
 
+On 16 October 2026, at release v0.1.29, ruv.sgit.ai was a site about a talk and the evidence behind it. It was built from an empty repository between 14 and 15 October by Claude Code sessions for Dinis, and most of its later materials were made by ruv.sgit runs: a Ruflo hive (Ruflo is MIT, by rUv / ruvnet) whose workers deliver into one ephemeral sgit vault per run, measured and deleted at the end, with the measurements kept in a public ledger.
 
-### What the site is today
-
-On 16 October 2026, at release v0.1.29, ruv.sgit.ai is a site about a talk and the evidence behind it. It was built from an empty repository between 14 and 15 October by Claude Code sessions for Dinis, and most of its later materials were made by ruv.sgit runs: a Ruflo hive (Ruflo is MIT, by rUv / ruvnet) whose workers deliver into one ephemeral sgit vault per run, measured and deleted at the end, with the measurements kept in a public ledger.
-
-The main areas, as the menu groups them today:
+The main areas, as the menu grouped them then:
 
 | Menu group | What is in it |
 |---|---|
@@ -66,7 +64,7 @@ Behind the menu sit the pages it does not list: the vault ledger, the ruv.sgit a
 
 ### The historical record
 
-These screenshots were taken on 16 October 2026 at v0.1.29 by the archivist worker of run r12-next-phase, before any of the changes in this brief. They are the "before" picture. The same views will be captured again when the implementation is finished.
+These screenshots were taken on 16 October 2026 at v0.1.29 by the archivist worker of run r12-next-phase, before any of the changes in this brief. They are the "before" picture. The "after" screenshots of the same views, planned for the editor run, were not part of r24-editor and are still to be taken.
 
 <figure><img src="../assets/img/articles/next-phase/home.webp" alt="The ruv.sgit.ai home page at v0.1.29 on 16 October 2026, headed 'Run your Ruflo hive with a written mandate per role and a vault for what it remembers.', addressed to Ruflo, AgentDB, RuVector and MetaHarness users and to the talk at Agentic Engineering Live"><figcaption>The home page on 16 October 2026 (v0.1.29). It speaks to people who already use rUv's tools and to the evening of the talk. It does not yet say that you can buy the service, or who delivers it.</figcaption></figure>
 
@@ -160,9 +158,9 @@ Dinis named them: "the people that want to buy this service; the consultants and
 
 ## The founding providers
 
-The marketplace starts with two people. The newsroom article introduced them: "Mondweep Chakravorty, co-founder of the Agentics Foundation's London chapter, which runs the meetups where all of this was shown, and me." It also says they are "not taking bookings yet: we need to align our diaries first, so for now the page will say *register interest*, not *book*." This brief keeps that: the cards say *register interest* until open question 4 is answered.
+The marketplace starts with two people. The newsroom article introduced them: "Mondweep Chakravorty, co-founder of the Agentics Foundation's London chapter, which runs the meetups where all of this was shown, and me." It also says they are "not taking bookings yet: we need to align our diaries first, so for now the page will say *register interest*, not *book*." On 16 October this brief kept that: the cards were to say *register interest* until open question 4 was answered. On 21 October Dinis answered it: *enquire to book* (decision 7).
 
-The cards below are the shape of the profile, not the profile. Nothing is filled in that is not already published; the rest is for Dinis and Mondweep to supply (open question 1).
+The cards below are the shape of the profile as proposed on 16 October, not the profile. Nothing is filled in that is not already published; the rest was for Dinis and Mondweep to supply (open question 1).
 
 | Field | Dinis Cruz | Mondweep |
 |---|---|---|
@@ -178,6 +176,8 @@ The cards below are the shape of the profile, not the profile. Nothing is filled
 
 No photo, title or biography is invented for either of them. Mondweep has agreed to be listed (16 October).
 
+On 21 October (decisions 7 to 9) the cards became profile pages, [Dinis Cruz](../providers/dinis-cruz.html) and [Mondweep Chakravorty](../providers/mondweep-chakravorty.html), rendered from [data/providers.json](../data/providers.json): both list the same four offers at the published list prices, and both say *enquire to book*. Their bios were drafted from public pages by run r21-bios, every fact with its source in `evidence/r21-provider-bios.md`, for each of them to approve; the photos are to come from them.
+
 ## Rules of engagement
 
 This section is written as the page it will become (`rules/index.html`). Dinis's rules, in his order, with the details a provider and a client need. Where a detail is a proposal rather than his words, it is marked and listed as an open question.
@@ -189,7 +189,7 @@ This section is written as the page it will become (`rules/index.html`). Dinis's
 3. **Code created in engagements through us is open.** When an engagement comes through this marketplace, the code it creates is published under Apache-2.0, so the next client and the next provider start from it.
 4. **The client's code and data are the client's.** The exception to rule 3: the client's own code and data stay proprietary to the client. We do not publish them, reuse them or keep them beyond the engagement. Each job runs in its own encrypted vault, which is handed to the client at the end and deleted from our side.
 5. **Changes are committed back.** Improvements we make to the shared code, playbooks and behaviour policies during an engagement go back to the public repositories. Improvements to rUv's projects are offered to them under their own licence and contribution rules.
-6. **Revenue is split equally between the parties, after costs.** Direct costs (model tokens, compute, other third-party costs) are first reimbursed to whoever paid them, itemised; what is left is split equally. Two parties: half each. Three parties: a third each. There is no separate platform share. A party is a provider (a person or a company) that brings the client or delivers part of the work; one provider doing both is one party (proposed; open question 6).
+6. **Revenue is split equally between the parties, after costs.** Direct costs (model tokens, compute, other third-party costs) are first reimbursed to whoever paid them, itemised; what is left is split equally. Two parties: half each. Three parties: a third each. There is no separate platform share. A party is a provider (a person or a company) that brings the client or delivers part of the work; one provider doing both is one party (open question 6, decided 21 October).
 7. **Whoever has the client bills.** If you bring the client, you invoice them and pay the other parties their share. If we bring the client, we invoice and pay you yours.
 8. **Custom arrangements are possible.** Especially for companies that bring the work, and for bringing this into an existing project. They are agreed in writing, before the work starts.
 9. **Every job leaves evidence.** Each job is a ruv.sgit run: a vault per run, a mandate per role, and a ledger entry. The client keeps the vault. Everything to do with a client is private first: the ledger entry is private unless the client agrees to publish it, and then only the measurements.
@@ -197,7 +197,7 @@ This section is written as the page it will become (`rules/index.html`). Dinis's
 
 ### Worked examples
 
-The examples use the published prices in [data/offers.json](../data/offers.json) (GBP, excluding VAT). Direct costs paid to third parties (model tokens, compute) come off the top before the split, itemised, and go back to whoever paid them (proposed; open question 7).
+The examples use the published prices in [data/offers.json](../data/offers.json) (GBP, excluding VAT). Direct costs paid to third parties (model tokens, compute) come off the top before the split, itemised, and go back to whoever paid them (open question 7, decided 16 October).
 
 | Case | Who brings the client | Who delivers | Who bills | The split |
 |---|---|---|---|---|
@@ -212,7 +212,7 @@ The examples use the published prices in [data/offers.json](../data/offers.json)
 | What | Licence | Whose |
 |---|---|---|
 | Our code (this site, the runner, the ABP tools) | Apache-2.0 | ours, open |
-| Materials and playbooks (articles, briefs, how-tos) | Creative Commons, proposed CC BY 4.0 | ours, open |
+| Materials and playbooks (articles, briefs, how-tos) | Creative Commons Attribution 4.0 (CC BY 4.0) | ours, open |
 | Code created in engagements through us | Apache-2.0 | open, unless agreed otherwise in writing (rule 8) |
 | The client's code and data | the client's own terms | the client's, proprietary |
 | rUv's projects (Ruflo, RuVector, AgentDB, MetaHarness, RVM) | MIT | rUv / ruvnet |
@@ -362,7 +362,7 @@ New pages:
 
 ### The new menu
 
-Today: **Tonight · The idea · Proofs · Work with us · Articles**. Proposed: **For clients · For providers · How it works · Proof · Learn · Join**.
+On 16 October: **Tonight · The idea · Proofs · Work with us · Articles**. Proposed, and built by r22-ia: **For clients · For providers · How it works · Proof · Learn · Join**.
 
 | Group | Items |
 |---|---|
@@ -380,7 +380,7 @@ The footer's "work with us" link points to *For clients*, and gains "join as a p
 1. **The line.** What the service is, in one sentence: agent work by a Ruflo hive, with a written mandate per role and a vault you keep, delivered by people who do it in the open. No superlatives.
 2. **Three doors.** *I want this done* (For clients), *I want to deliver this* (For providers), *I want to understand it* (Learn). Visible without scrolling at 1366 and at 390 pixels wide.
 3. **The path.** The five steps, with prices, linking to the shop.
-4. **The providers.** The two founding cards (register interest), and "apply to join".
+4. **The providers.** The two founding cards (*enquire to book*, since decision 7), and "apply to join".
 5. **The proof.** The ledger's totals, read from `data/vaults.json` when the page loads (never pasted), and links to the POCs and the talk.
 6. **The rules, in four lines.** Open source; your code and data stay yours; an equal split; whoever has the client bills. Linking to the full rules.
 7. **Where this started.** The talk of 15 October, with the player and the long read.
@@ -409,11 +409,11 @@ These are the changes that will surprise someone who knew the site on 16 October
 7. **The money model changes.** The business plan's "target margin" was for a single operator; with providers, revenue is split equally between the parties. The plan's numbers stand as unit economics; the split sits on top.
 8. **`llms.txt` is restructured.** Agents that read it by section will find new sections.
 9. **The shop's order email gains a field** ("preferred provider"), so an order's text changes shape.
-10. **The site version moves to v0.2.0** to mark the change of purpose (proposed; open question 13).
+10. **The site version moves to v0.2.0** to mark the change of purpose (open question 13, decided 21 October).
 
 ## The implementation plan
 
-Five ruv.sgit runs, in order, each after the one before is reviewed. Each run has a spec in `poc/ruv-sgit/runs/`, a vault per run, a mandate per role, and a ledger entry, as every run so far. None of them changes the ledger, the talk, the player, the slides or the articles' content.
+As planned on 16 October: five ruv.sgit runs, in order, each after the one before is reviewed. On 21 October they were renumbered and regrouped (decision 11); see *What was built (21 October)*. Each run has a spec in `poc/ruv-sgit/runs/`, a vault per run, a mandate per role, and a ledger entry, as every run so far. None of them changes the ledger, the talk, the player, the slides or the articles' content.
 
 | Run | Purpose | Workers |
 |---|---|---|
@@ -466,31 +466,58 @@ Five ruv.sgit runs, in order, each after the one before is reviewed. Each run ha
 - **The proofs**: the POCs, the live app, the studio, the evidence and the run specs.
 - **The shop's prices and `data/offers.json`**, unless Dinis changes them (open question 5).
 
-## Open questions for Dinis
+## Open questions, and how they were decided
 
-Each has a proposed answer. A "yes" accepts it; anything else, write the change in.
+Each had a proposed answer, and a "yes" accepted it. All fourteen are now decided: questions 1, 2, 3, 6, 7 and 9 on 16 October; on 21 October, questions 5 to 14 took their proposed answers and question 4 became *enquire to book*.
 
-1. **Mondweep's details and consent.** *Decided 16 Oct:* agreed; live with his name and LinkedIn.  Which name, affiliation, project types, offers, location, languages, links, photo and biography does he want shown, and has he agreed to his card? *Proposed:* publish only "Mondweep, from the Agentics Foundation" and the newsroom article's line until he has seen and approved the card; the same for Dinis's own card.
+1. **Mondweep's details and consent.** *Decided 16 Oct:* agreed; live with his name and LinkedIn.  Which name, affiliation, project types, offers, location, languages, links, photo and biography does he want shown, and has he agreed to his card? *Proposed:* publish only "Mondweep, from the Agentics Foundation" and the newsroom article's line until he has seen and approved the card; the same for Dinis's own card. *On 21 Oct:* a profile page for each, with bios drafted from public pages for each to approve; photos to come (decision 8).
 2. **Which Creative Commons licence.** *Decided 16 Oct:* CC BY 4.0.  *Proposed:* CC BY 4.0 for materials and playbooks (reuse for any purpose, with credit). CC BY-SA 4.0 would require derivatives to stay open too.
 3. **Where applications and sign-ups go and are kept.** *Decided 16 Oct:* by email to agent@riskmandate.ai, kept in its private repository, never in git.  *Proposed:* by email to agent@riskmandate.ai; kept in a private sgit vault, not in the repository; a short privacy note on the form saying what we keep, why, for how long, and how to ask for it to be deleted.
-4. **Register interest, or book.** *Proposed:* *register interest* on the founding cards until your and Mondweep's diaries are aligned, as the newsroom article says.
-5. **Do prices stay public and fixed?** *Proposed:* yes: the published prices are the list prices for every provider for now; per-provider price bands within a range come later, once there are more providers.
-6. **Who counts as a party in the split.** *Decided 16 Oct:* an equal split after costs replaces the platform share.  *Proposed:* a provider (a person or a company) that brings the client or delivers part of the work; one provider doing both is one party; bringing a client without delivering any of the work still counts as a party.
-7. **Direct costs before the split.** *Decided 16 Oct:* yes, costs first, then the split.  *Proposed:* third-party costs (model tokens, compute) are reimbursed to whoever paid them before the split, itemised on the invoice.
-8. **Who signs contracts.** *Proposed:* whoever bills signs with the client; providers in an engagement agree the rules of engagement with each other in a short written note (an email is enough to start).
-9. **Ledger entries for client work.** *Decided 16 Oct:* private first.  *Proposed:* private by default; published only with the client's written agreement, and then only the measurements, never the content.
-10. **Provider vetting.** *Proposed:* the newsroom article's six steps, with the founders doing the proof-of-work review and the interview until there are at least five providers, then peer review by two members.
-11. **Currency and VAT.** *Proposed:* prices in GBP excluding VAT, as now; the party who bills charges VAT where it applies; other currencies quoted on request.
-12. **The marketplace's name.** *Proposed:* "ruv.sgit providers" on the site, with "agentics engagements" (the newsroom article's term) as the description of what they deliver.
-13. **The domain and the version.** *Proposed:* stay on ruv.sgit.ai (the newsroom article suggested a marketplace page on sgit.ai; sgit.ai links here instead), and call the change v0.2.0.
-14. **The client's code rule, when a client wants everything closed.** *Proposed:* a custom arrangement under rule 8, agreed and priced before the work starts.
+4. **Register interest, or book.** *Decided 21 Oct:* enquire to book (decision 7).  *Proposed:* *register interest* on the founding cards until your and Mondweep's diaries are aligned, as the newsroom article says.
+5. **Do prices stay public and fixed?** *Decided 21 Oct:* as proposed.  *Proposed:* yes: the published prices are the list prices for every provider for now; per-provider price bands within a range come later, once there are more providers.
+6. **Who counts as a party in the split.** *Decided 16 Oct:* an equal split after costs replaces the platform share; *21 Oct:* the proposed definition of a party.  *Proposed:* a provider (a person or a company) that brings the client or delivers part of the work; one provider doing both is one party; bringing a client without delivering any of the work still counts as a party.
+7. **Direct costs before the split.** *Decided 16 Oct:* yes, costs first, then the split; *21 Oct:* as proposed, itemised.  *Proposed:* third-party costs (model tokens, compute) are reimbursed to whoever paid them before the split, itemised on the invoice.
+8. **Who signs contracts.** *Decided 21 Oct:* as proposed.  *Proposed:* whoever bills signs with the client; providers in an engagement agree the rules of engagement with each other in a short written note (an email is enough to start).
+9. **Ledger entries for client work.** *Decided 16 Oct:* private first; *21 Oct:* as proposed.  *Proposed:* private by default; published only with the client's written agreement, and then only the measurements, never the content.
+10. **Provider vetting.** *Decided 21 Oct:* as proposed.  *Proposed:* the newsroom article's six steps, with the founders doing the proof-of-work review and the interview until there are at least five providers, then peer review by two members.
+11. **Currency and VAT.** *Decided 21 Oct:* as proposed.  *Proposed:* prices in GBP excluding VAT, as now; the party who bills charges VAT where it applies; other currencies quoted on request.
+12. **The marketplace's name.** *Decided 21 Oct:* as proposed.  *Proposed:* "ruv.sgit providers" on the site, with "agentics engagements" (the newsroom article's term) as the description of what they deliver.
+13. **The domain and the version.** *Decided 21 Oct:* as proposed.  *Proposed:* stay on ruv.sgit.ai (the newsroom article suggested a marketplace page on sgit.ai; sgit.ai links here instead), and call the change v0.2.0.
+14. **The client's code rule, when a client wants everything closed.** *Decided 21 Oct:* as proposed.  *Proposed:* a custom arrangement under rule 8, agreed and priced before the work starts.
+
+## What was built (21 October)
+
+Dinis said go on 21 October, and the site was built from this brief the same day. The five planned runs (r13 to r17) were renumbered, because those numbers had been used for other work, and three of them were run as one (decision 11). Each run's spec, with Dinis's feedback and one task per worker, is in `poc/ruv-sgit/runs/`; the closed runs have their entries in the [ledger](../ruv-sgit/ledger/index.html) (`data/vaults.json`).
+
+| Run | Planned as | What it made | Ledger |
+|---|---|---|---|
+| **r21-bios** | (new, decision 8) | Draft bios and profile facts for the two founding providers, from their public pages, every fact with its source (`evidence/r21-provider-bios.md`), for each of them to approve | 1 worker, 3 vault commits |
+| **r22-ia** | r13-ia | The new menu (For clients, For providers, How it works, Proof, Learn, Join) and footer, the four business pages as redirect stubs, the old home's content moved to *What ruv.sgit is*, the Proof and Learn hubs, and the validator's checks for stubs and for every URL in the 16 October inventory | 3 workers, 5 vault commits |
+| **r23-service** | r14-home, r15-rules and r16-join | The new home, For clients, For providers with a profile page for each founding provider, the rules of engagement, how it works (with the provider workflow from enquiry to handover), the provider application and keep-me-posted forms, and the shop's preferred-provider field | 5 workers, 7 vault commits |
+| **r24-editor** | r17-editor | The editor pass on the new pages; `llms.txt`, the README and the release notes; this article to v1.0.0 | open while this was written; its entry is added when it closes |
+
+For each of the three closed runs the ledger records no plaintext found in what the server stored, a fresh clone identical to the delivered files, and the vault deleted, with the delete checked.
+
+The pages:
+
+- [The new home](../index.html): the line, three doors, the path with prices, the founding providers, the proof, the rules in four lines.
+- [For clients](../clients/index.html): the engagement path, the four offers and prices, the project types, the providers, what stays yours, and the sections for companies and internal teams.
+- [For providers](../providers/index.html): why join, the founding providers, the rules in brief, how to join.
+- The founding providers: [Dinis Cruz](../providers/dinis-cruz.html) and [Mondweep Chakravorty](../providers/mondweep-chakravorty.html). The bios were drafted from public pages for each provider to approve; the photos are to come.
+- [Rules of engagement](../rules/index.html): the rules, the worked examples and the licences.
+- [How it works](../how-it-works/index.html): the engagement path, who does what, matching, the provider workflow, delivery and committing back.
+- [Join](../join/index.html): the provider application and keep me posted, both emails to agent@riskmandate.ai, with "copy as JSON".
+- [Learn](../learn/index.html) and [Proof](../proof/index.html): the two hubs.
+- The four business pages (`business/index.html`, `consultants.html`, `companies.html`, `teams.html`) are now redirects to For clients and For providers; their URLs keep working.
+
+Not done in these runs: the "after" screenshots of the fifteen views.
 
 ## What this does not claim
 
-- **Nothing here is built yet.** This is a draft brief. The pages, the forms and the menu in it do not exist until runs r13 to r17 have made them.
-- **No payment.** The site takes no money; orders and applications are emails, and a person replies.
+- **The pages exist; not everything is final.** The pages, the forms and the menu were built on 21 October (see *What was built*). The provider bios are drafts for each provider to approve, and the photos are still to come.
+- **No payment.** The site takes no money; orders, enquiries and applications are emails, and a person replies.
 - **No automation.** A person starts, watches and hands over every run; matching is by hand.
-- **No providers beyond the two founding ones.** And neither is taking bookings yet.
+- **No providers beyond the two founding ones.** They now take enquiries to book: an enquiry is an email, and a person replies with dates and a quote.
 - **No paid engagement yet.** The prices are the business plan's starting hypotheses.
 - **The runs on this site were not policy-gated.** Enforcement was shown separately, in POC1.
 - **Not rUv's offer.** This builds on his open-source projects (MIT, by rUv / ruvnet); it is not his service and does not speak for him or for the Agentics Foundation.
@@ -499,9 +526,10 @@ To ask a question, buy, or apply to join: [agent@riskmandate.ai](mailto:agent@ri
 
 ## Where this comes from
 
-Dinis Cruz's dictated brief of 16 October 2026 (quoted where his words are used); the newsroom article [Agentics, ready to sell](https://newsroom.sgit.ai/articles/agentics-ready-to-sell.html) (16 October 2026), read the same day; this site at v0.1.29: `site/assets/site.js` (the menu), `site/business/*.html`, `site/shop/`, `site/data/offers.json`, `site/data/vaults.json`, `site/llms.txt`, `README.md`, `site/admin/versions.json`, the [business plan](ruv-sgit-business-model.html) and the five articles of 15 October; the inventory [site-map-2026-10-16.json](../data/site-map-2026-10-16.json); and the run spec `poc/ruv-sgit/runs/r12-next-phase.spec.json`.
+Dinis Cruz's dictated brief of 16 October 2026 (quoted where his words are used); the newsroom article [Agentics, ready to sell](https://newsroom.sgit.ai/articles/agentics-ready-to-sell.html) (16 October 2026), read the same day; this site at v0.1.29: `site/assets/site.js` (the menu), `site/business/*.html`, `site/shop/`, `site/data/offers.json`, `site/data/vaults.json`, `site/llms.txt`, `README.md`, `site/admin/versions.json`, the [business plan](ruv-sgit-business-model.html) and the five articles of 15 October; the inventory [site-map-2026-10-16.json](../data/site-map-2026-10-16.json); and the run spec `poc/ruv-sgit/runs/r12-next-phase.spec.json`. For v1.0.0: Dinis's go of 21 October (quoted in *Decisions, 21 October*), the run specs `poc/ruv-sgit/runs/r21-bios.spec.json`, `r22-ia.spec.json`, `r23-service.spec.json` and `r24-editor.spec.json`, their entries in `data/vaults.json`, `data/providers.json`, `evidence/r21-provider-bios.md`, and the pages they made.
 
 ## Changes
 
 - **v0.1.0 (DRAFT), 16 October 2026.** First draft, for Dinis to review.
 - **v0.2.0 (DRAFT), 16 October 2026.** Dinis's answers applied: Mondweep live (name, LinkedIn); the split is equal after direct costs, with no platform share (the newsroom article's 5% to 20% was a market benchmark, not a use case); CC BY 4.0; applications by email to agent@riskmandate.ai, kept in its private repository, never in git; client work private first. Edited by the conductor directly, not by a run.
+- **v1.0.0, 21 October 2026.** Approved and built. The decisions of 21 October recorded (questions 5 to 14 take their proposed answers; question 4: enquire to book; a profile page per founding provider; the same four offers for both; the runs renumbered). The draft framing removed and the text kept as the record; the open questions marked as decided; *What was built (21 October)* added (runs r21-bios, r22-ia, r23-service and r24-editor, and the pages); *What this does not claim* brought up to date. Written by the archivist worker of run r24-editor.

@@ -121,7 +121,7 @@ td.money,th.money{white-space:nowrap}
 <h2>Enquire to book</h2>
 <div class="callout enq">
 <p>To start an engagement, enquire: the button opens an email to agent@riskmandate.ai, and a person replies with dates and a quote. The site takes no payment.</p>
-<a class="btn p" id="enquire-btn" href="mailto:agent@riskmandate.ai?subject=Enquiry%3A%20a%20conversation">Enquire to book</a>
+<a class="btn p" id="enquire-btn" data-enquire="a conversation" href="mailto:agent@riskmandate.ai?subject=Enquiry%3A%20a%20conversation">Enquire to book</a>
 </div>
 <div class="btns">
 <a class="btn" href="../how-it-works/index.html">How it works</a>
@@ -133,15 +133,5 @@ td.money,th.money{white-space:nowrap}
 </main>
 <footer><div class="wrap"><span>ruv.sgit.ai · rules of engagement</span><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">source on GitHub</a><a href="https://sgit.ai">sgit.ai</a><a href="https://ruv.io">ruv.io</a><a href="https://github.com/ruvnet">github.com/ruvnet</a><span>code Apache-2.0 · rUv's projects MIT, by rUv / ruvnet · materials CC BY 4.0</span><a href="../llms.txt">llms.txt</a></div></footer>
 <script src="../assets/site.js"></script>
-<script>
-(() => {
-  // enquire to book: a plain-text email to agent@riskmandate.ai (no provider chosen on this page)
-  const body = ['Hello,', '', 'Who it is for: ', 'Offer: a conversation', 'Preferred provider: none', '',
-    'What do you want agents to do?', '', 'What must they never do?', '', 'When would you like to start?', '',
-    '(I understand the site takes no payment; a person replies with dates and a quote.)'].join('\n');
-  const a = document.getElementById('enquire-btn');
-  if (a) a.href = 'mailto:agent@riskmandate.ai?subject=' + encodeURIComponent('Enquiry: a conversation') + '&body=' + encodeURIComponent(body);
-})();
-</script>
 </body>
 </html>

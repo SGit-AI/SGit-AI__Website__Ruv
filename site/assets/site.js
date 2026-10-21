@@ -41,6 +41,34 @@
   // contact, on every page: one address, a live agent that answers and a person who follows up
   const foot = document.querySelector('footer .wrap');
   if (foot && !foot.querySelector('.contact')) foot.insertAdjacentHTML('afterbegin', `<span class="contact">Contact: <a href="mailto:agent@riskmandate.ai">agent@riskmandate.ai</a> (a live agent answers; a person follows up) · <a href="${root}clients/index.html">work with us</a> · <a href="${root}join/index.html#provider">join as a provider</a></span>`);
+  // the service (v0.2): one enquiry email and one way to price the five project types, shared by every page that offers them.
+  // Enquire to book: <a data-enquire="<offer>" data-provider="<name>"> becomes a mailto to agent@riskmandate.ai with subject
+  // "Enquiry: <offer> with <provider>" and a short plain-text body; a person replies with dates and a quote. No payment on the site.
+  const CONTACT = 'agent@riskmandate.ai';
+  const gbp = n => '£' + Number(n).toLocaleString('en-GB', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 });
+  const enquire = (offer, provider) => {
+    const what = offer || 'a conversation';
+    const body = ['Hello,', '',
+      'Who it is for (name, organisation, role): ',
+      'The offer: ' + what,
+      'Preferred provider: ' + (provider || 'none'), '',
+      'What do you want agents to do?', '', '',
+      'What must they never do?', '', '',
+      'When would you like to start?', '', '',
+      '(Sent from ' + location.href.split('#')[0].slice(0, 200) + '. The site takes no payment: a person replies with dates and a quote.)'].join('\n');
+    return `mailto:${CONTACT}?subject=${encodeURIComponent('Enquiry: ' + what + (provider ? ' with ' + provider : ''))}&body=${encodeURIComponent(body)}`;
+  };
+  const wireEnquire = (scope = document) => scope.querySelectorAll('a[data-enquire]').forEach(a => { a.href = enquire(a.dataset.enquire, a.dataset.provider); });
+  // a project type's price (data/project-types.json): "from" the sum of its from_items' list prices in data/offers.json, or quoted
+  const typePrice = (t, offers) => {
+    const byId = {}; (offers.groups || []).forEach(g => (g.items || []).forEach(i => { byId[i.id] = i; }));
+    const its = (t.from_items || []).map(id => byId[id]).filter(Boolean);
+    if (!its.length || its.length !== (t.from_items || []).length) return { computed: false, text: 'Quoted after a conversation' };
+    return { computed: true, total: its.reduce((s, i) => s + i.price, 0), items: its,
+      text: 'From ' + gbp(its.reduce((s, i) => s + i.price, 0)), detail: 'computed from the list prices: ' + its.map(i => i.name.toLowerCase() + ' ' + gbp(i.price)).join(' + ') };
+  };
+  window.RuvService = { CONTACT, gbp, enquire, wireEnquire, typePrice };
+  wireEnquire();
   // theme: the five newsroom themes (assets/themes.css), applied before paint by assets/theme.js; the picker replaces the old toggle
   const btn = document.querySelector('header.top .theme');
   const isDark = () => window.RuvTheme ? RuvTheme.isDark() : matchMedia('(prefers-color-scheme: dark)').matches;
