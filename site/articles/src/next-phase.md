@@ -35,6 +35,17 @@ Dinis's answers to the first open questions, applied throughout this draft:
 4. **Applications go by email to agent@riskmandate.ai**, whose agent keeps them in its own private repository. **Never in this git repository.**
 5. **Client work is private first.** Everything to do with a client is private by default; anything published (a ledger entry, a case study) comes later and only with the client's agreement.
 
+### Decisions, 21 October
+
+Dinis said go on 21 October: "make that consulting official", starting with the two founding providers.
+
+6. **Every open question below takes its proposed answer** (questions 5 to 14), except question 4.
+7. **Enquire to book, not register interest** (question 4). The founding cards and the offers say *enquire to book*: the button opens an email to agent@riskmandate.ai with the offer and the provider filled in, and a person replies with dates and a quote. Still no payment on the site.
+8. **A profile page for each founding provider**, with photo, bio, specialisms, the offers and a way to enquire, so each of them can point clients to their own page. The bios are drafted from their public pages (a web search Dinis asked for), every fact sourced, and each of them approves their own; photos come from them.
+9. **Both founding providers list the same four offers** (task runs, dedicated compute, the maintained repository, expert time) at the published list prices.
+10. **The version.** This change is v0.2.0; later releases are v0.2.x.
+11. **The runs are renumbered.** r13 to r17 were used for other work; the build runs are r21-bios, r22-ia, then the pages, the forms and the editor pass, each in the ledger.
+
 
 
 ### What the site is today
