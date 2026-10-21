@@ -287,9 +287,10 @@ section.alt .join-line{background:var(--card)}
         '<div class="who"><span class="avatar" aria-hidden="true">' + esc(p.initials) + '</span><div><h3 id="' + hid + '">' + esc(p.name) + '</h3><p class="loc">' + esc(p.location) + ' · <span class="badge t">Founding provider</span></p></div></div>' +
         '<p class="head">' + esc(p.headline) + '</p>' +
         '<ul aria-label="Specialisms">' + spec + '</ul>' +
-        '<div class="acts"><a class="btn" href="' + esc(p.page) + '">View profile<span class="sr"> of ' + esc(p.name) + '</span></a>' +
-        '<a class="btn p" href="' + esc(enquiry('a conversation', p.name)) + '">Enquire to book<span class="sr"> with ' + esc(p.name) + '</span></a></div></article>';
+        '<div class="acts"><a class="btn" data-to="' + esc(p.page) + '">View profile<span class="sr"> of ' + esc(p.name) + '</span></a>' +
+        '<a class="btn p" data-to="' + esc(enquiry('a conversation', p.name)) + '">Enquire to book<span class="sr"> with ' + esc(p.name) + '</span></a></div></article>';
     }).join('');
+    cards.querySelectorAll('a[data-to]').forEach(function (x) { x.setAttribute('href', x.dataset.to); x.removeAttribute('data-to'); });
   }).catch(function () { cards.innerHTML = '<p class="k">Could not read data/providers.json. See <a href="providers/index.html#providers">the providers</a>.</p>'; });
 
   // 5. the proof: the ledger's totals and POC1
