@@ -1,0 +1,143 @@
+{
+ "updated": "2026-10-21",
+ "note": "Approved providers only, consented fields only. Applications never go into this repository. A provider's profile page is providers/<id>.html.",
+ "booking": "enquire to book: the button opens an email to agent@riskmandate.ai with the provider and the offer filled in; a person replies with dates and a quote. No payment on the site.",
+ "providers": [
+  {
+   "id": "dinis-cruz",
+   "name": "Dinis Cruz",
+   "initials": "DC",
+   "founding": true,
+   "page": "providers/dinis-cruz.html",
+   "location": "London, UK",
+   "headline": "Builder of sgit; security leader (CISO and CTO); founder of The Cyber Boardroom",
+   "role_here": "Founding provider. Built this site and the ruv.sgit runner with Claude Code, and gave the talk of 15 October 2026.",
+   "bio_short": "Dinis Cruz has more than 20 years of experience in cyber security and software engineering and has served as both CISO and CTO. He builds sgit, encrypted git for humans and AI agents, and founded The Cyber Boardroom. He is a former OWASP Board member, created the OWASP O2 Platform, and is based in London.",
+   "bio_long": [
+    "Dinis Cruz builds open-source tools, companies and communities that help organisations understand, manage and improve complex systems. He has more than 20 years of experience across cyber security and software engineering, including roles as CISO and CTO.",
+    "He is building sgit (sgit.ai), the encrypted git for humans and AI agents: files are encrypted on the client and the server stores only ciphertext. It is the foundation for RiskMandate.ai, VoiceDebrief.ai and The Cyber Boardroom, and SGraph AI commercialises it as SG/Send and SG/Vaults. He founded The Cyber Boardroom, which uses generative AI to help boards and executives understand cyber security.",
+    "In the OWASP community, he is a former Board member. He created the O2 Platform and the OSBot / MGraph-DB family of open-source tools, and organised the OWASP Summits (Lisbon 2011, Woburn 2017) that became the Open Security Summit. He has written ten books on Leanpub, including \"Generation Z Developers\" and \"SecDevOps Risk Workflow\". He speaks regularly on GenAI and security; most recently he gave the first community talk at Agentic Engineering Live in London (October 2026) for the Agentics Foundation's London chapter. He is based in London."
+   ],
+   "specialisms": [
+    "Cyber security leadership (CISO, CTO)",
+    "Encrypted, zero-knowledge data sharing (sgit, SG/Send)",
+    "Agentic engineering with AI agents",
+    "GenAI for boards and executives",
+    "Application security and secure development",
+    "Open-source tooling",
+    "Security community building"
+   ],
+   "offers": [
+    "runs",
+    "compute",
+    "repo",
+    "expert"
+   ],
+   "availability": "enquire to book",
+   "proof_of_work": [
+    {
+     "label": "The ruv.sgit ledger: every run that built this site",
+     "url": "ruv-sgit/ledger/index.html"
+    },
+    {
+     "label": "The talk, 15 October 2026",
+     "url": "talk/index.html"
+    },
+    {
+     "label": "Published run vaults",
+     "url": "examples/index.html"
+    }
+   ],
+   "links": [
+    {
+     "label": "sgit.ai",
+     "url": "https://sgit.ai"
+    },
+    {
+     "label": "GitHub",
+     "url": "https://github.com/DinisCruz"
+    },
+    {
+     "label": "LinkedIn",
+     "url": "https://www.linkedin.com/in/diniscruz"
+    },
+    {
+     "label": "Books on Leanpub",
+     "url": "https://leanpub.com/u/diniscruz"
+    },
+    {
+     "label": "The Cyber Boardroom",
+     "url": "https://thecyberboardroom.com"
+    }
+   ],
+   "photo": null,
+   "status": {
+    "bio": "drafted on 21 Oct 2026 from public pages, every fact sourced in evidence/r21-provider-bios.md; for the provider to approve",
+    "photo": "to come from the provider",
+    "consent": "agreed to be listed (Mondweep, 16 Oct 2026; Dinis, the site's owner)"
+   }
+  },
+  {
+   "id": "mondweep-chakravorty",
+   "name": "Mondweep Chakravorty",
+   "initials": "MC",
+   "founding": true,
+   "page": "providers/mondweep-chakravorty.html",
+   "location": "London, UK",
+   "headline": "Enterprise AI leader and agentic systems builder; co-founder, Agentics Foundation London",
+   "role_here": "Founding provider. Co-founder of the Agentics Foundation's London chapter, which runs the meetups where this work was shown.",
+   "bio_short": "Mondweep Chakravorty is an enterprise AI leader and agentic systems builder based in London, and co-founder of the Agentics Foundation's London chapter. Through DxSure Ltd he advises on and builds agentic AI systems. This draws on two decades in financial services, automotive, energy and technology, from HSBC to Jaguar Land Rover.",
+   "bio_long": [
+    "Mondweep Chakravorty is an enterprise AI leader and agentic systems builder based in London. Since September 2024 he has worked as an independent AI advisor through DxSure Ltd. His work there combines advisory, solution architecture and hands-on agentic builds: multi-agent orchestration, RAG, MCP and AI security.",
+    "He began his career as a software engineer at HSBC Global Technology, working on payments and core banking integration. After an MBA at London Business School, he led transformation and delivery work at Shell Energy, TalkTalk and Zafin, the last on core banking SaaS for major banks. Later he worked at Jaguar Land Rover and Lotus Technology on portfolio rationalisation, cloud foundations and connected experiences.",
+    "He co-founded the Agentics Foundation's London chapter, which runs the city's agentic AI meetups, and mentors on the Johns Hopkins Agentic AI programme. At the CISO London Summit 2025 he co-presented the keynote \"Securing the Agentic Frontier\", applying the OWASP MAESTRO threat-modelling framework to an agentic AI codebase. He builds in public through his \"vibe-cast\" lab on GitHub. He contributed to Ruflo and ran the first SGit × Ruflo proof of concept."
+   ],
+   "specialisms": [
+    "Agentic AI architecture (multi-agent, RAG, MCP)",
+    "Agentic AI security and threat modelling (MAESTRO)",
+    "Enterprise programme delivery and C-suite advisory",
+    "Financial services, core banking and payments",
+    "Automotive and digital transformation",
+    "Cloud platforms (AWS, GCP, Azure)",
+    "Agentic AI community building"
+   ],
+   "offers": [
+    "runs",
+    "compute",
+    "repo",
+    "expert"
+   ],
+   "availability": "enquire to book",
+   "proof_of_work": [
+    {
+     "label": "vibe-cast: his build-in-public lab",
+     "url": "https://github.com/mondweep/vibe-cast"
+    },
+    {
+     "label": "Agentics London meetups",
+     "url": "https://luma.com/7od7o2k9"
+    }
+   ],
+   "links": [
+    {
+     "label": "mondweep.net",
+     "url": "https://mondweep.net/"
+    },
+    {
+     "label": "LinkedIn",
+     "url": "https://www.linkedin.com/in/mondweepchakravorty"
+    },
+    {
+     "label": "GitHub",
+     "url": "https://github.com/mondweep"
+    }
+   ],
+   "photo": null,
+   "status": {
+    "bio": "drafted on 21 Oct 2026 from public pages, every fact sourced in evidence/r21-provider-bios.md; for the provider to approve",
+    "photo": "to come from the provider",
+    "consent": "agreed to be listed (Mondweep, 16 Oct 2026; Dinis, the site's owner)"
+   }
+  }
+ ]
+}
