@@ -135,7 +135,7 @@
 
     set('pf-path', PATH.map(function (s) {
       var its = (s[2] || []).map(function (id) { return byId[id]; }).filter(Boolean);
-      var price = its.length ? its.map(function (i) { return gbp(i.price); }).join(its.length > 2 ? ', ' : ' or ').replace(/, ([^,]*)$/, ' or $1') + (its.every(function (i) { return i.unit === its[0].unit; }) ? ' ' + its[0].unit.replace(/^per /, 'a ').replace('a engagement', 'an engagement') : '') : 'free';
+      var price = its.length ? its.map(function (i, n) { return (n ? (n === its.length - 1 ? ' or ' : ', ') : '') + gbp(i.price); }).join('') + (its.every(function (i) { return i.unit === its[0].unit; }) ? ' ' + its[0].unit.replace(/^per /, 'a ').replace('a engagement', 'an engagement') : '') : 'free';
       return '<li><h3>' + esc(s[0]) + ' <span class="pf-step-price">' + esc(price) + '</span></h3><p>' + esc(s[1]) + '</p></li>';
     }).join(''));
 
