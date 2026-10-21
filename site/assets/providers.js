@@ -1,7 +1,7 @@
 /* ruv.sgit providers: renders the providers list (providers/index.html, #provider-list) and a provider's profile
    (providers/<id>.html, <body data-provider="<id>">) from data/providers.json and data/offers.json, read at load.
    Nothing about a provider is typed into this file: names, bios, specialisms, proof of work and links come from
-   providers.json exactly as given; prices come from offers.json. The HTML carries static fallbacks (name, headline,
+   providers.json exactly as given; prices come from offers.json; the five project types come from project-types.json. The HTML carries static fallbacks (name, headline,
    short bio) so a page reads without JavaScript and in link previews.
    Enquire to book opens an email to agent@riskmandate.ai with the offer and the provider filled in; no payment. */
 (function () {
@@ -17,18 +17,9 @@
   var link = function (l, cls) { return '<a' + (cls ? ' class="' + cls + '"' : '') + ' href="' + esc(href(l.url)) + '"' + (ext(l.url) ? ' rel="noopener"' : '') + '>' + esc(l.label) + '</a>'; };
   var host = function (u) { try { return new URL(u).host.replace(/^www\./, ''); } catch (e) { return ''; } };
 
-  // the five project types of the newsroom article (next-phase brief, "The engagement path"): packages of the four offers;
-  // `from` names the offers.json items that set the starting price, so no price is typed here
-  var TYPES = [
-    { id: 'first-run', title: 'A first run, with a guide', text: 'A task run on a real problem of yours, with expert time to shape the brief and read the vault with you.', from: ['run-s', 'expert-hours'] },
-    { id: 'policy', title: "A behaviour policy for one team's agents", text: 'A day to write the Agent Behaviour Policy for one team: what each agent can reach, may do, and is stopped from doing.', from: ['expert-day'] },
-    { id: 'pilot', title: 'A four-day pilot', text: 'ruv.sgit set up in your own environment (Claude Code, AWS or your own), with your policies and your first runs, then handed over.', from: ['expert-days'] },
-    { id: 'workshop', title: 'A talk or workshop, built the way ours was', text: 'A talk or workshop for your people, prepared with ruv.sgit runs the way ours was, every run in a vault you keep.', from: [] },
-    { id: 'review', title: 'A review of an agent that is already running', text: 'A look at an agent you already run: what it can reach, what it does, and the behaviour policy it should have.', from: [] }
-  ];
   // the engagement path (next-phase brief, "How it works"), short; prices filled from offers.json
   var PATH = [
-    ['A conversation', 'What you want agents to do, and what they must never do. Free.', null],
+    ['A conversation', 'What you want agents to do, and what they must never do.', null],
     ['A first run', 'A task run on a real problem, no network access, materials provided up front.', ['run-s', 'run-m', 'run-l']],
     ['Expert time', 'Two hours to steer it, or a day to write the behaviour policy for one team.', ['expert-hours', 'expert-day']],
     ['A pilot', 'Four days setting it up in your own environment.', ['expert-days']],
@@ -41,22 +32,8 @@
     ['Whoever has the client bills', 'One invoice, from the provider you work with; they pay the other parties their share.']
   ];
 
-  // Enquire to book: a mailto with a short plain-text body, kept well under 1,800 characters
-  function mailto(offer, provider) {
-    var subject = 'Enquiry: ' + (offer || 'a conversation') + (provider ? ' with ' + provider.name : '');
-    var body = [
-      'Hello,', '',
-      'I would like to enquire about: ' + (offer || 'a conversation'),
-      'Preferred provider: ' + (provider ? provider.name : 'none'), '',
-      'Who it is for (name, organisation, role):', '', '',
-      'What do you want agents to do?', '', '',
-      'What must they never do?', '', '',
-      'When would you like to start?', '', '',
-      '(sent from ' + location.href.split('#')[0] + ')'
-    ].join('\n');
-    if (body.length > 1700) body = body.slice(0, 1700);
-    return 'mailto:' + CONTACT + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-  }
+  // Enquire to book: the site's one enquiry email (assets/site.js), with the offer and the provider filled in
+  function mailto(offer, provider) { return window.RuvService.enquire(offer, provider ? provider.name : ''); }
   var shopUrl = function (p) { return root + 'shop/index.html?provider=' + encodeURIComponent(p.id); };
 
   function avatar(p, cls) {
@@ -91,7 +68,7 @@
   }
 
   // ---- a provider's profile (providers/<id>.html) ----
-  function renderProfile(p, offers) {
+  function renderProfile(p, offers, types) {
     var byId = items(offers), first = p.name.split(' ')[0];
     document.title = p.name + ' · ruv.sgit providers';
     var set = function (id, html) { var e = $(id); if (e) e.innerHTML = html; };
@@ -99,13 +76,12 @@
     set('pf-name', esc(p.name));
     set('pf-headline', esc(p.headline));
     set('pf-location', esc(p.location));
-    set('pf-avail', esc(avail(p.availability)));
-    set('pf-short', esc(p.bio_short));
     var f = $('pf-founding'); if (f) f.hidden = !p.founding;
     ['pf-enquire', 'pf-enquire-2'].forEach(function (id) { var e = $(id); if (e) e.href = mailto(null, p); });
     ['pf-shop', 'pf-shop-2'].forEach(function (id) { var e = $(id); if (e) e.href = shopUrl(p); });
     set('pf-first', esc(first));
 
+    // About is the long bio only: the short bio is its summary (cards, link previews, the page without JavaScript), so it is not shown twice
     set('pf-bio', p.bio_long.map(function (t) { return '<p>' + esc(t) + '</p>'; }).join('') +
       (p.role_here ? '<p class="pf-role"><b>On ruv.sgit.</b> ' + esc(p.role_here) + '</p>' : ''));
     set('pf-tags', p.specialisms.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join(''));
@@ -125,13 +101,17 @@
     }).join(''));
     set('pf-vat', 'Prices in ' + esc(offers.currency) + ', excluding VAT: the published list prices, the same for every provider. The site takes no payment: you enquire, and a person replies with dates and a quote.');
 
-    // ways to start: the five project types, priced from offers.json where an offer sets the price
-    set('pf-types', TYPES.map(function (t) {
-      var parts = t.from.map(function (id) { return byId[id]; }).filter(Boolean);
-      var price = parts.length ? 'From ' + gbp(parts.reduce(function (s, i) { return s + i.price; }, 0)) + ' (' + parts.map(function (i) { return i.name.toLowerCase() + ' ' + gbp(i.price); }).join(' + ') + ')' : 'Quoted after a conversation';
-      return '<li class="pf-type"><h3>' + esc(t.title) + '</h3><p>' + esc(t.text) + '</p><p class="pf-tprice">' + esc(price) + '</p>' +
-        '<a href="' + esc(mailto(t.title, p)) + '">Enquire about this <span aria-hidden="true">&rarr;</span></a></li>';
-    }).join(''));
+    // ways to start: the five project types (data/project-types.json); a "from" price is computed from offers.json, else quoted
+    if (types) {
+      set('pf-types', types.types.map(function (t) {
+        var pr = window.RuvService.typePrice(t, offers);
+        return '<li class="pf-type"><h3>' + esc(t.name) + '</h3><p>' + esc(t.description) + '</p>' +
+          '<p class="pf-tcombo"><span>Suggested start:</span> ' + esc(t.combination) + '</p>' +
+          '<p class="pf-tprice">' + (pr.computed ? '<b>' + esc(pr.text) + '</b> <span>(' + esc(pr.detail) + ')</span>' : '<b>' + esc(pr.text) + '</b>') + '</p>' +
+          '<a href="' + esc(mailto(t.name, p)) + '">Enquire about this <span aria-hidden="true">&rarr;</span></a></li>';
+      }).join(''));
+      set('pf-types-note', esc(types.note));
+    }
 
     set('pf-path', PATH.map(function (s) {
       var its = (s[2] || []).map(function (id) { return byId[id]; }).filter(Boolean);
@@ -146,11 +126,12 @@
   function load(u) { return fetch(root + u).then(function (r) { if (!r.ok) throw new Error(u + ' ' + r.status); return r.json(); }); }
   var list = $('provider-list'), pid = document.body.dataset.provider;
   if (!list && !pid) return;
-  Promise.all([load('data/providers.json'), load('data/offers.json')]).then(function (d) {
+  // the project types are optional for the page: if data/project-types.json does not load, the rest of the profile still renders
+  Promise.all([load('data/providers.json'), load('data/offers.json'), pid ? load('data/project-types.json').catch(function () { return null; }) : null]).then(function (d) {
     if (list) renderList(list, d[0]);
     if (pid) {
       var p = d[0].providers.find(function (x) { return x.id === pid; });
-      if (p) renderProfile(p, d[1]);
+      if (p) renderProfile(p, d[1], d[2]);
     }
     document.body.classList.add('pv-ready');
   }).catch(function () {

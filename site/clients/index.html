@@ -43,7 +43,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--t);outline-offset:2
 .type .n{display:block;margin-bottom:6px}
 .type .built{font-size:14px;margin:10px 0 0;padding:10px 12px;background:var(--bg2);border-radius:10px}
 .type .built b{display:block;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--m);margin-bottom:2px}
-.type .built ul{margin:0;padding-left:18px}.type .built li{font-size:14px}
+.type .tp{margin:6px 0 0;font-size:14px}.type .tp small{color:var(--m)}
 /* providers */
 .prov .head{display:flex;gap:14px;align-items:center;margin-bottom:10px}
 .avatar{flex:0 0 auto;width:64px;height:64px;border-radius:50%;background:var(--t2);color:var(--t);border:2px solid var(--t);display:flex;align-items:center;justify-content:center;font:700 22px Georgia,serif;letter-spacing:.02em}
@@ -113,14 +113,10 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--t);outline-offset:2
 
 <section id="types" class="alt"><div class="wrap">
 <h2>Five project types</h2>
-<p class="sub-lead">Most engagements are one of these. Each is a package of the offers above, priced from them; the reply to an enquiry sets out exactly which ones, and the quote.</p>
-<div class="cards" id="type-cards">
-<div class="card flex type"><span class="n">TYPE 1</span><h3>A first run, with a guide</h3><p class="grow">One real task, run by a hive under a written behaviour policy, with a person who has run these hives shaping the brief and reading the vault with you afterwards.</p><div class="built" data-built="run-s,expert-hours"><b>Built from</b>A task run and a couple of hours of expert time.</div><div class="acts"><a class="btn sm p" href="../shop/index.html">Order in the shop</a><a class="btn sm" data-enquire="A first run, with a guide" href="mailto:agent@riskmandate.ai">Enquire to book</a></div></div>
-<div class="card flex type"><span class="n">TYPE 2</span><h3>A behaviour policy for one team's agents</h3><p class="grow">An Agent Behaviour Policy for each role in one team: what it can reach, what it may do, what is stopped, and who owns it. Tested with runs against your own task.</p><div class="built" data-built="expert-day,run-m"><b>Built from</b>A day of expert time, and task runs to test it.</div><div class="acts"><a class="btn sm p" href="../shop/index.html">Order in the shop</a><a class="btn sm" data-enquire="A behaviour policy for one team's agents" href="mailto:agent@riskmandate.ai">Enquire to book</a></div></div>
-<div class="card flex type"><span class="n">TYPE 3</span><h3>A four-day pilot</h3><p class="grow">ruv.sgit set up in your environment (Claude Code, AWS or your own), with your policies and your first runs, then handed over to your team.</p><div class="built" data-built="expert-days"><b>Built from</b>Several days of expert time.</div><div class="acts"><a class="btn sm p" href="../shop/index.html">Order in the shop</a><a class="btn sm" data-enquire="A four-day pilot" href="mailto:agent@riskmandate.ai">Enquire to book</a></div></div>
-<div class="card flex type"><span class="n">TYPE 4</span><h3>A talk or workshop, built the way ours was</h3><p class="grow">The materials for your talk or workshop made by ruv.sgit runs, each run in its own vault with a ledger entry, as <a href="../proof/index.html">the talk of 15 October 2026</a> was. You present with a record of how it was made.</p><div class="built" data-built="expert-day,run-m"><b>Built from</b>Expert time and task runs.</div><div class="acts"><a class="btn sm p" href="../shop/index.html">Order in the shop</a><a class="btn sm" data-enquire="A talk or workshop" href="mailto:agent@riskmandate.ai">Enquire to book</a></div></div>
-<div class="card flex type"><span class="n">TYPE 5</span><h3>A review of an agent that is already running</h3><p class="grow">A provider reads what your agent can reach and what it does, and writes it down as a behaviour policy, so the gap between the two is visible and can be closed.</p><div class="built" data-built="expert-hours,expert-day"><b>Built from</b>A couple of hours, or a day, of expert time.</div><div class="acts"><a class="btn sm p" href="../shop/index.html">Order in the shop</a><a class="btn sm" data-enquire="A review of an agent that is already running" href="mailto:agent@riskmandate.ai">Enquire to book</a></div></div>
-</div>
+<p class="sub-lead">Most engagements start as one of these. The offers named under each are a suggested starting combination, not a fixed package: you and the provider agree the actual combination in the first conversation, and the reply sets out the quote.</p>
+<div class="cards" id="type-cards" aria-live="polite"><p class="k">Reading data/project-types.json…</p></div>
+<noscript><p>The five project types are in <a href="../data/project-types.json">data/project-types.json</a>.</p></noscript>
+<p class="k" id="types-src"></p>
 </div></section>
 
 <section id="providers"><div class="wrap">
@@ -208,7 +204,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--t);outline-offset:2
 
 <section id="proof" class="alt"><div class="wrap">
 <h2>The proof</h2>
-<p class="sub-lead">Every page and talk on this site was made by ruv.sgit runs, and every run is in a public ledger. These numbers are read from <a href="../data/vaults.json">data/vaults.json</a> as the page loads.</p>
+<p class="sub-lead">Most of this site and the talk were made by ruv.sgit runs, and every run is in a public ledger. These numbers are read from <a href="../data/vaults.json">data/vaults.json</a> as the page loads.</p>
 <div class="facts" aria-live="polite">
 <div><b id="f-runs">…</b><span>runs in the ledger</span></div>
 <div><b id="f-commits">…</b><span>vault commits</span></div>
@@ -239,29 +235,10 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--t);outline-offset:2
 // Prices come from data/offers.json, providers from data/providers.json, and every number about runs from data/vaults.json and data/report.json: none is typed in.
 (function () {
   'use strict';
-  var MAIL = 'agent@riskmandate.ai';
+  var MAIL = RuvService.CONTACT, gbp = RuvService.gbp, wire = RuvService.wireEnquire;
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
-  var gbp = function (x) { return '£' + Number(x).toLocaleString('en-GB', { minimumFractionDigits: x % 1 ? 2 : 0, maximumFractionDigits: 2 }); };
   var json = function (u) { return fetch(u).then(function (r) { if (!r.ok) throw new Error(u); return r.json(); }); };
   var list = function (a) { return a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' or ' + a[a.length - 1]; };
-  // Enquire to book: an email with the offer and the provider filled in; a person replies with dates and a quote.
-  var enquire = function (offer, provider) {
-    var what = offer || 'a conversation';
-    var subject = 'Enquiry: ' + what + (provider ? ' with ' + provider : '');
-    var body = [
-      'Hello,', '',
-      'Who it is for: (your name, organisation and role)',
-      'The offer: ' + what,
-      'Preferred provider: ' + (provider || 'none'), '',
-      'What do you want agents to do?', '', '',
-      'What must they never do?', '', '',
-      'When would you like to start?', '', '',
-      '(Sent from ruv.sgit.ai/clients. No payment is taken on the site: a person replies with dates and a quote.)'
-    ].join('\n');
-    return 'mailto:' + MAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-  };
-  var wire = function (root) { (root || document).querySelectorAll('[data-enquire]').forEach(function (a) { a.href = enquire(a.getAttribute('data-enquire') === 'a conversation' ? '' : a.getAttribute('data-enquire'), a.getAttribute('data-provider') || ''); }); };
-  wire();
 
   json('../data/offers.json').then(function (O) {
     var G = O.groups || [], items = {};
@@ -283,12 +260,22 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--t);outline-offset:2
     }).join('');
     wire(document.getElementById('offer-cards'));
     document.getElementById('offers-src').textContent = 'Prices in ' + (O.currency || 'GBP') + ', excluding VAT, from data/offers.json (updated ' + O.updated + '). Model tokens are included with our key; dedicated compute adds a task run for the tokens.';
-    // the five project types: name the offers each is built from, with their list prices
-    document.querySelectorAll('[data-built]').forEach(function (el) {
-      var parts = el.getAttribute('data-built').split(',').map(function (id) { var it = items[id]; return it ? '<li>' + esc(it.group.title) + ': ' + esc(it.name) + ', ' + gbp(it.price) + ' ' + esc(it.unit) + '</li>' : ''; }).join('');
-      if (parts) el.innerHTML = '<b>Built from</b><ul>' + parts + '</ul>';
-    });
   }).catch(function () { document.getElementById('offer-cards').innerHTML = '<p>Could not read data/offers.json. The offers and prices are in <a href="../shop/index.html">the shop</a>.</p>'; });
+
+  // the five project types, from data/project-types.json; "from" prices computed from data/offers.json
+  Promise.all([json('../data/project-types.json'), json('../data/offers.json')]).then(function (d) {
+    var T = d[0], O = d[1], items = {};
+    O.groups.forEach(function (g) { g.items.forEach(function (it) { it.group = g; items[it.id] = it; }); });
+    document.getElementById('type-cards').innerHTML = T.types.map(function (t, n) {
+      var pr = RuvService.typePrice(t, O);
+      return '<div class="card flex type" id="type-' + esc(t.id) + '"><span class="n">TYPE ' + (n + 1) + '</span><h3>' + esc(t.name) + '</h3><p class="grow">' + esc(t.description) + '</p>' +
+        '<div class="built"><b>Suggested starting combination</b>' + esc(t.combination) +
+        '<p class="tp">' + (pr.computed ? '<strong>' + esc(pr.text) + '</strong> <small>(' + esc(pr.detail) + ')</small>' : '<strong>' + esc(pr.text) + '</strong>') + '</p></div>' +
+        '<div class="acts"><a class="btn sm p" data-enquire="' + esc(t.name) + '" href="mailto:' + MAIL + '">Enquire to book</a><a class="btn sm" href="../shop/index.html">Order in the shop</a></div></div>';
+    }).join('');
+    wire(document.getElementById('type-cards'));
+    document.getElementById('types-src').textContent = 'From data/project-types.json (updated ' + T.updated + '). A "from" price adds the list prices of the smallest suggested combination in data/offers.json; it is not a quote. GBP, excluding VAT.';
+  }).catch(function () { document.getElementById('type-cards').innerHTML = '<p>Could not read data/project-types.json. <a href="../data/project-types.json">Open it</a>.</p>'; });
 
   json('../data/providers.json').then(function (P) {
     var L = P.providers || [];
