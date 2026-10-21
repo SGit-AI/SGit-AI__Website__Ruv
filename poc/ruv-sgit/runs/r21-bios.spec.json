@@ -1,0 +1,7 @@
+{
+ "purpose": "r21-bios: draft professional bios and profile facts for the two founding providers, Dinis Cruz and Mondweep Chakravorty, from their public pages, every fact with its source, for both to approve",
+ "feedback": "Dinis, 21 Oct: create the consulting pages and the workflow for me and Mondweep; the profile page for us with our pictures, as professional as possible, especially for Mondweep to start selling; he needs to be able to point here. Decided: draft the bios from public pages (a web search, asked for by Dinis); photos come from Dinis and Mondweep.",
+ "workers": [
+  {"id": "bios", "role": "researcher", "task": "public, professional facts and draft bios for Dinis Cruz and Mondweep Chakravorty, with source URLs; nothing private, nothing unsourced", "out": "evidence/r21-provider-bios.md"}
+ ]
+}

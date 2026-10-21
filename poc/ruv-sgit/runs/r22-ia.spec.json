@@ -1,0 +1,9 @@
+{
+ "purpose": "r22-ia: the information architecture of the service site (article No. 9, run r13-ia renumbered): the new menu (For clients, For providers, How it works, Proof, Learn, Join), the footer, the redirect stubs for the four business pages, the current home's content moved to learn/overview.html, hubs proof/ and learn/, and the validator's new checks (stubs, every URL in the 16 Oct inventory)",
+ "feedback": "Dinis, 21 Oct: go to the next step: make the consulting official and start selling the services we mapped out. Accept the brief's proposed answers; the next version of the site is v0.2.0, then v0.2.x.",
+ "workers": [
+  {"id": "architect", "role": "builder", "task": "the menu in assets/site.js and the footer", "out": "site/assets/site.js"},
+  {"id": "redirector", "role": "builder", "task": "the four business stubs, learn/overview.html, proof/index.html, learn/index.html", "out": "site/business/, site/learn/, site/proof/"},
+  {"id": "checker", "role": "builder", "task": "validate.py: stub checks and every URL in data/site-map-2026-10-16.json", "out": "site/build/validate.py"}
+ ]
+}
