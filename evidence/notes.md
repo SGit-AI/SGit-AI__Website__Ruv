@@ -68,3 +68,6 @@
 
 ## 17 Oct 2026: a web search for article No. 11 (run r20-voice-article)
 Dinis asked for a quick web search on how the browser's built-in speech synthesis works, how common it is and good examples. CLAUDE.md limits send.endpoint.allowed to package registries, GitHub, the sgit server and rUv's repos; this search goes beyond that list because Dinis asked for it, for this article only. Findings and their source URLs are in evidence/r20-voice-research.md.
+
+## 21 Oct 2026: a web search for the founding providers' bios (run r21-bios)
+Dinis chose, on 21 Oct, to draft his and Mondweep Chakravorty's bios from their public pages. The search goes beyond CLAUDE.md's send.endpoint.allowed list because Dinis asked for it, for this purpose only. Only public, professional facts are kept, each with its source URL, in evidence/r21-provider-bios.md; both approve their bio before it is final.

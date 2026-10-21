@@ -1,0 +1,8 @@
+{
+ "purpose": "r24-editor: the editor pass and the record for v0.2.0 (article No. 9, run r17-editor renumbered): every new page checked against the approved brief (accurate, consistent, additive, British English, plain words); one source for the five project types; the profile generator in the repository; llms.txt, README and the release notes with the breaking changes; the brief to v1.0.0 with its changes list",
+ "feedback": "Dinis, 21 Oct: make the consulting official, as professional as possible; accept the proposed answers; this is v0.2.0, then v0.2.x.",
+ "workers": [
+  {"id": "editor", "role": "editor", "task": "review and fix the new pages; data/project-types.json as the single source for the five project types; site/build/providers_gen.py", "out": "site/index.html, site/clients/, site/providers/, site/rules/, site/how-it-works/, site/join/, site/learn/, site/proof/, site/data/project-types.json, site/build/providers_gen.py"},
+  {"id": "archivist", "role": "writer", "task": "article No. 9 to v1.0.0 with its changes list and what was built; llms.txt and README restructured around the three audiences", "out": "site/articles/src/next-phase.md, site/llms.txt, README.md"}
+ ]
+}

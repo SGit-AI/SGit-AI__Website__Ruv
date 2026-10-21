@@ -1,0 +1,11 @@
+{
+ "purpose": "r23-service: the service pages (article No. 9, runs r14-home, r15-rules and r16-join renumbered and run together): the new home, For clients, For providers with a profile page per founding provider, the rules of engagement, how it works (with the provider workflow from enquiry to handover), the provider application and keep-me-posted forms, and the shop's preferred-provider field",
+ "feedback": "Dinis, 21 Oct: make the consulting official and start selling the services we mapped out; the profile pages for me and Mondweep, as professional as possible, so Mondweep can point clients here; map the workflow for us to provide them. Enquire to book; the same four offers for both; bios drafted from public pages, for approval; photos to come.",
+ "workers": [
+  {"id": "home", "role": "builder", "task": "the new home page: the line, three doors, the path with prices, the founding providers, the proof (numbers read from data files), the rules in four lines, the talk, the attribution", "out": "site/index.html"},
+  {"id": "clients", "role": "builder", "task": "For clients: the path, the offers and prices, the project types, the providers, what stays yours, #companies and #teams merged from the old business pages", "out": "site/clients/index.html"},
+  {"id": "providers", "role": "builder", "task": "For providers and the two profile pages, rendered from data/providers.json", "out": "site/providers/, site/assets/providers.js"},
+  {"id": "rules", "role": "builder", "task": "the rules of engagement and how it works, with the provider workflow; a check of the worked examples' arithmetic", "out": "site/rules/index.html, site/how-it-works/index.html, site/build/rules_check.py"},
+  {"id": "join", "role": "builder", "task": "the provider application and keep-me-posted forms (mailto, copy as JSON), and the shop's preferred provider field", "out": "site/join/index.html, site/assets/join.js, site/shop/"}
+ ]
+}

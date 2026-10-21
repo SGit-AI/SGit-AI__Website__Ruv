@@ -1,0 +1,188 @@
+{
+ "run": "r21-bios",
+ "purpose": "r21-bios: draft professional bios and profile facts for the two founding providers, Dinis Cruz and Mondweep Chakravorty, from their public pages, every fact with its source, for both to approve",
+ "feedback": "Dinis, 21 Oct: create the consulting pages and the workflow for me and Mondweep; the profile page for us with our pictures, as professional as possible, especially for Mondweep to start selling; he needs to be able to point here. Decided: draft the bios from public pages (a web search, asked for by Dinis); photos come from Dinis and Mondweep.",
+ "vault_id": "7ibe2sv6",
+ "created_at": "2026-10-21T13:16:24+00:00",
+ "closed_at": "2026-10-21T13:22:48+00:00",
+ "deleted_at": "2026-10-21T13:22:49+00:00",
+ "hive": {
+  "workers": 1,
+  "tasks": 1,
+  "ruflo_calls": 7,
+  "ruflo_ms": 11424
+ },
+ "branches": [
+  {
+   "name": "w-bios",
+   "role": "researcher",
+   "commits": 1,
+   "files": 1,
+   "bytes": 18494,
+   "write_ms": 1854,
+   "merge_ms": 1675
+  }
+ ],
+ "commits": 3,
+ "files": 3,
+ "bytes_plain": 19694,
+ "files_delivered": 1,
+ "bytes_delivered": 18494,
+ "server_store": {
+  "files": 34,
+  "bytes": 30909,
+  "plaintext_hits": 0,
+  "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+ },
+ "clone": {
+  "ms": 561,
+  "files": 3,
+  "identical": true
+ },
+ "ops": [
+  {
+   "op": "init",
+   "ms": 1388,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 643,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 658,
+   "rc": 0
+  },
+  {
+   "op": "branch-new",
+   "ms": 587,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 526,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 740,
+   "rc": 0
+  },
+  {
+   "op": "branch-switch",
+   "ms": 507,
+   "rc": 0
+  },
+  {
+   "op": "merge",
+   "ms": 504,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 664,
+   "rc": 0
+  },
+  {
+   "op": "history",
+   "ms": 528,
+   "rc": 0
+  },
+  {
+   "op": "clone",
+   "ms": 560,
+   "rc": 0
+  }
+ ],
+ "ruflo": [
+  {
+   "seq": 1,
+   "actor": "queen",
+   "cmd": "hive-mind init -t hierarchical-mesh -c byzantine -m 12",
+   "rc": 0,
+   "ms": 8422
+  },
+  {
+   "seq": 2,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t researcher -r specialist -p bios",
+   "rc": 0,
+   "ms": 533
+  },
+  {
+   "seq": 3,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d bios: public, professional facts and draft bios for Dinis Cruz and Mondweep Chakravorty, with source URLs; nothing private, nothing unsourced -p high",
+   "rc": 0,
+   "ms": 521
+  },
+  {
+   "seq": 4,
+   "actor": "conductor",
+   "cmd": "hive-mind broadcast -m run r21-bios: r21-bios: draft professional bios and profile facts for the two founding providers, Dinis Cruz and Mondweep Chakravorty, from their public pages, every fact with its source, for both to approve -f conductor",
+   "rc": 0,
+   "ms": 552
+  },
+  {
+   "seq": 5,
+   "actor": "researcher",
+   "cmd": "hive-mind broadcast -m delivered bios sha256:066cdd7a066d2f83 files:1 -f researcher",
+   "rc": 0,
+   "ms": 516
+  },
+  {
+   "seq": 6,
+   "actor": "queen",
+   "cmd": "hive-mind status",
+   "rc": 0,
+   "ms": 429
+  },
+  {
+   "seq": 7,
+   "actor": "queen",
+   "cmd": "daemon stop",
+   "rc": 0,
+   "ms": 451
+  }
+ ],
+ "history": [
+  {
+   "id": "94aab23531f4",
+   "message": "init",
+   "time": "2026-10-21T13:16:35Z",
+   "files_added": 0,
+   "parents": 0
+  },
+  {
+   "id": "762a9c7bfc97",
+   "message": "brief: run r21-bios",
+   "time": "2026-10-21T13:16:36Z",
+   "files_added": 2,
+   "parents": 1
+  },
+  {
+   "id": "cf8e1d5b357e",
+   "message": "researcher bios: delivered 1 files",
+   "time": "2026-10-21T13:22:43Z",
+   "files_added": 1,
+   "parents": 1
+  }
+ ],
+ "workers": [
+  {
+   "id": "bios",
+   "role": "researcher",
+   "kind": "Claude Code subagent (web search, asked for by Dinis)",
+   "tokens": 88848,
+   "tool_uses": 43,
+   "wall_s": 256
+  }
+ ],
+ "deleted_paths": 45,
+ "delete_check": {
+  "store_paths_left": 0,
+  "clone_after_delete": "failed"
+ }
+}

@@ -1,0 +1,48 @@
+{
+ "updated": "2026-10-21",
+ "source": "The five project types of the newsroom article 'Agentics, ready to sell' (newsroom.sgit.ai, 16 October 2026), named as article No. 9 quotes them (site/articles/src/next-phase.md, 'The engagement path'): 'a first run with a guide; a behaviour policy for one team's agents; a four-day pilot; a talk or workshop built the way ours was; a review of an agent that is already running'. Each is a package of the four offers in data/offers.json.",
+ "note": "The offers listed for each type are a suggested starting combination, not a fixed package: the client and the provider agree the actual combination in the first conversation, and the reply sets out the quote.",
+ "price_rule": "A 'from' price is computed when the page loads, by adding the list prices in data/offers.json of the items in 'from_items' (each once): it is the smallest version of the suggested combination, not a quote. A type with no 'from_items' is quoted after a conversation. GBP, excluding VAT.",
+ "types": [
+  {
+   "id": "first-run",
+   "name": "A first run with a guide",
+   "description": "One real task done by a Ruflo hive under a written behaviour policy, with a provider who shapes the brief with you and reads the run's vault with you afterwards.",
+   "offers": ["runs", "expert"],
+   "combination": "A task run, and a couple of hours of expert time to shape the brief and read the vault.",
+   "from_items": ["run-s", "expert-hours"]
+  },
+  {
+   "id": "policy",
+   "name": "A behaviour policy for one team's agents",
+   "description": "An Agent Behaviour Policy for each role in one team (what it can reach, what it may do, what is stopped, and who owns it), tested with task runs against your own task.",
+   "offers": ["expert", "runs"],
+   "combination": "A day of expert time to write the policy, and task runs to test it.",
+   "from_items": ["expert-day", "run-m"]
+  },
+  {
+   "id": "pilot",
+   "name": "A four-day pilot",
+   "description": "ruv.sgit set up in your own environment (Claude Code, AWS or your own), with your policies and your first runs, then handed over to your team.",
+   "offers": ["expert"],
+   "combination": "Four working days of expert time (the several-days offer).",
+   "from_items": ["expert-days"]
+  },
+  {
+   "id": "workshop",
+   "name": "A talk or workshop built the way ours was",
+   "description": "The materials for your talk or workshop made by ruv.sgit runs, each run in its own vault with a ledger entry, the way the talk of 15 October 2026 was made.",
+   "offers": ["expert", "runs"],
+   "combination": "Expert time and task runs, sized to the talk or workshop.",
+   "from_items": []
+  },
+  {
+   "id": "review",
+   "name": "A review of an agent that is already running",
+   "description": "A provider reads what an agent you already run can reach and what it does, and writes it down as a behaviour policy, so the gap between the two can be seen and closed.",
+   "offers": ["expert"],
+   "combination": "Expert time: a couple of hours or a day, depending on the agent.",
+   "from_items": []
+  }
+ ]
+}

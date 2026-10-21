@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proof · ruv.sgit</title>
+<meta name="description" content="The proof behind ruv.sgit: the runs and their vault ledger, the published run vaults, the six proofs of concept, the live app, and the talk of 15 October 2026 with its player, narration and write-ups.">
+<link rel="canonical" href="https://ruv.sgit.ai/proof/index.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f766e%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Georgia%27%3Er%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/site.css">
+<script src="../assets/theme.js"></script>
+<style>
+main p,main li{overflow-wrap:anywhere}
+.hub .card{display:flex;flex-direction:column}
+.hub .card h3 a{color:var(--ink)}
+.hub .card h3 a:hover{color:var(--t)}
+.hub .card p{flex:1;margin:0 0 10px}
+.hub .card p.fig{flex:0 0 auto;font-size:13.5px;color:var(--m)}
+.hub .card .go{font-size:14px;font-weight:600}
+.attr{font-size:14px;color:var(--m)}
+</style>
+</head>
+<body data-root="../">
+<header class="top"><div class="wrap"><a class="brand" href="../index.html">ruv.sgit.ai<small>rUv + sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
+<main>
+<section class="hero"><div class="wrap">
+<p class="k">ruv.sgit · proof</p>
+<h1>Proof</h1>
+<p class="lead">What has been built and run, and where to check it: the ruv.sgit runs and their ledger, the published run vaults, the proofs of concept, the live app, and the talk of 15 October 2026. The numbers on this page are read from the site&#39;s data files when it loads.</p>
+<p class="attr">Built on rUv's open-source projects (Ruflo, RuVector, RVM, MetaHarness): MIT, by rUv / ruvnet. Our code: Apache-2.0. Materials: CC BY 4.0.</p>
+</div></section>
+<section><div class="wrap hub">
+<h2>The runs and the ledger</h2>
+<div class="cards">
+<div class="card"><h3><a href="../ruv-sgit/index.html">ruv.sgit runs</a></h3><p>A Ruflo hive, a queen and workers in parallel, whose memory and output is one sgit vault per run, measured at the close, then deleted or, for the examples, sealed and published. The runs, one vault as a case study, and how to run it.</p><p class="fig" data-fig="runs">Reading data/vaults.json…</p><a class="go" href="../ruv-sgit/index.html">See the runs &rarr;</a></div>
+<div class="card"><h3><a href="../ruv-sgit/ledger/index.html">The vault ledger</a></h3><p>Every run in one table, with its statistics: branches, commits, files, what the vault server stored, the clone check and the deletion.</p><p class="fig" data-fig="ledger">Reading data/vaults.json…</p><a class="go" href="../ruv-sgit/ledger/index.html">Open the ledger &rarr;</a></div>
+<div class="card"><h3><a href="../examples/index.html">Published run vaults</a></h3><p>The example runs that end sealed: pushed to the vault server with the read key published, so you can open each one in the vault UI or clone it with sgit.</p><p class="fig" data-fig="published">Reading data/vaults.json…</p><a class="go" href="../examples/index.html">Open the vaults &rarr;</a></div>
+</div>
+</div></section>
+<section class="alt"><div class="wrap hub">
+<h2>The proofs of concept</h2>
+<div class="cards">
+<div class="card"><h3><a href="../pocs.html">The six POCs</a></h3><p>sgit vaults and Agent Behaviour Policies inside rUv's stack: ABP to Ruflo policy with receipts, agent memory in a vault, ABP to RVM rights, a browser app with RuVector WASM, MetaHarness to ABP, and a recorded Claude Code session. Each with its flow, commands and real outputs.</p><p class="fig" data-fig="poc1">Reading data/report.json…</p><a class="go" href="../pocs.html">See the POCs &rarr;</a></div>
+<div class="card"><h3><a href="../app/index.html">Live app</a></h3><p>An ABP and agent memory in your browser, with RuVector WASM: ask &quot;can the coder send email?&quot; and get the row, the decision and the receipt hash, next to POC1&#39;s report.</p><a class="go" href="../app/index.html">Open the app &rarr;</a></div>
+</div>
+</div></section>
+<section><div class="wrap hub">
+<h2>The talk, 15 October 2026</h2>
+<div class="cards">
+<div class="card"><h3><a href="../talk/index.html">The talk: script and sources</a></h3><p>The scripted talk for Agentic Engineering Live in London: the timeline, the words for each beat, where every number comes from, and the run of show.</p><p class="fig" data-fig="talk">Reading talk/talk-10.json…</p><a class="go" href="../talk/index.html">Read the script &rarr;</a></div>
+<div class="card"><h3><a href="../talk/player.html?talk=talk-10.json">Play the talk</a></h3><p>The deck as presented, playing on its own clock, with live animations that pause and step with the player.</p><a class="go" href="../talk/player.html?talk=talk-10.json">Play it &rarr;</a></div>
+<div class="card"><h3><a href="../talk/narration.html">The talk, narrated</a></h3><p>The deck plays above and a timed narration in three voices, a CEO, a CTO and a developer, runs under it, so it can be watched with no sound.</p><a class="go" href="../talk/narration.html">Watch it &rarr;</a></div>
+<div class="card"><h3><a href="../articles/the-talk-live.html">The talk, live</a></h3><p>The talk's live animations on one page, in talk order, each in its own frame with its own controls.</p><a class="go" href="../articles/the-talk-live.html">Read the article &rarr;</a></div>
+<div class="card"><h3><a href="../articles/how-it-was-made.html">How it was made</a></h3><p>The site, the POCs and the talk, from an empty repository to the evening of the talk, told in order from the records.</p><a class="go" href="../articles/how-it-was-made.html">Read the article &rarr;</a></div>
+</div>
+</div></section>
+</main>
+<footer><div class="wrap"><span>ruv.sgit.ai · proof</span><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">source on GitHub</a><a href="https://sgit.ai">sgit.ai</a><a href="https://ruv.io">ruv.io</a><a href="https://github.com/ruvnet">github.com/ruvnet</a><span>code Apache-2.0 · rUv's projects MIT, by rUv / ruvnet · materials CC BY 4.0</span><a href="../llms.txt">llms.txt</a></div></footer>
+<script src="../assets/site.js"></script>
+<script>
+// Every number on this page is read from the data files when it loads; none is typed in.
+(function () {
+  'use strict';
+  var set = function (k, t) { document.querySelectorAll('[data-fig="' + k + '"]').forEach(function (el) { el.textContent = t; }); };
+  var miss = function (keys, f) { return function () { keys.forEach(function (k) { set(k, 'Could not read ' + f + '.'); }); }; };
+  var n = function (x, w) { return x + ' ' + w + (x === 1 ? '' : 's'); };
+  var json = function (u) { return fetch(u).then(function (r) { if (!r.ok) throw new Error(u); return r.json(); }); };
+  json('../data/vaults.json').then(function (L) {
+    var V = L.vaults || [];
+    var ok = V.filter(function (v) { return v.server_store && v.server_store.plaintext_hits === 0 && v.clone && v.clone.identical && v.deleted_at; }).length;
+    var commits = V.reduce(function (s, v) { return s + (v.commits || 0); }, 0);
+    var pub = V.filter(function (v) { return v.published && v.published.viewer_url && !v.superseded_by; }).length;
+    set('runs', n(V.length, 'run') + ' in the ledger; in ' + (ok === V.length ? 'all of them' : ok + ' of them') + ', no probed text found on the vault server, a fresh clone identical, and the vault deleted.');
+    set('ledger', n(commits, 'commit') + ' across ' + n(V.length, 'run') + ', from data/vaults.json.');
+    set('published', n(pub, 'published vault') + ', from data/vaults.json.');
+  }).catch(miss(['runs', 'ledger', 'published'], 'data/vaults.json'));
+  json('../data/report.json').then(function (R) {
+    var rows = R.rows || [], stopped = rows.filter(function (r) { return !/^allowed/.test(r.abp || ''); }).length;
+    var lg = R.ledger || {}, valid = Object.keys(lg).length && Object.keys(lg).every(function (k) { return lg[k].valid; });
+    set('poc1', 'POC1: ' + n(rows.length, 'action') + " through Ruflo's policy engine, " + stopped + ' stopped in enforce mode with ABP rules' + (valid ? ', every receipt ledger valid' : '') + '. From data/report.json.');
+  }).catch(miss(['poc1'], 'data/report.json'));
+  json('../talk/talk-10.json').then(function (T) {
+    var s = T.duration_s || 0, b = (T.beats || []).length;
+    set('talk', n(b, 'slide') + ', ' + Math.floor(s / 60) + ' min ' + (s % 60) + ' s, from talk/talk-10.json.');
+  }).catch(miss(['talk'], 'talk/talk-10.json'));
+}());
+</script>
+</body>
+</html>

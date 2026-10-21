@@ -5430,10 +5430,936 @@
     "store_paths_left": 0,
     "clone_after_delete": "failed"
    }
+  },
+  {
+   "run": "r21-bios",
+   "purpose": "r21-bios: draft professional bios and profile facts for the two founding providers, Dinis Cruz and Mondweep Chakravorty, from their public pages, every fact with its source, for both to approve",
+   "feedback": "Dinis, 21 Oct: create the consulting pages and the workflow for me and Mondweep; the profile page for us with our pictures, as professional as possible, especially for Mondweep to start selling; he needs to be able to point here. Decided: draft the bios from public pages (a web search, asked for by Dinis); photos come from Dinis and Mondweep.",
+   "vault_id": "7ibe2sv6",
+   "created_at": "2026-10-21T13:16:24+00:00",
+   "closed_at": "2026-10-21T13:22:48+00:00",
+   "deleted_at": "2026-10-21T13:22:49+00:00",
+   "hive": {
+    "workers": 1,
+    "tasks": 1,
+    "ruflo_calls": 7,
+    "ruflo_ms": 11424
+   },
+   "branches": [
+    {
+     "name": "w-bios",
+     "role": "researcher",
+     "commits": 1,
+     "files": 1,
+     "bytes": 18494,
+     "write_ms": 1854,
+     "merge_ms": 1675
+    }
+   ],
+   "commits": 3,
+   "files": 3,
+   "bytes_plain": 19694,
+   "files_delivered": 1,
+   "bytes_delivered": 18494,
+   "server_store": {
+    "files": 34,
+    "bytes": 30909,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 561,
+    "files": 3,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 1388,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 643,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 658,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 587,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 526,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 740,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 507,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 504,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 664,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 528,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 560,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "94aab23531f4",
+     "message": "init",
+     "time": "2026-10-21T13:16:35Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "762a9c7bfc97",
+     "message": "brief: run r21-bios",
+     "time": "2026-10-21T13:16:36Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "cf8e1d5b357e",
+     "message": "researcher bios: delivered 1 files",
+     "time": "2026-10-21T13:22:43Z",
+     "files_added": 1,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "bios",
+     "role": "researcher",
+     "kind": "Claude Code subagent (web search, asked for by Dinis)",
+     "tokens": 88848,
+     "tool_uses": 43,
+     "wall_s": 256
+    }
+   ],
+   "deleted_paths": 45,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
+  },
+  {
+   "run": "r22-ia",
+   "purpose": "r22-ia: the information architecture of the service site (article No. 9, run r13-ia renumbered): the new menu (For clients, For providers, How it works, Proof, Learn, Join), the footer, the redirect stubs for the four business pages, the current home's content moved to learn/overview.html, hubs proof/ and learn/, and the validator's new checks (stubs, every URL in the 16 Oct inventory)",
+   "feedback": "Dinis, 21 Oct: go to the next step: make the consulting official and start selling the services we mapped out. Accept the brief's proposed answers; the next version of the site is v0.2.0, then v0.2.x.",
+   "vault_id": "ts1r55cx",
+   "created_at": "2026-10-21T13:16:36+00:00",
+   "closed_at": "2026-10-21T13:23:03+00:00",
+   "deleted_at": "2026-10-21T13:23:04+00:00",
+   "hive": {
+    "workers": 3,
+    "tasks": 3,
+    "ruflo_calls": 13,
+    "ruflo_ms": 6185
+   },
+   "branches": [
+    {
+     "name": "w-architect",
+     "role": "builder",
+     "commits": 1,
+     "files": 1,
+     "bytes": 11856,
+     "write_ms": 1650,
+     "merge_ms": 1928
+    },
+    {
+     "name": "w-redirector",
+     "role": "builder",
+     "commits": 1,
+     "files": 7,
+     "bytes": 38459,
+     "write_ms": 1649,
+     "merge_ms": 1908
+    },
+    {
+     "name": "w-checker",
+     "role": "builder",
+     "commits": 1,
+     "files": 1,
+     "bytes": 7698,
+     "write_ms": 1805,
+     "merge_ms": 1836
+    }
+   ],
+   "commits": 5,
+   "files": 11,
+   "bytes_plain": 59358,
+   "files_delivered": 9,
+   "bytes_delivered": 58013,
+   "server_store": {
+    "files": 44,
+    "bytes": 74659,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 590,
+    "files": 11,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 519,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 596,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 563,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 480,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 560,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 609,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 627,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 549,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 752,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 500,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 466,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 681,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 632,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 597,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 680,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 580,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 477,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 747,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 586,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 577,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 673,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 566,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 590,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "6281f697b3e5",
+     "message": "init",
+     "time": "2026-10-21T13:16:41Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "3a9c7a67e040",
+     "message": "brief: run r22-ia",
+     "time": "2026-10-21T13:16:41Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "d5aa87a269f4",
+     "message": "builder architect: delivered 1 files",
+     "time": "2026-10-21T13:22:50Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "2cdc2885d008",
+     "message": "builder redirector: delivered 7 files",
+     "time": "2026-10-21T13:22:54Z",
+     "files_added": 7,
+     "parents": 1
+    },
+    {
+     "id": "8632acd34cf7",
+     "message": "builder checker: delivered 1 files",
+     "time": "2026-10-21T13:22:58Z",
+     "files_added": 1,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "checker",
+     "role": "builder",
+     "kind": "Claude Code subagent",
+     "tokens": 78930,
+     "tool_uses": 10,
+     "wall_s": 94
+    },
+    {
+     "id": "architect",
+     "role": "builder",
+     "kind": "Claude Code subagent",
+     "tokens": 86856,
+     "tool_uses": 15,
+     "wall_s": 154
+    },
+    {
+     "id": "redirector",
+     "role": "builder",
+     "kind": "Claude Code subagent",
+     "tokens": 120959,
+     "tool_uses": 38,
+     "wall_s": 273
+    }
+   ],
+   "deleted_paths": 91,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
+  },
+  {
+   "run": "r23-service",
+   "purpose": "r23-service: the service pages (article No. 9, runs r14-home, r15-rules and r16-join renumbered and run together): the new home, For clients, For providers with a profile page per founding provider, the rules of engagement, how it works (with the provider workflow from enquiry to handover), the provider application and keep-me-posted forms, and the shop's preferred-provider field",
+   "feedback": "Dinis, 21 Oct: make the consulting official and start selling the services we mapped out; the profile pages for me and Mondweep, as professional as possible, so Mondweep can point clients here; map the workflow for us to provide them. Enquire to book; the same four offers for both; bios drafted from public pages, for approval; photos to come.",
+   "vault_id": "pwecxodk",
+   "created_at": "2026-10-21T13:23:58+00:00",
+   "closed_at": "2026-10-21T13:32:29+00:00",
+   "deleted_at": "2026-10-21T13:32:29+00:00",
+   "hive": {
+    "workers": 5,
+    "tasks": 5,
+    "ruflo_calls": 19,
+    "ruflo_ms": 7988
+   },
+   "branches": [
+    {
+     "name": "w-home",
+     "role": "builder",
+     "commits": 1,
+     "files": 1,
+     "bytes": 28582,
+     "write_ms": 1547,
+     "merge_ms": 1745
+    },
+    {
+     "name": "w-clients",
+     "role": "builder",
+     "commits": 1,
+     "files": 1,
+     "bytes": 32023,
+     "write_ms": 1618,
+     "merge_ms": 1869
+    },
+    {
+     "name": "w-providers",
+     "role": "builder",
+     "commits": 1,
+     "files": 5,
+     "bytes": 68503,
+     "write_ms": 1801,
+     "merge_ms": 1943
+    },
+    {
+     "name": "w-rules",
+     "role": "builder",
+     "commits": 1,
+     "files": 3,
+     "bytes": 47598,
+     "write_ms": 1615,
+     "merge_ms": 1824
+    },
+    {
+     "name": "w-join",
+     "role": "builder",
+     "commits": 1,
+     "files": 4,
+     "bytes": 58631,
+     "write_ms": 1841,
+     "merge_ms": 2017
+    }
+   ],
+   "commits": 7,
+   "files": 16,
+   "bytes_plain": 237654,
+   "files_delivered": 14,
+   "bytes_delivered": 235337,
+   "server_store": {
+    "files": 63,
+    "bytes": 261315,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 595,
+    "files": 16,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 540,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 461,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 588,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 429,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 485,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 633,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 582,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 546,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 616,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 516,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 464,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 637,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 606,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 617,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 646,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 572,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 489,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 738,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 589,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 534,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 820,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 440,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 460,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 714,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 534,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 579,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 711,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 511,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 514,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 815,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 614,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 642,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 761,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 493,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 595,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "27703acccb8c",
+     "message": "init",
+     "time": "2026-10-21T13:24:03Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "bd35df82367e",
+     "message": "brief: run r23-service",
+     "time": "2026-10-21T13:24:04Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "85ea9a1dc26d",
+     "message": "builder home: delivered 1 files",
+     "time": "2026-10-21T13:32:07Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "a00c2135f63c",
+     "message": "builder clients: delivered 1 files",
+     "time": "2026-10-21T13:32:11Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "9da1539b4eb2",
+     "message": "builder providers: delivered 5 files",
+     "time": "2026-10-21T13:32:15Z",
+     "files_added": 5,
+     "parents": 1
+    },
+    {
+     "id": "f2efed046f37",
+     "message": "builder rules: delivered 3 files",
+     "time": "2026-10-21T13:32:19Z",
+     "files_added": 3,
+     "parents": 1
+    },
+    {
+     "id": "123c1bda26c9",
+     "message": "builder join: delivered 4 files",
+     "time": "2026-10-21T13:32:24Z",
+     "files_added": 4,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "clients",
+     "role": "builder",
+     "kind": "Claude Code subagent",
+     "tokens": 129858,
+     "tool_uses": 27,
+     "wall_s": 267
+    },
+    {
+     "id": "join",
+     "role": "builder",
+     "kind": "Claude Code subagent",
+     "tokens": 117530,
+     "tool_uses": 26,
+     "wall_s": 281
+    },
+    {
+     "id": "rules",
+     "role": "builder",
+     "kind": "Claude Code subagent",
+     "tokens": 124703,
+     "tool_uses": 31,
+     "wall_s": 319
+    },
+    {
+     "id": "home",
+     "role": "builder",
+     "kind": "Claude Code subagent",
+     "tokens": 141502,
+     "tool_uses": 32,
+     "wall_s": 338
+    },
+    {
+     "id": "providers",
+     "role": "builder",
+     "kind": "Claude Code subagent",
+     "tokens": 151859,
+     "tool_uses": 39,
+     "wall_s": 422
+    }
+   ],
+   "deleted_paths": 129,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
+  },
+  {
+   "run": "r24-editor",
+   "purpose": "r24-editor: the editor pass and the record for v0.2.0 (article No. 9, run r17-editor renumbered): every new page checked against the approved brief (accurate, consistent, additive, British English, plain words); one source for the five project types; the profile generator in the repository; llms.txt, README and the release notes with the breaking changes; the brief to v1.0.0 with its changes list",
+   "feedback": "Dinis, 21 Oct: make the consulting official, as professional as possible; accept the proposed answers; this is v0.2.0, then v0.2.x.",
+   "vault_id": "q3ythv6f",
+   "created_at": "2026-10-21T13:32:40+00:00",
+   "closed_at": "2026-10-21T13:42:29+00:00",
+   "deleted_at": "2026-10-21T13:42:30+00:00",
+   "hive": {
+    "workers": 2,
+    "tasks": 2,
+    "ruflo_calls": 10,
+    "ruflo_ms": 4681
+   },
+   "branches": [
+    {
+     "name": "w-editor",
+     "role": "editor",
+     "commits": 1,
+     "files": 18,
+     "bytes": 265966,
+     "write_ms": 1962,
+     "merge_ms": 1938
+    },
+    {
+     "name": "w-archivist",
+     "role": "writer",
+     "commits": 1,
+     "files": 3,
+     "bytes": 94871,
+     "write_ms": 1827,
+     "merge_ms": 1827
+    }
+   ],
+   "commits": 4,
+   "files": 23,
+   "bytes_plain": 362206,
+   "files_delivered": 21,
+   "bytes_delivered": 360837,
+   "server_store": {
+    "files": 54,
+    "bytes": 380637,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 599,
+    "files": 23,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 474,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 469,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 513,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 537,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 631,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 791,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 664,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 584,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 690,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 500,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 587,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 739,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 551,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 572,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 704,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 610,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 599,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "32ffe7fa8236",
+     "message": "init",
+     "time": "2026-10-21T13:32:43Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "516af5762ec2",
+     "message": "brief: run r24-editor",
+     "time": "2026-10-21T13:32:44Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "069fe63092b4",
+     "message": "editor editor: delivered 18 files",
+     "time": "2026-10-21T13:42:19Z",
+     "files_added": 18,
+     "parents": 1
+    },
+    {
+     "id": "847f6b34f8ec",
+     "message": "writer archivist: delivered 3 files",
+     "time": "2026-10-21T13:42:24Z",
+     "files_added": 3,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "archivist",
+     "role": "writer",
+     "kind": "Claude Code subagent",
+     "tokens": 128673,
+     "tool_uses": 20,
+     "wall_s": 214
+    },
+    {
+     "id": "editor",
+     "role": "editor",
+     "kind": "Claude Code subagent",
+     "tokens": 230100,
+     "tool_uses": 66,
+     "wall_s": 519
+    }
+   ],
+   "deleted_paths": 111,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
   }
  ],
  "sample": false,
- "updated": "2026-10-17T21:48:11+00:00",
+ "updated": "2026-10-21T13:42:30+00:00",
  "server": "a local SG/Send vault server (sgraph-ai-app-send, disk storage), one process, on the machine that ran the hive",
  "published_on": {
   "server": "https://dev.send.sgraph.ai",

@@ -3,33 +3,109 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ruv.sgit: a Ruflo hive + sgit vaults + Agent Behaviour Policies</title>
-<meta name="description" content="sgit vaults and Agent Behaviour Policies running inside rUv's agentic stack (Ruflo, RuVector, RVM, MetaHarness): six proofs of concept, in CI, in a browser and in a Claude Code session, with a use-case driven guide to the stack.">
+<title>ruv.sgit: agent work with a written mandate and a vault you keep</title>
+<meta name="description" content="The ruv.sgit service: agent work done by a Ruflo hive, with a written mandate per role and an sgit vault you keep, delivered by named providers who work in the open. Enquire to book; a person replies with dates and a quote. No payment on the site.">
 <link rel="canonical" href="https://ruv.sgit.ai/index.html">
-<meta property="og:title" content="ruv.sgit: a Ruflo hive + sgit vaults + Agent Behaviour Policies">
-<meta property="og:description" content="A written mandate per agent (ABP) and memory with history the host cannot read (sgit vaults), proven inside Ruflo, RuVector, RVM and MetaHarness.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ruv.sgit.ai/">
+<meta property="og:site_name" content="ruv.sgit.ai">
+<meta property="og:title" content="ruv.sgit: agent work with a written mandate and a vault you keep">
+<meta property="og:description" content="Agent work by a Ruflo hive, with a written mandate per role and an sgit vault you keep, delivered by people who do it in the open. Five small steps, published prices, two founding providers. Enquire to book.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f766e%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Georgia%27%3Er%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="assets/site.css">
 <script src="assets/theme.js"></script>
-<script src="vendor/mermaid-11.12.0.min.js"></script>
-</head>
-<body>
-<header class="top"><div class="wrap"><a class="brand" href="index.html">ruv.sgit.ai<small>rUv + sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
-
 <style>
-.hero .grid{align-items:start}
-.hero .grid>figure{position:sticky;top:76px;margin-top:6px!important}
-.hero .frame{position:relative;aspect-ratio:1280/600;width:100%;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg);box-shadow:var(--shadow)}
-.hero .frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.hero .def{font-size:17px;margin:10px 0 0}
-.hero .ramps{min-width:0;list-style:none;margin:18px 0 6px;padding:0;display:grid;gap:10px}
-.hero .ramps li{min-width:0;max-width:none;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
-.hero .ramps b{display:block}
-.hero .ramps code{display:block;overflow-x:auto;white-space:nowrap;font-size:13px;margin:6px 0 4px}
-.hero .ramps a{font-size:14px;margin-right:12px}
-.talk15{padding:34px 0 30px;border-bottom:1px solid var(--line);background:var(--bg2)}
+main p,main li{overflow-wrap:anywhere}
+a:focus-visible,button:focus-visible{outline:2px solid var(--t);outline-offset:2px;border-radius:6px}
+.sec-k{font:700 12.5px ui-sans-serif,system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--t);margin:0 0 6px}
+.sec-h{margin-top:0}
+.sec-lead{color:var(--m);max-width:70ch;margin:0 0 6px}
+.attr{font-size:14px;color:var(--m)}
+
+/* 1 and 2: the line and the three doors, above the fold at 1366x768 and 390x844 */
+.home-hero{padding:40px 0 34px;border-bottom:1px solid var(--line)}
+.home-hero .k{margin:0 0 8px}
+.home-hero h1{font-size:clamp(26px,3.6vw,40px);max-width:34ch;margin:0 0 10px}
+.home-hero .lead{font-size:17px;color:var(--m);margin:0 0 22px;max-width:70ch}
+.doors{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:0;padding:0;list-style:none}
+.door{position:relative;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px 16px;box-shadow:var(--shadow);max-width:none;transition:border-color .15s,transform .15s}
+.door:hover,.door:focus-within{border-color:var(--t)}
+.door .want{font:600 13px ui-sans-serif,system-ui,sans-serif;color:var(--m);margin:0 0 2px}
+.door h2{font-size:23px;margin:0 0 6px}
+.door h2 a{color:var(--ink)}
+.door h2 a::after{content:"";position:absolute;inset:0;border-radius:14px}
+.door h2 a:hover{text-decoration:none}
+.door:hover h2 a{color:var(--t)}
+.door p{font-size:15px;margin:0 0 10px;flex:1}
+.door .more{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:4px 14px;font-size:14px;font-weight:600}
+.door .arrow{color:var(--t)}
+@media(max-width:820px){
+  .home-hero{padding:18px 0 22px}
+  .home-hero .k{font-size:13px;margin-bottom:4px}
+  .home-hero h1{font-size:24px;line-height:1.22}
+  .home-hero .lead{display:none}
+  .doors{grid-template-columns:1fr;gap:10px}
+  .door{padding:11px 14px 10px}
+  .door h2{font-size:19px;margin:0 0 2px}
+  .door .want{font-size:12.5px}
+  .door p{font-size:14px;margin:0 0 4px;line-height:1.45}
+  .door .more{font-size:13.5px}
+}
+
+/* 3: the path */
+.path{list-style:none;margin:18px 0 8px;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;counter-reset:st}
+.path li{counter-increment:st;max-width:none;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;box-shadow:var(--shadow)}
+.path li::before{content:counter(st);width:30px;height:30px;border-radius:50%;background:var(--t);color:var(--on-accent);font:700 14px ui-sans-serif,system-ui;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.path h3{font-size:18px;margin:0 0 6px}
+.path p{font-size:14.5px;margin:0 0 8px}
+.path .what{flex:1}
+.path .price{font:600 16px Georgia,serif;color:var(--t);margin:0 0 4px}
+.path .price small{display:block;font:400 12.5px ui-sans-serif,system-ui,sans-serif;color:var(--m);margin-top:2px}
+.path .keep{font-size:13px;color:var(--m);border-top:1px dashed var(--line);padding-top:8px;margin:4px 0 8px}
+.path .go{font-size:14px;font-weight:600}
+@media(max-width:1060px){.path{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.path{grid-template-columns:1fr}}
+.note{font-size:14px;color:var(--m);max-width:80ch}
+
+/* 4: the providers */
+.provs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:18px 0 10px}
+@media(max-width:820px){.provs{grid-template-columns:1fr}}
+.prov{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow);min-width:0}
+.prov .who{display:flex;gap:14px;align-items:center;margin-bottom:10px}
+.avatar{flex:0 0 auto;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--t2);color:var(--t);border:1px solid var(--tint-line);font:700 21px Georgia,serif;letter-spacing:.02em}
+.prov h3{font-size:21px;margin:0}
+.prov .loc{font-size:13.5px;color:var(--m);margin:2px 0 0}
+.prov .badge{margin-left:0}
+.prov .head{font-size:15px;margin:0 0 10px}
+.prov ul{list-style:none;margin:0 0 14px;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.prov ul li{font-size:13px;padding:3px 10px;border-radius:999px;background:var(--bg2);border:1px solid var(--line);color:var(--ink);max-width:none}
+.prov .acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto}
+.prov .acts .btn{margin:0}
+.join-line{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;background:var(--bg2);border:1px dashed var(--line2);border-radius:14px;padding:14px 18px;margin-top:6px}
+.join-line p{margin:0;flex:1 1 320px}
+section.alt .join-line{background:var(--card)}
+
+/* 5: the proof */
+.figs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0 8px}
+@media(max-width:900px){.figs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.figs div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-width:0}
+.figs b{display:block;font:600 28px/1.15 Georgia,serif;color:var(--t)}
+.figs span{display:block;font-size:13px;color:var(--m);margin-top:2px}
+.src{font-size:13px;color:var(--m);margin:4px 0 0}
+.linkrow{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0}
+.linkrow a{font-size:14px;padding:6px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+.linkrow a:hover{border-color:var(--t);text-decoration:none}
+
+/* 6: the rules */
+.rules4{list-style:none;margin:16px 0 10px;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media(max-width:820px){.rules4{grid-template-columns:1fr}}
+.rules4 li{max-width:none;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--t);border-radius:10px;padding:12px 16px;font-size:15px}
+.rules4 b{display:block;font:600 17px Georgia,serif;margin-bottom:2px}
+
+/* 7: where this started (the talk section of the old home, kept) */
+.talk15{padding:34px 0 30px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg2)}
 .talk15 .k{margin:0 0 4px}
-.talk15 h1{font:600 clamp(28px,4vw,44px)/1.12 Georgia,serif;margin:4px 0 8px}
+.talk15 h2{font:600 clamp(26px,3.6vw,38px)/1.15 Georgia,serif;margin:4px 0 8px}
 .talk15 .lead{font-size:18px;max-width:880px;margin:0 0 18px}
 .talk15 .g{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.1fr);gap:22px;align-items:start}
 @media(max-width:860px){.talk15 .g{grid-template-columns:1fr}.talk15 figure{order:2}}
@@ -40,134 +116,197 @@
 .talk15 .deck iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .talk15 .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .talk15 .links a{font-size:14px;padding:6px 11px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
-.talk15 .links a.p{background:var(--t);color:#fff;border-color:var(--t)}
+.talk15 .links a.p{background:var(--t);color:var(--on-accent);border-color:var(--t)}
 .talk15 .facts{font-size:14px;color:var(--m);margin-top:10px}
+
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+/* 8: built on rUv's stack */
+.stack{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:baseline}
+.stack p{margin:0}
 </style>
-<section class="talk15" id="talk"><div class="wrap">
-<p class="k">Agentic Engineering Live · Agentics Foundation London · 15 October 2026</p>
-<h1>Autonomy with a mandate and a memory</h1>
+</head>
+<body data-root="">
+<header class="top"><div class="wrap"><a class="brand" href="index.html">ruv.sgit.ai<small>rUv + sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
+<main>
+
+<!-- 1. The line, and 2. the three doors -->
+<section class="home-hero" aria-labelledby="line"><div class="wrap">
+<p class="k">The ruv.sgit service · ruv.sgit = a Ruflo hive + sgit vaults + Agent Behaviour Policies</p>
+<h1 id="line">Agent work by a Ruflo hive, with a written mandate per role and a vault you keep, delivered by people who do it in the open.</h1>
+<p class="lead">Each job is a ruv.sgit run: a queen and workers under an Agent Behaviour Policy, every step committed to an encrypted sgit vault that is handed to you at the end. Small steps at published prices. Enquire, and a person replies with dates and a quote.</p>
+<ul class="doors">
+<li class="door"><p class="want">I want this done</p><h2><a href="clients/index.html">For clients</a></h2><p>The engagement path, the four offers and their prices, the providers, and what stays yours.</p><div class="more"><a href="clients/index.html">For clients <span class="arrow" aria-hidden="true">&rarr;</span></a><a href="shop/index.html">The shop</a></div></li>
+<li class="door"><p class="want">I want to deliver this</p><h2><a href="providers/index.html">For providers</a></h2><p>The founding providers, the rules of engagement, how a job runs, and how to join.</p><div class="more"><a href="providers/index.html">For providers <span class="arrow" aria-hidden="true">&rarr;</span></a><a href="join/index.html#provider">Apply to join</a></div></li>
+<li class="door"><p class="want">I want to understand it</p><h2><a href="learn/index.html">Learn</a></h2><p>What ruv.sgit is, rUv's stack by use case, the architecture, and how to run it yourself.</p><div class="more"><a href="learn/overview.html">What ruv.sgit is <span class="arrow" aria-hidden="true">&rarr;</span></a><a href="learn/index.html">All of Learn</a></div></li>
+</ul>
+</div></section>
+
+<!-- 3. The path -->
+<section id="path" aria-labelledby="path-h"><div class="wrap">
+<p class="sec-k">How an engagement goes</p>
+<h2 class="sec-h" id="path-h">Five small steps, each one yours to keep</h2>
+<p class="sec-lead">Each step is small enough to say yes to and ends with something you keep. Prices are in GBP, excluding VAT, the same list prices for every provider. <span data-fig="offers-src">Prices from data/offers.json.</span></p>
+<ol class="path">
+<li><h3>A conversation</h3><p class="what">What you want agents to do, and what they must never do.</p><p class="price">Free</p><p class="keep">You keep: notes, and a proposed first run.</p><a class="go" data-enquire="a conversation" href="mailto:agent@riskmandate.ai?subject=Enquiry%3A%20a%20conversation">Ask for a conversation</a></li>
+<li><h3>A first run</h3><p class="what">A task run on a real problem: a Ruflo queen and a team of workers, no network access, materials provided up front.</p><p class="price"><span data-price="runs">£10, £20 or £50 a run</span><small data-price="runs-byok">less with your own model key</small></p><p class="keep">You keep: the run's vault.</p><a class="go" href="shop/index.html#catalogue">Order in the shop</a></li>
+<li><h3>Expert time</h3><p class="what">A couple of hours to steer a run, or a day to write the behaviour policy for one team.</p><p class="price"><span data-price="expert">£500 or £1,500</span><small data-price="expert-units">a couple of hours, or a day</small></p><p class="keep">You keep: the policy and the vault.</p><a class="go" href="shop/index.html#catalogue">Order in the shop</a></li>
+<li><h3>A pilot</h3><p class="what">Four days setting it up in your own environment.</p><p class="price"><span data-price="pilot">£5,000</span><small>per engagement</small></p><p class="keep">You keep: the setup, its policies and vaults.</p><a class="go" href="shop/index.html#catalogue">Order in the shop</a></li>
+<li><h3>Run it yourself</h3><p class="what">The maintained repository: the code that runs this, kept current.</p><p class="price"><span data-price="repo">from £149 a month</span><small data-price="repo-tiers">three tiers</small></p><p class="keep">You keep: the repository.</p><a class="go" href="shop/index.html#catalogue">Order in the shop</a></li>
+</ol>
+<p class="note"><span data-price="compute">Dedicated compute can be added to any step</span>; it is designed, not built yet, and the reply to an order says so. The site takes no payment: an order or an enquiry is an email to agent@riskmandate.ai, and a person replies.</p>
+<div class="btns"><a class="btn p" href="shop/index.html">Order in the shop</a><a class="btn" data-enquire="a conversation" href="mailto:agent@riskmandate.ai?subject=Enquiry%3A%20a%20conversation">Ask for a free conversation</a><a class="btn" href="how-it-works/index.html#path">How it works</a></div>
+</div></section>
+
+<!-- 4. The providers -->
+<section class="alt" id="providers" aria-labelledby="prov-h"><div class="wrap">
+<p class="sec-k">Who does the work</p>
+<h2 class="sec-h" id="prov-h">The founding providers</h2>
+<p class="sec-lead">The marketplace starts with two people. Each lists the same four offers at the published prices. Enquire to book: the button writes an email to agent@riskmandate.ai with the provider filled in, and a person replies with dates and a quote.</p>
+<div class="provs" id="prov-cards" aria-live="polite"><p class="k">Reading data/providers.json…</p></div>
+<div class="join-line"><p><b>Deliver this with us.</b> Consultants and service companies can apply to join; applications go on a waiting list and are reviewed by hand.</p><a class="btn p" href="join/index.html#provider">Apply to join</a><a class="btn" href="providers/index.html">For providers</a></div>
+</div></section>
+
+<!-- 5. The proof -->
+<section id="proof" aria-labelledby="proof-h"><div class="wrap">
+<p class="sec-k">The proof</p>
+<h2 class="sec-h" id="proof-h">Every job leaves a record you can check</h2>
+<p class="sec-lead">Most of this site was made by ruv.sgit runs, each with its own vault, measured at the close. The totals below are read from the ledger and from POC1's report when this page loads.</p>
+<div class="figs" aria-live="polite">
+<div><b data-fig="ledger-runs">…</b><span>ruv.sgit runs in the ledger</span></div>
+<div><b data-fig="workers">…</b><span>workers across those runs</span></div>
+<div><b data-fig="commits">…</b><span>vault commits</span></div>
+<div><b data-fig="hits">…</b><span>probed text found in what the vault server stored</span></div>
+<div><b data-fig="clones">…</b><span>fresh clones identical to what was delivered</span></div>
+<div><b data-fig="deleted">…</b><span data-fig="deleted-detail">vaults deleted after the run, the delete checked</span></div>
+<div><b data-fig="poc1-actions">…</b><span>actions through Ruflo's policy engine in POC1</span></div>
+<div><b data-fig="poc1-stopped">…</b><span data-fig="poc1-detail">stopped in enforce mode with ABP rules</span></div>
+</div>
+<p class="src" data-fig="src">From data/vaults.json and data/report.json.</p>
+<div class="linkrow"><a href="ruv-sgit/ledger/index.html">The vault ledger</a><a href="ruv-sgit/index.html">ruv.sgit runs</a><a href="pocs.html">The six POCs</a><a href="examples/index.html">Published run vaults</a><a href="#talk">The talk</a><a href="proof/index.html">All the proof</a></div>
+</div></section>
+
+<!-- 6. The rules, in four lines -->
+<section class="alt" id="rules" aria-labelledby="rules-h"><div class="wrap">
+<p class="sec-k">Rules of engagement</p>
+<h2 class="sec-h" id="rules-h">The rules, in four lines</h2>
+<ul class="rules4">
+<li><b>Open source.</b>Our code is Apache-2.0 and our materials CC BY 4.0, so anybody can do this without us, and we encourage it.</li>
+<li><b>Your code and data stay yours.</b>Each job runs in its own encrypted vault, handed to you at the end. Client work is private first.</li>
+<li><b>An equal split.</b>Revenue is split equally between the parties, after direct costs are reimbursed to whoever paid them.</li>
+<li><b>Whoever has the client bills.</b>If you bring the client, you invoice and pay the other parties their share.</li>
+</ul>
+<p><a class="btn" href="rules/index.html">The full rules of engagement &rarr;</a></p>
+</div></section>
+
+<!-- 7. Where this started: the talk of 15 October (the old home's talk section, kept) -->
+<section class="talk15" id="talk" aria-labelledby="talk-h"><div class="wrap">
+<p class="k">Where this started · Agentic Engineering Live · Agentics Foundation London · 15 October 2026</p>
+<h2 id="talk-h">Autonomy with a mandate and a memory</h2>
 <p class="lead">Dinis Cruz's talk at the London Agentics meetup, after rUv's keynote: a Ruflo hive, sgit vaults and Agent Behaviour Policies, shown as one workflow, <b>ruv.sgit</b>. The deck below is the one presented, built in a day by the same runs it describes. Press ▶ to play it here.</p>
 <div class="g">
 <figure><img src="assets/img/talk/meetup-15-oct.webp" alt="Dinis Cruz presenting at the London Agentics meetup, the slide 'rUv's stack, one picture' on the screen beside him" loading="lazy" width="1138" height="1516"><figcaption>On the screen: <i>rUv's stack, one picture</i>. Photo posted by rUv to his network on LinkedIn: <q>Thanks for everyone who came out to the London Agentics meetup this evening!</q></figcaption></figure>
 <div><div class="deck"><iframe src="talk/player.html?talk=talk-10.json&amp;embed" title="The talk, playable: Autonomy with a mandate and a memory" loading="lazy" allow="fullscreen"></iframe></div>
-<p class="facts" id="talk-facts">26 slides, live animations that pause and step with the player · the timeline is <a href="talk/talk-10.json">talk-10.json</a> · keys: Space play, → step, PageDown slide, ? all keys</p>
-<div class="links"><a class="p" href="talk/player.html?talk=talk-10.json">Play full screen</a><a href="talk/narration.html">Narrated: CEO · CTO · developer</a><a href="articles/the-talk-long-read.html">The talk, slide by slide</a><a href="articles/the-talk-live.html">The talk, live</a><a href="articles/how-it-was-made.html">How it was made</a><a href="articles/walking-backwards.html">Walking backwards</a><a href="articles/the-talk-player.html">The talk player</a><a href="talk/index.html">Script and sources</a><a href="talk/offline-10.html" download>Offline file</a></div></div>
+<p class="facts" id="talk-facts"><span data-fig="talk">The slides</span>, live animations that pause and step with the player · the timeline is <a href="talk/talk-10.json">talk-10.json</a> · keys: Space play, → step, PageDown slide, ? all keys</p>
+<div class="links"><a class="p" href="talk/player.html?talk=talk-10.json">Play full screen</a><a href="articles/the-talk-long-read.html">The long read: the talk, slide by slide</a><a href="talk/narration.html">Narrated: CEO · CTO · developer</a><a href="articles/the-talk-live.html">The talk, live</a><a href="articles/how-it-was-made.html">How it was made</a><a href="articles/walking-backwards.html">Walking backwards</a><a href="articles/the-talk-player.html">The talk player</a><a href="talk/index.html">Script and sources</a><a href="talk/offline-10.html" download>Offline file</a></div></div>
 </div></div></section>
-<section class="hero"><div class="wrap"><div class="grid">
-<div>
-<p class="k">For Ruflo, AgentDB, RuVector and MetaHarness users · Agentic Engineering Live, London · 15 Oct 2026</p>
-<h1>Run your Ruflo hive with a written mandate per role and a vault for what it remembers.</h1>
-<p class="lead">Ruflo is an agent meta-harness for Claude Code and Codex: a queen-led hive-mind, 100+ specialized agents, a policy engine with <code>legacy</code>, <code>observe</code> and <code>enforce</code> modes that writes a decision receipt for each action, and AgentDB memory with HNSW search. RuVector adds a self-learning vector database with sub-millisecond queries, native or in the browser; MetaHarness scaffolds your own focused agent harness, like Ruflo. sgit.ai builds on them: an <b>Agent Behaviour Policy</b> compiles into Ruflo's own <code>enforce</code> mode, and an <b>sgit vault</b> keeps the hive's memory files encrypted on your machine, versioned and cloneable.</p>
-<p class="def"><b>ruv.sgit</b> = a Ruflo hive + sgit vaults + Agent Behaviour Policies.</p>
-<p class="k">Measured here. POC1: the same 11 actions through Ruflo's policy engine, 6 stopped in <code>enforce</code> mode with ABP rules (4 denied, 2 sent for approval), both of Ruflo's hash-chained receipt ledgers valid. The ruv.sgit runner, <span id="hero-runs">every run in the ledger</span>: an ephemeral vault, deleted after the run; none of the probed text from the delivered files found in any byte the vault server stored; a fresh clone identical to what was delivered.</p>
-<ol class="ramps">
-<li><b>1 · Try an ABP in your Ruflo project</b>Ruflo's policy engine in <code style="display:inline;white-space:normal">enforce</code> mode, with rules compiled from a per-role mandate. No secrets needed.
-<code>git clone https://github.com/SGit-AI/SGit-AI__Website__Ruv.git &amp;&amp; cd SGit-AI__Website__Ruv &amp;&amp; npm ci &amp;&amp; npm run poc1</code>
-<a href="pocs.html#poc1">POC1 →</a><a href="replicate.html#steps">Replicate →</a></li>
-<li><b>2 · Keep your hive's memory in a vault</b>Ruflo's memory DB files, encrypted on your machine, a branch per role, merged, then restored from a fresh clone. In the checkout from step 1; needs an sgit vault you created (its key in <code style="display:inline;white-space:normal">VAULT_KEY</code>) and an SG/Send token in <code style="display:inline;white-space:normal">SGIT_TOKEN</code>, both from the environment.
-<code>pip install sgit-ai==0.21.0 &amp;&amp; ROLE=coder bash poc/poc2-agent-memory-in-vault/run.sh write</code>
-<code>rm -rf .vault-memory &amp;&amp; bash poc/poc2-agent-memory-in-vault/run.sh read</code>
-<a href="pocs.html#poc2">POC2 →</a><a href="ruv-sgit/index.html">The ruv.sgit runner →</a></li>
-<li><b>3 · Hand the setup brief to your agent</b>One page written for any agent with a shell: pinned Ruflo and sgit, a hive, two vaults, a check at every step. Needs an SG/Send token in <code style="display:inline;white-space:normal">SGIT_TOKEN</code>.
-<code>"Set this up and do run 1 with the objective below."</code>
-<a href="articles/studio-setup-brief.html">The setup brief →</a></li>
-</ol>
-<div class="btns"><a class="btn p" href="talk/index.html">See it running: tonight's talk</a><a class="btn" href="studio/index.html">The studio</a><a class="btn" href="ruv-sgit/ledger/index.html">The ruv.sgit ledger</a></div>
-<div class="badges"><span class="badge t">ruflo 3.56.10</span><span class="badge t">@ruvector/wasm 0.2.1</span><span class="badge t">metaharness 0.4.17</span><span class="badge a">sgit-ai 0.21.0</span><span class="badge">rUv's projects: MIT, by rUv / ruvnet · ours: Apache-2.0</span></div>
-</div>
-<figure class="fig" style="margin:0"><div class="frame"><iframe src="ruv-sgit/define/equation/index.html?once" title="ruv.sgit, the equation: a Ruflo hive + sgit vaults + Agent Behaviour Policies" loading="lazy"></iframe></div><figcaption>ruv.sgit, the equation: a Ruflo hive + sgit vaults + Agent Behaviour Policies. <a href="ruv-sgit/define/equation/index.html">Open it full size</a> · <a href="ruv-sgit/define/equation/index.html?review">final frame</a>.</figcaption></figure>
-</div></div></section>
-<script>
-// the runner's claims, recomputed from the ledger at load: a run counts only if the probe found 0 plaintext, the clone was identical and the vault was deleted
-fetch('data/vaults.json').then(r => r.json()).then(L => { const V = L.vaults || []; if (!V.length) return; const ok = V.filter(v => v.server_store && v.server_store.plaintext_hits === 0 && v.clone && v.clone.identical && v.deleted_at).length; document.getElementById('hero-runs').textContent = ok === V.length ? `all ${V.length} runs in the ledger` : `${ok} of ${V.length} runs in the ledger` }).catch(() => {})
-</script>
 
-<section><div class="wrap">
-<h2>The story in one table</h2>
-<p>Every row is one of his pieces, one of ours, and what you get when they meet. Each row is backed by a proof of concept on this site.</p>
-<div class="tbl"><table>
-<thead><tr><th>His piece</th><th>Our piece</th><th>Together</th><th>Proof</th></tr></thead>
-<tbody>
-<tr><td>Ruflo hive-mind: a queen and workers (Ruflo ships 100+ specialized agents; POC1's ABP covers 6 roles)</td><td>One ABP row set per role</td><td>A swarm whose every role has a written mandate; the policy engine enforces it and writes receipts</td><td><a href="pocs.html#poc1">POC1</a></td></tr>
-<tr><td>RuVector / Ruflo memory</td><td>sgit vault</td><td>Agent memory that is encrypted client-side, versioned, branched per agent, merged, and cloned onto a fresh machine</td><td><a href="pocs.html#poc2">POC2</a></td></tr>
-<tr><td>RVM capabilities (7 rights)</td><td>ABP rows</td><td>Capability tokens compiled from a mandate, with the withheld rights listed and the reason kept</td><td><a href="pocs.html#poc3">POC3</a></td></tr>
-<tr><td>RuVector WASM in the browser</td><td>A page served from a vault</td><td>Ask "can the coder send email?" offline, and get the row, the decision and the receipt hash</td><td><a href="pocs.html#poc4">POC4</a></td></tr>
-<tr><td>MetaHarness scaffold settings (permissions, witness manifest)</td><td>ABP</td><td>Policy as code (his) and policy as a written, owned document (ours), diffed both ways</td><td><a href="pocs.html#poc5">POC5</a></td></tr>
-<tr><td>Ruflo inside Claude Code (MCP or plugin)</td><td>Session record in a vault</td><td>A real swarm session, with its policy receipts, kept where only the key holder can read it</td><td><a href="pocs.html#poc6">POC6</a></td></tr>
-</tbody></table></div>
-</div></section>
-
-<section class="alt"><div class="wrap">
-<h2>Where sgit.ai plugs in</h2>
-<div class="two">
-<div>
-<p>The ABP is a JSON document per deployment: for each agent role, what it can <b>reach</b>, what it is <b>mandated</b> to do, the <b>gap</b> between the two, the <b>barrier</b> that closes it, and the <b>owner</b> who answers for it, valid until a date. It compiles into the enforcement points rUv's stack already has.</p>
-<p>The vault is where everything that must survive and be reviewed goes: the ABPs, the compiled policies, the receipts, the agent memory, the session records. Files are encrypted on the client before upload; the server stores ciphertext under opaque ids. One vault is published on purpose, with its read key, so you can open it: <a href="pocs.html#vaults">the public demo vault</a>.</p>
-<pre><code>ABP (JSON) ──compile──▶ Ruflo AgenticPolicyEngine (allow / deny / approval + receipts)
-           ──compile──▶ RVM capability rights (READ WRITE EXECUTE ... + withheld)
-           ──render───▶ MetaHarness governance settings (diff both ways)
-           ──render───▶ browser viewer (RuVector WASM search over ABP rows)
-
-sgit vault ◀── receipts, reports, ABPs       (ruv-pocs-public, read key published)
-sgit vault ◀── memory snapshots per agent    (ruv-pocs-memory, private)</code></pre>
-</div>
-<figure class="fig" style="margin:0"><img src="assets/img/intersection-map.webp" alt="Hub and spoke: ABP and sgit vault in the centre, spokes to Ruflo policy engine, RVM, MetaHarness, RuVector memory and a Claude Code session"><figcaption>The intersection: one mandate, several enforcers; one vault, several writers.</figcaption></figure>
+<!-- 8. Built on rUv's stack -->
+<section id="stack" aria-labelledby="stack-h"><div class="wrap">
+<h2 class="sec-h" id="stack-h" style="font-size:22px">Built on rUv's stack</h2>
+<div class="stack">
+<p class="attr">Built on rUv's open-source projects (Ruflo, RuVector, RVM, MetaHarness): MIT, by rUv / ruvnet. We build on them; we do not sell or own them. Our code: Apache-2.0. Materials: CC BY 4.0. This is not rUv's offer, and it does not speak for him or for the Agentics Foundation.</p>
+<p class="attr"><a href="ruv-stack.html">rUv's stack, by use case</a> · <a href="https://ruv.io">ruv.io</a> · <a href="https://github.com/ruvnet">github.com/ruvnet</a></p>
 </div>
 </div></section>
 
-<section><div class="wrap">
-<h2>Use cases, not repos</h2>
-<p>rUv's repositories are big. The way in is by use case: pick the thing you want to do, and the page tells you which of his tools to reach for, which of ours, and the POC that proves it.</p>
-<div class="cards">
-<div class="card"><span class="n">USE CASE 1</span><h3>Govern a swarm</h3><p>Same swarm, same actions, both through Ruflo's policy engine: in its default legacy mode an agent may send email; in enforce mode with rules from the ABP it is denied, pushes go to a human, and Ruflo writes a receipt for every decision.</p><a href="use-cases.html#govern">How →</a></div>
-<div class="card"><span class="n">USE CASE 2</span><h3>Remember across runs</h3><p>Agents write memory on their own vault branch, it merges, and a fresh clone restores it. RuVector already keeps memory in files, with snapshots, copy-on-write branches and attestation; AgentDB adds a cryptographic witness chain. The vault adds client-side encryption and a shared, cloneable history around those files.</p><a href="use-cases.html#remember">How →</a></div>
-<div class="card"><span class="n">USE CASE 3</span><h3>Prove what happened</h3><p>Hash-chained receipts from the policy engine, committed to a vault with the ABP that produced them. Tamper-evident, private, replayable.</p><a href="use-cases.html#prove">How →</a></div>
-<div class="card"><span class="n">USE CASE 4</span><h3>Publish only on approval</h3><p>A deploy is an <code>approval</code> row. In CI that is a protected environment a named human approves; in the engine it is <code>require_approval</code>.</p><a href="use-cases.html#publish">How →</a></div>
-<div class="card"><span class="n">USE CASE 5</span><h3>Learn with rollback</h3><p>SONA, ReasoningBank, Darwin mode change behaviour over time. Versioned ABPs and vault history show what changed, when, and let you revert a learned pattern.</p><a href="use-cases.html#learn">How →</a></div>
-<div class="card"><span class="n">USE CASE 6</span><h3>Run anywhere</h3><p>The same ABP and vault in a GitHub Actions job, in a browser page with RuVector WASM, and in a Claude Code session with Ruflo as an MCP server.</p><a href="use-cases.html#anywhere">How →</a></div>
-</div>
-<figure class="fig wide"><img src="assets/img/use-cases.webp" alt="Six use-case tiles"><figcaption>The six use cases. Generated infographic; the facts are in the pages.</figcaption></figure>
-</div></section>
-
-<section class="alt"><div class="wrap">
-<h2>What was proven, and when</h2>
-<p>Numbers on this site come from runs recorded under <code>evidence/</code> in the repository. Nothing here is invented; where a third-party tool differed from its docs, the note is in <a href="replicate.html#notes">build notes</a>.</p>
-<div class="stat"><div><b>11</b><span>actions in the swarm trace, evaluated twice</span></div><div><b>6</b><span>allowed in Ruflo's default legacy mode; stopped in its enforce mode with ABP rules (4 denied, 2 for approval)</span></div><div><b>2</b><span>of those need a named human (approval)</span></div><div><b>11</b><span>receipts per run in Ruflo's hash-chained ledger, both ledgers valid</span></div><div><b>0</b><span>ABP gaps (reach without mandate and no barrier)</span></div><div><b>2</b><span>vaults: one public with its read key, one private</span></div></div>
-<h3>Same swarm, same actions: Ruflo default vs with the ABP</h3>
-<div data-poc1="data/report.json">loading…</div>
-<p><a class="btn" href="pocs.html">All six POCs with flows, commands and outputs →</a></p>
-</div></section>
-
-<section><div class="wrap">
-<h2>How it all fits</h2>
-<pre class="mermaid">
-flowchart LR
-  subgraph ours["sgit.ai: the mandate and the memory"]
-    ABP["ABP<br/>abp/examples/ruflo-sparc-swarm.abp.json"]
-    VP[("ruv-pocs-public vault<br/>read key published")]
-    VM[("ruv-pocs-memory vault<br/>private")]
-  end
-  subgraph his["rUv's stack"]
-    RF["Ruflo AgenticPolicyEngine<br/>legacy | observe | enforce"]
-    RV["Ruflo memory (AgentDB, HNSW)<br/>and RuVector"]
-    RVM["RVM capability rights"]
-    MH["MetaHarness scaffold<br/>.claude/settings.json"]
-    WASM["@ruvector/wasm in the browser"]
-  end
-  ABP -- "compile.mjs → PolicyRule list" --> RF
-  ABP -- "abp_to_rvm.py" --> RVM
-  MH -- "harness-to-abp.mjs" --> ABP
-  RF -- "receipts, report.json" --> VP
-  ABP --> VP
-  RV -- "DB files per role, branch per role" --> VM
-  VP -- "app/ served from the vault" --> WASM
-  CI["GitHub Actions<br/>abp-gate → poc1 → poc3 → poc4 → approval → publish"] --> VP
-  CI --> VM
-</pre>
-<p class="k">Diagrams on this site are Mermaid, rendered in your browser from the page source, so they stay in sync with the text. The pictures are generated infographics; the diagrams are the mechanism.</p>
-</div></section>
-
-<footer><div class="wrap"><span>ruv.sgit.ai · built 14 Oct 2026 for Agentics London</span><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">source on GitHub</a><a href="https://sgit.ai">sgit.ai</a><a href="https://ruv.io">ruv.io</a><a href="https://github.com/ruvnet">github.com/ruvnet</a><span>code Apache-2.0 · rUv's projects MIT · "per its README" means we read, not ran, unless a POC says so</span><a href="llms.txt">llms.txt</a></div></footer>
+</main>
+<footer><div class="wrap"><span>ruv.sgit.ai · the ruv.sgit service</span><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">source on GitHub</a><a href="https://sgit.ai">sgit.ai</a><a href="https://ruv.io">ruv.io</a><a href="https://github.com/ruvnet">github.com/ruvnet</a><span>code Apache-2.0 · rUv's projects MIT, by rUv / ruvnet · materials CC BY 4.0</span><a href="llms.txt">llms.txt</a></div></footer>
 <script src="assets/site.js"></script>
+<script>
+// Every number on this page is read from the data files when it loads; none is typed in.
+(function () {
+  'use strict';
+  var set = function (k, t) { document.querySelectorAll('[data-fig="' + k + '"],[data-price="' + k + '"]').forEach(function (el) { el.textContent = t; }); };
+  var n = function (x, w) { return x + ' ' + w + (x === 1 ? '' : 's'); };
+  var gbp = function (x) { return '£' + Number(x).toLocaleString('en-GB', { maximumFractionDigits: 2 }); };
+  var or = function (a) { return a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' or ' + a[a.length - 1]; };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var json = function (u) { return fetch(u).then(function (r) { if (!r.ok) throw new Error(u); return r.json(); }); };
+
+  // Enquire to book: the site's one enquiry email (assets/site.js), already wired on [data-enquire] links
+  var enquiry = RuvService.enquire;
+
+  // 3. the path: prices from data/offers.json
+  json('data/offers.json').then(function (O) {
+    var g = {}, it = {};
+    (O.groups || []).forEach(function (gr) { g[gr.id] = gr; (gr.items || []).forEach(function (i) { it[i.id] = i; }); });
+    var runs = (g.runs && g.runs.items) || [];
+    if (runs.length) {
+      set('runs', or(runs.map(function (i) { return gbp(i.price); })) + ' a run');
+      var byok = runs.map(function (i) {
+        var k = (i.options || []).filter(function (o) { return o.id === 'key'; })[0];
+        var c = k && k.choices.filter(function (x) { return x.id === 'byok'; })[0];
+        return c ? gbp(i.price + c.delta) : null;
+      });
+      if (byok.every(Boolean)) set('runs-byok', or(byok) + ' with your own model key; up to ' + runs.map(function (i) { return (i.summary.match(/up to (\d+) workers/) || [, '?'])[1]; }).join(', ') + ' workers');
+    }
+    if (it['expert-hours'] && it['expert-day']) { set('expert', gbp(it['expert-hours'].price) + ' or ' + gbp(it['expert-day'].price)); set('expert-units', it['expert-hours'].name.toLowerCase() + ', or ' + it['expert-day'].name.toLowerCase()); }
+    if (it['expert-days']) set('pilot', gbp(it['expert-days'].price));
+    var repo = (g.repo && g.repo.items) || [];
+    if (repo.length) { set('repo', 'from ' + gbp(Math.min.apply(null, repo.map(function (i) { return i.price; }))) + ' a month'); set('repo-tiers', repo.map(function (i) { return i.name + ' ' + gbp(i.price); }).join(' · ')); }
+    var comp = (g.compute && g.compute.items) || [];
+    if (comp.length) set('compute', 'Dedicated compute (' + or(comp.map(function (i) { return gbp(i.price); })) + ' ' + comp[0].unit + ') can be added to any step');
+    set('offers-src', 'Prices read from data/offers.json' + (O.updated ? ' (updated ' + O.updated + ').' : '.'));
+  }).catch(function () { set('offers-src', 'Could not read data/offers.json; the prices shown are the brief\'s.'); });
+
+  // 4. the founding providers, from data/providers.json
+  var cards = document.getElementById('prov-cards');
+  json('data/providers.json').then(function (P) {
+    var list = (P.providers || []).filter(function (p) { return p.founding; });
+    if (!list.length) { cards.innerHTML = '<p class="k">No providers listed yet.</p>'; return; }
+    cards.innerHTML = list.map(function (p) {
+      var spec = (p.specialisms || []).slice(0, 3).map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('');
+      var hid = 'pv-' + esc(p.id);
+      return '<article class="prov" aria-labelledby="' + hid + '">' +
+        '<div class="who"><span class="avatar" aria-hidden="true">' + esc(p.initials) + '</span><div><h3 id="' + hid + '">' + esc(p.name) + '</h3><p class="loc">' + esc(p.location) + ' · <span class="badge t">Founding provider</span></p></div></div>' +
+        '<p class="head">' + esc(p.headline) + '</p>' +
+        '<ul aria-label="Specialisms">' + spec + '</ul>' +
+        '<div class="acts"><a class="btn" data-to="' + esc(p.page) + '">View profile<span class="sr"> of ' + esc(p.name) + '</span></a>' +
+        '<a class="btn p" data-to="' + esc(enquiry('a conversation', p.name)) + '">Enquire to book<span class="sr"> with ' + esc(p.name) + '</span></a></div></article>';
+    }).join('');
+    cards.querySelectorAll('a[data-to]').forEach(function (x) { x.setAttribute('href', x.dataset.to); x.removeAttribute('data-to'); });
+  }).catch(function () { cards.innerHTML = '<p class="k">Could not read data/providers.json. See <a href="providers/index.html#providers">the providers</a>.</p>'; });
+
+  // 5. the proof: the ledger's totals and POC1
+  var sum = function (V, f) { return V.reduce(function (s, v) { return s + (f(v) || 0); }, 0); };
+  json('data/vaults.json').then(function (L) {
+    var V = L.vaults || [];
+    set('ledger-runs', String(V.length));
+    set('workers', String(sum(V, function (v) { return v.hive && v.hive.workers; })));
+    set('commits', String(sum(V, function (v) { return v.commits; })));
+    var probed = V.filter(function (v) { return v.server_store && typeof v.server_store.plaintext_hits === 'number'; });
+    set('hits', String(sum(probed, function (v) { return v.server_store.plaintext_hits; })));
+    var cl = V.filter(function (v) { return v.clone && v.clone.identical; }).length;
+    set('clones', cl === V.length ? 'All ' + V.length : cl + ' of ' + V.length);
+    var del = V.filter(function (v) { return v.deleted_at; }).length;
+    set('deleted', del === V.length ? 'All ' + V.length : del + ' of ' + V.length);
+    var kept = V.filter(function (v) { return !v.deleted_at && v.published; }).length;
+    if (del < V.length && kept === V.length - del) set('deleted-detail', 'vaults deleted after the run; the other ' + kept + ' kept on purpose, sealed and published as examples');
+    set('src', 'From data/vaults.json' + (L.updated ? ' (updated ' + L.updated.slice(0, 10) + ')' : '') + ' and data/report.json, read when this page loaded.');
+  }).catch(function () { ['ledger-runs', 'workers', 'commits', 'hits', 'clones', 'deleted'].forEach(function (k) { set(k, '–'); }); set('src', 'Could not read data/vaults.json; see the ledger.'); });
+  json('data/report.json').then(function (R) {
+    var rows = R.rows || [];
+    var den = rows.filter(function (r) { return /^denied/.test(r.abp || ''); }).length;
+    var ap = rows.filter(function (r) { return /^approval/.test(r.abp || ''); }).length;
+    var lg = R.ledger || {}, valid = Object.keys(lg).length && Object.keys(lg).every(function (k) { return lg[k].valid; });
+    set('poc1-actions', String(rows.length));
+    set('poc1-stopped', String(den + ap));
+    set('poc1-detail', 'stopped in enforce mode with ABP rules (' + den + ' denied, ' + ap + ' sent for approval)' + (valid ? '; every receipt ledger valid' : ''));
+  }).catch(function () { set('poc1-actions', '–'); set('poc1-stopped', '–'); });
+
+  // 7. the talk's length, from its timeline
+  json('talk/talk-10.json').then(function (T) { var b = (T.beats || []).length; if (b) set('talk', n(b, 'slide')); }).catch(function () {});
+})();
+</script>
 </body>
 </html>
