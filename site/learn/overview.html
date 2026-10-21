@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What ruv.sgit is</title>
+<meta name="description" content="sgit vaults and Agent Behaviour Policies running inside rUv's agentic stack (Ruflo, RuVector, RVM, MetaHarness): six proofs of concept, in CI, in a browser and in a Claude Code session, with a use-case driven guide to the stack.">
+<link rel="canonical" href="https://ruv.sgit.ai/learn/overview.html">
+<meta property="og:title" content="What ruv.sgit is">
+<meta property="og:description" content="A written mandate per agent (ABP) and memory with history the host cannot read (sgit vaults), proven inside Ruflo, RuVector, RVM and MetaHarness.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%230f766e%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Georgia%27%3Er%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/site.css">
+<script src="../assets/theme.js"></script>
+<script src="../vendor/mermaid-11.12.0.min.js"></script>
+</head>
+<body data-root="../">
+<header class="top"><div class="wrap"><a class="brand" href="../index.html">ruv.sgit.ai<small>rUv + sgit</small></a><nav class="main"></nav><button class="theme" aria-label="toggle theme">theme</button></div></header>
+
+<style>
+.hero .grid{align-items:start}
+.hero .grid>figure{position:sticky;top:76px;margin-top:6px!important}
+.hero .frame{position:relative;aspect-ratio:1280/600;width:100%;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg);box-shadow:var(--shadow)}
+.hero .frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.hero .def{font-size:17px;margin:10px 0 0}
+.hero .ramps{min-width:0;list-style:none;margin:18px 0 6px;padding:0;display:grid;gap:10px}
+.hero .ramps li{min-width:0;max-width:none;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.hero .ramps b{display:block}
+.hero .ramps code{display:block;overflow-x:auto;white-space:nowrap;font-size:13px;margin:6px 0 4px}
+.hero .ramps a{font-size:14px;margin-right:12px}
+</style>
+<section class="hero"><div class="wrap"><div class="grid">
+<div>
+<p class="k">For Ruflo, AgentDB, RuVector and MetaHarness users · Agentic Engineering Live, London · 15 Oct 2026</p>
+<h1>Run your Ruflo hive with a written mandate per role and a vault for what it remembers.</h1>
+<p class="lead">Ruflo is an agent meta-harness for Claude Code and Codex: a queen-led hive-mind, 100+ specialized agents, a policy engine with <code>legacy</code>, <code>observe</code> and <code>enforce</code> modes that writes a decision receipt for each action, and AgentDB memory with HNSW search. RuVector adds a self-learning vector database with sub-millisecond queries, native or in the browser; MetaHarness scaffolds your own focused agent harness, like Ruflo. sgit.ai builds on them: an <b>Agent Behaviour Policy</b> compiles into Ruflo's own <code>enforce</code> mode, and an <b>sgit vault</b> keeps the hive's memory files encrypted on your machine, versioned and cloneable.</p>
+<p class="def"><b>ruv.sgit</b> = a Ruflo hive + sgit vaults + Agent Behaviour Policies.</p>
+<p class="k">Measured here. POC1: the same 11 actions through Ruflo's policy engine, 6 stopped in <code>enforce</code> mode with ABP rules (4 denied, 2 sent for approval), both of Ruflo's hash-chained receipt ledgers valid. The ruv.sgit runner, <span id="hero-runs">every run in the ledger</span>: an ephemeral vault, deleted after the run; none of the probed text from the delivered files found in any byte the vault server stored; a fresh clone identical to what was delivered.</p>
+<ol class="ramps">
+<li><b>1 · Try an ABP in your Ruflo project</b>Ruflo's policy engine in <code style="display:inline;white-space:normal">enforce</code> mode, with rules compiled from a per-role mandate. No secrets needed.
+<code>git clone https://github.com/SGit-AI/SGit-AI__Website__Ruv.git &amp;&amp; cd SGit-AI__Website__Ruv &amp;&amp; npm ci &amp;&amp; npm run poc1</code>
+<a href="../pocs.html#poc1">POC1 →</a><a href="../replicate.html#steps">Replicate →</a></li>
+<li><b>2 · Keep your hive's memory in a vault</b>Ruflo's memory DB files, encrypted on your machine, a branch per role, merged, then restored from a fresh clone. In the checkout from step 1; needs an sgit vault you created (its key in <code style="display:inline;white-space:normal">VAULT_KEY</code>) and an SG/Send token in <code style="display:inline;white-space:normal">SGIT_TOKEN</code>, both from the environment.
+<code>pip install sgit-ai==0.21.0 &amp;&amp; ROLE=coder bash poc/poc2-agent-memory-in-vault/run.sh write</code>
+<code>rm -rf .vault-memory &amp;&amp; bash poc/poc2-agent-memory-in-vault/run.sh read</code>
+<a href="../pocs.html#poc2">POC2 →</a><a href="../ruv-sgit/index.html">The ruv.sgit runner →</a></li>
+<li><b>3 · Hand the setup brief to your agent</b>One page written for any agent with a shell: pinned Ruflo and sgit, a hive, two vaults, a check at every step. Needs an SG/Send token in <code style="display:inline;white-space:normal">SGIT_TOKEN</code>.
+<code>"Set this up and do run 1 with the objective below."</code>
+<a href="../articles/studio-setup-brief.html">The setup brief →</a></li>
+</ol>
+<div class="btns"><a class="btn p" href="../talk/index.html">See it running: tonight's talk</a><a class="btn" href="../studio/index.html">The studio</a><a class="btn" href="../ruv-sgit/ledger/index.html">The ruv.sgit ledger</a></div>
+<div class="badges"><span class="badge t">ruflo 3.56.10</span><span class="badge t">@ruvector/wasm 0.2.1</span><span class="badge t">metaharness 0.4.17</span><span class="badge a">sgit-ai 0.21.0</span><span class="badge">rUv's projects: MIT, by rUv / ruvnet · ours: Apache-2.0</span></div>
+</div>
+<figure class="fig" style="margin:0"><div class="frame"><iframe src="../ruv-sgit/define/equation/index.html?once" title="ruv.sgit, the equation: a Ruflo hive + sgit vaults + Agent Behaviour Policies" loading="lazy"></iframe></div><figcaption>ruv.sgit, the equation: a Ruflo hive + sgit vaults + Agent Behaviour Policies. <a href="../ruv-sgit/define/equation/index.html">Open it full size</a> · <a href="../ruv-sgit/define/equation/index.html?review">final frame</a>.</figcaption></figure>
+</div></div></section>
+<script>
+// the runner's claims, recomputed from the ledger at load: a run counts only if the probe found 0 plaintext, the clone was identical and the vault was deleted
+fetch('../data/vaults.json').then(r => r.json()).then(L => { const V = L.vaults || []; if (!V.length) return; const ok = V.filter(v => v.server_store && v.server_store.plaintext_hits === 0 && v.clone && v.clone.identical && v.deleted_at).length; document.getElementById('hero-runs').textContent = ok === V.length ? `all ${V.length} runs in the ledger` : `${ok} of ${V.length} runs in the ledger` }).catch(() => {})
+</script>
+
+<section><div class="wrap">
+<h2>The story in one table</h2>
+<p>Every row is one of his pieces, one of ours, and what you get when they meet. Each row is backed by a proof of concept on this site.</p>
+<div class="tbl"><table>
+<thead><tr><th>His piece</th><th>Our piece</th><th>Together</th><th>Proof</th></tr></thead>
+<tbody>
+<tr><td>Ruflo hive-mind: a queen and workers (Ruflo ships 100+ specialized agents; POC1's ABP covers 6 roles)</td><td>One ABP row set per role</td><td>A swarm whose every role has a written mandate; the policy engine enforces it and writes receipts</td><td><a href="../pocs.html#poc1">POC1</a></td></tr>
+<tr><td>RuVector / Ruflo memory</td><td>sgit vault</td><td>Agent memory that is encrypted client-side, versioned, branched per agent, merged, and cloned onto a fresh machine</td><td><a href="../pocs.html#poc2">POC2</a></td></tr>
+<tr><td>RVM capabilities (7 rights)</td><td>ABP rows</td><td>Capability tokens compiled from a mandate, with the withheld rights listed and the reason kept</td><td><a href="../pocs.html#poc3">POC3</a></td></tr>
+<tr><td>RuVector WASM in the browser</td><td>A page served from a vault</td><td>Ask "can the coder send email?" offline, and get the row, the decision and the receipt hash</td><td><a href="../pocs.html#poc4">POC4</a></td></tr>
+<tr><td>MetaHarness scaffold settings (permissions, witness manifest)</td><td>ABP</td><td>Policy as code (his) and policy as a written, owned document (ours), diffed both ways</td><td><a href="../pocs.html#poc5">POC5</a></td></tr>
+<tr><td>Ruflo inside Claude Code (MCP or plugin)</td><td>Session record in a vault</td><td>A real swarm session, with its policy receipts, kept where only the key holder can read it</td><td><a href="../pocs.html#poc6">POC6</a></td></tr>
+</tbody></table></div>
+</div></section>
+
+<section class="alt"><div class="wrap">
+<h2>Where sgit.ai plugs in</h2>
+<div class="two">
+<div>
+<p>The ABP is a JSON document per deployment: for each agent role, what it can <b>reach</b>, what it is <b>mandated</b> to do, the <b>gap</b> between the two, the <b>barrier</b> that closes it, and the <b>owner</b> who answers for it, valid until a date. It compiles into the enforcement points rUv's stack already has.</p>
+<p>The vault is where everything that must survive and be reviewed goes: the ABPs, the compiled policies, the receipts, the agent memory, the session records. Files are encrypted on the client before upload; the server stores ciphertext under opaque ids. One vault is published on purpose, with its read key, so you can open it: <a href="../pocs.html#vaults">the public demo vault</a>.</p>
+<pre><code>ABP (JSON) ──compile──▶ Ruflo AgenticPolicyEngine (allow / deny / approval + receipts)
+           ──compile──▶ RVM capability rights (READ WRITE EXECUTE ... + withheld)
+           ──render───▶ MetaHarness governance settings (diff both ways)
+           ──render───▶ browser viewer (RuVector WASM search over ABP rows)
+
+sgit vault ◀── receipts, reports, ABPs       (ruv-pocs-public, read key published)
+sgit vault ◀── memory snapshots per agent    (ruv-pocs-memory, private)</code></pre>
+</div>
+<figure class="fig" style="margin:0"><img src="../assets/img/intersection-map.webp" alt="Hub and spoke: ABP and sgit vault in the centre, spokes to Ruflo policy engine, RVM, MetaHarness, RuVector memory and a Claude Code session"><figcaption>The intersection: one mandate, several enforcers; one vault, several writers.</figcaption></figure>
+</div>
+</div></section>
+
+<section><div class="wrap">
+<h2>Use cases, not repos</h2>
+<p>rUv's repositories are big. The way in is by use case: pick the thing you want to do, and the page tells you which of his tools to reach for, which of ours, and the POC that proves it.</p>
+<div class="cards">
+<div class="card"><span class="n">USE CASE 1</span><h3>Govern a swarm</h3><p>Same swarm, same actions, both through Ruflo's policy engine: in its default legacy mode an agent may send email; in enforce mode with rules from the ABP it is denied, pushes go to a human, and Ruflo writes a receipt for every decision.</p><a href="../use-cases.html#govern">How →</a></div>
+<div class="card"><span class="n">USE CASE 2</span><h3>Remember across runs</h3><p>Agents write memory on their own vault branch, it merges, and a fresh clone restores it. RuVector already keeps memory in files, with snapshots, copy-on-write branches and attestation; AgentDB adds a cryptographic witness chain. The vault adds client-side encryption and a shared, cloneable history around those files.</p><a href="../use-cases.html#remember">How →</a></div>
+<div class="card"><span class="n">USE CASE 3</span><h3>Prove what happened</h3><p>Hash-chained receipts from the policy engine, committed to a vault with the ABP that produced them. Tamper-evident, private, replayable.</p><a href="../use-cases.html#prove">How →</a></div>
+<div class="card"><span class="n">USE CASE 4</span><h3>Publish only on approval</h3><p>A deploy is an <code>approval</code> row. In CI that is a protected environment a named human approves; in the engine it is <code>require_approval</code>.</p><a href="../use-cases.html#publish">How →</a></div>
+<div class="card"><span class="n">USE CASE 5</span><h3>Learn with rollback</h3><p>SONA, ReasoningBank, Darwin mode change behaviour over time. Versioned ABPs and vault history show what changed, when, and let you revert a learned pattern.</p><a href="../use-cases.html#learn">How →</a></div>
+<div class="card"><span class="n">USE CASE 6</span><h3>Run anywhere</h3><p>The same ABP and vault in a GitHub Actions job, in a browser page with RuVector WASM, and in a Claude Code session with Ruflo as an MCP server.</p><a href="../use-cases.html#anywhere">How →</a></div>
+</div>
+<figure class="fig wide"><img src="../assets/img/use-cases.webp" alt="Six use-case tiles"><figcaption>The six use cases. Generated infographic; the facts are in the pages.</figcaption></figure>
+</div></section>
+
+<section class="alt"><div class="wrap">
+<h2>What was proven, and when</h2>
+<p>Numbers on this site come from runs recorded under <code>evidence/</code> in the repository. Nothing here is invented; where a third-party tool differed from its docs, the note is in <a href="../replicate.html#notes">build notes</a>.</p>
+<div class="stat"><div><b>11</b><span>actions in the swarm trace, evaluated twice</span></div><div><b>6</b><span>allowed in Ruflo's default legacy mode; stopped in its enforce mode with ABP rules (4 denied, 2 for approval)</span></div><div><b>2</b><span>of those need a named human (approval)</span></div><div><b>11</b><span>receipts per run in Ruflo's hash-chained ledger, both ledgers valid</span></div><div><b>0</b><span>ABP gaps (reach without mandate and no barrier)</span></div><div><b>2</b><span>vaults: one public with its read key, one private</span></div></div>
+<h3>Same swarm, same actions: Ruflo default vs with the ABP</h3>
+<div data-poc1="../data/report.json">loading…</div>
+<p><a class="btn" href="../pocs.html">All six POCs with flows, commands and outputs →</a></p>
+</div></section>
+
+<section><div class="wrap">
+<h2>How it all fits</h2>
+<pre class="mermaid">
+flowchart LR
+  subgraph ours["sgit.ai: the mandate and the memory"]
+    ABP["ABP<br/>abp/examples/ruflo-sparc-swarm.abp.json"]
+    VP[("ruv-pocs-public vault<br/>read key published")]
+    VM[("ruv-pocs-memory vault<br/>private")]
+  end
+  subgraph his["rUv's stack"]
+    RF["Ruflo AgenticPolicyEngine<br/>legacy | observe | enforce"]
+    RV["Ruflo memory (AgentDB, HNSW)<br/>and RuVector"]
+    RVM["RVM capability rights"]
+    MH["MetaHarness scaffold<br/>.claude/settings.json"]
+    WASM["@ruvector/wasm in the browser"]
+  end
+  ABP -- "compile.mjs → PolicyRule list" --> RF
+  ABP -- "abp_to_rvm.py" --> RVM
+  MH -- "harness-to-abp.mjs" --> ABP
+  RF -- "receipts, report.json" --> VP
+  ABP --> VP
+  RV -- "DB files per role, branch per role" --> VM
+  VP -- "app/ served from the vault" --> WASM
+  CI["GitHub Actions<br/>abp-gate → poc1 → poc3 → poc4 → approval → publish"] --> VP
+  CI --> VM
+</pre>
+<p class="k">Diagrams on this site are Mermaid, rendered in your browser from the page source, so they stay in sync with the text. The pictures are generated infographics; the diagrams are the mechanism.</p>
+</div></section>
+
+<footer><div class="wrap"><span>ruv.sgit.ai · built 14 Oct 2026 for Agentics London</span><a href="https://github.com/SGit-AI/SGit-AI__Website__Ruv">source on GitHub</a><a href="https://sgit.ai">sgit.ai</a><a href="https://ruv.io">ruv.io</a><a href="https://github.com/ruvnet">github.com/ruvnet</a><span>code Apache-2.0 · rUv's projects MIT · "per its README" means we read, not ran, unless a POC says so</span><a href="../llms.txt">llms.txt</a></div></footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>
