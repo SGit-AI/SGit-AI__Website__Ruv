@@ -5430,10 +5430,392 @@
     "store_paths_left": 0,
     "clone_after_delete": "failed"
    }
+  },
+  {
+   "run": "r21-bios",
+   "purpose": "r21-bios: draft professional bios and profile facts for the two founding providers, Dinis Cruz and Mondweep Chakravorty, from their public pages, every fact with its source, for both to approve",
+   "feedback": "Dinis, 21 Oct: create the consulting pages and the workflow for me and Mondweep; the profile page for us with our pictures, as professional as possible, especially for Mondweep to start selling; he needs to be able to point here. Decided: draft the bios from public pages (a web search, asked for by Dinis); photos come from Dinis and Mondweep.",
+   "vault_id": "7ibe2sv6",
+   "created_at": "2026-10-21T13:16:24+00:00",
+   "closed_at": "2026-10-21T13:22:48+00:00",
+   "deleted_at": "2026-10-21T13:22:49+00:00",
+   "hive": {
+    "workers": 1,
+    "tasks": 1,
+    "ruflo_calls": 7,
+    "ruflo_ms": 11424
+   },
+   "branches": [
+    {
+     "name": "w-bios",
+     "role": "researcher",
+     "commits": 1,
+     "files": 1,
+     "bytes": 18494,
+     "write_ms": 1854,
+     "merge_ms": 1675
+    }
+   ],
+   "commits": 3,
+   "files": 3,
+   "bytes_plain": 19694,
+   "files_delivered": 1,
+   "bytes_delivered": 18494,
+   "server_store": {
+    "files": 34,
+    "bytes": 30909,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 561,
+    "files": 3,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 1388,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 643,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 658,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 587,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 526,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 740,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 507,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 504,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 664,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 528,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 560,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "94aab23531f4",
+     "message": "init",
+     "time": "2026-10-21T13:16:35Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "762a9c7bfc97",
+     "message": "brief: run r21-bios",
+     "time": "2026-10-21T13:16:36Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "cf8e1d5b357e",
+     "message": "researcher bios: delivered 1 files",
+     "time": "2026-10-21T13:22:43Z",
+     "files_added": 1,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "bios",
+     "role": "researcher",
+     "kind": "Claude Code subagent (web search, asked for by Dinis)",
+     "tokens": 88848,
+     "tool_uses": 43,
+     "wall_s": 256
+    }
+   ],
+   "deleted_paths": 45,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
+  },
+  {
+   "run": "r22-ia",
+   "purpose": "r22-ia: the information architecture of the service site (article No. 9, run r13-ia renumbered): the new menu (For clients, For providers, How it works, Proof, Learn, Join), the footer, the redirect stubs for the four business pages, the current home's content moved to learn/overview.html, hubs proof/ and learn/, and the validator's new checks (stubs, every URL in the 16 Oct inventory)",
+   "feedback": "Dinis, 21 Oct: go to the next step: make the consulting official and start selling the services we mapped out. Accept the brief's proposed answers; the next version of the site is v0.2.0, then v0.2.x.",
+   "vault_id": "ts1r55cx",
+   "created_at": "2026-10-21T13:16:36+00:00",
+   "closed_at": "2026-10-21T13:23:03+00:00",
+   "deleted_at": "2026-10-21T13:23:04+00:00",
+   "hive": {
+    "workers": 3,
+    "tasks": 3,
+    "ruflo_calls": 13,
+    "ruflo_ms": 6185
+   },
+   "branches": [
+    {
+     "name": "w-architect",
+     "role": "builder",
+     "commits": 1,
+     "files": 1,
+     "bytes": 11856,
+     "write_ms": 1650,
+     "merge_ms": 1928
+    },
+    {
+     "name": "w-redirector",
+     "role": "builder",
+     "commits": 1,
+     "files": 7,
+     "bytes": 38459,
+     "write_ms": 1649,
+     "merge_ms": 1908
+    },
+    {
+     "name": "w-checker",
+     "role": "builder",
+     "commits": 1,
+     "files": 1,
+     "bytes": 7698,
+     "write_ms": 1805,
+     "merge_ms": 1836
+    }
+   ],
+   "commits": 5,
+   "files": 11,
+   "bytes_plain": 59358,
+   "files_delivered": 9,
+   "bytes_delivered": 58013,
+   "server_store": {
+    "files": 44,
+    "bytes": 74659,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 590,
+    "files": 11,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 519,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 596,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 563,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 480,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 560,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 609,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 627,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 549,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 752,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 500,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 466,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 681,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 632,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 597,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 680,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 580,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 477,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 747,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 586,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 577,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 673,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 566,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 590,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "6281f697b3e5",
+     "message": "init",
+     "time": "2026-10-21T13:16:41Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "3a9c7a67e040",
+     "message": "brief: run r22-ia",
+     "time": "2026-10-21T13:16:41Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "d5aa87a269f4",
+     "message": "builder architect: delivered 1 files",
+     "time": "2026-10-21T13:22:50Z",
+     "files_added": 1,
+     "parents": 1
+    },
+    {
+     "id": "2cdc2885d008",
+     "message": "builder redirector: delivered 7 files",
+     "time": "2026-10-21T13:22:54Z",
+     "files_added": 7,
+     "parents": 1
+    },
+    {
+     "id": "8632acd34cf7",
+     "message": "builder checker: delivered 1 files",
+     "time": "2026-10-21T13:22:58Z",
+     "files_added": 1,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "checker",
+     "role": "builder",
+     "kind": "Claude Code subagent",
+     "tokens": 78930,
+     "tool_uses": 10,
+     "wall_s": 94
+    },
+    {
+     "id": "architect",
+     "role": "builder",
+     "kind": "Claude Code subagent",
+     "tokens": 86856,
+     "tool_uses": 15,
+     "wall_s": 154
+    },
+    {
+     "id": "redirector",
+     "role": "builder",
+     "kind": "Claude Code subagent",
+     "tokens": 120959,
+     "tool_uses": 38,
+     "wall_s": 273
+    }
+   ],
+   "deleted_paths": 91,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
   }
  ],
  "sample": false,
- "updated": "2026-10-17T21:48:11+00:00",
+ "updated": "2026-10-21T13:23:04+00:00",
  "server": "a local SG/Send vault server (sgraph-ai-app-send, disk storage), one process, on the machine that ran the hive",
  "published_on": {
   "server": "https://dev.send.sgraph.ai",

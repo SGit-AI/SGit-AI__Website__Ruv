@@ -1,0 +1,338 @@
+{
+ "run": "r22-ia",
+ "purpose": "r22-ia: the information architecture of the service site (article No. 9, run r13-ia renumbered): the new menu (For clients, For providers, How it works, Proof, Learn, Join), the footer, the redirect stubs for the four business pages, the current home's content moved to learn/overview.html, hubs proof/ and learn/, and the validator's new checks (stubs, every URL in the 16 Oct inventory)",
+ "feedback": "Dinis, 21 Oct: go to the next step: make the consulting official and start selling the services we mapped out. Accept the brief's proposed answers; the next version of the site is v0.2.0, then v0.2.x.",
+ "vault_id": "ts1r55cx",
+ "created_at": "2026-10-21T13:16:36+00:00",
+ "closed_at": "2026-10-21T13:23:03+00:00",
+ "deleted_at": "2026-10-21T13:23:04+00:00",
+ "hive": {
+  "workers": 3,
+  "tasks": 3,
+  "ruflo_calls": 13,
+  "ruflo_ms": 6185
+ },
+ "branches": [
+  {
+   "name": "w-architect",
+   "role": "builder",
+   "commits": 1,
+   "files": 1,
+   "bytes": 11856,
+   "write_ms": 1650,
+   "merge_ms": 1928
+  },
+  {
+   "name": "w-redirector",
+   "role": "builder",
+   "commits": 1,
+   "files": 7,
+   "bytes": 38459,
+   "write_ms": 1649,
+   "merge_ms": 1908
+  },
+  {
+   "name": "w-checker",
+   "role": "builder",
+   "commits": 1,
+   "files": 1,
+   "bytes": 7698,
+   "write_ms": 1805,
+   "merge_ms": 1836
+  }
+ ],
+ "commits": 5,
+ "files": 11,
+ "bytes_plain": 59358,
+ "files_delivered": 9,
+ "bytes_delivered": 58013,
+ "server_store": {
+  "files": 44,
+  "bytes": 74659,
+  "plaintext_hits": 0,
+  "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+ },
+ "clone": {
+  "ms": 590,
+  "files": 11,
+  "identical": true
+ },
+ "ops": [
+  {
+   "op": "init",
+   "ms": 519,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 596,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 563,
+   "rc": 0
+  },
+  {
+   "op": "branch-new",
+   "ms": 480,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 560,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 609,
+   "rc": 0
+  },
+  {
+   "op": "branch-switch",
+   "ms": 627,
+   "rc": 0
+  },
+  {
+   "op": "merge",
+   "ms": 549,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 752,
+   "rc": 0
+  },
+  {
+   "op": "branch-new",
+   "ms": 500,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 466,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 681,
+   "rc": 0
+  },
+  {
+   "op": "branch-switch",
+   "ms": 632,
+   "rc": 0
+  },
+  {
+   "op": "merge",
+   "ms": 597,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 680,
+   "rc": 0
+  },
+  {
+   "op": "branch-new",
+   "ms": 580,
+   "rc": 0
+  },
+  {
+   "op": "commit",
+   "ms": 477,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 747,
+   "rc": 0
+  },
+  {
+   "op": "branch-switch",
+   "ms": 586,
+   "rc": 0
+  },
+  {
+   "op": "merge",
+   "ms": 577,
+   "rc": 0
+  },
+  {
+   "op": "push",
+   "ms": 673,
+   "rc": 0
+  },
+  {
+   "op": "history",
+   "ms": 566,
+   "rc": 0
+  },
+  {
+   "op": "clone",
+   "ms": 590,
+   "rc": 0
+  }
+ ],
+ "ruflo": [
+  {
+   "seq": 1,
+   "actor": "queen",
+   "cmd": "hive-mind init -t hierarchical-mesh -c byzantine -m 12",
+   "rc": 0,
+   "ms": 587
+  },
+  {
+   "seq": 2,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t builder -r specialist -p architect",
+   "rc": 0,
+   "ms": 540
+  },
+  {
+   "seq": 3,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t builder -r specialist -p redirector",
+   "rc": 0,
+   "ms": 491
+  },
+  {
+   "seq": 4,
+   "actor": "queen",
+   "cmd": "hive-mind spawn -n 1 -t builder -r specialist -p checker",
+   "rc": 0,
+   "ms": 451
+  },
+  {
+   "seq": 5,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d architect: the menu in assets/site.js and the footer -p high",
+   "rc": 0,
+   "ms": 424
+  },
+  {
+   "seq": 6,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d redirector: the four business stubs, learn/overview.html, proof/index.html, learn/index.html -p high",
+   "rc": 0,
+   "ms": 539
+  },
+  {
+   "seq": 7,
+   "actor": "conductor",
+   "cmd": "hive-mind task -d checker: validate.py: stub checks and every URL in data/site-map-2026-10-16.json -p high",
+   "rc": 0,
+   "ms": 449
+  },
+  {
+   "seq": 8,
+   "actor": "conductor",
+   "cmd": "hive-mind broadcast -m run r22-ia: r22-ia: the information architecture of the service site (article No. 9, run r13-ia renumbered): the new menu (For clients, For providers, How it works, Proof, Learn, Join), the footer, the redirect stubs for the four business pages, the current home's content moved to learn/overview.html, hubs proof/ and learn/, and the validator's new checks (stubs, every URL in the 16 Oct inventory) -f conductor",
+   "rc": 0,
+   "ms": 513
+  },
+  {
+   "seq": 9,
+   "actor": "builder",
+   "cmd": "hive-mind broadcast -m delivered architect sha256:5dc1a98835da5fad files:1 -f builder",
+   "rc": 0,
+   "ms": 463
+  },
+  {
+   "seq": 10,
+   "actor": "builder",
+   "cmd": "hive-mind broadcast -m delivered redirector sha256:31aa47e44d9a5e36 files:7 -f builder",
+   "rc": 0,
+   "ms": 439
+  },
+  {
+   "seq": 11,
+   "actor": "builder",
+   "cmd": "hive-mind broadcast -m delivered checker sha256:e07bc4a7bc30a1fe files:1 -f builder",
+   "rc": 0,
+   "ms": 386
+  },
+  {
+   "seq": 12,
+   "actor": "queen",
+   "cmd": "hive-mind status",
+   "rc": 0,
+   "ms": 466
+  },
+  {
+   "seq": 13,
+   "actor": "queen",
+   "cmd": "daemon stop",
+   "rc": 0,
+   "ms": 437
+  }
+ ],
+ "history": [
+  {
+   "id": "6281f697b3e5",
+   "message": "init",
+   "time": "2026-10-21T13:16:41Z",
+   "files_added": 0,
+   "parents": 0
+  },
+  {
+   "id": "3a9c7a67e040",
+   "message": "brief: run r22-ia",
+   "time": "2026-10-21T13:16:41Z",
+   "files_added": 2,
+   "parents": 1
+  },
+  {
+   "id": "d5aa87a269f4",
+   "message": "builder architect: delivered 1 files",
+   "time": "2026-10-21T13:22:50Z",
+   "files_added": 1,
+   "parents": 1
+  },
+  {
+   "id": "2cdc2885d008",
+   "message": "builder redirector: delivered 7 files",
+   "time": "2026-10-21T13:22:54Z",
+   "files_added": 7,
+   "parents": 1
+  },
+  {
+   "id": "8632acd34cf7",
+   "message": "builder checker: delivered 1 files",
+   "time": "2026-10-21T13:22:58Z",
+   "files_added": 1,
+   "parents": 1
+  }
+ ],
+ "workers": [
+  {
+   "id": "checker",
+   "role": "builder",
+   "kind": "Claude Code subagent",
+   "tokens": 78930,
+   "tool_uses": 10,
+   "wall_s": 94
+  },
+  {
+   "id": "architect",
+   "role": "builder",
+   "kind": "Claude Code subagent",
+   "tokens": 86856,
+   "tool_uses": 15,
+   "wall_s": 154
+  },
+  {
+   "id": "redirector",
+   "role": "builder",
+   "kind": "Claude Code subagent",
+   "tokens": 120959,
+   "tool_uses": 38,
+   "wall_s": 273
+  }
+ ],
+ "deleted_paths": 91,
+ "delete_check": {
+  "store_paths_left": 0,
+  "clone_after_delete": "failed"
+ }
+}
