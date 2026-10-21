@@ -6165,10 +6165,201 @@
     "store_paths_left": 0,
     "clone_after_delete": "failed"
    }
+  },
+  {
+   "run": "r24-editor",
+   "purpose": "r24-editor: the editor pass and the record for v0.2.0 (article No. 9, run r17-editor renumbered): every new page checked against the approved brief (accurate, consistent, additive, British English, plain words); one source for the five project types; the profile generator in the repository; llms.txt, README and the release notes with the breaking changes; the brief to v1.0.0 with its changes list",
+   "feedback": "Dinis, 21 Oct: make the consulting official, as professional as possible; accept the proposed answers; this is v0.2.0, then v0.2.x.",
+   "vault_id": "q3ythv6f",
+   "created_at": "2026-10-21T13:32:40+00:00",
+   "closed_at": "2026-10-21T13:42:29+00:00",
+   "deleted_at": "2026-10-21T13:42:30+00:00",
+   "hive": {
+    "workers": 2,
+    "tasks": 2,
+    "ruflo_calls": 10,
+    "ruflo_ms": 4681
+   },
+   "branches": [
+    {
+     "name": "w-editor",
+     "role": "editor",
+     "commits": 1,
+     "files": 18,
+     "bytes": 265966,
+     "write_ms": 1962,
+     "merge_ms": 1938
+    },
+    {
+     "name": "w-archivist",
+     "role": "writer",
+     "commits": 1,
+     "files": 3,
+     "bytes": 94871,
+     "write_ms": 1827,
+     "merge_ms": 1827
+    }
+   ],
+   "commits": 4,
+   "files": 23,
+   "bytes_plain": 362206,
+   "files_delivered": 21,
+   "bytes_delivered": 360837,
+   "server_store": {
+    "files": 54,
+    "bytes": 380637,
+    "plaintext_hits": 0,
+    "probe": "40 text fragments from the delivered files, searched for in every byte the server stored"
+   },
+   "clone": {
+    "ms": 599,
+    "files": 23,
+    "identical": true
+   },
+   "ops": [
+    {
+     "op": "init",
+     "ms": 474,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 469,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 513,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 537,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 631,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 791,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 664,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 584,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 690,
+     "rc": 0
+    },
+    {
+     "op": "branch-new",
+     "ms": 500,
+     "rc": 0
+    },
+    {
+     "op": "commit",
+     "ms": 587,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 739,
+     "rc": 0
+    },
+    {
+     "op": "branch-switch",
+     "ms": 551,
+     "rc": 0
+    },
+    {
+     "op": "merge",
+     "ms": 572,
+     "rc": 0
+    },
+    {
+     "op": "push",
+     "ms": 704,
+     "rc": 0
+    },
+    {
+     "op": "history",
+     "ms": 610,
+     "rc": 0
+    },
+    {
+     "op": "clone",
+     "ms": 599,
+     "rc": 0
+    }
+   ],
+   "history": [
+    {
+     "id": "32ffe7fa8236",
+     "message": "init",
+     "time": "2026-10-21T13:32:43Z",
+     "files_added": 0,
+     "parents": 0
+    },
+    {
+     "id": "516af5762ec2",
+     "message": "brief: run r24-editor",
+     "time": "2026-10-21T13:32:44Z",
+     "files_added": 2,
+     "parents": 1
+    },
+    {
+     "id": "069fe63092b4",
+     "message": "editor editor: delivered 18 files",
+     "time": "2026-10-21T13:42:19Z",
+     "files_added": 18,
+     "parents": 1
+    },
+    {
+     "id": "847f6b34f8ec",
+     "message": "writer archivist: delivered 3 files",
+     "time": "2026-10-21T13:42:24Z",
+     "files_added": 3,
+     "parents": 1
+    }
+   ],
+   "workers": [
+    {
+     "id": "archivist",
+     "role": "writer",
+     "kind": "Claude Code subagent",
+     "tokens": 128673,
+     "tool_uses": 20,
+     "wall_s": 214
+    },
+    {
+     "id": "editor",
+     "role": "editor",
+     "kind": "Claude Code subagent",
+     "tokens": 230100,
+     "tool_uses": 66,
+     "wall_s": 519
+    }
+   ],
+   "deleted_paths": 111,
+   "delete_check": {
+    "store_paths_left": 0,
+    "clone_after_delete": "failed"
+   }
   }
  ],
  "sample": false,
- "updated": "2026-10-21T13:32:29+00:00",
+ "updated": "2026-10-21T13:42:30+00:00",
  "server": "a local SG/Send vault server (sgraph-ai-app-send, disk storage), one process, on the machine that ran the hive",
  "published_on": {
   "server": "https://dev.send.sgraph.ai",

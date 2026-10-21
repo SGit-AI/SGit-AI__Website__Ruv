@@ -170,7 +170,7 @@ section.alt .join-line{background:var(--card)}
 <section id="proof" aria-labelledby="proof-h"><div class="wrap">
 <p class="sec-k">The proof</p>
 <h2 class="sec-h" id="proof-h">Every job leaves a record you can check</h2>
-<p class="sec-lead">This site was built by ruv.sgit runs, each with its own ephemeral vault, measured and then deleted. The totals below are read from the ledger and from POC1's report when this page loads.</p>
+<p class="sec-lead">Most of this site was made by ruv.sgit runs, each with its own vault, measured at the close. The totals below are read from the ledger and from POC1's report when this page loads.</p>
 <div class="figs" aria-live="polite">
 <div><b data-fig="ledger-runs">…</b><span>ruv.sgit runs in the ledger</span></div>
 <div><b data-fig="workers">…</b><span>workers across those runs</span></div>
@@ -226,7 +226,6 @@ section.alt .join-line{background:var(--card)}
 // Every number on this page is read from the data files when it loads; none is typed in.
 (function () {
   'use strict';
-  var MAIL = 'agent@riskmandate.ai';
   var set = function (k, t) { document.querySelectorAll('[data-fig="' + k + '"],[data-price="' + k + '"]').forEach(function (el) { el.textContent = t; }); };
   var n = function (x, w) { return x + ' ' + w + (x === 1 ? '' : 's'); };
   var gbp = function (x) { return '£' + Number(x).toLocaleString('en-GB', { maximumFractionDigits: 2 }); };
@@ -234,23 +233,8 @@ section.alt .join-line{background:var(--card)}
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   var json = function (u) { return fetch(u).then(function (r) { if (!r.ok) throw new Error(u); return r.json(); }); };
 
-  // Enquire to book: an email to agent@riskmandate.ai with the offer and the provider filled in (the brief's shared convention)
-  var enquiry = function (offer, provider) {
-    var subject = 'Enquiry: ' + offer + (provider ? ' with ' + provider : '');
-    var body = [
-      'Hello,', '',
-      'I would like to enquire through ruv.sgit.ai.', '',
-      'Who it is for (name, organisation): ',
-      'Offer: ' + offer,
-      'Preferred provider: ' + (provider || 'none'), '',
-      'What do you want agents to do?', '', '',
-      'What must they never do?', '', '',
-      'When would you like to start?', '', '',
-      'No payment is taken on the site; a person replies with dates and a quote.'
-    ].join('\n');
-    return 'mailto:' + MAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-  };
-  document.querySelectorAll('[data-enquire]').forEach(function (a) { a.href = enquiry(a.dataset.enquire, a.dataset.provider); });
+  // Enquire to book: the site's one enquiry email (assets/site.js), already wired on [data-enquire] links
+  var enquiry = RuvService.enquire;
 
   // 3. the path: prices from data/offers.json
   json('data/offers.json').then(function (O) {

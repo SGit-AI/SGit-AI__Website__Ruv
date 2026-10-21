@@ -5,9 +5,26 @@
  "note": "The site version, shown in the nav of every page, increments on every release; each release is one push to dev. The git log is the authoritative audit trail; this file is the human-readable index of it. Newest first. The newest release links to the branch until its commit exists.",
  "releases": [
   {
+   "version": "v0.2.0",
+   "date": "2026-10-21",
+   "commit": null,
+   "title": "ruv.sgit.ai becomes the site that offers the service: For clients, For providers, profile pages for the founding providers, rules of engagement, how it works, join (runs r21-bios, r22-ia, r23-service, r24-editor)",
+   "changes": "Dinis said go on 21 October: make the consulting official, starting with the two founding providers, Dinis Cruz and Mondweep Chakravorty. Built from the approved brief (article No. 9, now v1.0.0). New pages: For clients (the path, the four offers, the five project types, the providers, what stays yours, companies, teams), For providers, a profile page for each founding provider (bio drafted from public pages for each to approve, specialisms, the four offers with prices, enquire to book, order in the shop with that provider, proof of work, links; prints to one page; photos to come), rules of engagement (with an arithmetic check of the worked examples), how it works (with the provider workflow from enquiry to handover), join (the provider application and keep me posted, by email, never stored in git), and the Learn and Proof hubs. Enquire to book everywhere: one email format to agent@riskmandate.ai; still no payment on the site. The shop gains a preferred provider (?provider=<id>). Data: data/providers.json, data/project-types.json. Breaking changes: (1) the home page changes purpose (its old content is at learn/overview.html); (2) the menu is now For clients, For providers, How it works, Proof, Learn, Join; (3) business/index, consultants, companies and teams are redirects; (4) 'Tonight's talk' is renamed 'The talk, 15 October 2026' (same URL); (5) the demo script leaves the menu, marked historical; (6) 'we' on the business pages now means the providers, under the rules of engagement; (7) revenue is split equally between the parties after direct costs; (8) llms.txt is restructured; (9) the shop's order email gains 'Preferred provider'; (10) the version moves to v0.2.0, then v0.2.x. The validator now checks redirect stubs and every URL of the 16 Oct inventory.",
+   "pages": [
+    "index.html",
+    "clients/index.html",
+    "providers/index.html",
+    "providers/dinis-cruz.html",
+    "providers/mondweep-chakravorty.html",
+    "rules/index.html",
+    "how-it-works/index.html",
+    "join/index.html"
+   ]
+  },
+  {
    "version": "v0.1.39",
    "date": "2026-10-17",
-   "commit": null,
+   "commit": "f1f00f8",
    "title": "Article No. 11: the talk, narrated, and the browser's own voice (run r20-voice-article)",
    "changes": "Following Dinis's request: an article on what was built in runs r16 to r19 (three narrations, the layouts, notes, the script, downloads, the pinned ledger, the player bridge) and how the read-aloud works: the Web Speech API, where the voices come from on each platform, local and online voices and the privacy point, why the audio cannot be saved from the page, why Playwright cannot record it and the pipeline that can (TTS engine, Playwright frames, ffmpeg), examples on the web, and the licence point: Apple's macOS licence (section 2.F, checked against the PDF) allows system voices for personal, non-commercial use only, so a published voiceover needs a voice whose licence allows it, while a visitor's browser reading a page aloud is fine. A web search, asked for by Dinis, went beyond CLAUDE.md's host list for this article only (evidence/notes.md); findings with sources in evidence/r20-voice-research.md.",
    "pages": [

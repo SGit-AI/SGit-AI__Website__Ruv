@@ -1,6 +1,6 @@
 // ruv.sgit.ai: nav, theme, Mermaid, markdown includes, POC data tables. No build step needed for these.
 (() => {
-  const VERSION = 'v0.1.39';   // written by site/build/versions.py from admin/versions.json
+  const VERSION = 'v0.2.0';   // written by site/build/versions.py from admin/versions.json
   // six groups by audience (the brief: articles/next-phase.html, "The new menu"); same shape as sgit.ai: brand, version, grouped menus, a Menu button on phones
   // an item's third field, 1, marks a cross-link: it is listed here too, but its page "belongs" to another group, so it does not highlight this one
   const NAV = [
@@ -48,7 +48,8 @@
   const gbp = n => '£' + Number(n).toLocaleString('en-GB', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 });
   const enquire = (offer, provider) => {
     const what = offer || 'a conversation';
-    const body = ['Hello,', '',
+    const hello = 'Hello,';   // a variable first, not a string literal: validate.py reads a bracket followed by two strings in this file as a menu link
+    const body = [hello, '',
       'Who it is for (name, organisation, role): ',
       'The offer: ' + what,
       'Preferred provider: ' + (provider || 'none'), '',

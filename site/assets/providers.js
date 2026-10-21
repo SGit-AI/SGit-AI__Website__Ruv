@@ -28,7 +28,7 @@
   var RULES = [
     ['Open', 'Everything we publish is open source (Apache-2.0) and Creative Commons (CC BY 4.0); rUv\'s projects are MIT, by rUv / ruvnet.'],
     ['Your code and data stay yours', 'They are not published, reused or kept after the engagement; each job runs in its own encrypted vault, handed to you.'],
-    ['Equal split, after costs', 'Direct costs go back to whoever paid them, itemised; what is left is split equally between the providers involved.'],
+    ['Equal split, after costs', 'Direct costs go back to whoever paid them, itemised; what is left is split equally between the parties.'],
     ['Whoever has the client bills', 'One invoice, from the provider you work with; they pay the other parties their share.']
   ];
 
@@ -97,7 +97,7 @@
         '<p class="pf-from">' + esc(range(g)) + '</p>' +
         '<p class="pf-sum">' + esc(g.summary) + '</p>' +
         '<ul class="pf-prices">' + g.items.map(function (i) { return '<li><span>' + esc(i.name) + '<small>' + esc(i.summary) + '</small></span><b>' + esc(gbp(i.price)) + '<small>' + esc(i.unit) + '</small></b></li>'; }).join('') + '</ul>' +
-        '<div class="pf-oacts"><a class="btn p" href="' + esc(mailto(g.title, p)) + '">Enquire about ' + esc(g.title.toLowerCase()) + '</a><a class="pf-more" href="' + esc(shopUrl(p)) + '">order in the shop</a></div></article>';
+        '<div class="pf-oacts"><a class="btn p" href="' + esc(mailto(g.title, p)) + '">Enquire to book<span class="sr">: ' + esc(g.title.toLowerCase()) + ' with ' + esc(p.name) + '</span></a><a class="pf-more" href="' + esc(shopUrl(p)) + '">order in the shop</a></div></article>';
     }).join(''));
     set('pf-vat', 'Prices in ' + esc(offers.currency) + ', excluding VAT: the published list prices, the same for every provider. The site takes no payment: you enquire, and a person replies with dates and a quote.');
 
@@ -108,9 +108,9 @@
         return '<li class="pf-type"><h3>' + esc(t.name) + '</h3><p>' + esc(t.description) + '</p>' +
           '<p class="pf-tcombo"><span>Suggested start:</span> ' + esc(t.combination) + '</p>' +
           '<p class="pf-tprice">' + (pr.computed ? '<b>' + esc(pr.text) + '</b> <span>(' + esc(pr.detail) + ')</span>' : '<b>' + esc(pr.text) + '</b>') + '</p>' +
-          '<a href="' + esc(mailto(t.name, p)) + '">Enquire about this <span aria-hidden="true">&rarr;</span></a></li>';
+          '<a href="' + esc(mailto(t.name, p)) + '">Enquire to book<span class="sr">: ' + esc(t.name.toLowerCase()) + ' with ' + esc(p.name) + '</span> <span aria-hidden="true">&rarr;</span></a></li>';
       }).join(''));
-      set('pf-types-note', esc(types.note));
+      set('pf-types-note', 'Five kinds of project, each a package of the offers above. ' + esc(types.note));
     }
 
     set('pf-path', PATH.map(function (s) {

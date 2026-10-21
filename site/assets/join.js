@@ -24,6 +24,15 @@
     }
   }
 
+  // ---- the five project types: names from data/project-types.json, so this form, For clients and the profiles agree ----
+  // (the page carries the same names as a fallback; a tick already made is kept)
+  fetch('../data/project-types.json').then(r => r.ok ? r.json() : null).then(d => {
+    const box = $('types-choices')
+    if (!d || !box || !Array.isArray(d.types)) return
+    const was = new Set(checked('project_types'))
+    box.innerHTML = d.types.map(t => `<label class="tick"><input type="checkbox" name="project_types" value="${esc(t.name)}"${was.has(t.name) ? ' checked' : ''}>${esc(t.name)}</label>`).join('\n')
+  }).catch(() => {})
+
   // ---- the provider application ----------------------------------------------------------------------------------
   function validateApp () {
     const errs = []
